@@ -1,0 +1,272 @@
+{
+  "entities": [
+    {
+      "id": "standard.kcs_14_20",
+      "type": "Standard",
+      "name": "KCS 14 20 콘크리트공사",
+      "aliases": ["KCS 14 20", "콘크리트공사 표준시방서"],
+      "meta": {
+        "issuer": "국토교통부 / 국가건설기준센터",
+        "reference": "KCS 14 20 00 ~ KCS 14 20 80",
+        "discipline": "건축",
+        "url": "https://www.kcsc.re.kr",
+        "revision": "2022",
+        "granularity": "document"
+      }
+    },
+    {
+      "id": "standard.kcs_14_20.10",
+      "type": "Standard",
+      "name": "KCS 14 20 10 일반콘크리트",
+      "aliases": ["KCS 14 20 10"],
+      "meta": {
+        "parent": "standard.kcs_14_20",
+        "sectionRef": "14 20 10",
+        "scope": "일반 콘크리트의 재료, 배합, 생산, 시공, 품질관리",
+        "granularity": "section"
+      }
+    },
+    {
+      "id": "standard.kcs_14_20.10.1_4",
+      "type": "Standard",
+      "name": "KCS 14 20 10 §1.4 용어 정의",
+      "meta": {
+        "parent": "standard.kcs_14_20.10",
+        "sectionRef": "14 20 10 §1.4",
+        "scope": "배합강도(fcr) / 호칭강도(fcn) / 품질기준강도 / 콜드조인트 / 보온양생 / 블리딩 / 잔골재율 등 50+개 용어 정의",
+        "granularity": "clause",
+        "sourceStatus": "verified",
+        "verifiedAgainst": "evaluation/sources/kcs_14_20_01.txt L1297-1340"
+      }
+    },
+    {
+      "id": "standard.kcs_14_20.10.1_7_3",
+      "type": "Standard",
+      "name": "KCS 14 20 10 §1.7.3 슬럼프 및 슬럼프 플로 허용오차",
+      "aliases": ["표 1.7-2", "표 1.7-3", "슬럼프 허용오차"],
+      "meta": {
+        "parent": "standard.kcs_14_20.10",
+        "sectionRef": "14 20 10 §1.7.3",
+        "scope": "표 1.7-2 슬럼프 허용오차(호칭 25 ±10 / 50,65 ±15 / 80↑ ±25), 표 1.7-3 슬럼프 플로 허용오차(500 ±75 / 600 ±100 / 700 ±100)",
+        "granularity": "clause",
+        "sourceStatus": "verified",
+        "verifiedAgainst": "evaluation/sources/kcs_14_20_01.txt L1573-1605"
+      }
+    },
+    {
+      "id": "standard.kcs_14_20.10.1_7_4",
+      "type": "Standard",
+      "name": "KCS 14 20 10 §1.7.4 공기량",
+      "aliases": ["공기량 기준"],
+      "meta": {
+        "parent": "standard.kcs_14_20.10",
+        "sectionRef": "14 20 10 §1.7.4",
+        "scope": "보통 4.5% / 경량 5.5% / 포장 4.5% / 고강도 3.5% 이하, 허용오차 ±1.5%",
+        "granularity": "clause",
+        "sourceStatus": "verified",
+        "verifiedAgainst": "evaluation/sources/kcs_14_20_01.txt L1610"
+      }
+    },
+    {
+      "id": "standard.kcs_14_20.10.1_8_1",
+      "type": "Standard",
+      "name": "KCS 14 20 10 §1.8.1 염화물 함유량",
+      "aliases": ["염화물 기준"],
+      "meta": {
+        "parent": "standard.kcs_14_20.10",
+        "sectionRef": "14 20 10 §1.8.1",
+        "scope": "(2) 염소이온량 0.30 kg/㎥ 이하 원칙. (4) 책임기술자 승인 시 0.60 kg/㎥ 상한 가능",
+        "granularity": "clause",
+        "sourceStatus": "verified",
+        "verifiedAgainst": "evaluation/sources/kcs_14_20_01.txt L1614-1632"
+      }
+    },
+    {
+      "id": "standard.kcs_14_20.10.1_8_2",
+      "type": "Standard",
+      "name": "KCS 14 20 10 §1.8.2 강도",
+      "meta": {
+        "parent": "standard.kcs_14_20.10",
+        "sectionRef": "14 20 10 §1.8.2",
+        "scope": "재령 28일 표준양생 공시체 압축강도 기준. 시험은 KS F 2405, 공시체 제작 KS F 2403",
+        "granularity": "clause",
+        "sourceStatus": "verified",
+        "verifiedAgainst": "evaluation/sources/kcs_14_20_01.txt L1634-1652"
+      }
+    },
+    {
+      "id": "standard.kcs_14_20.10.2_2_7",
+      "type": "Standard",
+      "name": "KCS 14 20 10 §2.2.7 슬럼프 및 슬럼프 플로 표준값",
+      "aliases": ["표 2.2-5", "슬럼프 표준값"],
+      "meta": {
+        "parent": "standard.kcs_14_20.10",
+        "sectionRef": "14 20 10 §2.2.7",
+        "scope": "표 2.2-5: 철근콘크리트 일반 80~150 / 단면큰 60~120 / 무근 일반 50~150 / 단면큰 50~100 mm",
+        "granularity": "clause",
+        "sourceStatus": "verified",
+        "verifiedAgainst": "evaluation/sources/kcs_14_20_01.txt L2444-2470"
+      }
+    },
+    {
+      "id": "standard.kcs_14_20.10.3_2",
+      "type": "Standard",
+      "name": "KCS 14 20 10 §3.2 운반",
+      "aliases": ["KCS 14 20 10 3.2"],
+      "meta": {
+        "parent": "standard.kcs_14_20.10",
+        "sectionRef": "14 20 10 §3.2",
+        "scope": "운반 시간(25℃↑ 1.5h, 25℃↓ 2h), 운반 장비, 운반 중 품질 관리",
+        "granularity": "clause",
+        "note": "이전 v0.1 라벨 '굳지 않은 콘크리트의 품질관리'는 오인용. §3.2는 운반 조항임",
+        "sourceStatus": "verified"
+      }
+    },
+    {
+      "id": "standard.kcs_14_20.10.3_3",
+      "type": "Standard",
+      "name": "KCS 14 20 10 §3.3 타설",
+      "meta": {
+        "parent": "standard.kcs_14_20.10",
+        "sectionRef": "14 20 10 §3.3",
+        "scope": "타설 일반 + 하위 §3.3.1~§3.3.4(거푸집·이어치기·다지기·침하균열)",
+        "granularity": "clause",
+        "note": "이전 v0.1 라벨 '강도 품질관리'는 오인용. §3.3은 타설 조항임",
+        "sourceStatus": "verified"
+      }
+    },
+    {
+      "id": "standard.kcs_14_20.10.3_3_2",
+      "type": "Standard",
+      "name": "KCS 14 20 10 §3.3.2 타설 (이어치기 시간)",
+      "aliases": ["표 3.3-1", "이어치기 허용시간"],
+      "meta": {
+        "parent": "standard.kcs_14_20.10.3_3",
+        "sectionRef": "14 20 10 §3.3.2",
+        "scope": "(8) 이어치기 허용시간 표 3.3-1: 25℃ 초과 2.0h / 25℃ 이하 2.5h. (9) 자유낙하 1.5m 이하. (10) 블리딩수 제거",
+        "granularity": "clause",
+        "sourceStatus": "verified",
+        "verifiedAgainst": "evaluation/sources/kcs_14_20_01.txt L2948-3000"
+      }
+    },
+    {
+      "id": "standard.kcs_14_20.10.3_3_3",
+      "type": "Standard",
+      "name": "KCS 14 20 10 §3.3.3 다지기",
+      "meta": {
+        "parent": "standard.kcs_14_20.10.3_3",
+        "sectionRef": "14 20 10 §3.3.3",
+        "scope": "내부 진동기 사용 원칙, 진동기 간격, 다지기 방법",
+        "granularity": "clause",
+        "sourceStatus": "verified"
+      }
+    },
+    {
+      "id": "standard.kcs_14_20.10.3_3_4",
+      "type": "Standard",
+      "name": "KCS 14 20 10 §3.3.4 침하균열에 대한 조치",
+      "meta": {
+        "parent": "standard.kcs_14_20.10.3_3",
+        "sectionRef": "14 20 10 §3.3.4",
+        "scope": "(1) 벽·기둥과 슬래브·보 침하 종료 후 타설. (2) 침하균열 발생 시 즉시 다짐 또는 재진동",
+        "granularity": "clause",
+        "sourceStatus": "verified",
+        "verifiedAgainst": "evaluation/sources/kcs_14_20_01.txt L3044-3060"
+      }
+    },
+    {
+      "id": "standard.kcs_14_20.10.3_4",
+      "type": "Standard",
+      "name": "KCS 14 20 10 §3.4 양생",
+      "meta": {
+        "parent": "standard.kcs_14_20.10",
+        "sectionRef": "14 20 10 §3.4",
+        "scope": "§3.4.1 일반 / §3.4.2 습윤 양생(표 3.4-1 시멘트별 양생일수) / §3.4.3 온도제어 양생",
+        "granularity": "clause",
+        "sourceStatus": "verified",
+        "verifiedAgainst": "evaluation/sources/kcs_14_20_01.txt L3074-3120"
+      }
+    },
+    {
+      "id": "standard.kcs_14_20.10.3_5_3_2",
+      "type": "Standard",
+      "name": "KCS 14 20 10 §3.5.3.2 압축강도에 의한 콘크리트의 품질 검사",
+      "aliases": ["표 3.5-3", "압축강도 판정기준"],
+      "meta": {
+        "parent": "standard.kcs_14_20.10",
+        "sectionRef": "14 20 10 §3.5.3.2",
+        "scope": "표 3.5-3 판정기준: ≤35MPa(연속3회 평균≥fcn AND 1회≥fcn-3.5MPa) / >35MPa(평균≥fcn AND 1회≥fcn×90%)",
+        "granularity": "clause",
+        "sourceStatus": "verified",
+        "verifiedAgainst": "evaluation/sources/kcs_14_20_01.txt L3274-3294"
+      }
+    },
+    {
+      "id": "standard.kcs_14_20.10.3_5_5_2",
+      "type": "Standard",
+      "name": "KCS 14 20 10 §3.5.5.2 표면상태의 검사",
+      "aliases": ["표 3.5-6"],
+      "meta": {
+        "parent": "standard.kcs_14_20.10",
+        "sectionRef": "14 20 10 §3.5.5.2",
+        "scope": "표 3.5-6: 노출면(허니컴·기포·결함 없을 것), 균열폭(KDS 14 20 30 4.1), 시공이음(신구 일체성)",
+        "granularity": "clause",
+        "sourceStatus": "verified",
+        "verifiedAgainst": "evaluation/sources/kcs_14_20_01.txt L3368-3392"
+      }
+    },
+    {
+      "id": "standard.quality_management_guideline",
+      "type": "Standard",
+      "name": "건설공사 품질관리 업무지침",
+      "aliases": ["품질관리 업무지침", "품질관리지침"],
+      "meta": {
+        "issuer": "국토교통부 고시",
+        "scope": "품질시험·검사 빈도, 품질관리자 배치 기준",
+        "granularity": "document"
+      }
+    },
+    {
+      "id": "standard.ks_f_2402",
+      "type": "Standard",
+      "name": "KS F 2402 슬럼프 시험",
+      "aliases": ["KS F 2402"],
+      "meta": { "issuer": "국가기술표준원", "category": "시험방법", "granularity": "document" }
+    },
+    {
+      "id": "standard.ks_f_2421",
+      "type": "Standard",
+      "name": "KS F 2421 공기량 시험",
+      "aliases": ["KS F 2421"],
+      "meta": { "issuer": "국가기술표준원", "category": "시험방법", "granularity": "document" }
+    },
+    {
+      "id": "standard.ks_f_2515",
+      "type": "Standard",
+      "name": "KS F 2515 염화물 함유량 시험",
+      "aliases": ["KS F 2515"],
+      "meta": { "issuer": "국가기술표준원", "category": "시험방법", "granularity": "document" }
+    },
+    {
+      "id": "standard.ks_f_2403",
+      "type": "Standard",
+      "name": "KS F 2403 공시체 제작",
+      "aliases": ["KS F 2403"],
+      "meta": { "issuer": "국가기술표준원", "category": "시험방법", "granularity": "document" }
+    },
+    {
+      "id": "standard.ks_f_2405",
+      "type": "Standard",
+      "name": "KS F 2405 압축강도 시험",
+      "aliases": ["KS F 2405"],
+      "meta": { "issuer": "국가기술표준원", "category": "시험방법", "granularity": "document" }
+    },
+    {
+      "id": "standard.ks_f_4009",
+      "type": "Standard",
+      "name": "KS F 4009 레디믹스트 콘크리트",
+      "aliases": ["KS F 4009", "레미콘 KS"],
+      "meta": { "issuer": "국가기술표준원", "category": "제품규격", "granularity": "document" }
+    }
+  ]
+}

@@ -1,0 +1,66 @@
+{
+  "_note": "발주처(Agency) — 감리·승인·품질 기준 차이 흡수. map_quality_basis의 agency 옵션이 소비.",
+  "entities": [
+    {
+      "id": "agency.procurement_service",
+      "type": "Agency",
+      "name": "조달청",
+      "aliases": ["나라장터", "PPS", "Public Procurement Service"],
+      "meta": {
+        "agencyType": "central_procurement",
+        "scope": "공공공사 중앙조달 · 표준 품질 기준 강력 적용",
+        "approverRole": "발주청 공사감독관 + 감리단장",
+        "typicalSpecSource": "조달청 표준시방서 + 공사별 특기시방서",
+        "note": "낙찰률·투찰 경향은 엄격. 품질 기준도 상대적으로 KCS/KDS에 충실"
+      }
+    },
+    {
+      "id": "agency.lh",
+      "type": "Agency",
+      "name": "한국토지주택공사(LH)",
+      "aliases": ["LH공사", "Korea Land and Housing Corporation"],
+      "meta": {
+        "agencyType": "public_owner",
+        "scope": "공공주택 사업 · LH 자체 시방서·품질 기준",
+        "approverRole": "LH 사업본부 감독 + 감리단장",
+        "typicalSpecSource": "LH 시방서 + LH 품질관리 지침"
+      }
+    },
+    {
+      "id": "agency.metropolitan_city",
+      "type": "Agency",
+      "name": "광역자치단체 (서울시·부산시 등)",
+      "aliases": ["서울시", "부산시", "광역시", "도"],
+      "meta": {
+        "agencyType": "local_government",
+        "scope": "광역시·도 발주공사 · 지자체 조례·특별 기준 추가 적용",
+        "approverRole": "발주부서 감독 + 감리",
+        "typicalSpecSource": "지자체 표준시방서 + 조례 기반 특별 기준"
+      }
+    },
+    {
+      "id": "agency.basic_local_government",
+      "type": "Agency",
+      "name": "기초자치단체 (시·군·구)",
+      "aliases": ["기초지자체"],
+      "meta": {
+        "agencyType": "local_government",
+        "scope": "시·군·구 발주공사",
+        "approverRole": "발주부서 감독 + 감리"
+      }
+    },
+    {
+      "id": "agency.private",
+      "type": "Agency",
+      "name": "민간 발주자",
+      "aliases": ["민간시행사"],
+      "meta": {
+        "agencyType": "private_owner",
+        "scope": "민간 건축 · 재건축·재개발 조합 · 기업 발주",
+        "approverRole": "건축주·시행사 + CM/감리",
+        "typicalSpecSource": "민간 특기시방서 + 주택법/건축법 기준",
+        "note": "주택법 적용 대상(공동주택) 여부에 따라 법정 품질 의무 범위 변동"
+      }
+    }
+  ]
+}

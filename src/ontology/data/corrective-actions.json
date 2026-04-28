@@ -1,0 +1,75 @@
+{
+  "entities": [
+    {
+      "id": "action.hold_delivery",
+      "type": "CorrectiveAction",
+      "name": "납품 보류",
+      "aliases": ["타설 보류"],
+      "meta": { "urgency": "immediate" }
+    },
+    {
+      "id": "action.retest",
+      "type": "CorrectiveAction",
+      "name": "재시험 실시",
+      "meta": { "urgency": "immediate" }
+    },
+    {
+      "id": "action.reject_truck",
+      "type": "CorrectiveAction",
+      "name": "레미콘 반송",
+      "aliases": ["트럭 반송", "반품"],
+      "meta": { "urgency": "immediate" }
+    },
+    {
+      "id": "action.notify_quality_manager",
+      "type": "CorrectiveAction",
+      "name": "품질관리자 통보",
+      "meta": { "urgency": "immediate" }
+    },
+    {
+      "id": "action.notify_supervisor",
+      "type": "CorrectiveAction",
+      "name": "감리원 통보",
+      "meta": { "urgency": "immediate" }
+    },
+    {
+      "id": "action.check_delivery_ticket",
+      "type": "CorrectiveAction",
+      "name": "납품서 확인",
+      "meta": { "urgency": "immediate" }
+    },
+    {
+      "id": "action.request_supplier_report",
+      "type": "CorrectiveAction",
+      "name": "공급자 조사·보고서 요청",
+      "meta": { "urgency": "corrective" }
+    },
+    {
+      "id": "action.record_ncr",
+      "type": "CorrectiveAction",
+      "name": "부적합 보고서(NCR) 작성",
+      "meta": { "urgency": "corrective" }
+    },
+    {
+      "id": "action.core_sampling",
+      "type": "CorrectiveAction",
+      "name": "코어 채취 시험",
+      "aliases": ["코어링"],
+      "meta": { "urgency": "corrective" }
+    },
+    {
+      "id": "action.non_destructive_test",
+      "type": "CorrectiveAction",
+      "name": "비파괴 시험 실시",
+      "aliases": ["슈미트 해머", "초음파 시험"],
+      "meta": { "urgency": "corrective" }
+    },
+    {
+      "id": "action.structural_review",
+      "type": "CorrectiveAction",
+      "name": "구조 검토",
+      "aliases": ["구조 안전성 검토"],
+      "meta": { "urgency": "corrective" }
+    }
+  ]
+}

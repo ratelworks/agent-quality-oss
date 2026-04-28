@@ -1,0 +1,126 @@
+{
+  "_note": "건설공사 품질관리 업무지침 (국토교통부 고시 2025-311호, 2025.6.12 시행). 조항 요약·식별자만 제공.",
+  "_issuer": "국토교통부",
+  "_notice": "2025-311",
+  "_effectiveFrom": "2025-06-12",
+  "entities": [
+    {
+      "id": "standard.guideline.part2_art4",
+      "type": "Standard",
+      "name": "업무지침 §4 (품질관리계획서 작성 기준)",
+      "meta": {
+        "category": "guideline",
+        "part": "제2편 건설공사 품질관리",
+        "articleNo": "4",
+        "scope": "별표1 기준에 따라 공사 규모·복잡성·교육훈련·숙련도를 고려한 품질관리계획서 작성",
+        "legalWeight": "administrative_rule",
+        "basisType": "guideline",
+        "relatedForm": "standard.form.quality_plan_annex1"
+      }
+    },
+    {
+      "id": "standard.guideline.part2_art5",
+      "type": "Standard",
+      "name": "업무지침 §5 (품질시험계획서)",
+      "meta": {
+        "category": "guideline",
+        "part": "제2편",
+        "articleNo": "5",
+        "scope": "시험 항목·빈도·시기·시험기관 지정",
+        "legalWeight": "administrative_rule",
+        "basisType": "guideline"
+      }
+    },
+    {
+      "id": "standard.guideline.part2_art6",
+      "type": "Standard",
+      "name": "업무지침 §6 (시험기준·관리의 적정성)",
+      "meta": {
+        "category": "guideline",
+        "part": "제2편",
+        "articleNo": "6",
+        "scope": "KCS/KDS 및 KS 적용 원칙",
+        "legalWeight": "administrative_rule",
+        "basisType": "guideline"
+      }
+    },
+    {
+      "id": "standard.guideline.part2_art7",
+      "type": "Standard",
+      "name": "업무지침 §7 (부적합 발생 시 조치)",
+      "meta": {
+        "category": "guideline",
+        "part": "제2편",
+        "articleNo": "7",
+        "scope": "NCR 작성·시정조치·효과성 확인·종결",
+        "legalWeight": "administrative_rule",
+        "basisType": "guideline"
+      }
+    },
+    {
+      "id": "standard.guideline.part2_art8",
+      "type": "Standard",
+      "name": "업무지침 §8 (검사대행자)",
+      "meta": {
+        "category": "guideline",
+        "part": "제2편",
+        "articleNo": "8",
+        "scope": "공인시험기관 대행 절차·원시데이터 관리 (chain of custody)",
+        "legalWeight": "administrative_rule",
+        "basisType": "guideline"
+      }
+    },
+    {
+      "id": "standard.guideline.part2_art10",
+      "type": "Standard",
+      "name": "업무지침 §10 (품질관리계획 이행여부 점검)",
+      "meta": {
+        "category": "guideline",
+        "part": "제2편",
+        "articleNo": "10",
+        "scope": "점검계획·점검표·이행결과 기록 방법",
+        "legalWeight": "administrative_rule",
+        "basisType": "guideline"
+      }
+    },
+    {
+      "id": "standard.guideline.part3",
+      "type": "Standard",
+      "name": "업무지침 제3편 (레미콘·아스콘 관리)",
+      "meta": {
+        "category": "guideline",
+        "part": "제3편",
+        "scope": "레미콘 운반시간·현장배치플랜트·아스콘 품질관리 전담 규정",
+        "legalWeight": "administrative_rule",
+        "basisType": "guideline"
+      }
+    },
+    {
+      "id": "standard.guideline.part4",
+      "type": "Standard",
+      "name": "업무지침 제4편 (철강구조물 제작공장 인증)",
+      "meta": {
+        "category": "guideline",
+        "part": "제4편",
+        "scope": "제작공장 인증·기준·절차 (별도 제도)",
+        "legalWeight": "administrative_rule",
+        "basisType": "guideline",
+        "skeleton": true,
+        "note": "Phase A는 식별자만. 공종 온톨로지 연계는 Phase B."
+      }
+    },
+    {
+      "id": "standard.guideline.part5",
+      "type": "Standard",
+      "name": "업무지침 제5편 (가설기자재 품질관리)",
+      "meta": {
+        "category": "guideline",
+        "part": "제5편",
+        "scope": "가설기자재 안전인증·품질점검",
+        "legalWeight": "administrative_rule",
+        "basisType": "guideline",
+        "skeleton": true
+      }
+    }
+  ]
+}

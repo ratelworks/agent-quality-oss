@@ -1,0 +1,553 @@
+{
+  "_note": "문서 양식 스키마 — 각 문서의 '필수 필드·구조'만 제공. 원본 서식은 standard-forms.json locator 참조. Tool이 이 스키마를 반환하고 LLM이 실제 문서를 조립.",
+  "schemas": {
+    "ncr": {
+      "id": "ncr",
+      "title": "부적합 보고서(NCR) 양식",
+      "basis": ["standard.guideline.part2_art7", "standard.law.btia_55"],
+      "reference": "건설공사 품질관리 업무지침 제2편 §7 + 건설기술 진흥법 §55 (건설공사의 품질관리)",
+      "referenceStandard": "ISO 9001 §8.7",
+      "retention": "발주자가 정하는 기간(통상 시설물 존속 기간 또는 하자담보책임 종료 시까지). 검사 성과 총괄표에 포함되어 보존 시 시행령 §93에 따라 시설물 존속 기간.",
+      "sections": [
+        {
+          "key": "header",
+          "title": "보고서 기본정보",
+          "fields": [
+            { "name": "documentId", "type": "string", "required": true, "note": "예: NCR-{projectCode}-{YYYYMMDD}-{seq}" },
+            { "name": "projectName", "type": "string", "required": true },
+            { "name": "reportDate", "type": "date", "required": true },
+            { "name": "reportedBy", "type": "object", "required": true, "fields": ["name", "role", "licenseNo"] }
+          ]
+        },
+        {
+          "key": "nonconformance",
+          "title": "부적합 내용",
+          "fields": [
+            { "name": "workType", "type": "string", "required": true },
+            { "name": "location", "type": "string", "required": true, "note": "예: B동 3층 슬래브 C4구역" },
+            { "name": "description", "type": "string", "required": true },
+            { "name": "detectedAt", "type": "datetime", "required": true },
+            { "name": "detectionMethod", "type": "string", "required": true, "note": "시험/검측/육안" },
+            { "name": "referenceCriterion", "type": "string", "required": true, "note": "예: criteria.slump_general_150" },
+            { "name": "observedValue", "type": "string", "required": false },
+            { "name": "expectedValue", "type": "string", "required": false }
+          ]
+        },
+        {
+          "key": "cause_analysis",
+          "title": "원인 분석 (LLM 영역)",
+          "fields": [
+            { "name": "possibleCauses", "type": "array<string>", "required": true, "source": "ontology.ncr.meta.possibleCauses 참고" },
+            { "name": "rootCauseMethod", "type": "string", "required": false, "note": "5 Why / Fishbone / FTA" }
+          ]
+        },
+        {
+          "key": "actions",
+          "title": "조치 사항",
+          "fields": [
+            { "name": "immediateActions", "type": "array<object>", "required": true, "source": "ontology.ncr.immediateActions" },
+            { "name": "correctiveActions", "type": "array<object>", "required": true, "source": "ontology.ncr.correctiveActions" }
+          ]
+        },
+        {
+          "key": "approval",
+          "title": "책임·승인 (법적 효력)",
+          "fields": [
+            { "name": "owner", "type": "object", "required": true, "source": "ontology.ncr.meta.owner" },
+            { "name": "approver", "type": "object", "required": true, "source": "ontology.ncr.meta.approver" },
+            { "name": "effectivenessCheck", "type": "string", "required": true, "source": "ontology.ncr.meta.effectivenessCheck" },
+            { "name": "closureCriteria", "type": "string", "required": true, "source": "ontology.ncr.meta.closureCriteria" }
+          ]
+        },
+        {
+          "key": "evidence",
+          "title": "증빙",
+          "fields": [
+            { "name": "requiredEvidence", "type": "array<string>", "required": true, "source": "ontology.ncr.requiresEvidence" },
+            { "name": "attachedEvidence", "type": "array<object>", "required": false }
+          ]
+        }
+      ]
+    },
+
+    "concrete_delivery_record": {
+      "id": "concrete_delivery_record",
+      "title": "레미콘 차량별 입회시험 기록지",
+      "basis": ["standard.kcs_14_20.10.3_2", "standard.ks_f_4009"],
+      "reference": "건설공사 품질관리 업무지침 제3편 (레미콘 관리) + KCS 14 20 10 §3.2 + KS F 4009 (레디믹스트 콘크리트)",
+      "retention": "검사 성과 총괄표 통합 시 시설물 존속 기간(시행령 §93). 일반 차량별 기록은 발주자 보관 정책에 따름.",
+      "sections": [
+        {
+          "key": "delivery",
+          "title": "반입 정보",
+          "fields": [
+            { "name": "documentId", "type": "string", "required": true },
+            { "name": "truckNo", "type": "string", "required": true },
+            { "name": "supplier", "type": "string", "required": true },
+            { "name": "plantLocation", "type": "string", "required": true },
+            { "name": "batchTime", "type": "datetime", "required": true, "note": "배합 시각 (운반시간 계산)" },
+            { "name": "arrivalTime", "type": "datetime", "required": true },
+            { "name": "pourStartTime", "type": "datetime", "required": true },
+            { "name": "volume_m3", "type": "number", "required": true },
+            { "name": "strengthGrade", "type": "string", "required": true, "note": "예: 24-21-150" }
+          ]
+        },
+        {
+          "key": "tests",
+          "title": "현장시험 결과",
+          "fields": [
+            { "name": "slumpMm", "type": "number", "required": true, "criterion": "criteria.slump_general_150" },
+            { "name": "airPercent", "type": "number", "required": true, "criterion": "criteria.air_content_general" },
+            { "name": "chlorideKgPerM3", "type": "number", "required": true, "criterion": "criteria.chloride_limit_030" },
+            { "name": "temperatureC", "type": "number", "required": true, "criterion": "criteria.concrete_temperature_general" }
+          ]
+        },
+        {
+          "key": "specimen",
+          "title": "공시체 제작",
+          "fields": [
+            { "name": "specimensMade", "type": "number", "required": false, "note": "150㎥마다 3×재령" },
+            { "name": "specimenIds", "type": "array<string>", "required": false }
+          ]
+        },
+        {
+          "key": "verdict",
+          "title": "판정·결재",
+          "fields": [
+            { "name": "verdict", "type": "enum<PASS,FAIL,MARGINAL>", "required": true, "source": "judgment engine" },
+            { "name": "witnessedBy", "type": "object", "required": true, "note": "시공자 품질관리자" },
+            { "name": "approvedBy", "type": "object", "required": false, "note": "감리원" }
+          ]
+        }
+      ]
+    },
+
+    "specimen_record": {
+      "id": "specimen_record",
+      "title": "공시체 제작·관리 기록지",
+      "basis": ["standard.ks_f_2403", "standard.ks_f_2405", "standard.kcs_14_20.10.3_3"],
+      "reference": "KS F 2403 (공시체 제작 방법) + KS F 2405 (압축강도 시험방법) + KCS 14 20 10 §3.3 (콘크리트 시험)",
+      "retention": "압축강도 시험 결과는 검사 성과 총괄표에 포함되어 시설물 존속 기간 보존(시행령 §93). 공시체 자체는 시험 종료 후 폐기 가능.",
+      "sections": [
+        {
+          "key": "header",
+          "title": "제작 정보",
+          "fields": [
+            { "name": "documentId", "type": "string", "required": true },
+            { "name": "pourLocation", "type": "string", "required": true },
+            { "name": "pourDate", "type": "date", "required": true },
+            { "name": "linkedDeliveryRecordId", "type": "string", "required": false }
+          ]
+        },
+        {
+          "key": "specimens",
+          "title": "공시체 상세",
+          "fields": [
+            { "name": "specimenId", "type": "string", "required": true },
+            { "name": "ageDay", "type": "enum<7,28,기타>", "required": true },
+            { "name": "moldType", "type": "string", "required": true, "note": "KS F 2403 φ100×200 또는 φ150×300" },
+            { "name": "curingMethod", "type": "enum<표준양생,현장양생>", "required": true },
+            { "name": "testDate", "type": "date", "required": true, "note": "타설일 + 재령일 자동" }
+          ]
+        },
+        {
+          "key": "results",
+          "title": "시험 결과 (시험실 기록 후)",
+          "fields": [
+            { "name": "compressiveStrengthMpa", "type": "number", "required": false },
+            { "name": "verdict", "type": "enum<PASS,FAIL,PENDING>", "required": false, "criterion": "criteria.compressive_strength_design" },
+            { "name": "testLab", "type": "string", "required": false, "note": "KOLAS 인정 시험실" }
+          ]
+        }
+      ]
+    },
+
+    "itp": {
+      "id": "itp",
+      "title": "Inspection Test Plan (ITP) / 검측시험계획",
+      "basis": ["standard.guideline.part2_art5", "standard.law.btia_rule_53"],
+      "reference": "건설공사 품질관리 업무지침 제2편 §5 + 건설기술 진흥법 시행규칙 §53 (품질시험계획서 작성)",
+      "referenceStandard": "국제 표준 ITP (Hold/Witness/Surveillance/Review/Execution 5 point)",
+      "retention": "품질시험계획서는 공사 완료 후 검사 성과 총괄표에 통합되어 시설물 존속 기간 보존(시행령 §93).",
+      "sections": [
+        {
+          "key": "header",
+          "title": "ITP 기본정보",
+          "fields": [
+            { "name": "documentId", "type": "string", "required": true },
+            { "name": "workType", "type": "string", "required": true },
+            { "name": "revision", "type": "string", "required": true }
+          ]
+        },
+        {
+          "key": "activities",
+          "title": "활동별 검측·시험 매트릭스",
+          "fields": [
+            { "name": "activityName", "type": "string", "required": true },
+            { "name": "criterion", "type": "string", "required": true, "note": "criteria.* 참조" },
+            { "name": "method", "type": "string", "required": true },
+            { "name": "frequency", "type": "string", "required": true },
+            { "name": "pointType", "type": "enum<H,W,S,R,E>", "required": true, "note": "Hold/Witness/Surveillance/Review/Execution" },
+            { "name": "responsible", "type": "enum<contractor,supervisor,owner>", "required": true },
+            { "name": "acceptanceCriteria", "type": "string", "required": true },
+            { "name": "record", "type": "string", "required": true, "note": "생성 기록물 id" }
+          ]
+        }
+      ]
+    },
+
+    "test_report_review": {
+      "id": "test_report_review",
+      "title": "시험성적서(TR) 검토 보고서",
+      "basis": ["standard.guideline.part2_art6", "standard.guideline.part2_art8", "standard.law.btia_60"],
+      "reference": "건설공사 품질관리 업무지침 제2편 §6·§8 + 건설기술 진흥법 §60 (품질검사의 대행 및 확인)",
+      "retention": "시험성적서 자체와 검토 결과는 검사 성과 총괄표에 포함되어 시설물 존속 기간 보존(시행령 §93). KOLAS 시험기관은 별도 5년 보존(국가표준기본법 §23).",
+      "sections": [
+        {
+          "key": "source",
+          "title": "성적서 출처",
+          "fields": [
+            { "name": "documentId", "type": "string", "required": true },
+            { "name": "testedBy", "type": "string", "required": true, "note": "시험기관명 · KOLAS 인정번호" },
+            { "name": "reportNo", "type": "string", "required": true },
+            { "name": "issuedAt", "type": "date", "required": true }
+          ]
+        },
+        {
+          "key": "items",
+          "title": "시험 항목 및 결과",
+          "fields": [
+            { "name": "testItem", "type": "string", "required": true },
+            { "name": "method", "type": "string", "required": true },
+            { "name": "criterionRef", "type": "string", "required": true },
+            { "name": "reportedValue", "type": "string", "required": true },
+            { "name": "verdict", "type": "enum<PASS,FAIL,MARGINAL,UNDETERMINED>", "required": true }
+          ]
+        },
+        {
+          "key": "custody",
+          "title": "Chain of Custody (대행 시)",
+          "fields": [
+            { "name": "samplingBy", "type": "object", "required": true },
+            { "name": "sealId", "type": "string", "required": false, "note": "봉인번호 (§60 대행 확인)" },
+            { "name": "transportedBy", "type": "string", "required": false },
+            { "name": "labReceiptAt", "type": "datetime", "required": false }
+          ]
+        },
+        {
+          "key": "reviewer",
+          "title": "검토자·결론",
+          "fields": [
+            { "name": "reviewedBy", "type": "object", "required": true },
+            { "name": "conclusion", "type": "string", "required": true },
+            { "name": "followupActions", "type": "array<string>", "required": false }
+          ]
+        }
+      ]
+    },
+
+    "qc_assignment_notice": {
+      "id": "qc_assignment_notice",
+      "title": "품질관리자 배치 신고서",
+      "basis": [
+        "standard.law.btia_55",
+        "standard.law.btia_rule_50"
+      ],
+      "reference": "건설기술 진흥법 §55 + 시행규칙 §50 (품질관리자 배치 기준)",
+      "retention": "공사 완료 후 5년 (시행령 §93 일반 보존). 발주청 보고 사본은 발주청 정책 준수.",
+      "_note": "변경 시(증원·감원·자격등급 변경·인적사항 변경) 즉시 발주청에 신고. 시행규칙 §50의 등급(특·고·중·초급)·배치인원·자격은 공사규모(공사비·공기·공종)에 따라 정해짐.",
+      "sections": [
+        {
+          "key": "header",
+          "title": "신고 기본정보",
+          "fields": [
+            { "name": "documentId", "type": "string", "required": true, "note": "예: QCAN-{projectCode}-{YYYYMMDD}-{seq}" },
+            { "name": "noticeDate", "type": "date", "required": true },
+            { "name": "noticeType", "type": "enum<initial,change,replacement,withdrawal>", "required": true, "note": "최초/변경/교체/철회" },
+            { "name": "effectiveFrom", "type": "date", "required": true },
+            { "name": "submittedTo", "type": "string", "required": true, "note": "발주청·감독관청" }
+          ]
+        },
+        {
+          "key": "project",
+          "title": "공사 개요",
+          "fields": [
+            { "name": "projectName", "type": "string", "required": true },
+            { "name": "projectCode", "type": "string", "required": true, "note": "발주청 사업코드" },
+            { "name": "contractor", "type": "object", "required": true, "fields": ["companyName", "businessNo", "license"] },
+            { "name": "totalContractValue", "type": "number", "required": true, "note": "총공사비(원). 시행령 §89·§90 대상 판정 기준" },
+            { "name": "constructionPeriod", "type": "object", "required": true, "fields": ["startDate", "endDate"] },
+            { "name": "workTypes", "type": "array<string>", "required": true, "note": "공종 코드(예: 토공·콘크리트·철근)" }
+          ]
+        },
+        {
+          "key": "qc_personnel",
+          "title": "품질관리자 인적사항 (시행규칙 §50)",
+          "fields": [
+            { "name": "personnel", "type": "array<object>", "required": true,
+              "fields": ["name", "birthDate", "grade", "licenseType", "licenseNo", "licenseIssueDate", "experienceYears", "assignedRole", "fullTimeFlag"],
+              "note": "grade: 특급/고급/중급/초급. fullTimeFlag: 상주 여부 (시행규칙 §50 별표7)" }
+          ]
+        },
+        {
+          "key": "regulation_compliance",
+          "title": "시행규칙 §50 적합성 자체 검증",
+          "fields": [
+            { "name": "requiredGradeBySize", "type": "string", "required": true, "note": "공사규모별 의무 등급 (시행규칙 §50 별표7)" },
+            { "name": "requiredHeadcount", "type": "number", "required": true },
+            { "name": "actualHeadcount", "type": "number", "required": true },
+            { "name": "complianceCheck", "type": "enum<compliant,under,over>", "required": true },
+            { "name": "remediationPlan", "type": "string", "required": false, "note": "under인 경우 보완 계획" }
+          ]
+        },
+        {
+          "key": "approval",
+          "title": "결재·접수",
+          "fields": [
+            { "name": "preparedBy", "type": "object", "required": true },
+            { "name": "siteRepresentative", "type": "object", "required": true, "note": "현장대리인" },
+            { "name": "supervisorAck", "type": "object", "required": false, "note": "감리원 확인" },
+            { "name": "agencyReceiptNo", "type": "string", "required": false, "note": "발주청 접수번호" }
+          ]
+        }
+      ]
+    },
+
+    "quality_test_plan": {
+      "id": "quality_test_plan",
+      "title": "품질시험계획서",
+      "basis": [
+        "standard.law.btia_55",
+        "standard.law.btia_decree_90",
+        "standard.law.btia_rule_53",
+        "standard.form.test_plan_template",
+        "standard.form.guideline_annex2"
+      ],
+      "reference": "건설기술 진흥법 §55 + 시행령 §90 + 시행규칙 §53 + 업무지침 별표2(시험기준표) + 별지 양식",
+      "retention": "준공 후 5년 + 추가 보존(시행령 §93). 변경 시 변경분 즉시 보존.",
+      "_note": "시행령 §89(품질관리계획) 비대상 중 §90 대상 현장(일반 현장)이 작성. §89 대상은 품질관리계획서가 상위. 별표2의 공종·자재별 시험종목·방법·빈도가 baseline.",
+      "sections": [
+        {
+          "key": "header",
+          "title": "계획서 기본정보",
+          "fields": [
+            { "name": "documentId", "type": "string", "required": true, "note": "예: QTP-{projectCode}-{rev}" },
+            { "name": "issueDate", "type": "date", "required": true },
+            { "name": "revision", "type": "string", "required": true, "note": "Rev.A/B/C 또는 0/1/2" },
+            { "name": "scopeOfApplication", "type": "string", "required": true, "note": "전체 공사 또는 특정 공구·공종" }
+          ]
+        },
+        {
+          "key": "project",
+          "title": "공사 개요 및 §90 대상 판정",
+          "fields": [
+            { "name": "projectName", "type": "string", "required": true },
+            { "name": "projectCode", "type": "string", "required": true },
+            { "name": "totalContractValue", "type": "number", "required": true },
+            { "name": "constructionType", "type": "string", "required": true },
+            { "name": "decree90Eligibility", "type": "object", "required": true,
+              "fields": ["targetCategory", "thresholdCriterion", "evaluationResult"],
+              "note": "시행령 §90 대상 사유 (예: 총공사비 5억↑ 등)" }
+          ]
+        },
+        {
+          "key": "test_items",
+          "title": "공종·자재별 시험 항목 (업무지침 별표2 기반)",
+          "fields": [
+            { "name": "testItems", "type": "array<object>", "required": true,
+              "fields": ["workType", "material", "testItem", "testMethod", "frequency", "acceptanceCriterion", "responsibleParty", "labType"],
+              "note": "labType: 자체시험/외부 KOLAS 의뢰. testMethod·frequency는 별표2 표준 + 시방서 강화분 통합" }
+          ]
+        },
+        {
+          "key": "personnel",
+          "title": "품질관리자 배치 (시행규칙 §50 연동)",
+          "fields": [
+            { "name": "qcPersonnelRef", "type": "string", "required": true, "note": "QCAN 신고서 documentId 참조" },
+            { "name": "qcOrganizationChart", "type": "string", "required": true, "note": "조직도 첨부" },
+            { "name": "qcResponsibilities", "type": "array<object>", "required": true,
+              "fields": ["role", "responsibility", "authority"] }
+          ]
+        },
+        {
+          "key": "lab_facility",
+          "title": "시험실 운영",
+          "fields": [
+            { "name": "labLocation", "type": "string", "required": true, "note": "현장 시험실 위치 또는 외부 시험소 주소" },
+            { "name": "labEquipment", "type": "array<object>", "required": true,
+              "fields": ["equipmentName", "modelNo", "calibrationDate", "calibrationDueDate"] },
+            { "name": "externalLabContracts", "type": "array<object>", "required": false,
+              "fields": ["labName", "kolasNo", "scope", "contractPeriod"] }
+          ]
+        },
+        {
+          "key": "quality_cost",
+          "title": "품질관리비 (시행령 §91)",
+          "fields": [
+            { "name": "qualityCostBudget", "type": "number", "required": true },
+            { "name": "qualityCostBreakdown", "type": "array<object>", "required": true,
+              "fields": ["category", "amount", "calculationBasis"] },
+            { "name": "calculationStandard", "type": "string", "required": true, "note": "시행령 §91 + 발주청 기준" }
+          ]
+        },
+        {
+          "key": "approval",
+          "title": "승인",
+          "fields": [
+            { "name": "preparedBy", "type": "object", "required": true },
+            { "name": "siteRepresentative", "type": "object", "required": true },
+            { "name": "supervisorReview", "type": "object", "required": true, "note": "감리원 검토" },
+            { "name": "agencyApproval", "type": "object", "required": true, "note": "발주청 승인 (시행규칙 §53)" }
+          ]
+        }
+      ]
+    },
+
+    "inspection_request": {
+      "id": "inspection_request",
+      "title": "검측 신청서",
+      "basis": [
+        "standard.law.btia_55",
+        "standard.kcs_14_20.10"
+      ],
+      "reference": "건설기술 진흥법 §55 + 감리계약 + 업무지침 + KCS 시공 단계별 검측 요청",
+      "retention": "공사 완료 후 5년 (시행령 §93). 일일 검측 신청서는 품질검사 실시대장(별지 제42호)과 연결.",
+      "_note": "감리원 입회 검측 요청 양식. 통상 검측 24~48h 전 제출. 감리 결재(승인/반려/조건부) 후 검측 진행. 검측 결과는 별지 제42호 entry로 연결.",
+      "sections": [
+        {
+          "key": "header",
+          "title": "신청 기본정보",
+          "fields": [
+            { "name": "documentId", "type": "string", "required": true, "note": "예: INS-{projectCode}-{YYYYMMDD}-{seq}" },
+            { "name": "requestDate", "type": "date", "required": true },
+            { "name": "scheduledInspectionAt", "type": "datetime", "required": true, "note": "검측 예정 일시" },
+            { "name": "leadTimeHours", "type": "number", "required": true, "note": "신청-검측 간격 (h). 통상 24~48h" },
+            { "name": "submittedTo", "type": "object", "required": true, "fields": ["supervisorName", "supervisorRole", "agency"] }
+          ]
+        },
+        {
+          "key": "scope",
+          "title": "검측 대상",
+          "fields": [
+            { "name": "workType", "type": "string", "required": true, "note": "예: work.concrete_placement" },
+            { "name": "inspectionPoint", "type": "string", "required": true, "note": "예: inspection.rebar_placement_slab" },
+            { "name": "location", "type": "string", "required": true, "note": "예: B동 3층 슬래브 C4구역" },
+            { "name": "stage", "type": "enum<pre,during,post>", "required": true, "note": "타설 전/중/후 등 시공 단계" },
+            { "name": "quantity", "type": "object", "required": false, "fields": ["value", "unit"], "note": "예: 슬래브 250㎡ / 콘크리트 50㎥" },
+            { "name": "scheduleImpact", "type": "string", "required": false, "note": "검측 지연 시 후속 공정 영향" }
+          ]
+        },
+        {
+          "key": "preparation",
+          "title": "사전 준비 확인 (시공자 자체 검측)",
+          "fields": [
+            { "name": "selfInspectionVerdict", "type": "enum<ready,partial,not_ready>", "required": true,
+              "note": "시공자 자체 검측 결과. ready만 검측 신청 권장." },
+            { "name": "selfInspectionRecord", "type": "string", "required": true, "note": "자체 검측 체크리스트 documentId" },
+            { "name": "appliedStandards", "type": "array<string>", "required": true,
+              "note": "이 검측에 적용되는 KCS·KS·시방서 항목. 예: standard.kcs_14_20.10.3_3_2" },
+            { "name": "preparedDocuments", "type": "array<string>", "required": true,
+              "note": "현장 준비 문서 (배합설계서/구조도면/이전 검측 합격기록 등)" }
+          ]
+        },
+        {
+          "key": "supervisor_response",
+          "title": "감리 결재 (감리원 영역)",
+          "fields": [
+            { "name": "decision", "type": "enum<approved,conditional,rejected,rescheduled>", "required": false },
+            { "name": "decisionAt", "type": "datetime", "required": false },
+            { "name": "conditions", "type": "array<string>", "required": false, "note": "조건부 승인 시 보완 사항" },
+            { "name": "supervisorSignature", "type": "object", "required": false }
+          ]
+        },
+        {
+          "key": "linkage",
+          "title": "후속 연결",
+          "fields": [
+            { "name": "relatedChecklist", "type": "string", "required": false, "note": "검측체크리스트 documentId (R3 도입 후)" },
+            { "name": "registerEntrySeq", "type": "string", "required": false, "note": "별지 제42호 entry seq (검측 완료 후)" },
+            { "name": "ncrIfFail", "type": "string", "required": false, "note": "FAIL 시 NCR documentId" }
+          ]
+        }
+      ]
+    },
+
+    "quality_inspection_register": {
+      "id": "quality_inspection_register",
+      "title": "품질검사 실시대장 (별지 제42호)",
+      "basis": [
+        "standard.law.btia_55",
+        "standard.law.btia_rule_51",
+        "standard.form.rule_no42_quality_inspection_register"
+      ],
+      "reference": "건설기술 진흥법 §55 + 시행규칙 §51 + 별지 제42호 서식",
+      "retention": "시설물 존속기간 또는 시행령 §93 명시 보존기간. 시공자 작성·비치 의무.",
+      "_note": "★ 시공자 매일/매회 누적 작성 의무. 검사·시험 1건마다 1행 추가. 별지 제43호(품질검사 성과 총괄표)의 원천 데이터. 발주청 점검 시 즉시 제시 가능해야 함.",
+      "sections": [
+        {
+          "key": "header",
+          "title": "대장 기본정보",
+          "fields": [
+            { "name": "documentId", "type": "string", "required": true, "note": "예: QIR-{projectCode}-{period}" },
+            { "name": "projectName", "type": "string", "required": true },
+            { "name": "projectCode", "type": "string", "required": true },
+            { "name": "registerPeriod", "type": "object", "required": true,
+              "fields": ["startDate", "endDate"], "note": "통상 월별 또는 분기별 권 분리" },
+            { "name": "registerVolume", "type": "string", "required": true, "note": "권 번호 (Vol. 1, 2, ...)" }
+          ]
+        },
+        {
+          "key": "entries",
+          "title": "검사·시험 기록 (행 단위 누적)",
+          "fields": [
+            { "name": "entries", "type": "array<object>", "required": true,
+              "fields": [
+                "seq",
+                "inspectionDate",
+                "workType",
+                "location",
+                "material",
+                "testItem",
+                "testMethod",
+                "criterionRef",
+                "criterionThreshold",
+                "observedValue",
+                "verdict",
+                "samplingBy",
+                "testedBy",
+                "testReportNo",
+                "ncrLinked",
+                "remarks"
+              ],
+              "note": "verdict: PASS/FAIL/MARGINAL/UNDETERMINED. ncrLinked: FAIL 시 NCR documentId. testReportNo: 외부 KOLAS 성적서 번호." }
+          ]
+        },
+        {
+          "key": "summary",
+          "title": "기간별 집계 (별지 제43호 산출용)",
+          "fields": [
+            { "name": "totalEntries", "type": "number", "required": true },
+            { "name": "passCount", "type": "number", "required": true },
+            { "name": "failCount", "type": "number", "required": true },
+            { "name": "marginalCount", "type": "number", "required": true },
+            { "name": "undeterminedCount", "type": "number", "required": true },
+            { "name": "ncrCount", "type": "number", "required": true },
+            { "name": "byTestItem", "type": "array<object>", "required": true,
+              "fields": ["testItem", "totalCount", "failCount", "failRate"] }
+          ]
+        },
+        {
+          "key": "custody",
+          "title": "보관·점검 이력",
+          "fields": [
+            { "name": "storageLocation", "type": "string", "required": true, "note": "현장 사무실 또는 본사" },
+            { "name": "responsibleQc", "type": "object", "required": true, "note": "기록 책임자 (품질관리자)" },
+            { "name": "agencyInspections", "type": "array<object>", "required": false,
+              "fields": ["inspectionDate", "inspector", "agency", "findings", "actionRequired"],
+              "note": "발주청·감독관청 점검 이력" }
+          ]
+        }
+      ]
+    }
+  }
+}

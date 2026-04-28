@@ -1,0 +1,153 @@
+{
+  "_note": "meta.typicalAcceptance는 인간 설명용. 실제 판정은 relations.hasAcceptanceCriteria → criteria.* 엔티티로 수행.",
+  "_freq_update_note": "시험 빈도는 업무지침 2024-638호(2024.11.18) 개정부터 150㎥ → 120㎥로 변경됨. 2025-311호(2025.6.12 시행)에도 동일 유지.",
+  "entities": [
+    {
+      "id": "test.slump",
+      "type": "TestItem",
+      "name": "슬럼프 시험",
+      "aliases": ["슬럼프", "slump test", "굳지 않은 콘크리트 슬럼프 시험"],
+      "meta": {
+        "method": "KS F 2402 슬럼프 시험 (슬럼프 콘 300mm). 슬럼프 플로 지정 시 KS F 2594",
+        "timing": "콘크리트 반입 시 · 타설 개시 직전",
+        "frequency": "120㎥마다 1회 또는 타설일 1회 이상 (업무지침 2024-638호 개정 반영)",
+        "typicalAcceptance": "배합설계서 기준값 ±25mm (일반 150±25mm) — 실판정은 criteria.slump_general_150"
+      },
+      "relations": {
+        "targetMaterial": ["material.ready_mixed_concrete"],
+        "relatedWork": ["work.concrete_placement"],
+        "hasAcceptanceCriteria": ["criteria.slump_general_150"],
+        "possibleNonconformance": ["ncr.slump_too_high", "ncr.slump_too_low"],
+        "correctiveActions": ["action.hold_delivery", "action.retest", "action.reject_truck"],
+        "requiresEvidence": ["doc.site_test_record", "doc.delivery_ticket", "doc.site_photo"],
+        "requiresStandard": ["standard.ks_f_2402", "standard.kcs_14_20.10.3_2"]
+      }
+    },
+    {
+      "id": "test.air_content",
+      "type": "TestItem",
+      "name": "공기량 시험",
+      "aliases": ["공기량", "air content test"],
+      "meta": {
+        "method": "KS F 2421 압력법 공기량 시험",
+        "timing": "콘크리트 반입 시",
+        "frequency": "120㎥마다 1회 (업무지침 2024-638호 개정 반영)",
+        "typicalAcceptance": "보통 4.5%, 경량 5.5%, 포장 4.5%, 고강도 3.5% 이하 · 허용오차 ±1.5% (KCS 14 20 10)"
+      },
+      "relations": {
+        "targetMaterial": ["material.ready_mixed_concrete"],
+        "relatedWork": ["work.concrete_placement"],
+        "hasAcceptanceCriteria": [
+          "criteria.air_content_general",
+          "criteria.air_content_lightweight",
+          "criteria.air_content_pavement",
+          "criteria.air_content_high_strength"
+        ],
+        "possibleNonconformance": ["ncr.air_content_out_of_range"],
+        "correctiveActions": ["action.hold_delivery", "action.retest"],
+        "requiresEvidence": ["doc.site_test_record", "doc.delivery_ticket"],
+        "requiresStandard": ["standard.ks_f_2421", "standard.kcs_14_20.10.3_2"]
+      }
+    },
+    {
+      "id": "test.chloride",
+      "type": "TestItem",
+      "name": "염화물량 시험",
+      "aliases": ["염화물", "염분", "chloride test"],
+      "meta": {
+        "method": "KS F 2515 염화물 함유량 시험",
+        "timing": "콘크리트 반입 시",
+        "frequency": "120㎥마다 1회 (업무지침 2024-638호 개정 반영)",
+        "typicalAcceptance": "염소이온량(Cl⁻) 0.30 kg/㎥ 이하 (KCS 14 20 10)"
+      },
+      "relations": {
+        "targetMaterial": ["material.ready_mixed_concrete"],
+        "relatedWork": ["work.concrete_placement"],
+        "hasAcceptanceCriteria": ["criteria.chloride_limit_030"],
+        "possibleNonconformance": ["ncr.chloride_excess"],
+        "correctiveActions": ["action.reject_truck", "action.notify_quality_manager"],
+        "requiresEvidence": ["doc.site_test_record", "doc.delivery_ticket"],
+        "requiresStandard": ["standard.ks_f_2515", "standard.kcs_14_20.10.3_2"]
+      }
+    },
+    {
+      "id": "test.concrete_temperature",
+      "type": "TestItem",
+      "name": "콘크리트 온도 측정",
+      "aliases": ["콘크리트 온도", "타설 온도", "concrete temperature"],
+      "meta": {
+        "method": "현장 온도계 측정",
+        "timing": "콘크리트 반입 시 · 타설 중",
+        "frequency": "120㎥마다 1회 (업무지침 2024-638호 개정 반영)",
+        "typicalAcceptance": "일반 5℃~35℃ — 실판정은 criteria.concrete_temperature_general"
+      },
+      "relations": {
+        "targetMaterial": ["material.ready_mixed_concrete"],
+        "relatedWork": ["work.concrete_placement"],
+        "hasAcceptanceCriteria": ["criteria.concrete_temperature_general"],
+        "possibleNonconformance": ["ncr.concrete_temperature_out_of_range"],
+        "correctiveActions": ["action.hold_delivery", "action.notify_supervisor"],
+        "requiresEvidence": ["doc.site_test_record"],
+        "requiresStandard": ["standard.kcs_14_20.10"]
+      }
+    },
+    {
+      "id": "test.unit_water_content",
+      "type": "TestItem",
+      "name": "단위수량 시험",
+      "aliases": ["단위수량", "unit water content"],
+      "meta": {
+        "method": "KS F 2715 또는 고주파 가열법 등",
+        "timing": "콘크리트 반입 시",
+        "frequency": "1회/일, 120㎥마다 1회, 또는 배합이 변경될 때마다 (업무지침 2024-638호 신설)",
+        "typicalAcceptance": "배합설계서 단위수량 ±20 kg/㎥ (프로젝트별)",
+        "note": "2024-638호 개정으로 신규 편입된 시험 항목"
+      },
+      "relations": {
+        "targetMaterial": ["material.ready_mixed_concrete"],
+        "relatedWork": ["work.concrete_placement"],
+        "hasAcceptanceCriteria": ["criteria.unit_water_content_project"],
+        "requiresEvidence": ["doc.site_test_record", "doc.delivery_ticket", "doc.mix_design"],
+        "requiresStandard": ["standard.kcs_14_20.10.3_2"]
+      }
+    },
+    {
+      "id": "test.compressive_strength",
+      "type": "TestItem",
+      "name": "압축강도 시험",
+      "aliases": ["압축강도", "공시체 압축강도", "compressive strength"],
+      "meta": {
+        "method": "KS F 2403/2405 공시체 제작 및 압축강도 시험 (표준 양생). 레미콘은 KS F 4009, 비레미콘은 KCS 14 20 10 기준",
+        "timing": "타설 시 공시체 제작 → 재령 7일·28일 시험",
+        "frequency": "1회/일 및 120㎥마다 1회 이상 (재령별 3개씩, 업무지침 2024-638호 개정 반영)",
+        "typicalAcceptance": "표 3.5-3 통계 판정. ≤35MPa: 평균≥fcn AND 1회≥fcn-3.5MPa. >35MPa: 평균≥fcn AND 1회≥fcn×0.9. (R1 2026-04-28 통계 모드 도입)"
+      },
+      "relations": {
+        "targetMaterial": ["material.ready_mixed_concrete"],
+        "relatedWork": ["work.concrete_placement"],
+        "hasAcceptanceCriteria": [
+          "criteria.compressive_strength_statistical_le35",
+          "criteria.compressive_strength_statistical_gt35",
+          "criteria.compressive_strength_design"
+        ],
+        "possibleNonconformance": [
+          "ncr.compressive_strength_statistical_fail",
+          "ncr.low_compressive_strength"
+        ],
+        "correctiveActions": [
+          "action.core_sampling",
+          "action.non_destructive_test",
+          "action.structural_review",
+          "action.record_ncr"
+        ],
+        "requiresEvidence": [
+          "doc.specimen_record",
+          "doc.test_certificate",
+          "doc.mix_design",
+          "doc.delivery_ticket"
+        ],
+        "requiresStandard": ["standard.ks_f_2403", "standard.ks_f_2405", "standard.kcs_14_20.10.3_3", "standard.ks_f_4009"]
+      }
+    }
+  ]
+}

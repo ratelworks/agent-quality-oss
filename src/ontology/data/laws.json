@@ -1,0 +1,197 @@
+{
+  "_note": "한국 건설 품질관리 핵심 법령 시드. 원문 미포함, 조문 요약·식별자·법제처 링크만. 최신 개정본은 국가법령정보센터 확인 필수. 공공누리 유형 1.",
+  "_version": "2026-04-24",
+  "_source": "국가법령정보센터 (law.go.kr)",
+  "entities": [
+    {
+      "id": "standard.law.btia_55",
+      "type": "Standard",
+      "name": "건설기술 진흥법 §55 (건설공사의 품질관리)",
+      "aliases": ["건진법 §55", "건설기술진흥법 제55조"],
+      "meta": {
+        "category": "law",
+        "lawName": "건설기술 진흥법",
+        "articleNo": "55",
+        "scope": "건설업자·주택건설등록업자의 품질관리계획·품질시험계획 수립·시행 의무",
+        "legalWeight": "mandatory",
+        "basisType": "law",
+        "issuer": "국회 / 국토교통부",
+        "url": "https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EA%B1%B4%EC%84%A4%EA%B8%B0%EC%88%A0%EC%A7%84%ED%9D%A5%EB%B2%95"
+      }
+    },
+    {
+      "id": "standard.law.btia_56",
+      "type": "Standard",
+      "name": "건설기술 진흥법 §56 (건설자재·부재의 품질관리)",
+      "meta": {
+        "category": "law",
+        "lawName": "건설기술 진흥법",
+        "articleNo": "56",
+        "scope": "주요 건설자재·부재 생산자의 품질관리 · 검사시험 · 시정 명령",
+        "legalWeight": "mandatory",
+        "basisType": "law"
+      }
+    },
+    {
+      "id": "standard.law.btia_57",
+      "type": "Standard",
+      "name": "건설기술 진흥법 §57 (건설공사 품질관리 전문기관)",
+      "meta": {
+        "category": "law",
+        "lawName": "건설기술 진흥법",
+        "articleNo": "57",
+        "scope": "품질검사 대행 전문기관 지정·관리",
+        "legalWeight": "mandatory",
+        "basisType": "law"
+      }
+    },
+    {
+      "id": "standard.law.btia_60",
+      "type": "Standard",
+      "name": "건설기술 진흥법 §60 (품질검사의 대행 및 확인)",
+      "meta": {
+        "category": "law",
+        "lawName": "건설기술 진흥법",
+        "articleNo": "60",
+        "scope": "공인 시험기관 대행·봉인·확인 절차 (chain of custody 근거)",
+        "legalWeight": "mandatory",
+        "basisType": "law"
+      }
+    },
+    {
+      "id": "standard.law.btia_61",
+      "type": "Standard",
+      "name": "건설기술 진흥법 §61 (시정명령 등)",
+      "meta": {
+        "category": "law",
+        "lawName": "건설기술 진흥법",
+        "articleNo": "61",
+        "scope": "품질관리 위반 시 시정명령·공사중지·영업정지",
+        "legalWeight": "mandatory",
+        "basisType": "law"
+      }
+    },
+    {
+      "id": "standard.law.btia_decree_89",
+      "type": "Standard",
+      "name": "건설기술 진흥법 시행령 §89 (품질관리계획 수립 대상)",
+      "aliases": ["시행령 §89"],
+      "meta": {
+        "category": "decree",
+        "lawName": "건설기술 진흥법 시행령",
+        "articleNo": "89",
+        "scope": "총공사비 500억 원 이상·주요구조부 500㎡ 이상 등 품질관리계획 의무 대상",
+        "legalWeight": "mandatory",
+        "basisType": "decree"
+      }
+    },
+    {
+      "id": "standard.law.btia_decree_90",
+      "type": "Standard",
+      "name": "건설기술 진흥법 시행령 §90 (품질시험계획 수립 대상)",
+      "aliases": ["시행령 §90"],
+      "meta": {
+        "category": "decree",
+        "lawName": "건설기술 진흥법 시행령",
+        "articleNo": "90",
+        "scope": "품질관리계획 비대상 중 품질시험계획 수립 대상 (일반 현장)",
+        "legalWeight": "mandatory",
+        "basisType": "decree"
+      }
+    },
+    {
+      "id": "standard.law.btia_decree_91",
+      "type": "Standard",
+      "name": "건설기술 진흥법 시행령 §91 (품질관리비 산출·사용)",
+      "meta": {
+        "category": "decree",
+        "lawName": "건설기술 진흥법 시행령",
+        "articleNo": "91",
+        "scope": "품질관리비 산출 기준 및 용도 제한",
+        "legalWeight": "mandatory",
+        "basisType": "decree"
+      }
+    },
+    {
+      "id": "standard.law.btia_decree_93",
+      "type": "Standard",
+      "name": "건설기술 진흥법 시행령 §93 (기록의 보존)",
+      "meta": {
+        "category": "decree",
+        "lawName": "건설기술 진흥법 시행령",
+        "articleNo": "93",
+        "scope": "품질관리 기록물 장기 보존 의무 (하자담보기간 연동)",
+        "legalWeight": "mandatory",
+        "basisType": "decree"
+      }
+    },
+    {
+      "id": "standard.law.btia_rule_50",
+      "type": "Standard",
+      "name": "건설기술 진흥법 시행규칙 §50 (품질관리자 배치 기준)",
+      "aliases": ["시행규칙 §50"],
+      "meta": {
+        "category": "rule",
+        "lawName": "건설기술 진흥법 시행규칙",
+        "articleNo": "50",
+        "scope": "품질관리자 등급·배치 인원·자격",
+        "legalWeight": "mandatory",
+        "basisType": "rule"
+      }
+    },
+    {
+      "id": "standard.law.btia_rule_51",
+      "type": "Standard",
+      "name": "건설기술 진흥법 시행규칙 §51 (품질관리계획 이행점검)",
+      "aliases": ["시행규칙 §51"],
+      "meta": {
+        "category": "rule",
+        "lawName": "건설기술 진흥법 시행규칙",
+        "articleNo": "51",
+        "scope": "발주자의 품질관리계획 이행점검 절차 및 결과 통보 (별지 제43호 품질검사 성과 총괄표 근거 조항)",
+        "legalWeight": "mandatory",
+        "basisType": "rule"
+      }
+    },
+    {
+      "id": "standard.law.btia_rule_52",
+      "type": "Standard",
+      "name": "건설기술 진흥법 시행규칙 §52 (품질관리계획서 작성)",
+      "meta": {
+        "category": "rule",
+        "lawName": "건설기술 진흥법 시행규칙",
+        "articleNo": "52",
+        "scope": "품질관리계획서 구성·작성 방법",
+        "legalWeight": "mandatory",
+        "basisType": "rule"
+      }
+    },
+    {
+      "id": "standard.law.btia_rule_53",
+      "type": "Standard",
+      "name": "건설기술 진흥법 시행규칙 §53 (품질시험계획서 작성)",
+      "meta": {
+        "category": "rule",
+        "lawName": "건설기술 진흥법 시행규칙",
+        "articleNo": "53",
+        "scope": "품질시험계획서 구성·제출",
+        "legalWeight": "mandatory",
+        "basisType": "rule"
+      }
+    },
+    {
+      "id": "standard.law.cifa_28",
+      "type": "Standard",
+      "name": "건설산업기본법 §28 (건설공사의 하자담보책임)",
+      "aliases": ["건산법 §28"],
+      "meta": {
+        "category": "law",
+        "lawName": "건설산업기본법",
+        "articleNo": "28",
+        "scope": "공종별 하자담보책임 기간 (최대 10년, 일반 5년)",
+        "legalWeight": "mandatory",
+        "basisType": "law"
+      }
+    }
+  ]
+}

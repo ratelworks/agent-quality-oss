@@ -1,0 +1,37 @@
+# Dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Env / secrets
+.env
+.env.local
+.env.*.local
+*.key
+*.pem
+service-account*.json
+
+# Per-deployment config (deploy.example.json은 커밋, deploy.json은 사용자 환경)
+deploy.json
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+*.swp
+
+# Build / cache
+build/
+dist/
+coverage/
+.cache/
+*.log
+*.tsbuildinfo
+
+# Project-local (프로젝트별 현장문서 RAG 캐시)
+data/cache/
+data/embeddings-cache/

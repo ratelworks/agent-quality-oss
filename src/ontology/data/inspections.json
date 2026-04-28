@@ -1,0 +1,63 @@
+{
+  "entities": [
+    {
+      "id": "inspection.before_concrete_placement",
+      "type": "InspectionCheckpoint",
+      "name": "콘크리트 타설 전 검측",
+      "aliases": ["타설 전 검측", "타설 전 확인"],
+      "meta": { "stage": "before" },
+      "relations": {
+        "verifies": [
+          "risk.insufficient_compaction",
+          "risk.material_segregation"
+        ],
+        "isBasedOn": ["standard.kcs_14_20"],
+        "requiresEvidence": [
+          "doc.inspection_request",
+          "doc.site_photo",
+          "doc.structural_drawing"
+        ],
+        "relatedWork": ["work.concrete_placement"]
+      }
+    },
+    {
+      "id": "inspection.during_concrete_placement",
+      "type": "InspectionCheckpoint",
+      "name": "콘크리트 타설 중 검측",
+      "aliases": ["타설 중 검측", "타설 입회"],
+      "meta": { "stage": "during" },
+      "relations": {
+        "verifies": [
+          "risk.slump_out_of_range",
+          "risk.material_segregation",
+          "risk.cold_joint",
+          "risk.insufficient_compaction"
+        ],
+        "isBasedOn": ["standard.kcs_14_20", "standard.quality_management_guideline"],
+        "requiresEvidence": [
+          "doc.site_test_record",
+          "doc.delivery_ticket",
+          "doc.specimen_record",
+          "doc.site_photo"
+        ],
+        "relatedWork": ["work.concrete_placement"]
+      }
+    },
+    {
+      "id": "inspection.after_concrete_placement",
+      "type": "InspectionCheckpoint",
+      "name": "콘크리트 타설 후 검측",
+      "aliases": ["양생 검측", "타설 후 확인"],
+      "meta": { "stage": "after" },
+      "relations": {
+        "verifies": [
+          "risk.insufficient_curing",
+          "risk.low_compressive_strength"
+        ],
+        "isBasedOn": ["standard.kcs_14_20"],
+        "requiresEvidence": ["doc.site_photo", "doc.specimen_record", "doc.test_certificate"],
+        "relatedWork": ["work.concrete_placement"]
+      }
+    }
+  ]
+}

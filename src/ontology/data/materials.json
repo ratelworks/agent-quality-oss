@@ -1,0 +1,32 @@
+{
+  "entities": [
+    {
+      "id": "material.ready_mixed_concrete",
+      "type": "Material",
+      "name": "레미콘",
+      "aliases": ["ready-mixed concrete", "ready mixed concrete", "RMC", "기성 콘크리트"],
+      "meta": {
+        "category": "구조재"
+      },
+      "relations": {
+        "requiresTest": [
+          "test.slump",
+          "test.air_content",
+          "test.chloride",
+          "test.concrete_temperature",
+          "test.unit_water_content",
+          "test.compressive_strength"
+        ],
+        "requiresDocument": [
+          "doc.mix_design",
+          "doc.delivery_ticket",
+          "doc.test_certificate"
+        ],
+        "requiresStandard": [
+          "standard.ks_f_4009",
+          "standard.kcs_14_20"
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,69 @@
+{
+  "name": "agent-quality-oss-mcp",
+  "version": "0.1.0",
+  "description": "Open-source MCP server for Korean construction quality management. Ontology-based reasoning over KCS/KDS, Quality Management Guidelines, KS, and project documents. Provided by Hwangryong Construction Co., Ltd. / Developed by Ratelworks Inc.",
+  "type": "module",
+  "main": "build/index.js",
+  "types": "build/index.d.ts",
+  "bin": {
+    "agent-quality-oss-mcp": "build/index.js"
+  },
+  "scripts": {
+    "build": "tsc && npm run copy:data && chmod +x build/index.js",
+    "copy:data": "node -e \"import('node:fs/promises').then(async fs => { await fs.cp('src/ontology/data', 'build/ontology/data', { recursive: true }); await fs.cp('src/schemas/document-schemas.json', 'build/schemas/document-schemas.json'); })\"",
+    "dev": "tsx src/index.ts",
+    "dev:stdio": "tsx src/index.ts --stdio",
+    "start": "node build/index.js",
+    "start:stdio": "node build/index.js --stdio",
+    "typecheck": "tsc --noEmit",
+    "validate:ontology": "tsx scripts/validate-ontology.ts",
+    "smoke": "tsx scripts/smoke-test.ts",
+    "audit": "tsx scripts/audit-ontology.ts",
+    "coverage": "tsx scripts/coverage-matrix.ts",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "construction",
+    "quality-management",
+    "ontology",
+    "kcs",
+    "kds",
+    "korean-construction-standards",
+    "ratelworks"
+  ],
+  "author": {
+    "name": "Ratelworks Inc. (Director Hwang Ryong)",
+    "url": "https://ratelworks.co.kr"
+  },
+  "contributors": [
+    {
+      "name": "Hwangryong Construction Co., Ltd.",
+      "url": "https://ratelworks.co.kr"
+    }
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ratelworks/agent-quality-oss-mcp"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.29.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.9.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2"
+  },
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "files": [
+    "build",
+    "src/ontology/data",
+    "src/schemas/document-schemas.json",
+    "README.md",
+    "LICENSE"
+  ]
+}

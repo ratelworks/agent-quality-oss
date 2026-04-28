@@ -1,0 +1,190 @@
+{
+  "label": "r0baseline",
+  "generatedAt": "2026-04-28T02:01:28.387Z",
+  "scenarios": 13,
+  "passRate": 0.6153846153846154,
+  "falsePassRate": 0.07692307692307693,
+  "basisMisuseRate": 0.15384615384615385,
+  "errorRate": 0,
+  "nodeUtilizationRate": 0.659,
+  "graphCounts": {
+    "total": 138,
+    "byType": {
+      "AcceptanceCriteria": 9,
+      "Agency": 5,
+      "CorrectiveAction": 11,
+      "Equipment": 9,
+      "EvidenceDocument": 10,
+      "Standard": 55,
+      "InspectionCheckpoint": 3,
+      "Material": 1,
+      "Nonconformance": 9,
+      "QualityRisk": 9,
+      "Specification": 1,
+      "Task": 6,
+      "TestItem": 6,
+      "WorkType": 4
+    },
+    "byStatus": {
+      "verified": 24,
+      "indirect_source": 1,
+      "skeleton": 1,
+      "unknown": 112
+    },
+    "isolated": 44,
+    "referenced": 91,
+    "utilizationRate": 0.659
+  },
+  "perScenario": [
+    {
+      "id": "C01",
+      "tool": "evaluate_observation",
+      "pass": false,
+      "isFalsePass": false,
+      "basisHit": "all",
+      "basisMisuse": false,
+      "hitsCount": 0,
+      "actualVerdict": "PASS",
+      "details": [
+        "sourceStatus.worst=unknown < expected verified"
+      ]
+    },
+    {
+      "id": "C02",
+      "tool": "evaluate_observation",
+      "pass": true,
+      "isFalsePass": false,
+      "basisHit": "n/a",
+      "basisMisuse": false,
+      "hitsCount": 0,
+      "actualVerdict": "UNDETERMINED",
+      "details": []
+    },
+    {
+      "id": "C03",
+      "tool": "evaluate_observation",
+      "pass": false,
+      "isFalsePass": false,
+      "basisHit": "n/a",
+      "basisMisuse": false,
+      "hitsCount": 0,
+      "actualVerdict": "UNDETERMINED",
+      "details": [
+        "verdict mismatch: actual=UNDETERMINED, expected=FAIL"
+      ]
+    },
+    {
+      "id": "C04",
+      "tool": "evaluate_observation",
+      "pass": false,
+      "isFalsePass": false,
+      "basisHit": "n/a",
+      "basisMisuse": true,
+      "hitsCount": 0,
+      "actualVerdict": "UNDETERMINED",
+      "details": [
+        "verdict mismatch: actual=UNDETERMINED, expected=FAIL",
+        "⚠ 금지 basis 등장: [criteria.compressive_strength_design]"
+      ]
+    },
+    {
+      "id": "C05",
+      "tool": "discover_relevant_domain",
+      "pass": true,
+      "isFalsePass": false,
+      "basisHit": "n/a",
+      "basisMisuse": false,
+      "hitsCount": 0,
+      "details": []
+    },
+    {
+      "id": "C06",
+      "tool": "evaluate_observation",
+      "pass": false,
+      "isFalsePass": true,
+      "basisHit": "n/a",
+      "basisMisuse": true,
+      "hitsCount": 0,
+      "actualVerdict": "PASS",
+      "details": [
+        "verdict mismatch: actual=PASS, expected=UNDETERMINED",
+        "⚠ false PASS — 정답이 PASS가 아닌데 PASS로 처리",
+        "⚠ 금지 basis 등장: [criteria.concrete_temperature_general]"
+      ]
+    },
+    {
+      "id": "C07",
+      "tool": "evaluate_observation",
+      "pass": false,
+      "isFalsePass": false,
+      "basisHit": "n/a",
+      "basisMisuse": false,
+      "hitsCount": 0,
+      "actualVerdict": "UNDETERMINED",
+      "details": [
+        "verdict mismatch: actual=UNDETERMINED, expected=FAIL"
+      ]
+    },
+    {
+      "id": "C08",
+      "tool": "evaluate_observation",
+      "pass": true,
+      "isFalsePass": false,
+      "basisHit": "n/a",
+      "basisMisuse": false,
+      "hitsCount": 0,
+      "actualVerdict": "UNDETERMINED",
+      "details": []
+    },
+    {
+      "id": "C09",
+      "tool": "discover_relevant_domain",
+      "pass": true,
+      "isFalsePass": false,
+      "basisHit": "n/a",
+      "basisMisuse": false,
+      "hitsCount": 0,
+      "details": []
+    },
+    {
+      "id": "C10",
+      "tool": "search_construction_standards",
+      "pass": true,
+      "isFalsePass": false,
+      "basisHit": "n/a",
+      "basisMisuse": false,
+      "hitsCount": 0,
+      "details": []
+    },
+    {
+      "id": "C11",
+      "tool": "compile_ncr_references",
+      "pass": true,
+      "isFalsePass": false,
+      "basisHit": "all",
+      "basisMisuse": false,
+      "hitsCount": 0,
+      "details": []
+    },
+    {
+      "id": "C12",
+      "tool": "search_quality_ontology",
+      "pass": true,
+      "isFalsePass": false,
+      "basisHit": "n/a",
+      "basisMisuse": false,
+      "hitsCount": 0,
+      "details": []
+    },
+    {
+      "id": "C13",
+      "tool": "discover_relevant_domain",
+      "pass": true,
+      "isFalsePass": false,
+      "basisHit": "n/a",
+      "basisMisuse": false,
+      "hitsCount": 0,
+      "details": []
+    }
+  ]
+}

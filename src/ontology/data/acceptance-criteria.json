@@ -1,0 +1,249 @@
+{
+  "_note": "기준값(criterion).operator는 judgment 엔진이 소비한다. 'between' = [min, max] 포함 범위, 'tolerance' = {target, plusMinus}. fallbackToProject=true면 프로젝트 문서(배합설계서/시방서) 우선. meta.sourceStatus = verified | indirect_source | skeleton — verify_quality_basis 게이트 입력.",
+  "entities": [
+    {
+      "id": "criteria.slump_general_150",
+      "type": "AcceptanceCriteria",
+      "name": "슬럼프 호칭값 150 → 허용오차 ±25mm",
+      "aliases": ["슬럼프 150"],
+      "meta": {
+        "operator": "tolerance",
+        "target": 150,
+        "plusMinus": 25,
+        "unit": "mm",
+        "condition": "호칭 슬럼프 80mm 이상의 허용오차 ±25mm 적용 (목표 슬럼프 150은 RC 일반 표 2.2-5 상한). 배합설계서에서 다른 목표 슬럼프 지정 시 그쪽 우선",
+        "fallbackToProject": true,
+        "reference": "KCS 14 20 10 §1.7.3 표 1.7-2 (허용오차) + §2.2.7 표 2.2-5 (표준값)",
+        "sourceStatus": "verified",
+        "verifiedAgainst": "evaluation/sources/kcs_14_20_01.txt L1573-1605, L2444-2470",
+        "note": "v0.1 reference '§3.2'는 운반 조항이라 오인용. 정정 완료 (2026-04-28 R0-G1)"
+      },
+      "relations": {
+        "appliesTo": ["test.slump"],
+        "derivedFrom": [
+          "standard.kcs_14_20.10.1_7_3",
+          "standard.kcs_14_20.10.2_2_7",
+          "standard.ks_f_2402"
+        ]
+      }
+    },
+    {
+      "id": "criteria.air_content_general",
+      "type": "AcceptanceCriteria",
+      "name": "공기량 보통 콘크리트 4.5±1.5%",
+      "meta": {
+        "operator": "tolerance",
+        "target": 4.5,
+        "plusMinus": 1.5,
+        "unit": "%",
+        "condition": "보통(일반) 콘크리트 (AE제 사용 시)",
+        "fallbackToProject": true,
+        "reference": "KCS 14 20 10 §1.7.4 (1)",
+        "sourceStatus": "verified",
+        "verifiedAgainst": "evaluation/sources/kcs_14_20_01.txt L1610",
+        "note": "v0.1 reference '표 1.7-3'은 슬럼프 플로 허용오차표라 완전 오인용. §1.7.4(1)이 정확 출처 (2026-04-28 R0-G1)"
+      },
+      "relations": {
+        "appliesTo": ["test.air_content"],
+        "derivedFrom": ["standard.kcs_14_20.10.1_7_4", "standard.ks_f_2421"]
+      }
+    },
+    {
+      "id": "criteria.air_content_lightweight",
+      "type": "AcceptanceCriteria",
+      "name": "공기량 경량 콘크리트 5.5±1.5%",
+      "meta": {
+        "operator": "tolerance",
+        "target": 5.5,
+        "plusMinus": 1.5,
+        "unit": "%",
+        "condition": "경량 콘크리트",
+        "fallbackToProject": true,
+        "reference": "KCS 14 20 10 §1.7.4 (1)",
+        "sourceStatus": "verified",
+        "verifiedAgainst": "evaluation/sources/kcs_14_20_01.txt L1610"
+      },
+      "relations": {
+        "appliesTo": ["test.air_content"],
+        "derivedFrom": ["standard.kcs_14_20.10.1_7_4", "standard.ks_f_2421"]
+      }
+    },
+    {
+      "id": "criteria.air_content_pavement",
+      "type": "AcceptanceCriteria",
+      "name": "공기량 포장 콘크리트 4.5±1.5%",
+      "meta": {
+        "operator": "tolerance",
+        "target": 4.5,
+        "plusMinus": 1.5,
+        "unit": "%",
+        "condition": "포장 콘크리트",
+        "fallbackToProject": true,
+        "reference": "KCS 14 20 10 §1.7.4 (1)",
+        "sourceStatus": "verified",
+        "verifiedAgainst": "evaluation/sources/kcs_14_20_01.txt L1610"
+      },
+      "relations": {
+        "appliesTo": ["test.air_content"],
+        "derivedFrom": ["standard.kcs_14_20.10.1_7_4", "standard.ks_f_2421"]
+      }
+    },
+    {
+      "id": "criteria.air_content_high_strength",
+      "type": "AcceptanceCriteria",
+      "name": "공기량 고강도 콘크리트 3.5% 이하 ±1.5%",
+      "meta": {
+        "operator": "tolerance",
+        "target": 3.5,
+        "plusMinus": 1.5,
+        "unit": "%",
+        "condition": "고강도 콘크리트 — 목표 3.5% 이하에서 허용오차 적용",
+        "fallbackToProject": true,
+        "reference": "KCS 14 20 10 §1.7.4 (1)",
+        "sourceStatus": "verified",
+        "verifiedAgainst": "evaluation/sources/kcs_14_20_01.txt L1610"
+      },
+      "relations": {
+        "appliesTo": ["test.air_content"],
+        "derivedFrom": ["standard.kcs_14_20.10.1_7_4", "standard.ks_f_2421"]
+      }
+    },
+    {
+      "id": "criteria.chloride_limit_030",
+      "type": "AcceptanceCriteria",
+      "name": "염화물 이온 0.30 kg/㎥ 이하",
+      "aliases": ["염화물 0.3"],
+      "meta": {
+        "operator": "le",
+        "threshold": 0.30,
+        "unit": "kg/㎥",
+        "condition": "굳지 않은 콘크리트 중 염소이온량(Cl-) 원칙. 책임기술자 승인 시 0.60 kg/㎥까지 상향 가능 — §1.8.1(4)",
+        "fallbackToProject": true,
+        "reference": "KCS 14 20 10 §1.8.1 (2)",
+        "sourceStatus": "verified",
+        "verifiedAgainst": "evaluation/sources/kcs_14_20_01.txt L1614-1632",
+        "note": "v0.1 reference '§3.2, KS F 2515'는 §3.2가 운반조항이라 오인용. KS F 2515는 시험법이지 기준 출처 아님. §1.8.1(2)이 정확 (2026-04-28 R0-G1)"
+      },
+      "relations": {
+        "appliesTo": ["test.chloride"],
+        "derivedFrom": ["standard.kcs_14_20.10.1_8_1", "standard.ks_f_2515"]
+      }
+    },
+    {
+      "id": "criteria.concrete_temperature_general",
+      "type": "AcceptanceCriteria",
+      "name": "콘크리트 온도 5℃~35℃ (출처 미확정)",
+      "meta": {
+        "operator": "between",
+        "min": 5,
+        "max": 35,
+        "unit": "℃",
+        "condition": "한중 5℃ 이상(KCS 14 20 40), 서중 35℃ 이하(KCS 14 20 41) 별도 기준 존재. 일반 5~35 범위 출처는 KCS 14 20 10 본문에서 직접 미발견",
+        "fallbackToProject": true,
+        "reference": "범위 출처 미확정 — 한중·서중 임계값을 거꾸로 결합한 추론값일 가능성. R6 WorkType 분기 시 한중/서중 별도 criteria로 분리 권장",
+        "sourceStatus": "skeleton",
+        "verifiedAgainst": null,
+        "referenceVerified": false,
+        "note": "v0.1 reference 'KCS 14 20 10' 일반 인용. 본문 1:1 대조 결과 5~35 범위 직접 명시 미발견. R6에서 한중·서중 분리 후 본 노드 폐기 또는 derivedFrom 정정 (2026-04-28 R0-G1)"
+      },
+      "relations": {
+        "appliesTo": ["test.concrete_temperature"],
+        "derivedFrom": ["standard.kcs_14_20.10"]
+      }
+    },
+    {
+      "id": "criteria.unit_water_content_project",
+      "type": "AcceptanceCriteria",
+      "name": "단위수량 배합설계서 기준 ±20 kg/㎥ (업계 관행)",
+      "aliases": ["단위수량 허용차"],
+      "meta": {
+        "operator": "tolerance",
+        "target": null,
+        "plusMinus": 20,
+        "unit": "kg/㎥",
+        "condition": "목표 단위수량은 배합설계서 기준값 주입 필요. ±20 kg/㎥ 허용차는 업계 관행 + KCS 14 20 10 §1.9.1(4) 단위수량 185 kg/m³ 상한 제약",
+        "fallbackToProject": true,
+        "note": "target은 프로젝트 배합설계서에서 주입. 글로벌 온톨로지는 허용차 체계만 제공. 업무지침 2024-638호 인용은 호수 검증 미실시",
+        "reference": "KCS 14 20 10 §1.9.1 (4) (단위수량 185 kg/m³ 상한) + 업계 관행 ±20 kg/㎥",
+        "sourceStatus": "indirect_source",
+        "referenceVerified": false,
+        "verifiedAgainst": "evaluation/sources/kcs_14_20_01.txt L1652-1660 부분 확인",
+        "verificationNote": "업무지침 2024-638호 호수 검증 필요. 표 3.5-2(받아들이기 검사)에 단위수량 항목 존재하나 ±20 kg/㎥ 허용차는 업계 관행으로 표기"
+      },
+      "relations": {
+        "appliesTo": ["test.unit_water_content"],
+        "derivedFrom": ["standard.kcs_14_20.10", "standard.guideline.part2_art5"]
+      }
+    },
+    {
+      "id": "criteria.compressive_strength_design",
+      "type": "AcceptanceCriteria",
+      "name": "압축강도 호칭강도품질기준강도 이상 (단순 ge — deprecated v0.2)",
+      "aliases": ["fck 이상 단순"],
+      "meta": {
+        "operator": "ge",
+        "threshold": null,
+        "unit": "MPa",
+        "condition": "DEPRECATED — R1 통계 모드 도입 후 criteria.compressive_strength_statistical_le35 / _gt35 우선 적용. 본 criterion은 backward-compat용. fcn 주입 시 단순 1회 비교만 수행.",
+        "fallbackToProject": true,
+        "note": "R1 (2026-04-28) 이후 evaluator는 statistical criterion을 우선 선택. 본 criterion은 forbiddenBasisIds로 audit 시나리오에서 사용.",
+        "reference": "KCS 14 20 10 §1.8.2 (재령 28일 기준 — 통계 판정은 §3.5.3.2 statistical criterion 사용)",
+        "sourceStatus": "verified",
+        "verifiedAgainst": "evaluation/sources/kcs_14_20_01.txt L1634-1652",
+        "referenceVerified": true,
+        "deprecated": true,
+        "supersededBy": ["criteria.compressive_strength_statistical_le35", "criteria.compressive_strength_statistical_gt35"]
+      },
+      "relations": {
+        "appliesTo": ["test.compressive_strength"],
+        "derivedFrom": ["standard.kcs_14_20.10.1_8_2", "standard.ks_f_2405", "standard.ks_f_2403"]
+      }
+    },
+    {
+      "id": "criteria.compressive_strength_statistical_le35",
+      "type": "AcceptanceCriteria",
+      "name": "압축강도 통계 판정 — 호칭강도 ≤ 35MPa (표 3.5-3)",
+      "aliases": ["압축강도 35이하 통계", "통계 le35"],
+      "meta": {
+        "operator": "statistical_threshold",
+        "statisticalRule": "le35",
+        "threshold": null,
+        "unit": "MPa",
+        "condition": "호칭강도품질기준강도 fcn ≤ 35MPa: ① 연속 3회 시험값의 평균 ≥ fcn AND ② 1회 시험값 ≥ fcn - 3.5MPa. 단일 시험값 입력 시 ② 기준만 적용 (partial verdict).",
+        "fallbackToProject": true,
+        "note": "fcn = max(fck, 내구성기준강도). observation 텍스트에서 'fck N' / 'fcn N' / '호칭강도 N' 패턴 자동 추출. R6 Glossary 도입 후 용어 노드 ref 예정.",
+        "reference": "KCS 14 20 10 §3.5.3.2 표 3.5-3 (≤35MPa 판정기준)",
+        "sourceStatus": "verified",
+        "verifiedAgainst": "evaluation/sources/kcs_14_20_01.txt L3274-3294",
+        "referenceVerified": true
+      },
+      "relations": {
+        "appliesTo": ["test.compressive_strength"],
+        "derivedFrom": ["standard.kcs_14_20.10.3_5_3_2", "standard.kcs_14_20.10.1_8_2", "standard.ks_f_2405"]
+      }
+    },
+    {
+      "id": "criteria.compressive_strength_statistical_gt35",
+      "type": "AcceptanceCriteria",
+      "name": "압축강도 통계 판정 — 호칭강도 > 35MPa (표 3.5-3)",
+      "aliases": ["압축강도 35초과 통계", "통계 gt35", "고강도 통계"],
+      "meta": {
+        "operator": "statistical_threshold",
+        "statisticalRule": "gt35",
+        "threshold": null,
+        "unit": "MPa",
+        "condition": "호칭강도품질기준강도 fcn > 35MPa: ① 연속 3회 시험값의 평균 ≥ fcn AND ② 1회 시험값 ≥ fcn × 90%. 단일 시험값 입력 시 ② 기준만 적용 (partial verdict).",
+        "fallbackToProject": true,
+        "note": "고강도 콘크리트 fcn ≥ 40MPa 통상 적용. KCS 14 20 42(고강도) 별도 작업 R7에서.",
+        "reference": "KCS 14 20 10 §3.5.3.2 표 3.5-3 (>35MPa 판정기준)",
+        "sourceStatus": "verified",
+        "verifiedAgainst": "evaluation/sources/kcs_14_20_01.txt L3274-3294",
+        "referenceVerified": true
+      },
+      "relations": {
+        "appliesTo": ["test.compressive_strength"],
+        "derivedFrom": ["standard.kcs_14_20.10.3_5_3_2", "standard.kcs_14_20.10.1_8_2", "standard.ks_f_2405"]
+      }
+    }
+  ]
+}
