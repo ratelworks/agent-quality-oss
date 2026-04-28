@@ -1,0 +1,97 @@
+{
+  "entities": [
+    {
+      "id": "risk.slump_out_of_range",
+      "type": "QualityRisk",
+      "name": "슬럼프 기준 이탈",
+      "aliases": ["슬럼프 초과", "슬럼프 미달"],
+      "meta": { "severity": "high" },
+      "relations": {
+        "mayCause": ["ncr.slump_too_high", "ncr.slump_too_low"],
+        "relatedTest": ["test.slump"]
+      }
+    },
+    {
+      "id": "risk.material_segregation",
+      "type": "QualityRisk",
+      "name": "재료분리",
+      "aliases": ["blocks", "pouring segregation"],
+      "meta": { "severity": "high" },
+      "relations": {
+        "mayCause": ["ncr.honeycomb"]
+      }
+    },
+    {
+      "id": "risk.cold_joint",
+      "type": "QualityRisk",
+      "name": "콜드조인트",
+      "aliases": ["시공이음", "cold joint", "이어치기 불량"],
+      "meta": { "severity": "high" },
+      "relations": {
+        "mayCause": ["ncr.cold_joint"]
+      }
+    },
+    {
+      "id": "risk.insufficient_compaction",
+      "type": "QualityRisk",
+      "name": "다짐 불량",
+      "aliases": ["바이브레이터 부족", "다짐 미흡"],
+      "meta": { "severity": "medium" },
+      "relations": {
+        "mayCause": ["ncr.honeycomb", "ncr.low_compressive_strength"]
+      }
+    },
+    {
+      "id": "risk.insufficient_curing",
+      "type": "QualityRisk",
+      "name": "양생 불량",
+      "aliases": ["양생 미흡", "건조 균열"],
+      "meta": { "severity": "medium" },
+      "relations": {
+        "mayCause": ["ncr.low_compressive_strength", "ncr.surface_crack"]
+      }
+    },
+    {
+      "id": "risk.low_compressive_strength",
+      "type": "QualityRisk",
+      "name": "압축강도 부족",
+      "aliases": ["강도 부족"],
+      "meta": { "severity": "high" },
+      "relations": {
+        "mayCause": ["ncr.low_compressive_strength"],
+        "relatedTest": ["test.compressive_strength"]
+      }
+    },
+    {
+      "id": "risk.chloride_contamination",
+      "type": "QualityRisk",
+      "name": "염화물 함유량 이탈",
+      "aliases": ["염분 초과", "철근 부식 리스크"],
+      "meta": { "severity": "high" },
+      "relations": {
+        "mayCause": ["ncr.chloride_excess"],
+        "relatedTest": ["test.chloride"]
+      }
+    },
+    {
+      "id": "risk.air_content_deviation",
+      "type": "QualityRisk",
+      "name": "공기량 기준 이탈",
+      "meta": { "severity": "medium" },
+      "relations": {
+        "mayCause": ["ncr.air_content_out_of_range"],
+        "relatedTest": ["test.air_content"]
+      }
+    },
+    {
+      "id": "risk.concrete_temperature_deviation",
+      "type": "QualityRisk",
+      "name": "콘크리트 온도 기준 이탈",
+      "meta": { "severity": "medium" },
+      "relations": {
+        "mayCause": ["ncr.concrete_temperature_out_of_range"],
+        "relatedTest": ["test.concrete_temperature"]
+      }
+    }
+  ]
+}

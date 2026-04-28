@@ -1,0 +1,2607 @@
+[
+  {
+    "id": "S01",
+    "persona": "김신입",
+    "context": "현장 도착해서 슬래브 타설 검측 들어가는데 뭘 봐야 하는지 막막함",
+    "intent": "검측 항목 전체 길잡이",
+    "tool": "discover_relevant_domain",
+    "args": {
+      "situation": "내일 슬래브 콘크리트 타설인데 처음이라 뭘 준비해야 할지 모르겠어요",
+      "maxResults": 8
+    },
+    "ms": 2,
+    "response": {
+      "result": {
+        "situation": "내일 슬래브 콘크리트 타설인데 처음이라 뭘 준비해야 할지 모르겠어요",
+        "domainPackage": {
+          "WorkType": [
+            {
+              "id": "work.concrete_placement",
+              "name": "콘크리트 타설",
+              "score": 0.476
+            }
+          ],
+          "Material": [
+            {
+              "id": "material.ready_mixed_concrete",
+              "name": "레미콘",
+              "score": 0.5
+            }
+          ],
+          "TestItem": [
+            {
+              "id": "test.slump",
+              "name": "슬럼프 시험",
+              "score": 0.4
+            },
+            {
+              "id": "test.air_content",
+              "name": "공기량 시험",
+              "score": 0.4
+            },
+            {
+              "id": "test.chloride",
+              "name": "염화물량 시험",
+              "score": 0.4
+            },
+            {
+              "id": "test.concrete_temperature",
+              "name": "콘크리트 온도 측정",
+              "score": 0.4
+            },
+            {
+              "id": "test.unit_water_content",
+              "name": "단위수량 시험",
+              "score": 0.4
+            },
+            {
+              "id": "test.compressive_strength",
+              "name": "압축강도 시험",
+              "score": 0.4
+            }
+          ],
+          "InspectionCheckpoint": [
+            {
+              "id": "inspection.before_concrete_placement",
+              "name": "콘크리트 타설 전 검측",
+              "score": 0.5
+            },
+            {
+              "id": "inspection.during_concrete_placement",
+              "name": "콘크리트 타설 중 검측",
+              "score": 0.5
+            },
+            {
+              "id": "inspection.after_concrete_placement",
+              "name": "콘크리트 타설 후 검측",
+              "score": 0.5
+            }
+          ],
+          "AcceptanceCriteria": [
+            {
+              "id": "criteria.slump_general_150",
+              "name": "슬럼프 일반 150±25mm",
+              "score": 0.3
+            },
+            {
+              "id": "criteria.air_content_general",
+              "name": "공기량 보통 콘크리트 4.5±1.5%",
+              "score": 0.3
+            },
+            {
+              "id": "criteria.air_content_lightweight",
+              "name": "공기량 경량 콘크리트 5.5±1.5%",
+              "score": 0.3
+            },
+            {
+              "id": "criteria.air_content_pavement",
+              "name": "공기량 포장 콘크리트 4.5±1.5%",
+              "score": 0.3
+            },
+            {
+              "id": "criteria.air_content_high_strength",
+              "name": "공기량 고강도 콘크리트 3.5% 이하 ±1.5%",
+              "score": 0.3
+            },
+            {
+              "id": "criteria.chloride_limit_030",
+              "name": "염화물 이온 0.30 kg/㎥ 이하",
+              "score": 0.3
+            },
+            {
+              "id": "criteria.concrete_temperature_general",
+              "name": "콘크리트 온도 5℃~35℃",
+              "score": 0.3
+            },
+            {
+              "id": "criteria.unit_water_content_project",
+              "name": "단위수량 배합설계서 기준 ±20 kg/㎥",
+              "score": 0.3
+            }
+          ],
+          "QualityRisk": [
+            {
+              "id": "risk.slump_out_of_range",
+              "name": "슬럼프 기준 이탈",
+              "score": 0.5
+            },
+            {
+              "id": "risk.air_content_deviation",
+              "name": "공기량 기준 이탈",
+              "score": 0.5
+            },
+            {
+              "id": "risk.chloride_contamination",
+              "name": "염화물 함유량 이탈",
+              "score": 0.5
+            },
+            {
+              "id": "risk.concrete_temperature_deviation",
+              "name": "콘크리트 온도 기준 이탈",
+              "score": 0.5
+            },
+            {
+              "id": "risk.material_segregation",
+              "name": "재료분리",
+              "score": 0.5
+            },
+            {
+              "id": "risk.cold_joint",
+              "name": "콜드조인트",
+              "score": 0.5
+            },
+            {
+              "id": "risk.insufficient_compaction",
+              "name": "다짐 불량",
+              "score": 0.5
+            },
+            {
+              "id": "risk.insufficient_curing",
+              "name": "양생 불량",
+              "score": 0.5
+            },
+            {
+              "id": "risk.low_compressive_strength",
+              "name": "압축강도 부족",
+              "score": 0.5
+            }
+          ],
+          "Nonconformance": [],
+          "Standard": [
+            {
+              "id": "standard.kcs_14_20",
+              "name": "KCS 14 20 콘크리트공사",
+              "score": 0.5
+            },
+            {
+              "id": "standard.quality_management_guideline",
+              "name": "건설공사 품질관리 업무지침",
+              "score": 0.5
+            }
+          ]
+        },
+        "primaryWorkType": {
+          "id": "work.concrete_placement",
+          "name": "콘크리트 타설",
+          "neighborhood": {
+            "hasTask": [
+              {
+                "id": "task.concrete_pour_slab",
+                "name": "슬래브 콘크리트 타설"
+              },
+              {
+                "id": "task.concrete_pour_foundation",
+                "name": "기초 콘크리트 타설"
+              },
+              {
+                "id": "task.concrete_pour_wall",
+                "name": "벽체 콘크리트 타설"
+              },
+              {
+                "id": "task.concrete_curing",
+                "name": "콘크리트 양생"
+              }
+            ],
+            "usesMaterial": [
+              {
+                "id": "material.ready_mixed_concrete",
+                "name": "레미콘"
+              }
+            ],
+            "hasInspectionCheckpoint": [
+              {
+                "id": "inspection.before_concrete_placement",
+                "name": "콘크리트 타설 전 검측"
+              },
+              {
+                "id": "inspection.during_concrete_placement",
+                "name": "콘크리트 타설 중 검측"
+              },
+              {
+                "id": "inspection.after_concrete_placement",
+                "name": "콘크리트 타설 후 검측"
+              }
+            ],
+            "hasQualityRisk": [
+              {
+                "id": "risk.slump_out_of_range",
+                "name": "슬럼프 기준 이탈"
+              },
+              {
+                "id": "risk.air_content_deviation",
+                "name": "공기량 기준 이탈"
+              },
+              {
+                "id": "risk.chloride_contamination",
+                "name": "염화물 함유량 이탈"
+              },
+              {
+                "id": "risk.concrete_temperature_deviation",
+                "name": "콘크리트 온도 기준 이탈"
+              },
+              {
+                "id": "risk.material_segregation",
+                "name": "재료분리"
+              },
+              {
+                "id": "risk.cold_joint",
+                "name": "콜드조인트"
+              },
+              {
+                "id": "risk.insufficient_compaction",
+                "name": "다짐 불량"
+              },
+              {
+                "id": "risk.insufficient_curing",
+                "name": "양생 불량"
+              },
+              {
+                "id": "risk.low_compressive_strength",
+                "name": "압축강도 부족"
+              }
+            ],
+            "requiresStandard": [
+              {
+                "id": "standard.kcs_14_20",
+                "name": "KCS 14 20 콘크리트공사"
+              },
+              {
+                "id": "standard.quality_management_guideline",
+                "name": "건설공사 품질관리 업무지침"
+              }
+            ]
+          }
+        },
+        "expertGuidance": [
+          "공종 \"콘크리트 타설\"이 식별됨. 베테랑 시각: 자재·시험·검측·법령을 동시에 확인하라.",
+          "관련 표준·법령 발견 — verify_form_reference로 인용 정확성 검증"
+        ]
+      },
+      "basis": [
+        {
+          "type": "ontology",
+          "id": "work.concrete_placement",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "task.concrete_pour_slab",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "task.concrete_pour_foundation",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "task.concrete_pour_wall",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "task.concrete_curing",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "material.ready_mixed_concrete",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "inspection.before_concrete_placement",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "inspection.during_concrete_placement",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "inspection.after_concrete_placement",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "risk.slump_out_of_range",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "risk.air_content_deviation",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "risk.chloride_contamination",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "risk.concrete_temperature_deviation",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "risk.material_segregation",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "risk.cold_joint",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "risk.insufficient_compaction",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "risk.insufficient_curing",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "risk.low_compressive_strength",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "standard.kcs_14_20",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "standard.quality_management_guideline",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "test.slump",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "test.air_content",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "test.chloride",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "test.concrete_temperature",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "test.unit_water_content",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "test.compressive_strength",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "criteria.slump_general_150",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "criteria.air_content_general",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "criteria.air_content_lightweight",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "criteria.air_content_pavement",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "criteria.air_content_high_strength",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "criteria.chloride_limit_030",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "criteria.concrete_temperature_general",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "criteria.unit_water_content_project",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "criteria.compressive_strength_design",
+          "priority": 1
+        }
+      ],
+      "humanCheckpoint": {
+        "required": false,
+        "reason": null,
+        "legalNote": "본 서버는 **근거 제공용**이며 최종 판정과 법적 책임은 품질관리자·감리원·발주자에게 있다. Tool 출력을 법적 조언·확정 결과로 취급하지 말 것."
+      },
+      "nextSteps": [
+        {
+          "tool": "compile_concrete_pour_references",
+          "reason": "콘크리트 타설 1회 도메인 재료 패키지"
+        },
+        {
+          "tool": "compile_inspection_references",
+          "reason": "\"콘크리트 타설\" 검측 입회 재료 패키지"
+        },
+        {
+          "tool": "list_core_quality_laws",
+          "reason": "관련 법령 목록"
+        }
+      ],
+      "lineage": {
+        "toolName": "discover_relevant_domain",
+        "toolCallId": "cfa80398-5742-4b69-859b-88a3954ba11b",
+        "ontologyVersion": "0.1.0",
+        "generatedAt": "2026-04-25T08:06:25.386Z",
+        "contentHashAlgo": "sha256",
+        "contentHash": "d6ff1cff9eb17d4ca64d280ca6f0381e5ed7879bfd6b87d6604f235d58f72c3e"
+      }
+    }
+  },
+  {
+    "id": "S02",
+    "persona": "김신입",
+    "context": "슬럼프 시험 결과 200mm 나옴 - 기준 초과로 의심",
+    "intent": "관측값 1건 즉시 평가",
+    "tool": "evaluate_observation",
+    "args": {
+      "observation": "슬럼프 200mm",
+      "testId": "test.slump"
+    },
+    "ms": 1,
+    "response": {
+      "result": {
+        "expertAssessment": {
+          "observation": "슬럼프 200mm",
+          "applicableCriterion": "150 ± 25 mm (KCS 14 20 10 §3.2)",
+          "criterionId": "criteria.slump_general_150",
+          "observedValue": 200,
+          "observedUnit": "mm",
+          "comparison": "200mm > 허용상한 175mm",
+          "legalVerdict": "FAIL",
+          "qualitySignal": "out_of_range_high",
+          "verdict": "FAIL",
+          "direction": "too_high",
+          "expertContext": "베테랑 시각: 운반 지연·가수·혼화제 과다 의심. 납품서·배합설계 재확인 우선.",
+          "marginalWarning": null,
+          "candidateNonconformance": [
+            {
+              "id": "ncr.slump_too_high",
+              "name": "슬럼프 기준 초과",
+              "direction": "too_high"
+            }
+          ],
+          "suggestedNextSteps": [
+            "compile_ncr_references(ncrId='ncr.slump_too_high') 호출해 NCR 작성 재료 수집",
+            "현장 증빙(납품서·배합설계서·시험기록·사진) 확보",
+            "감리원 결재 요청"
+          ],
+          "legalBasis": [
+            "standard.kcs_14_20.10.3_2"
+          ],
+          "judgmentEngineNote": "legalVerdict(법적 합부) ≠ qualitySignal(도메인 경계 신호). MARGINAL은 합부 판정에서 분리 — legalVerdict=PASS이지만 qualitySignal=marginal. UNDETERMINED는 판정 불가(수동). 본 expertAssessment는 LLM이 최종 판정을 작성할 재료."
+        }
+      },
+      "basis": [
+        {
+          "type": "ontology",
+          "id": "criteria.slump_general_150",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "test.slump",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "standard.kcs_14_20.10.3_2",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "ncr.slump_too_high",
+          "priority": 1
+        }
+      ],
+      "humanCheckpoint": {
+        "required": true,
+        "reason": "부적합 판정 후보 — NCR 작성 + 감리 결재 필요",
+        "legalNote": "본 서버는 **근거 제공용**이며 최종 판정과 법적 책임은 품질관리자·감리원·발주자에게 있다. Tool 출력을 법적 조언·확정 결과로 취급하지 말 것."
+      },
+      "nextSteps": [
+        {
+          "tool": "compile_ncr_references",
+          "reason": "FAIL 판정 시 NCR 작성 재료 수집"
+        }
+      ],
+      "lineage": {
+        "toolName": "evaluate_observation",
+        "toolCallId": "93210004-ea02-4195-9a3a-9a334e6a5679",
+        "ontologyVersion": "0.1.0",
+        "generatedAt": "2026-04-25T08:06:25.387Z",
+        "contentHashAlgo": "sha256",
+        "contentHash": "c8f9dc99cc1bab1c5918d6d341db2f37dc3c8812253a4b4f3b8561a6427b122d"
+      }
+    }
+  },
+  {
+    "id": "S03",
+    "persona": "김신입",
+    "context": "레미콘 도착하니 송장에 \"공기량 7.5%\"라고 적힘",
+    "intent": "관측값 평가 — 단위/기준 모름",
+    "tool": "evaluate_observation",
+    "args": {
+      "observation": "공기량 7.5%",
+      "testId": "test.air_content"
+    },
+    "ms": 0,
+    "response": {
+      "result": {
+        "expertAssessment": {
+          "observation": "공기량 7.5%",
+          "applicableCriterion": "4.5 ± 1.5 % (KCS 14 20 10 §3.2 표 1.7-3)",
+          "criterionId": "criteria.air_content_general",
+          "observedValue": 7.5,
+          "observedUnit": "%",
+          "comparison": "7.5% > 허용상한 6%",
+          "legalVerdict": "FAIL",
+          "qualitySignal": "out_of_range_high",
+          "verdict": "FAIL",
+          "direction": "too_high",
+          "expertContext": "베테랑 시각: AE제 투입량·배합 변경·운반 중 공기량 손실 의심.",
+          "marginalWarning": null,
+          "candidateNonconformance": [
+            {
+              "id": "ncr.air_content_out_of_range",
+              "name": "공기량 기준 이탈",
+              "direction": "out_of_range"
+            }
+          ],
+          "suggestedNextSteps": [
+            "compile_ncr_references(ncrId='ncr.air_content_out_of_range') 호출해 NCR 작성 재료 수집",
+            "현장 증빙(납품서·배합설계서·시험기록·사진) 확보",
+            "감리원 결재 요청"
+          ],
+          "legalBasis": [
+            "standard.kcs_14_20.10.3_2",
+            "standard.ks_f_2421"
+          ],
+          "judgmentEngineNote": "legalVerdict(법적 합부) ≠ qualitySignal(도메인 경계 신호). MARGINAL은 합부 판정에서 분리 — legalVerdict=PASS이지만 qualitySignal=marginal. UNDETERMINED는 판정 불가(수동). 본 expertAssessment는 LLM이 최종 판정을 작성할 재료."
+        }
+      },
+      "basis": [
+        {
+          "type": "ontology",
+          "id": "criteria.air_content_general",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "test.air_content",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "standard.kcs_14_20.10.3_2",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "standard.ks_f_2421",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "ncr.air_content_out_of_range",
+          "priority": 1
+        }
+      ],
+      "humanCheckpoint": {
+        "required": true,
+        "reason": "부적합 판정 후보 — NCR 작성 + 감리 결재 필요",
+        "legalNote": "본 서버는 **근거 제공용**이며 최종 판정과 법적 책임은 품질관리자·감리원·발주자에게 있다. Tool 출력을 법적 조언·확정 결과로 취급하지 말 것."
+      },
+      "nextSteps": [
+        {
+          "tool": "compile_ncr_references",
+          "reason": "FAIL 판정 시 NCR 작성 재료 수집"
+        }
+      ],
+      "lineage": {
+        "toolName": "evaluate_observation",
+        "toolCallId": "b4534e46-b530-4586-8ecb-dc8c76ecfa63",
+        "ontologyVersion": "0.1.0",
+        "generatedAt": "2026-04-25T08:06:25.388Z",
+        "contentHashAlgo": "sha256",
+        "contentHash": "f84dbd9794e5477ada1b77e6efc5976e15211bcb92180ee3ce0a6cc1ab1283ea"
+      }
+    }
+  },
+  {
+    "id": "S04",
+    "persona": "김신입",
+    "context": "공시체 만들어야 한다는데 어떻게 만들고 양생을 어디서 해야 하는지 모름",
+    "intent": "공시체 기록 양식 확인",
+    "tool": "get_specimen_record_schema",
+    "args": {},
+    "ms": 0,
+    "response": {
+      "result": {
+        "schemaId": "specimen_record",
+        "title": "공시체 제작·관리 기록지",
+        "reference": null,
+        "referenceStandard": null,
+        "sections": [
+          {
+            "key": "header",
+            "title": "제작 정보",
+            "fields": [
+              {
+                "name": "documentId",
+                "type": "string",
+                "required": true
+              },
+              {
+                "name": "pourLocation",
+                "type": "string",
+                "required": true
+              },
+              {
+                "name": "pourDate",
+                "type": "date",
+                "required": true
+              },
+              {
+                "name": "linkedDeliveryRecordId",
+                "type": "string",
+                "required": false
+              }
+            ]
+          },
+          {
+            "key": "specimens",
+            "title": "공시체 상세",
+            "fields": [
+              {
+                "name": "specimenId",
+                "type": "string",
+                "required": true
+              },
+              {
+                "name": "ageDay",
+                "type": "enum<7,28,기타>",
+                "required": true
+              },
+              {
+                "name": "moldType",
+                "type": "string",
+                "required": true,
+                "note": "KS F 2403 φ100×200 또는 φ150×300"
+              },
+              {
+                "name": "curingMethod",
+                "type": "enum<표준양생,현장양생>",
+                "required": true
+              },
+              {
+                "name": "testDate",
+                "type": "date",
+                "required": true,
+                "note": "타설일 + 재령일 자동"
+              }
+            ]
+          },
+          {
+            "key": "results",
+            "title": "시험 결과 (시험실 기록 후)",
+            "fields": [
+              {
+                "name": "compressiveStrengthMpa",
+                "type": "number",
+                "required": false
+              },
+              {
+                "name": "verdict",
+                "type": "enum<PASS,FAIL,PENDING>",
+                "required": false,
+                "criterion": "criteria.compressive_strength_design"
+              },
+              {
+                "name": "testLab",
+                "type": "string",
+                "required": false,
+                "note": "KOLAS 인정 시험실"
+              }
+            ]
+          }
+        ],
+        "usage": "이 스키마를 LLM이 받아 실제 문서를 작성. 본 서버는 구조·필드만 제공."
+      },
+      "basis": [
+        {
+          "type": "ontology",
+          "id": "standard.ks_f_2403",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "standard.ks_f_2405",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "standard.kcs_14_20.10.3_3",
+          "priority": 1
+        }
+      ],
+      "humanCheckpoint": {
+        "required": false,
+        "reason": null,
+        "legalNote": "본 서버는 **근거 제공용**이며 최종 판정과 법적 책임은 품질관리자·감리원·발주자에게 있다. Tool 출력을 법적 조언·확정 결과로 취급하지 말 것."
+      },
+      "nextSteps": [],
+      "lineage": {
+        "toolName": "get_specimen_record_schema",
+        "toolCallId": "312e1cd9-1831-45f2-9482-8790b0f0cbc8",
+        "ontologyVersion": "0.1.0",
+        "generatedAt": "2026-04-25T08:06:25.388Z",
+        "contentHashAlgo": "sha256",
+        "contentHash": "44aac64e9c000e618d429c0098a86b29ebff8d90bdb26bd3b9e772a455c115ee"
+      }
+    }
+  },
+  {
+    "id": "S05",
+    "persona": "김신입",
+    "context": "슬럼프 NG 났음 — NCR을 어떻게 써야 하지?",
+    "intent": "NCR 패키지 일괄 요청",
+    "tool": "compile_ncr_references",
+    "args": {
+      "ncrId": "ncr.slump_too_high",
+      "workType": "work.concrete_placement"
+    },
+    "ms": 0,
+    "response": {
+      "result": {
+        "inputs": {
+          "ncrId": "ncr.slump_too_high",
+          "workType": "work.concrete_placement"
+        },
+        "count": 1,
+        "ncrs": [
+          {
+            "id": "ncr.slump_too_high",
+            "name": "슬럼프 기준 초과",
+            "direction": "too_high",
+            "severity": "medium",
+            "possibleCauses": [
+              "가수(현장 물 투입)",
+              "배합설계 오류",
+              "운반 시간 초과",
+              "혼화제 과다 투입"
+            ],
+            "owner": "레미콘 공급사 + 현장 품질관리자",
+            "approver": "감리원 / 공사감독자",
+            "effectivenessCheck": "후속 반입차 3대 연속 슬럼프 기준 내 재확인",
+            "closureCriteria": "반송 또는 재시험 합격 + NCR 보고서 승인",
+            "immediateActions": [
+              {
+                "id": "action.hold_delivery",
+                "name": "납품 보류",
+                "urgency": "immediate"
+              },
+              {
+                "id": "action.retest",
+                "name": "재시험 실시",
+                "urgency": "immediate"
+              },
+              {
+                "id": "action.notify_quality_manager",
+                "name": "품질관리자 통보",
+                "urgency": "immediate"
+              },
+              {
+                "id": "action.check_delivery_ticket",
+                "name": "납품서 확인",
+                "urgency": "immediate"
+              }
+            ],
+            "correctiveActions": [
+              {
+                "id": "action.reject_truck",
+                "name": "레미콘 반송",
+                "urgency": "immediate"
+              },
+              {
+                "id": "action.request_supplier_report",
+                "name": "공급자 조사·보고서 요청",
+                "urgency": "corrective"
+              },
+              {
+                "id": "action.record_ncr",
+                "name": "부적합 보고서(NCR) 작성",
+                "urgency": "corrective"
+              }
+            ],
+            "requiredEvidence": [
+              {
+                "id": "doc.delivery_ticket",
+                "name": "납품서",
+                "mandatory": true
+              },
+              {
+                "id": "doc.mix_design",
+                "name": "배합설계서",
+                "mandatory": true
+              },
+              {
+                "id": "doc.site_test_record",
+                "name": "현장 시험 기록",
+                "mandatory": true
+              },
+              {
+                "id": "doc.site_photo",
+                "name": "현장 사진",
+                "mandatory": false
+              },
+              {
+                "id": "doc.ncr_report",
+                "name": "부적합 보고서(NCR)",
+                "mandatory": true
+              }
+            ],
+            "basisPriority": [
+              {
+                "id": "doc.mix_design",
+                "name": "배합설계서",
+                "category": null
+              },
+              {
+                "id": "standard.kcs_14_20.10.3_2",
+                "name": "KCS 14 20 10 §3.2 굳지 않은 콘크리트의 품질관리",
+                "category": null
+              },
+              {
+                "id": "standard.quality_management_guideline",
+                "name": "건설공사 품질관리 업무지침",
+                "category": null
+              }
+            ]
+          }
+        ],
+        "formSchema": {
+          "schemaId": "ncr",
+          "title": "부적합 보고서(NCR) 양식",
+          "sections": [
+            {
+              "key": "header",
+              "title": "보고서 기본정보",
+              "fields": [
+                {
+                  "name": "documentId",
+                  "type": "string",
+                  "required": true,
+                  "note": "예: NCR-{projectCode}-{YYYYMMDD}-{seq}"
+                },
+                {
+                  "name": "projectName",
+                  "type": "string",
+                  "required": true
+                },
+                {
+                  "name": "reportDate",
+                  "type": "date",
+                  "required": true
+                },
+                {
+                  "name": "reportedBy",
+                  "type": "object",
+                  "required": true,
+                  "fields": [
+                    "name",
+                    "role",
+                    "licenseNo"
+                  ]
+                }
+              ]
+            },
+            {
+              "key": "nonconformance",
+              "title": "부적합 내용",
+              "fields": [
+                {
+                  "name": "workType",
+                  "type": "string",
+                  "required": true
+                },
+                {
+                  "name": "location",
+                  "type": "string",
+                  "required": true,
+                  "note": "예: B동 3층 슬래브 C4구역"
+                },
+                {
+                  "name": "description",
+                  "type": "string",
+                  "required": true
+                },
+                {
+                  "name": "detectedAt",
+                  "type": "datetime",
+                  "required": true
+                },
+                {
+                  "name": "detectionMethod",
+                  "type": "string",
+                  "required": true,
+                  "note": "시험/검측/육안"
+                },
+                {
+                  "name": "referenceCriterion",
+                  "type": "string",
+                  "required": true,
+                  "note": "예: criteria.slump_general_150"
+                },
+                {
+                  "name": "observedValue",
+                  "type": "string",
+                  "required": false
+                },
+                {
+                  "name": "expectedValue",
+                  "type": "string",
+                  "required": false
+                }
+              ]
+            },
+            {
+              "key": "cause_analysis",
+              "title": "원인 분석 (LLM 영역)",
+              "fields": [
+                {
+                  "name": "possibleCauses",
+                  "type": "array<string>",
+                  "required": true,
+                  "source": "ontology.ncr.meta.possibleCauses 참고"
+                },
+                {
+                  "name": "rootCauseMethod",
+                  "type": "string",
+                  "required": false,
+                  "note": "5 Why / Fishbone / FTA"
+                }
+              ]
+            },
+            {
+              "key": "actions",
+              "title": "조치 사항",
+              "fields": [
+                {
+                  "name": "immediateActions",
+                  "type": "array<object>",
+                  "required": true,
+                  "source": "ontology.ncr.immediateActions"
+                },
+                {
+                  "name": "correctiveActions",
+                  "type": "array<object>",
+                  "required": true,
+                  "source": "ontology.ncr.correctiveActions"
+                }
+              ]
+            },
+            {
+              "key": "approval",
+              "title": "책임·승인 (법적 효력)",
+              "fields": [
+                {
+                  "name": "owner",
+                  "type": "object",
+                  "required": true,
+                  "source": "ontology.ncr.meta.owner"
+                },
+                {
+                  "name": "approver",
+                  "type": "object",
+                  "required": true,
+                  "source": "ontology.ncr.meta.approver"
+                },
+                {
+                  "name": "effectivenessCheck",
+                  "type": "string",
+                  "required": true,
+                  "source": "ontology.ncr.meta.effectivenessCheck"
+                },
+                {
+                  "name": "closureCriteria",
+                  "type": "string",
+                  "required": true,
+                  "source": "ontology.ncr.meta.closureCriteria"
+                }
+              ]
+            },
+            {
+              "key": "evidence",
+              "title": "증빙",
+              "fields": [
+                {
+                  "name": "requiredEvidence",
+                  "type": "array<string>",
+                  "required": true,
+                  "source": "ontology.ncr.requiresEvidence"
+                },
+                {
+                  "name": "attachedEvidence",
+                  "type": "array<object>",
+                  "required": false
+                }
+              ]
+            }
+          ]
+        },
+        "usage": "LLM이 이 패키지를 받아 NCR 초안을 작성. 승인·서명은 품질관리자·감리원."
+      },
+      "basis": [
+        {
+          "type": "ontology",
+          "id": "action.hold_delivery",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "action.retest",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "action.notify_quality_manager",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "action.check_delivery_ticket",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "action.reject_truck",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "action.request_supplier_report",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "action.record_ncr",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "doc.delivery_ticket",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "doc.mix_design",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "doc.site_test_record",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "doc.site_photo",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "doc.ncr_report",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "standard.kcs_14_20.10.3_2",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "standard.quality_management_guideline",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "ncr.slump_too_high",
+          "priority": 1
+        }
+      ],
+      "humanCheckpoint": {
+        "required": true,
+        "reason": "NCR은 감리원·발주자 승인이 필요한 법정 기록물. 초안 작성 후 반드시 결재.",
+        "a2ui": {
+          "type": "decision",
+          "options": [
+            "감리 결재 요청",
+            "재시험 지시",
+            "초안 수정"
+          ]
+        },
+        "legalNote": "본 서버는 **근거 제공용**이며 최종 판정과 법적 책임은 품질관리자·감리원·발주자에게 있다. Tool 출력을 법적 조언·확정 결과로 취급하지 말 것."
+      },
+      "nextSteps": [
+        {
+          "tool": "verify_quality_basis",
+          "reason": "NCR 초안 인용 검증"
+        }
+      ],
+      "lineage": {
+        "toolName": "compile_ncr_references",
+        "toolCallId": "f04735ae-07af-4176-a77d-2fc16566afb8",
+        "ontologyVersion": "0.1.0",
+        "generatedAt": "2026-04-25T08:06:25.388Z",
+        "contentHashAlgo": "sha256",
+        "contentHash": "c1d3101f05ee385661c79bed74a219075fe1c19f27fc27824332dc36c9101063"
+      }
+    }
+  },
+  {
+    "id": "S06",
+    "persona": "박경력",
+    "context": "시방서 W/B 50%, KCS는 50% 이하만 명시 — 어느 쪽 우선?",
+    "intent": "근거 우선순위 확인",
+    "tool": "map_quality_basis",
+    "args": {
+      "workType": "work.concrete_placement",
+      "material": "material.ready_mixed_concrete",
+      "testItem": "test.slump",
+      "projectContext": {
+        "hasMixDesign": true,
+        "hasSpecification": true
+      }
+    },
+    "ms": 0,
+    "response": {
+      "result": {
+        "inputs": {
+          "workType": "work.concrete_placement",
+          "material": "material.ready_mixed_concrete",
+          "testItem": "test.slump",
+          "agencyId": null
+        },
+        "resolvedEntities": [
+          "work.concrete_placement",
+          "material.ready_mixed_concrete",
+          "test.slump"
+        ],
+        "projectContext": {
+          "hasMixDesign": true,
+          "hasSpecification": true
+        },
+        "agency": null,
+        "factualBasis": [
+          {
+            "type": "kcs_kds",
+            "id": "standard.kcs_14_20",
+            "name": "KCS 14 20 콘크리트공사",
+            "priority": 3,
+            "reason": "KCS 14 20 00 ~ KCS 14 20 80",
+            "source": "ontology_public_standard"
+          },
+          {
+            "type": "kcs_kds",
+            "id": "standard.kcs_14_20.10.3_2",
+            "name": "KCS 14 20 10 §3.2 굳지 않은 콘크리트의 품질관리",
+            "priority": 3,
+            "reason": "슬럼프·공기량·염화물·온도 측정 빈도·판정",
+            "source": "ontology_public_standard"
+          },
+          {
+            "type": "administrative_rule",
+            "id": "standard.quality_management_guideline",
+            "name": "건설공사 품질관리 업무지침",
+            "priority": 4,
+            "reason": "품질시험·검사 빈도, 품질관리자 배치 기준",
+            "source": "ontology_public_standard"
+          },
+          {
+            "type": "ks_standard",
+            "id": "standard.ks_f_4009",
+            "name": "KS F 4009 레디믹스트 콘크리트",
+            "priority": 5,
+            "reason": null,
+            "source": "ontology_public_standard"
+          },
+          {
+            "type": "ks_standard",
+            "id": "standard.ks_f_2402",
+            "name": "KS F 2402 슬럼프 시험",
+            "priority": 5,
+            "reason": null,
+            "source": "ontology_public_standard"
+          }
+        ],
+        "applicableBasis": [
+          {
+            "type": "project_document",
+            "id": "doc.mix_design",
+            "name": "배합설계서",
+            "priority": 1,
+            "reason": "배합설계서는 콘크리트 판정 기준의 최우선 근거 (승인된 배합에 한함)",
+            "source": "ontology_template",
+            "note": "projectContext.availableDocuments에 포함되지 않음 — 현장 확인 필요"
+          },
+          {
+            "type": "project_specification",
+            "id": "doc.project_specification",
+            "name": "공사시방서",
+            "priority": 2,
+            "reason": "공사시방서는 현장 계약 기준 (모든 공종 적용)",
+            "source": "ontology_template",
+            "note": "projectContext.availableDocuments에 포함되지 않음 — 현장 확인 필요"
+          },
+          {
+            "type": "project_specification",
+            "id": "doc.structural_drawing",
+            "name": "구조 도면",
+            "priority": 2,
+            "reason": "구조 도면의 설계 값은 콘크리트·구조 판정의 계약 기준",
+            "source": "ontology_template",
+            "note": "projectContext.availableDocuments에 포함되지 않음 — 현장 확인 필요"
+          }
+        ],
+        "priorityRule": "발주처 지침 / 프로젝트 승인문서 > 공사시방서 > KCS/KDS > 품질관리 업무지침 > KS"
+      },
+      "basis": [
+        {
+          "type": "ontology",
+          "id": "work.concrete_placement",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "material.ready_mixed_concrete",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "test.slump",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "standard.kcs_14_20",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "standard.kcs_14_20.10.3_2",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "standard.quality_management_guideline",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "standard.ks_f_4009",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "standard.ks_f_2402",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "doc.mix_design",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "doc.project_specification",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "doc.structural_drawing",
+          "priority": 1
+        }
+      ],
+      "humanCheckpoint": {
+        "required": true,
+        "reason": "미확인 프로젝트 문서 3건 (배합설계서, 공사시방서, 구조 도면). factualBasis 확정 전 현장 확인 필요.",
+        "a2ui": {
+          "type": "decision",
+          "options": [
+            "문서 확인 후 projectContext 갱신해 재호출",
+            "공개 기준만으로 판정 진행"
+          ]
+        },
+        "legalNote": "본 서버는 **근거 제공용**이며 최종 판정과 법적 책임은 품질관리자·감리원·발주자에게 있다. Tool 출력을 법적 조언·확정 결과로 취급하지 말 것."
+      },
+      "nextSteps": [
+        {
+          "tool": "verify_quality_basis",
+          "reason": "LLM 생성문 근거 인용 검증"
+        }
+      ],
+      "lineage": {
+        "toolName": "map_quality_basis",
+        "toolCallId": "af54dfb9-0de1-420d-a604-9d4949823ebc",
+        "ontologyVersion": "0.1.0",
+        "generatedAt": "2026-04-25T08:06:25.388Z",
+        "contentHashAlgo": "sha256",
+        "contentHash": "fbc8e32673773760ce6b5e27bba0b88774fc7eab0a40beebcb40a0cff924d6be"
+      }
+    }
+  },
+  {
+    "id": "S07",
+    "persona": "박경력",
+    "context": "레미콘 차량 8대 동시 도착, 검측 인원 부족 — 시험 빈도 근거 확인",
+    "intent": "시험 빈도 정량 기준",
+    "tool": "get_material_quality_profile",
+    "args": {
+      "material": "레미콘"
+    },
+    "ms": 1,
+    "response": {
+      "result": {
+        "material": {
+          "id": "material.ready_mixed_concrete",
+          "name": "레미콘",
+          "category": "구조재"
+        },
+        "tests": [
+          {
+            "id": "test.slump",
+            "name": "슬럼프 시험",
+            "method": "KS F 2402 슬럼프 시험 (슬럼프 콘 300mm). 슬럼프 플로 지정 시 KS F 2594",
+            "frequency": "120㎥마다 1회 또는 타설일 1회 이상 (업무지침 2024-638호 개정 반영)",
+            "typicalAcceptance": "배합설계서 기준값 ±25mm (일반 150±25mm) — 실판정은 criteria.slump_general_150"
+          },
+          {
+            "id": "test.air_content",
+            "name": "공기량 시험",
+            "method": "KS F 2421 압력법 공기량 시험",
+            "frequency": "120㎥마다 1회 (업무지침 2024-638호 개정 반영)",
+            "typicalAcceptance": "보통 4.5%, 경량 5.5%, 포장 4.5%, 고강도 3.5% 이하 · 허용오차 ±1.5% (KCS 14 20 10)"
+          },
+          {
+            "id": "test.chloride",
+            "name": "염화물량 시험",
+            "method": "KS F 2515 염화물 함유량 시험",
+            "frequency": "120㎥마다 1회 (업무지침 2024-638호 개정 반영)",
+            "typicalAcceptance": "염소이온량(Cl⁻) 0.30 kg/㎥ 이하 (KCS 14 20 10)"
+          },
+          {
+            "id": "test.concrete_temperature",
+            "name": "콘크리트 온도 측정",
+            "method": "현장 온도계 측정",
+            "frequency": "120㎥마다 1회 (업무지침 2024-638호 개정 반영)",
+            "typicalAcceptance": "일반 5℃~35℃ — 실판정은 criteria.concrete_temperature_general"
+          },
+          {
+            "id": "test.unit_water_content",
+            "name": "단위수량 시험",
+            "method": "KS F 2715 또는 고주파 가열법 등",
+            "frequency": "1회/일, 120㎥마다 1회, 또는 배합이 변경될 때마다 (업무지침 2024-638호 신설)",
+            "typicalAcceptance": "배합설계서 단위수량 ±20 kg/㎥ (프로젝트별)"
+          },
+          {
+            "id": "test.compressive_strength",
+            "name": "압축강도 시험",
+            "method": "KS F 2403/2405 공시체 제작 및 압축강도 시험 (표준 양생). 레미콘은 KS F 4009, 비레미콘은 KCS 14 20 10 기준",
+            "frequency": "1회/일 및 120㎥마다 1회 이상 (재령별 3개씩, 업무지침 2024-638호 개정 반영)",
+            "typicalAcceptance": "설계기준강도 fck 이상 — 실판정은 criteria.compressive_strength_design (fck 값은 프로젝트 주입)"
+          }
+        ],
+        "documents": [
+          {
+            "id": "doc.mix_design",
+            "name": "배합설계서",
+            "mandatory": true
+          },
+          {
+            "id": "doc.delivery_ticket",
+            "name": "납품서",
+            "mandatory": true
+          },
+          {
+            "id": "doc.test_certificate",
+            "name": "시험성적서",
+            "mandatory": true
+          }
+        ],
+        "standards": [
+          {
+            "id": "standard.ks_f_4009",
+            "name": "KS F 4009 레디믹스트 콘크리트"
+          },
+          {
+            "id": "standard.kcs_14_20",
+            "name": "KCS 14 20 콘크리트공사"
+          }
+        ],
+        "relatedWorks": [
+          {
+            "id": "work.concrete_placement",
+            "name": "콘크리트 타설"
+          }
+        ],
+        "possibleNonconformance": [
+          {
+            "id": "ncr.slump_too_high",
+            "name": "슬럼프 기준 초과"
+          },
+          {
+            "id": "ncr.slump_too_low",
+            "name": "슬럼프 기준 미달"
+          },
+          {
+            "id": "ncr.air_content_out_of_range",
+            "name": "공기량 기준 이탈"
+          },
+          {
+            "id": "ncr.chloride_excess",
+            "name": "염화물 함유량 초과"
+          },
+          {
+            "id": "ncr.concrete_temperature_out_of_range",
+            "name": "콘크리트 온도 기준 이탈"
+          },
+          {
+            "id": "ncr.low_compressive_strength",
+            "name": "압축강도 부족"
+          },
+          {
+            "id": "ncr.cold_joint",
+            "name": "콜드조인트 발생"
+          },
+          {
+            "id": "ncr.honeycomb",
+            "name": "곰보(허니컴)"
+          }
+        ]
+      },
+      "basis": [
+        {
+          "type": "ontology",
+          "id": "material.ready_mixed_concrete",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "test.slump",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "test.air_content",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "test.chloride",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "test.concrete_temperature",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "test.unit_water_content",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "test.compressive_strength",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "doc.mix_design",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "doc.delivery_ticket",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "doc.test_certificate",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "standard.ks_f_4009",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "standard.kcs_14_20",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "work.concrete_placement",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "ncr.slump_too_high",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "ncr.slump_too_low",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "ncr.air_content_out_of_range",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "ncr.chloride_excess",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "ncr.concrete_temperature_out_of_range",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "ncr.low_compressive_strength",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "ncr.cold_joint",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "ncr.honeycomb",
+          "priority": 1
+        }
+      ],
+      "humanCheckpoint": {
+        "required": false,
+        "reason": null,
+        "legalNote": "본 서버는 **근거 제공용**이며 최종 판정과 법적 책임은 품질관리자·감리원·발주자에게 있다. Tool 출력을 법적 조언·확정 결과로 취급하지 말 것."
+      },
+      "nextSteps": [],
+      "lineage": {
+        "toolName": "get_material_quality_profile",
+        "toolCallId": "5f7a4d72-e46f-44c7-8a97-9e3592b3a690",
+        "ontologyVersion": "0.1.0",
+        "generatedAt": "2026-04-25T08:06:25.389Z",
+        "contentHashAlgo": "sha256",
+        "contentHash": "61cb82c7b127db5888f88b7fdb77d24c41d8c1ad5a1870e6e2763d7c3c874917"
+      }
+    }
+  },
+  {
+    "id": "S08",
+    "persona": "박경력",
+    "context": "압축강도 28일 26MPa 나옴 (설계 24MPa) — 합격? 합격기준 정확히?",
+    "intent": "압축강도 합격 판정",
+    "tool": "evaluate_observation",
+    "args": {
+      "observation": "28일 압축강도 26MPa",
+      "testId": "test.compressive_strength"
+    },
+    "ms": 0,
+    "response": {
+      "result": {
+        "expertAssessment": {
+          "observation": "28일 압축강도 26MPa",
+          "applicableCriterion": "≥ <프로젝트 주입 대기> MPa (KCS 14 20 10 §3.3)",
+          "criterionId": "criteria.compressive_strength_design",
+          "observedValue": 26,
+          "observedUnit": "MPa",
+          "comparison": "threshold가 프로젝트 주입 대기 상태 (예: fck)",
+          "legalVerdict": "UNDETERMINED",
+          "qualitySignal": "undetermined",
+          "verdict": "UNDETERMINED",
+          "direction": "n/a",
+          "expertContext": "베테랑 시각: 자동 비교 불가 — 단위·기준 주입 또는 수동 검토 필요.",
+          "marginalWarning": null,
+          "candidateNonconformance": [],
+          "suggestedNextSteps": [
+            "단위·기준값 주입 또는 수동 판정 검토",
+            "compile_concrete_pour_references 호출로 도메인 재료 종합 수집"
+          ],
+          "legalBasis": [
+            "standard.kcs_14_20.10.3_3",
+            "standard.ks_f_2405"
+          ],
+          "judgmentEngineNote": "legalVerdict(법적 합부) ≠ qualitySignal(도메인 경계 신호). MARGINAL은 합부 판정에서 분리 — legalVerdict=PASS이지만 qualitySignal=marginal. UNDETERMINED는 판정 불가(수동). 본 expertAssessment는 LLM이 최종 판정을 작성할 재료."
+        }
+      },
+      "basis": [
+        {
+          "type": "ontology",
+          "id": "criteria.compressive_strength_design",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "test.compressive_strength",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "standard.kcs_14_20.10.3_3",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "standard.ks_f_2405",
+          "priority": 1
+        }
+      ],
+      "humanCheckpoint": {
+        "required": true,
+        "reason": "판정 불가 (legalVerdict=UNDETERMINED) — 수동 처리 필요",
+        "legalNote": "본 서버는 **근거 제공용**이며 최종 판정과 법적 책임은 품질관리자·감리원·발주자에게 있다. Tool 출력을 법적 조언·확정 결과로 취급하지 말 것."
+      },
+      "nextSteps": [
+        {
+          "tool": "compile_ncr_references",
+          "reason": "FAIL 판정 시 NCR 작성 재료 수집"
+        }
+      ],
+      "lineage": {
+        "toolName": "evaluate_observation",
+        "toolCallId": "456f6774-924e-4af0-ae49-ea6f8185d87f",
+        "ontologyVersion": "0.1.0",
+        "generatedAt": "2026-04-25T08:06:25.389Z",
+        "contentHashAlgo": "sha256",
+        "contentHash": "8b20aa29fc4e946e5f5b7460b1fb38920d7a660cb5d3123a161cd302f8612c3e"
+      }
+    }
+  },
+  {
+    "id": "S09",
+    "persona": "박경력",
+    "context": "하자 발생해서 NCR 닫는데 effectiveness check 누가 해야 하는지 사규/법령",
+    "intent": "NCR 클로저 근거 추적",
+    "tool": "explain_quality_decision_path",
+    "args": {
+      "entityId": "ncr.slump_too_high"
+    },
+    "ms": 0,
+    "response": {
+      "result": {
+        "entityId": "ncr.slump_too_high",
+        "targetEntity": {
+          "id": "ncr.slump_too_high",
+          "name": "슬럼프 기준 초과",
+          "type": "Nonconformance"
+        },
+        "path": [
+          {
+            "step": 1,
+            "id": "ncr.slump_too_high",
+            "name": "슬럼프 기준 초과",
+            "type": "Nonconformance",
+            "role": "부적합 (NCR) — 결정 종착점",
+            "meta": {
+              "direction": "too_high",
+              "possibleCauses": [
+                "가수(현장 물 투입)",
+                "배합설계 오류",
+                "운반 시간 초과",
+                "혼화제 과다 투입"
+              ],
+              "owner": "레미콘 공급사 + 현장 품질관리자",
+              "approver": "감리원 / 공사감독자",
+              "effectivenessCheck": "후속 반입차 3대 연속 슬럼프 기준 내 재확인",
+              "closureCriteria": "반송 또는 재시험 합격 + NCR 보고서 승인"
+            }
+          },
+          {
+            "step": 2,
+            "id": "test.slump",
+            "name": "슬럼프 시험",
+            "type": "TestItem",
+            "role": "발동 시험 — 이 시험에서 위반 발견 시 NCR 발동"
+          },
+          {
+            "step": 3,
+            "id": "criteria.slump_general_150",
+            "name": "슬럼프 일반 150±25mm",
+            "type": "AcceptanceCriteria",
+            "role": "판정 기준 — 위반 여부 비교 대상",
+            "meta": {
+              "operator": "tolerance",
+              "target": 150,
+              "plusMinus": 25,
+              "unit": "mm",
+              "condition": "일반 콘크리트 (배합설계서에서 다른 목표 슬럼프가 지정되면 그쪽이 우선)",
+              "fallbackToProject": true,
+              "reference": "KCS 14 20 10 §3.2"
+            }
+          },
+          {
+            "step": 4,
+            "id": "standard.kcs_14_20.10.3_2",
+            "name": "KCS 14 20 10 §3.2 굳지 않은 콘크리트의 품질관리",
+            "type": "Standard",
+            "role": "기준의 법적·기술적 출처 · 판정 우선 근거 (basisPriority)"
+          },
+          {
+            "step": 5,
+            "id": "doc.mix_design",
+            "name": "배합설계서",
+            "type": "EvidenceDocument",
+            "role": "판정 우선 근거 (basisPriority)"
+          },
+          {
+            "step": 6,
+            "id": "standard.quality_management_guideline",
+            "name": "건설공사 품질관리 업무지침",
+            "type": "Standard",
+            "role": "판정 우선 근거 (basisPriority)"
+          }
+        ],
+        "expertSummary": "[Nonconformance] 슬럼프 기준 초과의 도메인 추론 경로 6단계. 포함 타입: Nonconformance · TestItem · AcceptanceCriteria · Standard · EvidenceDocument. 베테랑 시각: 이 경로의 각 노드는 결정의 근거 사슬 — LLM이 답변 생성 시 이 사슬을 인용해야 환각 방지."
+      },
+      "basis": [
+        {
+          "type": "ontology",
+          "id": "ncr.slump_too_high",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "test.slump",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "criteria.slump_general_150",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "standard.kcs_14_20.10.3_2",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "doc.mix_design",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "standard.quality_management_guideline",
+          "priority": 1
+        }
+      ],
+      "humanCheckpoint": {
+        "required": false,
+        "reason": null,
+        "legalNote": "본 서버는 **근거 제공용**이며 최종 판정과 법적 책임은 품질관리자·감리원·발주자에게 있다. Tool 출력을 법적 조언·확정 결과로 취급하지 말 것."
+      },
+      "nextSteps": [
+        {
+          "tool": "verify_quality_basis",
+          "reason": "결정 경로의 인용 근거 검증"
+        }
+      ],
+      "lineage": {
+        "toolName": "explain_quality_decision_path",
+        "toolCallId": "c6d5df3a-40f7-444d-8541-1d73320e4837",
+        "ontologyVersion": "0.1.0",
+        "generatedAt": "2026-04-25T08:06:25.389Z",
+        "contentHashAlgo": "sha256",
+        "contentHash": "d91f2288accb1a509020e7798962cb48c845c0532c3dfd467a8e46023ca0299d"
+      }
+    }
+  },
+  {
+    "id": "S10",
+    "persona": "박경력",
+    "context": "LLM이 만든 보고서에 \"건설기술진흥법 제42조에 따라 반드시 시정조치해야\" 라고 씀 — 이거 진짜 맞나?",
+    "intent": "근거 검증 — 환각 차단",
+    "tool": "verify_quality_basis",
+    "args": {
+      "statement": "건설기술진흥법 제42조에 따라 반드시 즉시 시정조치하여야 합니다.",
+      "claimedBasisIds": [
+        "standard.law.framework_act_42"
+      ]
+    },
+    "ms": 0,
+    "response": {
+      "result": {
+        "statement": "건설기술진흥법 제42조에 따라 반드시 즉시 시정조치하여야 합니다.",
+        "triggeredStrongTerms": [
+          "반드시"
+        ],
+        "claimedBasis": [
+          {
+            "id": "standard.law.framework_act_42",
+            "exists": false,
+            "issue": "온톨로지에 존재하지 않는 id — 환각 가능성"
+          }
+        ],
+        "validCount": 0,
+        "invalidCount": 1,
+        "hasMandatoryBasis": false,
+        "verification": "unsupported_strong_claim",
+        "recommendation": "\"반드시/법적으로\" 같은 표현에는 mandatory 근거(법률·시행령·시행규칙)가 필요. 표현을 완화하거나 근거를 보강할 것."
+      },
+      "basis": [
+        {
+          "type": "verification_meta",
+          "id": "no_valid_basis",
+          "priority": 3,
+          "note": "unsupported_strong_claim"
+        }
+      ],
+      "humanCheckpoint": {
+        "required": true,
+        "reason": "\"반드시/법적으로\" 같은 표현에는 mandatory 근거(법률·시행령·시행규칙)가 필요. 표현을 완화하거나 근거를 보강할 것.",
+        "a2ui": {
+          "type": "decision",
+          "options": [
+            "근거 보강",
+            "표현 완화",
+            "주장 철회"
+          ]
+        },
+        "legalNote": "본 서버는 **근거 제공용**이며 최종 판정과 법적 책임은 품질관리자·감리원·발주자에게 있다. Tool 출력을 법적 조언·확정 결과로 취급하지 말 것."
+      },
+      "nextSteps": [],
+      "lineage": {
+        "toolName": "verify_quality_basis",
+        "toolCallId": "781ede86-8f4e-4df5-9715-966765d9cd4d",
+        "ontologyVersion": "0.1.0",
+        "generatedAt": "2026-04-25T08:06:25.389Z",
+        "contentHashAlgo": "sha256",
+        "contentHash": "e49f888094925bc9ee23276439c1f94f01d40e39335d339ca8c833e8d2d0e2f7"
+      }
+    }
+  },
+  {
+    "id": "S11",
+    "persona": "이감리",
+    "context": "시공사 ITP 받았는데 hold point 누락 의심 — 근거 법령 갖춰서 review",
+    "intent": "ITP 양식·근거 확인",
+    "tool": "get_itp_schema",
+    "args": {},
+    "ms": 0,
+    "response": {
+      "result": {
+        "schemaId": "itp",
+        "title": "Inspection Test Plan (ITP) / 검측시험계획",
+        "reference": "국제 표준 ITP (Hold/Witness/Surveillance/Review/Execution 5 point)",
+        "referenceStandard": null,
+        "sections": [
+          {
+            "key": "header",
+            "title": "ITP 기본정보",
+            "fields": [
+              {
+                "name": "documentId",
+                "type": "string",
+                "required": true
+              },
+              {
+                "name": "workType",
+                "type": "string",
+                "required": true
+              },
+              {
+                "name": "revision",
+                "type": "string",
+                "required": true
+              }
+            ]
+          },
+          {
+            "key": "activities",
+            "title": "활동별 검측·시험 매트릭스",
+            "fields": [
+              {
+                "name": "activityName",
+                "type": "string",
+                "required": true
+              },
+              {
+                "name": "criterion",
+                "type": "string",
+                "required": true,
+                "note": "criteria.* 참조"
+              },
+              {
+                "name": "method",
+                "type": "string",
+                "required": true
+              },
+              {
+                "name": "frequency",
+                "type": "string",
+                "required": true
+              },
+              {
+                "name": "pointType",
+                "type": "enum<H,W,S,R,E>",
+                "required": true,
+                "note": "Hold/Witness/Surveillance/Review/Execution"
+              },
+              {
+                "name": "responsible",
+                "type": "enum<contractor,supervisor,owner>",
+                "required": true
+              },
+              {
+                "name": "acceptanceCriteria",
+                "type": "string",
+                "required": true
+              },
+              {
+                "name": "record",
+                "type": "string",
+                "required": true,
+                "note": "생성 기록물 id"
+              }
+            ]
+          }
+        ],
+        "usage": "이 스키마를 LLM이 받아 실제 문서를 작성. 본 서버는 구조·필드만 제공."
+      },
+      "basis": [
+        {
+          "type": "ontology",
+          "id": "standard.guideline.part2_art5",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "standard.law.btia_rule_53",
+          "priority": 1
+        }
+      ],
+      "humanCheckpoint": {
+        "required": false,
+        "reason": null,
+        "legalNote": "본 서버는 **근거 제공용**이며 최종 판정과 법적 책임은 품질관리자·감리원·발주자에게 있다. Tool 출력을 법적 조언·확정 결과로 취급하지 말 것."
+      },
+      "nextSteps": [],
+      "lineage": {
+        "toolName": "get_itp_schema",
+        "toolCallId": "e91a0e04-dada-46f9-8db0-6e3aa3accb91",
+        "ontologyVersion": "0.1.0",
+        "generatedAt": "2026-04-25T08:06:25.389Z",
+        "contentHashAlgo": "sha256",
+        "contentHash": "e7ad5da6e4f2af7d167d440ac5973af94826d0e9f39d12df9bb2c1e3787171d1"
+      }
+    }
+  },
+  {
+    "id": "S12",
+    "persona": "이감리",
+    "context": "시공사가 제출한 시험성적서 위조 의심 — 검토 보고서 작성",
+    "intent": "시험성적서 검토 근거+양식",
+    "tool": "get_test_report_review_schema",
+    "args": {},
+    "ms": 0,
+    "response": {
+      "result": {
+        "schemaId": "test_report_review",
+        "title": "시험성적서(TR) 검토 보고서",
+        "reference": null,
+        "referenceStandard": null,
+        "sections": [
+          {
+            "key": "source",
+            "title": "성적서 출처",
+            "fields": [
+              {
+                "name": "documentId",
+                "type": "string",
+                "required": true
+              },
+              {
+                "name": "testedBy",
+                "type": "string",
+                "required": true,
+                "note": "시험기관명 · KOLAS 인정번호"
+              },
+              {
+                "name": "reportNo",
+                "type": "string",
+                "required": true
+              },
+              {
+                "name": "issuedAt",
+                "type": "date",
+                "required": true
+              }
+            ]
+          },
+          {
+            "key": "items",
+            "title": "시험 항목 및 결과",
+            "fields": [
+              {
+                "name": "testItem",
+                "type": "string",
+                "required": true
+              },
+              {
+                "name": "method",
+                "type": "string",
+                "required": true
+              },
+              {
+                "name": "criterionRef",
+                "type": "string",
+                "required": true
+              },
+              {
+                "name": "reportedValue",
+                "type": "string",
+                "required": true
+              },
+              {
+                "name": "verdict",
+                "type": "enum<PASS,FAIL,MARGINAL,UNDETERMINED>",
+                "required": true
+              }
+            ]
+          },
+          {
+            "key": "custody",
+            "title": "Chain of Custody (대행 시)",
+            "fields": [
+              {
+                "name": "samplingBy",
+                "type": "object",
+                "required": true
+              },
+              {
+                "name": "sealId",
+                "type": "string",
+                "required": false,
+                "note": "봉인번호 (§60 대행 확인)"
+              },
+              {
+                "name": "transportedBy",
+                "type": "string",
+                "required": false
+              },
+              {
+                "name": "labReceiptAt",
+                "type": "datetime",
+                "required": false
+              }
+            ]
+          },
+          {
+            "key": "reviewer",
+            "title": "검토자·결론",
+            "fields": [
+              {
+                "name": "reviewedBy",
+                "type": "object",
+                "required": true
+              },
+              {
+                "name": "conclusion",
+                "type": "string",
+                "required": true
+              },
+              {
+                "name": "followupActions",
+                "type": "array<string>",
+                "required": false
+              }
+            ]
+          }
+        ],
+        "usage": "이 스키마를 LLM이 받아 실제 문서를 작성. 본 서버는 구조·필드만 제공."
+      },
+      "basis": [
+        {
+          "type": "ontology",
+          "id": "standard.guideline.part2_art6",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "standard.guideline.part2_art8",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "standard.law.btia_60",
+          "priority": 1
+        }
+      ],
+      "humanCheckpoint": {
+        "required": false,
+        "reason": null,
+        "legalNote": "본 서버는 **근거 제공용**이며 최종 판정과 법적 책임은 품질관리자·감리원·발주자에게 있다. Tool 출력을 법적 조언·확정 결과로 취급하지 말 것."
+      },
+      "nextSteps": [],
+      "lineage": {
+        "toolName": "get_test_report_review_schema",
+        "toolCallId": "edd06c27-12e2-4a49-a883-5525d29403fb",
+        "ontologyVersion": "0.1.0",
+        "generatedAt": "2026-04-25T08:06:25.389Z",
+        "contentHashAlgo": "sha256",
+        "contentHash": "ea34472eed1fa985cca2175f96910fb6f52ae5cf8bb21fca62087ec240fb983e"
+      }
+    }
+  },
+  {
+    "id": "S13",
+    "persona": "이감리",
+    "context": "NCR 처리에서 발주처 통보가 의무인지 확인",
+    "intent": "품질관리 업무지침 검색",
+    "tool": "search_quality_management_guideline",
+    "args": {
+      "query": "부적합 발주청 보고"
+    },
+    "ms": 0,
+    "response": {
+      "result": {
+        "query": "부적합 발주청 보고",
+        "part": null,
+        "count": 1,
+        "items": [
+          {
+            "id": "standard.guideline.part2_art7",
+            "name": "업무지침 §7 (부적합 발생 시 조치)",
+            "part": "제2편",
+            "articleNo": "7",
+            "scope": "NCR 작성·시정조치·효과성 확인·종결",
+            "skeleton": false
+          }
+        ],
+        "sourceNote": "국토교통부 고시 2025-311호 (2025.6.12 시행). 원문은 국가법령정보센터 참조."
+      },
+      "basis": [
+        {
+          "type": "ontology",
+          "id": "standard.guideline.part2_art7",
+          "priority": 1
+        }
+      ],
+      "humanCheckpoint": {
+        "required": false,
+        "reason": null,
+        "legalNote": "본 서버는 **근거 제공용**이며 최종 판정과 법적 책임은 품질관리자·감리원·발주자에게 있다. Tool 출력을 법적 조언·확정 결과로 취급하지 말 것."
+      },
+      "nextSteps": [],
+      "lineage": {
+        "toolName": "search_quality_management_guideline",
+        "toolCallId": "353f004e-69bd-4b28-9f5d-96ff3d02d320",
+        "ontologyVersion": "0.1.0",
+        "generatedAt": "2026-04-25T08:06:25.389Z",
+        "contentHashAlgo": "sha256",
+        "contentHash": "1eb0ad0871bfc997c80d90150f7db558a80550ec6a7fc8a5451e2524c7a85ab8"
+      }
+    }
+  },
+  {
+    "id": "S14",
+    "persona": "이감리",
+    "context": "시공사가 인용한 \"건설공사 품질관리 업무지침 별지 제3호 시정조치 요구서\" 명칭 검증",
+    "intent": "서식 환각 검증",
+    "tool": "verify_form_reference",
+    "args": {
+      "claim": "건설공사 품질관리 업무지침 별지 제3호 시정조치 요구서"
+    },
+    "ms": 0,
+    "response": {
+      "result": {
+        "claim": "건설공사 품질관리 업무지침 별지 제3호 시정조치 요구서",
+        "formId": null,
+        "verification": {
+          "status": "not_found",
+          "claimedNumber": "3",
+          "claimedName": "건설공사 품질관리 업무지침 시정조치 요구서",
+          "hint": "온톨로지에 일치 form 없음 — get_standard_form_locator로 가용 목록 확인"
+        },
+        "domainNote": "5차 검증에서 시행규칙 별지 제42·43·37호 명칭 오류가 발견됨. LLM 인용은 항상 본 Tool로 교차검증 권고."
+      },
+      "basis": [
+        {
+          "type": "verification_meta",
+          "id": "no_match",
+          "priority": 3,
+          "note": "not_found"
+        }
+      ],
+      "humanCheckpoint": {
+        "required": true,
+        "reason": "온톨로지에 일치 form 없음 — get_standard_form_locator로 가용 목록 확인",
+        "a2ui": {
+          "type": "decision",
+          "options": [
+            "인용 정정",
+            "출처 확인 후 재호출",
+            "주장 철회"
+          ]
+        },
+        "legalNote": "본 서버는 **근거 제공용**이며 최종 판정과 법적 책임은 품질관리자·감리원·발주자에게 있다. Tool 출력을 법적 조언·확정 결과로 취급하지 말 것."
+      },
+      "nextSteps": [],
+      "lineage": {
+        "toolName": "verify_form_reference",
+        "toolCallId": "7fbacb45-1c8c-4922-bd6f-e8acef92adcf",
+        "ontologyVersion": "0.1.0",
+        "generatedAt": "2026-04-25T08:06:25.390Z",
+        "contentHashAlgo": "sha256",
+        "contentHash": "b69e4289db829ad26d985cf6d473658f3e101d0ee4966617de4f44b21c0ca2a0"
+      }
+    }
+  },
+  {
+    "id": "S15",
+    "persona": "이감리",
+    "context": "책임감리원 권한 근거가 되는 핵심 법률·시행령",
+    "intent": "법령 카탈로그",
+    "tool": "list_core_quality_laws",
+    "args": {
+      "category": "law"
+    },
+    "ms": 0,
+    "response": {
+      "result": {
+        "category": "law",
+        "count": 6,
+        "items": [
+          {
+            "id": "standard.law.btia_55",
+            "name": "건설기술 진흥법 §55 (건설공사의 품질관리)",
+            "category": "law",
+            "articleNo": "55",
+            "legalWeight": "mandatory",
+            "basisType": "law",
+            "scope": "건설업자·주택건설등록업자의 품질관리계획·품질시험계획 수립·시행 의무"
+          },
+          {
+            "id": "standard.law.btia_56",
+            "name": "건설기술 진흥법 §56 (건설자재·부재의 품질관리)",
+            "category": "law",
+            "articleNo": "56",
+            "legalWeight": "mandatory",
+            "basisType": "law",
+            "scope": "주요 건설자재·부재 생산자의 품질관리 · 검사시험 · 시정 명령"
+          },
+          {
+            "id": "standard.law.btia_57",
+            "name": "건설기술 진흥법 §57 (건설공사 품질관리 전문기관)",
+            "category": "law",
+            "articleNo": "57",
+            "legalWeight": "mandatory",
+            "basisType": "law",
+            "scope": "품질검사 대행 전문기관 지정·관리"
+          },
+          {
+            "id": "standard.law.btia_60",
+            "name": "건설기술 진흥법 §60 (품질검사의 대행 및 확인)",
+            "category": "law",
+            "articleNo": "60",
+            "legalWeight": "mandatory",
+            "basisType": "law",
+            "scope": "공인 시험기관 대행·봉인·확인 절차 (chain of custody 근거)"
+          },
+          {
+            "id": "standard.law.btia_61",
+            "name": "건설기술 진흥법 §61 (시정명령 등)",
+            "category": "law",
+            "articleNo": "61",
+            "legalWeight": "mandatory",
+            "basisType": "law",
+            "scope": "품질관리 위반 시 시정명령·공사중지·영업정지"
+          },
+          {
+            "id": "standard.law.cifa_28",
+            "name": "건설산업기본법 §28 (건설공사의 하자담보책임)",
+            "category": "law",
+            "articleNo": "28",
+            "legalWeight": "mandatory",
+            "basisType": "law",
+            "scope": "공종별 하자담보책임 기간 (최대 10년, 일반 5년)"
+          }
+        ],
+        "sourceNote": "원문은 국가법령정보센터(law.go.kr)에서 최신 개정본 확인 필수. 본 데이터는 식별자·조항 요약만 제공."
+      },
+      "basis": [
+        {
+          "type": "ontology",
+          "id": "standard.law.btia_55",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "standard.law.btia_56",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "standard.law.btia_57",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "standard.law.btia_60",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "standard.law.btia_61",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "standard.law.cifa_28",
+          "priority": 1
+        }
+      ],
+      "humanCheckpoint": {
+        "required": false,
+        "reason": null,
+        "legalNote": "본 서버는 **근거 제공용**이며 최종 판정과 법적 책임은 품질관리자·감리원·발주자에게 있다. Tool 출력을 법적 조언·확정 결과로 취급하지 말 것."
+      },
+      "nextSteps": [
+        {
+          "tool": "get_quality_law_article",
+          "reason": "특정 조항의 적용 범위 조회"
+        }
+      ],
+      "lineage": {
+        "toolName": "list_core_quality_laws",
+        "toolCallId": "31d02185-d9c1-4bc9-9525-0e8491026da9",
+        "ontologyVersion": "0.1.0",
+        "generatedAt": "2026-04-25T08:06:25.390Z",
+        "contentHashAlgo": "sha256",
+        "contentHash": "d5b2a8225655bcea695958c9de806b769cbc14731cc17f70f9aa9233c10305b7"
+      }
+    }
+  },
+  {
+    "id": "S16",
+    "persona": "김신입",
+    "context": "\"방수공사\" 라고만 묻기 — 공종 모호",
+    "intent": "resolve_worktype 모호 케이스",
+    "tool": "resolve_worktype",
+    "args": {
+      "input": "방수"
+    },
+    "ms": 0,
+    "response": {
+      "result": {
+        "input": "방수",
+        "resolved": null
+      },
+      "basis": [
+        {
+          "type": "ontology_meta",
+          "id": "no_match",
+          "priority": 3,
+          "note": "공종 해석 실패"
+        }
+      ],
+      "humanCheckpoint": {
+        "required": true,
+        "reason": "\"방수\"를 표준 공종 id로 해석 실패. 온톨로지 확장 또는 LLM fallback 필요.",
+        "legalNote": "본 서버는 **근거 제공용**이며 최종 판정과 법적 책임은 품질관리자·감리원·발주자에게 있다. Tool 출력을 법적 조언·확정 결과로 취급하지 말 것."
+      },
+      "nextSteps": [
+        {
+          "tool": "get_work_quality_profile",
+          "reason": "해석된 공종의 자재·시험·검측·리스크 프로파일"
+        }
+      ],
+      "lineage": {
+        "toolName": "resolve_worktype",
+        "toolCallId": "a68f7120-716a-4f17-98ae-9b63e3892c03",
+        "ontologyVersion": "0.1.0",
+        "generatedAt": "2026-04-25T08:06:25.390Z",
+        "contentHashAlgo": "sha256",
+        "contentHash": "9550103c3102ae3de1de2287defb38d54437f20cae335b1d27b22c80b4d888d8"
+      }
+    }
+  },
+  {
+    "id": "S17",
+    "persona": "박경력",
+    "context": "온톨로지에 없는 공종 — \"도장공사\"",
+    "intent": "discover_relevant_domain — 미커버 영역",
+    "tool": "discover_relevant_domain",
+    "args": {
+      "situation": "내일 외벽 도장공사인데 시험·검측 알려주세요",
+      "maxResults": 5
+    },
+    "ms": 0,
+    "response": {
+      "result": {
+        "situation": "내일 외벽 도장공사인데 시험·검측 알려주세요",
+        "domainPackage": {
+          "WorkType": [],
+          "Material": [],
+          "TestItem": [],
+          "InspectionCheckpoint": [],
+          "AcceptanceCriteria": [],
+          "QualityRisk": [],
+          "Nonconformance": [],
+          "Standard": []
+        },
+        "primaryWorkType": null,
+        "expertGuidance": [
+          "직접 매칭된 도메인 노드가 적음. resolve_worktype로 공종 표현 정정 권고."
+        ]
+      },
+      "basis": [
+        {
+          "type": "ontology_meta",
+          "id": "no_match",
+          "priority": 3,
+          "note": "매칭 도메인 없음"
+        }
+      ],
+      "humanCheckpoint": {
+        "required": true,
+        "reason": "\"내일 외벽 도장공사인데 시험·검측 알려주세요\"에서 도메인 매칭 0건 — 표현 정정 필요",
+        "legalNote": "본 서버는 **근거 제공용**이며 최종 판정과 법적 책임은 품질관리자·감리원·발주자에게 있다. Tool 출력을 법적 조언·확정 결과로 취급하지 말 것."
+      },
+      "nextSteps": [
+        {
+          "tool": "list_core_quality_laws",
+          "reason": "관련 법령 목록"
+        },
+        {
+          "tool": "resolve_worktype",
+          "reason": "미매칭 — 공종 표현 정정 후 재호출"
+        }
+      ],
+      "lineage": {
+        "toolName": "discover_relevant_domain",
+        "toolCallId": "140bb8cd-db97-4f83-a5b7-778aec27bb58",
+        "ontologyVersion": "0.1.0",
+        "generatedAt": "2026-04-25T08:06:25.390Z",
+        "contentHashAlgo": "sha256",
+        "contentHash": "2e48633fd8c27ae3352b1eece7a76692948cb3da24e2406ef8a14709b02a7894"
+      }
+    }
+  },
+  {
+    "id": "S18",
+    "persona": "이감리",
+    "context": "레미콘 송장에서 \"기온 +33°C\"",
+    "intent": "서머 콘크리트 / 한중·서중 인지",
+    "tool": "evaluate_observation",
+    "args": {
+      "observation": "타설시 외기온도 33°C",
+      "testId": "test.concrete_temperature"
+    },
+    "ms": 0,
+    "response": {
+      "result": {
+        "expertAssessment": {
+          "observation": "타설시 외기온도 33°C",
+          "applicableCriterion": "[5 ~ 35] ℃ (KCS 14 20 10)",
+          "criterionId": "criteria.concrete_temperature_general",
+          "observedValue": 33,
+          "observedUnit": "℃",
+          "comparison": "33℃ 허용범위 경계 3.0℃ 이내",
+          "legalVerdict": "PASS",
+          "qualitySignal": "marginal",
+          "verdict": "PASS",
+          "direction": "in_range",
+          "expertContext": "[주의] 입력에 \"외기/기온\"이 포함됨 — 본 기준은 콘크리트 자체 온도(KCS 14 20 10). 외기온도 한도는 한중(<4℃)·서중(>30℃) 별도 규정. 측정 대상 재확인 필요. / 베테랑 시각: 경계 근접 — 다음 반입차·동일 위치 후속 시험에서 흐름 추적 권고.",
+          "marginalWarning": {
+            "flagged": true,
+            "note": "허용치 경계 근접 — 재시험 또는 품질관리자 확인 권고. 본 경계치는 업무지침 명시 기준이 아닌 경험적 보조 지표."
+          },
+          "candidateNonconformance": [],
+          "suggestedNextSteps": [],
+          "legalBasis": [
+            "standard.kcs_14_20.10"
+          ],
+          "judgmentEngineNote": "legalVerdict(법적 합부) ≠ qualitySignal(도메인 경계 신호). MARGINAL은 합부 판정에서 분리 — legalVerdict=PASS이지만 qualitySignal=marginal. UNDETERMINED는 판정 불가(수동). 본 expertAssessment는 LLM이 최종 판정을 작성할 재료."
+        }
+      },
+      "basis": [
+        {
+          "type": "ontology",
+          "id": "criteria.concrete_temperature_general",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "test.concrete_temperature",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "standard.kcs_14_20.10",
+          "priority": 1
+        }
+      ],
+      "humanCheckpoint": {
+        "required": true,
+        "reason": "경계 근접 (qualitySignal=marginal) — 재시험 또는 품질관리자 확인 권고",
+        "legalNote": "본 서버는 **근거 제공용**이며 최종 판정과 법적 책임은 품질관리자·감리원·발주자에게 있다. Tool 출력을 법적 조언·확정 결과로 취급하지 말 것."
+      },
+      "nextSteps": [
+        {
+          "tool": "compile_ncr_references",
+          "reason": "FAIL 판정 시 NCR 작성 재료 수집"
+        }
+      ],
+      "lineage": {
+        "toolName": "evaluate_observation",
+        "toolCallId": "880bb4e0-1493-4535-befc-08b1178027ca",
+        "ontologyVersion": "0.1.0",
+        "generatedAt": "2026-04-25T08:06:25.390Z",
+        "contentHashAlgo": "sha256",
+        "contentHash": "152407e95bc32b5b7f653ff6659bec7668d294b7645a240cce70921e578b0550"
+      }
+    }
+  }
+]

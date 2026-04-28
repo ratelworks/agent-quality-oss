@@ -1,0 +1,93 @@
+{
+  "_note": "시험기기·장비. `test-items.json`의 method와 교차참조. 교정(calibration) 이력 관리는 Phase B.",
+  "entities": [
+    {
+      "id": "equipment.slump_cone",
+      "type": "Equipment",
+      "name": "슬럼프 콘",
+      "aliases": ["slump cone"],
+      "meta": {
+        "category": "field_test_equipment",
+        "standard": "KS F 2402",
+        "dimension": "300mm 높이 절두원추"
+      }
+    },
+    {
+      "id": "equipment.air_meter",
+      "type": "Equipment",
+      "name": "공기량 측정기 (압력법)",
+      "aliases": ["air content meter"],
+      "meta": {
+        "category": "field_test_equipment",
+        "standard": "KS F 2421"
+      }
+    },
+    {
+      "id": "equipment.chloride_test_kit",
+      "type": "Equipment",
+      "name": "염화물 측정기",
+      "meta": {
+        "category": "field_test_equipment",
+        "standard": "KS F 2515"
+      }
+    },
+    {
+      "id": "equipment.concrete_thermometer",
+      "type": "Equipment",
+      "name": "콘크리트 온도계",
+      "meta": {
+        "category": "field_test_equipment"
+      }
+    },
+    {
+      "id": "equipment.compressive_strength_tester",
+      "type": "Equipment",
+      "name": "압축강도 시험기",
+      "meta": {
+        "category": "lab_test_equipment",
+        "standard": "KS F 2405",
+        "note": "교정 주기 1년 (KOLAS)"
+      }
+    },
+    {
+      "id": "equipment.specimen_mold",
+      "type": "Equipment",
+      "name": "공시체 제작 몰드",
+      "aliases": ["공시체 주형"],
+      "meta": {
+        "category": "lab_test_equipment",
+        "standard": "KS F 2403",
+        "dimension": "원주 공시체 φ100×200mm 또는 φ150×300mm"
+      }
+    },
+    {
+      "id": "equipment.concrete_vibrator",
+      "type": "Equipment",
+      "name": "콘크리트 진동기(바이브레이터)",
+      "aliases": ["바이브레이터"],
+      "meta": {
+        "category": "construction_tool",
+        "note": "다짐 불량·허니컴 리스크 완화 주 장비"
+      }
+    },
+    {
+      "id": "equipment.schmidt_hammer",
+      "type": "Equipment",
+      "name": "슈미트 해머",
+      "aliases": ["반발경도 시험기"],
+      "meta": {
+        "category": "ndt_equipment",
+        "purpose": "경화 콘크리트 강도 추정 (비파괴)"
+      }
+    },
+    {
+      "id": "equipment.core_drill",
+      "type": "Equipment",
+      "name": "코어 드릴",
+      "meta": {
+        "category": "ndt_equipment",
+        "purpose": "경화 콘크리트 코어 채취 → 압축강도 시험"
+      }
+    }
+  ]
+}

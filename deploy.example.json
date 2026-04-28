@@ -1,0 +1,12 @@
+{
+  "_schema": "Cloud Run 배포 설정 예시. 실제 배포 시 이 파일을 `deploy.json`으로 복사한 뒤 projectId·serviceUrl을 본인 환경으로 교체하고 .gitignore에 deploy.json을 추가한다.",
+  "serviceName": "agent-quality-oss-mcp",
+  "serviceUrl": "https://agent-quality-oss-mcp-<YOUR_PROJECT_NUMBER>.<YOUR_REGION>.run.app",
+  "projectId": "<YOUR_GCP_PROJECT_ID>",
+  "region": "asia-northeast3",
+  "runtime": "nodejs22",
+  "description": "Construction Quality Management MCP Server — 건설 품질관리 온톨로지 + KCS/KDS/KS + 현장문서 RAG (OSS)",
+  "licenseTrack": "oss",
+  "entryMode": "http-json",
+  "_note": "stdio 모드는 로컬 실행 (npm run start:stdio). Cloud Run 배포는 HTTP JSON MCP (functions-framework, `app` export). 진짜 SSE transport는 Phase 2+ 로드맵."
+}

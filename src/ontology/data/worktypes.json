@@ -1,0 +1,105 @@
+{
+  "_note": "공종(WorkType). 콘크리트 타설만 완전체, 나머지는 Phase A skeleton (Tool이 식별 가능하도록 최소한 연결). 온톨로지 전체 완성은 Phase B+.",
+  "entities": [
+    {
+      "id": "work.concrete_placement",
+      "type": "WorkType",
+      "name": "콘크리트 타설",
+      "aliases": [
+        "레미콘 타설",
+        "슬래브 타설",
+        "기초 타설",
+        "벽체 타설",
+        "콘크리트 치기",
+        "양생",
+        "콘크리트공사"
+      ],
+      "meta": {
+        "parent": "철근콘크리트공사",
+        "domain": "architecture_quality"
+      },
+      "relations": {
+        "hasTask": [
+          "task.concrete_pour_slab",
+          "task.concrete_pour_foundation",
+          "task.concrete_pour_wall",
+          "task.concrete_curing"
+        ],
+        "usesMaterial": ["material.ready_mixed_concrete"],
+        "hasInspectionCheckpoint": [
+          "inspection.before_concrete_placement",
+          "inspection.during_concrete_placement",
+          "inspection.after_concrete_placement"
+        ],
+        "hasQualityRisk": [
+          "risk.slump_out_of_range",
+          "risk.air_content_deviation",
+          "risk.chloride_contamination",
+          "risk.concrete_temperature_deviation",
+          "risk.material_segregation",
+          "risk.cold_joint",
+          "risk.insufficient_compaction",
+          "risk.insufficient_curing",
+          "risk.low_compressive_strength"
+        ],
+        "requiresStandard": [
+          "standard.kcs_14_20",
+          "standard.quality_management_guideline"
+        ]
+      }
+    },
+    {
+      "id": "work.rebar_placement",
+      "type": "WorkType",
+      "name": "철근 배근",
+      "aliases": ["철근공사", "철근 배치", "철근조립"],
+      "meta": {
+        "parent": "철근콘크리트공사",
+        "domain": "architecture_quality",
+        "skeleton": true,
+        "skeletonNote": "Phase A skeleton — 자재·시험·리스크 최소. Phase B에서 완전체."
+      },
+      "relations": {
+        "hasTask": ["task.rebar_placement_slab", "task.rebar_placement_wall"],
+        "requiresStandard": [
+          "standard.quality_management_guideline",
+          "standard.guideline.part2_art6"
+        ]
+      }
+    },
+    {
+      "id": "work.steel_fabrication",
+      "type": "WorkType",
+      "name": "철강구조물 제작·설치",
+      "aliases": ["철골공사", "철강구조물"],
+      "meta": {
+        "parent": "철강공사",
+        "domain": "architecture_quality",
+        "skeleton": true,
+        "skeletonNote": "업무지침 제4편 '철강구조물 제작공장 인증'과 연계. Phase B에서 공장 인증 메타 추가."
+      },
+      "relations": {
+        "requiresStandard": [
+          "standard.guideline.part4"
+        ]
+      }
+    },
+    {
+      "id": "work.temporary_equipment",
+      "type": "WorkType",
+      "name": "가설기자재 설치",
+      "aliases": ["가설공사", "가설기자재"],
+      "meta": {
+        "parent": "가설공사",
+        "domain": "architecture_quality",
+        "skeleton": true,
+        "skeletonNote": "업무지침 제5편 '가설기자재 품질관리'와 연계. 안전인증 품목 별도 관리 필요."
+      },
+      "relations": {
+        "requiresStandard": [
+          "standard.guideline.part5"
+        ]
+      }
+    }
+  ]
+}

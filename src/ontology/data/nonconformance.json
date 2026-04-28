@@ -1,0 +1,319 @@
+{
+  "_note": "NCR 스키마는 ISO 9001 8.7 시정조치를 따라 owner/approver/effectivenessCheck/closureCriteria 필드를 포함한다. meta.possibleCauses는 LLM 탐색 힌트 (확정 인과 아님).",
+  "entities": [
+    {
+      "id": "ncr.slump_too_high",
+      "type": "Nonconformance",
+      "name": "슬럼프 기준 초과",
+      "aliases": ["슬럼프 과다", "슬럼프 오버"],
+      "meta": {
+        "direction": "too_high",
+        "possibleCauses": [
+          "가수(현장 물 투입)",
+          "배합설계 오류",
+          "운반 시간 초과",
+          "혼화제 과다 투입"
+        ],
+        "owner": "레미콘 공급사 + 현장 품질관리자",
+        "approver": "감리원 / 공사감독자",
+        "effectivenessCheck": "후속 반입차 3대 연속 슬럼프 기준 내 재확인",
+        "closureCriteria": "반송 또는 재시험 합격 + NCR 보고서 승인"
+      },
+      "relations": {
+        "relatedTest": ["test.slump"],
+        "relatedMaterial": ["material.ready_mixed_concrete"],
+        "immediateActions": [
+          "action.hold_delivery",
+          "action.retest",
+          "action.notify_quality_manager",
+          "action.check_delivery_ticket"
+        ],
+        "correctiveActions": [
+          "action.reject_truck",
+          "action.request_supplier_report",
+          "action.record_ncr"
+        ],
+        "requiresEvidence": [
+          "doc.delivery_ticket",
+          "doc.mix_design",
+          "doc.site_test_record",
+          "doc.site_photo",
+          "doc.ncr_report"
+        ],
+        "basisPriority": [
+          "doc.mix_design",
+          "standard.kcs_14_20.10.3_2",
+          "standard.quality_management_guideline"
+        ]
+      }
+    },
+    {
+      "id": "ncr.slump_too_low",
+      "type": "Nonconformance",
+      "name": "슬럼프 기준 미달",
+      "aliases": ["슬럼프 부족"],
+      "meta": {
+        "direction": "too_low",
+        "possibleCauses": ["운반 시간 초과", "배합수 부족", "배합설계 오류", "외기 고온"],
+        "owner": "레미콘 공급사 + 현장 품질관리자",
+        "approver": "감리원 / 공사감독자",
+        "effectivenessCheck": "후속 반입차 3대 연속 슬럼프 기준 내 재확인",
+        "closureCriteria": "반송 또는 재시험 합격 + NCR 보고서 승인"
+      },
+      "relations": {
+        "relatedTest": ["test.slump"],
+        "relatedMaterial": ["material.ready_mixed_concrete"],
+        "immediateActions": ["action.hold_delivery", "action.retest"],
+        "correctiveActions": ["action.reject_truck", "action.record_ncr"],
+        "requiresEvidence": ["doc.delivery_ticket", "doc.mix_design", "doc.site_test_record"],
+        "basisPriority": [
+          "doc.mix_design",
+          "standard.kcs_14_20.10.3_2",
+          "standard.quality_management_guideline"
+        ]
+      }
+    },
+    {
+      "id": "ncr.air_content_out_of_range",
+      "type": "Nonconformance",
+      "name": "공기량 기준 이탈",
+      "meta": {
+        "direction": "out_of_range",
+        "possibleCauses": ["배합설계 오류", "AE제 투입량 이상", "운반 중 공기량 변화"],
+        "owner": "레미콘 공급사 + 현장 품질관리자",
+        "approver": "감리원 / 공사감독자",
+        "effectivenessCheck": "배합 수정 후 후속 반입차 공기량 재확인",
+        "closureCriteria": "재시험 합격 또는 반송 + NCR 보고서 승인"
+      },
+      "relations": {
+        "relatedTest": ["test.air_content"],
+        "relatedMaterial": ["material.ready_mixed_concrete"],
+        "immediateActions": ["action.hold_delivery", "action.retest"],
+        "correctiveActions": ["action.reject_truck", "action.record_ncr"],
+        "requiresEvidence": ["doc.site_test_record", "doc.delivery_ticket"],
+        "basisPriority": [
+          "doc.mix_design",
+          "standard.kcs_14_20.10.3_2",
+          "standard.ks_f_2421"
+        ]
+      }
+    },
+    {
+      "id": "ncr.chloride_excess",
+      "type": "Nonconformance",
+      "name": "염화물 함유량 초과",
+      "meta": {
+        "direction": "too_high",
+        "possibleCauses": ["세척되지 않은 해사", "배합수 염분 오염"],
+        "owner": "레미콘 공급사",
+        "approver": "감리원 / 공사감독자 (강재 부식 직결로 즉시 반송 원칙)",
+        "effectivenessCheck": "공급자 원재료 추적 보고 + 후속 반입차 염화물 재확인",
+        "closureCriteria": "반송 확정 + 공급자 시정 보고서 + NCR 보고서 승인"
+      },
+      "relations": {
+        "relatedTest": ["test.chloride"],
+        "relatedMaterial": ["material.ready_mixed_concrete"],
+        "immediateActions": ["action.reject_truck", "action.notify_quality_manager"],
+        "correctiveActions": ["action.request_supplier_report", "action.record_ncr"],
+        "requiresEvidence": ["doc.site_test_record", "doc.delivery_ticket"],
+        "basisPriority": [
+          "standard.kcs_14_20.10.3_2",
+          "standard.ks_f_2515",
+          "standard.quality_management_guideline"
+        ]
+      }
+    },
+    {
+      "id": "ncr.concrete_temperature_out_of_range",
+      "type": "Nonconformance",
+      "name": "콘크리트 온도 기준 이탈",
+      "meta": {
+        "direction": "out_of_range",
+        "possibleCauses": ["외기 온도 극값", "운반 시간 초과", "양생 조치 미흡"],
+        "owner": "현장 품질관리자 + 레미콘 공급사",
+        "approver": "감리원 / 공사감독자",
+        "effectivenessCheck": "한중/서중 대책 적용 후 후속 반입차 온도 재확인",
+        "closureCriteria": "온도 대책 서면 합의 + 후속 반입차 합격 + NCR 보고서 승인"
+      },
+      "relations": {
+        "relatedTest": ["test.concrete_temperature"],
+        "relatedMaterial": ["material.ready_mixed_concrete"],
+        "immediateActions": ["action.hold_delivery", "action.notify_supervisor"],
+        "correctiveActions": ["action.record_ncr"],
+        "requiresEvidence": ["doc.site_test_record"],
+        "basisPriority": [
+          "doc.mix_design",
+          "standard.kcs_14_20.10.3_2",
+          "standard.quality_management_guideline"
+        ]
+      }
+    },
+    {
+      "id": "ncr.compressive_strength_statistical_fail",
+      "type": "Nonconformance",
+      "name": "압축강도 통계 판정 불합격 (표 3.5-3)",
+      "aliases": ["통계 강도 불합격", "표 3.5-3 불합격"],
+      "meta": {
+        "direction": "too_low",
+        "severity": "high",
+        "possibleCauses": [
+          "배합강도(fcr) 부족 — §2.2.2 식 2.2-2/2.2-3 분기 점검",
+          "공시체 양생 불량 (KS F 2403)",
+          "현장 양생 < 표준양생 × 85% (§3.5.5.6(4))",
+          "한중·서중 시기 양생 대책 미흡",
+          "운반·타설 중 가수 의심",
+          "단위수량 과다 (§1.9.1(4) 185 kg/m³ 상한 초과)",
+          "시멘트 종류 변경에 따른 강도 발현 차이"
+        ],
+        "owner": "현장 품질관리자 + 구조기술자",
+        "approver": "감리단장 / 구조기술사",
+        "effectivenessCheck": "§3.5.5.7 후속 절차 — 코어 채취·재령 연장·비파괴 시험·재하시험 단계별 검증",
+        "closureCriteria": "구조 안전성 확정 또는 보강·재시공 완료 + NCR 보고서 감리단장 승인",
+        "sourceStatus": "verified",
+        "verifiedAgainst": "evaluation/sources/kcs_14_20_01.txt L3274-3294, L3448-3466",
+        "evaluatorRule": "criteria.compressive_strength_statistical_le35 또는 _gt35의 평균/1회 검사 둘 중 하나 미달 시 발생. 단일값 입력은 partial로 MARGINAL → 본 NCR은 series 입력 + FAIL일 때만 발화."
+      },
+      "relations": {
+        "relatedTest": ["test.compressive_strength"],
+        "relatedMaterial": ["material.ready_mixed_concrete"],
+        "immediateActions": ["action.notify_quality_manager", "action.notify_supervisor"],
+        "correctiveActions": [
+          "action.core_sampling",
+          "action.non_destructive_test",
+          "action.structural_review",
+          "action.record_ncr"
+        ],
+        "requiresEvidence": [
+          "doc.specimen_record",
+          "doc.test_certificate",
+          "doc.mix_design",
+          "doc.ncr_report"
+        ],
+        "basisPriority": [
+          "doc.mix_design",
+          "doc.structural_drawing",
+          "standard.kcs_14_20.10.3_5_3_2",
+          "standard.kcs_14_20.10.1_8_2",
+          "standard.ks_f_2405"
+        ]
+      }
+    },
+    {
+      "id": "ncr.low_compressive_strength",
+      "type": "Nonconformance",
+      "name": "압축강도 부족",
+      "meta": {
+        "direction": "too_low",
+        "severity": "high",
+        "possibleCauses": ["양생 불량", "배합수 과다", "배합설계 오류", "공시체 관리 불량"],
+        "owner": "현장 품질관리자 + 구조 설계자",
+        "approver": "감리단장 / 구조기술사",
+        "effectivenessCheck": "코어 채취·비파괴 시험 결과 + 구조 검토 결론",
+        "closureCriteria": "구조 안전성 확정 또는 보강·재시공 완료 + NCR 보고서 감리단장 승인"
+      },
+      "relations": {
+        "relatedTest": ["test.compressive_strength"],
+        "relatedMaterial": ["material.ready_mixed_concrete"],
+        "immediateActions": ["action.notify_quality_manager", "action.notify_supervisor"],
+        "correctiveActions": [
+          "action.core_sampling",
+          "action.non_destructive_test",
+          "action.structural_review",
+          "action.record_ncr"
+        ],
+        "requiresEvidence": [
+          "doc.specimen_record",
+          "doc.test_certificate",
+          "doc.mix_design",
+          "doc.ncr_report"
+        ],
+        "basisPriority": [
+          "doc.mix_design",
+          "doc.structural_drawing",
+          "standard.kcs_14_20.10.3_3",
+          "standard.ks_f_2405"
+        ]
+      }
+    },
+    {
+      "id": "ncr.cold_joint",
+      "type": "Nonconformance",
+      "name": "콜드조인트 발생",
+      "meta": {
+        "direction": "defect",
+        "severity": "high",
+        "possibleCauses": ["타설 지연", "운반 시간 초과", "다짐 시점 지연", "이어치기 시간 초과 (표 3.3-1)"],
+        "owner": "현장 공사 담당 + 품질관리자",
+        "approver": "감리원 / 구조기술사",
+        "effectivenessCheck": "구조 검토 + 보강 조치 후 단면 확인",
+        "closureCriteria": "구조 안전성 확정 또는 보강 완료 + NCR 보고서 승인",
+        "sourceStatus": "verified",
+        "note": "v0.1 basisPriority에서 §3.3.2(8) 표 3.3-1(이어치기 시간) + §1.4 콜드조인트 정의 누락. 정정 완료 (2026-04-28 R0-G1)"
+      },
+      "relations": {
+        "relatedMaterial": ["material.ready_mixed_concrete"],
+        "immediateActions": ["action.notify_quality_manager", "action.notify_supervisor"],
+        "correctiveActions": ["action.structural_review", "action.record_ncr"],
+        "requiresEvidence": ["doc.site_photo", "doc.ncr_report"],
+        "basisPriority": [
+          "doc.structural_drawing",
+          "standard.kcs_14_20.10.3_3_2",
+          "standard.kcs_14_20.10.1_4"
+        ]
+      }
+    },
+    {
+      "id": "ncr.honeycomb",
+      "type": "Nonconformance",
+      "name": "곰보(허니컴)",
+      "aliases": ["허니컴"],
+      "meta": {
+        "direction": "defect",
+        "possibleCauses": ["다짐 불량 (§3.3.3)", "재료분리", "거푸집 누수"],
+        "owner": "현장 공사 담당",
+        "approver": "감리원",
+        "effectivenessCheck": "보수 후 육안 검사 + 필요 시 비파괴 시험",
+        "closureCriteria": "보수 완료 + 감리원 승인 + NCR 보고서 승인",
+        "sourceStatus": "verified",
+        "note": "v0.1 basisPriority에서 §3.3.3 다지기 + §3.5.5.2 표 3.5-6 표면상태 검사 누락. 정정 완료 (2026-04-28 R0-G1)"
+      },
+      "relations": {
+        "relatedMaterial": ["material.ready_mixed_concrete"],
+        "immediateActions": ["action.notify_quality_manager"],
+        "correctiveActions": ["action.structural_review", "action.record_ncr"],
+        "requiresEvidence": ["doc.site_photo", "doc.ncr_report"],
+        "basisPriority": [
+          "doc.structural_drawing",
+          "standard.kcs_14_20.10.3_3_3",
+          "standard.kcs_14_20.10.3_5_5_2"
+        ]
+      }
+    },
+    {
+      "id": "ncr.surface_crack",
+      "type": "Nonconformance",
+      "name": "표면 균열",
+      "aliases": ["건조수축 균열", "초기 균열", "침하균열"],
+      "meta": {
+        "direction": "defect",
+        "possibleCauses": ["양생 불량 (§3.4)", "외기 극한 환경", "급속 건조", "침하균열 (§3.3.4)"],
+        "owner": "현장 공사 담당",
+        "approver": "감리원",
+        "effectivenessCheck": "균열 폭 측정 + 보수 후 재확인",
+        "closureCriteria": "허용 균열폭 이내 또는 보수 완료 + NCR 보고서 승인",
+        "sourceStatus": "verified",
+        "note": "v0.1 basisPriority에서 §3.3.4 침하균열 + §3.4 양생 + §3.5.5.2 표면상태 검사 누락. 정정 완료 (2026-04-28 R0-G1)"
+      },
+      "relations": {
+        "immediateActions": ["action.notify_quality_manager"],
+        "correctiveActions": ["action.record_ncr"],
+        "requiresEvidence": ["doc.site_photo"],
+        "basisPriority": [
+          "standard.kcs_14_20.10.3_3_4",
+          "standard.kcs_14_20.10.3_4",
+          "standard.kcs_14_20.10.3_5_5_2"
+        ]
+      }
+    }
+  ]
+}

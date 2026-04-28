@@ -1,0 +1,46 @@
+MIT License
+
+Copyright (c) 2026 Ratelworks Inc. (Developer) · Hwangryong Construction Co., Ltd. (Provider)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+
+---
+
+## Third-Party Data Notice
+
+This repository's CODE and ONTOLOGY STRUCTURE are MIT-licensed, but does NOT
+bundle or redistribute the full text of the following referenced works. Their
+original content remains under their respective copyright holders:
+
+- KCS/KDS (Korean Construction Specifications/Standards)
+  Copyright: Ministry of Land, Infrastructure and Transport / Korea
+  Construction Standards Center (kcsc.re.kr)
+  License: Korea Open Government License (공공누리) Type 2 — attribution,
+  no modification/redistribution of original text.
+
+- Quality Management Guidelines for Construction Works
+  Copyright: Ministry of Land, Infrastructure and Transport (notice).
+
+- KS (Korean Industrial Standards)
+  Copyright: Korean Agency for Technology and Standards / KSA.
+  License: Commercial license required for original text.
+
+Users who need original clause text must obtain it from the respective
+agencies. This server's RAG features (Phase 2+) operate on user-supplied
+documents only; no original standard text is distributed via npm or GitHub.

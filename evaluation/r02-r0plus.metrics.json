@@ -1,0 +1,231 @@
+{
+  "label": "r0plus",
+  "generatedAt": "2026-04-28T03:35:41.835Z",
+  "scenarios": 13,
+  "passRate": 0.6153846153846154,
+  "falsePassRate": 0.07692307692307693,
+  "basisMisuseRate": 0.15384615384615385,
+  "errorRate": 0,
+  "nodeUtilizationRate": 0.659,
+  "documentCoverageRate": 0.42105263157894735,
+  "responseTrustRate": 0,
+  "documentCoverage": {
+    "total": 19,
+    "covered": 8,
+    "missing": [
+      "품질관리 계획서",
+      "시험 의뢰서 (KOLAS)",
+      "검측 신청서",
+      "검측 체크리스트",
+      "자재 공급원 승인 요청서",
+      "시방서(품질관리) 일지",
+      "품질검사 성과 총괄표 (별지 제43호)",
+      "시정조치 요구서 (CAR)",
+      "부적합 조치결과 확인서 (별지 제6호)",
+      "품질관리 점검 결과 보고서",
+      "품질감사 보고서"
+    ],
+    "byCategory": {
+      "plan": {
+        "total": 4,
+        "covered": 3
+      },
+      "daily": {
+        "total": 8,
+        "covered": 3
+      },
+      "cumulative": {
+        "total": 2,
+        "covered": 1
+      },
+      "nonconformance": {
+        "total": 3,
+        "covered": 1
+      },
+      "audit": {
+        "total": 2,
+        "covered": 0
+      }
+    }
+  },
+  "graphCounts": {
+    "total": 138,
+    "byType": {
+      "AcceptanceCriteria": 9,
+      "Agency": 5,
+      "CorrectiveAction": 11,
+      "Equipment": 9,
+      "EvidenceDocument": 10,
+      "Standard": 55,
+      "InspectionCheckpoint": 3,
+      "Material": 1,
+      "Nonconformance": 9,
+      "QualityRisk": 9,
+      "Specification": 1,
+      "Task": 6,
+      "TestItem": 6,
+      "WorkType": 4
+    },
+    "byStatus": {
+      "verified": 24,
+      "indirect_source": 1,
+      "skeleton": 1,
+      "unknown": 112
+    },
+    "isolated": 44,
+    "referenced": 91,
+    "utilizationRate": 0.659
+  },
+  "perScenario": [
+    {
+      "id": "C01",
+      "tool": "evaluate_observation",
+      "pass": false,
+      "isFalsePass": false,
+      "basisHit": "all",
+      "basisMisuse": false,
+      "hitsCount": 0,
+      "actualVerdict": "PASS",
+      "details": [
+        "sourceStatus.worst=unknown < expected verified"
+      ]
+    },
+    {
+      "id": "C02",
+      "tool": "evaluate_observation",
+      "pass": true,
+      "isFalsePass": false,
+      "basisHit": "n/a",
+      "basisMisuse": false,
+      "hitsCount": 0,
+      "actualVerdict": "UNDETERMINED",
+      "details": []
+    },
+    {
+      "id": "C03",
+      "tool": "evaluate_observation",
+      "pass": false,
+      "isFalsePass": false,
+      "basisHit": "n/a",
+      "basisMisuse": false,
+      "hitsCount": 0,
+      "actualVerdict": "UNDETERMINED",
+      "details": [
+        "verdict mismatch: actual=UNDETERMINED, expected=FAIL"
+      ]
+    },
+    {
+      "id": "C04",
+      "tool": "evaluate_observation",
+      "pass": false,
+      "isFalsePass": false,
+      "basisHit": "n/a",
+      "basisMisuse": true,
+      "hitsCount": 0,
+      "actualVerdict": "UNDETERMINED",
+      "details": [
+        "verdict mismatch: actual=UNDETERMINED, expected=FAIL",
+        "⚠ 금지 basis 등장: [criteria.compressive_strength_design]"
+      ]
+    },
+    {
+      "id": "C05",
+      "tool": "discover_relevant_domain",
+      "pass": true,
+      "isFalsePass": false,
+      "basisHit": "n/a",
+      "basisMisuse": false,
+      "hitsCount": 0,
+      "details": []
+    },
+    {
+      "id": "C06",
+      "tool": "evaluate_observation",
+      "pass": false,
+      "isFalsePass": true,
+      "basisHit": "n/a",
+      "basisMisuse": true,
+      "hitsCount": 0,
+      "actualVerdict": "PASS",
+      "details": [
+        "verdict mismatch: actual=PASS, expected=UNDETERMINED",
+        "⚠ false PASS — 정답이 PASS가 아닌데 PASS로 처리",
+        "⚠ 금지 basis 등장: [criteria.concrete_temperature_general]"
+      ]
+    },
+    {
+      "id": "C07",
+      "tool": "evaluate_observation",
+      "pass": false,
+      "isFalsePass": false,
+      "basisHit": "n/a",
+      "basisMisuse": false,
+      "hitsCount": 0,
+      "actualVerdict": "UNDETERMINED",
+      "details": [
+        "verdict mismatch: actual=UNDETERMINED, expected=FAIL"
+      ]
+    },
+    {
+      "id": "C08",
+      "tool": "evaluate_observation",
+      "pass": true,
+      "isFalsePass": false,
+      "basisHit": "n/a",
+      "basisMisuse": false,
+      "hitsCount": 0,
+      "actualVerdict": "UNDETERMINED",
+      "details": []
+    },
+    {
+      "id": "C09",
+      "tool": "discover_relevant_domain",
+      "pass": true,
+      "isFalsePass": false,
+      "basisHit": "n/a",
+      "basisMisuse": false,
+      "hitsCount": 0,
+      "details": []
+    },
+    {
+      "id": "C10",
+      "tool": "search_construction_standards",
+      "pass": true,
+      "isFalsePass": false,
+      "basisHit": "n/a",
+      "basisMisuse": false,
+      "hitsCount": 0,
+      "details": []
+    },
+    {
+      "id": "C11",
+      "tool": "compile_ncr_references",
+      "pass": true,
+      "isFalsePass": false,
+      "basisHit": "all",
+      "basisMisuse": false,
+      "hitsCount": 0,
+      "details": []
+    },
+    {
+      "id": "C12",
+      "tool": "search_quality_ontology",
+      "pass": true,
+      "isFalsePass": false,
+      "basisHit": "n/a",
+      "basisMisuse": false,
+      "hitsCount": 0,
+      "details": []
+    },
+    {
+      "id": "C13",
+      "tool": "discover_relevant_domain",
+      "pass": true,
+      "isFalsePass": false,
+      "basisHit": "n/a",
+      "basisMisuse": false,
+      "hitsCount": 0,
+      "details": []
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+# Documentation / meta
+*.md
+deploy.json
+deploy.example.json
+
+# Dependencies
+node_modules/
+npm-debug.log*
+
+# Git / Claude (배포 이미지 용량 + 히스토리 노출 방지)
+.git/
+.gitignore
+.claude/
+
+# Dev tooling
+.vscode/
+.idea/
+coverage/
+test/
+scripts/smoke-test.js
+
+# OS
+.DS_Store
+
+# Env
+.env
+.env.local

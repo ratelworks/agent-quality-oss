@@ -1,0 +1,74 @@
+{
+  "entities": [
+    {
+      "id": "doc.mix_design",
+      "type": "EvidenceDocument",
+      "name": "배합설계서",
+      "aliases": ["배합표", "배합 설계", "mix design"],
+      "meta": { "mandatory": true, "priority": 1 }
+    },
+    {
+      "id": "doc.delivery_ticket",
+      "type": "EvidenceDocument",
+      "name": "납품서",
+      "aliases": ["송장", "레미콘 납품서", "delivery ticket"],
+      "meta": { "mandatory": true, "priority": 2 }
+    },
+    {
+      "id": "doc.site_test_record",
+      "type": "EvidenceDocument",
+      "name": "현장 시험 기록",
+      "aliases": ["시험 일지", "현장 시험 성적표"],
+      "meta": { "mandatory": true, "priority": 2 }
+    },
+    {
+      "id": "doc.specimen_record",
+      "type": "EvidenceDocument",
+      "name": "공시체 제작·관리 기록",
+      "aliases": ["공시체 기록"],
+      "meta": { "mandatory": true, "priority": 2 }
+    },
+    {
+      "id": "doc.test_certificate",
+      "type": "EvidenceDocument",
+      "name": "시험성적서",
+      "aliases": ["TR", "test report"],
+      "meta": { "mandatory": true, "priority": 1 }
+    },
+    {
+      "id": "doc.inspection_request",
+      "type": "EvidenceDocument",
+      "name": "검측 요청서",
+      "aliases": ["검측원 확인서"],
+      "meta": { "mandatory": true, "priority": 2 }
+    },
+    {
+      "id": "doc.site_photo",
+      "type": "EvidenceDocument",
+      "name": "현장 사진",
+      "aliases": ["시공 사진"],
+      "meta": { "mandatory": false, "priority": 3 }
+    },
+    {
+      "id": "doc.structural_drawing",
+      "type": "EvidenceDocument",
+      "name": "구조 도면",
+      "aliases": ["구조도", "structural drawing"],
+      "meta": { "mandatory": true, "priority": 1 }
+    },
+    {
+      "id": "doc.project_specification",
+      "type": "EvidenceDocument",
+      "name": "공사시방서",
+      "aliases": ["특기시방서", "project spec"],
+      "meta": { "mandatory": true, "priority": 1 }
+    },
+    {
+      "id": "doc.ncr_report",
+      "type": "EvidenceDocument",
+      "name": "부적합 보고서(NCR)",
+      "aliases": ["NCR", "Nonconformance Report"],
+      "meta": { "mandatory": true, "priority": 1 }
+    }
+  ]
+}

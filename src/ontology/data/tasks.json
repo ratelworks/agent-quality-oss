@@ -1,0 +1,41 @@
+{
+  "_note": "세부 작업(Task) — WorkType의 하위 실행 단위. inspection·test가 task 단위로 연결.",
+  "entities": [
+    {
+      "id": "task.concrete_pour_slab",
+      "type": "Task",
+      "name": "슬래브 콘크리트 타설",
+      "meta": { "parentWork": "work.concrete_placement", "stage": "execution" }
+    },
+    {
+      "id": "task.concrete_pour_foundation",
+      "type": "Task",
+      "name": "기초 콘크리트 타설",
+      "meta": { "parentWork": "work.concrete_placement", "stage": "execution" }
+    },
+    {
+      "id": "task.concrete_pour_wall",
+      "type": "Task",
+      "name": "벽체 콘크리트 타설",
+      "meta": { "parentWork": "work.concrete_placement", "stage": "execution" }
+    },
+    {
+      "id": "task.concrete_curing",
+      "type": "Task",
+      "name": "콘크리트 양생",
+      "meta": { "parentWork": "work.concrete_placement", "stage": "post" }
+    },
+    {
+      "id": "task.rebar_placement_slab",
+      "type": "Task",
+      "name": "슬래브 철근 배근",
+      "meta": { "parentWork": "work.rebar_placement", "stage": "pre_pour" }
+    },
+    {
+      "id": "task.rebar_placement_wall",
+      "type": "Task",
+      "name": "벽체 철근 배근",
+      "meta": { "parentWork": "work.rebar_placement", "stage": "pre_pour" }
+    }
+  ]
+}

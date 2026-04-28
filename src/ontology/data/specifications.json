@@ -1,0 +1,15 @@
+{
+  "_note": "Specification은 '프로젝트별 시방서 인스턴스'의 타입 정의. 글로벌 온톨로지에는 **비어 있음이 정상** (실제 인스턴스는 런타임·프로젝트 Firestore에 저장). 본 파일은 placeholder — 예시 엔티티 하나만 포함.",
+  "_rationale": "dev.md §6: Specification은 프로젝트 스코프. `spec.projectA_concrete` 같은 인스턴스는 map_quality_basis의 projectContext로 주입.",
+  "entities": [
+    {
+      "id": "spec.example_placeholder",
+      "type": "Specification",
+      "name": "예시 프로젝트 시방서 placeholder",
+      "meta": {
+        "placeholder": true,
+        "note": "실제 프로젝트 시방서는 projectContext.availableDocuments로 전달. 글로벌 온톨로지는 타입 정의만 유지."
+      }
+    }
+  ]
+}
