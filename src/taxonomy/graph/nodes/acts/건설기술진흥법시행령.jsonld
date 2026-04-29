@@ -1,0 +1,29 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "act:건설기술진흥법시행령",
+  "@type": ["Act", "Legislation"],
+  "legislationType": "Decree",
+  "legislationIdentifier": "건설기술 진흥법 시행령",
+  "alternativeNames": ["건진법시행령"],
+  "verificationStatus": "pending",
+  "delegationLevel": 2,
+  "legislationLegalForce": "InForce",
+  "jurisdiction": "KR",
+  "_meta": {
+    "publishedBy": "법제처 국가법령정보센터",
+    "sourceUrl": "https://www.law.go.kr/법령/건설기술진흥법시행령",
+    "관할부처": "국토교통부",
+    "법령구분": "대통령령",
+    "fetchedAt": "2026-04-29",
+    "licenseHint": "저작권법 §7 비보호 (자유 인용)"
+  },
+  "hasArticle": [
+    "art:건진법시행령:89",
+    "art:건진법시행령:90",
+    "art:건진법시행령:91",
+    "art:건진법시행령:92",
+    "art:건진법시행령:93"
+  ],
+  "delegationOf": ["act:건설기술진흥법"],
+  "delegates": ["act:건설기술진흥법시행규칙"]
+}

@@ -1,0 +1,32 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "act:건설기술진흥법시행규칙",
+  "@type": ["Act", "Legislation"],
+  "legislationType": "Rule",
+  "legislationIdentifier": "건설기술 진흥법 시행규칙",
+  "alternativeNames": ["건진법시행규칙"],
+  "verificationStatus": "pending",
+  "delegationLevel": 3,
+  "legislationLegalForce": "InForce",
+  "jurisdiction": "KR",
+  "_meta": {
+    "publishedBy": "법제처 국가법령정보센터",
+    "sourceUrl": "https://www.law.go.kr/법령/건설기술진흥법시행규칙",
+    "관할부처": "국토교통부",
+    "법령구분": "국토교통부령",
+    "fetchedAt": "2026-04-29",
+    "licenseHint": "저작권법 §7 비보호 (자유 인용)"
+  },
+  "hasArticle": [
+    "art:건진법시행규칙:50",
+    "art:건진법시행규칙:51",
+    "art:건진법시행규칙:52",
+    "art:건진법시행규칙:53"
+  ],
+  "hasAnnex": [
+    "annex:건진법시행규칙:42",
+    "annex:건진법시행규칙:43"
+  ],
+  "delegationOf": ["act:건설기술진흥법시행령"],
+  "delegates": ["act:건설공사품질관리업무지침"]
+}

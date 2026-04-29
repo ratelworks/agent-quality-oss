@@ -1,0 +1,31 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "act:건설공사품질관리업무지침",
+  "@type": ["Act", "Legislation"],
+  "legislationType": "OfficialNotice",
+  "legislationIdentifier": "건설공사 품질관리 업무지침",
+  "alternativeNames": ["품질지침", "품질관리업무지침", "국토부 고시 품질지침"],
+  "verificationStatus": "pending",
+  "delegationLevel": 4,
+  "legislationLegalForce": "InForce",
+  "jurisdiction": "KR",
+  "_meta": {
+    "publishedBy": "국토교통부",
+    "sourceUrl": "https://www.law.go.kr/행정규칙/건설공사품질관리업무지침",
+    "관할부처": "국토교통부",
+    "법령구분": "국토교통부고시",
+    "fetchedAt": "2026-04-29",
+    "licenseHint": "저작권법 §7 비보호 (자유 인용)"
+  },
+  "hasArticle": [
+    "art:품질지침:5",
+    "art:품질지침:6",
+    "art:품질지침:7",
+    "art:품질지침:8",
+    "art:품질지침:10"
+  ],
+  "hasAnnex": [
+    "annex:품질지침:6"
+  ],
+  "delegationOf": ["act:건설기술진흥법시행규칙"]
+}

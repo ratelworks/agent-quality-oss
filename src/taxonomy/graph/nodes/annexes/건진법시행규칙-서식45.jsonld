@@ -1,0 +1,30 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "annex:건진법시행규칙:서식45",
+  "@type": [
+    "Annex"
+  ],
+  "annexNumber": "45",
+  "annexKind": "서식",
+  "title": "공장인증서",
+  "partOf": "act:건설기술진흥법시행규칙",
+  "verificationStatus": "verified",
+  "legislationIdentifier": "건설기술 진흥법 시행규칙",
+  "jurisdiction": "KR",
+  "constructionRelevance": "medium",
+  "userVisible": true,
+  "isAppendix": true,
+  "description": "■ 건설기술 진흥법 시행규칙[별지 제45호 서식]                                                   \n\n\n┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓\n\n\n┃                                                                                              ┃\n\n\n┃ 제       호                                                                                  ┃\n\n\n┃ (Certi. No.        )                                                                         ┃\n\n\n┃                                                                                              ┃\n\n\n┃공장인증서                                                                                    ┃\n\n\n┃(FACTORY CERTIFICATE)                                                                         ┃\n\n\n┃                                                                                              ┃\n\n\n┠───────────────────────────────────────────────┨\n\n\n┃                                                                                              ┃\n\n\n┃ 1. 상호 또는 법인명(Company Name):                                                           ┃\n\n\n┃                                                                                              ┃\n\n\n┃ 2. 성명 또는 대표자(President's Name):                                                       ┃\n\n\n┃                                                                                              ┃\n\n\n┃ 3. 사업자 또는 법인등록번호(Company Reg. No.):                                               ┃\n\n\n┃                                                                                              ┃\n\n\n┃ 4. 공장 소재지(Factory Address):                                                             ┃\n\n\n┃                                                                                              ┃\n\n\n┃ 5. 분야(Specialty):                                                                          ┃\n\n\n┃                                                                                              ┃\n\n\n┃ 6. 등급(Class):                                                                              ┃\n\n\n┃                                                                                              ┃\n\n\n┃                                                                                              ┃\n\n\n┃   「건설기술 진흥법」 제58조에 따라 위의 철강구조물 제작공장의 등급을 인증합니다.            ┃\n\n\n┃   (Ministry of Land, Infrastructure and Transport certifies the factory named above has been ┃\n\n\n┃approved to manufacture steel structures in accordance with provision of the Construction     ┃\n\n\n┃Technology Promotion Act, Article 58)                                                         ┃\n\n\n┃                                                                                              ┃\n\n\n┃  년        월        일                                                                      ┃\n\n\n┃(Date of Issue)                                                                               ┃\n\n\n┃                                                                                              ┃\n\n\n┃ Minister                                                                                     ┃\n\n\n┃ Ministry of Land, Infrastructure and Transport                                               ┃\n\n\n┃ Republic of Korea                                                                            ┃\n\n\n┃                                                                                              ┃\n\n\n┃                 ┏━━┓                                                                     ┃\n\n\n┃   국토교통부장관┃직인┃                                                                     ┃\n\n\n┃                 ┗━━┛                                                                     ┃\n\n\n┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛\n\n\n  210mm×297mm[백상지 120g/㎡]",
+  "_meta": {
+    "publishedBy": "법제처 국가법령정보센터 (자동 sync)",
+    "sourceUrl": "https://www.law.go.kr/법령/%EA%B1%B4%EC%A7%84%EB%B2%95%EC%8B%9C%ED%96%89%EA%B7%9C%EC%B9%99/서식/45",
+    "fetchedAt": "2026-04-29",
+    "verifiedAt": "2026-04-29",
+    "verifiedBy": "법제처 lawService.do <별표단위> 자동 sync",
+    "annexKey": "004500F",
+    "lawServiceMST": "279455",
+    "hwpDownloadUrl": "https://www.law.go.kr/LSW/flDownload.do?flSeq=157532141",
+    "pdfDownloadUrl": "https://www.law.go.kr/LSW/flDownload.do?flSeq=157532143",
+    "licenseHint": "저작권법 §7 비보호 (자유 인용). 별지 서식 원본 재배포는 공공누리 4유형 — locator만 보관."
+  }
+}

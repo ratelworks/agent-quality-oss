@@ -1,0 +1,30 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "annex:건진법시행규칙:서식41",
+  "@type": [
+    "Annex"
+  ],
+  "annexNumber": "41",
+  "annexKind": "서식",
+  "title": "부실시공현장 표지",
+  "partOf": "act:건설기술진흥법시행규칙",
+  "verificationStatus": "verified",
+  "legislationIdentifier": "건설기술 진흥법 시행규칙",
+  "jurisdiction": "KR",
+  "constructionRelevance": "medium",
+  "userVisible": true,
+  "isAppendix": true,
+  "description": "■ 건설기술 진흥법 시행규칙 [별지 제41호서식]                       \n\n\n                                                                      \n\n\n┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓\n\n\n┃부실시공현장 표지                                                 ┃\n\n\n┠────┬────────────────────────────┨\n\n\n┃위치    │                                                        ┃\n\n\n┠────┼────────────────────────────┨\n\n\n┃발주자  │                                                        ┃\n\n\n┠────┼────────────────────────────┨\n\n\n┃시공자  │                                                        ┃\n\n\n┠────┼────────────────────────────┨\n\n\n┃공사명  │                                                        ┃\n\n\n┠────┼────────────────────────────┨\n\n\n┃지적사항│                                                        ┃\n\n\n┠────┴────────────────────────────┨\n\n\n┃  「건설기술 진흥법」 제54조제1항에 따라 부실시공현장으로 지적되어┃\n\n\n┃   시정 중인 공사입니다.                                          ┃\n\n\n┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛\n\n\n            1200mm×900mm",
+  "_meta": {
+    "publishedBy": "법제처 국가법령정보센터 (자동 sync)",
+    "sourceUrl": "https://www.law.go.kr/법령/%EA%B1%B4%EC%A7%84%EB%B2%95%EC%8B%9C%ED%96%89%EA%B7%9C%EC%B9%99/서식/41",
+    "fetchedAt": "2026-04-29",
+    "verifiedAt": "2026-04-29",
+    "verifiedBy": "법제처 lawService.do <별표단위> 자동 sync",
+    "annexKey": "004100F",
+    "lawServiceMST": "279455",
+    "hwpDownloadUrl": "https://www.law.go.kr/LSW/flDownload.do?flSeq=157532115",
+    "pdfDownloadUrl": "https://www.law.go.kr/LSW/flDownload.do?flSeq=157532117",
+    "licenseHint": "저작권법 §7 비보호 (자유 인용). 별지 서식 원본 재배포는 공공누리 4유형 — locator만 보관."
+  }
+}

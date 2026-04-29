@@ -1,0 +1,45 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "art:건진법:57",
+  "@type": [
+    "Article",
+    "Legislation"
+  ],
+  "articleNumber": "57",
+  "title": "건설자재ㆍ부재의 품질 확보 등",
+  "partOf": "act:건설기술진흥법",
+  "verificationStatus": "verified",
+  "legislationIdentifier": "건설기술 진흥법",
+  "legislationDate": "2025-10-01",
+  "legislationType": "Act",
+  "legislationLegalForce": "InForce",
+  "jurisdiction": "KR",
+  "temporalCoverage": "2025-10-01/..",
+  "description": "**제57조 (건설자재ㆍ부재의 품질 확보 등)**\n\n제57조(건설자재ㆍ부재의 품질 확보 등)\n\n① 건설사업자와 주택건설등록업자는 대통령령으로 정하는 건설자재ㆍ부재를 공급받으려는 공장을 선정할 때에는 다음 각 호의 어느 하나에 해당하는 자의 승인(이하 \"자재공급원 승인\"이라 한다)을 받아야 한다. <신설 2024.1.9>\n\n② 국토교통부장관은 대통령령으로 정하는 건설자재ㆍ부재의 품질 확보를 위하여 필요한 경우에는 관계 중앙행정기관의 장과 협의하여 건설자재ㆍ부재의 생산, 공급(자재공급원 승인 및 그 승인의 취소 등을 포함한다) 및 보관 등에 필요한 사항을 정하여 고시할 수 있다. <개정 2024.1.9>\n\n③ 제2항에 따른 건설자재ㆍ부재를 생산(채취를 포함한다) 또는 수입ㆍ판매하는 자와 대통령령으로 정하는 공사에 이를 사용하는 건설사업자 또는 주택건설등록업자와 레디믹스트콘크리트(시멘트, 골재 및 물 등을 배합한 굳지 아니한 상태의 콘크리트를 말한다) 또는 아스팔트콘크리트 제조업자는 다음 각 호의 어느 하나에 적합한 건설자재ㆍ부재를 공급하거나 사용하여야 한다. <개정 2013.7.16, 2019.4.30, 2024.1.9>\n\n④ 레디믹스트콘크리트 제조업자가 반품된 레디믹스트콘크리트를 재사용하려는 경우에는 제3항 각 호의 어느 하나에 적합하여야 한다. <신설 2013.7.16, 2024.1.9>\n\n⑤ 국토교통부장관은 건설자재ㆍ부재의 품질이 적절한지 확인할 수 있으며, 확인 결과 건설공사에 사용하는 것이 적합하지 아니하다고 인정되는 경우에는 관계 중앙행정기관의 장에게 시정명령 등 필요한 조치를 하도록 요청할 수 있다. <개정 2013.7.16, 2024.1.9>",
+  "amendmentHistory": [
+    "2013-7-16",
+    "2019-4-30",
+    "2024-1-9"
+  ],
+  "latestAmendment": "2024-1-9",
+  "constructionRelevance": "high",
+  "userPersona": [
+    "quality_manager",
+    "supervisor",
+    "site_manager"
+  ],
+  "userVisible": true,
+  "isAppendix": false,
+  "_meta": {
+    "publishedBy": "법제처 국가법령정보센터 (자동 sync)",
+    "sourceUrl": "https://www.law.go.kr/법령/%EA%B1%B4%EC%84%A4%EA%B8%B0%EC%88%A0%20%EC%A7%84%ED%9D%A5%EB%B2%95/제57조",
+    "fetchedAt": "2026-04-28",
+    "licenseHint": "저작권법 §7 비보호 (자유 인용)",
+    "verifiedAt": "2026-04-28",
+    "verifiedBy": "법제처 lawService.do (자동 sync)",
+    "lawServiceMST": "276921",
+    "lawServiceLawId": "001807",
+    "lawServiceJO": "0057",
+    "bodyLength": 825
+  }
+}

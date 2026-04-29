@@ -1,0 +1,30 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "annex:건진법시행규칙:서식9",
+  "@type": [
+    "Annex"
+  ],
+  "annexNumber": "9",
+  "annexKind": "서식",
+  "title": "교육수료증",
+  "partOf": "act:건설기술진흥법시행규칙",
+  "verificationStatus": "verified",
+  "legislationIdentifier": "건설기술 진흥법 시행규칙",
+  "jurisdiction": "KR",
+  "constructionRelevance": "medium",
+  "userVisible": true,
+  "isAppendix": true,
+  "description": "[별지 제9호서식] <개정 2020. 12. 14.>                                                                                       \n\n\n┌─────────────────────────────────────────────────────────────┐\n\n\n│    제       호                                                                                                           │\n\n\n│                                                                                                                          │\n\n\n│교육수료증                                                                                                                │\n\n\n│                                                                                                                          │\n\n\n│   성명:                                                                                                                  │\n\n\n│   생년월일:                                                                                                              │\n\n\n│   소속:                                                                                                                  │\n\n\n│   교육과정:                                                                                                              │\n\n\n│   교육종류:                                                                                                              │\n\n\n│   교육이수등급:                          직무분야:                                                                       │\n\n\n│   교육기간:        .      .     .   ~        .    .    . (     시간)                                                     │\n\n\n│                                                                                                                          │\n\n\n│                                                                                                                          │\n\n\n│ 위 사람은 「건설기술 진흥법」 제20조제2항 및 같은 법 시행규칙 제                                                         │\n\n\n│17조제2항에 따라 위의 교육과정을 수료하였으므로 이 증서를 수여합                                                          │\n\n\n│니다.                                                                                                                     │\n\n\n│                                                                                                                          │\n\n\n│                                                                                                                          │\n\n\n│년        월        일                                                                                                    │\n\n\n│                                                                                                                          │\n\n\n│                       ┏━━┓                                                                                           │\n\n\n│        국토교통부장관 ┃직인┃                                                                                           │\n\n\n│         교육기관의 장 ┃    ┃                                                                                           │\n\n\n│                       ┗━━┛                                                                                           │\n\n\n│                                                                                                                          │\n\n\n└─────────────────────────────────────────────────────────────┘\n\n\n                                                                                                                              \n\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n\n  유의사항                                                                                                                    \n\n\n───────────────────────────────────────────────────────────────\n\n\n   해당 교육수료 내용은 교육훈련 종료일 이후 14일 이내에 교육기관에서 경력관리수탁기관으로 직접 통보되고 있으며, 건설기술인   \n\n\n  등급 산정 등에 바로 적용이 필요한 경우 교육생이 직접 경력관리수탁기관에 신고할 수 있습니다.                                 \n\n\n───────────────────────────────────────────────────────────────\n\n\n                                                                                                                              \n\n\n  210㎜×297㎜[백상지 120g/㎡]",
+  "_meta": {
+    "publishedBy": "법제처 국가법령정보센터 (자동 sync)",
+    "sourceUrl": "https://www.law.go.kr/법령/%EA%B1%B4%EC%A7%84%EB%B2%95%EC%8B%9C%ED%96%89%EA%B7%9C%EC%B9%99/서식/9",
+    "fetchedAt": "2026-04-29",
+    "verifiedAt": "2026-04-29",
+    "verifiedBy": "법제처 lawService.do <별표단위> 자동 sync",
+    "annexKey": "000900F",
+    "lawServiceMST": "279455",
+    "hwpDownloadUrl": "https://www.law.go.kr/LSW/flDownload.do?flSeq=157531853",
+    "pdfDownloadUrl": "https://www.law.go.kr/LSW/flDownload.do?flSeq=157531855",
+    "licenseHint": "저작권법 §7 비보호 (자유 인용). 별지 서식 원본 재배포는 공공누리 4유형 — locator만 보관."
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "annex:건진법시행규칙:서식47",
+  "@type": [
+    "Annex"
+  ],
+  "annexNumber": "47",
+  "annexKind": "서식",
+  "title": "공장인증대장",
+  "partOf": "act:건설기술진흥법시행규칙",
+  "verificationStatus": "verified",
+  "legislationIdentifier": "건설기술 진흥법 시행규칙",
+  "jurisdiction": "KR",
+  "constructionRelevance": "medium",
+  "userVisible": true,
+  "isAppendix": true,
+  "description": "■ 건설기술 진흥법 시행규칙[별지 제47호서식]                      \n\n\n┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓\n\n\n┃                                                                ┃\n\n\n┃                                                                ┃\n\n\n┃공장인증대장                                                    ┃\n\n\n┃                                                                ┃\n\n\n┃인증번호:                                                       ┃\n\n\n┃                                                                ┃\n\n\n┠──────┬─────────────┬───────┬───┨\n\n\n┃분야 및 등급│                          │인증일        │      ┃\n\n\n┠──────┼─────────────┼───────┼───┨\n\n\n┃상호 또는   │                          │사업자등록번호│      ┃\n\n\n┃법인명      │                          │(법인등록번호)│      ┃\n\n\n┠──────┼─────────────┼───────┼───┨\n\n\n┃성명(대표자)│                          │전화번호      │      ┃\n\n\n┠──────┼─────────────┴───────┴───┨\n\n\n┃주소        │                                                  ┃\n\n\n┠──────┼─────────────┬───────┬───┨\n\n\n┃공장명      │                          │전화번호      │      ┃\n\n\n┠──────┼─────────────┴───────┴───┨\n\n\n┃공장소재지  │                                                  ┃\n\n\n┠──────┴─────────────────────────┨\n\n\n┃기재사항 변경                                                   ┃\n\n\n┠───────┬────────────────────┬───┨\n\n\n┃구분          │변경 내용                               │변경일┃\n\n\n┠───────┼────────────────────┼───┨\n\n\n┃              │                                        │      ┃\n\n\n┗━━━━━━━┷━━━━━━━━━━━━━━━━━━━━┷━━━┛\n\n\n  210mm×297mm[백상지 120g/㎡]",
+  "_meta": {
+    "publishedBy": "법제처 국가법령정보센터 (자동 sync)",
+    "sourceUrl": "https://www.law.go.kr/법령/%EA%B1%B4%EC%A7%84%EB%B2%95%EC%8B%9C%ED%96%89%EA%B7%9C%EC%B9%99/서식/47",
+    "fetchedAt": "2026-04-29",
+    "verifiedAt": "2026-04-29",
+    "verifiedBy": "법제처 lawService.do <별표단위> 자동 sync",
+    "annexKey": "004700F",
+    "lawServiceMST": "279455",
+    "hwpDownloadUrl": "https://www.law.go.kr/LSW/flDownload.do?flSeq=157532153",
+    "pdfDownloadUrl": "https://www.law.go.kr/LSW/flDownload.do?flSeq=157532155",
+    "licenseHint": "저작권법 §7 비보호 (자유 인용). 별지 서식 원본 재배포는 공공누리 4유형 — locator만 보관."
+  }
+}

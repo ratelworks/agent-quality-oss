@@ -1,0 +1,44 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "art:건진법시행령:93",
+  "@type": [
+    "Article",
+    "Legislation"
+  ],
+  "articleNumber": "93",
+  "title": "품질시험 또는 검사 성과의 관리 등",
+  "partOf": "act:건설기술진흥법시행령",
+  "verificationStatus": "verified",
+  "legislationIdentifier": "건설기술 진흥법 시행령",
+  "legislationDate": "2026-02-27",
+  "legislationType": "Decree",
+  "legislationLegalForce": "InForce",
+  "jurisdiction": "KR",
+  "temporalCoverage": "2026-02-27/..",
+  "description": "**제93조 (품질시험 또는 검사 성과의 관리 등)**\n\n제93조(품질시험 또는 검사 성과의 관리 등)\n\n① 건설사업자나 주택건설등록업자는 품질검사를 완료하였을 때에는 국토교통부령으로 정하는 바에 따라 품질시험 또는 검사 성과 총괄표를 작성하고, 해당 건설공사에 대한 기성부분검사ㆍ예비준공검사 또는 준공검사를 신청할 때 발주자에게 이를 제출해야 한다. <개정 2020.1.7>\n\n② 건설공사의 기성부분검사ㆍ예비준공검사 또는 준공검사를 하는 자는 품질시험 또는 검사 성과 총괄표의 내용을 검토하여야 한다.\n\n③ 「시설물의 안전 및 유지관리에 관한 특별법」 제7조제1호 및 제2호에 따른 1종시설물 및 2종시설물에 관한 발주자는 해당 건설공사가 완공되면 같은 법 제2조제4호에 따른 관리주체(이하 \"관리주체\"라 한다)에게 품질시험 또는 검사 성과 총괄표를 인계하여야 한다. <개정 2018.1.16>\n\n④ 발주자(제3항에 따라 품질시험 또는 검사 성과 총괄표를 관리주체에게 인계한 경우에는 관리주체를 말한다)는 품질시험 또는 검사 성과 총괄표를 해당 시설물이 존속하는 기간 동안 보존하여야 한다.",
+  "amendmentHistory": [
+    "2018-1-16",
+    "2020-1-7"
+  ],
+  "latestAmendment": "2020-1-7",
+  "constructionRelevance": "high",
+  "userPersona": [
+    "quality_manager",
+    "supervisor",
+    "site_manager"
+  ],
+  "userVisible": true,
+  "isAppendix": false,
+  "_meta": {
+    "publishedBy": "법제처 국가법령정보센터 (자동 sync)",
+    "sourceUrl": "https://www.law.go.kr/법령/%EA%B1%B4%EC%84%A4%EA%B8%B0%EC%88%A0%20%EC%A7%84%ED%9D%A5%EB%B2%95%20%EC%8B%9C%ED%96%89%EB%A0%B9/제93조",
+    "fetchedAt": "2026-04-28",
+    "licenseHint": "저작권법 §7 비보호 (자유 인용)",
+    "verifiedAt": "2026-04-28",
+    "verifiedBy": "법제처 lawService.do (자동 sync)",
+    "lawServiceMST": "283649",
+    "lawServiceLawId": "002111",
+    "lawServiceJO": "0093",
+    "bodyLength": 555
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "annex:건진법시행규칙:서식1의3",
+  "@type": [
+    "Annex"
+  ],
+  "annexNumber": "1-3",
+  "annexKind": "서식",
+  "title": "신기술사용협약서",
+  "partOf": "act:건설기술진흥법시행규칙",
+  "verificationStatus": "verified",
+  "legislationIdentifier": "건설기술 진흥법 시행규칙",
+  "jurisdiction": "KR",
+  "constructionRelevance": "medium",
+  "userVisible": true,
+  "isAppendix": true,
+  "description": "■ 건설기술 진흥법 시행규칙 [별지 제1호의3서식] <개정 2024. 7. 30.>                             \n\n\n                                                                                                  \n\n\n  신기술사용협약서                                                                                \n\n\n                                                                                                  \n\n\n                                                                                                  \n\n\n                                                                                                  \n\n\n  1. 신기술 개요                                                                                  \n\n\n     가. 신기술번호: 건설신기술 제     호                                                         \n\n\n     나. 신기술명칭:                                                                              \n\n\n     다. 기술개발자:                                                                              \n\n\n     라. 신기술범위:                                                                              \n\n\n     마. 보호기간:                                                                                \n\n\n                                                                                                  \n\n\n  2. 협약내용                                                                                     \n\n\n     가. 협약기간:                                                                                \n\n\n     나. 협약범위:                                                                                \n\n\n     다. 책임 소재 및 범위:                                                                       \n\n\n     라. 공사품질 관리:                                                                           \n\n\n     마. 자재수급:                                                                                \n\n\n     바. 기 술 료:                                                                                \n\n\n     사. 협약해약 및 손해배상:                                                                    \n\n\n                                                                                                  \n\n\n  3. 기 타 (※ 서식에 포함되지 않은 사항이라도 협약에 따라 기타 사항을 추가하실 수 있습니다)      \n\n\n     이 협약서에 규정하지 않은 사항은 「민법」 등 관련 법령에 따른다.                             \n\n\n                                                                                                  \n\n\n    「건설기술 진흥법」 제14조에 따른 기술개발자와 신기술사용협약을 체결한 자는 「건설기술 진흥   \n\n\n  법」 제14조의2에 따라 이 신기술사용협약서 및 별첨 설계도, 시방서 등에 따른 신기술사용협약을 체  \n\n\n  결하고, 그 증거로 신기술사용협약서 등 2통을 작성하여 각 1통씩 보관한다.                         \n\n\n                                                                                                  \n\n\n                                                                                                  \n\n\n                                                                                                  \n\n\n  년       월       일                                                                            \n\n\n                                                                                                  \n\n\n                                                                                                  \n\n\n    기술개발자        주  소:                                                                     \n\n\n                      생년월일 또는 법인등록번호:                                                 \n\n\n                      성명 또는 법인명(대표자명):                                                 \n\n\n                      (인)                                                                        \n\n\n                                                                                                  \n\n\n                                                                                                  \n\n\n    신기술사용협약자  주  소:                                                                     \n\n\n                      사업자등록번호 또는 법인등록번호:                                           \n\n\n                      상호 또는 법인명(대표자명):                                                 \n\n\n                      (인)                                                                        \n\n\n                                                                                                  \n\n\n  210mm×297mm[백상지(80g/㎡) 또는 중질지(80g/㎡)]",
+  "_meta": {
+    "publishedBy": "법제처 국가법령정보센터 (자동 sync)",
+    "sourceUrl": "https://www.law.go.kr/법령/%EA%B1%B4%EC%A7%84%EB%B2%95%EC%8B%9C%ED%96%89%EA%B7%9C%EC%B9%99/서식/1",
+    "fetchedAt": "2026-04-29",
+    "verifiedAt": "2026-04-29",
+    "verifiedBy": "법제처 lawService.do <별표단위> 자동 sync",
+    "annexKey": "000103F",
+    "lawServiceMST": "279455",
+    "hwpDownloadUrl": "https://www.law.go.kr/LSW/flDownload.do?flSeq=157531785",
+    "pdfDownloadUrl": "https://www.law.go.kr/LSW/flDownload.do?flSeq=157531787",
+    "licenseHint": "저작권법 §7 비보호 (자유 인용). 별지 서식 원본 재배포는 공공누리 4유형 — locator만 보관."
+  }
+}

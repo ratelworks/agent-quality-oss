@@ -1,0 +1,43 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "art:건진법시행규칙:52",
+  "@type": [
+    "Article",
+    "Legislation"
+  ],
+  "articleNumber": "52",
+  "title": "품질관리의 적절성 확인",
+  "partOf": "act:건설기술진흥법시행규칙",
+  "verificationStatus": "verified",
+  "legislationIdentifier": "건설기술 진흥법 시행규칙",
+  "legislationDate": "2025-10-31",
+  "legislationType": "Rule",
+  "legislationLegalForce": "InForce",
+  "jurisdiction": "KR",
+  "temporalCoverage": "2025-10-31/..",
+  "description": "**제52조 (품질관리의 적절성 확인)**\n\n제52조(품질관리의 적절성 확인)\n\n① 법 제55조제4항에 따른 품질관리의 적절성 확인은 해마다 한 번 이상 실시하되, 해당 건설공사의 준공 2개월 전까지 하여야 한다. <개정 2024.7.10>\n\n② 제1항에 따른 적절성 확인의 기준 및 요령은 국토교통부장관이 정하여 고시한다.",
+  "amendmentHistory": [
+    "2024-7-10"
+  ],
+  "latestAmendment": "2024-7-10",
+  "constructionRelevance": "high",
+  "userPersona": [
+    "quality_manager",
+    "supervisor",
+    "site_manager"
+  ],
+  "userVisible": true,
+  "isAppendix": false,
+  "_meta": {
+    "publishedBy": "법제처 국가법령정보센터 (자동 sync)",
+    "sourceUrl": "https://www.law.go.kr/법령/%EA%B1%B4%EC%84%A4%EA%B8%B0%EC%88%A0%20%EC%A7%84%ED%9D%A5%EB%B2%95%20%EC%8B%9C%ED%96%89%EA%B7%9C%EC%B9%99/제52조",
+    "fetchedAt": "2026-04-28",
+    "licenseHint": "저작권법 §7 비보호 (자유 인용)",
+    "verifiedAt": "2026-04-28",
+    "verifiedBy": "법제처 lawService.do (자동 sync)",
+    "lawServiceMST": "279455",
+    "lawServiceLawId": "006175",
+    "lawServiceJO": "0052",
+    "bodyLength": 181
+  }
+}

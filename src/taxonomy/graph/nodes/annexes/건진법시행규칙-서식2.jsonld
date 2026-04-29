@@ -1,0 +1,30 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "annex:건진법시행규칙:서식2",
+  "@type": [
+    "Annex"
+  ],
+  "annexNumber": "2",
+  "annexKind": "서식",
+  "title": "신기술 지정증서",
+  "partOf": "act:건설기술진흥법시행규칙",
+  "verificationStatus": "verified",
+  "legislationIdentifier": "건설기술 진흥법 시행규칙",
+  "jurisdiction": "KR",
+  "constructionRelevance": "medium",
+  "userVisible": true,
+  "isAppendix": true,
+  "description": "■ 건설기술 진흥법 시행규칙 [별지 제2호서식]                                      \n\n\n┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓\n\n\n┃  제     호                                                                     ┃\n\n\n┃                                                                                ┃\n\n\n┃신기술 지정증서                                                                 ┃\n\n\n┃                                                                                ┃\n\n\n┃                                                                                ┃\n\n\n┃ ? 명칭:                                                                       ┃\n\n\n┃                                                                                ┃\n\n\n┃ ? 개발자(개량자):                                                             ┃\n\n\n┃                                                                                ┃\n\n\n┃ ? 보호 기간:      .    .   .   ~      .    .    . (   년)                     ┃\n\n\n┃                                                                                ┃\n\n\n┃ ? 기술 내용:                                                                  ┃\n\n\n┃                                                                                ┃\n\n\n┃                                                                                ┃\n\n\n┃                                                                                ┃\n\n\n┃ ? 기술 범위:                                                                  ┃\n\n\n┃                                                                                ┃\n\n\n┃                                                                                ┃\n\n\n┃                                                                                ┃\n\n\n┃ ? 보호 내용:                                                                  ┃\n\n\n┃                                                                                ┃\n\n\n┃                                                                                ┃\n\n\n┃                                                                                ┃\n\n\n┃   「건설기술 진흥법」 제14조 및 같은 법 시행령 제33조제1항에 따라 위 기술을 신 ┃\n\n\n┃기술로 지정합니다.                                                              ┃\n\n\n┃                                                                                ┃\n\n\n┃                                                      년      월     일장       ┃\n\n\n┃                                                                                ┃\n\n\n┃                ┏━━┓                                                        ┃\n\n\n┃  국토교통부장관┃직인┃                                                        ┃\n\n\n┃                ┗━━┛                                                        ┃\n\n\n┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛\n\n\n                                                                                    \n\n\n  210㎜×297㎜[백상지 120g/㎡]",
+  "_meta": {
+    "publishedBy": "법제처 국가법령정보센터 (자동 sync)",
+    "sourceUrl": "https://www.law.go.kr/법령/%EA%B1%B4%EC%A7%84%EB%B2%95%EC%8B%9C%ED%96%89%EA%B7%9C%EC%B9%99/서식/2",
+    "fetchedAt": "2026-04-29",
+    "verifiedAt": "2026-04-29",
+    "verifiedBy": "법제처 lawService.do <별표단위> 자동 sync",
+    "annexKey": "000200F",
+    "lawServiceMST": "279455",
+    "hwpDownloadUrl": "https://www.law.go.kr/LSW/flDownload.do?flSeq=157531809",
+    "pdfDownloadUrl": "https://www.law.go.kr/LSW/flDownload.do?flSeq=157531811",
+    "licenseHint": "저작권법 §7 비보호 (자유 인용). 별지 서식 원본 재배포는 공공누리 4유형 — locator만 보관."
+  }
+}

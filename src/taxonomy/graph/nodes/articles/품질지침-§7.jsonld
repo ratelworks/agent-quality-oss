@@ -1,0 +1,39 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "art:품질지침:7",
+  "@type": [
+    "Article",
+    "Legislation"
+  ],
+  "articleNumber": "7",
+  "title": "품질관리계획서의 작성기준",
+  "partOf": "act:건설공사품질관리업무지침",
+  "verificationStatus": "verified",
+  "legislationIdentifier": "건설공사 품질관리 업무지침",
+  "legislationDate": "2025-06-12",
+  "legislationType": "OfficialNotice",
+  "legislationLegalForce": "InForce",
+  "jurisdiction": "KR",
+  "temporalCoverage": "2025-06-12/..",
+  "description": "**제7조 (품질관리계획서의 작성기준)**\n\n제7조(품질관리계획서의 작성기준) 영 제89조제4항에 따른 품질관리계획서 작성기준은 별표 1과 같다.",
+  "constructionRelevance": "high",
+  "userPersona": [
+    "quality_manager",
+    "supervisor",
+    "site_manager"
+  ],
+  "userVisible": true,
+  "isAppendix": false,
+  "_meta": {
+    "publishedBy": "법제처 국가법령정보센터 (자동 sync)",
+    "sourceUrl": "https://www.law.go.kr/행정규칙/%EA%B1%B4%EC%84%A4%EA%B3%B5%EC%82%AC%20%ED%92%88%EC%A7%88%EA%B4%80%EB%A6%AC%20%EC%97%85%EB%AC%B4%EC%A7%80%EC%B9%A8/(48782)/제7조",
+    "fetchedAt": "2026-04-28",
+    "licenseHint": "저작권법 §7 비보호 (자유 인용)",
+    "verifiedAt": "2026-04-28",
+    "verifiedBy": "법제처 admrul lawService.do (자동 sync)",
+    "admRulId": "2100000260210",
+    "admRulCode": "48782",
+    "noticeNumber": "국토교통부고시 제2025-311호",
+    "bodyLength": 56
+  }
+}

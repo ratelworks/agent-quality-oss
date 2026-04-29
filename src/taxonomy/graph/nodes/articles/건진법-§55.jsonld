@@ -1,0 +1,45 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "art:건진법:55",
+  "@type": [
+    "Article",
+    "Legislation"
+  ],
+  "articleNumber": "55",
+  "title": "건설공사의 품질관리",
+  "partOf": "act:건설기술진흥법",
+  "verificationStatus": "verified",
+  "legislationIdentifier": "건설기술 진흥법",
+  "legislationDate": "2025-10-01",
+  "legislationType": "Act",
+  "legislationLegalForce": "InForce",
+  "jurisdiction": "KR",
+  "temporalCoverage": "2025-10-01/..",
+  "description": "**제55조 (건설공사의 품질관리)**\n\n제55조(건설공사의 품질관리)\n\n① 건설사업자와 주택건설등록업자는 대통령령으로 정하는 건설공사에 대하여는 그 종류에 따라 품질 및 공정 관리 등 건설공사의 품질관리계획(이하 \"품질관리계획\"이라 한다) 또는 시험 시설 및 인력의 확보 등 건설공사의 품질시험계획(이하 \"품질시험계획\"이라 한다)을 수립하고, 이를 발주자에게 제출하여 승인을 받아야 한다. 이 경우 발주청이 아닌 발주자는 미리 품질관리계획 또는 품질시험계획의 사본을 인ㆍ허가기관의 장에게 제출하여야 한다. <개정 2019.4.30>\n\n② 건설사업자와 주택건설등록업자는 품질관리계획 또는 품질시험계획에 따라 품질시험 및 검사를 하여야 한다. 이 경우 건설사업자나 주택건설등록업자에게 고용되어 품질관리 업무를 수행하는 건설기술인은 품질관리계획 또는 품질시험계획에 따라 그 업무를 수행하여야 한다. <개정 2018.8.14, 2019.4.30>\n\n③ 건설사업자 또는 주택건설등록업자는 제2항에 따른 품질시험 및 검사를 완료한 날부터 7일 이내에 그 결과 및 실시대장 등 증빙자료를 열람이 가능하도록 제62조제15항에 따른 건설공사 안전관리 종합정보망에 입력하여야 한다. <신설 2024.1.9>\n\n④ 발주청, 인ㆍ허가기관의 장 및 대통령령으로 정하는 기관의 장은 품질관리계획을 수립하여야 하는 건설공사에 대하여 건설사업자와 주택건설등록업자가 제2항에 따라 품질관리계획에 따른 품질관리를 적절하게 하는지를 확인할 수 있다. <개정 2019.4.30, 2024.1.9>\n\n⑤ 품질관리계획 또는 품질시험계획의 수립 기준ㆍ승인 절차, 제3항에 따라 건설공사 안전관리 종합정보망에 입력하여야 하는 품질시험 및 검사의 결과와 증빙자료, 제4항에 따른 품질관리의 확인 방법ㆍ절차와 그 밖에 확인에 필요한 사항은 대통령령으로 정한다. <개정 2024.1.9>",
+  "amendmentHistory": [
+    "2018-8-14",
+    "2019-4-30",
+    "2024-1-9"
+  ],
+  "latestAmendment": "2024-1-9",
+  "constructionRelevance": "high",
+  "userPersona": [
+    "quality_manager",
+    "supervisor",
+    "site_manager"
+  ],
+  "userVisible": true,
+  "isAppendix": false,
+  "_meta": {
+    "publishedBy": "법제처 국가법령정보센터 (자동 sync)",
+    "sourceUrl": "https://www.law.go.kr/법령/%EA%B1%B4%EC%84%A4%EA%B8%B0%EC%88%A0%20%EC%A7%84%ED%9D%A5%EB%B2%95/제55조",
+    "fetchedAt": "2026-04-28",
+    "licenseHint": "저작권법 §7 비보호 (자유 인용)",
+    "verifiedAt": "2026-04-28",
+    "verifiedBy": "법제처 lawService.do (자동 sync)",
+    "lawServiceMST": "276921",
+    "lawServiceLawId": "001807",
+    "lawServiceJO": "0055",
+    "bodyLength": 918
+  }
+}

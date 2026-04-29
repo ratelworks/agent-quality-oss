@@ -1,0 +1,30 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "annex:건진법시행규칙:서식8",
+  "@type": [
+    "Annex"
+  ],
+  "annexNumber": "8",
+  "annexKind": "서식",
+  "title": "교육기관 지정서",
+  "partOf": "act:건설기술진흥법시행규칙",
+  "verificationStatus": "verified",
+  "legislationIdentifier": "건설기술 진흥법 시행규칙",
+  "jurisdiction": "KR",
+  "constructionRelevance": "medium",
+  "userVisible": true,
+  "isAppendix": true,
+  "description": "[별지 제8호서식] <개정 2020. 12. 14.>                               \n\n\n┌─────────────────────────────────┐\n\n\n│  지정번호 제     호                                              │\n\n\n│                                                                  │\n\n\n│                                                                  │\n\n\n│교육기관 지정서                                                   │\n\n\n│                                                                  │\n\n\n│                                                                  │\n\n\n│  ○ 명칭:                                                        │\n\n\n│                                                                  │\n\n\n│  ○ 소재지:                                                      │\n\n\n│                                                                  │\n\n\n│  ○ 대표자:                                                      │\n\n\n│                                                                  │\n\n\n│  ○ 지정조건:                                                    │\n\n\n│                                                                  │\n\n\n│  ○ 유효기간:                                                    │\n\n\n│                                                                  │\n\n\n│                                                                  │\n\n\n│「건설기술 진흥법 시행령」 제43조제4항에 따라 위 법인을 교육기관으│\n\n\n│로 지정합니다.                                                    │\n\n\n│                                                                  │\n\n\n│년        월        일                                            │\n\n\n│                                                                  │\n\n\n│                  ┏━━┓                                        │\n\n\n│    국토교통부장관┃직인┃                                        │\n\n\n│                  ┗━━┛                                        │\n\n\n│                                                                  │\n\n\n│                                                                  │\n\n\n└─────────────────────────────────┘\n\n\n  210㎜×297㎜[백상지 120g/㎡]",
+  "_meta": {
+    "publishedBy": "법제처 국가법령정보센터 (자동 sync)",
+    "sourceUrl": "https://www.law.go.kr/법령/%EA%B1%B4%EC%A7%84%EB%B2%95%EC%8B%9C%ED%96%89%EA%B7%9C%EC%B9%99/서식/8",
+    "fetchedAt": "2026-04-29",
+    "verifiedAt": "2026-04-29",
+    "verifiedBy": "법제처 lawService.do <별표단위> 자동 sync",
+    "annexKey": "000800F",
+    "lawServiceMST": "279455",
+    "hwpDownloadUrl": "https://www.law.go.kr/LSW/flDownload.do?flSeq=157531847",
+    "pdfDownloadUrl": "https://www.law.go.kr/LSW/flDownload.do?flSeq=157531849",
+    "licenseHint": "저작권법 §7 비보호 (자유 인용). 별지 서식 원본 재배포는 공공누리 4유형 — locator만 보관."
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "annex:건진법시행규칙:별표7의2",
+  "@type": [
+    "Annex"
+  ],
+  "annexNumber": "7-2",
+  "annexKind": "별표",
+  "title": "소규모안전관리계획의 수립기준(제59조의2 관련)",
+  "partOf": "act:건설기술진흥법시행규칙",
+  "verificationStatus": "verified",
+  "legislationIdentifier": "건설기술 진흥법 시행규칙",
+  "jurisdiction": "KR",
+  "constructionRelevance": "medium",
+  "userVisible": true,
+  "isAppendix": true,
+  "description": "■ 건설기술 진흥법 시행규칙 [별표 7의2] <신설 2020. 12. 14.>                    \n\n\n                                                                                  \n\n\n  소규모안전관리계획의 수립기준(제59조의2 관련)                                   \n\n\n                                                                                  \n\n\n                                                                                  \n\n\n  1. 건설공사의 개요                                                              \n\n\n    공사 전반을 파악하기 위한 위치도, 공사개요, 전체 공정표 및 설계도서(해당      \n\n\n  공사를 인가ㆍ허가 또는 승인한 행정기관 등에 이미 제출된 경우는 제외한다)        \n\n\n  2. 비계 설치계획                                                                \n\n\n    건축물 외부에 설치하는 비계의 설치계획 및 시공도면과 현장 특성을 반영한       \n\n\n  비계 시공절차 및 주의사항                                                       \n\n\n  3. 안전시설물 설치계획                                                          \n\n\n    추락방호망, 낙하물방지망, 개구부 덮개, 안전난간대 등 안전시설물 설치계획과    \n\n\n  안전시설물을 적정하게 설치하기 위한 사진ㆍ그림 등 예시자료",
+  "_meta": {
+    "publishedBy": "법제처 국가법령정보센터 (자동 sync)",
+    "sourceUrl": "https://www.law.go.kr/법령/%EA%B1%B4%EC%A7%84%EB%B2%95%EC%8B%9C%ED%96%89%EA%B7%9C%EC%B9%99/별표/7",
+    "fetchedAt": "2026-04-29",
+    "verifiedAt": "2026-04-29",
+    "verifiedBy": "법제처 lawService.do <별표단위> 자동 sync",
+    "annexKey": "000702E",
+    "lawServiceMST": "279455",
+    "hwpDownloadUrl": "https://www.law.go.kr/LSW/flDownload.do?flSeq=157531753",
+    "pdfDownloadUrl": "https://www.law.go.kr/LSW/flDownload.do?flSeq=157531755",
+    "licenseHint": "저작권법 §7 비보호 (자유 인용). 별지 서식 원본 재배포는 공공누리 4유형 — locator만 보관."
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "annex:건진법시행령:별표4",
+  "@type": [
+    "Annex"
+  ],
+  "annexNumber": "4",
+  "annexKind": "별표",
+  "title": "교육기관의 대행요건(제43조제3항 관련)",
+  "partOf": "act:건설기술진흥법시행령",
+  "verificationStatus": "verified",
+  "legislationIdentifier": "건설기술 진흥법 시행령",
+  "jurisdiction": "KR",
+  "constructionRelevance": "medium",
+  "userVisible": true,
+  "isAppendix": true,
+  "description": "■ 건설기술 진흥법 시행령 [별표 4] <개정 2020. 12. 8.>                      \n\n\n                                                                              \n\n\n  교육기관의 대행요건(제43조제3항 관련)                                       \n\n\n                                                                              \n\n\n                                                                              \n\n\n┌──────┬──────┬──────┬────────────────┐\n\n\n│구분        │교육시설(㎡)│교수요원(명)│전담직원(명)                    │\n\n\n├──────┼──────┼──────┼────────────────┤\n\n\n│종합교육기관│300         │3           │2                               │\n\n\n├──────┼──────┼──────┼────────────────┤\n\n\n│전문교육기관│100         │1           │1                               │\n\n\n└──────┴──────┴──────┴────────────────┘\n\n\n  비고                                                                        \n\n\n  1. 교육시설은 교육기관이 소유하거나 교육기관으로 지정되는 기간 동안 계속하  \n\n\n  여 임차해야 한다. 다만, 원격교육만을 전문적으로 실시하는 교육기관은 교육시  \n\n\n  설 없이 지정받을 수 있다.                                                   \n\n\n  2. 연간 교육실적이 1만명 이상인 경우 1만명당 교수요원 1명을 추가한다.",
+  "_meta": {
+    "publishedBy": "법제처 국가법령정보센터 (자동 sync)",
+    "sourceUrl": "https://www.law.go.kr/법령/%EA%B1%B4%EC%A7%84%EB%B2%95%EC%8B%9C%ED%96%89%EB%A0%B9/별표/4",
+    "fetchedAt": "2026-04-29",
+    "verifiedAt": "2026-04-29",
+    "verifiedBy": "법제처 lawService.do <별표단위> 자동 sync",
+    "annexKey": "000400E",
+    "lawServiceMST": "283649",
+    "hwpDownloadUrl": "https://www.law.go.kr/LSW/flDownload.do?flSeq=161975385",
+    "pdfDownloadUrl": "https://www.law.go.kr/LSW/flDownload.do?flSeq=161975387",
+    "licenseHint": "저작권법 §7 비보호 (자유 인용). 별지 서식 원본 재배포는 공공누리 4유형 — locator만 보관."
+  }
+}

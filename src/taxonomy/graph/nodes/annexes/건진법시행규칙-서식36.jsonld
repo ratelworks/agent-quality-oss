@@ -1,0 +1,30 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "annex:건진법시행규칙:서식36",
+  "@type": [
+    "Annex"
+  ],
+  "annexNumber": "36",
+  "annexKind": "서식",
+  "title": "설계용역 평가 총괄표, 감독권한 대행 등 건설사업관리용역 평가 총괄표, 시공평가 총괄표",
+  "partOf": "act:건설기술진흥법시행규칙",
+  "verificationStatus": "verified",
+  "legislationIdentifier": "건설기술 진흥법 시행규칙",
+  "jurisdiction": "KR",
+  "constructionRelevance": "medium",
+  "userVisible": true,
+  "isAppendix": true,
+  "description": "■ 건설기술 진흥법 시행규칙 [별지 제36호서식] <개정 2020. 3. 18.>                   \n\n\n  (3쪽 중 제1쪽)                                                                      \n\n\n  설계용역 평가 총괄표                                                                \n\n\n                                                                                      \n\n\n  발주관서명:                         비용 단위: 백만원                               \n\n\n┏━━┯━━━┯━━━━┯━━━━┯━━━┯━━━━┯━━━━━┯━━━┯━━┯━━┓\n\n\n┃순위│용역명│용역개요│용역구분│용역비│용역기간│용역사업자│대표자│평점│비고┃\n\n\n┠──┼───┼────┼────┼───┼────┼─────┼───┼──┼──┨\n\n\n┃    │      │        │        │      │        │          │      │    │    ┃\n\n\n┗━━┷━━━┷━━━━┷━━━━┷━━━┷━━━━┷━━━━━┷━━━┷━━┷━━┛\n\n\n                                                                                      \n\n\n                                                                                      \n\n\n                                      210mm×297mm(백상지 80g/㎡(재활용품))           \n\n\n                                                                                      \n\n\n\n\n\n\n                                                                                      \n\n\n  (3쪽 중 제2쪽)                                                                      \n\n\n  감독권한 대행 등 건설사업관리용역 평가 총괄표                                       \n\n\n                                                                                      \n\n\n  발주관서명:                         비용 단위: 백만원                               \n\n\n┏━━┯━━━┯━━━━┯━━━━┯━━━┯━━━━┯━━━━━┯━━━┯━━┯━━┓\n\n\n┃순위│용역명│용역개요│용역구분│용역비│용역기간│용역사업자│대표자│평점│비고┃\n\n\n┠──┼───┼────┼────┼───┼────┼─────┼───┼──┼──┨\n\n\n┃    │      │        │        │      │        │          │      │    │    ┃\n\n\n┗━━┷━━━┷━━━━┷━━━━┷━━━┷━━━━┷━━━━━┷━━━┷━━┷━━┛\n\n\n                                                                                      \n\n\n                                                                                      \n\n\n                                      210mm×297mm(백상지 80g/㎡(재활용품))           \n\n\n                                                                                      \n\n\n\n\n\n\n                                                                                    \n\n\n  (3쪽 중 제3쪽)                                                                    \n\n\n  시공평가 총괄표                                                                   \n\n\n                                                                                    \n\n\n  발주관서명:                         비용 단위: 백만원                             \n\n\n┏━━┯━━━┯━━━━┯━━━━┯━━━┯━━━━┯━━━━┯━━━┯━━┯━━┓\n\n\n┃순위│공사명│공사개요│공사구분│공사비│공사기간│시공회사│대표자│평점│비고┃\n\n\n┠──┼───┼────┼────┼───┼────┼────┼───┼──┼──┨\n\n\n┃    │      │        │        │      │        │        │      │    │    ┃\n\n\n┗━━┷━━━┷━━━━┷━━━━┷━━━┷━━━━┷━━━━┷━━━┷━━┷━━┛\n\n\n                                                                                    \n\n\n                                                                                    \n\n\n                                      210mm×297mm(백상지 80g/㎡(재활용품))",
+  "_meta": {
+    "publishedBy": "법제처 국가법령정보센터 (자동 sync)",
+    "sourceUrl": "https://www.law.go.kr/법령/%EA%B1%B4%EC%A7%84%EB%B2%95%EC%8B%9C%ED%96%89%EA%B7%9C%EC%B9%99/서식/36",
+    "fetchedAt": "2026-04-29",
+    "verifiedAt": "2026-04-29",
+    "verifiedBy": "법제처 lawService.do <별표단위> 자동 sync",
+    "annexKey": "003600F",
+    "lawServiceMST": "279455",
+    "hwpDownloadUrl": "https://www.law.go.kr/LSW/flDownload.do?flSeq=157532081",
+    "pdfDownloadUrl": "https://www.law.go.kr/LSW/flDownload.do?flSeq=157532083",
+    "licenseHint": "저작권법 §7 비보호 (자유 인용). 별지 서식 원본 재배포는 공공누리 4유형 — locator만 보관."
+  }
+}

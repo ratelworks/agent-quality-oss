@@ -1,0 +1,39 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "art:품질지침:10",
+  "@type": [
+    "Article",
+    "Legislation"
+  ],
+  "articleNumber": "10",
+  "title": "품질관리의 적절성 확인기준",
+  "partOf": "act:건설공사품질관리업무지침",
+  "verificationStatus": "verified",
+  "legislationIdentifier": "건설공사 품질관리 업무지침",
+  "legislationDate": "2025-06-12",
+  "legislationType": "OfficialNotice",
+  "legislationLegalForce": "InForce",
+  "jurisdiction": "KR",
+  "temporalCoverage": "2025-06-12/..",
+  "description": "**제10조 (품질관리의 적절성 확인기준)**\n\n제10조(품질관리의 적절성 확인기준) ① 규칙 제52조에 따른 적절성확인 기준 및 요령은 별표 3와 같다.\n  ② 발주자는 별표1에 따른 품질관리계획서 작성기준에 따라 시공자가 품질관리를 적절하게 하는지를 확인하기 위한 계획을 수립하고 이행하여야 한다.\n  ③ 발주자가 제2항의 적절성 확인계획을 수립하는 경우에는 품질관리의 적절성 확인을 체계적으로 수행하기 위해 다음 각 호의 사항을 고려하여야 한다.\n  1. 품질관리계획과 관련된 교육 이수 등 전문지식을 보유한 적절성 확인자의 선정\n  2. 별표 1에 따라 시공자가 수립한 품질관리계획서의 내용 검토\n  3. 이미 발생된 지적 및 조치사항의 확인을 위한 기존 점검자료의 검토\n  4. 필요한 경우, 별지 제2호 서식에 따른 품질관리 적절성 확인점검 내용의 추가, 수정 또는 삭제",
+  "constructionRelevance": "high",
+  "userPersona": [
+    "quality_manager",
+    "supervisor",
+    "site_manager"
+  ],
+  "userVisible": true,
+  "isAppendix": false,
+  "_meta": {
+    "publishedBy": "법제처 국가법령정보센터 (자동 sync)",
+    "sourceUrl": "https://www.law.go.kr/행정규칙/%EA%B1%B4%EC%84%A4%EA%B3%B5%EC%82%AC%20%ED%92%88%EC%A7%88%EA%B4%80%EB%A6%AC%20%EC%97%85%EB%AC%B4%EC%A7%80%EC%B9%A8/(48782)/제10조",
+    "fetchedAt": "2026-04-28",
+    "licenseHint": "저작권법 §7 비보호 (자유 인용)",
+    "verifiedAt": "2026-04-28",
+    "verifiedBy": "법제처 admrul lawService.do (자동 sync)",
+    "admRulId": "2100000260210",
+    "admRulCode": "48782",
+    "noticeNumber": "국토교통부고시 제2025-311호",
+    "bodyLength": 410
+  }
+}

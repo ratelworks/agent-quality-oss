@@ -1,0 +1,43 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "art:건진법시행규칙:53",
+  "@type": [
+    "Article",
+    "Legislation"
+  ],
+  "articleNumber": "53",
+  "title": "품질관리비의 산출 및 사용 기준",
+  "partOf": "act:건설기술진흥법시행규칙",
+  "verificationStatus": "verified",
+  "legislationIdentifier": "건설기술 진흥법 시행규칙",
+  "legislationDate": "2025-10-31",
+  "legislationType": "Rule",
+  "legislationLegalForce": "InForce",
+  "jurisdiction": "KR",
+  "temporalCoverage": "2025-10-31/..",
+  "description": "**제53조 (품질관리비의 산출 및 사용 기준)**\n\n제53조(품질관리비의 산출 및 사용 기준)\n\n① 법 제56조제1항에 따른 건설공사의 품질관리에 필요한 비용(이하 \"품질관리비\"라 한다)의 산출 및 사용기준은 별표 6과 같다. 다만, 품질검사를 실시하는 자가 영 제97조제1항 각 호에 따른 국립ㆍ공립 시험기관이고 해당 기관이 검사비용의 기준을 따로 정하고 있는 경우에는 그 기준을 따른다.\n\n② 건설사업자 또는 주택건설등록업자는 제1항에 따라 산출된 품질관리비를 해당 목적에만 사용해야 하며, 발주자 또는 건설사업관리용역사업자는 품질관리비 사용에 관하여 지도ㆍ감독할 수 있다. <개정 2020.3.18>\n\n③ 건설사업자 또는 주택건설등록업자는 법 제60조제1항에 따라 품질검사 등을 대행하게 하는 경우에는 그 비용을 부담해야 한다. <개정 2020.3.18>",
+  "amendmentHistory": [
+    "2020-3-18"
+  ],
+  "latestAmendment": "2020-3-18",
+  "constructionRelevance": "high",
+  "userPersona": [
+    "quality_manager",
+    "supervisor",
+    "site_manager"
+  ],
+  "userVisible": true,
+  "isAppendix": false,
+  "_meta": {
+    "publishedBy": "법제처 국가법령정보센터 (자동 sync)",
+    "sourceUrl": "https://www.law.go.kr/법령/%EA%B1%B4%EC%84%A4%EA%B8%B0%EC%88%A0%20%EC%A7%84%ED%9D%A5%EB%B2%95%20%EC%8B%9C%ED%96%89%EA%B7%9C%EC%B9%99/제53조",
+    "fetchedAt": "2026-04-28",
+    "licenseHint": "저작권법 §7 비보호 (자유 인용)",
+    "verifiedAt": "2026-04-28",
+    "verifiedBy": "법제처 lawService.do (자동 sync)",
+    "lawServiceMST": "279455",
+    "lawServiceLawId": "006175",
+    "lawServiceJO": "0053",
+    "bodyLength": 426
+  }
+}

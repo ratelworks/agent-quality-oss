@@ -1,0 +1,39 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "art:품질지침:6",
+  "@type": [
+    "Article",
+    "Legislation"
+  ],
+  "articleNumber": "6",
+  "title": "시공자의 역할",
+  "partOf": "act:건설공사품질관리업무지침",
+  "verificationStatus": "verified",
+  "legislationIdentifier": "건설공사 품질관리 업무지침",
+  "legislationDate": "2025-06-12",
+  "legislationType": "OfficialNotice",
+  "legislationLegalForce": "InForce",
+  "jurisdiction": "KR",
+  "temporalCoverage": "2025-06-12/..",
+  "description": "**제6조 (시공자의 역할)**\n\n제6조(시공자의 역할) ① 시공자는 건설기술진흥법령 및 이 지침에서 정한 바에 따라 해당 건설공사의 여건을 종합적으로 고려한 품질관리계획을 수립하고 공사감독자 또는 건설사업관리기술인의 검토ㆍ확인을 받아 발주자의 승인을 받아야 한다.\n  ② 시공자는 다음 각 호의 사항을 고려하여 품질관리계획서의 문서구성과 내용을 결정하여야 한다.\n  1. 건설공사의 규모 및 활동의 형태\n  2. 프로세스의 복잡성 및 그 상호작용\n  3. 조직 구성원의 학력, 교육훈련, 숙련도, 경험 등을 고려한 업무 수행능력\n  ③ 시공자는 품질관리계획서를 변경하는 경우에도 공사감독자 또는 건설사업관리기술인의 검토ㆍ확인을 받아 발주자의 승인을 받아야 한다.",
+  "constructionRelevance": "high",
+  "userPersona": [
+    "quality_manager",
+    "supervisor",
+    "site_manager"
+  ],
+  "userVisible": true,
+  "isAppendix": false,
+  "_meta": {
+    "publishedBy": "법제처 국가법령정보센터 (자동 sync)",
+    "sourceUrl": "https://www.law.go.kr/행정규칙/%EA%B1%B4%EC%84%A4%EA%B3%B5%EC%82%AC%20%ED%92%88%EC%A7%88%EA%B4%80%EB%A6%AC%20%EC%97%85%EB%AC%B4%EC%A7%80%EC%B9%A8/(48782)/제6조",
+    "fetchedAt": "2026-04-28",
+    "licenseHint": "저작권법 §7 비보호 (자유 인용)",
+    "verifiedAt": "2026-04-28",
+    "verifiedBy": "법제처 admrul lawService.do (자동 sync)",
+    "admRulId": "2100000260210",
+    "admRulCode": "48782",
+    "noticeNumber": "국토교통부고시 제2025-311호",
+    "bodyLength": 352
+  }
+}

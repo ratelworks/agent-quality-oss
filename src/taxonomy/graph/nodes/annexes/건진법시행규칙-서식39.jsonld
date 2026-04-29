@@ -1,0 +1,30 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "annex:건진법시행규칙:서식39",
+  "@type": [
+    "Annex"
+  ],
+  "annexNumber": "39",
+  "annexKind": "서식",
+  "title": "점검요원증",
+  "partOf": "act:건설기술진흥법시행규칙",
+  "verificationStatus": "verified",
+  "legislationIdentifier": "건설기술 진흥법 시행규칙",
+  "jurisdiction": "KR",
+  "constructionRelevance": "medium",
+  "userVisible": true,
+  "isAppendix": true,
+  "description": "■ 건설기술 진흥법 시행규칙 [별지 제39호서식] <개정 2016. 5. 25.>   \n\n\n                                                                      \n\n\n┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓\n\n\n┃점검요원증                                                        ┃\n\n\n┃      ┌───────┐                                          ┃\n\n\n┃ 소속:│증명사진      │                                          ┃\n\n\n┃ 직급:│(3.5cm×4.5cm)│                                          ┃\n\n\n┃ 성명:│              │                                          ┃\n\n\n┃      └───────┘                                          ┃\n\n\n┃                                                                  ┃\n\n\n┃  위 사람은 「건설기술 진흥법」 제54조에 따라                     ┃\n\n\n┃  건설공사 현장점검을 하는 사람임을 증명합니다.                   ┃\n\n\n┃                                                                  ┃\n\n\n┃년       월       일                                              ┃\n\n\n┃                                       (인)                       ┃\n\n\n┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛\n\n\n    90㎜×60㎜[인쇄용지(특급) 195g/㎡]",
+  "_meta": {
+    "publishedBy": "법제처 국가법령정보센터 (자동 sync)",
+    "sourceUrl": "https://www.law.go.kr/법령/%EA%B1%B4%EC%A7%84%EB%B2%95%EC%8B%9C%ED%96%89%EA%B7%9C%EC%B9%99/서식/39",
+    "fetchedAt": "2026-04-29",
+    "verifiedAt": "2026-04-29",
+    "verifiedBy": "법제처 lawService.do <별표단위> 자동 sync",
+    "annexKey": "003900F",
+    "lawServiceMST": "279455",
+    "hwpDownloadUrl": "https://www.law.go.kr/LSW/flDownload.do?flSeq=157532103",
+    "pdfDownloadUrl": "https://www.law.go.kr/LSW/flDownload.do?flSeq=157532105",
+    "licenseHint": "저작권법 §7 비보호 (자유 인용). 별지 서식 원본 재배포는 공공누리 4유형 — locator만 보관."
+  }
+}
