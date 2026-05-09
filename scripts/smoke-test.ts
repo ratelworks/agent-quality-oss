@@ -435,7 +435,7 @@ const CASES: Case[] = [
     assert: (r) =>
       Array.isArray(r.nextSteps) &&
       r.nextSteps.length > 0 &&
-      r.nextSteps[0].tool === 'get_quality_law_article',
+      r.nextSteps[0]?.tool === 'get_quality_law_article',
   },
 ];
 

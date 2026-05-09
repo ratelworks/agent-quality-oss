@@ -32,7 +32,8 @@ async function main(): Promise<void> {
   const list = await client.listTools();
   console.log(`✓ list_tools: ${list.tools.length} Tool 노출됨`);
   for (const t of list.tools) {
-    const desc = t.description.length > 60 ? t.description.slice(0, 60) + '…' : t.description;
+    const d = t.description ?? '';
+    const desc = d.length > 60 ? d.slice(0, 60) + '…' : d;
     console.log(`   - ${t.name.padEnd(40)} ${desc}`);
   }
 

@@ -78,11 +78,11 @@ interface AnnexData {
 function parseAnnexes(xml: string): AnnexData[] {
   const annexes: AnnexData[] = [];
   for (const m of xml.matchAll(/<별표단위[^>]*별표키="([^"]+)"[^>]*>([\s\S]*?)<\/별표단위>/g)) {
-    const key = m[1];
-    const inner = m[2];
+    const key = m[1] ?? "";
+    const inner = m[2] ?? "";
     const get = (tag: string): string => {
       const r = inner.match(new RegExp(`<${tag}>(?:<!\\[CDATA\\[)?([\\s\\S]*?)(?:\\]\\]>)?<\\/${tag}>`));
-      return r ? r[1].trim() : "";
+      return r && r[1] ? r[1].trim() : "";
     };
     const num = get("별표번호").replace(/^0+/, "") || "0";
     const sub = get("별표가지번호").replace(/^0+/, "") || "0";
@@ -91,10 +91,10 @@ function parseAnnexes(xml: string): AnnexData[] {
 
     const bodyParts: string[] = [];
     const innerBodyMatch = inner.match(/<별표내용>([\s\S]*?)<\/별표내용>/);
-    if (innerBodyMatch) {
+    if (innerBodyMatch && innerBodyMatch[1]) {
       const cdata = innerBodyMatch[1];
       for (const cm of cdata.matchAll(/<!\[CDATA\[([\s\S]*?)\]\]>/g)) {
-        bodyParts.push(cm[1]);
+        if (cm[1]) bodyParts.push(cm[1]);
       }
     }
     const body = bodyParts.join("\n").trim();
@@ -108,8 +108,8 @@ function parseAnnexes(xml: string): AnnexData[] {
       kind,
       title,
       body,
-      hwpUrl: hwpLink ? `https://www.law.go.kr${hwpLink[1]}` : undefined,
-      pdfUrl: pdfLink ? `https://www.law.go.kr${pdfLink[1]}` : undefined,
+      hwpUrl: hwpLink && hwpLink[1] ? `https://www.law.go.kr${hwpLink[1]}` : undefined,
+      pdfUrl: pdfLink && pdfLink[1] ? `https://www.law.go.kr${pdfLink[1]}` : undefined,
     });
   }
   return annexes;

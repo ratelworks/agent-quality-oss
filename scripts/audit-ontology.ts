@@ -8,7 +8,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { loadOntologySync } from '../src/ontology/loader.js';
 import { OntologyGraph } from '../src/ontology/graph.js';
-import { STANDARD_RELATIONS, ID_PREFIX } from '../src/ontology/schema.js';
+import { STANDARD_RELATIONS, ID_PREFIX, isStandardRelation } from '../src/ontology/schema.js';
 import { TOOLS, TOOL_MAP } from '../src/mcp/registry.js';
 import type { ToolResponse } from '../src/mcp/types.js';
 
@@ -121,7 +121,7 @@ check(
 const nonStd = new Set<string>();
 for (const e of graph.entities.values()) {
   for (const rel of Object.keys(e.relations ?? {})) {
-    if (!STANDARD_RELATIONS.includes(rel)) nonStd.add(rel);
+    if (!isStandardRelation(rel)) nonStd.add(rel);
   }
 }
 check('A6. 관계명 표준 집합 준수', nonStd.size === 0, `비표준 관계명: ${[...nonStd].join(', ')}`);

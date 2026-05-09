@@ -1,21 +1,37 @@
 {
   "name": "agent-quality-oss-mcp",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Open-source MCP server for Korean construction quality management. Ontology-based reasoning over KCS/KDS, Quality Management Guidelines, KS, and project documents. Provided by Hwangryong Construction Co., Ltd. / Developed by Ratelworks Inc.",
   "type": "module",
   "main": "build/index.js",
   "types": "build/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./build/index.d.ts",
+      "import": "./build/index.js",
+      "default": "./build/index.js"
+    },
+    "./tool-registry": {
+      "types": "./build/tool-registry.d.ts",
+      "import": "./build/tool-registry.js"
+    },
+    "./ontology/*": "./build/ontology/*"
+  },
   "bin": {
-    "agent-quality-oss-mcp": "build/index.js"
+    "agent-quality-oss-mcp": "build/cli.js"
   },
   "scripts": {
-    "build": "tsc && npm run copy:data && chmod +x build/index.js",
+    "build": "tsc && npm run copy:data && chmod +x build/cli.js build/index.js",
     "copy:data": "node -e \"import('node:fs/promises').then(async fs => { await fs.cp('src/ontology/data', 'build/ontology/data', { recursive: true }); await fs.cp('src/schemas/document-schemas.json', 'build/schemas/document-schemas.json'); })\"",
+    "watch": "tsc --watch",
     "dev": "tsx src/index.ts",
     "dev:stdio": "tsx src/index.ts --stdio",
     "start": "node build/index.js",
     "start:stdio": "node build/index.js --stdio",
-    "typecheck": "tsc --noEmit",
+    "cli": "node build/cli.js",
+    "mcp:start": "node build/cli.js serve",
+    "mcp:tools": "node build/cli.js tools",
+    "typecheck": "tsc --noEmit && tsc --noEmit -p tsconfig.scripts.json",
     "validate:ontology": "tsx scripts/validate-ontology.ts",
     "smoke": "tsx scripts/smoke-test.ts",
     "audit": "tsx scripts/audit-ontology.ts",
@@ -49,7 +65,10 @@
     "url": "https://github.com/ratelworks/agent-quality-oss-mcp"
   },
   "dependencies": {
-    "@modelcontextprotocol/sdk": "^1.29.0"
+    "@modelcontextprotocol/sdk": "^1.29.0",
+    "commander": "^12.1.0",
+    "zod": "^3.23.8",
+    "zod-to-json-schema": "^3.23.5"
   },
   "devDependencies": {
     "@types/node": "^22.9.0",

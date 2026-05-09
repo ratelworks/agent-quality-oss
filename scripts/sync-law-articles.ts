@@ -106,7 +106,7 @@ function parseArticle(xmlBlock: string): {
   const hangRe = /<항>([\s\S]*?)<\/항>/g;
   let hm: RegExpExecArray | null;
   while ((hm = hangRe.exec(xmlBlock)) !== null) {
-    const hangBlock = hm[1];
+    const hangBlock = hm[1] ?? "";
     const hangContent = extractTag(hangBlock, "항내용");
     if (hangContent) hangs.push(hangContent);
   }
@@ -117,7 +117,8 @@ function parseArticle(xmlBlock: string): {
   let am: RegExpExecArray | null;
   const fullText = headLine + "\n" + hangs.join("\n");
   while ((am = amendRe.exec(fullText)) !== null) {
-    const dates = am[1].split(",").map((d) => d.trim().replace(/\./g, "-"));
+    const raw = am[1] ?? "";
+    const dates = raw.split(",").map((d) => d.trim().replace(/\./g, "-"));
     for (const d of dates) amendmentSet.add(d);
   }
 

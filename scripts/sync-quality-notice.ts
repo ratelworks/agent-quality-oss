@@ -44,10 +44,10 @@ function parseArticles(xml: string): NoticeArticle[] {
   const out: NoticeArticle[] = [];
   let m: RegExpExecArray | null;
   while ((m = re.exec(xml)) !== null) {
-    const text = m[1].trim();
+    const text = (m[1] ?? "").trim();
     // "제N조(제목) ..." 패턴
     const head = text.match(/^제(\d+)조(?:의\d+)?\s*\(([^)]+)\)\s*([\s\S]*)$/);
-    if (head) {
+    if (head && head[1] && head[2]) {
       out.push({
         number: head[1],
         title: head[2].trim(),
@@ -70,8 +70,8 @@ function parseAnnexes(xml: string): AnnexEntry[] {
   let m: RegExpExecArray | null;
   while ((m = re.exec(xml)) !== null) {
     out.push({
-      number: m[1].trim(),
-      title: m[2].trim(),
+      number: (m[1] ?? "").trim(),
+      title: (m[2] ?? "").trim(),
       fileLink: m[3]?.trim() || "",
     });
   }
