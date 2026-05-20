@@ -1,6 +1,6 @@
 import { searchEntities } from '../ontology/resolver.js';
 import { buildResponse, entityBasis } from './_response.js';
-import type { ToolSpec } from '../mcp/types.js';
+import type { ToolSpec } from '../lib/types.js';
 import type { OntologyGraph } from '../ontology/graph.js';
 import type { BaseEntity } from '../ontology/schema.js';
 

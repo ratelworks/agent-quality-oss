@@ -89,6 +89,6 @@ export const COMMON_RESPONSE_META = {
 
 // ───── 인용 문구 표준 ─────
 export const SUGGESTED_CITATION = {
-  ko: `본 데이터는 agent-quality-oss-mcp (제공: ${PROJECT_CREDITS.providedBy.ko}, 개발: ${PROJECT_CREDITS.developedBy.ko}, MIT)를 통해 조회되었습니다.`,
-  en: `Data retrieved via agent-quality-oss-mcp — Provided by ${PROJECT_CREDITS.providedBy.en} / Developed by ${PROJECT_CREDITS.developedBy.en} (MIT License).`,
+  ko: `본 데이터는 agent-quality-oss (제공: ${PROJECT_CREDITS.providedBy.ko}, 개발: ${PROJECT_CREDITS.developedBy.ko}, MIT)를 통해 조회되었습니다.`,
+  en: `Data retrieved via agent-quality-oss — Provided by ${PROJECT_CREDITS.providedBy.en} / Developed by ${PROJECT_CREDITS.developedBy.en} (MIT License).`,
 } as const;

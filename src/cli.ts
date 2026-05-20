@@ -15,7 +15,7 @@ import { toMcpErrorContent } from "./lib/errors.js";
 import { loadOntologySync } from "./ontology/loader.js";
 import { OntologyGraph } from "./ontology/graph.js";
 import { validateOntology } from "./ontology/validator.js";
-import { createHttpHandler } from "./mcp/http.js";
+import { createHttpHandler } from "./server/http.js";
 import { annotateResponse } from "./lib/response.js";
 
 // 파일 최상단 상수 — CLI 서브커맨드 라벨
@@ -65,7 +65,7 @@ program
         );
       });
     } else {
-      const { startStdioServer } = await import("./mcp/stdio.js");
+      const { startStdioServer } = await import("./server/stdio.js");
       await startStdioServer(graph);
     }
   });

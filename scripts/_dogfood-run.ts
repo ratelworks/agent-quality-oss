@@ -4,7 +4,7 @@
  * 응답을 JSON으로 저장한다. 평가는 사람이 읽고 evaluation.md에 기록.
  */
 import { writeFileSync } from 'node:fs';
-import { TOOL_MAP } from '../src/mcp/registry.js';
+import { LEGACY_TOOL_MAP as TOOL_MAP } from '../src/tool-registry.js';
 import { OntologyGraph } from '../src/ontology/graph.js';
 import { loadOntologySync } from '../src/ontology/loader.js';
 

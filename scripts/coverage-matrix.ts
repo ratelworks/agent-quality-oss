@@ -16,8 +16,8 @@
 
 import { loadOntologySync } from '../src/ontology/loader.js';
 import { OntologyGraph } from '../src/ontology/graph.js';
-import { TOOL_MAP } from '../src/mcp/registry.js';
-import type { ToolResponse } from '../src/mcp/types.js';
+import { LEGACY_TOOL_MAP as TOOL_MAP } from '../src/tool-registry.js';
+import type { ToolResponse } from '../src/lib/types.js';
 
 const graph = new OntologyGraph(loadOntologySync());
 

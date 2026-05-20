@@ -4,7 +4,7 @@
 
 import { resolveWorkType, searchEntities } from '../ontology/resolver.js';
 import { buildResponse, entityBasis } from './_response.js';
-import type { ToolSpec, HumanCheckpoint } from '../mcp/types.js';
+import type { ToolSpec, HumanCheckpoint } from '../lib/types.js';
 import type { OntologyGraph } from '../ontology/graph.js';
 
 export const spec: ToolSpec = {

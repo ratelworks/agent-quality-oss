@@ -43,7 +43,7 @@ export function createHttpHandler(graph: OntologyGraph) {
 
       if (pathname === "/" && method === "GET") {
         send(res, 200, {
-          name: "agent-quality-oss-mcp",
+          name: "agent-quality-oss",
           version: graph.version,
           description: "Construction Quality Management MCP Server",
           endpoints: [
@@ -153,7 +153,7 @@ function agentCard(graph: OntologyGraph): unknown {
   const tools = getToolSpecs();
   return {
     schemaVersion: "0.1.0",
-    name: "agent-quality-oss-mcp",
+    name: "agent-quality-oss",
     description: "건설 품질관리 온톨로지 기반 MCP 서버 (오픈소스)",
     version: graph.version,
     protocols: ["mcp", "http-json"],

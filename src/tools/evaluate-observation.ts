@@ -12,7 +12,7 @@ import { evaluate } from '../judgment/evaluate.js';
 import { parseContext } from '../judgment/parse-observation.js';
 import { searchEntities } from '../ontology/resolver.js';
 import { buildResponse, entityBasis } from './_response.js';
-import type { ToolSpec, BasisRef } from '../mcp/types.js';
+import type { ToolSpec, BasisRef } from '../lib/types.js';
 import type { OntologyGraph } from '../ontology/graph.js';
 import type { BaseEntity } from '../ontology/schema.js';
 

@@ -14,10 +14,10 @@
  * 본 스크립트는 위 8종이 우리 MCP에서 (a) 양식 스키마 (b) 법적 근거 (c) 보존 의무
  * 셋 다 회수 가능한지 점검한다.
  */
-import { TOOL_MAP } from '../src/mcp/registry.js';
+import { LEGACY_TOOL_MAP as TOOL_MAP } from '../src/tool-registry.js';
 import { OntologyGraph } from '../src/ontology/graph.js';
 import { loadOntologySync } from '../src/ontology/loader.js';
-import type { ToolResponse } from '../src/mcp/types.js';
+import type { ToolResponse } from '../src/lib/types.js';
 
 const graph = new OntologyGraph(loadOntologySync());
 

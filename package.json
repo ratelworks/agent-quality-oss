@@ -1,6 +1,6 @@
 {
-  "name": "agent-quality-oss-mcp",
-  "version": "0.2.0",
+  "name": "agent-quality-oss",
+  "version": "0.3.0",
   "description": "Open-source MCP server for Korean construction quality management. Ontology-based reasoning over KCS/KDS, Quality Management Guidelines, KS, and project documents. Provided by Hwangryong Construction Co., Ltd. / Developed by Ratelworks Inc.",
   "type": "module",
   "main": "build/index.js",
@@ -18,7 +18,7 @@
     "./ontology/*": "./build/ontology/*"
   },
   "bin": {
-    "agent-quality-oss-mcp": "build/cli.js"
+    "agent-quality-oss": "build/cli.js"
   },
   "scripts": {
     "build": "tsc && npm run copy:data && chmod +x build/cli.js build/index.js",
@@ -62,7 +62,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ratelworks/agent-quality-oss-mcp"
+    "url": "https://github.com/ratelworks/agent-quality-oss"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.29.0",

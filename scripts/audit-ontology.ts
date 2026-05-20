@@ -9,8 +9,8 @@ import { fileURLToPath } from 'node:url';
 import { loadOntologySync } from '../src/ontology/loader.js';
 import { OntologyGraph } from '../src/ontology/graph.js';
 import { STANDARD_RELATIONS, ID_PREFIX, isStandardRelation } from '../src/ontology/schema.js';
-import { TOOLS, TOOL_MAP } from '../src/mcp/registry.js';
-import type { ToolResponse } from '../src/mcp/types.js';
+import { LEGACY_MODULES as TOOLS, LEGACY_TOOL_MAP as TOOL_MAP } from '../src/tool-registry.js';
+import type { ToolResponse } from '../src/lib/types.js';
 
 const DIR = path.join(
   path.dirname(fileURLToPath(import.meta.url)),

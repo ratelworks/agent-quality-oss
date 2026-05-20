@@ -1,7 +1,7 @@
 # Agent_Quality_OSS_MCP — 개발 계획서
 
 > **정식 명칭**: `Agent_Quality_OSS_MCP`
-> **패키지/리포/서비스명**: `agent-quality-oss-mcp`
+> **패키지/리포/서비스명**: `agent-quality-oss`
 > **라이선스 트랙**: 오픈소스 (Agent_HQ 사내 제품과 분리, `dev/oss/` 하위 관리)
 
 > **한 줄 정의 (2026-04-25 정정)**
@@ -22,7 +22,7 @@
 - 상위 철학 참조: [`../../Agent_HQ/PHILOSOPHY.md`](../../Agent_HQ/PHILOSOPHY.md) — Agent-first, Protocol-first, 4층 구조, A2UI, §9 체크리스트 (오픈소스라도 설계 원칙으로 차용)
 - 상위 목표(사내 맥락): **건설회사 모든 직원의 에이전트화** (→ MEMORY: agenthq_ultimate_goal.md). 본 제품은 "품질관리자" 직무의 에이전트화 인프라이자, 외부에도 공개하는 오픈소스 MCP
 - 개발 원칙: CLAUDE.md §0 Code-Agent 상호보완 — 기준 매핑·관계 추론=코드, 상황 판단·문서 초안=LLM
-- 배포/경로: `dev/oss/agent-quality-oss-mcp/`, Cloud Run 서비스명 `agent-quality-oss-mcp`, region `asia-northeast3`, runtime `nodejs22`
+- 배포/경로: `dev/oss/agent-quality-oss/`, Cloud Run 서비스명 `agent-quality-oss`, region `asia-northeast3`, runtime `nodejs22`
 - Agent_HQ 내부 에이전트는 본 MCP를 **외부 오픈소스 의존**처럼 소비 (독립 리포·독립 버저닝)
 
 ---
@@ -126,7 +126,7 @@
 └─────────────────────────────────────────────────────────┘
                     │ MCP JSON-RPC / A2A
 ┌───────────────────▼─────────────────────────────────────┐
-│ agent-quality-oss-mcp (Cloud Run: agent-quality-oss-mcp)│
+│ agent-quality-oss (Cloud Run: agent-quality-oss)│
 │                                                         │
 │  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐  │
 │  │ MCP Tool     │  │ A2A Skill    │  │ Dogfooding UI│  │
@@ -179,7 +179,7 @@
 | 데이터 | 저장소 | 이유 |
 |--------|--------|------|
 | 온톨로지 (JSON) | 리포지터리 내 `src/ontology/data/` | 버전 관리 필수, 수천 노드 규모 |
-| KCS/KDS 기준 원문 | GCS (`gs://agent-quality-oss-mcp-standards/`) | PDF·HTML 대용량 |
+| KCS/KDS 기준 원문 | GCS (`gs://agent-quality-oss-standards/`) | PDF·HTML 대용량 |
 | KCS/KDS 인덱스 | Firestore `quality_standards` | 검색 성능 |
 | KS 발췌 | Firestore `quality_ks` | 라이선스 범위 내 구조화 |
 | 현장 프로젝트 문서 | GCS + Firestore `quality_projects/{projectId}/documents` | 프로젝트 스코프 |
@@ -322,7 +322,7 @@ record.*      현장 기록 인스턴스     → record.20260424_slab_a
 ## 8. 기능 분해 (Milestone)
 
 ### Phase 0 — Scaffolding (1주)
-- [ ] `dev/oss/agent-quality-oss-mcp/` 생성 완료, `deploy.example.json`, `dev.md`, `plan.md`, `.gitignore`, `.gcloudignore`, `LICENSE`(**MIT**), `README.md`
+- [ ] `dev/oss/agent-quality-oss/` 생성 완료, `deploy.example.json`, `dev.md`, `plan.md`, `.gitignore`, `.gcloudignore`, `LICENSE`(**MIT**), `README.md`
 - [ ] prep.md 검색: MCP 서버, Firestore, Gemini 연동 패턴
 - [ ] Cloud Run Node.js 22 + ESM 스캐폴딩
 - [ ] `/healthz`, `/mcp` 엔드포인트 뼈대
@@ -390,7 +390,7 @@ record.*      현장 기록 인스턴스     → record.20260424_slab_a
 ## 9. 디렉터리 구조
 
 ```
-agent-quality-oss-mcp/
+agent-quality-oss/
 ├─ plan.md                    # 본 문서
 ├─ dev.md                     # 개발 규칙 + 철학 매핑
 ├─ deploy.json                # Cloud Run 배포 설정
@@ -505,7 +505,7 @@ agent-quality-oss-mcp/
 | 의존 | 용도 | 비고 |
 |------|------|------|
 | Firestore | 기준·프로젝트·로그·임베딩 | `agenthq-446117` |
-| GCS | 원문 PDF·HWPX | `agent-quality-oss-mcp-standards`, `agent-quality-oss-mcp-projects` |
+| GCS | 원문 PDF·HWPX | `agent-quality-oss-standards`, `agent-quality-oss-projects` |
 | Vertex AI | embedding (`text-embedding-004`) + Gemini | `asia-northeast3` |
 | Gemini | gemini-2.5-pro (판단·추출·생성), gemini-2.5-flash (경량) | `gemini-prompt-engineering` 스킬 참조 |
 | Agent_HWPX | HWPX 파싱 | `~/.claude/skills/hwpx` |
@@ -523,7 +523,7 @@ agent-quality-oss-mcp/
 | LLM 환각 (없는 기준 인용) | 신뢰성 | `verify_quality_basis` 필수, basis 미검증 시 응답 거부 |
 | 기준 우선순위 분쟁 (시방서 vs KCS) | 판단 오류 | Basis Priority Engine 하드코딩 + human checkpoint 반환 |
 | 온톨로지 노드 부족 | 커버리지 | MVP는 3개 공종 완전성 우선. Phase 2+에 확장 |
-| Agent_CQ(물량)와의 혼동 | 포지셔닝 | 폴더/서비스명 분리 (`agent-quality-oss-mcp` vs `Agent_CQ`). OSS/사내 트랙 분리로 라이선스·책임선도 명확 |
+| Agent_CQ(물량)와의 혼동 | 포지셔닝 | 폴더/서비스명 분리 (`agent-quality-oss` vs `Agent_CQ`). OSS/사내 트랙 분리로 라이선스·책임선도 명확 |
 
 ---
 

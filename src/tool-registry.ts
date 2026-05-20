@@ -127,6 +127,14 @@ export const TOOL_MAP: Map<string, ToolDefinition> = new Map(
   TOOL_DEFS.map((t) => [t.name, t]),
 );
 
+// ───── Legacy TOOL_MAP (scripts/* 호환용) ─────
+// 신규 라우터·CLI는 위의 TOOL_MAP (ToolDefinition) 을 사용한다.
+// scripts/_dogfood-*, audit-ontology, smoke-test 등은 legacy m.spec/m.run 패턴이
+// 박혀 있어 ToolModuleLegacy 형태를 그대로 노출한다.
+export const LEGACY_TOOL_MAP: Map<string, ToolModuleLegacy> = new Map(
+  LEGACY_MODULES.map((m) => [m.spec.name, m]),
+);
+
 // ───── Legacy Spec 노출 (mcp/stdio·http 가 listTools 에서 사용) ─────
 //
 // 신규 도구는 zod schema → JSON Schema 자동 파생.

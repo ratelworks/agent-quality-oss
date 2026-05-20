@@ -31,7 +31,7 @@ export async function startStdioServer(graph: OntologyGraph): Promise<void> {
     );
 
     const server = new Server(
-      { name: "agent-quality-oss-mcp", version: graph.version },
+      { name: "agent-quality-oss", version: graph.version },
       { capabilities: { tools: {} } },
     );
 
@@ -74,12 +74,12 @@ export async function startStdioServer(graph: OntologyGraph): Promise<void> {
     const transport = new StdioServerTransport();
     await server.connect(transport);
     process.stderr.write(
-      `[agent-quality-oss-mcp] stdio MCP 서버 기동 (${TOOL_MAP.size} tools, ontology v${graph.version})\n`,
+      `[agent-quality-oss] stdio MCP 서버 기동 (${TOOL_MAP.size} tools, ontology v${graph.version})\n`,
     );
   } catch (err: unknown) {
     const msg = err instanceof Error ? err.message : String(err);
     process.stderr.write(
-      `[agent-quality-oss-mcp] @modelcontextprotocol/sdk 미설치 — 'npm install'을 먼저 실행하세요.\n` +
+      `[agent-quality-oss] @modelcontextprotocol/sdk 미설치 — 'npm install'을 먼저 실행하세요.\n` +
         `원인: ${msg}\n`,
     );
     process.exit(1);

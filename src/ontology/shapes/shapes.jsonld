@@ -1,0 +1,91 @@
+{
+  "@context": "../graph/context.jsonld",
+  "@graph": [
+    {
+      "@id": "shp:WorkTypeShape",
+      "@type": "sh:NodeShape",
+      "sh:targetClass": "quality:WorkType",
+      "rdfs:label": "WorkType Shape",
+      "rdfs:comment": "공종 노드 무결성 — id prefix 'work.' 필수, name 필수.",
+      "sh:property": [
+        { "sh:path": "id", "sh:datatype": "xsd:string", "sh:minCount": 1, "sh:maxCount": 1, "sh:pattern": "^work\\." },
+        { "sh:path": "name", "sh:datatype": "xsd:string", "sh:minCount": 1 },
+        { "sh:path": "hasTask", "sh:nodeKind": "sh:IRI", "sh:minCount": 0 },
+        { "sh:path": "usesMaterial", "sh:nodeKind": "sh:IRI", "sh:minCount": 0 },
+        { "sh:path": "requiresStandard", "sh:nodeKind": "sh:IRI", "sh:minCount": 1, "sh:message": "최소 1개 기준 근거 필수" },
+        { "sh:path": "hasInspectionCheckpoint", "sh:nodeKind": "sh:IRI", "sh:minCount": 0 },
+        { "sh:path": "hasQualityRisk", "sh:nodeKind": "sh:IRI", "sh:minCount": 0 }
+      ]
+    },
+    {
+      "@id": "shp:MaterialShape",
+      "@type": "sh:NodeShape",
+      "sh:targetClass": "quality:Material",
+      "rdfs:label": "Material Shape",
+      "rdfs:comment": "자재 노드 무결성 — id prefix 'material.' 필수, 시험 또는 기준 1개 이상 필수.",
+      "sh:property": [
+        { "sh:path": "id", "sh:datatype": "xsd:string", "sh:minCount": 1, "sh:maxCount": 1, "sh:pattern": "^material\\." },
+        { "sh:path": "name", "sh:datatype": "xsd:string", "sh:minCount": 1 },
+        { "sh:path": "requiresTest", "sh:nodeKind": "sh:IRI", "sh:minCount": 0 },
+        { "sh:path": "hasAcceptanceCriteria", "sh:nodeKind": "sh:IRI", "sh:minCount": 0 },
+        { "sh:path": "requiresDocument", "sh:nodeKind": "sh:IRI", "sh:minCount": 0 }
+      ]
+    },
+    {
+      "@id": "shp:TestItemShape",
+      "@type": "sh:NodeShape",
+      "sh:targetClass": "quality:TestItem",
+      "rdfs:label": "TestItem Shape",
+      "rdfs:comment": "시험 항목 노드 — 방법(method)·빈도(frequency) 또는 근거(isBasedOn) 1개 이상.",
+      "sh:property": [
+        { "sh:path": "id", "sh:datatype": "xsd:string", "sh:minCount": 1, "sh:maxCount": 1, "sh:pattern": "^test\\." },
+        { "sh:path": "name", "sh:datatype": "xsd:string", "sh:minCount": 1 },
+        { "sh:path": "hasMethod", "sh:nodeKind": "sh:IRI", "sh:minCount": 0 },
+        { "sh:path": "hasFrequency", "sh:nodeKind": "sh:IRI", "sh:minCount": 0 },
+        { "sh:path": "isBasedOn", "sh:nodeKind": "sh:IRI", "sh:minCount": 1, "sh:message": "기준 근거(KCS/KDS/KS) 필수" },
+        { "sh:path": "targetMaterial", "sh:nodeKind": "sh:IRI", "sh:minCount": 0 }
+      ]
+    },
+    {
+      "@id": "shp:AcceptanceCriteriaShape",
+      "@type": "sh:NodeShape",
+      "sh:targetClass": "quality:AcceptanceCriteria",
+      "rdfs:label": "AcceptanceCriteria Shape",
+      "rdfs:comment": "수치 판정 기준 — operator·value 또는 condition 1개 이상 + 근거 standard 필수.",
+      "sh:property": [
+        { "sh:path": "id", "sh:datatype": "xsd:string", "sh:minCount": 1, "sh:maxCount": 1, "sh:pattern": "^criteria\\." },
+        { "sh:path": "name", "sh:datatype": "xsd:string", "sh:minCount": 1 },
+        { "sh:path": "derivedFrom", "sh:nodeKind": "sh:IRI", "sh:minCount": 1, "sh:message": "근거 standard 필수 (KCS/KDS/KS/spec)" },
+        { "sh:path": "appliesTo", "sh:nodeKind": "sh:IRI", "sh:minCount": 0 }
+      ]
+    },
+    {
+      "@id": "shp:NonconformanceShape",
+      "@type": "sh:NodeShape",
+      "sh:targetClass": "quality:Nonconformance",
+      "rdfs:label": "Nonconformance Shape",
+      "rdfs:comment": "부적합 노드 — 원인·즉시조치·시정조치 최소 1개씩 필수 (NCR 작성 가드레일).",
+      "sh:property": [
+        { "sh:path": "id", "sh:datatype": "xsd:string", "sh:minCount": 1, "sh:maxCount": 1, "sh:pattern": "^ncr\\." },
+        { "sh:path": "name", "sh:datatype": "xsd:string", "sh:minCount": 1 },
+        { "sh:path": "possibleCauses", "sh:nodeKind": "sh:IRI", "sh:minCount": 1, "sh:message": "원인 1개 이상 필수" },
+        { "sh:path": "immediateActions", "sh:nodeKind": "sh:IRI", "sh:minCount": 1, "sh:message": "즉시조치 1개 이상 필수" },
+        { "sh:path": "correctiveActions", "sh:nodeKind": "sh:IRI", "sh:minCount": 1, "sh:message": "시정조치 1개 이상 필수" },
+        { "sh:path": "relatedMaterial", "sh:nodeKind": "sh:IRI", "sh:minCount": 0 },
+        { "sh:path": "relatedTest", "sh:nodeKind": "sh:IRI", "sh:minCount": 0 }
+      ]
+    },
+    {
+      "@id": "shp:ProjectShape",
+      "@type": "sh:NodeShape",
+      "sh:targetClass": "cc:Project",
+      "rdfs:label": "Project Shape (cc: 공통)",
+      "rdfs:comment": "건설 프로젝트 노드 — safety / quality / schedule 등 모든 도메인 OSS 가 공유하는 cc: 메타 클래스.",
+      "sh:property": [
+        { "sh:path": "id", "sh:datatype": "xsd:string", "sh:minCount": 1, "sh:maxCount": 1, "sh:pattern": "^project\\." },
+        { "sh:path": "name", "sh:datatype": "xsd:string", "sh:minCount": 1 },
+        { "sh:path": "hasSpecification", "sh:nodeKind": "sh:IRI", "sh:minCount": 0 }
+      ]
+    }
+  ]
+}

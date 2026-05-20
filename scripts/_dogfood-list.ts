@@ -1,5 +1,5 @@
-import { TOOL_MAP } from '../src/mcp/registry.js';
-import type { ToolInputSchema } from '../src/mcp/types.js';
+import { LEGACY_TOOL_MAP as TOOL_MAP } from '../src/tool-registry.js';
+import type { ToolInputSchema } from '../src/lib/types.js';
 
 for (const [name, m] of TOOL_MAP) {
   console.log('===', name, '===');

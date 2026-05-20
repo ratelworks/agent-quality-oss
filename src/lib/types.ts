@@ -122,3 +122,9 @@ export interface ToolModuleLegacy {
   spec: ToolSpecLegacy;
   run: ToolRunLegacy;
 }
+
+// ───── Legacy 이름 alias (33개 도구 호환) ─────
+// mcp/types.ts 가 제공하던 짧은 이름을 lib/types 에서 동일하게 노출한다.
+// 도구 코드는 ToolSpec / ToolModule 짧은 이름으로 import 가능.
+export type ToolSpec = ToolSpecLegacy;
+export type ToolModule = ToolModuleLegacy;

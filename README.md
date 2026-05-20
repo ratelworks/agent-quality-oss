@@ -1,4 +1,4 @@
-# agent-quality-oss-mcp
+# agent-quality-oss
 
 > 🇰🇷 한국 건설 품질관리 도메인 전문성을 LLM에 연결하는 Model Context Protocol(MCP) 서버
 >
@@ -26,9 +26,36 @@
 | 모델 | 패턴 | 우리 위치 |
 |------|------|----------|
 | [`korean-law-mcp`](https://github.com/chrisryugj/korean-law-mcp) | 법령 카탈로그 네비게이터 — 위치만 안내 | 부분 차용 (locator·verify) |
-| `agent-safety-oss-mcp` | 안전관리 전문가 레이어 — 도메인 지식을 LLM에 장착 | **동일 패턴** (도메인이 안전→품질) |
+| [`agent-safety-oss`](https://github.com/ratelworks/agent-safety-oss) | 안전관리 전문가 레이어 — 도메인 지식을 LLM에 장착 | **동일 패턴** (도메인이 안전→품질) |
 
 → 우리는 **"품질관리 전문가 레이어"**.
+
+### 🏗️ 건설 메타 온톨로지 (Construction Meta-Ontology)
+
+본 OSS는 라텔웍스 **건설 메타 온톨로지** (`cc: https://construction.ratelworks.org/ontology/v1/`) 의 품질 도메인 레이어입니다.
+
+```text
+                cc: (건설 메타 — Project / Site / Person / Document / Equipment)
+                 │
+  ┌──────────────┼──────────────┬──────────────┬──────────────┐
+  │              │              │              │              │
+safety:       quality:      (environment:)  (schedule:)    (cost:)
+agent-safety- agent-quality- (예정)          (예정)          (예정)
+oss           oss
+```
+
+| 레이어 | namespace | 역할 |
+|--------|-----------|------|
+| **메타** | `cc:` | Project · Site · Person · Document · Equipment 등 모든 도메인 공통 클래스 |
+| **품질** | `quality:` | WorkType · Material · TestItem · AcceptanceCriteria · Nonconformance · CorrectiveAction |
+| **안전** | `safety:` | Hazard · Control · Activity · Cycle · Applicability (별도 OSS [`agent-safety-oss`](https://github.com/ratelworks/agent-safety-oss)) |
+| **표준** | `kcs:` `kds:` `ks:` | 국가건설기준 · KS 표준 식별자 |
+| **W3C** | `schema:` `eli:` `sh:` `prov:` | schema.org / EU 법령 / SHACL / Provenance |
+
+→ JSON-LD `@context`: [`src/ontology/graph/context.jsonld`](src/ontology/graph/context.jsonld)
+→ SHACL shapes: [`src/ontology/shapes/shapes.jsonld`](src/ontology/shapes/shapes.jsonld)
+
+같은 IRI 공간을 공유하므로 안전·품질·환경 그래프를 합쳐도 LLM이 **하나의 건설 도메인**으로 관계 추론을 이어갈 수 있습니다.
 
 ---
 
@@ -59,9 +86,9 @@ Claude Desktop `claude_desktop_config.json`:
 ```json
 {
   "mcpServers": {
-    "agent-quality-oss-mcp": {
+    "agent-quality-oss": {
       "command": "node",
-      "args": ["/absolute/path/to/agent-quality-oss-mcp/index.js", "--stdio"]
+      "args": ["/absolute/path/to/agent-quality-oss/index.js", "--stdio"]
     }
   }
 }

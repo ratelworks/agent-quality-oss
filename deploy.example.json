@@ -1,7 +1,7 @@
 {
   "_schema": "Cloud Run 배포 설정 예시. 실제 배포 시 이 파일을 `deploy.json`으로 복사한 뒤 projectId·serviceUrl을 본인 환경으로 교체하고 .gitignore에 deploy.json을 추가한다.",
-  "serviceName": "agent-quality-oss-mcp",
-  "serviceUrl": "https://agent-quality-oss-mcp-<YOUR_PROJECT_NUMBER>.<YOUR_REGION>.run.app",
+  "serviceName": "agent-quality-oss",
+  "serviceUrl": "https://agent-quality-oss-<YOUR_PROJECT_NUMBER>.<YOUR_REGION>.run.app",
   "projectId": "<YOUR_GCP_PROJECT_ID>",
   "region": "asia-northeast3",
   "runtime": "nodejs22",

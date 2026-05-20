@@ -1,11 +1,11 @@
-# ROADMAP — agent-quality-oss-mcp
+# ROADMAP — agent-quality-oss
 
 > **프로젝트 목적**
 > 온톨로지 그래프를 이용해 **건설 품질관리 분야의 도메인 전문성을 LLM에게 가이드**한다.
 > 데이터 수집 자체가 목적이 아니다. 모든 sync·정량 추출·관계 정의는 LLM이 graph traversal로
 > 베테랑 품질관리자처럼 응답하도록 만들기 위한 수단이다.
 
-> **본 문서 위치**: `dev/oss/agent-quality-oss-mcp/ROADMAP.md`
+> **본 문서 위치**: `dev/oss/agent-quality-oss/ROADMAP.md`
 > **갱신 주기**: 라운드 종료 시. 노드 카운트는 자동 측정 도구(`scripts/measure.ts`)와 동기.
 > **선행 문서**: `plan.md` (제품 정의) · `dev.md` (개발 규칙) · `src/taxonomy/coverage/master-index.json` (도메인 인벤토리 SSoT)
 

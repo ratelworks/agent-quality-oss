@@ -13,7 +13,7 @@ import { createServer } from "node:http";
 import { loadOntologySync } from "./ontology/loader.js";
 import { OntologyGraph } from "./ontology/graph.js";
 import { validateOntology } from "./ontology/validator.js";
-import { createHttpHandler } from "./mcp/http.js";
+import { createHttpHandler } from "./server/http.js";
 import { SERVER_NAME, VERSION } from "./version.js";
 
 const ontologyData = loadOntologySync();
@@ -44,7 +44,7 @@ const isDirect = entry != null && import.meta.url === pathToFileURL(entry).href;
 if (isDirect) {
   const mode = process.argv.includes("--stdio") ? "stdio" : "http";
   if (mode === "stdio") {
-    const { startStdioServer } = await import("./mcp/stdio.js");
+    const { startStdioServer } = await import("./server/stdio.js");
     await startStdioServer(graph);
   } else {
     const port = Number(process.env["PORT"] ?? 8080);

@@ -9,7 +9,7 @@
 
 import { searchEntities } from '../ontology/resolver.js';
 import { buildResponse } from './_response.js';
-import type { ToolSpec, NextStepHint } from '../mcp/types.js';
+import type { ToolSpec, NextStepHint } from '../lib/types.js';
 import type { OntologyGraph } from '../ontology/graph.js';
 import type { BaseEntity, EntityType } from '../ontology/schema.js';
 

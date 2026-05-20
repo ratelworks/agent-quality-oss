@@ -1,4 +1,4 @@
-# dev.md — agent-quality-oss-mcp 개발 규칙
+# dev.md — agent-quality-oss 개발 규칙
 
 > **MCP 정체성 (2026-04-25 정정)**
 > 한국 건설 품질관리 **도메인 전문성을 LLM에 연결**하는 MCP. agent-safety-oss-mcp 패턴(전문가 레이어) 적용 + korean-law-mcp 패턴(locator + verify) 차용.
@@ -12,7 +12,7 @@
 ## 1. 프로젝트 성격
 
 - **트랙**: 오픈소스 (MIT), `dev/oss/` 하위
-- **네이밍**: kebab-case 통일 (폴더/npm/리포/Cloud Run 서비스명 전부 `agent-quality-oss-mcp`)
+- **네이밍**: kebab-case 통일 (폴더/npm/리포/Cloud Run 서비스명 전부 `agent-quality-oss`)
 - **듀얼 런타임**: ① stdio MCP (로컬 Claude Desktop 등, `@modelcontextprotocol/sdk` 사용), ② HTTP JSON (Cloud Run, REST `/mcp/tools`). 진짜 MCP SSE/WebSocket transport는 Phase 2+ 과제.
 - **Agent_HQ 관계**: 사내 에이전트는 이 MCP를 **외부 오픈소스 의존**처럼 소비. 내부 전용 기능·자격 증명·프로젝트 ID는 포함하지 않음.
 

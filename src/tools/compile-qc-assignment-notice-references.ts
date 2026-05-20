@@ -5,7 +5,7 @@
 
 import { getSchema } from '../schemas/loader.js';
 import { buildResponse } from './_response.js';
-import type { BasisRef, ToolSpec } from '../mcp/types.js';
+import type { BasisRef, ToolSpec } from '../lib/types.js';
 import type { OntologyGraph } from '../ontology/graph.js';
 
 export const spec: ToolSpec = {

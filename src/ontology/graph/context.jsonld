@@ -1,0 +1,245 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "schema": "https://schema.org/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "eli": "http://data.europa.eu/eli/ontology#",
+    "dc": "http://purl.org/dc/terms/",
+    "prov": "http://www.w3.org/ns/prov#",
+    "sh": "http://www.w3.org/ns/shacl#",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "owl": "http://www.w3.org/2002/07/owl#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "time": "http://www.w3.org/2006/time#",
+
+    "cc": "https://construction.ratelworks.org/ontology/v1/",
+
+    "quality": "https://quality.ratelworks.org/ontology/v1/",
+    "work": "https://quality.ratelworks.org/work/",
+    "task": "https://quality.ratelworks.org/task/",
+    "material": "https://quality.ratelworks.org/material/",
+    "equipment": "https://quality.ratelworks.org/equipment/",
+    "standard": "https://quality.ratelworks.org/standard/",
+    "spec": "https://quality.ratelworks.org/spec/",
+    "test": "https://quality.ratelworks.org/test/",
+    "inspection": "https://quality.ratelworks.org/inspection/",
+    "criteria": "https://quality.ratelworks.org/criteria/",
+    "risk": "https://quality.ratelworks.org/risk/",
+    "ncr": "https://quality.ratelworks.org/nonconformance/",
+    "action": "https://quality.ratelworks.org/action/",
+    "doc": "https://quality.ratelworks.org/document/",
+    "agency": "https://quality.ratelworks.org/agency/",
+    "record": "https://quality.ratelworks.org/record/",
+    "project": "https://quality.ratelworks.org/project/",
+
+    "kcs": "https://standards.go.kr/kcs/",
+    "kds": "https://standards.go.kr/kds/",
+    "ks": "https://standards.go.kr/ks/",
+
+    "Project": "cc:Project",
+    "Site": "cc:Site",
+    "Person": "cc:Person",
+    "Organization": "cc:Organization",
+    "Document": "cc:Document",
+    "Equipment": "cc:Equipment",
+
+    "WorkType": "quality:WorkType",
+    "Task": "quality:Task",
+    "Material": "quality:Material",
+    "Standard": "quality:Standard",
+    "Specification": "quality:Specification",
+    "TestItem": "quality:TestItem",
+    "InspectionCheckpoint": "quality:InspectionCheckpoint",
+    "AcceptanceCriteria": "quality:AcceptanceCriteria",
+    "QualityRisk": "quality:QualityRisk",
+    "Nonconformance": "quality:Nonconformance",
+    "CorrectiveAction": "quality:CorrectiveAction",
+    "EvidenceDocument": "quality:EvidenceDocument",
+    "Agency": "quality:Agency",
+    "SiteRecord": "quality:SiteRecord",
+
+    "Legislation": "schema:Legislation",
+    "Action": "schema:Action",
+    "DigitalDocument": "schema:DigitalDocument",
+    "Thing": "schema:Thing",
+
+    "hasTask": {
+      "@id": "quality:hasTask",
+      "@type": "@id",
+      "@container": "@set"
+    },
+    "usesMaterial": {
+      "@id": "quality:usesMaterial",
+      "@type": "@id",
+      "@container": "@set"
+    },
+    "requiresStandard": {
+      "@id": "quality:requiresStandard",
+      "@type": "@id",
+      "@container": "@set"
+    },
+    "hasInspectionCheckpoint": {
+      "@id": "quality:hasInspectionCheckpoint",
+      "@type": "@id",
+      "@container": "@set"
+    },
+    "hasQualityRisk": {
+      "@id": "quality:hasQualityRisk",
+      "@type": "@id",
+      "@container": "@set"
+    },
+    "requiresTest": {
+      "@id": "quality:requiresTest",
+      "@type": "@id",
+      "@container": "@set"
+    },
+    "requiresDocument": {
+      "@id": "quality:requiresDocument",
+      "@type": "@id",
+      "@container": "@set"
+    },
+    "hasAcceptanceCriteria": {
+      "@id": "quality:hasAcceptanceCriteria",
+      "@type": "@id",
+      "@container": "@set"
+    },
+    "hasMethod": {
+      "@id": "quality:hasMethod",
+      "@type": "@id"
+    },
+    "hasFrequency": {
+      "@id": "quality:hasFrequency",
+      "@type": "@id"
+    },
+    "possibleNonconformance": {
+      "@id": "quality:possibleNonconformance",
+      "@type": "@id",
+      "@container": "@set"
+    },
+    "correctiveActions": {
+      "@id": "quality:correctiveActions",
+      "@type": "@id",
+      "@container": "@set"
+    },
+    "targetMaterial": {
+      "@id": "quality:targetMaterial",
+      "@type": "@id"
+    },
+    "relatedWork": {
+      "@id": "quality:relatedWork",
+      "@type": "@id",
+      "@container": "@set"
+    },
+    "appliesTo": {
+      "@id": "quality:appliesTo",
+      "@type": "@id",
+      "@container": "@set"
+    },
+    "derivedFrom": {
+      "@id": "quality:derivedFrom",
+      "@type": "@id"
+    },
+    "isBasedOn": {
+      "@id": "quality:isBasedOn",
+      "@type": "@id",
+      "@container": "@set"
+    },
+    "verifies": {
+      "@id": "quality:verifies",
+      "@type": "@id",
+      "@container": "@set"
+    },
+    "requiresEvidence": {
+      "@id": "quality:requiresEvidence",
+      "@type": "@id",
+      "@container": "@set"
+    },
+    "mayCause": {
+      "@id": "quality:mayCause",
+      "@type": "@id",
+      "@container": "@set"
+    },
+    "requires": {
+      "@id": "quality:requires",
+      "@type": "@id",
+      "@container": "@set"
+    },
+    "possibleCauses": {
+      "@id": "quality:possibleCauses",
+      "@type": "@id",
+      "@container": "@set"
+    },
+    "immediateActions": {
+      "@id": "quality:immediateActions",
+      "@type": "@id",
+      "@container": "@set"
+    },
+    "relatedTest": {
+      "@id": "quality:relatedTest",
+      "@type": "@id"
+    },
+    "relatedMaterial": {
+      "@id": "quality:relatedMaterial",
+      "@type": "@id"
+    },
+    "basisPriority": {
+      "@id": "quality:basisPriority"
+    },
+    "hasSpecification": {
+      "@id": "quality:hasSpecification",
+      "@type": "@id",
+      "@container": "@set"
+    },
+    "overridesStandard": {
+      "@id": "quality:overridesStandard",
+      "@type": "@id",
+      "@container": "@set"
+    },
+    "proves": {
+      "@id": "quality:proves",
+      "@type": "@id",
+      "@container": "@set"
+    },
+
+    "partOf": {
+      "@id": "cc:partOf",
+      "@type": "@id"
+    },
+    "operatedBy": {
+      "@id": "cc:operatedBy",
+      "@type": "@id"
+    },
+    "managedBy": {
+      "@id": "cc:managedBy",
+      "@type": "@id"
+    },
+    "locatedAt": {
+      "@id": "cc:locatedAt",
+      "@type": "@id"
+    },
+
+    "sourceStatus": {
+      "@id": "quality:sourceStatus"
+    },
+    "legalBasis": {
+      "@id": "eli:legal_resource_legal_force",
+      "@type": "@id",
+      "@container": "@set"
+    },
+    "verificationStatus": {
+      "@id": "prov:wasValidatedBy"
+    }
+  },
+
+  "@id": "https://quality.ratelworks.org/ontology/v1/",
+  "@type": "owl:Ontology",
+  "dc:title": "Agent Quality OSS — Korean Construction Quality Ontology",
+  "dc:description": "한국 건설 품질관리 도메인 온톨로지. cc: 건설 메타 온톨로지와 같은 IRI 공간을 공유하며 안전·환경·공정 등 인접 도메인과 그래프-수준 통합 가능.",
+  "dc:creator": "Ratelworks Inc.",
+  "dc:contributor": "Hwangryong Construction Co., Ltd.",
+  "dc:license": "https://opensource.org/licenses/MIT",
+  "owl:versionInfo": "0.3.0",
+  "owl:imports": [
+    "https://construction.ratelworks.org/ontology/v1/"
+  ]
+}
