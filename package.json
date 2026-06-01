@@ -36,7 +36,8 @@
     "smoke": "tsx scripts/smoke-test.ts",
     "audit": "tsx scripts/audit-ontology.ts",
     "coverage": "tsx scripts/coverage-matrix.ts",
-    "prepublishOnly": "npm run build"
+    "check:oss-hygiene": "tsx scripts/verify/check-oss-hygiene.ts",
+    "prepublishOnly": "npm run check:oss-hygiene && npm run build"
   },
   "keywords": [
     "mcp",

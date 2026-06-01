@@ -115,7 +115,7 @@ npm start
 | `map_quality_basis` | 근거 우선순위 매핑 (배합설계서 > 시방서 > KCS > 지침 > KS) |
 
 > Phase 2+에 기준 검색(KCS/KDS/KS), 현장문서 RAG, 체인 도구(체크리스트 생성 / NCR 보고서) 추가 예정.
-> 전체 로드맵: [`plan.md`](plan.md)
+> 전체 로드맵: [ROADMAP.md](./ROADMAP.md)
 
 ## 설계 원칙
 

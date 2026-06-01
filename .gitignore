@@ -35,3 +35,8 @@ coverage/
 # Project-local (프로젝트별 현장문서 RAG 캐시)
 data/cache/
 data/embeddings-cache/
+
+# 내부 문서 (외부 비공개 — 외부용은 AGENTS.md/ROADMAP.md/CONTRIBUTING.md 로 대체)
+CLAUDE.md
+dev.md
+plan.md
