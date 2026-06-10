@@ -37,7 +37,9 @@
     "audit": "tsx scripts/audit-ontology.ts",
     "coverage": "tsx scripts/coverage-matrix.ts",
     "check:oss-hygiene": "tsx scripts/verify/check-oss-hygiene.ts",
-    "prepublishOnly": "npm run check:oss-hygiene && npm run build"
+    "release:notes": "tsx scripts/release/extract-release-notes.ts --check",
+    "release:notes:preview": "tsx scripts/release/extract-release-notes.ts",
+    "prepublishOnly": "npm run check:oss-hygiene && npm run release:notes && npm run build"
   },
   "keywords": [
     "mcp",

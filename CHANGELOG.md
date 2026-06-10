@@ -1,0 +1,19 @@
+# Changelog
+
+All notable changes to `agent-quality-oss` are documented in this file.
+
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## [0.3.0] — 2026-05-20
+
+한국 건설 품질관리(QC·감리) 도메인 지식을 LLM에 공급하는 MCP 서버의 첫 공개 준비판입니다.
+
+### 추가
+
+- **품질관리 온톨로지 추론** — KCS/KDS 표준시방서·품질관리 기준·KS 를 관계망으로 연결해, 공종·자재 한 단어로 적용 기준과 법령 인용 위치를 찾아줍니다.
+- **정량 판정 보조** — 압축강도 통계 모드 등 수치 기준 판정을 코드로 재현 가능하게 수행합니다 (LLM 추측 아님).
+- **법정 품질문서 작성 보조** — 19종 법정문서 중 9종의 양식 구조·필수 항목 안내.
+- **법제처 법령 동기화** — 건설기술진흥법 계열 핵심 조문 연결.
+- **근거 추적(Lineage)** — 모든 도구 응답에 근거 목록과 온톨로지 버전이 따라붙어, 답이 어디서 왔는지 항상 확인할 수 있습니다.
+- **공개 위생 게이트** — 내부 용어·내부 경로·개인정보가 공개물에 새지 않도록 publish 전 자동 차단.
