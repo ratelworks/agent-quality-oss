@@ -191,6 +191,22 @@
       "aliases": ["토목섬유", "지오텍스타일", "부직포", "드레인보드", "보강매트"],
       "meta": { "category": "토목재", "note": "별표2 토목섬유 — 인장강도 KS K ISO 10319·투수계수 KS K ISO 11058·봉합강도 KS K ISO 10321." },
       "relations": { "requiresTest": ["test.geotextile_strength"], "requiresStandard": ["standard.ks_k_iso_10319"] }
+    },
+    {
+      "id": "material.pipe",
+      "type": "Material",
+      "name": "상하수도 관",
+      "aliases": ["관", "강관", "도복장강관", "염화비닐관", "폴리에틸렌관", "흄관", "철근콘크리트관"],
+      "meta": { "category": "관재", "note": "별표2 상하수도 관 — 도복장강관 KS D 3565·PVC KS M 3404·PE KS M 3407·철근콘크리트관 KS F 4402." },
+      "relations": { "requiresTest": ["test.pipe_strength"], "requiresStandard": ["standard.ks_d_3565"] }
+    },
+    {
+      "id": "material.deco_panel",
+      "type": "Material",
+      "name": "화장판 등 마감자재",
+      "aliases": ["화장판", "멜라민화장판", "데코타일", "치장판"],
+      "meta": { "category": "마감재", "note": "별표2 건축 기타 — 일반용 화장판 KS M 3332. 내열·내마모·내오염 기준은 KS 확보 시." },
+      "relations": { "requiresTest": ["test.deco_panel"], "requiresStandard": ["standard.ks_m_3332"] }
     }
   ]
 }

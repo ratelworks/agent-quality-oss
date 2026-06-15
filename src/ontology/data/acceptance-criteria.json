@@ -504,6 +504,20 @@
       "name": "토목섬유 인장강도·투수 기준 (설계도서 확보 대기)",
       "meta": { "operator": "ge", "threshold": null, "unit": "kN/m", "condition": "토목섬유 인장강도·투수계수 합격 기준은 KS K ISO·설계도서가 출처 — 미확보로 보류(UNDETERMINED).", "fallbackToProject": true, "reference": "KS K ISO 10319/11058 — 별표2 시험방법 인용", "sourceStatus": "skeleton", "referenceVerified": false, "note": "별표2로 시험종목·방법·빈도 verified. 판정값은 KS K ISO/설계도서(공공 자동확보 제약)이라 skeleton." },
       "relations": { "appliesTo": ["test.geotextile_strength"], "derivedFrom": ["standard.ks_k_iso_10319"] }
+    },
+    {
+      "id": "criteria.pipe_strength",
+      "type": "AcceptanceCriteria",
+      "name": "상하수도 관 강도·수압 기준 (KS 확보 대기)",
+      "meta": { "operator": "ge", "threshold": null, "unit": "성능등급", "condition": "관 강도·수압·외압 합격 기준은 KS D 3565/KS M 3404·3407/KS F 4402가 출처 — 미확보로 보류(UNDETERMINED).", "fallbackToProject": true, "reference": "KS D 3565/KS F 4402 — 별표2 시험방법 인용", "sourceStatus": "skeleton", "referenceVerified": false, "note": "별표2로 시험종목·방법 verified. 강도·수압 판정값은 KS 원문(공공 자동확보 제약)이라 skeleton." },
+      "relations": { "appliesTo": ["test.pipe_strength"], "derivedFrom": ["standard.ks_d_3565"] }
+    },
+    {
+      "id": "criteria.deco_panel",
+      "type": "AcceptanceCriteria",
+      "name": "마감자재 성능 기준 (KS 확보 대기)",
+      "meta": { "operator": "ge", "threshold": null, "unit": "성능등급", "condition": "화장판 내열·내마모·내오염 합격 기준은 KS M 3332가 출처 — 미확보로 보류(UNDETERMINED).", "fallbackToProject": true, "reference": "KS M 3332 — 별표2 시험방법 인용", "sourceStatus": "skeleton", "referenceVerified": false, "note": "별표2로 시험종목·방법 verified. 성능 판정값은 KS 원문(공공 자동확보 제약)이라 skeleton." },
+      "relations": { "appliesTo": ["test.deco_panel"], "derivedFrom": ["standard.ks_m_3332"] }
     }
   ]
 }

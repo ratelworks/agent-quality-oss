@@ -251,6 +251,22 @@
       "aliases": ["석재 불량", "토목섬유 강도 미달"],
       "meta": { "severity": "medium" },
       "relations": { "mayCause": ["ncr.stone_fail", "ncr.geotextile_fail"], "relatedTest": ["test.stone_strength", "test.geotextile_strength"] }
+    },
+    {
+      "id": "risk.pipe_defect",
+      "type": "QualityRisk",
+      "name": "상하수도 관 품질 결함",
+      "aliases": ["관 강도 미달", "수압 누수", "관 불량"],
+      "meta": { "severity": "high" },
+      "relations": { "mayCause": ["ncr.pipe_fail"], "relatedTest": ["test.pipe_strength"] }
+    },
+    {
+      "id": "risk.deco_panel_defect",
+      "type": "QualityRisk",
+      "name": "마감자재 품질 결함",
+      "aliases": ["화장판 불량", "내마모 미달"],
+      "meta": { "severity": "low" },
+      "relations": { "mayCause": ["ncr.deco_panel_fail"], "relatedTest": ["test.deco_panel"] }
     }
   ]
 }

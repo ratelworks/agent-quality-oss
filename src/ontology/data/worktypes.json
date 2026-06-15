@@ -284,6 +284,22 @@
       "aliases": ["석재공사", "석재", "토목섬유", "지오텍스타일", "부직포"],
       "meta": { "parent": "공통", "domain": "civil_quality", "note": "별표2 공통 '마.기타' — 석재(KS F 2518/2519)·토목섬유(KS K ISO) 시험종목 verified. 판정 수치는 KS/설계도서 확보 시." },
       "relations": { "usesMaterial": ["material.stone", "material.geotextile"], "hasInspectionCheckpoint": ["inspection.misc_material"], "hasQualityRisk": ["risk.misc_material_defect"], "requiresStandard": ["standard.quality_management_guideline"] }
+    },
+    {
+      "id": "work.pipe_laying",
+      "type": "WorkType",
+      "name": "상하수도 관 부설",
+      "aliases": ["상수도관", "하수도관", "관 부설", "배관공사", "도복장강관", "흄관", "관로공사"],
+      "meta": { "parent": "토목공사", "domain": "civil_quality", "note": "별표2 공통 기타 — 상하수도 관류(도복장강관·PVC·PE·철근콘크리트관) 시험종목 verified. 강도·수압 판정 수치는 KS 확보 시." },
+      "relations": { "usesMaterial": ["material.pipe"], "hasInspectionCheckpoint": ["inspection.pipe"], "hasQualityRisk": ["risk.pipe_defect"], "requiresStandard": ["standard.quality_management_guideline"] }
+    },
+    {
+      "id": "work.misc_finishing",
+      "type": "WorkType",
+      "name": "기타 마감자재",
+      "aliases": ["화장판", "데코타일", "멜라민판", "기타 마감"],
+      "meta": { "parent": "건축공사", "domain": "architecture_quality", "note": "별표2 건축 기타 — 일반용 화장판 등 마감자재(KS M 3332) 내열·내마모 시험종목 verified. 판정 수치는 KS 확보 시." },
+      "relations": { "usesMaterial": ["material.deco_panel"], "hasInspectionCheckpoint": ["inspection.misc_finishing"], "hasQualityRisk": ["risk.deco_panel_defect"], "requiresStandard": ["standard.quality_management_guideline"] }
     }
   ]
 }

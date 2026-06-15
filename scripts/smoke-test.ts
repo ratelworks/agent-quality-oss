@@ -593,6 +593,27 @@ const CASES: Case[] = [
     args: { query: '토목섬유' },
     assert: (r) => r.result.matches.some((m: { id: string }) => m.id === 'test.geotextile_strength'),
   },
+  // 상하수도 관류 + 건축 기타(화장판) — 별표2 잔여 2절 보강, usesMaterial→material→requiresTest 경로 회귀 보호
+  {
+    tool: 'resolve_worktype',
+    args: { input: '상수도관' },
+    assert: (r) => r.result.resolved?.id === 'work.pipe_laying',
+  },
+  {
+    tool: 'get_work_quality_profile',
+    args: { workType: '상수도관' },
+    assert: (r) => r.result.tests.some((t: { id: string }) => t.id === 'test.pipe_strength'),
+  },
+  {
+    tool: 'resolve_worktype',
+    args: { input: '화장판' },
+    assert: (r) => r.result.resolved?.id === 'work.misc_finishing',
+  },
+  {
+    tool: 'get_work_quality_profile',
+    args: { workType: '화장판' },
+    assert: (r) => r.result.tests.some((t: { id: string }) => t.id === 'test.deco_panel'),
+  },
 ];
 
 let pass = 0;

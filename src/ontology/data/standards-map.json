@@ -562,6 +562,27 @@
       "name": "KS K ISO 11058 지오텍스타일 수직 투수성 시험",
       "aliases": ["KS K ISO 11058", "토목섬유 투수계수"],
       "meta": { "issuer": "국가기술표준원", "category": "시험방법", "granularity": "document" }
+    },
+    {
+      "id": "standard.ks_d_3565",
+      "type": "Standard",
+      "name": "KS D 3565 상수도용 도복장 강관",
+      "aliases": ["KS D 3565", "도복장강관"],
+      "meta": { "issuer": "국가기술표준원", "category": "제품규격", "granularity": "document" }
+    },
+    {
+      "id": "standard.ks_f_4402",
+      "type": "Standard",
+      "name": "KS F 4402 원심력 철근 콘크리트 관",
+      "aliases": ["KS F 4402", "흄관", "철근콘크리트관"],
+      "meta": { "issuer": "국가기술표준원", "category": "제품규격", "granularity": "document" }
+    },
+    {
+      "id": "standard.ks_m_3332",
+      "type": "Standard",
+      "name": "KS M 3332 열경화성 수지 화장판",
+      "aliases": ["KS M 3332", "화장판"],
+      "meta": { "issuer": "국가기술표준원", "category": "제품규격", "granularity": "document" }
     }
   ]
 }

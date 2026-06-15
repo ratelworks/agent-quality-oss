@@ -532,6 +532,22 @@
       "aliases": ["토목섬유 인장강도", "투수계수", "봉합강도"],
       "meta": { "method": "인장강도·인장변형률 KS K ISO 10319 / 수직 투수계수 KS K ISO 11058 / 봉합강도 KS K ISO 10321", "timing": "반입 시", "frequency": "제조회사별·20,000㎡마다 (별표2)", "typicalAcceptance": "인장강도·투수계수 기준은 KS K ISO·설계도서 확보 시 — 시험종목·방법·빈도 커버리지" },
       "relations": { "targetMaterial": ["material.geotextile"], "relatedWork": ["work.misc_common"], "hasAcceptanceCriteria": ["criteria.geotextile_strength"], "possibleNonconformance": ["ncr.geotextile_fail"], "correctiveActions": ["action.refinish"], "requiresEvidence": ["doc.test_certificate"], "requiresStandard": ["standard.ks_k_iso_10319", "standard.ks_k_iso_11058"] }
+    },
+    {
+      "id": "test.pipe_strength",
+      "type": "TestItem",
+      "name": "상하수도 관 강도·수압 시험",
+      "aliases": ["관 강도", "수압시험", "외압강도", "관 항복강도"],
+      "meta": { "method": "도복장강관 항복점·연신율 KS D 3565 / 염화비닐관 KS M 3404 / 폴리에틸렌관 수압 KS M 3407 / 철근콘크리트관 외압강도 KS F 4402", "timing": "반입 시", "frequency": "제조회사별·제품규격별 (별표2)", "typicalAcceptance": "관 강도·수압·외압 기준은 KS 확보 시 — 시험종목·방법 커버리지" },
+      "relations": { "targetMaterial": ["material.pipe"], "relatedWork": ["work.pipe_laying"], "hasAcceptanceCriteria": ["criteria.pipe_strength"], "possibleNonconformance": ["ncr.pipe_fail"], "correctiveActions": ["action.refinish"], "requiresEvidence": ["doc.test_certificate"], "requiresStandard": ["standard.ks_d_3565", "standard.ks_f_4402"] }
+    },
+    {
+      "id": "test.deco_panel",
+      "type": "TestItem",
+      "name": "마감자재 성능 시험",
+      "aliases": ["화장판 시험", "내열수성", "내마모성", "내오염성"],
+      "meta": { "method": "일반용 화장판 내열수성·내끓임성·내마모성·내오염성·내광성 KS M 3332", "timing": "반입 시", "frequency": "제조회사별·제품규격별 (별표2)", "typicalAcceptance": "내열·내마모·내오염 성능 기준은 KS M 3332 확보 시 — 시험종목·방법 커버리지" },
+      "relations": { "targetMaterial": ["material.deco_panel"], "relatedWork": ["work.misc_finishing"], "hasAcceptanceCriteria": ["criteria.deco_panel"], "possibleNonconformance": ["ncr.deco_panel_fail"], "correctiveActions": ["action.refinish"], "requiresEvidence": ["doc.test_certificate"], "requiresStandard": ["standard.ks_m_3332"] }
     }
   ]
 }
