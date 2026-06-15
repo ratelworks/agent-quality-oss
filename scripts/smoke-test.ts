@@ -470,6 +470,26 @@ const CASES: Case[] = [
       );
     },
   },
+  // 철근공사 (KCS 14 20 11 + 별표2 / 강도 수치는 KS D 3504 skeleton) — 회귀 보호
+  {
+    tool: 'resolve_worktype',
+    args: { input: '철근' },
+    assert: (r) => r.result.resolved?.id === 'work.rebar_placement',
+  },
+  {
+    tool: 'infer_quality_risks',
+    args: { workType: '철근 배근', observations: ['철근 항복강도 350MPa'] },
+    // 시험항목은 식별(matched)하되, 강도 수치는 KS D 3504 미확보라 UNDETERMINED (환각 방지)
+    assert: (r) => {
+      const j = r.result.judgments[0];
+      return j?.matched === true && j?.verdict === 'UNDETERMINED' && r.result.summary.undetermined === 1;
+    },
+  },
+  {
+    tool: 'get_work_quality_profile',
+    args: { workType: '철근' },
+    assert: (r) => r.result.materials.length >= 1 && r.result.inspectionCheckpoints.length >= 1,
+  },
 ];
 
 let pass = 0;

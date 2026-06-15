@@ -56,12 +56,15 @@
       "meta": {
         "parent": "철근콘크리트공사",
         "domain": "architecture_quality",
-        "skeleton": true,
-        "skeletonNote": "Phase A skeleton — 자재·시험·리스크 최소. Phase B에서 완전체."
+        "note": "KCS 14 20 11 + 별표2. 시험종목(KS D 3504)·이음·가공·피복 검측 verified. 등급별 항복강도 수치는 KS D 3504(유료 표준) 확보 시 강화."
       },
       "relations": {
         "hasTask": ["task.rebar_placement_slab", "task.rebar_placement_wall"],
+        "usesMaterial": ["material.rebar"],
+        "hasInspectionCheckpoint": ["inspection.rebar_placement"],
+        "hasQualityRisk": ["risk.rebar_material_deficiency"],
         "requiresStandard": [
+          "standard.kcs_14_20.11",
           "standard.quality_management_guideline",
           "standard.guideline.part2_art6"
         ]

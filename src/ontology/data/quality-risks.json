@@ -103,6 +103,17 @@
         "mayCause": ["ncr.formwork_premature_stripping"],
         "relatedTest": ["test.formwork_stripping_strength"]
       }
+    },
+    {
+      "id": "risk.rebar_material_deficiency",
+      "type": "QualityRisk",
+      "name": "철근 재료 품질 미달",
+      "aliases": ["철근 강도 부족", "철근 불량"],
+      "meta": { "severity": "high" },
+      "relations": {
+        "mayCause": ["ncr.rebar_material_nonconformance"],
+        "relatedTest": ["test.rebar_mechanical"]
+      }
     }
   ]
 }
