@@ -429,6 +429,20 @@
       "name": "KS F 8021 조립형 비계 및 동바리 부재",
       "aliases": ["KS F 8021", "시스템비계", "시스템동바리"],
       "meta": { "issuer": "국가기술표준원", "category": "제품규격", "granularity": "document" }
+    },
+    {
+      "id": "standard.ks_f_2337",
+      "type": "Standard",
+      "name": "KS F 2337 마샬 시험기를 사용한 역청 혼합물의 소성흐름 시험",
+      "aliases": ["KS F 2337", "마샬안정도시험"],
+      "meta": { "issuer": "국가기술표준원", "category": "시험방법", "granularity": "document" }
+    },
+    {
+      "id": "standard.ks_f_2354",
+      "type": "Standard",
+      "name": "KS F 2354 아스팔트 혼합물의 아스팔트 함량 시험",
+      "aliases": ["KS F 2354", "아스팔트 함량 시험"],
+      "meta": { "issuer": "국가기술표준원", "category": "시험방법", "granularity": "document" }
     }
   ]
 }

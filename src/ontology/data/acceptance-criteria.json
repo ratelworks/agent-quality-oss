@@ -392,6 +392,27 @@
         "appliesTo": ["test.scaffold_member"],
         "derivedFrom": ["standard.ks_f_8021"]
       }
+    },
+    {
+      "id": "criteria.asphalt_marshall",
+      "type": "AcceptanceCriteria",
+      "name": "마샬안정도 기준 (KCS 44 확보 대기)",
+      "aliases": ["마샬안정도 기준"],
+      "meta": {
+        "operator": "ge",
+        "threshold": null,
+        "unit": "N",
+        "condition": "마샬안정도·흐름값·공극률 합격 기준은 KCS 44(도로포장)/도로공사 표준시방서가 출처 — 미확보로 자동판정 보류(UNDETERMINED).",
+        "fallbackToProject": true,
+        "reference": "KCS 44(도로포장) / KS F 2337 — 별표2가 시험방법 인용",
+        "sourceStatus": "skeleton",
+        "referenceVerified": false,
+        "note": "별표2(법제처)로 시험종목·방법·빈도 verified. 마샬 기준값은 KCS 44 원문(공공 자동확보 제약)이라 skeleton."
+      },
+      "relations": {
+        "appliesTo": ["test.asphalt_marshall"],
+        "derivedFrom": ["standard.ks_f_2337"]
+      }
     }
   ]
 }

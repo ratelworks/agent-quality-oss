@@ -528,6 +528,17 @@ const CASES: Case[] = [
     args: { workType: '가설기자재' },
     assert: (r) => r.result.tests.length >= 1,
   },
+  // 도로 아스팔트 포장 (별표2 시험종목 커버리지 / 판정 KCS 44 skeleton) — 회귀 보호
+  {
+    tool: 'resolve_worktype',
+    args: { input: '아스팔트 포장' },
+    assert: (r) => r.result.resolved?.id === 'work.road_pavement',
+  },
+  {
+    tool: 'search_quality_ontology',
+    args: { query: '마샬' },
+    assert: (r) => r.result.matches.some((m: { id: string }) => m.id === 'test.asphalt_marshall'),
+  },
 ];
 
 let pass = 0;

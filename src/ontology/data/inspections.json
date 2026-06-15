@@ -169,6 +169,25 @@
         "requiresEvidence": ["doc.test_certificate", "doc.inspection_request"],
         "relatedWork": ["work.temporary_equipment"]
       }
+    },
+    {
+      "id": "inspection.asphalt_pavement",
+      "type": "InspectionCheckpoint",
+      "name": "아스팔트 포장 검측",
+      "aliases": ["포장 검측", "아스콘 검사", "마샬 검사"],
+      "meta": {
+        "stage": "during",
+        "rule": "혼합물 마샬안정도·아스팔트 함량·체가름 시험 + 포설·다짐 온도 관리 + 포장 두께·평탄성 확인. 빈도: 1일 1회 이상. 마샬 기준값은 KCS 44 확보 시.",
+        "reference": "별표2(도로공사 아스팔트 혼합물) — 판정값은 KCS 44 원문 확보 대기",
+        "sourceStatus": "verified",
+        "verifiedAgainst": "evaluation/sources/quality_test_standards_annex2.txt (도로공사)"
+      },
+      "relations": {
+        "verifies": ["risk.asphalt_pavement_defect"],
+        "isBasedOn": ["standard.quality_management_guideline"],
+        "requiresEvidence": ["doc.site_test_record", "doc.inspection_request"],
+        "relatedWork": ["work.road_pavement"]
+      }
     }
   ]
 }
