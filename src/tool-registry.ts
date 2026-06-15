@@ -41,6 +41,13 @@ import * as getQcAssignmentNoticeSchema from "./tools/get-qc-assignment-notice-s
 import * as getQualityTestPlanSchema from "./tools/get-quality-test-plan-schema.js";
 import * as getQualityInspectionRegisterSchema from "./tools/get-quality-inspection-register-schema.js";
 import * as getInspectionRequestSchema from "./tools/get-inspection-request-schema.js";
+import * as getQualityPlanSchema from "./tools/get-quality-plan-schema.js";
+import * as getQualityInspectionSummarySchema from "./tools/get-quality-inspection-summary-schema.js";
+import * as getNcCorrectiveResultSchema from "./tools/get-nc-corrective-result-schema.js";
+import * as getQualityInspectionReportSchema from "./tools/get-quality-inspection-report-schema.js";
+import * as getTestRequestSchema from "./tools/get-test-request-schema.js";
+import * as getInspectionChecklistSchema from "./tools/get-inspection-checklist-schema.js";
+import * as getMaterialSourceApprovalSchema from "./tools/get-material-source-approval-schema.js";
 import * as compileConcretePourReferences from "./tools/compile-concrete-pour-references.js";
 import * as compileInspectionReferences from "./tools/compile-inspection-references.js";
 import * as compileNcrReferences from "./tools/compile-ncr-references.js";
@@ -81,6 +88,13 @@ export const LEGACY_MODULES: ToolModuleLegacy[] = [
   getQualityTestPlanSchema,
   getQualityInspectionRegisterSchema,
   getInspectionRequestSchema,
+  getQualityPlanSchema,
+  getQualityInspectionSummarySchema,
+  getNcCorrectiveResultSchema,
+  getQualityInspectionReportSchema,
+  getTestRequestSchema,
+  getInspectionChecklistSchema,
+  getMaterialSourceApprovalSchema,
   compileConcretePourReferences,
   compileInspectionReferences,
   compileNcrReferences,

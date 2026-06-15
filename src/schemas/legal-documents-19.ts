@@ -24,12 +24,12 @@ export interface LegalDocSpec {
 export const LEGAL_DOCUMENTS_19: LegalDocSpec[] = [
   // A. 사전 계획
   {
-    schemaId: '',
+    schemaId: 'quality_plan',
     title: '품질관리 계획서',
     category: 'plan',
     frequency: '분기 (변경 시)',
     legalBasis: '건진법 §55 + 시행령 §89 + 시행규칙 §52',
-    registered: false,
+    registered: true,
   },
   {
     schemaId: 'quality_test_plan',
@@ -73,12 +73,12 @@ export const LEGAL_DOCUMENTS_19: LegalDocSpec[] = [
     registered: true,
   },
   {
-    schemaId: '',
+    schemaId: 'test_request',
     title: '시험 의뢰서 (KOLAS)',
     category: 'daily',
     frequency: '매회 (외부 시험)',
     legalBasis: '건진법 §57·§60',
-    registered: false,
+    registered: true,
   },
   {
     schemaId: 'test_report_review',
@@ -97,20 +97,20 @@ export const LEGAL_DOCUMENTS_19: LegalDocSpec[] = [
     registered: true,
   },
   {
-    schemaId: '',
+    schemaId: 'inspection_checklist',
     title: '검측 체크리스트',
     category: 'daily',
     frequency: '매일 (부재별)',
     legalBasis: '업무지침 + 실무',
-    registered: false,
+    registered: true,
   },
   {
-    schemaId: '',
+    schemaId: 'material_source_approval',
     title: '자재 공급원 승인 요청서',
     category: 'daily',
     frequency: '신규 자재',
-    legalBasis: '사업관리방식 지침 별지 제37호',
-    registered: false,
+    legalBasis: '건진법 §56 + 사업관리방식 지침 별지 제37호 (시행규칙 제37호 아님)',
+    registered: true,
   },
   {
     schemaId: '',
@@ -130,12 +130,12 @@ export const LEGAL_DOCUMENTS_19: LegalDocSpec[] = [
     registered: true,
   },
   {
-    schemaId: '',
+    schemaId: 'quality_inspection_summary',
     title: '품질검사 성과 총괄표 (별지 제43호)',
     category: 'cumulative',
     frequency: '월 (분기·연 보고)',
-    legalBasis: '시행령 §93 + 별지 제43호',
-    registered: false,
+    legalBasis: '건진법 §55 + 시행규칙 별지 제43호 (서식) + 시행령 §93 (보존)',
+    registered: true,
   },
   // D. 부적합 (ISO 9001 §8.7)
   {
@@ -155,21 +155,21 @@ export const LEGAL_DOCUMENTS_19: LegalDocSpec[] = [
     registered: false,
   },
   {
-    schemaId: '',
+    schemaId: 'nc_corrective_result',
     title: '부적합 조치결과 확인서 (별지 제6호)',
     category: 'nonconformance',
     frequency: 'CAR 클로징',
-    legalBasis: '업무지침 별지 제6호',
-    registered: false,
+    legalBasis: '업무지침 §7 + 별지 제6호',
+    registered: true,
   },
   // E. 보고·감사
   {
-    schemaId: '',
+    schemaId: 'quality_inspection_report',
     title: '품질관리 점검 결과 보고서',
     category: 'audit',
     frequency: '월·분기',
-    legalBasis: '업무지침 §10',
-    registered: false,
+    legalBasis: '업무지침 §10 + 시행규칙 §51',
+    registered: true,
   },
   {
     schemaId: '',

@@ -10,7 +10,7 @@ npm install && npm run build
 
 | 스크립트 | 설명 |
 |---|---|
-| `mcp-list-tools.sh` | 등록된 MCP 도구 36개 목록 |
+| `mcp-list-tools.sh` | 등록된 MCP 도구 43개 목록 |
 | `work-profile.sh [공종]` | 공종 하나의 자재·시험·검측·리스크 프로파일 (기본: 콘크리트 타설) |
 
 ```bash

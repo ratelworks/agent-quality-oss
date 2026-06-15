@@ -631,6 +631,25 @@ const CASES: Case[] = [
       r.result.missingRequired.length > 0 &&
       r.result.complete === false,
   },
+  // 법정문서 schema 보강 (커버리지 16/19) — 회귀 보호
+  {
+    tool: 'get_quality_plan_schema',
+    args: {},
+    assert: (r) => r.result.schemaId === 'quality_plan' && r.result.sections.length >= 1,
+  },
+  {
+    tool: 'render_quality_form',
+    args: { docId: 'nc_corrective_result' },
+    assert: (r) =>
+      r.result.fieldCount >= 1 &&
+      r.result.surfaceId === 'quality_form_nc_corrective_result',
+  },
+  {
+    tool: 'compose_writing_context',
+    args: { docId: 'quality_inspection_summary', formValues: {} },
+    assert: (r) =>
+      typeof r.result.markdown === 'string' && r.result.missingRequired.length > 0,
+  },
 ];
 
 let pass = 0;
