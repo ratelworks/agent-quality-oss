@@ -517,6 +517,17 @@ const CASES: Case[] = [
     args: { query: '용접' },
     assert: (r) => r.result.matches.some((m: { id: string }) => m.id === 'test.steel_weld_inspection'),
   },
+  // 가설기자재 (별표2 시험종목 커버리지 / 판정 안전인증기준 skeleton) — 회귀 보호
+  {
+    tool: 'resolve_worktype',
+    args: { input: '가설기자재' },
+    assert: (r) => r.result.resolved?.id === 'work.temporary_equipment',
+  },
+  {
+    tool: 'get_work_quality_profile',
+    args: { workType: '가설기자재' },
+    assert: (r) => r.result.tests.length >= 1,
+  },
 ];
 
 let pass = 0;

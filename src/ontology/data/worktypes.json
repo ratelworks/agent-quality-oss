@@ -95,13 +95,13 @@
       "meta": {
         "parent": "가설공사",
         "domain": "architecture_quality",
-        "skeleton": true,
-        "skeletonNote": "업무지침 제5편 '가설기자재 품질관리'와 연계. 안전인증 품목 별도 관리 필요."
+        "note": "별표2 가설기자재 시험종목(비계·동바리 부재 하중시험·압연강재) verified. 안전인증기준 하중 판정값은 산업안전보건법 안전인증/KS 확보 시 강화."
       },
       "relations": {
-        "requiresStandard": [
-          "standard.guideline.part5"
-        ]
+        "usesMaterial": ["material.scaffold"],
+        "hasInspectionCheckpoint": ["inspection.scaffold_member"],
+        "hasQualityRisk": ["risk.scaffold_member_defect"],
+        "requiresStandard": ["standard.guideline.part5", "standard.quality_management_guideline"]
       }
     },
     {

@@ -150,6 +150,25 @@
         "requiresEvidence": ["doc.site_test_record", "doc.inspection_request"],
         "relatedWork": ["work.steel_fabrication"]
       }
+    },
+    {
+      "id": "inspection.scaffold_member",
+      "type": "InspectionCheckpoint",
+      "name": "가설기자재 검측",
+      "aliases": ["가설재 검측", "비계 검사", "동바리 검사"],
+      "meta": {
+        "stage": "before",
+        "rule": "반입 가설기자재 안전인증 표시 확인 + 부재 하중시험(압축·휨·인장) 시험성적서 검토. 재사용재 변형·부식 육안 검사. 빈도: 제품규격마다 3개·공급자마다.",
+        "reference": "별표2(가설기자재) — 하중 판정값은 안전인증기준 확보 대기",
+        "sourceStatus": "verified",
+        "verifiedAgainst": "evaluation/sources/quality_test_standards_annex2.txt (가설기자재)"
+      },
+      "relations": {
+        "verifies": ["risk.scaffold_member_defect"],
+        "isBasedOn": ["standard.quality_management_guideline"],
+        "requiresEvidence": ["doc.test_certificate", "doc.inspection_request"],
+        "relatedWork": ["work.temporary_equipment"]
+      }
     }
   ]
 }

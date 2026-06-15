@@ -98,6 +98,13 @@
       "name": "용접 결함부 보수",
       "aliases": ["재용접", "용접 보수", "결함부 제거"],
       "meta": { "urgency": "corrective" }
+    },
+    {
+      "id": "action.scaffold_member_reject",
+      "type": "CorrectiveAction",
+      "name": "불합격 가설기자재 반출",
+      "aliases": ["가설재 반송", "가설재 반품"],
+      "meta": { "urgency": "immediate" }
     }
   ]
 }

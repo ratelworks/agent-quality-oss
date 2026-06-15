@@ -146,6 +146,17 @@
         "mayCause": ["ncr.steel_weld_fail"],
         "relatedTest": ["test.steel_weld_inspection"]
       }
+    },
+    {
+      "id": "risk.scaffold_member_defect",
+      "type": "QualityRisk",
+      "name": "가설기자재 부재 결함",
+      "aliases": ["비계 불량", "동바리 불량", "가설재 강도 부족"],
+      "meta": { "severity": "high" },
+      "relations": {
+        "mayCause": ["ncr.scaffold_member_fail"],
+        "relatedTest": ["test.scaffold_member"]
+      }
     }
   ]
 }
