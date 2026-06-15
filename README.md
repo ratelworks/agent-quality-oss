@@ -6,7 +6,7 @@
 [![Node](https://img.shields.io/badge/node-%3E%3D22-brightgreen)](https://nodejs.org)
 [![MCP](https://img.shields.io/badge/MCP-1.x-purple)](https://modelcontextprotocol.io)
 [![Release](https://img.shields.io/badge/release-v0.3.0-blue.svg)](./CHANGELOG.md)
-[![Tools](https://img.shields.io/badge/MCP%20tools-43-orange.svg)](#mcp-도구-43개)
+[![Tools](https://img.shields.io/badge/MCP%20tools-46-orange.svg)](#mcp-도구-46개)
 
 **건설현장의 품질관리 문서 작성과 검토를 더 빠르고 정확하게.** 건설기술 진흥법·건설공사 품질관리 업무지침·KCS/KDS·KS 를 기반으로, 품질관리자(QC)와 감리원의 ITP·NCR·검사요청·시험성적서 검토 같은 작업을 돕는 오픈소스 도구입니다.
 
@@ -16,7 +16,7 @@
 
 ---
 
-**목차** — [한 눈에](#한-눈에--품질관리자감리원이-받는-가치) · [왜 필요한가](#왜-필요한가) · [무엇이 들어 있나](#무엇이-들어-있나) · [시작하기](#시작하기) · [사용 예시](#사용-예시) · [동작 흐름](#어떻게-동작하나) · [MCP 도구](#mcp-도구-43개) · [근거 등급](#신뢰성--근거-등급) · [검증 상태](#검증-상태) · [현재 한계](#현재-한계) · [기술 상세](#기술-상세--메타-온톨로지) · [기여](#기여) · [라이선스](#라이선스)
+**목차** — [한 눈에](#한-눈에--품질관리자감리원이-받는-가치) · [왜 필요한가](#왜-필요한가) · [무엇이 들어 있나](#무엇이-들어-있나) · [시작하기](#시작하기) · [사용 예시](#사용-예시) · [동작 흐름](#어떻게-동작하나) · [MCP 도구](#mcp-도구-46개) · [근거 등급](#신뢰성--근거-등급) · [검증 상태](#검증-상태) · [현재 한계](#현재-한계) · [기술 상세](#기술-상세--메타-온톨로지) · [기여](#기여) · [라이선스](#라이선스)
 
 ---
 
@@ -61,8 +61,8 @@ LLM 은 이 그래프를 보고 문서를 작성하거나 설명할 수 있지�
 |---|---|
 | **품질관리 온톨로지** | 공종(WorkType) 19종 + 자재·시험·판정기준·리스크·부적합·시정조치·검측·증빙·표준을 관계로 연결. 그래프 노드 **324개** · 관계 **912개** |
 | **법정 품질시험기준 커버리지** | 건설공사 품질관리 업무지침 **별표2(품질시험기준)** 의 공통·토목·건축 **전 절** 시험종목·방법·빈도 |
-| **MCP 도구 43개** | 온톨로지 탐색 · 정량 판정 · 리스크 추론 · 근거 검증 · 법령/기준 인용 위치 · 문서 양식 구조(16종) · 근거 패키지 조립(7종) · 입력 폼(A2UI) |
-| **문서 양식 구조 16종** | ITP · NCR · 검사요청서 · 콘크리트 납품기록 · 공시체 기록 · 시험성적서 검토 · 품질관리자 배치신고 · 품질시험계획 · 검사대장 · 품질관리계획서 · 성과총괄표(별지43) · 부적합조치결과확인서(별지6) · 점검결과보고서 · 시험의뢰서(KOLAS) · 검측체크리스트 · 자재공급원승인(별지37) (필수 필드 + 근거 + 보존기간) |
+| **MCP 도구 46개** | 온톨로지 탐색 · 정량 판정 · 리스크 추론 · 근거 검증 · 법령/기준 인용 위치 · 문서 양식 구조(19종) · 근거 패키지 조립(7종) · 입력 폼(A2UI) |
+| **문서 양식 구조 19종** | (법정 16종) ITP · NCR · 검사요청서 · 콘크리트 납품기록 · 공시체 기록 · 시험성적서 검토 · 품질관리자 배치신고 · 품질시험계획 · 검사대장 · 품질관리계획서 · 성과총괄표(별지43) · 부적합조치결과확인서(별지6) · 점검결과보고서 · 시험의뢰서(KOLAS) · 검측체크리스트 · 자재공급원승인(별지37) + (실무·ISO 관행 3종) 시방서일지 · 시정조치요구서(CAR) · 품질감사보고서 — 시공자 작성 문서 전종 (필수 필드 + 근거 + 보존기간) |
 | **건설 메타 온톨로지** | `cc:` 네임스페이스 — 안전·환경 등 다른 도메인 OSS 와 같은 IRI 공간 공유 |
 | **근거 추적(Lineage)** | 모든 도구 응답에 `basis[]` + `lineage.contentHash` + `sourceStatus` 요약 — 답이 어디서 왔는지, 출처가 검증됐는지 항상 확인 |
 
@@ -143,7 +143,7 @@ node build/cli.js viewer
 ### C. 개발자
 
 ```bash
-node build/cli.js tools          # 등록된 도구 43개 목록
+node build/cli.js tools          # 등록된 도구 46개 목록
 node build/cli.js serve          # stdio MCP 서버
 node build/cli.js serve --http   # HTTP JSON 서버 (PORT env, 기본 8080 → /mcp/tools)
 node build/cli.js call get_work_quality_profile --workType 콘크리트
@@ -182,7 +182,7 @@ Claude Desktop 이나 Codex 에서 자연어로 요청합니다.
 
 `compose_writing_context` 는 본문을 직접 생성하지 않습니다 — 작성은 LLM, 결재는 사람이라는 본질을 지킵니다.
 
-## MCP 도구 43개
+## MCP 도구 46개
 
 | 묶음 | 도구 |
 |---|---|
@@ -190,7 +190,7 @@ Claude Desktop 이나 Codex 에서 자연어로 요청합니다.
 | **리스크·판정** (3) | `infer_quality_risks` · `evaluate_observation` · `explain_quality_decision_path` |
 | **근거·검증** (3) | `map_quality_basis` · `verify_quality_basis` · `verify_form_reference` |
 | **법령·기준 인용 위치** (7) | `list_core_quality_laws` · `get_quality_law_article` · `search_quality_management_guideline` · `get_quality_guideline_article` · `search_construction_standards` · `get_standard_form_locator` · `get_project_info` |
-| **문서 양식 구조** (16) | `get_itp_schema` · `get_ncr_schema` · `get_inspection_request_schema` · `get_concrete_delivery_record_schema` · `get_specimen_record_schema` · `get_test_report_review_schema` · `get_qc_assignment_notice_schema` · `get_quality_test_plan_schema` · `get_quality_inspection_register_schema` · `get_quality_plan_schema` · `get_quality_inspection_summary_schema` · `get_nc_corrective_result_schema` · `get_quality_inspection_report_schema` · `get_test_request_schema` · `get_inspection_checklist_schema` · `get_material_source_approval_schema` |
+| **문서 양식 구조** (19) | `get_itp_schema` · `get_ncr_schema` · `get_inspection_request_schema` · `get_concrete_delivery_record_schema` · `get_specimen_record_schema` · `get_test_report_review_schema` · `get_qc_assignment_notice_schema` · `get_quality_test_plan_schema` · `get_quality_inspection_register_schema` · `get_quality_plan_schema` · `get_quality_inspection_summary_schema` · `get_nc_corrective_result_schema` · `get_quality_inspection_report_schema` · `get_test_request_schema` · `get_inspection_checklist_schema` · `get_material_source_approval_schema` · `get_quality_daily_log_schema` · `get_corrective_action_request_schema` · `get_quality_audit_report_schema` |
 | **근거 패키지 조립** (7) | `compile_ncr_references` · `compile_concrete_pour_references` · `compile_inspection_references` · `compile_inspection_request_references` · `compile_qc_assignment_notice_references` · `compile_quality_test_plan_references` · `compile_quality_inspection_register_references` |
 | **입력 폼·작성 컨텍스트 (A2UI)** (2) | `render_quality_form` · `compose_writing_context` |
 

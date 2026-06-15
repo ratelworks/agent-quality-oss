@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# 등록된 MCP 도구 43개 목록을 출력한다.
+# 등록된 MCP 도구 46개 목록을 출력한다.
 # 사용: ./examples/mcp-list-tools.sh
 set -euo pipefail
 cd "$(dirname "$0")/.."

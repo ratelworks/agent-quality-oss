@@ -113,12 +113,12 @@ export const LEGAL_DOCUMENTS_19: LegalDocSpec[] = [
     registered: true,
   },
   {
-    schemaId: '',
+    schemaId: 'quality_daily_log',
     title: '시방서(품질관리) 일지',
     category: 'daily',
     frequency: '매일',
-    legalBasis: '실무 표준',
-    registered: false,
+    legalBasis: '실무 표준 (법정 의무 아님) + 업무지침 §6·§10',
+    registered: true,
   },
   // C. 누적 기록
   {
@@ -147,12 +147,12 @@ export const LEGAL_DOCUMENTS_19: LegalDocSpec[] = [
     registered: true,
   },
   {
-    schemaId: '',
+    schemaId: 'corrective_action_request',
     title: '시정조치 요구서 (CAR)',
     category: 'nonconformance',
     frequency: 'NCR 후속',
-    legalBasis: 'ISO 9001 §8.7',
-    registered: false,
+    legalBasis: 'ISO 9001 §8.7 + 업무지침 §7 (법정 서식 아님)',
+    registered: true,
   },
   {
     schemaId: 'nc_corrective_result',
@@ -172,12 +172,12 @@ export const LEGAL_DOCUMENTS_19: LegalDocSpec[] = [
     registered: true,
   },
   {
-    schemaId: '',
+    schemaId: 'quality_audit_report',
     title: '품질감사 보고서',
     category: 'audit',
     frequency: '분기·반기',
-    legalBasis: '자체 ISO 절차',
-    registered: false,
+    legalBasis: '자체 ISO 절차 (법정 의무 아님)',
+    registered: true,
   },
 ];
 

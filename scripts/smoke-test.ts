@@ -650,6 +650,19 @@ const CASES: Case[] = [
     assert: (r) =>
       typeof r.result.markdown === 'string' && r.result.missingRequired.length > 0,
   },
+  // 관행 3종 (시방서일지·CAR·품질감사) — 커버리지 19/19 완성 회귀
+  {
+    tool: 'render_quality_form',
+    args: { docId: 'corrective_action_request' },
+    assert: (r) =>
+      r.result.fieldCount >= 1 &&
+      r.result.surfaceId === 'quality_form_corrective_action_request',
+  },
+  {
+    tool: 'get_quality_audit_report_schema',
+    args: {},
+    assert: (r) => r.result.schemaId === 'quality_audit_report' && r.result.sections.length >= 1,
+  },
 ];
 
 let pass = 0;

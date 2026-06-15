@@ -752,6 +752,104 @@
           { "name": "approvalStatus", "type": "enum<approved,rejected,conditional>", "required": false }
         ]}
       ]
+    },
+    "quality_daily_log": {
+      "id": "quality_daily_log",
+      "title": "시방서(품질관리) 일지",
+      "basis": ["standard.guideline.part2_art6", "standard.guideline.part2_art10"],
+      "reference": "실무 표준 문서 (법정 의무 아님). 건설공사 품질관리 업무지침 §6(시험기준·관리)·§10(이행점검) 활동 기록 관행.",
+      "retention": "공사 기간 중 현장 비치, 준공 후 내부 절차에 따라 보존.",
+      "sections": [
+        { "key": "header", "title": "일지 기본정보", "fields": [
+          { "name": "documentId", "type": "string", "required": true },
+          { "name": "projectName", "type": "string", "required": true },
+          { "name": "logDate", "type": "date", "required": true },
+          { "name": "weather", "type": "string", "required": false }
+        ]},
+        { "key": "activities", "title": "품질관리 활동", "fields": [
+          { "name": "workActivities", "type": "array<object>", "required": true, "fields": ["workType", "location", "activity"], "note": "당일 공종·위치·작업" },
+          { "name": "qualityChecks", "type": "array<object>", "required": false, "fields": ["checkItem", "result"], "note": "검측·확인 항목" }
+        ]},
+        { "key": "materials_tests", "title": "자재·시험", "fields": [
+          { "name": "materialReceipts", "type": "array<object>", "required": false, "fields": ["material", "quantity", "source"] },
+          { "name": "testsSampled", "type": "array<string>", "required": false, "note": "당일 채취·의뢰 시험" }
+        ]},
+        { "key": "issues", "title": "특이사항·지시", "fields": [
+          { "name": "nonconformances", "type": "array<string>", "required": false },
+          { "name": "instructions", "type": "string", "required": false, "note": "감리·발주 지시" },
+          { "name": "remarks", "type": "string", "required": false }
+        ]},
+        { "key": "signoff", "title": "작성·확인", "fields": [
+          { "name": "recordedBy", "type": "object", "required": true, "fields": ["name", "role"] },
+          { "name": "reviewedBy", "type": "object", "required": false, "fields": ["name", "role"] }
+        ]}
+      ]
+    },
+    "corrective_action_request": {
+      "id": "corrective_action_request",
+      "title": "시정조치 요구서 (CAR)",
+      "basis": ["standard.guideline.part2_art7"],
+      "reference": "ISO 9001 §8.7(부적합 및 시정조치) + 건설공사 품질관리 업무지침 §7 (법정 서식 아닌 QMS 관행). 부적합보고서(NCR) 후속 시정 요구.",
+      "retention": "원 NCR·부적합 조치결과 확인서(별지 제6호)와 함께 보존.",
+      "sections": [
+        { "key": "header", "title": "요구서 기본정보", "fields": [
+          { "name": "documentId", "type": "string", "required": true },
+          { "name": "projectName", "type": "string", "required": true },
+          { "name": "ncrRef", "type": "string", "required": true, "note": "원 부적합보고서(NCR) 번호" },
+          { "name": "issueDate", "type": "date", "required": true }
+        ]},
+        { "key": "nonconformance", "title": "부적합 내용", "fields": [
+          { "name": "description", "type": "string", "required": true },
+          { "name": "rootCause", "type": "string", "required": false, "note": "근본 원인 분석" }
+        ]},
+        { "key": "request", "title": "시정 요구", "fields": [
+          { "name": "requiredAction", "type": "string", "required": true, "note": "요구 시정조치" },
+          { "name": "dueDate", "type": "date", "required": true },
+          { "name": "responsibleParty", "type": "string", "required": true }
+        ]},
+        { "key": "verification", "title": "조치·검증", "fields": [
+          { "name": "actionTaken", "type": "string", "required": false },
+          { "name": "effectivenessCheck", "type": "string", "required": false },
+          { "name": "closedDate", "type": "date", "required": false }
+        ]},
+        { "key": "signoff", "title": "발행·접수", "fields": [
+          { "name": "issuedBy", "type": "object", "required": true, "fields": ["name", "role"], "note": "감리원·품질관리자" },
+          { "name": "acknowledgedBy", "type": "object", "required": false, "fields": ["name", "role"] }
+        ]}
+      ]
+    },
+    "quality_audit_report": {
+      "id": "quality_audit_report",
+      "title": "품질감사 보고서",
+      "basis": ["standard.guideline.part2_art10"],
+      "reference": "자체 품질경영시스템(ISO 9001) 내부감사 절차 (법정 의무 아님). 업무지침 §10(이행점검)과 연계.",
+      "retention": "내부 QMS 절차에 따라 보존.",
+      "sections": [
+        { "key": "header", "title": "감사 기본정보", "fields": [
+          { "name": "documentId", "type": "string", "required": true },
+          { "name": "projectName", "type": "string", "required": true },
+          { "name": "auditDate", "type": "date", "required": true },
+          { "name": "auditType", "type": "enum<internal,external,supplier>", "required": true },
+          { "name": "auditScope", "type": "string", "required": true }
+        ]},
+        { "key": "findings", "title": "감사 발견사항", "fields": [
+          { "name": "items", "type": "array<object>", "required": true, "fields": ["clause", "finding", "severity", "evidence"], "note": "ISO 9001 조항별 발견" }
+        ]},
+        { "key": "nonconformances", "title": "부적합·관찰", "fields": [
+          { "name": "majorNc", "type": "number", "required": false },
+          { "name": "minorNc", "type": "number", "required": false },
+          { "name": "observations", "type": "array<string>", "required": false }
+        ]},
+        { "key": "conclusion", "title": "결론·후속", "fields": [
+          { "name": "overallResult", "type": "string", "required": true },
+          { "name": "correctiveRequests", "type": "array<string>", "required": false, "note": "CAR 발행 대상" },
+          { "name": "nextAuditDate", "type": "date", "required": false }
+        ]},
+        { "key": "signoff", "title": "감사·확인", "fields": [
+          { "name": "auditedBy", "type": "object", "required": true, "fields": ["name", "role"] },
+          { "name": "auditeeAck", "type": "object", "required": false, "fields": ["name", "role"] }
+        ]}
+      ]
     }
   }
 }

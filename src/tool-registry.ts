@@ -48,6 +48,9 @@ import * as getQualityInspectionReportSchema from "./tools/get-quality-inspectio
 import * as getTestRequestSchema from "./tools/get-test-request-schema.js";
 import * as getInspectionChecklistSchema from "./tools/get-inspection-checklist-schema.js";
 import * as getMaterialSourceApprovalSchema from "./tools/get-material-source-approval-schema.js";
+import * as getQualityDailyLogSchema from "./tools/get-quality-daily-log-schema.js";
+import * as getCorrectiveActionRequestSchema from "./tools/get-corrective-action-request-schema.js";
+import * as getQualityAuditReportSchema from "./tools/get-quality-audit-report-schema.js";
 import * as compileConcretePourReferences from "./tools/compile-concrete-pour-references.js";
 import * as compileInspectionReferences from "./tools/compile-inspection-references.js";
 import * as compileNcrReferences from "./tools/compile-ncr-references.js";
@@ -95,6 +98,9 @@ export const LEGACY_MODULES: ToolModuleLegacy[] = [
   getTestRequestSchema,
   getInspectionChecklistSchema,
   getMaterialSourceApprovalSchema,
+  getQualityDailyLogSchema,
+  getCorrectiveActionRequestSchema,
+  getQualityAuditReportSchema,
   compileConcretePourReferences,
   compileInspectionReferences,
   compileNcrReferences,
