@@ -56,6 +56,21 @@
         "requiresTest": ["test.soil_compaction", "test.soil_cbr", "test.soil_water_content", "test.soil_gradation"],
         "requiresStandard": ["standard.quality_management_guideline"]
       }
+    },
+    {
+      "id": "material.steel",
+      "type": "Material",
+      "name": "압연강재",
+      "aliases": ["강재", "형강", "압연강재", "강판", "SS275", "SM355", "H형강"],
+      "meta": {
+        "category": "구조재",
+        "note": "KS D 3503 일반구조용 압연강재 등. 강종별 항복·인장강도 수치는 KS 원문(유료) 확보 시."
+      },
+      "relations": {
+        "requiresTest": ["test.steel_material"],
+        "requiresDocument": ["doc.test_certificate"],
+        "requiresStandard": ["standard.ks_d_3503"]
+      }
     }
   ]
 }

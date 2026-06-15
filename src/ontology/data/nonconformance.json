@@ -392,6 +392,30 @@
         "requiresEvidence": ["doc.site_test_record", "doc.ncr_report"],
         "basisPriority": ["standard.ks_f_2308", "standard.ks_f_2312"]
       }
+    },
+    {
+      "id": "ncr.steel_weld_fail",
+      "type": "Nonconformance",
+      "name": "용접부 결함 (비파괴검사 불합격)",
+      "aliases": ["용접 불합격", "용접 결함"],
+      "meta": {
+        "direction": "defect",
+        "severity": "high",
+        "possibleCauses": ["용접 입열 부적정", "개선 형상 불량", "용접사 기량 부족", "수소 지연균열", "이물질 혼입"],
+        "owner": "용접 시공사 + 품질관리자",
+        "approver": "감리원 / 구조기술사",
+        "effectivenessCheck": "결함부 제거·재용접 후 동일 비파괴검사 재실시",
+        "closureCriteria": "재검사 합격 + NCR 보고서 승인",
+        "sourceStatus": "verified",
+        "verifiedAgainst": "evaluation/sources/quality_test_standards_annex2.txt (철강구조물 용접부 검사)"
+      },
+      "relations": {
+        "relatedTest": ["test.steel_weld_inspection"],
+        "immediateActions": ["action.steel_weld_repair", "action.notify_quality_manager"],
+        "correctiveActions": ["action.record_ncr"],
+        "requiresEvidence": ["doc.site_test_record", "doc.ncr_report"],
+        "basisPriority": ["standard.ks_b_0845", "standard.ks_b_0896"]
+      }
     }
   ]
 }

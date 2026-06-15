@@ -380,6 +380,34 @@
       "name": "KS F 2591 말뚝 동재하 시험",
       "aliases": ["KS F 2591", "동재하시험"],
       "meta": { "issuer": "국가기술표준원", "category": "시험방법", "granularity": "document" }
+    },
+    {
+      "id": "standard.ks_b_0845",
+      "type": "Standard",
+      "name": "KS B 0845 강 용접 이음부의 방사선 투과 시험",
+      "aliases": ["KS B 0845", "방사선투과시험", "RT"],
+      "meta": { "issuer": "국가기술표준원", "category": "시험방법", "granularity": "document" }
+    },
+    {
+      "id": "standard.ks_b_0896",
+      "type": "Standard",
+      "name": "KS B 0896 강 용접부의 초음파 탐상 시험",
+      "aliases": ["KS B 0896", "초음파탐상", "UT"],
+      "meta": { "issuer": "국가기술표준원", "category": "시험방법", "granularity": "document" }
+    },
+    {
+      "id": "standard.ks_d_0213",
+      "type": "Standard",
+      "name": "KS D 0213 철강 재료의 자분 탐상 시험",
+      "aliases": ["KS D 0213", "자분탐상", "MT"],
+      "meta": { "issuer": "국가기술표준원", "category": "시험방법", "granularity": "document" }
+    },
+    {
+      "id": "standard.ks_d_3503",
+      "type": "Standard",
+      "name": "KS D 3503 일반구조용 압연강재",
+      "aliases": ["KS D 3503", "압연강재 KS", "SS275"],
+      "meta": { "issuer": "국가기술표준원", "category": "제품규격", "granularity": "document" }
     }
   ]
 }

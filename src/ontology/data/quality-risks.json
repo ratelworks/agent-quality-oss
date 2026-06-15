@@ -135,6 +135,17 @@
       "relations": {
         "relatedTest": ["test.pile_bearing_capacity"]
       }
+    },
+    {
+      "id": "risk.steel_weld_defect",
+      "type": "QualityRisk",
+      "name": "용접 결함",
+      "aliases": ["용접 불량", "용접부 결함", "비파괴 불합격"],
+      "meta": { "severity": "high" },
+      "relations": {
+        "mayCause": ["ncr.steel_weld_fail"],
+        "relatedTest": ["test.steel_weld_inspection"]
+      }
     }
   ]
 }

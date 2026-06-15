@@ -506,6 +506,17 @@ const CASES: Case[] = [
     args: { query: '다짐' },
     assert: (r) => r.result.matches.some((m: { id: string }) => m.id === 'test.soil_compaction'),
   },
+  // 철강구조물공사 (별표2 시험종목 커버리지 / 판정 등급은 KCS 14 31 skeleton) — 회귀 보호
+  {
+    tool: 'resolve_worktype',
+    args: { input: '철골' },
+    assert: (r) => r.result.resolved?.id === 'work.steel_fabrication',
+  },
+  {
+    tool: 'search_quality_ontology',
+    args: { query: '용접' },
+    assert: (r) => r.result.matches.some((m: { id: string }) => m.id === 'test.steel_weld_inspection'),
+  },
 ];
 
 let pass = 0;

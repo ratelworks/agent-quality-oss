@@ -78,13 +78,13 @@
       "meta": {
         "parent": "철강공사",
         "domain": "architecture_quality",
-        "skeleton": true,
-        "skeletonNote": "업무지침 제4편 '철강구조물 제작공장 인증'과 연계. Phase B에서 공장 인증 메타 추가."
+        "note": "별표2 철강구조물공사 시험종목(용접부 비파괴·압연강재 KS D 3503)·방법·빈도 verified. 용접 결함 등급·강재 강도 판정은 KCS 14 31/KS 원문 확보 시 강화."
       },
       "relations": {
-        "requiresStandard": [
-          "standard.guideline.part4"
-        ]
+        "usesMaterial": ["material.steel"],
+        "hasInspectionCheckpoint": ["inspection.steel_weld"],
+        "hasQualityRisk": ["risk.steel_weld_defect"],
+        "requiresStandard": ["standard.guideline.part4", "standard.quality_management_guideline"]
       }
     },
     {

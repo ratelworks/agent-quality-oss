@@ -350,6 +350,27 @@
         "appliesTo": ["test.soil_compaction"],
         "derivedFrom": ["standard.ks_f_2312"]
       }
+    },
+    {
+      "id": "criteria.steel_weld_defect",
+      "type": "AcceptanceCriteria",
+      "name": "용접부 결함 등급 (KCS 14 31 확보 대기)",
+      "aliases": ["용접 결함 등급"],
+      "meta": {
+        "operator": "ge",
+        "threshold": null,
+        "unit": "등급",
+        "condition": "용접부 비파괴검사 합격 등급은 KCS 14 31(강구조공사)/KS B 0845·0896 판정기준이 출처 — 미확보로 자동판정 보류(UNDETERMINED).",
+        "fallbackToProject": true,
+        "reference": "KCS 14 31(강구조공사) / KS B 0845·0896 — 별표2가 시험방법 인용",
+        "sourceStatus": "skeleton",
+        "referenceVerified": false,
+        "note": "별표2(법제처)로 시험종목·방법·빈도 verified. 결함 등급 판정은 KCS 14 31 원문(KCSC viewer JS 렌더라 공공 자동확보 제약)이라 skeleton."
+      },
+      "relations": {
+        "appliesTo": ["test.steel_weld_inspection"],
+        "derivedFrom": ["standard.ks_b_0845"]
+      }
     }
   ]
 }
