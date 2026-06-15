@@ -211,6 +211,46 @@
       "aliases": ["도장 불량", "도막 결함", "부착 불량"],
       "meta": { "severity": "medium" },
       "relations": { "mayCause": ["ncr.paint_fail"], "relatedTest": ["test.paint_film"] }
+    },
+    {
+      "id": "risk.brick_defect",
+      "type": "QualityRisk",
+      "name": "조적재 품질 결함",
+      "aliases": ["벽돌 불량", "블록 강도 미달"],
+      "meta": { "severity": "medium" },
+      "relations": { "mayCause": ["ncr.brick_fail"], "relatedTest": ["test.brick_strength"] }
+    },
+    {
+      "id": "risk.window_defect",
+      "type": "QualityRisk",
+      "name": "창호 성능 결함",
+      "aliases": ["창호 불량", "창호 강도 미달", "기밀·수밀 불량"],
+      "meta": { "severity": "medium" },
+      "relations": { "mayCause": ["ncr.window_fail"], "relatedTest": ["test.window_performance"] }
+    },
+    {
+      "id": "risk.finishing_defect",
+      "type": "QualityRisk",
+      "name": "마감·목공 품질 결함",
+      "aliases": ["마감 불량", "합판 강도 미달", "목재 결함"],
+      "meta": { "severity": "medium" },
+      "relations": { "mayCause": ["ncr.finishing_fail"], "relatedTest": ["test.wood_panel_strength"] }
+    },
+    {
+      "id": "risk.concrete_pavement_defect",
+      "type": "QualityRisk",
+      "name": "콘크리트 포장 품질 결함",
+      "aliases": ["포장 휨강도 미달", "포장 두께 부족", "콘크리트포장 불량"],
+      "meta": { "severity": "high" },
+      "relations": { "mayCause": ["ncr.concrete_pavement_fail"], "relatedTest": ["test.concrete_pavement_strength"] }
+    },
+    {
+      "id": "risk.misc_material_defect",
+      "type": "QualityRisk",
+      "name": "기타 자재 품질 결함 (석재·토목섬유)",
+      "aliases": ["석재 불량", "토목섬유 강도 미달"],
+      "meta": { "severity": "medium" },
+      "relations": { "mayCause": ["ncr.stone_fail", "ncr.geotextile_fail"], "relatedTest": ["test.stone_strength", "test.geotextile_strength"] }
     }
   ]
 }

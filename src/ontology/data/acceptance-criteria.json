@@ -462,6 +462,48 @@
       "name": "도료·도막 기준 (KS 확보 대기)",
       "meta": { "operator": "ge", "threshold": null, "unit": "성능등급", "condition": "도료 부착강도·은폐율·도막두께 합격 기준은 KS M 6010/도장 시방이 출처 — 미확보로 보류(UNDETERMINED).", "fallbackToProject": true, "reference": "KS M 6010 — 별표2 시험방법 인용", "sourceStatus": "skeleton", "referenceVerified": false, "note": "별표2로 시험종목·방법 verified. 판정값은 KS/도장 시방(공공 자동확보 제약)이라 skeleton." },
       "relations": { "appliesTo": ["test.paint_film"], "derivedFrom": ["standard.ks_m_6010"] }
+    },
+    {
+      "id": "criteria.brick_strength",
+      "type": "AcceptanceCriteria",
+      "name": "벽돌·블록 압축강도 기준 (KS 확보 대기)",
+      "meta": { "operator": "ge", "threshold": null, "unit": "MPa", "condition": "콘크리트벽돌·점토벽돌·블록 압축강도·흡수율 합격 기준은 KS F 4004/KS L 4201이 출처 — 미확보로 보류(UNDETERMINED).", "fallbackToProject": true, "reference": "KS F 4004/KS L 4201 — 별표2 시험방법 인용", "sourceStatus": "skeleton", "referenceVerified": false, "note": "별표2로 시험종목·방법·빈도 verified. 강도 판정값은 KS 원문(공공 자동확보 제약)이라 skeleton." },
+      "relations": { "appliesTo": ["test.brick_strength"], "derivedFrom": ["standard.ks_f_4004"] }
+    },
+    {
+      "id": "criteria.window_performance",
+      "type": "AcceptanceCriteria",
+      "name": "창호 강도·성능 기준 (KS 확보 대기)",
+      "meta": { "operator": "ge", "threshold": null, "unit": "성능등급", "condition": "창호 비틀림강도·연직하중·기밀·수밀 합격 기준은 KS F 3109가 출처 — 미확보로 보류(UNDETERMINED).", "fallbackToProject": true, "reference": "KS F 3109 — 별표2 시험방법 인용", "sourceStatus": "skeleton", "referenceVerified": false, "note": "별표2로 시험종목·방법 verified. 성능 판정값은 KS 원문(공공 자동확보 제약)이라 skeleton." },
+      "relations": { "appliesTo": ["test.window_performance"], "derivedFrom": ["standard.ks_f_3109"] }
+    },
+    {
+      "id": "criteria.wood_panel_strength",
+      "type": "AcceptanceCriteria",
+      "name": "목질 마감재 강도·난연 기준 (KS 확보 대기)",
+      "meta": { "operator": "ge", "threshold": null, "unit": "성능등급", "condition": "합판 밀도·집성재 강도·보드 휨강도·난연 합격 기준은 KS F 3101/3021/3103이 출처 — 미확보로 보류(UNDETERMINED).", "fallbackToProject": true, "reference": "KS F 3101/3021/3103 — 별표2 시험방법 인용", "sourceStatus": "skeleton", "referenceVerified": false, "note": "별표2로 시험종목·방법 verified. 강도·난연 판정값은 KS 원문(공공 자동확보 제약)이라 skeleton." },
+      "relations": { "appliesTo": ["test.wood_panel_strength"], "derivedFrom": ["standard.ks_f_3101"] }
+    },
+    {
+      "id": "criteria.concrete_pavement_strength",
+      "type": "AcceptanceCriteria",
+      "name": "콘크리트 포장 휨강도·두께 기준 (KCS 44 확보 대기)",
+      "meta": { "operator": "ge", "threshold": null, "unit": "MPa", "condition": "콘크리트 포장 설계기준 휨강도·두께·평탄성 합격 기준은 KCS 44(도로포장)가 출처 — 미확보로 보류(UNDETERMINED).", "fallbackToProject": true, "reference": "KCS 44 / KS F 2408·2367 — 별표2 시험방법 인용", "sourceStatus": "skeleton", "referenceVerified": false, "note": "별표2로 시험종목·방법·빈도 verified. 휨강도·두께 판정값은 KCS 44 원문(공공 자동확보 제약)이라 skeleton." },
+      "relations": { "appliesTo": ["test.concrete_pavement_strength"], "derivedFrom": ["standard.ks_f_2408"] }
+    },
+    {
+      "id": "criteria.stone_strength",
+      "type": "AcceptanceCriteria",
+      "name": "석재 압축강도·흡수율 기준 (KS 확보 대기)",
+      "meta": { "operator": "ge", "threshold": null, "unit": "MPa", "condition": "석재 압축강도·흡수율 합격 기준은 KS F 2518/2519·설계도서가 출처 — 미확보로 보류(UNDETERMINED).", "fallbackToProject": true, "reference": "KS F 2518/2519 — 별표2 시험방법 인용", "sourceStatus": "skeleton", "referenceVerified": false, "note": "별표2로 시험종목·방법 verified. 강도 판정값은 KS/설계도서(공공 자동확보 제약)이라 skeleton." },
+      "relations": { "appliesTo": ["test.stone_strength"], "derivedFrom": ["standard.ks_f_2519"] }
+    },
+    {
+      "id": "criteria.geotextile_strength",
+      "type": "AcceptanceCriteria",
+      "name": "토목섬유 인장강도·투수 기준 (설계도서 확보 대기)",
+      "meta": { "operator": "ge", "threshold": null, "unit": "kN/m", "condition": "토목섬유 인장강도·투수계수 합격 기준은 KS K ISO·설계도서가 출처 — 미확보로 보류(UNDETERMINED).", "fallbackToProject": true, "reference": "KS K ISO 10319/11058 — 별표2 시험방법 인용", "sourceStatus": "skeleton", "referenceVerified": false, "note": "별표2로 시험종목·방법·빈도 verified. 판정값은 KS K ISO/설계도서(공공 자동확보 제약)이라 skeleton." },
+      "relations": { "appliesTo": ["test.geotextile_strength"], "derivedFrom": ["standard.ks_k_iso_10319"] }
     }
   ]
 }

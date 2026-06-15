@@ -244,6 +244,46 @@
         "hasQualityRisk": ["risk.paint_defect"],
         "requiresStandard": ["standard.quality_management_guideline"]
       }
+    },
+    {
+      "id": "work.masonry",
+      "type": "WorkType",
+      "name": "조적공사",
+      "aliases": ["조적", "조적공사", "벽돌", "블록", "벽돌쌓기", "조적조"],
+      "meta": { "parent": "건축공사", "domain": "architecture_quality", "note": "별표2 조적공사 시험종목(콘크리트벽돌·점토벽돌·블록 압축강도·흡수율) verified. 판정 수치는 KS 확보 시." },
+      "relations": { "usesMaterial": ["material.brick"], "hasInspectionCheckpoint": ["inspection.masonry"], "hasQualityRisk": ["risk.brick_defect"], "requiresStandard": ["standard.quality_management_guideline"] }
+    },
+    {
+      "id": "work.window",
+      "type": "WorkType",
+      "name": "창호공사",
+      "aliases": ["창호", "창호공사", "창문", "창호 설치", "목제창호"],
+      "meta": { "parent": "건축공사", "domain": "architecture_quality", "note": "별표2 창호공사 시험종목(창호 비틀림강도·연직하중 강도·함수율) verified. 판정 수치는 KS 확보 시." },
+      "relations": { "usesMaterial": ["material.window_frame"], "hasInspectionCheckpoint": ["inspection.window"], "hasQualityRisk": ["risk.window_defect"], "requiresStandard": ["standard.quality_management_guideline"] }
+    },
+    {
+      "id": "work.finishing",
+      "type": "WorkType",
+      "name": "마감공사 (지붕·목공 포함)",
+      "aliases": ["마감공사", "목공사", "지붕공사", "합판", "집성재", "내장공사"],
+      "meta": { "parent": "건축공사", "domain": "architecture_quality", "note": "별표2 마감공사(지붕·목공 포함) 시험종목(합판·집성재·보드 밀도·휨강도·난연성·함수율) verified. 판정 수치는 KS 확보 시." },
+      "relations": { "usesMaterial": ["material.wood_panel"], "hasInspectionCheckpoint": ["inspection.finishing"], "hasQualityRisk": ["risk.finishing_defect"], "requiresStandard": ["standard.quality_management_guideline"] }
+    },
+    {
+      "id": "work.concrete_pavement",
+      "type": "WorkType",
+      "name": "도로 시멘트 콘크리트 포장",
+      "aliases": ["콘크리트 포장", "시멘트 콘크리트 포장", "콘크리트포장", "도로 콘크리트"],
+      "meta": { "parent": "토목공사", "domain": "civil_quality", "note": "별표2 도로공사 시멘트 콘크리트 포장 시험종목(휨강도·두께·평탄성) verified. 휨강도 기준값은 KCS 44 확보 시. 아스팔트 포장은 work.road_pavement 참조." },
+      "relations": { "usesMaterial": ["material.pavement_concrete"], "hasInspectionCheckpoint": ["inspection.concrete_pavement"], "hasQualityRisk": ["risk.concrete_pavement_defect"], "requiresStandard": ["standard.quality_management_guideline"] }
+    },
+    {
+      "id": "work.misc_common",
+      "type": "WorkType",
+      "name": "기타 공통자재 (석재·토목섬유)",
+      "aliases": ["석재공사", "석재", "토목섬유", "지오텍스타일", "부직포"],
+      "meta": { "parent": "공통", "domain": "civil_quality", "note": "별표2 공통 '마.기타' — 석재(KS F 2518/2519)·토목섬유(KS K ISO) 시험종목 verified. 판정 수치는 KS/설계도서 확보 시." },
+      "relations": { "usesMaterial": ["material.stone", "material.geotextile"], "hasInspectionCheckpoint": ["inspection.misc_material"], "hasQualityRisk": ["risk.misc_material_defect"], "requiresStandard": ["standard.quality_management_guideline"] }
     }
   ]
 }

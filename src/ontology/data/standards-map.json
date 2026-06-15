@@ -478,6 +478,90 @@
       "name": "KS M 6010 수성 도료",
       "aliases": ["KS M 6010", "수성도료"],
       "meta": { "issuer": "국가기술표준원", "category": "제품규격", "granularity": "document" }
+    },
+    {
+      "id": "standard.ks_f_4004",
+      "type": "Standard",
+      "name": "KS F 4004 콘크리트 벽돌",
+      "aliases": ["KS F 4004", "콘크리트벽돌"],
+      "meta": { "issuer": "국가기술표준원", "category": "제품규격", "granularity": "document" }
+    },
+    {
+      "id": "standard.ks_l_4201",
+      "type": "Standard",
+      "name": "KS L 4201 점토 벽돌",
+      "aliases": ["KS L 4201", "점토벽돌"],
+      "meta": { "issuer": "국가기술표준원", "category": "제품규격", "granularity": "document" }
+    },
+    {
+      "id": "standard.ks_f_3108",
+      "type": "Standard",
+      "name": "KS F 3108 창호용 목재",
+      "aliases": ["KS F 3108", "창호 목재"],
+      "meta": { "issuer": "국가기술표준원", "category": "제품규격", "granularity": "document" }
+    },
+    {
+      "id": "standard.ks_f_3109",
+      "type": "Standard",
+      "name": "KS F 3109 문·창 세트",
+      "aliases": ["KS F 3109", "창호 세트"],
+      "meta": { "issuer": "국가기술표준원", "category": "제품규격", "granularity": "document" }
+    },
+    {
+      "id": "standard.ks_f_2199",
+      "type": "Standard",
+      "name": "KS F 2199 목재의 함수율 측정",
+      "aliases": ["KS F 2199", "목재 함수율"],
+      "meta": { "issuer": "국가기술표준원", "category": "시험방법", "granularity": "document" }
+    },
+    {
+      "id": "standard.ks_f_3101",
+      "type": "Standard",
+      "name": "KS F 3101 보통 합판",
+      "aliases": ["KS F 3101", "보통합판"],
+      "meta": { "issuer": "국가기술표준원", "category": "제품규격", "granularity": "document" }
+    },
+    {
+      "id": "standard.ks_f_2408",
+      "type": "Standard",
+      "name": "KS F 2408 콘크리트의 휨 강도 시험",
+      "aliases": ["KS F 2408", "휨강도 시험"],
+      "meta": { "issuer": "국가기술표준원", "category": "시험방법", "granularity": "document" }
+    },
+    {
+      "id": "standard.ks_f_2367",
+      "type": "Standard",
+      "name": "KS F 2367 콘크리트 포장 두께 측정",
+      "aliases": ["KS F 2367", "포장 두께"],
+      "meta": { "issuer": "국가기술표준원", "category": "시험방법", "granularity": "document" }
+    },
+    {
+      "id": "standard.ks_f_2518",
+      "type": "Standard",
+      "name": "KS F 2518 석재의 흡수율 및 비중 시험",
+      "aliases": ["KS F 2518", "석재 흡수율"],
+      "meta": { "issuer": "국가기술표준원", "category": "시험방법", "granularity": "document" }
+    },
+    {
+      "id": "standard.ks_f_2519",
+      "type": "Standard",
+      "name": "KS F 2519 석재의 압축강도 시험",
+      "aliases": ["KS F 2519", "석재 압축강도"],
+      "meta": { "issuer": "국가기술표준원", "category": "시험방법", "granularity": "document" }
+    },
+    {
+      "id": "standard.ks_k_iso_10319",
+      "type": "Standard",
+      "name": "KS K ISO 10319 지오신세틱스 광폭 인장 시험",
+      "aliases": ["KS K ISO 10319", "토목섬유 인장강도"],
+      "meta": { "issuer": "국가기술표준원", "category": "시험방법", "granularity": "document" }
+    },
+    {
+      "id": "standard.ks_k_iso_11058",
+      "type": "Standard",
+      "name": "KS K ISO 11058 지오텍스타일 수직 투수성 시험",
+      "aliases": ["KS K ISO 11058", "토목섬유 투수계수"],
+      "meta": { "issuer": "국가기술표준원", "category": "시험방법", "granularity": "document" }
     }
   ]
 }

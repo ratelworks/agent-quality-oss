@@ -15,7 +15,8 @@
         "requiresEvidence": [
           "doc.inspection_request",
           "doc.site_photo",
-          "doc.structural_drawing"
+          "doc.structural_drawing",
+          "doc.project_specification"
         ],
         "relatedWork": ["work.concrete_placement"]
       }
@@ -239,6 +240,46 @@
       "aliases": ["도장 검사", "도막두께 측정"],
       "meta": { "stage": "during", "rule": "도료 시험성적서 검토 + 바탕면 처리·도막두께(현장 측정)·부착 상태 확인. 도막두께 판정값은 KS/도장 시방 확보 시.", "reference": "별표2(도장공사)", "sourceStatus": "verified", "verifiedAgainst": "evaluation/sources/quality_test_standards_annex2.txt (도장공사)" },
       "relations": { "verifies": ["risk.paint_defect"], "isBasedOn": ["standard.quality_management_guideline"], "requiresEvidence": ["doc.test_certificate", "doc.inspection_request"], "relatedWork": ["work.painting"] }
+    },
+    {
+      "id": "inspection.masonry",
+      "type": "InspectionCheckpoint",
+      "name": "조적 검측",
+      "aliases": ["조적 검사", "벽돌 검사"],
+      "meta": { "stage": "before", "rule": "벽돌·블록 시험성적서 검토 + 압축강도·흡수율 확인. 빈도: 제품 수량별(콘크리트벽돌 100,000매당 등).", "reference": "별표2(조적공사)", "sourceStatus": "verified", "verifiedAgainst": "evaluation/sources/quality_test_standards_annex2.txt (조적공사)" },
+      "relations": { "verifies": ["risk.brick_defect"], "isBasedOn": ["standard.quality_management_guideline"], "requiresEvidence": ["doc.test_certificate", "doc.inspection_request"], "relatedWork": ["work.masonry"] }
+    },
+    {
+      "id": "inspection.window",
+      "type": "InspectionCheckpoint",
+      "name": "창호 검측",
+      "aliases": ["창호 검사"],
+      "meta": { "stage": "before", "rule": "창호 시험성적서 검토 + 비틀림·연직하중 강도·함수율 확인 + 설치 정밀도·기밀·수밀 확인.", "reference": "별표2(창호공사)", "sourceStatus": "verified", "verifiedAgainst": "evaluation/sources/quality_test_standards_annex2.txt (창호공사)" },
+      "relations": { "verifies": ["risk.window_defect"], "isBasedOn": ["standard.quality_management_guideline"], "requiresEvidence": ["doc.test_certificate", "doc.inspection_request"], "relatedWork": ["work.window"] }
+    },
+    {
+      "id": "inspection.finishing",
+      "type": "InspectionCheckpoint",
+      "name": "마감·목공 검측",
+      "aliases": ["마감 검사", "목공 검사"],
+      "meta": { "stage": "during", "rule": "합판·집성재·보드 시험성적서 검토 + 밀도·휨강도·함수율·난연 확인. 빈도: 제조회사별·제품규격별.", "reference": "별표2(마감공사)", "sourceStatus": "verified", "verifiedAgainst": "evaluation/sources/quality_test_standards_annex2.txt (마감공사)" },
+      "relations": { "verifies": ["risk.finishing_defect"], "isBasedOn": ["standard.quality_management_guideline"], "requiresEvidence": ["doc.test_certificate", "doc.inspection_request"], "relatedWork": ["work.finishing"] }
+    },
+    {
+      "id": "inspection.concrete_pavement",
+      "type": "InspectionCheckpoint",
+      "name": "콘크리트 포장 검측",
+      "aliases": ["포장 검측", "콘크리트포장 검사"],
+      "meta": { "stage": "during", "rule": "콘크리트 휨강도 시험(1일 1회) + 포장 두께(포설 1층당 30아르마다)·평탄성(차로마다 전구간) 확인. 휨강도 기준값은 KCS 44 확보 시.", "reference": "별표2(도로 콘크리트포장)", "sourceStatus": "verified", "verifiedAgainst": "evaluation/sources/quality_test_standards_annex2.txt (도로공사)" },
+      "relations": { "verifies": ["risk.concrete_pavement_defect"], "isBasedOn": ["standard.quality_management_guideline"], "requiresEvidence": ["doc.site_test_record", "doc.inspection_request"], "relatedWork": ["work.concrete_pavement"] }
+    },
+    {
+      "id": "inspection.misc_material",
+      "type": "InspectionCheckpoint",
+      "name": "기타 공통자재 검측 (석재·토목섬유)",
+      "aliases": ["석재 검사", "토목섬유 검사"],
+      "meta": { "stage": "before", "rule": "석재 압축강도·흡수율, 토목섬유 인장강도·투수·봉합강도 시험성적서 검토. 빈도: 석산마다·20,000㎡마다.", "reference": "별표2(공통 마.기타)", "sourceStatus": "verified", "verifiedAgainst": "evaluation/sources/quality_test_standards_annex2.txt (공통 마.기타)" },
+      "relations": { "verifies": ["risk.misc_material_defect"], "isBasedOn": ["standard.quality_management_guideline"], "requiresEvidence": ["doc.test_certificate", "doc.inspection_request"], "relatedWork": ["work.misc_common"] }
     }
   ]
 }

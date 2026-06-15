@@ -143,6 +143,54 @@
         "requiresTest": ["test.paint_film"],
         "requiresStandard": ["standard.ks_m_6010"]
       }
+    },
+    {
+      "id": "material.brick",
+      "type": "Material",
+      "name": "벽돌·블록",
+      "aliases": ["벽돌", "블록", "콘크리트벽돌", "점토벽돌", "콘크리트블록", "조적재"],
+      "meta": { "category": "조적재", "note": "별표2 조적 자재. 콘크리트벽돌 KS F 4004·점토벽돌 KS L 4201. 압축강도 기준은 KS 확보 시." },
+      "relations": { "requiresTest": ["test.brick_strength"], "requiresStandard": ["standard.ks_f_4004"] }
+    },
+    {
+      "id": "material.window_frame",
+      "type": "Material",
+      "name": "창호재",
+      "aliases": ["창호재", "창틀", "창호 틀재", "목제창호"],
+      "meta": { "category": "마감재", "note": "별표2 창호 자재. 목제 틀재 KS F 3108. 강도 기준은 KS 확보 시." },
+      "relations": { "requiresTest": ["test.window_performance"], "requiresStandard": ["standard.ks_f_3108"] }
+    },
+    {
+      "id": "material.wood_panel",
+      "type": "Material",
+      "name": "목질 마감재",
+      "aliases": ["합판", "집성재", "플로어링보드", "목질판", "보드"],
+      "meta": { "category": "마감재", "note": "별표2 마감/목공 자재. 보통합판 KS F 3101·구조용 집성재 KS F 3021·플로어링보드 KS F 3103. 강도·난연 기준은 KS 확보 시." },
+      "relations": { "requiresTest": ["test.wood_panel_strength"], "requiresStandard": ["standard.ks_f_3101"] }
+    },
+    {
+      "id": "material.pavement_concrete",
+      "type": "Material",
+      "name": "포장용 콘크리트",
+      "aliases": ["포장 콘크리트", "도로 콘크리트", "콘크리트포장재"],
+      "meta": { "category": "포장재", "note": "별표2 시멘트 콘크리트 포장재. 휨강도 KS F 2408·두께 KS F 2367. 기준값은 KCS 44 확보 시." },
+      "relations": { "requiresTest": ["test.concrete_pavement_strength"], "requiresStandard": ["standard.ks_f_2408"] }
+    },
+    {
+      "id": "material.stone",
+      "type": "Material",
+      "name": "석재",
+      "aliases": ["석재", "자연석", "건축용 석재", "조경석", "깬돌"],
+      "meta": { "category": "마감재", "note": "별표2 석재 — 밀도·흡수율 KS F 2518, 압축강도 KS F 2519." },
+      "relations": { "requiresTest": ["test.stone_strength"], "requiresStandard": ["standard.ks_f_2519"] }
+    },
+    {
+      "id": "material.geotextile",
+      "type": "Material",
+      "name": "토목섬유 (지오텍스타일)",
+      "aliases": ["토목섬유", "지오텍스타일", "부직포", "드레인보드", "보강매트"],
+      "meta": { "category": "토목재", "note": "별표2 토목섬유 — 인장강도 KS K ISO 10319·투수계수 KS K ISO 11058·봉합강도 KS K ISO 10321." },
+      "relations": { "requiresTest": ["test.geotextile_strength"], "requiresStandard": ["standard.ks_k_iso_10319"] }
     }
   ]
 }

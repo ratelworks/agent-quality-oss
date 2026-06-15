@@ -566,6 +566,33 @@ const CASES: Case[] = [
     args: { input: '도장' },
     assert: (r) => r.result.resolved?.id === 'work.painting',
   },
+  // 리뷰 보강 공종 (조적·창호·마감·콘크리트포장) — 회귀 보호
+  {
+    tool: 'resolve_worktype',
+    args: { input: '조적' },
+    assert: (r) => r.result.resolved?.id === 'work.masonry',
+  },
+  {
+    tool: 'resolve_worktype',
+    args: { input: '창호' },
+    assert: (r) => r.result.resolved?.id === 'work.window',
+  },
+  {
+    tool: 'resolve_worktype',
+    args: { input: '콘크리트 포장' },
+    assert: (r) => r.result.resolved?.id === 'work.concrete_pavement',
+  },
+  {
+    tool: 'search_quality_ontology',
+    args: { query: '벽돌' },
+    assert: (r) => r.result.matches.some((m: { id: string }) => m.id === 'test.brick_strength'),
+  },
+  // 공통 기타 (석재·토목섬유) — 회귀 보호
+  {
+    tool: 'search_quality_ontology',
+    args: { query: '토목섬유' },
+    assert: (r) => r.result.matches.some((m: { id: string }) => m.id === 'test.geotextile_strength'),
+  },
 ];
 
 let pass = 0;

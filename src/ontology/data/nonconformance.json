@@ -520,6 +520,54 @@
       "aliases": ["도장 불합격", "도막두께 미달", "부착 불량"],
       "meta": { "direction": "too_low", "severity": "medium", "possibleCauses": ["도료 규격 미달", "바탕면 처리 불량", "도막두께 부족", "건조 불량"], "owner": "도장 시공사 + 품질관리자", "approver": "감리원", "effectivenessCheck": "도막두께 재측정 또는 부착강도 재시험", "closureCriteria": "재도장 + NCR 보고서 승인", "sourceStatus": "verified", "verifiedAgainst": "evaluation/sources/quality_test_standards_annex2.txt (도장공사)" },
       "relations": { "relatedTest": ["test.paint_film"], "immediateActions": ["action.notify_quality_manager"], "correctiveActions": ["action.refinish", "action.record_ncr"], "requiresEvidence": ["doc.test_certificate", "doc.ncr_report"], "basisPriority": ["standard.ks_m_6010"] }
+    },
+    {
+      "id": "ncr.brick_fail",
+      "type": "Nonconformance",
+      "name": "조적재 품질 부적합",
+      "aliases": ["벽돌 불합격", "블록 강도 미달"],
+      "meta": { "direction": "too_low", "severity": "medium", "possibleCauses": ["규격 미달 제품", "양생 불량", "흡수율 초과"], "owner": "조적재 공급사 + 품질관리자", "approver": "감리원", "effectivenessCheck": "동일 제품 재시험", "closureCriteria": "불합격 자재 반출 + 적합 자재 재반입 + NCR 승인", "sourceStatus": "verified", "verifiedAgainst": "evaluation/sources/quality_test_standards_annex2.txt (조적공사)" },
+      "relations": { "relatedTest": ["test.brick_strength"], "immediateActions": ["action.notify_quality_manager"], "correctiveActions": ["action.refinish", "action.record_ncr"], "requiresEvidence": ["doc.test_certificate", "doc.ncr_report"], "basisPriority": ["standard.ks_f_4004"] }
+    },
+    {
+      "id": "ncr.window_fail",
+      "type": "Nonconformance",
+      "name": "창호 성능 부적합",
+      "aliases": ["창호 불합격", "기밀·수밀 미달"],
+      "meta": { "direction": "too_low", "severity": "medium", "possibleCauses": ["규격 미달 제품", "변형·뒤틀림", "설치 정밀도 불량"], "owner": "창호 공급사 + 품질관리자", "approver": "감리원", "effectivenessCheck": "동일 제품 재시험 또는 현장 기밀·수밀 재확인", "closureCriteria": "불합격 제품 반출 + 적합 제품 재시공 + NCR 승인", "sourceStatus": "verified", "verifiedAgainst": "evaluation/sources/quality_test_standards_annex2.txt (창호공사)" },
+      "relations": { "relatedTest": ["test.window_performance"], "immediateActions": ["action.notify_quality_manager"], "correctiveActions": ["action.refinish", "action.record_ncr"], "requiresEvidence": ["doc.test_certificate", "doc.ncr_report"], "basisPriority": ["standard.ks_f_3109"] }
+    },
+    {
+      "id": "ncr.finishing_fail",
+      "type": "Nonconformance",
+      "name": "마감·목공 품질 부적합",
+      "aliases": ["합판 불합격", "목재 결함", "마감 불량"],
+      "meta": { "direction": "too_low", "severity": "medium", "possibleCauses": ["규격 미달 제품", "함수율 초과", "난연 성능 미달", "보관 중 손상"], "owner": "마감재 공급사 + 품질관리자", "approver": "감리원", "effectivenessCheck": "동일 제품 재시험", "closureCriteria": "불합격 자재 반출 + 적합 자재 재시공 + NCR 승인", "sourceStatus": "verified", "verifiedAgainst": "evaluation/sources/quality_test_standards_annex2.txt (마감공사)" },
+      "relations": { "relatedTest": ["test.wood_panel_strength"], "immediateActions": ["action.notify_quality_manager"], "correctiveActions": ["action.refinish", "action.record_ncr"], "requiresEvidence": ["doc.test_certificate", "doc.ncr_report"], "basisPriority": ["standard.ks_f_3101"] }
+    },
+    {
+      "id": "ncr.concrete_pavement_fail",
+      "type": "Nonconformance",
+      "name": "콘크리트 포장 품질 부적합",
+      "aliases": ["포장 휨강도 미달", "포장 두께 부족"],
+      "meta": { "direction": "too_low", "severity": "high", "possibleCauses": ["배합강도 부족", "다짐·마무리 불량", "두께 부족", "양생 불량"], "owner": "포장 시공사 + 품질관리자", "approver": "감리원 / 공사감독자", "effectivenessCheck": "코어 채취 휨강도·두께 재확인", "closureCriteria": "불합격 구간 재포장 또는 구조 검토 + NCR 승인", "sourceStatus": "verified", "verifiedAgainst": "evaluation/sources/quality_test_standards_annex2.txt (도로 콘크리트포장)" },
+      "relations": { "relatedTest": ["test.concrete_pavement_strength"], "immediateActions": ["action.notify_quality_manager"], "correctiveActions": ["action.asphalt_repave", "action.record_ncr"], "requiresEvidence": ["doc.site_test_record", "doc.ncr_report"], "basisPriority": ["standard.ks_f_2408", "standard.ks_f_2367"] }
+    },
+    {
+      "id": "ncr.stone_fail",
+      "type": "Nonconformance",
+      "name": "석재 품질 부적합",
+      "aliases": ["석재 불합격", "석재 강도 미달"],
+      "meta": { "direction": "too_low", "severity": "medium", "possibleCauses": ["풍화·균열 석재", "흡수율 초과", "강도 미달 석산"], "owner": "석재 공급사 + 품질관리자", "approver": "감리원", "effectivenessCheck": "동일 석산 재시험", "closureCriteria": "불합격 석재 반출 + 적합 석재 재반입 + NCR 승인", "sourceStatus": "verified", "verifiedAgainst": "evaluation/sources/quality_test_standards_annex2.txt (공통 기타-석재)" },
+      "relations": { "relatedTest": ["test.stone_strength"], "immediateActions": ["action.notify_quality_manager"], "correctiveActions": ["action.refinish", "action.record_ncr"], "requiresEvidence": ["doc.test_certificate", "doc.ncr_report"], "basisPriority": ["standard.ks_f_2519"] }
+    },
+    {
+      "id": "ncr.geotextile_fail",
+      "type": "Nonconformance",
+      "name": "토목섬유 성능 부적합",
+      "aliases": ["토목섬유 불합격", "인장강도 미달"],
+      "meta": { "direction": "too_low", "severity": "medium", "possibleCauses": ["규격 미달 제품", "자외선 열화", "봉합 불량"], "owner": "토목섬유 공급사 + 품질관리자", "approver": "감리원 / 공사감독자", "effectivenessCheck": "동일 제품 재시험", "closureCriteria": "불합격 자재 반출 + 적합 자재 재시공 + NCR 승인", "sourceStatus": "verified", "verifiedAgainst": "evaluation/sources/quality_test_standards_annex2.txt (공통 기타-토목섬유)" },
+      "relations": { "relatedTest": ["test.geotextile_strength"], "immediateActions": ["action.notify_quality_manager"], "correctiveActions": ["action.refinish", "action.record_ncr"], "requiresEvidence": ["doc.test_certificate", "doc.ncr_report"], "basisPriority": ["standard.ks_k_iso_10319"] }
     }
   ]
 }
