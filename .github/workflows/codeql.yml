@@ -16,6 +16,10 @@ jobs:
   analyze:
     name: Analyze (${{ matrix.language }})
     runs-on: ubuntu-latest
+    # CodeQL code scanning 은 public repo 에서 무료. private repo 는 GitHub Advanced
+    # Security(유료)가 필요해 결과 업로드가 막힌다. 따라서 public 일 때만 실행하고,
+    # private 동안은 skip(워크플로 success). public 전환 시 자동으로 작동한다.
+    if: ${{ github.event.repository.visibility == 'public' }}
     permissions:
       actions: read
       contents: read
