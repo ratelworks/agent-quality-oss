@@ -1,7 +1,6 @@
 # agent-quality-oss
 
 [![CI](https://github.com/ratelworks/agent-quality-oss/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/ratelworks/agent-quality-oss/actions/workflows/ci.yml)
-[![CodeQL](https://github.com/ratelworks/agent-quality-oss/actions/workflows/codeql.yml/badge.svg?branch=main)](https://github.com/ratelworks/agent-quality-oss/actions/workflows/codeql.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](./LICENSE)
 [![Node](https://img.shields.io/badge/node-%3E%3D22-brightgreen)](https://nodejs.org)
 [![MCP](https://img.shields.io/badge/MCP-1.x-purple)](https://modelcontextprotocol.io)
