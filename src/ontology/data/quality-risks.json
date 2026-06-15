@@ -92,6 +92,17 @@
         "mayCause": ["ncr.concrete_temperature_out_of_range"],
         "relatedTest": ["test.concrete_temperature"]
       }
+    },
+    {
+      "id": "risk.formwork_premature_stripping",
+      "type": "QualityRisk",
+      "name": "거푸집 조기 해체 (해체강도 미달)",
+      "aliases": ["조기 해체", "존치기간 부족", "조기 탈형"],
+      "meta": { "severity": "high" },
+      "relations": {
+        "mayCause": ["ncr.formwork_premature_stripping"],
+        "relatedTest": ["test.formwork_stripping_strength"]
+      }
     }
   ]
 }

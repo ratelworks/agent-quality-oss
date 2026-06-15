@@ -100,6 +100,28 @@
           "standard.guideline.part5"
         ]
       }
+    },
+    {
+      "id": "work.formwork_shoring",
+      "type": "WorkType",
+      "name": "거푸집 및 동바리",
+      "aliases": ["거푸집", "동바리", "거푸집공사", "거푸집 해체", "동바리 설치", "거푸집동바리", "거푸집 및 동바리 공사"],
+      "meta": {
+        "parent": "철근콘크리트공사",
+        "domain": "architecture_quality",
+        "note": "KCS 14 20 12 거푸집 및 동바리. 해체강도·설계하중·동바리 존치 verified (원문 L4726-5255 대조). 측면·내구성 해체강도는 자동판정, 슬래브 밑면(fck 복합)은 fck 주입 대기."
+      },
+      "relations": {
+        "hasInspectionCheckpoint": [
+          "inspection.formwork_design_review",
+          "inspection.shoring_layers"
+        ],
+        "hasQualityRisk": ["risk.formwork_premature_stripping"],
+        "requiresStandard": [
+          "standard.kcs_14_20.12",
+          "standard.quality_management_guideline"
+        ]
+      }
     }
   ]
 }

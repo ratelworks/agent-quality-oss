@@ -244,6 +244,70 @@
         "appliesTo": ["test.compressive_strength"],
         "derivedFrom": ["standard.kcs_14_20.10.3_5_3_2", "standard.kcs_14_20.10.1_8_2", "standard.ks_f_2405"]
       }
+    },
+    {
+      "id": "criteria.formwork_strip_side",
+      "type": "AcceptanceCriteria",
+      "name": "거푸집 측면 해체강도 5MPa 이상",
+      "aliases": ["측면 해체강도"],
+      "meta": {
+        "operator": "ge",
+        "threshold": 5,
+        "unit": "MPa",
+        "condition": "확대기초·보·기둥·벽 등의 측면 거푸집널 해체 (시험에 의할 경우)",
+        "fallbackToProject": true,
+        "reference": "KCS 14 20 12 §3.3 표(콘크리트의 압축강도를 시험할 경우 거푸집널의 해체 시기)",
+        "sourceStatus": "verified",
+        "verifiedAgainst": "evaluation/sources/kcs_14_20_01.txt L5175-5181",
+        "referenceVerified": true
+      },
+      "relations": {
+        "appliesTo": ["test.formwork_stripping_strength"],
+        "derivedFrom": ["standard.kcs_14_20.12.3_3"]
+      }
+    },
+    {
+      "id": "criteria.formwork_strip_durable",
+      "type": "AcceptanceCriteria",
+      "name": "내구성 중요 구조물 거푸집 해체강도 10MPa 이상",
+      "aliases": ["내구성 해체강도"],
+      "meta": {
+        "operator": "ge",
+        "threshold": 10,
+        "unit": "MPa",
+        "condition": "내구성이 중요한 구조물의 거푸집널 해체",
+        "fallbackToProject": true,
+        "reference": "KCS 14 20 12 §3.3 (내구성이 중요한 구조물)",
+        "sourceStatus": "verified",
+        "verifiedAgainst": "evaluation/sources/kcs_14_20_01.txt L5159-5165",
+        "referenceVerified": true
+      },
+      "relations": {
+        "appliesTo": ["test.formwork_stripping_strength"],
+        "derivedFrom": ["standard.kcs_14_20.12.3_3"]
+      }
+    },
+    {
+      "id": "criteria.formwork_strip_slab_bottom",
+      "type": "AcceptanceCriteria",
+      "name": "슬래브·보 밑면 해체강도 fck의 2/3배 또한 최소 14MPa",
+      "aliases": ["슬래브 밑면 해체강도", "보 밑면 해체강도"],
+      "meta": {
+        "operator": "ge",
+        "threshold": null,
+        "unit": "MPa",
+        "condition": "슬래브 및 보의 밑면·아치 내면 — 설계기준압축강도(fck)의 2/3배 이상 또한 최소 14MPa 이상. fck 의존 복합기준이라 fck 미주입 시 UNDETERMINED 반환(환각 방지). 다층 연속 시공 시 필러동바리 사용 가능, 그 경우라도 최소 14MPa.",
+        "fallbackToProject": true,
+        "reference": "KCS 14 20 12 §3.3 표(콘크리트의 압축강도를 시험할 경우 거푸집널의 해체 시기)",
+        "sourceStatus": "verified",
+        "verifiedAgainst": "evaluation/sources/kcs_14_20_01.txt L5183-5189",
+        "referenceVerified": true,
+        "note": "수치는 원문 verified. 단 'fck×2/3 AND ≥14MPa' 복합조건은 현 evaluate ge operator(단일 threshold)로 자동판정 불가 → threshold=null로 UNDETERMINED. fck 주입 + min(14) 동시판정 operator는 후속 작업."
+      },
+      "relations": {
+        "appliesTo": ["test.formwork_stripping_strength"],
+        "derivedFrom": ["standard.kcs_14_20.12.3_3"]
+      }
     }
   ]
 }

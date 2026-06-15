@@ -58,6 +58,42 @@
         "requiresEvidence": ["doc.site_photo", "doc.specimen_record", "doc.test_certificate"],
         "relatedWork": ["work.concrete_placement"]
       }
+    },
+    {
+      "id": "inspection.formwork_design_review",
+      "type": "InspectionCheckpoint",
+      "name": "거푸집·동바리 구조검토 (설계하중)",
+      "aliases": ["거푸집 설계검토", "동바리 구조계산 확인"],
+      "meta": {
+        "stage": "before",
+        "rule": "연직하중(고정+활)·수평하중·콘크리트 측압에 대해 설계. 고정하중 보통콘크리트 24 kN/㎥(1종경량 20·2종경량 17) + 거푸집 0.4 kN/㎡ 이상, 활하중 2.5 kN/㎡ 이상(진동식 카트 3.75), 연직하중 합 5.0 kN/㎡ 이상(전동식 카트 6.25). 동바리 수평하중 고정하중의 2% 또는 1.5 kN/m 중 큰 값, 벽체 거푸집 측면 0.5 kN/㎡ 이상.",
+        "reference": "KCS 14 20 12 §1.7.3",
+        "verifiedAgainst": "evaluation/sources/kcs_14_20_01.txt L4838-4863"
+      },
+      "relations": {
+        "verifies": ["risk.formwork_premature_stripping"],
+        "isBasedOn": ["standard.kcs_14_20.12.1_7_3"],
+        "requiresEvidence": ["doc.structural_drawing", "doc.inspection_request"],
+        "relatedWork": ["work.formwork_shoring"]
+      }
+    },
+    {
+      "id": "inspection.shoring_layers",
+      "type": "InspectionCheckpoint",
+      "name": "동바리 존치 (고층 최소 3개층)",
+      "aliases": ["동바리 층수", "필러동바리 존치"],
+      "meta": {
+        "stage": "during",
+        "rule": "시공 중 고층건물은 최소 3개 층에 걸쳐 동바리 설치. 동바리 해체 후 해당 부재에 가해지는 전 하중이 설계하중을 초과하면 존치기간과 무관하게 재설치.",
+        "reference": "KCS 14 20 12 §3.3.2",
+        "verifiedAgainst": "evaluation/sources/kcs_14_20_01.txt L5217-5228"
+      },
+      "relations": {
+        "verifies": ["risk.formwork_premature_stripping"],
+        "isBasedOn": ["standard.kcs_14_20.12.3_3"],
+        "requiresEvidence": ["doc.site_photo", "doc.inspection_request"],
+        "relatedWork": ["work.formwork_shoring"]
+      }
     }
   ]
 }

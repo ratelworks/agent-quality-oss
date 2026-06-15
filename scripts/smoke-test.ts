@@ -437,6 +437,39 @@ const CASES: Case[] = [
       r.nextSteps.length > 0 &&
       r.nextSteps[0]?.tool === 'get_quality_law_article',
   },
+  // 거푸집·동바리 (KCS 14 20 12) — verified 시드 회귀 보호
+  {
+    tool: 'resolve_worktype',
+    args: { input: '거푸집' },
+    assert: (r) => r.result.resolved?.id === 'work.formwork_shoring',
+  },
+  {
+    tool: 'infer_quality_risks',
+    args: { workType: '거푸집 및 동바리', observations: ['거푸집 해체강도 4MPa'] },
+    assert: (r) =>
+      r.result.summary.fail === 1 &&
+      r.result.inferredRisks.some((risk: { nonconformance: Array<{ id: string }> }) =>
+        risk.nonconformance.some((n) => n.id === 'ncr.formwork_premature_stripping'),
+      ),
+  },
+  {
+    tool: 'infer_quality_risks',
+    args: { workType: '거푸집 및 동바리', observations: ['거푸집 해체강도 6MPa'] },
+    assert: (r) => r.result.summary.pass === 1 && r.result.summary.fail === 0,
+  },
+  {
+    tool: 'evaluate_observation',
+    args: { observation: '거푸집 측면 강도 4MPa', criterionId: 'criteria.formwork_strip_side' },
+    assert: (r) => {
+      const ea = r.result.expertAssessment;
+      return (
+        ea.verdict === 'FAIL' &&
+        ea.direction === 'too_low' &&
+        ea.applicableCriterion?.includes('5 MPa') &&
+        ea.legalBasis.includes('standard.kcs_14_20.12.3_3')
+      );
+    },
+  },
 ];
 
 let pass = 0;

@@ -267,6 +267,49 @@
       "name": "KS F 4009 레디믹스트 콘크리트",
       "aliases": ["KS F 4009", "레미콘 KS"],
       "meta": { "issuer": "국가기술표준원", "category": "제품규격", "granularity": "document" }
+    },
+    {
+      "id": "standard.kcs_14_20.12",
+      "type": "Standard",
+      "name": "KCS 14 20 12 거푸집 및 동바리",
+      "aliases": ["KCS 14 20 12", "거푸집 및 동바리 표준시방서", "거푸집동바리 기준"],
+      "meta": {
+        "parent": "standard.kcs_14_20",
+        "sectionRef": "14 20 12",
+        "scope": "거푸집·동바리 설계(§1.7)·재료(§2)·시공 및 해체(§3.3). 해체강도·설계하중·동바리 존치 규정",
+        "issuer": "국토교통부 / 국가건설기준센터",
+        "granularity": "document",
+        "sourceStatus": "verified",
+        "verifiedAgainst": "evaluation/sources/kcs_14_20_01.txt L4726-5255"
+      }
+    },
+    {
+      "id": "standard.kcs_14_20.12.1_7_3",
+      "type": "Standard",
+      "name": "KCS 14 20 12 §1.7.3 거푸집 및 동바리 구조계산",
+      "aliases": ["거푸집 설계하중"],
+      "meta": {
+        "parent": "standard.kcs_14_20.12",
+        "sectionRef": "14 20 12 §1.7.3",
+        "scope": "연직하중(고정 24kN/㎥·활 2.5kN/㎡·합 5.0kN/㎡)·수평하중(고정의 2% 또는 1.5kN/m)·콘크리트 측압 설계",
+        "granularity": "clause",
+        "sourceStatus": "verified",
+        "verifiedAgainst": "evaluation/sources/kcs_14_20_01.txt L4838-4863"
+      }
+    },
+    {
+      "id": "standard.kcs_14_20.12.3_3",
+      "type": "Standard",
+      "name": "KCS 14 20 12 §3.3 거푸집 및 동바리 해체",
+      "aliases": ["거푸집 해체시기", "거푸집 존치기간"],
+      "meta": {
+        "parent": "standard.kcs_14_20.12",
+        "sectionRef": "14 20 12 §3.3",
+        "scope": "해체 압축강도(측면 5MPa / 슬래브·보 밑면 fck×2/3 또한 최소 14MPa / 내구성 중요 10MPa) + 동바리 존치(고층 최소 3개층)",
+        "granularity": "clause",
+        "sourceStatus": "verified",
+        "verifiedAgainst": "evaluation/sources/kcs_14_20_01.txt L5159-5228"
+      }
     }
   ]
 }
