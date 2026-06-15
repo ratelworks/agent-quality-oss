@@ -53,7 +53,7 @@
         "note": "별표2 토공사 시험종목 대상. 다짐도·CBR 판정값은 KCS 11/44 확보 시."
       },
       "relations": {
-        "requiresTest": ["test.soil_compaction", "test.soil_cbr", "test.soil_water_content", "test.soil_gradation"],
+        "requiresTest": ["test.soil_compaction", "test.soil_cbr", "test.soil_water_content", "test.soil_gradation", "test.soil_permeability"],
         "requiresStandard": ["standard.quality_management_guideline"]
       }
     },
@@ -98,6 +98,50 @@
       "relations": {
         "requiresTest": ["test.asphalt_marshall", "test.asphalt_content"],
         "requiresStandard": ["standard.ks_f_2337"]
+      }
+    },
+    {
+      "id": "material.waterproof",
+      "type": "Material",
+      "name": "방수재",
+      "aliases": ["방수재", "방수시트", "도막방수재", "액체방수제", "아스팔트 방수"],
+      "meta": { "category": "마감재", "note": "별표2 방수재 시험 대상. 성능 기준은 KS F 4911/3211/2609 확보 시." },
+      "relations": {
+        "requiresTest": ["test.waterproofing"],
+        "requiresStandard": ["standard.ks_f_4911"]
+      }
+    },
+    {
+      "id": "material.insulation",
+      "type": "Material",
+      "name": "단열재",
+      "aliases": ["단열재", "보온재", "압출법보온판", "비드법보온판", "글라스울"],
+      "meta": { "category": "마감재", "note": "별표2 단열재 시험 대상. 열전도율 기준은 KS L 3121/KS F 확보 시." },
+      "relations": {
+        "requiresTest": ["test.thermal_conductivity"],
+        "requiresStandard": ["standard.ks_l_3121"]
+      }
+    },
+    {
+      "id": "material.glass",
+      "type": "Material",
+      "name": "유리",
+      "aliases": ["유리", "강화유리", "복층유리", "로이유리"],
+      "meta": { "category": "마감재", "note": "별표2 유리 시험 대상. 충격강도·내알칼리성 기준은 KS L 2002/2003 확보 시." },
+      "relations": {
+        "requiresTest": ["test.glass_strength"],
+        "requiresStandard": ["standard.ks_l_2002"]
+      }
+    },
+    {
+      "id": "material.paint",
+      "type": "Material",
+      "name": "도료",
+      "aliases": ["도료", "페인트", "방청도료", "수성페인트"],
+      "meta": { "category": "마감재", "note": "별표2 도료 시험 대상. 부착강도·은폐율·도막두께 기준은 KS M 6010 확보 시." },
+      "relations": {
+        "requiresTest": ["test.paint_film"],
+        "requiresStandard": ["standard.ks_m_6010"]
       }
     }
   ]

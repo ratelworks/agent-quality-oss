@@ -539,6 +539,33 @@ const CASES: Case[] = [
     args: { query: '마샬' },
     assert: (r) => r.result.matches.some((m: { id: string }) => m.id === 'test.asphalt_marshall'),
   },
+  // 수공구조물공사 (별표2 시험종목 커버리지 / 판정 KCS skeleton) — 회귀 보호
+  {
+    tool: 'resolve_worktype',
+    args: { input: '흙댐' },
+    assert: (r) => r.result.resolved?.id === 'work.hydraulic_structure',
+  },
+  {
+    tool: 'search_quality_ontology',
+    args: { query: '투수' },
+    assert: (r) => r.result.matches.some((m: { id: string }) => m.id === 'test.soil_permeability'),
+  },
+  // 건축 마감 (방수·단열·유리·도장 / 별표2 시험종목 커버리지, 판정 KS skeleton) — 회귀 보호
+  {
+    tool: 'resolve_worktype',
+    args: { input: '방수' },
+    assert: (r) => r.result.resolved?.id === 'work.waterproofing',
+  },
+  {
+    tool: 'search_quality_ontology',
+    args: { query: '열전도율' },
+    assert: (r) => r.result.matches.some((m: { id: string }) => m.id === 'test.thermal_conductivity'),
+  },
+  {
+    tool: 'resolve_worktype',
+    args: { input: '도장' },
+    assert: (r) => r.result.resolved?.id === 'work.painting',
+  },
 ];
 
 let pass = 0;

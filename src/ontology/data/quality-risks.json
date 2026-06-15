@@ -168,6 +168,49 @@
         "mayCause": ["ncr.asphalt_marshall_fail"],
         "relatedTest": ["test.asphalt_marshall"]
       }
+    },
+    {
+      "id": "risk.seepage",
+      "type": "QualityRisk",
+      "name": "누수·침투 (차수 불량)",
+      "aliases": ["누수", "침투", "차수 불량", "제체 누수"],
+      "meta": { "severity": "high" },
+      "relations": {
+        "mayCause": ["ncr.seepage_fail"],
+        "relatedTest": ["test.soil_permeability"]
+      }
+    },
+    {
+      "id": "risk.waterproofing_defect",
+      "type": "QualityRisk",
+      "name": "방수 결함",
+      "aliases": ["방수 불량", "누수", "방수재 결함"],
+      "meta": { "severity": "high" },
+      "relations": { "mayCause": ["ncr.waterproofing_fail"], "relatedTest": ["test.waterproofing"] }
+    },
+    {
+      "id": "risk.insulation_defect",
+      "type": "QualityRisk",
+      "name": "단열 성능 미달",
+      "aliases": ["단열 불량", "열전도율 초과"],
+      "meta": { "severity": "medium" },
+      "relations": { "mayCause": ["ncr.insulation_fail"], "relatedTest": ["test.thermal_conductivity"] }
+    },
+    {
+      "id": "risk.glass_defect",
+      "type": "QualityRisk",
+      "name": "유리 강도·성능 결함",
+      "aliases": ["유리 불량", "강화유리 강도 미달"],
+      "meta": { "severity": "high" },
+      "relations": { "mayCause": ["ncr.glass_fail"], "relatedTest": ["test.glass_strength"] }
+    },
+    {
+      "id": "risk.paint_defect",
+      "type": "QualityRisk",
+      "name": "도장 품질 결함",
+      "aliases": ["도장 불량", "도막 결함", "부착 불량"],
+      "meta": { "severity": "medium" },
+      "relations": { "mayCause": ["ncr.paint_fail"], "relatedTest": ["test.paint_film"] }
     }
   ]
 }

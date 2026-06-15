@@ -464,6 +464,62 @@
         "requiresEvidence": ["doc.site_test_record", "doc.ncr_report"],
         "basisPriority": ["standard.ks_f_2337", "standard.ks_f_2354"]
       }
+    },
+    {
+      "id": "ncr.seepage_fail",
+      "type": "Nonconformance",
+      "name": "차수 성능 부적합 (투수계수 초과)",
+      "aliases": ["누수 발생", "차수 불합격"],
+      "meta": {
+        "direction": "too_high",
+        "severity": "high",
+        "possibleCauses": ["차수재 다짐 불량", "함수비 부적정", "차수재 입도·점토함량 부족", "이음부 처리 미흡"],
+        "owner": "현장 공사 담당 + 품질관리자",
+        "approver": "감리원 / 공사감독자",
+        "effectivenessCheck": "재다짐·차수 보강 후 투수 재시험",
+        "closureCriteria": "목표 투수계수 도달 확인 + NCR 보고서 승인",
+        "sourceStatus": "verified",
+        "verifiedAgainst": "evaluation/sources/quality_test_standards_annex2.txt (수공구조물공사)"
+      },
+      "relations": {
+        "relatedTest": ["test.soil_permeability"],
+        "immediateActions": ["action.notify_quality_manager"],
+        "correctiveActions": ["action.seepage_repair", "action.record_ncr"],
+        "requiresEvidence": ["doc.site_test_record", "doc.ncr_report"],
+        "basisPriority": ["standard.ks_f_2322"]
+      }
+    },
+    {
+      "id": "ncr.waterproofing_fail",
+      "type": "Nonconformance",
+      "name": "방수재 성능 부적합",
+      "aliases": ["방수재 불합격", "누수 결함"],
+      "meta": { "direction": "too_low", "severity": "high", "possibleCauses": ["규격 미달 제품", "보관 중 손상", "바탕면 처리 불량", "이음부 시공 불량"], "owner": "방수 시공사 + 품질관리자", "approver": "감리원", "effectivenessCheck": "동일 제품 재시험 또는 담수시험 재실시", "closureCriteria": "불합격 자재 반출·재시공 + NCR 보고서 승인", "sourceStatus": "verified", "verifiedAgainst": "evaluation/sources/quality_test_standards_annex2.txt (방수공사)" },
+      "relations": { "relatedTest": ["test.waterproofing"], "immediateActions": ["action.notify_quality_manager"], "correctiveActions": ["action.refinish", "action.record_ncr"], "requiresEvidence": ["doc.test_certificate", "doc.ncr_report"], "basisPriority": ["standard.ks_f_4911"] }
+    },
+    {
+      "id": "ncr.insulation_fail",
+      "type": "Nonconformance",
+      "name": "단열재 성능 부적합",
+      "aliases": ["단열 불합격", "열전도율 초과"],
+      "meta": { "direction": "too_high", "severity": "medium", "possibleCauses": ["규격 미달 제품", "두께 부족", "시공 중 압착·손상"], "owner": "단열 시공사 + 품질관리자", "approver": "감리원", "effectivenessCheck": "동일 제품 열전도율 재시험", "closureCriteria": "불합격 자재 반출 + 적합 자재 재시공 + NCR 승인", "sourceStatus": "verified", "verifiedAgainst": "evaluation/sources/quality_test_standards_annex2.txt (단열공사)" },
+      "relations": { "relatedTest": ["test.thermal_conductivity"], "immediateActions": ["action.notify_quality_manager"], "correctiveActions": ["action.refinish", "action.record_ncr"], "requiresEvidence": ["doc.test_certificate", "doc.ncr_report"], "basisPriority": ["standard.ks_l_3121"] }
+    },
+    {
+      "id": "ncr.glass_fail",
+      "type": "Nonconformance",
+      "name": "유리 강도·성능 부적합",
+      "aliases": ["유리 불합격", "강화유리 강도 미달"],
+      "meta": { "direction": "too_low", "severity": "high", "possibleCauses": ["규격 미달 제품", "강화 처리 불량", "복층유리 봉착 불량"], "owner": "유리 공급사 + 품질관리자", "approver": "감리원", "effectivenessCheck": "동일 제품 재시험 + 시험성적서 확인", "closureCriteria": "불합격 제품 반출 + 적합 제품 재시공 + NCR 승인", "sourceStatus": "verified", "verifiedAgainst": "evaluation/sources/quality_test_standards_annex2.txt (유리공사)" },
+      "relations": { "relatedTest": ["test.glass_strength"], "immediateActions": ["action.notify_quality_manager"], "correctiveActions": ["action.refinish", "action.record_ncr"], "requiresEvidence": ["doc.test_certificate", "doc.ncr_report"], "basisPriority": ["standard.ks_l_2002"] }
+    },
+    {
+      "id": "ncr.paint_fail",
+      "type": "Nonconformance",
+      "name": "도장 품질 부적합",
+      "aliases": ["도장 불합격", "도막두께 미달", "부착 불량"],
+      "meta": { "direction": "too_low", "severity": "medium", "possibleCauses": ["도료 규격 미달", "바탕면 처리 불량", "도막두께 부족", "건조 불량"], "owner": "도장 시공사 + 품질관리자", "approver": "감리원", "effectivenessCheck": "도막두께 재측정 또는 부착강도 재시험", "closureCriteria": "재도장 + NCR 보고서 승인", "sourceStatus": "verified", "verifiedAgainst": "evaluation/sources/quality_test_standards_annex2.txt (도장공사)" },
+      "relations": { "relatedTest": ["test.paint_film"], "immediateActions": ["action.notify_quality_manager"], "correctiveActions": ["action.refinish", "action.record_ncr"], "requiresEvidence": ["doc.test_certificate", "doc.ncr_report"], "basisPriority": ["standard.ks_m_6010"] }
     }
   ]
 }

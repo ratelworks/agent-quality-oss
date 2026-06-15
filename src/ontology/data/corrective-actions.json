@@ -112,6 +112,20 @@
       "name": "불합격 포장 구간 재포장",
       "aliases": ["재포장", "포장 보수"],
       "meta": { "urgency": "corrective" }
+    },
+    {
+      "id": "action.seepage_repair",
+      "type": "CorrectiveAction",
+      "name": "차수 보강·재다짐",
+      "aliases": ["차수 보수", "누수 보강"],
+      "meta": { "urgency": "corrective" }
+    },
+    {
+      "id": "action.refinish",
+      "type": "CorrectiveAction",
+      "name": "마감 불합격 자재 반출·재시공",
+      "aliases": ["재시공", "마감 보수", "자재 교체"],
+      "meta": { "urgency": "corrective" }
     }
   ]
 }

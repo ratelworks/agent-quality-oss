@@ -379,6 +379,111 @@
         "requiresEvidence": ["doc.site_test_record"],
         "requiresStandard": ["standard.ks_f_2354"]
       }
+    },
+    {
+      "id": "test.soil_permeability",
+      "type": "TestItem",
+      "name": "흙 투수 시험",
+      "aliases": ["투수", "투수계수", "투수시험"],
+      "meta": {
+        "method": "KS F 2322 흙의 투수 시험",
+        "timing": "차수재·제체 다짐 시",
+        "frequency": "토질변화시마다 (별표2 — 흙댐·용배수로)",
+        "typicalAcceptance": "차수 목표 투수계수는 설계도서/KCS 확보 시 — 시험종목·방법 커버리지"
+      },
+      "relations": {
+        "targetMaterial": ["material.soil"],
+        "relatedWork": ["work.hydraulic_structure"],
+        "hasAcceptanceCriteria": ["criteria.soil_permeability"],
+        "possibleNonconformance": ["ncr.seepage_fail"],
+        "correctiveActions": ["action.seepage_repair"],
+        "requiresEvidence": ["doc.site_test_record"],
+        "requiresStandard": ["standard.ks_f_2322"]
+      }
+    },
+    {
+      "id": "test.waterproofing",
+      "type": "TestItem",
+      "name": "방수재 성능 시험",
+      "aliases": ["방수재 시험", "방수 성능", "가열신축성상", "접합인장", "투수비"],
+      "meta": {
+        "method": "방수시트 가열신축성상·접합인장 KS F 4911 / 도막방수재 KS F 3211·4922 / 액체방수제 투수비·물흡수계수 KS F 2609",
+        "timing": "방수재 반입 시",
+        "frequency": "제조회사별·제품규격별 (별표2)",
+        "typicalAcceptance": "방수재 성능 기준은 KS F 4911/3211/2609 확보 시 — 시험종목·방법 커버리지"
+      },
+      "relations": {
+        "targetMaterial": ["material.waterproof"],
+        "relatedWork": ["work.waterproofing"],
+        "hasAcceptanceCriteria": ["criteria.waterproofing"],
+        "possibleNonconformance": ["ncr.waterproofing_fail"],
+        "correctiveActions": ["action.refinish"],
+        "requiresEvidence": ["doc.test_certificate"],
+        "requiresStandard": ["standard.ks_f_4911"]
+      }
+    },
+    {
+      "id": "test.thermal_conductivity",
+      "type": "TestItem",
+      "name": "단열재 열전도율 시험",
+      "aliases": ["열전도율", "단열성", "단열재 시험"],
+      "meta": {
+        "method": "KS L 3121 열전도율 시험 / KS F 2277 단열성 시험",
+        "timing": "단열재 반입 시",
+        "frequency": "제조회사별·제품규격별 (별표2)",
+        "typicalAcceptance": "열전도율 등급 기준은 KS L 3121/건축물 에너지절약기준 확보 시 — 시험종목·방법 커버리지"
+      },
+      "relations": {
+        "targetMaterial": ["material.insulation"],
+        "relatedWork": ["work.insulation"],
+        "hasAcceptanceCriteria": ["criteria.thermal_conductivity"],
+        "possibleNonconformance": ["ncr.insulation_fail"],
+        "correctiveActions": ["action.refinish"],
+        "requiresEvidence": ["doc.test_certificate"],
+        "requiresStandard": ["standard.ks_l_3121"]
+      }
+    },
+    {
+      "id": "test.glass_strength",
+      "type": "TestItem",
+      "name": "유리 강도·성능 시험",
+      "aliases": ["유리 강도", "낙구충격강도", "파쇄시험", "내알칼리성"],
+      "meta": {
+        "method": "강화유리 낙구충격파괴강도·파쇄시험 KS L 2002 / 복층유리 내알칼리성 KS L 2003",
+        "timing": "유리 반입 시",
+        "frequency": "제조회사별·제품규격별 (별표2)",
+        "typicalAcceptance": "강화유리 강도·복층유리 성능 기준은 KS L 2002/2003 확보 시 — 시험종목·방법 커버리지"
+      },
+      "relations": {
+        "targetMaterial": ["material.glass"],
+        "relatedWork": ["work.glazing"],
+        "hasAcceptanceCriteria": ["criteria.glass_strength"],
+        "possibleNonconformance": ["ncr.glass_fail"],
+        "correctiveActions": ["action.refinish"],
+        "requiresEvidence": ["doc.test_certificate"],
+        "requiresStandard": ["standard.ks_l_2002"]
+      }
+    },
+    {
+      "id": "test.paint_film",
+      "type": "TestItem",
+      "name": "도료·도막 시험",
+      "aliases": ["도막", "도막두께", "부착강도", "은폐율", "건조시간"],
+      "meta": {
+        "method": "도료 부착강도·은폐율·건조시간·내수성 KS M 6010 / 건조시간 KS M 5000 / 도막두께 현장 측정",
+        "timing": "도료 반입·도장 시공 시",
+        "frequency": "제품규격별 (별표2)",
+        "typicalAcceptance": "도료 성능·도막두께 기준은 KS M 6010/도장 시방 확보 시 — 시험종목·방법 커버리지"
+      },
+      "relations": {
+        "targetMaterial": ["material.paint"],
+        "relatedWork": ["work.painting"],
+        "hasAcceptanceCriteria": ["criteria.paint_film"],
+        "possibleNonconformance": ["ncr.paint_fail"],
+        "correctiveActions": ["action.refinish"],
+        "requiresEvidence": ["doc.test_certificate"],
+        "requiresStandard": ["standard.ks_m_6010"]
+      }
     }
   ]
 }

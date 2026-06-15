@@ -443,6 +443,41 @@
       "name": "KS F 2354 아스팔트 혼합물의 아스팔트 함량 시험",
       "aliases": ["KS F 2354", "아스팔트 함량 시험"],
       "meta": { "issuer": "국가기술표준원", "category": "시험방법", "granularity": "document" }
+    },
+    {
+      "id": "standard.ks_f_2322",
+      "type": "Standard",
+      "name": "KS F 2322 흙의 투수 시험",
+      "aliases": ["KS F 2322", "투수시험"],
+      "meta": { "issuer": "국가기술표준원", "category": "시험방법", "granularity": "document" }
+    },
+    {
+      "id": "standard.ks_f_4911",
+      "type": "Standard",
+      "name": "KS F 4911 개량 아스팔트 방수시트",
+      "aliases": ["KS F 4911", "방수시트"],
+      "meta": { "issuer": "국가기술표준원", "category": "제품규격", "granularity": "document" }
+    },
+    {
+      "id": "standard.ks_l_3121",
+      "type": "Standard",
+      "name": "KS L 3121 단열재의 열전도율 측정",
+      "aliases": ["KS L 3121", "열전도율 시험"],
+      "meta": { "issuer": "국가기술표준원", "category": "시험방법", "granularity": "document" }
+    },
+    {
+      "id": "standard.ks_l_2002",
+      "type": "Standard",
+      "name": "KS L 2002 강화유리",
+      "aliases": ["KS L 2002", "강화유리"],
+      "meta": { "issuer": "국가기술표준원", "category": "제품규격", "granularity": "document" }
+    },
+    {
+      "id": "standard.ks_m_6010",
+      "type": "Standard",
+      "name": "KS M 6010 수성 도료",
+      "aliases": ["KS M 6010", "수성도료"],
+      "meta": { "issuer": "국가기술표준원", "category": "제품규격", "granularity": "document" }
     }
   ]
 }

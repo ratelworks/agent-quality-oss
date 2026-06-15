@@ -188,6 +188,57 @@
         "requiresEvidence": ["doc.site_test_record", "doc.inspection_request"],
         "relatedWork": ["work.road_pavement"]
       }
+    },
+    {
+      "id": "inspection.hydraulic_seepage",
+      "type": "InspectionCheckpoint",
+      "name": "수공구조물 차수·다짐 검측",
+      "aliases": ["차수 검측", "제체 다짐 검사", "투수 검사"],
+      "meta": {
+        "stage": "during",
+        "rule": "제체·차수재 다짐 시 함수비·현장밀도·투수 시험. 빈도: 토질변화시마다. 투수계수 판정값은 댐/제방 설계기준·KCS 확보 시.",
+        "reference": "별표2(수공구조물공사) — 판정값은 KCS 원문 확보 대기",
+        "sourceStatus": "verified",
+        "verifiedAgainst": "evaluation/sources/quality_test_standards_annex2.txt (수공구조물공사)"
+      },
+      "relations": {
+        "verifies": ["risk.seepage"],
+        "isBasedOn": ["standard.quality_management_guideline"],
+        "requiresEvidence": ["doc.site_test_record", "doc.inspection_request"],
+        "relatedWork": ["work.hydraulic_structure"]
+      }
+    },
+    {
+      "id": "inspection.waterproofing",
+      "type": "InspectionCheckpoint",
+      "name": "방수 검측",
+      "aliases": ["방수 검사", "담수시험"],
+      "meta": { "stage": "during", "rule": "방수재 시험성적서 검토 + 바탕면 처리·이음부·치켜올림 시공 확인 + 담수시험. 성능 판정값은 KS 확보 시.", "reference": "별표2(방수공사)", "sourceStatus": "verified", "verifiedAgainst": "evaluation/sources/quality_test_standards_annex2.txt (방수공사)" },
+      "relations": { "verifies": ["risk.waterproofing_defect"], "isBasedOn": ["standard.quality_management_guideline"], "requiresEvidence": ["doc.test_certificate", "doc.inspection_request"], "relatedWork": ["work.waterproofing"] }
+    },
+    {
+      "id": "inspection.insulation",
+      "type": "InspectionCheckpoint",
+      "name": "단열 검측",
+      "aliases": ["단열 검사"],
+      "meta": { "stage": "during", "rule": "단열재 열전도율 시험성적서 검토 + 두께·연속성·열교 부위 시공 확인. 열전도율 판정값은 KS/에너지기준 확보 시.", "reference": "별표2(단열공사)", "sourceStatus": "verified", "verifiedAgainst": "evaluation/sources/quality_test_standards_annex2.txt (단열공사)" },
+      "relations": { "verifies": ["risk.insulation_defect"], "isBasedOn": ["standard.quality_management_guideline"], "requiresEvidence": ["doc.test_certificate", "doc.inspection_request"], "relatedWork": ["work.insulation"] }
+    },
+    {
+      "id": "inspection.glazing",
+      "type": "InspectionCheckpoint",
+      "name": "유리 검측",
+      "aliases": ["유리 검사"],
+      "meta": { "stage": "before", "rule": "유리 시험성적서(강화·복층) 검토 + 두께·종류·설치 상태 확인. 강도 판정값은 KS 확보 시.", "reference": "별표2(유리공사)", "sourceStatus": "verified", "verifiedAgainst": "evaluation/sources/quality_test_standards_annex2.txt (유리공사)" },
+      "relations": { "verifies": ["risk.glass_defect"], "isBasedOn": ["standard.quality_management_guideline"], "requiresEvidence": ["doc.test_certificate", "doc.inspection_request"], "relatedWork": ["work.glazing"] }
+    },
+    {
+      "id": "inspection.painting",
+      "type": "InspectionCheckpoint",
+      "name": "도장 검측",
+      "aliases": ["도장 검사", "도막두께 측정"],
+      "meta": { "stage": "during", "rule": "도료 시험성적서 검토 + 바탕면 처리·도막두께(현장 측정)·부착 상태 확인. 도막두께 판정값은 KS/도장 시방 확보 시.", "reference": "별표2(도장공사)", "sourceStatus": "verified", "verifiedAgainst": "evaluation/sources/quality_test_standards_annex2.txt (도장공사)" },
+      "relations": { "verifies": ["risk.paint_defect"], "isBasedOn": ["standard.quality_management_guideline"], "requiresEvidence": ["doc.test_certificate", "doc.inspection_request"], "relatedWork": ["work.painting"] }
     }
   ]
 }
