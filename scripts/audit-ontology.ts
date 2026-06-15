@@ -171,6 +171,21 @@ const defaultArgs: Record<string, Record<string, unknown>> = {
   // R1 추가
   get_inspection_request_schema: {},
   compile_inspection_request_references: { workType: 'work.concrete_placement', stage: 'pre' },
+  // 법정문서 보강 (커버리지 16/19)
+  get_quality_plan_schema: {},
+  get_quality_inspection_summary_schema: {},
+  get_nc_corrective_result_schema: {},
+  get_quality_inspection_report_schema: {},
+  get_test_request_schema: {},
+  get_inspection_checklist_schema: {},
+  get_material_source_approval_schema: {},
+  // 관행 3종 (커버리지 19/19)
+  get_quality_daily_log_schema: {},
+  get_corrective_action_request_schema: {},
+  get_quality_audit_report_schema: {},
+  // A2UI 입력 폼·작성 컨텍스트 (viewer)
+  render_quality_form: { docId: 'itp' },
+  compose_writing_context: { docId: 'ncr', formValues: { documentId: 'NCR-1' } },
 };
 
 const allowedSyntheticBasisTypes = new Set<string>([

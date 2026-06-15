@@ -228,7 +228,8 @@
       "relations": {
         "relatedWork": ["work.earthwork"],
         "requiresEvidence": ["doc.site_test_record"],
-        "requiresStandard": ["standard.ks_f_2320"]
+        "requiresStandard": ["standard.ks_f_2320"],
+        "hasAcceptanceCriteria": ["criteria.soil_cbr"]
       }
     },
     {
@@ -245,7 +246,8 @@
       "relations": {
         "relatedWork": ["work.earthwork"],
         "requiresEvidence": ["doc.site_test_record"],
-        "requiresStandard": ["standard.ks_f_2306"]
+        "requiresStandard": ["standard.ks_f_2306"],
+        "hasAcceptanceCriteria": ["criteria.soil_water_content"]
       }
     },
     {
@@ -262,7 +264,8 @@
       "relations": {
         "relatedWork": ["work.earthwork"],
         "requiresEvidence": ["doc.site_test_record"],
-        "requiresStandard": ["standard.ks_f_2302"]
+        "requiresStandard": ["standard.ks_f_2302"],
+        "hasAcceptanceCriteria": ["criteria.soil_gradation"]
       }
     },
     {
@@ -279,7 +282,8 @@
       "relations": {
         "relatedWork": ["work.earthwork"],
         "requiresEvidence": ["doc.site_test_record"],
-        "requiresStandard": ["standard.ks_f_2591"]
+        "requiresStandard": ["standard.ks_f_2591"],
+        "hasAcceptanceCriteria": ["criteria.pile_bearing_capacity"]
       }
     },
     {
@@ -297,7 +301,8 @@
         "targetMaterial": ["material.steel"],
         "relatedWork": ["work.steel_fabrication"],
         "requiresEvidence": ["doc.test_certificate"],
-        "requiresStandard": ["standard.ks_d_3503"]
+        "requiresStandard": ["standard.ks_d_3503"],
+        "hasAcceptanceCriteria": ["criteria.steel_material"]
       }
     },
     {
@@ -377,7 +382,8 @@
         "targetMaterial": ["material.asphalt_mixture"],
         "relatedWork": ["work.road_pavement"],
         "requiresEvidence": ["doc.site_test_record"],
-        "requiresStandard": ["standard.ks_f_2354"]
+        "requiresStandard": ["standard.ks_f_2354"],
+        "hasAcceptanceCriteria": ["criteria.asphalt_content"]
       }
     },
     {

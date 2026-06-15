@@ -518,6 +518,48 @@
       "name": "마감자재 성능 기준 (KS 확보 대기)",
       "meta": { "operator": "ge", "threshold": null, "unit": "성능등급", "condition": "화장판 내열·내마모·내오염 합격 기준은 KS M 3332가 출처 — 미확보로 보류(UNDETERMINED).", "fallbackToProject": true, "reference": "KS M 3332 — 별표2 시험방법 인용", "sourceStatus": "skeleton", "referenceVerified": false, "note": "별표2로 시험종목·방법 verified. 성능 판정값은 KS 원문(공공 자동확보 제약)이라 skeleton." },
       "relations": { "appliesTo": ["test.deco_panel"], "derivedFrom": ["standard.ks_m_3332"] }
+    },
+    {
+      "id": "criteria.soil_cbr",
+      "type": "AcceptanceCriteria",
+      "name": "노상·노체 CBR 기준 (설계기준·KCS 확보 대기)",
+      "meta": { "operator": "ge", "threshold": null, "unit": "%", "condition": "CBR 합격값은 설계기준·도로공사 표준시방서(KCS 44)에 따름 — 미확보로 보류(UNDETERMINED).", "fallbackToProject": true, "reference": "KS F 2320 — 별표2 시험방법 인용", "sourceStatus": "skeleton", "referenceVerified": false, "note": "별표2로 시험종목(CBR)·방법(KS F 2320) verified. 판정값은 설계기준·KCS(공공 자동확보 제약)이라 skeleton." },
+      "relations": { "appliesTo": ["test.soil_cbr"], "derivedFrom": ["standard.ks_f_2320"] }
+    },
+    {
+      "id": "criteria.soil_water_content",
+      "type": "AcceptanceCriteria",
+      "name": "흙 함수비 관리기준 (설계기준·KCS 확보 대기)",
+      "meta": { "operator": "ge", "threshold": null, "unit": "%", "condition": "다짐 최적함수비(OMC) 대비 허용범위는 설계기준·KCS 44에 따름 — 미확보로 보류(UNDETERMINED).", "fallbackToProject": true, "reference": "KS F 2306 — 별표2 시험방법 인용", "sourceStatus": "skeleton", "referenceVerified": false, "note": "별표2로 시험종목(함수비)·방법(KS F 2306) verified. 판정범위는 설계기준·KCS이라 skeleton." },
+      "relations": { "appliesTo": ["test.soil_water_content"], "derivedFrom": ["standard.ks_f_2306"] }
+    },
+    {
+      "id": "criteria.soil_gradation",
+      "type": "AcceptanceCriteria",
+      "name": "흙 입도 기준 (설계기준·KCS 확보 대기)",
+      "meta": { "operator": "ge", "threshold": null, "unit": "통과율%", "condition": "입도분포(균등계수·곡률계수) 합격 기준은 설계기준·KCS 44에 따름 — 미확보로 보류(UNDETERMINED).", "fallbackToProject": true, "reference": "KS F 2302 — 별표2 시험방법 인용", "sourceStatus": "skeleton", "referenceVerified": false, "note": "별표2로 시험종목(입도)·방법(KS F 2302) verified. 판정값은 설계기준·KCS이라 skeleton." },
+      "relations": { "appliesTo": ["test.soil_gradation"], "derivedFrom": ["standard.ks_f_2302"] }
+    },
+    {
+      "id": "criteria.pile_bearing_capacity",
+      "type": "AcceptanceCriteria",
+      "name": "말뚝 지지력 기준 (설계기준 확보 대기)",
+      "meta": { "operator": "ge", "threshold": null, "unit": "kN", "condition": "말뚝 허용지지력은 구조계산서·설계도서에 따름 — 미확보로 보류(UNDETERMINED).", "fallbackToProject": true, "reference": "KS F 2591 — 별표2 시험방법 인용", "sourceStatus": "skeleton", "referenceVerified": false, "note": "별표2로 시험종목(재하시험)·방법(KS F 2591) verified. 지지력 판정값은 설계기준(공공 자동확보 제약)이라 skeleton." },
+      "relations": { "appliesTo": ["test.pile_bearing_capacity"], "derivedFrom": ["standard.ks_f_2591"] }
+    },
+    {
+      "id": "criteria.steel_material",
+      "type": "AcceptanceCriteria",
+      "name": "구조용 강재 기계적 성질 기준 (KS 등급 확보 대기)",
+      "meta": { "operator": "ge", "threshold": null, "unit": "MPa", "condition": "항복강도·인장강도·연신율 합격값은 KS D 3503 등 강종 등급에 따름 — 미확보로 보류(UNDETERMINED).", "fallbackToProject": true, "reference": "KS D 3503 — 별표2 시험방법 인용", "sourceStatus": "skeleton", "referenceVerified": false, "note": "별표2로 시험종목·방법 verified. 등급별 강도 판정값은 KS 원문(공공 자동확보 제약)이라 skeleton." },
+      "relations": { "appliesTo": ["test.steel_material"], "derivedFrom": ["standard.ks_d_3503"] }
+    },
+    {
+      "id": "criteria.asphalt_content",
+      "type": "AcceptanceCriteria",
+      "name": "아스팔트 함량 기준 (배합설계 확보 대기)",
+      "meta": { "operator": "ge", "threshold": null, "unit": "%", "condition": "아스팔트 함량 허용범위는 배합설계·도로포장 시방(KCS 44)에 따름 — 미확보로 보류(UNDETERMINED).", "fallbackToProject": true, "reference": "KS F 2354 — 별표2 시험방법 인용", "sourceStatus": "skeleton", "referenceVerified": false, "note": "별표2로 시험종목(함량)·방법(KS F 2354) verified. 함량 판정범위는 배합설계(공공 자동확보 제약)이라 skeleton." },
+      "relations": { "appliesTo": ["test.asphalt_content"], "derivedFrom": ["standard.ks_f_2354"] }
     }
   ]
 }

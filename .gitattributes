@@ -1,0 +1,10 @@
+# GitHub Linguist 언어 통계 정확화
+# 이 프로젝트는 TypeScript 전용 — .js 소스 파일은 없습니다.
+# linguist heuristic 이 타입 주석이 적은 일부 .ts(viewer 의 인라인 HTML/JS 등)를
+# JavaScript 로 오분류하므로 명시적으로 TypeScript 로 강제합니다.
+*.ts linguist-language=TypeScript
+
+# 온톨로지·스키마 데이터(수작업 큐레이션 데이터, 코드 아님)는 언어 통계에서 제외
+*.jsonld linguist-detectable=false
+src/ontology/data/** linguist-detectable=false
+src/schemas/document-schemas.json linguist-detectable=false
