@@ -1,0 +1,23 @@
+# CODEOWNERS — PR 자동 리뷰 할당
+# https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+#
+# 본 OSS 는 ㈜라텔웍스 (개발) + 황룡건설(주) (도메인 큐레이션) 협업 모델.
+# 온톨로지·기준 정합은 양사 합의 사항이라 모든 변경은 ratelworks org owners 가 검토합니다.
+
+# 전 영역 기본 owner — 라텔웍스 조직 owner 그룹
+*                                          @ratelworks/maintainers
+
+# 온톨로지 (T-Box / 그래프 노드 / 데이터)
+/src/ontology/                             @ratelworks/maintainers
+/src/ontology/data/                        @ratelworks/maintainers
+/src/ontology/graph/context.jsonld         @ratelworks/maintainers
+/src/ontology/shapes/                      @ratelworks/maintainers
+
+# MCP 도구 · 응답 스키마 (Lineage / Human checkpoint 계약)
+/src/tools/                                @ratelworks/maintainers
+/src/schemas/                              @ratelworks/maintainers
+
+# 보안 · CI · publish 게이트
+/.github/                                  @ratelworks/maintainers
+/SECURITY.md                               @ratelworks/maintainers
+/package.json                              @ratelworks/maintainers

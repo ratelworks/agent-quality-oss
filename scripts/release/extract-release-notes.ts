@@ -63,10 +63,10 @@ const headerRe = new RegExp(
 let start = -1;
 let date = "";
 for (let i = 0; i < lines.length; i++) {
-  const m = lines[i].match(headerRe);
+  const m = lines[i]?.match(headerRe);
   if (m) {
     start = i;
-    date = m[1];
+    date = m[1] ?? "";
     break;
   }
 }
@@ -82,7 +82,7 @@ if (start < 0) {
 
 let end = lines.length;
 for (let i = start + 1; i < lines.length; i++) {
-  if (/^## \[/.test(lines[i])) {
+  if (/^## \[/.test(lines[i] ?? "")) {
     end = i;
     break;
   }

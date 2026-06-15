@@ -67,6 +67,10 @@
     "type": "git",
     "url": "https://github.com/ratelworks/agent-quality-oss"
   },
+  "bugs": {
+    "url": "https://github.com/ratelworks/agent-quality-oss/issues"
+  },
+  "homepage": "https://github.com/ratelworks/agent-quality-oss#readme",
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.29.0",
     "commander": "^12.1.0",
@@ -86,6 +90,11 @@
     "src/ontology/data",
     "src/schemas/document-schemas.json",
     "README.md",
-    "LICENSE"
-  ]
+    "LICENSE",
+    "NOTICE.md",
+    "CHANGELOG.md"
+  ],
+  "overrides": {
+    "esbuild": "^0.28.1"
+  }
 }

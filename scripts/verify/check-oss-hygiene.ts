@@ -82,7 +82,7 @@ function scanFile(file: string): void {
   const lines = text.split("\n");
 
   for (let i = 0; i < lines.length; i++) {
-    const line = lines[i];
+    const line = lines[i] ?? ""; // noUncheckedIndexedAccess: 배열 인덱스는 string | undefined
     const lineNo = i + 1;
 
     // 1) 내부 용어
@@ -234,7 +234,7 @@ for (const cat of ["internal_term", "internal_path", "pii", "tracked_internal_do
   for (const v of list) {
     console.error(cat === "tracked_internal_doc" ? `  · ${v.file}` : `  · ${v.file}:${v.line} — "${v.found}"`);
   }
-  console.error(`  → ${list[0].hint}`);
+  console.error(`  → ${list[0]!.hint}`); // length > 0 위에서 확인됨
   console.error();
 }
 

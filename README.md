@@ -5,6 +5,8 @@
 > **단순한 검색기가 아니라 "품질관리 전문가 레이어를 LLM에 장착"하는 것이 목표.**
 > LLM이 베테랑 품질관리자처럼 답할 수 있도록 도메인 관계망·정량 기준·의사결정 트리·법령 인용 위치·양식 구조를 즉시 공급합니다.
 
+[![CI](https://github.com/ratelworks/agent-quality-oss/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/ratelworks/agent-quality-oss/actions/workflows/ci.yml)
+[![CodeQL](https://github.com/ratelworks/agent-quality-oss/actions/workflows/codeql.yml/badge.svg?branch=main)](https://github.com/ratelworks/agent-quality-oss/actions/workflows/codeql.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Node.js](https://img.shields.io/badge/node-%3E%3D22-brightgreen)](https://nodejs.org/)
 [![MCP](https://img.shields.io/badge/MCP-compatible-purple)](https://modelcontextprotocol.io/)

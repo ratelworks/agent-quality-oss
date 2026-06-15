@@ -1,0 +1,60 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    name: typecheck · build · smoke
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: ["22.x"]
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v6
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "npm"
+
+      - name: Install deps
+        run: npm ci
+
+      - name: npm audit (high 이상 회귀 차단)
+        run: npm audit --audit-level=high
+
+      - name: OSS hygiene — 내부 용어 / 내부 경로 / PII 노출 차단
+        run: npm run check:oss-hygiene
+
+      - name: TypeScript strict check (src + scripts)
+        run: npm run typecheck
+
+      - name: Build (tsc + ontology data copy)
+        run: npm run build
+
+      - name: Ontology validation — 무결성 (순환참조 / dangling / orphan)
+        run: npm run validate:ontology
+
+      - name: Smoke — MCP Tool 시나리오 (49 케이스)
+        run: npm run smoke
+
+      - name: Ontology audit — 그래프 건강성 (노드 / 관계 / 법령 커버리지)
+        run: npm run audit
+
+      - name: Coverage matrix — 법정 요구 / KCS 기준 / 별지 서식 커버리지
+        run: npm run coverage
+
+      - name: Release notes gate — Release 노트 SSoT(CHANGELOG) 검증
+        run: npm run release:notes
+
+      - name: npm pack dry-run
+        run: |
+          npm pack --dry-run 2>&1 | grep -E "package size|total files"
+          echo "npm pack: OK ✅"

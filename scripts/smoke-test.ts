@@ -328,7 +328,7 @@ const CASES: Case[] = [
         ea.expertContext?.includes('베테랑') &&
         ea.candidateNonconformance.length > 0 &&
         ea.suggestedNextSteps.length >= 2 &&
-        ea.legalBasis.includes('standard.kcs_14_20.10.3_2')
+        ea.legalBasis.includes('standard.kcs_14_20.10.1_7_3')
       );
     },
   },

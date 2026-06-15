@@ -1,0 +1,83 @@
+name: ✨ Feature Request (기능 제안)
+description: 새 도구·노드·게이트 등 기능 제안. 설계 원칙 정합 여부를 함께 검토합니다.
+title: "[Feature] "
+labels: ["enhancement", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## 기능 제안 전 확인
+
+        본 OSS 는 **"품질관리 전문가 지식을 LLM 에 공급하는 도메인 레이어"** 입니다 — 답변·판단·생성은 LLM·사용자가, 우리는 베테랑 품질관리자의 머릿속 지식(관계망·정량 기준·의사결정 트리·법령 인용 위치·양식 구조)을 공급합니다. 신규 기능은 [`CONTRIBUTING.md`](../CONTRIBUTING.md) 의 정체성 정합과 아래 **설계 7원칙** 을 통과해야 합니다.
+
+        ```
+        1. Agent-first            (Tool 이 1차 인터페이스 — UI 아님)
+        2. 지식 공급 레이어        (답변·생성은 LLM·사용자, 우리는 지식만 공급)
+        3. 온톨로지 기반           (공종·자재·시험·기준·리스크·부적합·조치·증빙·법령을 그래프 노드·관계로)
+        4. 한국 건설 품질 specific (KCS/KDS·품질관리 업무지침·건설기술진흥법·KS)
+        5. Lineage 필수            (모든 응답에 basis[] + lineage.ontologyVersion — 환각 차단)
+        6. Human checkpoint        (부적합 판정·기준 충돌·증빙 부재 시 A2UI decision 반환)
+        7. No-Lock-In / 공공 인프라 (MIT · npm · MCP 표준만 의존)
+        ```
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: 해결하려는 문제
+      description: 품질관리자(QC)·감리원이 현장에서 겪는 어떤 마찰을 줄이는 기능인가요?
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: 제안하는 기능
+      description: 새 MCP 도구·그래프 노드·게이트·문서 가이드 등 어떤 형태인지 구체적으로.
+    validations:
+      required: true
+
+  - type: dropdown
+    id: scope
+    attributes:
+      label: 영향 범위
+      multiple: true
+      options:
+        - 새 MCP 도구 (Tool)
+        - 그래프 노드 보강 (WorkType / Material / TestItem / AcceptanceCriteria / Nonconformance / CorrectiveAction)
+        - 새 클래스·관계 (T-Box)
+        - SHACL Shape / 검수 규칙
+        - 양식·schemaId 마스터
+        - 기준 식별자 (KCS / KDS / KS / 품질관리 업무지침)
+        - 외부 API 통합 (법제처 등)
+        - 문서·예제
+        - 기타
+    validations:
+      required: true
+
+  - type: textarea
+    id: gates
+    attributes:
+      label: 설계 7원칙 자체 평가
+      description: 각 원칙별로 PASS / SKIP / 검토 필요 중 어느 쪽인지 표시해 주세요.
+      placeholder: |
+        1. Agent-first — PASS (Tool 인터페이스로 제공)
+        2. 지식 공급 레이어 — PASS (답변 생성 X, 근거 공급만)
+        3. 온톨로지 기반 — PASS (새 노드 X 개 추가, 기존 관계 Y 활용)
+        4. 한국 건설 품질 specific — PASS (KCS 14 20 / 품질관리 업무지침 근거)
+        5. Lineage 필수 — PASS (basis[] 매핑 설계 포함)
+        6. Human checkpoint — 검토 필요 (부적합 판정 흐름과 연결되는지)
+        7. No-Lock-In — PASS (MCP 표준만 의존)
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: 검토한 대안
+      description: 기존 도구 조합·외부 도구·미루기 등 다른 선택지와 비교.
+
+  - type: textarea
+    id: extra
+    attributes:
+      label: 추가 컨텍스트 (선택)
+      description: 현장 사례·관련 기준 번호 (KCS/KDS)·법령 조문·참고 링크 등.

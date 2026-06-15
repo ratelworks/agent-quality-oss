@@ -88,7 +88,11 @@ export function run(args: InferArgs, graph: OntologyGraph) {
   let anyUndetermined = false;
 
   for (const obs of observations) {
-    const testHit = searchEntities(graph, obs, 'TestItem', 1)[0];
+    // 관측 문자열에서 시험항목 라벨만 추출(공백 뒤 숫자·단위 제거) 후 검색.
+    // "염화물 0.45 kg/㎥"처럼 긴 단위가 붙으면 substring score가 MIN_SUBSTRING_SCORE(0.5)
+    // 미달로 시험항목 식별에 실패하던 회귀 방지. 값 파싱은 evaluate가 전체 obs로 수행한다.
+    const testLabel = obs.replace(/\s+[\d.].*$/, '').trim() || obs;
+    const testHit = searchEntities(graph, testLabel, 'TestItem', 1)[0];
     if (!testHit) {
       judgments.push({
         observation: obs,
