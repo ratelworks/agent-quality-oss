@@ -614,6 +614,23 @@ const CASES: Case[] = [
     args: { workType: '화장판' },
     assert: (r) => r.result.tests.some((t: { id: string }) => t.id === 'test.deco_panel'),
   },
+  // viewer A2UI 도구 (render_quality_form / compose_writing_context) — 회귀 보호
+  {
+    tool: 'render_quality_form',
+    args: { docId: 'itp' },
+    assert: (r) =>
+      r.result.fieldCount >= 1 &&
+      r.result.messages.length === 2 &&
+      r.result.surfaceId === 'quality_form_itp',
+  },
+  {
+    tool: 'compose_writing_context',
+    args: { docId: 'ncr', formValues: {} },
+    assert: (r) =>
+      typeof r.result.markdown === 'string' &&
+      r.result.missingRequired.length > 0 &&
+      r.result.complete === false,
+  },
 ];
 
 let pass = 0;

@@ -128,3 +128,28 @@ export interface ToolModuleLegacy {
 // 도구 코드는 ToolSpec / ToolModule 짧은 이름으로 import 가능.
 export type ToolSpec = ToolSpecLegacy;
 export type ToolModule = ToolModuleLegacy;
+
+// ───── A2UI (Google Agent-UI 프로토콜) 메시지 타입 ─────
+// agent-safety-oss 와 통일한 구조. render_quality_form 이 이 JSONL 배열을 반환하고,
+// viewer(브라우저 폼) 또는 A2UI 호환 클라이언트가 순차 소비해 폼을 렌더한다.
+// 참조: https://github.com/google/a2ui
+export interface A2UIComponent {
+  id: string;
+  component: string;
+  [key: string]: unknown;
+}
+
+export interface A2UIMessage {
+  createSurface?: { surfaceId: string; catalogId: string };
+  updateComponents?: {
+    surfaceId: string;
+    root: string;
+    components: A2UIComponent[];
+  };
+  updateDataModel?: {
+    surfaceId: string;
+    op: string;
+    path: string;
+    value: unknown;
+  };
+}

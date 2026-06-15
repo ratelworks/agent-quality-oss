@@ -54,6 +54,8 @@ import * as getProjectInfo from "./tools/get-project-info.js";
 import * as discoverRelevantDomain from "./tools/discover-relevant-domain.js";
 import * as explainQualityDecisionPath from "./tools/explain-quality-decision-path.js";
 import * as verifyFormReference from "./tools/verify-form-reference.js";
+import * as renderQualityForm from "./tools/render-quality-form.js";
+import * as composeWritingContext from "./tools/compose-writing-context.js";
 
 // ───── Legacy module 목록 (기존 ToolModule 인터페이스) ─────
 // scripts/* 와 외부 도구가 직접 import 가능하도록 export 유지.
@@ -92,6 +94,8 @@ export const LEGACY_MODULES: ToolModuleLegacy[] = [
   discoverRelevantDomain,
   explainQualityDecisionPath,
   verifyFormReference,
+  renderQualityForm,
+  composeWritingContext,
 ];
 
 // ───── Legacy ToolModule → ToolDefinition 어댑터 ─────

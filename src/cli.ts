@@ -21,6 +21,7 @@ import { annotateResponse } from "./lib/response.js";
 // 파일 최상단 상수 — CLI 서브커맨드 라벨
 const CMD = {
   SERVE: "serve",
+  VIEWER: "viewer",
   TOOLS: "tools",
   CALL: "call",
 } as const;
@@ -68,6 +69,16 @@ program
       const { startStdioServer } = await import("./server/stdio.js");
       await startStdioServer(graph);
     }
+  });
+
+// ───── viewer ─────
+program
+  .command(CMD.VIEWER)
+  .description("브라우저 입력 폼 기동 (AI 비서·CLI 불필요)")
+  .option("--port <port>", "포트 (기본 5273 또는 PORT env)")
+  .action(async (opts: { port?: string }) => {
+    const { startViewer } = await import("./viewer.js");
+    await startViewer({ port: opts.port ? Number(opts.port) : undefined });
   });
 
 // ───── tools ─────

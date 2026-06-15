@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "agent-quality-oss": {
+      "command": "node",
+      "args": ["/absolute/path/to/agent-quality-oss/build/cli.js", "serve"]
+    }
+  }
+}
