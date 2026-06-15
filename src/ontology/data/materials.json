@@ -42,6 +42,20 @@
         "requiresDocument": ["doc.test_certificate"],
         "requiresStandard": ["standard.ks_d_3504", "standard.kcs_14_20.11"]
       }
+    },
+    {
+      "id": "material.soil",
+      "type": "Material",
+      "name": "성토재 (흙)",
+      "aliases": ["흙", "성토재", "노상토", "토사", "성토용 흙", "되메우기재"],
+      "meta": {
+        "category": "토질재료",
+        "note": "별표2 토공사 시험종목 대상. 다짐도·CBR 판정값은 KCS 11/44 확보 시."
+      },
+      "relations": {
+        "requiresTest": ["test.soil_compaction", "test.soil_cbr", "test.soil_water_content", "test.soil_gradation"],
+        "requiresStandard": ["standard.quality_management_guideline"]
+      }
     }
   ]
 }

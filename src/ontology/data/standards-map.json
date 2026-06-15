@@ -338,6 +338,48 @@
         "sourceStatus": "indirect_source",
         "note": "별표2가 철근 시험방법으로 인용. 등급별 항복강도 수치 본문은 유료 표준이라 미확보 — 시험종목·방법·빈도만 verified."
       }
+    },
+    {
+      "id": "standard.ks_f_2312",
+      "type": "Standard",
+      "name": "KS F 2312 흙의 다짐 시험",
+      "aliases": ["KS F 2312", "실내 다짐시험"],
+      "meta": { "issuer": "국가기술표준원", "category": "시험방법", "granularity": "document" }
+    },
+    {
+      "id": "standard.ks_f_2308",
+      "type": "Standard",
+      "name": "KS F 2308 흙의 현장 들밀도 시험",
+      "aliases": ["KS F 2308", "들밀도", "현장밀도 시험"],
+      "meta": { "issuer": "국가기술표준원", "category": "시험방법", "granularity": "document" }
+    },
+    {
+      "id": "standard.ks_f_2320",
+      "type": "Standard",
+      "name": "KS F 2320 노상토 지지력비(CBR) 시험",
+      "aliases": ["KS F 2320", "CBR 시험"],
+      "meta": { "issuer": "국가기술표준원", "category": "시험방법", "granularity": "document" }
+    },
+    {
+      "id": "standard.ks_f_2306",
+      "type": "Standard",
+      "name": "KS F 2306 흙의 함수비 시험",
+      "aliases": ["KS F 2306", "함수비 시험"],
+      "meta": { "issuer": "국가기술표준원", "category": "시험방법", "granularity": "document" }
+    },
+    {
+      "id": "standard.ks_f_2302",
+      "type": "Standard",
+      "name": "KS F 2302 흙의 입도 시험",
+      "aliases": ["KS F 2302", "입도 시험"],
+      "meta": { "issuer": "국가기술표준원", "category": "시험방법", "granularity": "document" }
+    },
+    {
+      "id": "standard.ks_f_2591",
+      "type": "Standard",
+      "name": "KS F 2591 말뚝 동재하 시험",
+      "aliases": ["KS F 2591", "동재하시험"],
+      "meta": { "issuer": "국가기술표준원", "category": "시험방법", "granularity": "document" }
     }
   ]
 }

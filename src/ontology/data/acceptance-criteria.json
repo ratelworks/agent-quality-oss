@@ -329,6 +329,27 @@
         "appliesTo": ["test.rebar_mechanical"],
         "derivedFrom": ["standard.ks_d_3504"]
       }
+    },
+    {
+      "id": "criteria.soil_compaction_degree",
+      "type": "AcceptanceCriteria",
+      "name": "흙 다짐도 (노상 95%·노체 90% — KCS 확보 대기)",
+      "aliases": ["다짐도 기준"],
+      "meta": {
+        "operator": "ge",
+        "threshold": null,
+        "unit": "%",
+        "condition": "다짐도 판정값은 용도별(노상 95%·노체 90%·구조물 되메우기 등) KCS 11 20/KCS 44 원문이 출처 — 미확보로 자동 수치판정 보류(threshold 미주입 시 UNDETERMINED).",
+        "fallbackToProject": true,
+        "reference": "KCS 11 20(흙쌓기)/KCS 44(도로) — 별표2가 시험방법(KS F 2308·2312) 인용",
+        "sourceStatus": "skeleton",
+        "referenceVerified": false,
+        "note": "별표2(법제처)로 시험종목·방법·빈도 verified. 판정값(다짐도%)은 KCS 원문(KCSC viewer JS 렌더라 공공 자동확보 제약)이라 skeleton."
+      },
+      "relations": {
+        "appliesTo": ["test.soil_compaction"],
+        "derivedFrom": ["standard.ks_f_2312"]
+      }
     }
   ]
 }

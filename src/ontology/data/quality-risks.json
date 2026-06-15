@@ -114,6 +114,27 @@
         "mayCause": ["ncr.rebar_material_nonconformance"],
         "relatedTest": ["test.rebar_mechanical"]
       }
+    },
+    {
+      "id": "risk.soil_compaction_deficiency",
+      "type": "QualityRisk",
+      "name": "다짐 불량 (다짐도 미달)",
+      "aliases": ["다짐 부족", "성토 침하 리스크"],
+      "meta": { "severity": "high" },
+      "relations": {
+        "mayCause": ["ncr.soil_compaction_fail"],
+        "relatedTest": ["test.soil_compaction"]
+      }
+    },
+    {
+      "id": "risk.foundation_bearing_deficiency",
+      "type": "QualityRisk",
+      "name": "기초 지지력 부족",
+      "aliases": ["말뚝 지지력 부족", "지지력 미달", "기초 침하"],
+      "meta": { "severity": "high" },
+      "relations": {
+        "relatedTest": ["test.pile_bearing_capacity"]
+      }
     }
   ]
 }

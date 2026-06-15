@@ -84,6 +84,13 @@
       "name": "불합격 철근 반출",
       "aliases": ["철근 반송", "철근 반품"],
       "meta": { "urgency": "immediate" }
+    },
+    {
+      "id": "action.soil_recompaction",
+      "type": "CorrectiveAction",
+      "name": "재다짐",
+      "aliases": ["재다짐 실시", "다짐 보완"],
+      "meta": { "urgency": "immediate" }
     }
   ]
 }

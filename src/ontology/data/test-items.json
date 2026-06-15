@@ -193,6 +193,94 @@
         "requiresEvidence": ["doc.test_certificate"],
         "requiresStandard": ["standard.ks_d_3504", "standard.kcs_14_20.11"]
       }
+    },
+    {
+      "id": "test.soil_compaction",
+      "type": "TestItem",
+      "name": "흙 다짐도 시험",
+      "aliases": ["다짐도", "다짐", "현장밀도", "들밀도", "상대다짐도", "건조밀도"],
+      "meta": {
+        "method": "실내 다짐시험 KS F 2312(최대건조밀도) + 현장 들밀도 KS F 2308. 다짐도 = 현장건조밀도 ÷ 최대건조밀도",
+        "timing": "성토·다짐 시공 중",
+        "frequency": "토취장마다·재질변화시마다 (별표2)",
+        "typicalAcceptance": "다짐도 판정값(노상 95%·노체 90% 등)은 KCS 11 20/KCS 44 원문 확보 시 — 현재 시험종목·방법 커버리지만 verified"
+      },
+      "relations": {
+        "relatedWork": ["work.earthwork"],
+        "hasAcceptanceCriteria": ["criteria.soil_compaction_degree"],
+        "possibleNonconformance": ["ncr.soil_compaction_fail"],
+        "correctiveActions": ["action.soil_recompaction"],
+        "requiresEvidence": ["doc.site_test_record"],
+        "requiresStandard": ["standard.ks_f_2312", "standard.ks_f_2308"]
+      }
+    },
+    {
+      "id": "test.soil_cbr",
+      "type": "TestItem",
+      "name": "노상토 지지력비(CBR) 시험",
+      "aliases": ["CBR", "지지력비", "노상토지지력비"],
+      "meta": {
+        "method": "KS F 2320 노상토 지지력비(CBR) 시험",
+        "timing": "노상 완성 후",
+        "frequency": "토취장마다·재질변화시마다 (별표2)",
+        "typicalAcceptance": "설계 CBR 기준은 설계도서/KCS 확보 시 — 시험종목·방법 커버리지"
+      },
+      "relations": {
+        "relatedWork": ["work.earthwork"],
+        "requiresEvidence": ["doc.site_test_record"],
+        "requiresStandard": ["standard.ks_f_2320"]
+      }
+    },
+    {
+      "id": "test.soil_water_content",
+      "type": "TestItem",
+      "name": "흙 함수비 시험",
+      "aliases": ["함수비", "흙 함수량"],
+      "meta": {
+        "method": "KS F 2306 함수비 시험",
+        "timing": "성토 재료 반입·다짐 전",
+        "frequency": "토취장마다·재질변화시마다 (별표2)",
+        "typicalAcceptance": "최적함수비(OMC) 대비 관리범위는 설계도서/KCS — 시험종목·방법 커버리지"
+      },
+      "relations": {
+        "relatedWork": ["work.earthwork"],
+        "requiresEvidence": ["doc.site_test_record"],
+        "requiresStandard": ["standard.ks_f_2306"]
+      }
+    },
+    {
+      "id": "test.soil_gradation",
+      "type": "TestItem",
+      "name": "흙 입도 시험",
+      "aliases": ["입도", "입도분석", "체분석"],
+      "meta": {
+        "method": "KS F 2302 흙의 입도 시험",
+        "timing": "성토 재료 반입 시",
+        "frequency": "토취장마다·재질변화시마다 (별표2)",
+        "typicalAcceptance": "재료 입도 기준은 설계도서/KCS — 시험종목·방법 커버리지"
+      },
+      "relations": {
+        "relatedWork": ["work.earthwork"],
+        "requiresEvidence": ["doc.site_test_record"],
+        "requiresStandard": ["standard.ks_f_2302"]
+      }
+    },
+    {
+      "id": "test.pile_bearing_capacity",
+      "type": "TestItem",
+      "name": "말뚝 지지력 시험",
+      "aliases": ["말뚝 지지력", "동재하시험", "정재하시험", "말뚝 재하시험"],
+      "meta": {
+        "method": "동재하시험 KS F 2591 / 정재하시험 KS F 2445",
+        "timing": "말뚝 시공 중·후",
+        "frequency": "전체 말뚝 수량의 1% 이상(100개 미만도 최소 1개), 교량하부구조는 250개당 1회 또는 구조물별 1회 (별표2)",
+        "typicalAcceptance": "설계 지지력 기준은 설계도서/KDS — 시험종목·방법·빈도 커버리지"
+      },
+      "relations": {
+        "relatedWork": ["work.earthwork"],
+        "requiresEvidence": ["doc.site_test_record"],
+        "requiresStandard": ["standard.ks_f_2591"]
+      }
     }
   ]
 }

@@ -490,6 +490,22 @@ const CASES: Case[] = [
     args: { workType: '철근' },
     assert: (r) => r.result.materials.length >= 1 && r.result.inspectionCheckpoints.length >= 1,
   },
+  // 토공사·기초공사 (별표2 시험종목 커버리지 / 판정 수치는 KCS skeleton) — 회귀 보호
+  {
+    tool: 'resolve_worktype',
+    args: { input: '토공' },
+    assert: (r) => r.result.resolved?.id === 'work.earthwork',
+  },
+  {
+    tool: 'get_work_quality_profile',
+    args: { workType: '토공사' },
+    assert: (r) => r.result.tests.length >= 4 && r.result.inspectionCheckpoints.length >= 1,
+  },
+  {
+    tool: 'search_quality_ontology',
+    args: { query: '다짐' },
+    assert: (r) => r.result.matches.some((m: { id: string }) => m.id === 'test.soil_compaction'),
+  },
 ];
 
 let pass = 0;
