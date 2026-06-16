@@ -9,7 +9,7 @@
 > **갱신 주기**: 라운드 종료 시. 노드 카운트는 자동 측정 도구(`scripts/measure.ts`)와 동기.
 > **선행 문서**: `plan.md` (제품 정의) · `dev.md` (개발 규칙) · `src/taxonomy/coverage/master-index.json` (도메인 인벤토리 SSoT)
 
-> **📍 현황 (2026-06-15)**: 문서 양식 **19/19 (100%)** 등록 완료 · MCP 도구 **46개** · 「건설공사 품질관리 업무지침」 별표2(품질시험기준)의 공통·토목·건축 **전 절** 커버. 아래 「1. 초기 상태 (2026-04-29)」 이하의 수치(36 도구·9/19 등)는 **초기 라운드 시점 기록**이며, 이후 라운드들이 완료되어 현재 수치에 도달했습니다. 최신 수치의 SSoT는 README·CHANGELOG 입니다.
+> **📍 현황 (2026-06-15)**: 문서 양식 **19/19 (100%)** 등록 완료 · MCP 도구 **46개** · 「건설공사 품질관리 업무지침」 별표2(품질시험기준)의 공통·토목·건축 **전 절** 커버 · **온톨로지 JSON-LD 마이그레이션(Round 7) 완료** — 데이터를 `graph/nodes/{type}/*.jsonld`(safety 와 동일 구조)로 전환, 옛 `data/*.json` 폐기. 아래 「1. 초기 상태 (2026-04-29)」 이하의 수치(36 도구·9/19·data/*.json 등)는 **초기 라운드 시점 기록**이며, 이후 라운드들이 완료되어 현재 수치에 도달했습니다. 최신 수치의 SSoT는 README·CHANGELOG 입니다.
 
 ---
 
@@ -160,9 +160,9 @@ Round 1~5 진행 흐름에 맞춰 분산.
 
 **최종**: 19/19 = 100%.
 
-### Round 7 — legacy ontology/data → graph/nodes 마이그레이션
+### Round 7 ✅ 완료 (2026-06-16) — legacy ontology/data → graph/nodes 마이그레이션
 
-`src/ontology/data/*.json` 141 entity → `graph/nodes/{type}/*.jsonld` 변환. 자동 변환 스크립트 1회. 두 시스템 통합으로 SSoT 단일화.
+`src/ontology/data/*.json` → `graph/nodes/{type}/*.jsonld` 변환 **완료** (330노드, 커밋 `ef134f4`). 1회용 변환 스크립트 사용 후 옛 `data/*.json` 폐기 → JSON-LD 단독 SSoT. 로더는 IRI 역변환으로 in-memory 그래프 구성(graphology 미도입, 도구 무영향).
 
 ### Round 8 — MCP 도구 36 → 54
 

@@ -274,7 +274,7 @@ npm install && npm run build
 npm run typecheck && npm run smoke
 ```
 
-온톨로지 확장(공종/자재/시험/검측 추가)이 가장 환영받는 기여입니다. `src/ontology/data/` 하위 JSON 에 PR 을 보내 주세요. 기여 절차·코딩 규칙은 [CONTRIBUTING.md](./CONTRIBUTING.md), 보안 신고는 [SECURITY.md](./SECURITY.md), 온톨로지 작성 가이드는 [docs/ONTOLOGY.md](./docs/ONTOLOGY.md) 를 참조하십시오.
+온톨로지 확장(공종/자재/시험/검측 추가)이 가장 환영받는 기여입니다. `src/ontology/graph/nodes/{type}/` 하위 JSON-LD 노드에 PR 을 보내 주세요 (1노드 = 1파일). 기여 절차·코딩 규칙은 [CONTRIBUTING.md](./CONTRIBUTING.md), 보안 신고는 [SECURITY.md](./SECURITY.md), 온톨로지 작성 가이드는 [docs/ONTOLOGY.md](./docs/ONTOLOGY.md) 를 참조하십시오.
 
 ## 제공 · 개발
 

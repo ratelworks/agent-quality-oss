@@ -33,8 +33,8 @@ standards, whose copyright belongs to their respective issuers:
 > the issuing body. The standards RAG (Phase 2+) operates **only on documents
 > the user supplies locally**.
 
-The bundled seed data in `src/ontology/data/*.json` carries `license` /
-`redistributionNote` fields reflecting these constraints.
+The bundled seed data in `src/ontology/graph/nodes/**/*.jsonld` carries `license` /
+`redistributionNote` metadata (under `_meta`) reflecting these constraints.
 
 ---
 

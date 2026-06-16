@@ -41,21 +41,25 @@ Nonconformance --requiresEvidence-->  EvidenceDocument
 
 ## 데이터 위치
 
+온톨로지 노드는 **JSON-LD** 형식으로 타입별 디렉토리에 **1노드 = 1파일**로 저장됩니다 (자매 프로젝트 agent-safety-oss 와 동일 구조).
+
 ```text
-src/ontology/data/
-├── worktypes.json            WorkType
-├── materials.json            Material
-├── test-items.json           TestItem
-├── acceptance-criteria.json  AcceptanceCriteria
-├── quality-risks.json        QualityRisk
-├── nonconformance.json       Nonconformance
-├── corrective-actions.json   CorrectiveAction
-├── inspections.json          InspectionCheckpoint
-├── standards-map.json        Standard
-└── ...
+src/ontology/graph/
+├── context.jsonld                    @context (IRI 프리픽스·타입·관계 정의)
+└── nodes/
+    ├── work_types/*.jsonld           WorkType
+    ├── materials/*.jsonld            Material
+    ├── tests/*.jsonld                TestItem
+    ├── criteria/*.jsonld             AcceptanceCriteria
+    ├── risks/*.jsonld                QualityRisk
+    ├── nonconformances/*.jsonld      Nonconformance
+    ├── corrective_actions/*.jsonld   CorrectiveAction
+    ├── inspections/*.jsonld          InspectionCheckpoint
+    ├── standards/*.jsonld            Standard
+    └── ...                           (14개 타입 폴더)
 ```
 
-문서 양식 구조는 `src/schemas/document-schemas.json` 에 별도로 있습니다.
+각 노드 파일: `@id`(IRI, 예 `work:concrete_placement`) · `@type` · 관계(IRI 참조 배열, 예 `usesMaterial: ["material:ready_mixed_concrete"]`) · `_meta`. 로더가 IRI 를 단축 id(`work.concrete_placement`)로 역변환해 in-memory 그래프를 구성합니다. 문서 양식 구조는 `src/schemas/document-schemas.json` 에 별도로 있습니다.
 
 ## 근거 등급 (sourceStatus)
 
@@ -65,14 +69,14 @@ src/ontology/data/
 | `indirect_source` | 간접 인용 — 호수·발행기관 검증 미완 |
 | `skeleton` | 출처 미확정 — 재인용 금지 (예: KCS/KS 원문 미확보 판정 수치) |
 
-노드 `meta.sourceStatus` 로 표기하며, 판정 수치(`AcceptanceCriteria.threshold`)가 원문 미확보면 `threshold: null` + `sourceStatus: "skeleton"` 으로 둡니다.
+노드의 `_meta.sourceStatus` 로 표기하며, 판정 수치(`AcceptanceCriteria.threshold`)가 원문 미확보면 `threshold: null` + `sourceStatus: "skeleton"` 으로 둡니다.
 
 ## 새 공종 추가 절차
 
-1. `worktypes.json` 에 `WorkType` 추가 — `usesMaterial` · `hasInspectionCheckpoint` · `hasQualityRisk` 연결.
-2. 연결 대상(`Material` · `TestItem` · `AcceptanceCriteria` · `QualityRisk` · `Nonconformance` · `InspectionCheckpoint`)을 각 파일에 추가.
-3. 시험종목·방법·빈도는 출처(별표2 등)를 `meta.verifiedAgainst` 에 명시하고 `sourceStatus: "verified"`. 판정 수치 원문이 없으면 `skeleton`.
-4. `standards-map.json` 에 인용할 표준(KCS/KS/법령) 식별자를 추가 (원문 텍스트 금지 — 식별자·제목만).
+1. `src/ontology/graph/nodes/work_types/{id}.jsonld` 에 `WorkType` 노드 추가 — `@id`(예 `work:새공종`) · `@type: "WorkType"` · 관계(`usesMaterial` · `hasInspectionCheckpoint` · `hasQualityRisk`, IRI 참조 배열) 연결.
+2. 연결 대상(`Material` · `TestItem` · `AcceptanceCriteria` · `QualityRisk` · `Nonconformance` · `InspectionCheckpoint`)을 각 타입 폴더에 `.jsonld` 노드로 추가.
+3. 시험종목·방법·빈도는 출처(별표2 등)를 `_meta.verifiedAgainst` 에 명시하고 `_meta.sourceStatus: "verified"`. 판정 수치 원문이 없으면 `skeleton`.
+4. `nodes/standards/{id}.jsonld` 에 인용할 표준(KCS/KS/법령) 식별자 노드를 추가 (원문 텍스트 금지 — 식별자·제목만).
 5. 검증:
    ```bash
    npm run build
