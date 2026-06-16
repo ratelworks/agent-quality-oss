@@ -1,0 +1,42 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "ncr:glass_fail",
+  "@type": "Nonconformance",
+  "name": "유리 강도·성능 부적합",
+  "aliases": [
+    "유리 불합격",
+    "강화유리 강도 미달"
+  ],
+  "_meta": {
+    "direction": "too_low",
+    "severity": "high",
+    "possibleCauses": [
+      "규격 미달 제품",
+      "강화 처리 불량",
+      "복층유리 봉착 불량"
+    ],
+    "owner": "유리 공급사 + 품질관리자",
+    "approver": "감리원",
+    "effectivenessCheck": "동일 제품 재시험 + 시험성적서 확인",
+    "closureCriteria": "불합격 제품 반출 + 적합 제품 재시공 + NCR 승인",
+    "sourceStatus": "verified",
+    "verifiedAgainst": "evaluation/sources/quality_test_standards_annex2.txt (유리공사)"
+  },
+  "relatedTest": [
+    "test:glass_strength"
+  ],
+  "immediateActions": [
+    "action:notify_quality_manager"
+  ],
+  "correctiveActions": [
+    "action:refinish",
+    "action:record_ncr"
+  ],
+  "requiresEvidence": [
+    "doc:test_certificate",
+    "doc:ncr_report"
+  ],
+  "basisPriority": [
+    "standard:ks_l_2002"
+  ]
+}

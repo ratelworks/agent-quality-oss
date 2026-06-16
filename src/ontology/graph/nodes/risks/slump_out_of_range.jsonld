@@ -1,0 +1,20 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "risk:slump_out_of_range",
+  "@type": "QualityRisk",
+  "name": "슬럼프 기준 이탈",
+  "aliases": [
+    "슬럼프 초과",
+    "슬럼프 미달"
+  ],
+  "_meta": {
+    "severity": "high"
+  },
+  "mayCause": [
+    "ncr:slump_too_high",
+    "ncr:slump_too_low"
+  ],
+  "relatedTest": [
+    "test:slump"
+  ]
+}

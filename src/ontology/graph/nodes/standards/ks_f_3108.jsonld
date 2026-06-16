@@ -1,0 +1,15 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "standard:ks_f_3108",
+  "@type": "Standard",
+  "name": "KS F 3108 창호용 목재",
+  "aliases": [
+    "KS F 3108",
+    "창호 목재"
+  ],
+  "_meta": {
+    "issuer": "국가기술표준원",
+    "category": "제품규격",
+    "granularity": "document"
+  }
+}

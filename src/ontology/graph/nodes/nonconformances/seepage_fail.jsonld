@@ -1,0 +1,43 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "ncr:seepage_fail",
+  "@type": "Nonconformance",
+  "name": "차수 성능 부적합 (투수계수 초과)",
+  "aliases": [
+    "누수 발생",
+    "차수 불합격"
+  ],
+  "_meta": {
+    "direction": "too_high",
+    "severity": "high",
+    "possibleCauses": [
+      "차수재 다짐 불량",
+      "함수비 부적정",
+      "차수재 입도·점토함량 부족",
+      "이음부 처리 미흡"
+    ],
+    "owner": "현장 공사 담당 + 품질관리자",
+    "approver": "감리원 / 공사감독자",
+    "effectivenessCheck": "재다짐·차수 보강 후 투수 재시험",
+    "closureCriteria": "목표 투수계수 도달 확인 + NCR 보고서 승인",
+    "sourceStatus": "verified",
+    "verifiedAgainst": "evaluation/sources/quality_test_standards_annex2.txt (수공구조물공사)"
+  },
+  "relatedTest": [
+    "test:soil_permeability"
+  ],
+  "immediateActions": [
+    "action:notify_quality_manager"
+  ],
+  "correctiveActions": [
+    "action:seepage_repair",
+    "action:record_ncr"
+  ],
+  "requiresEvidence": [
+    "doc:site_test_record",
+    "doc:ncr_report"
+  ],
+  "basisPriority": [
+    "standard:ks_f_2322"
+  ]
+}

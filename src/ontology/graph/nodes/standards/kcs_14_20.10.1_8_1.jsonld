@@ -1,0 +1,17 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "standard:kcs_14_20.10.1_8_1",
+  "@type": "Standard",
+  "name": "KCS 14 20 10 §1.8.1 염화물 함유량",
+  "aliases": [
+    "염화물 기준"
+  ],
+  "_meta": {
+    "parent": "standard.kcs_14_20.10",
+    "sectionRef": "14 20 10 §1.8.1",
+    "scope": "(2) 염소이온량 0.30 kg/㎥ 이하 원칙. (4) 책임기술자 승인 시 0.60 kg/㎥ 상한 가능",
+    "granularity": "clause",
+    "sourceStatus": "verified",
+    "verifiedAgainst": "evaluation/sources/kcs_14_20_01.txt L1614-1632"
+  }
+}

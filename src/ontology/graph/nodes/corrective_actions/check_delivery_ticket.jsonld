@@ -1,0 +1,9 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "action:check_delivery_ticket",
+  "@type": "CorrectiveAction",
+  "name": "납품서 확인",
+  "_meta": {
+    "urgency": "immediate"
+  }
+}

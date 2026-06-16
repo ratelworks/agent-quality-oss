@@ -1,0 +1,17 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "standard:law.btia_rule_51",
+  "@type": "Standard",
+  "name": "건설기술 진흥법 시행규칙 §51 (품질관리계획 이행점검)",
+  "aliases": [
+    "시행규칙 §51"
+  ],
+  "_meta": {
+    "category": "rule",
+    "lawName": "건설기술 진흥법 시행규칙",
+    "articleNo": "51",
+    "scope": "발주자의 품질관리계획 이행점검 절차 및 결과 통보 (별지 제43호 품질검사 성과 총괄표 근거 조항)",
+    "legalWeight": "mandatory",
+    "basisType": "rule"
+  }
+}

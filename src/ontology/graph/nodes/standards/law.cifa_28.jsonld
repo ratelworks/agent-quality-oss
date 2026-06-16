@@ -1,0 +1,17 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "standard:law.cifa_28",
+  "@type": "Standard",
+  "name": "건설산업기본법 §28 (건설공사의 하자담보책임)",
+  "aliases": [
+    "건산법 §28"
+  ],
+  "_meta": {
+    "category": "law",
+    "lawName": "건설산업기본법",
+    "articleNo": "28",
+    "scope": "공종별 하자담보책임 기간 (최대 10년, 일반 5년)",
+    "legalWeight": "mandatory",
+    "basisType": "law"
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "inspection:concrete_pavement",
+  "@type": "InspectionCheckpoint",
+  "name": "콘크리트 포장 검측",
+  "aliases": [
+    "포장 검측",
+    "콘크리트포장 검사"
+  ],
+  "_meta": {
+    "stage": "during",
+    "rule": "콘크리트 휨강도 시험(1일 1회) + 포장 두께(포설 1층당 30아르마다)·평탄성(차로마다 전구간) 확인. 휨강도 기준값은 KCS 44 확보 시.",
+    "reference": "별표2(도로 콘크리트포장)",
+    "sourceStatus": "verified",
+    "verifiedAgainst": "evaluation/sources/quality_test_standards_annex2.txt (도로공사)"
+  },
+  "verifies": [
+    "risk:concrete_pavement_defect"
+  ],
+  "isBasedOn": [
+    "standard:quality_management_guideline"
+  ],
+  "requiresEvidence": [
+    "doc:site_test_record",
+    "doc:inspection_request"
+  ],
+  "relatedWork": [
+    "work:concrete_pavement"
+  ]
+}

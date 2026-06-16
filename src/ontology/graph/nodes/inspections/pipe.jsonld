@@ -1,0 +1,30 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "inspection:pipe",
+  "@type": "InspectionCheckpoint",
+  "name": "상하수도 관 검측",
+  "aliases": [
+    "관 검사",
+    "수압 시험 입회"
+  ],
+  "_meta": {
+    "stage": "before",
+    "rule": "관 시험성적서(강도·외압) 검토 + 도복장 상태·접합부 확인 + 현장 수압시험. 빈도: 제조회사별·제품규격별.",
+    "reference": "별표2(공통 기타-관)",
+    "sourceStatus": "verified",
+    "verifiedAgainst": "evaluation/sources/quality_test_standards_annex2.txt (공통 마.기타)"
+  },
+  "verifies": [
+    "risk:pipe_defect"
+  ],
+  "isBasedOn": [
+    "standard:quality_management_guideline"
+  ],
+  "requiresEvidence": [
+    "doc:test_certificate",
+    "doc:inspection_request"
+  ],
+  "relatedWork": [
+    "work:pipe_laying"
+  ]
+}

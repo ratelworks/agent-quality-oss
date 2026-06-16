@@ -1,0 +1,24 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "material:brick",
+  "@type": "Material",
+  "name": "벽돌·블록",
+  "aliases": [
+    "벽돌",
+    "블록",
+    "콘크리트벽돌",
+    "점토벽돌",
+    "콘크리트블록",
+    "조적재"
+  ],
+  "_meta": {
+    "category": "조적재",
+    "note": "별표2 조적 자재. 콘크리트벽돌 KS F 4004·점토벽돌 KS L 4201. 압축강도 기준은 KS 확보 시."
+  },
+  "requiresTest": [
+    "test:brick_strength"
+  ],
+  "requiresStandard": [
+    "standard:ks_f_4004"
+  ]
+}

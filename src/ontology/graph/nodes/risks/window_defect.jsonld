@@ -1,0 +1,20 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "risk:window_defect",
+  "@type": "QualityRisk",
+  "name": "창호 성능 결함",
+  "aliases": [
+    "창호 불량",
+    "창호 강도 미달",
+    "기밀·수밀 불량"
+  ],
+  "_meta": {
+    "severity": "medium"
+  },
+  "mayCause": [
+    "ncr:window_fail"
+  ],
+  "relatedTest": [
+    "test:window_performance"
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "task:rebar_placement_slab",
+  "@type": "Task",
+  "name": "슬래브 철근 배근",
+  "_meta": {
+    "parentWork": "work.rebar_placement",
+    "stage": "pre_pour"
+  }
+}

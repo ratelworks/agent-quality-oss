@@ -1,0 +1,21 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "risk:seepage",
+  "@type": "QualityRisk",
+  "name": "누수·침투 (차수 불량)",
+  "aliases": [
+    "누수",
+    "침투",
+    "차수 불량",
+    "제체 누수"
+  ],
+  "_meta": {
+    "severity": "high"
+  },
+  "mayCause": [
+    "ncr:seepage_fail"
+  ],
+  "relatedTest": [
+    "test:soil_permeability"
+  ]
+}

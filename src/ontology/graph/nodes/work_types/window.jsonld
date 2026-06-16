@@ -1,0 +1,30 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "work:window",
+  "@type": "WorkType",
+  "name": "창호공사",
+  "aliases": [
+    "창호",
+    "창호공사",
+    "창문",
+    "창호 설치",
+    "목제창호"
+  ],
+  "_meta": {
+    "parent": "건축공사",
+    "domain": "architecture_quality",
+    "note": "별표2 창호공사 시험종목(창호 비틀림강도·연직하중 강도·함수율) verified. 판정 수치는 KS 확보 시."
+  },
+  "usesMaterial": [
+    "material:window_frame"
+  ],
+  "hasInspectionCheckpoint": [
+    "inspection:window"
+  ],
+  "hasQualityRisk": [
+    "risk:window_defect"
+  ],
+  "requiresStandard": [
+    "standard:quality_management_guideline"
+  ]
+}

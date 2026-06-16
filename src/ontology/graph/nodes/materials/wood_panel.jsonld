@@ -1,0 +1,23 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "material:wood_panel",
+  "@type": "Material",
+  "name": "목질 마감재",
+  "aliases": [
+    "합판",
+    "집성재",
+    "플로어링보드",
+    "목질판",
+    "보드"
+  ],
+  "_meta": {
+    "category": "마감재",
+    "note": "별표2 마감/목공 자재. 보통합판 KS F 3101·구조용 집성재 KS F 3021·플로어링보드 KS F 3103. 강도·난연 기준은 KS 확보 시."
+  },
+  "requiresTest": [
+    "test:wood_panel_strength"
+  ],
+  "requiresStandard": [
+    "standard:ks_f_3101"
+  ]
+}

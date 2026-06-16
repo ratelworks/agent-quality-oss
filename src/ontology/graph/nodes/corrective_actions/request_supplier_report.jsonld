@@ -1,0 +1,9 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "action:request_supplier_report",
+  "@type": "CorrectiveAction",
+  "name": "공급자 조사·보고서 요청",
+  "_meta": {
+    "urgency": "corrective"
+  }
+}

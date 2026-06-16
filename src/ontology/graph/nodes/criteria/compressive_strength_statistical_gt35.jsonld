@@ -1,0 +1,32 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "criteria:compressive_strength_statistical_gt35",
+  "@type": "AcceptanceCriteria",
+  "name": "압축강도 통계 판정 — 호칭강도 > 35MPa (표 3.5-3)",
+  "aliases": [
+    "압축강도 35초과 통계",
+    "통계 gt35",
+    "고강도 통계"
+  ],
+  "_meta": {
+    "operator": "statistical_threshold",
+    "statisticalRule": "gt35",
+    "threshold": null,
+    "unit": "MPa",
+    "condition": "호칭강도품질기준강도 fcn > 35MPa: ① 연속 3회 시험값의 평균 ≥ fcn AND ② 1회 시험값 ≥ fcn × 90%. 단일 시험값 입력 시 ② 기준만 적용 (partial verdict).",
+    "fallbackToProject": true,
+    "note": "고강도 콘크리트 fcn ≥ 40MPa 통상 적용. KCS 14 20 42(고강도) 별도 작업 R7에서.",
+    "reference": "KCS 14 20 10 §3.5.3.2 표 3.5-3 (>35MPa 판정기준)",
+    "sourceStatus": "verified",
+    "verifiedAgainst": "evaluation/sources/kcs_14_20_01.txt L3274-3294",
+    "referenceVerified": true
+  },
+  "appliesTo": [
+    "test:compressive_strength"
+  ],
+  "derivedFrom": [
+    "standard:kcs_14_20.10.3_5_3_2",
+    "standard:kcs_14_20.10.1_8_2",
+    "standard:ks_f_2405"
+  ]
+}

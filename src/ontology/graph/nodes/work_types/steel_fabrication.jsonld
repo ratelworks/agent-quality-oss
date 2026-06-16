@@ -1,0 +1,28 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "work:steel_fabrication",
+  "@type": "WorkType",
+  "name": "철강구조물 제작·설치",
+  "aliases": [
+    "철골공사",
+    "철강구조물"
+  ],
+  "_meta": {
+    "parent": "철강공사",
+    "domain": "architecture_quality",
+    "note": "별표2 철강구조물공사 시험종목(용접부 비파괴·압연강재 KS D 3503)·방법·빈도 verified. 용접 결함 등급·강재 강도 판정은 KCS 14 31/KS 원문 확보 시 강화."
+  },
+  "usesMaterial": [
+    "material:steel"
+  ],
+  "hasInspectionCheckpoint": [
+    "inspection:steel_weld"
+  ],
+  "hasQualityRisk": [
+    "risk:steel_weld_defect"
+  ],
+  "requiresStandard": [
+    "standard:guideline.part4",
+    "standard:quality_management_guideline"
+  ]
+}

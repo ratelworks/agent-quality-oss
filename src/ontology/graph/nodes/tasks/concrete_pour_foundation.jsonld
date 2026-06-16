@@ -1,0 +1,10 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "task:concrete_pour_foundation",
+  "@type": "Task",
+  "name": "기초 콘크리트 타설",
+  "_meta": {
+    "parentWork": "work.concrete_placement",
+    "stage": "execution"
+  }
+}

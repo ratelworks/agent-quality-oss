@@ -1,0 +1,12 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "action:hold_delivery",
+  "@type": "CorrectiveAction",
+  "name": "납품 보류",
+  "aliases": [
+    "타설 보류"
+  ],
+  "_meta": {
+    "urgency": "immediate"
+  }
+}

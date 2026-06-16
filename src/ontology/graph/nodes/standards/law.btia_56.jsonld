@@ -1,0 +1,14 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "standard:law.btia_56",
+  "@type": "Standard",
+  "name": "건설기술 진흥법 §56 (건설자재·부재의 품질관리)",
+  "_meta": {
+    "category": "law",
+    "lawName": "건설기술 진흥법",
+    "articleNo": "56",
+    "scope": "주요 건설자재·부재 생산자의 품질관리 · 검사시험 · 시정 명령",
+    "legalWeight": "mandatory",
+    "basisType": "law"
+  }
+}

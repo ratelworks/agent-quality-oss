@@ -1,0 +1,18 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "agency:metropolitan_city",
+  "@type": "Agency",
+  "name": "광역자치단체 (서울시·부산시 등)",
+  "aliases": [
+    "서울시",
+    "부산시",
+    "광역시",
+    "도"
+  ],
+  "_meta": {
+    "agencyType": "local_government",
+    "scope": "광역시·도 발주공사 · 지자체 조례·특별 기준 추가 적용",
+    "approverRole": "발주부서 감독 + 감리",
+    "typicalSpecSource": "지자체 표준시방서 + 조례 기반 특별 기준"
+  }
+}

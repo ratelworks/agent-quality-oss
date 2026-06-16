@@ -1,0 +1,18 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "agency:procurement_service",
+  "@type": "Agency",
+  "name": "조달청",
+  "aliases": [
+    "나라장터",
+    "PPS",
+    "Public Procurement Service"
+  ],
+  "_meta": {
+    "agencyType": "central_procurement",
+    "scope": "공공공사 중앙조달 · 표준 품질 기준 강력 적용",
+    "approverRole": "발주청 공사감독관 + 감리단장",
+    "typicalSpecSource": "조달청 표준시방서 + 공사별 특기시방서",
+    "note": "낙찰률·투찰 경향은 엄격. 품질 기준도 상대적으로 KCS/KDS에 충실"
+  }
+}

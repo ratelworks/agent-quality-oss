@@ -1,0 +1,19 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "risk:brick_defect",
+  "@type": "QualityRisk",
+  "name": "조적재 품질 결함",
+  "aliases": [
+    "벽돌 불량",
+    "블록 강도 미달"
+  ],
+  "_meta": {
+    "severity": "medium"
+  },
+  "mayCause": [
+    "ncr:brick_fail"
+  ],
+  "relatedTest": [
+    "test:brick_strength"
+  ]
+}

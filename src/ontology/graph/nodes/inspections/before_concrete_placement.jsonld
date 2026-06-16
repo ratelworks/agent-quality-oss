@@ -1,0 +1,29 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "inspection:before_concrete_placement",
+  "@type": "InspectionCheckpoint",
+  "name": "콘크리트 타설 전 검측",
+  "aliases": [
+    "타설 전 검측",
+    "타설 전 확인"
+  ],
+  "_meta": {
+    "stage": "before"
+  },
+  "verifies": [
+    "risk:insufficient_compaction",
+    "risk:material_segregation"
+  ],
+  "isBasedOn": [
+    "standard:kcs_14_20"
+  ],
+  "requiresEvidence": [
+    "doc:inspection_request",
+    "doc:site_photo",
+    "doc:structural_drawing",
+    "doc:project_specification"
+  ],
+  "relatedWork": [
+    "work:concrete_placement"
+  ]
+}

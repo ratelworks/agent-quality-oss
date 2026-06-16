@@ -1,0 +1,28 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "test:soil_water_content",
+  "@type": "TestItem",
+  "name": "흙 함수비 시험",
+  "aliases": [
+    "함수비",
+    "흙 함수량"
+  ],
+  "_meta": {
+    "method": "KS F 2306 함수비 시험",
+    "timing": "성토 재료 반입·다짐 전",
+    "frequency": "토취장마다·재질변화시마다 (별표2)",
+    "typicalAcceptance": "최적함수비(OMC) 대비 관리범위는 설계도서/KCS — 시험종목·방법 커버리지"
+  },
+  "relatedWork": [
+    "work:earthwork"
+  ],
+  "requiresEvidence": [
+    "doc:site_test_record"
+  ],
+  "requiresStandard": [
+    "standard:ks_f_2306"
+  ],
+  "hasAcceptanceCriteria": [
+    "criteria:soil_water_content"
+  ]
+}

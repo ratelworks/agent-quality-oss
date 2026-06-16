@@ -1,0 +1,20 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "risk:asphalt_pavement_defect",
+  "@type": "QualityRisk",
+  "name": "아스팔트 포장 품질 결함",
+  "aliases": [
+    "포장 불량",
+    "마샬 미달",
+    "아스콘 결함"
+  ],
+  "_meta": {
+    "severity": "high"
+  },
+  "mayCause": [
+    "ncr:asphalt_marshall_fail"
+  ],
+  "relatedTest": [
+    "test:asphalt_marshall"
+  ]
+}

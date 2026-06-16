@@ -1,0 +1,44 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "ncr:concrete_pavement_fail",
+  "@type": "Nonconformance",
+  "name": "콘크리트 포장 품질 부적합",
+  "aliases": [
+    "포장 휨강도 미달",
+    "포장 두께 부족"
+  ],
+  "_meta": {
+    "direction": "too_low",
+    "severity": "high",
+    "possibleCauses": [
+      "배합강도 부족",
+      "다짐·마무리 불량",
+      "두께 부족",
+      "양생 불량"
+    ],
+    "owner": "포장 시공사 + 품질관리자",
+    "approver": "감리원 / 공사감독자",
+    "effectivenessCheck": "코어 채취 휨강도·두께 재확인",
+    "closureCriteria": "불합격 구간 재포장 또는 구조 검토 + NCR 승인",
+    "sourceStatus": "verified",
+    "verifiedAgainst": "evaluation/sources/quality_test_standards_annex2.txt (도로 콘크리트포장)"
+  },
+  "relatedTest": [
+    "test:concrete_pavement_strength"
+  ],
+  "immediateActions": [
+    "action:notify_quality_manager"
+  ],
+  "correctiveActions": [
+    "action:asphalt_repave",
+    "action:record_ncr"
+  ],
+  "requiresEvidence": [
+    "doc:site_test_record",
+    "doc:ncr_report"
+  ],
+  "basisPriority": [
+    "standard:ks_f_2408",
+    "standard:ks_f_2367"
+  ]
+}

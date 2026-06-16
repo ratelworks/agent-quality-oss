@@ -1,0 +1,21 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "risk:misc_material_defect",
+  "@type": "QualityRisk",
+  "name": "기타 자재 품질 결함 (석재·토목섬유)",
+  "aliases": [
+    "석재 불량",
+    "토목섬유 강도 미달"
+  ],
+  "_meta": {
+    "severity": "medium"
+  },
+  "mayCause": [
+    "ncr:stone_fail",
+    "ncr:geotextile_fail"
+  ],
+  "relatedTest": [
+    "test:stone_strength",
+    "test:geotextile_strength"
+  ]
+}

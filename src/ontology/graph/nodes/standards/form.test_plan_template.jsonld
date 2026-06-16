@@ -1,0 +1,16 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "standard:form.test_plan_template",
+  "@type": "Standard",
+  "name": "품질시험계획서 표준 양식 (시행령 별표9 + 업무지침 별지)",
+  "_meta": {
+    "category": "form",
+    "basisType": "standard_form",
+    "issuer": "국토교통부 고시 2025-311호",
+    "referenceDoc": "건설공사 품질관리 업무지침 + 건설기술 진흥법 시행령 별표9",
+    "relatedArticle": "standard.guideline.part2_art5",
+    "sourceHash": null,
+    "license": "Korea Open Government License Type 4",
+    "legalWeight": "mandatory"
+  }
+}

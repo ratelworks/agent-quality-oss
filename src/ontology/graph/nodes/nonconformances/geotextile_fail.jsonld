@@ -1,0 +1,42 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "ncr:geotextile_fail",
+  "@type": "Nonconformance",
+  "name": "토목섬유 성능 부적합",
+  "aliases": [
+    "토목섬유 불합격",
+    "인장강도 미달"
+  ],
+  "_meta": {
+    "direction": "too_low",
+    "severity": "medium",
+    "possibleCauses": [
+      "규격 미달 제품",
+      "자외선 열화",
+      "봉합 불량"
+    ],
+    "owner": "토목섬유 공급사 + 품질관리자",
+    "approver": "감리원 / 공사감독자",
+    "effectivenessCheck": "동일 제품 재시험",
+    "closureCriteria": "불합격 자재 반출 + 적합 자재 재시공 + NCR 승인",
+    "sourceStatus": "verified",
+    "verifiedAgainst": "evaluation/sources/quality_test_standards_annex2.txt (공통 기타-토목섬유)"
+  },
+  "relatedTest": [
+    "test:geotextile_strength"
+  ],
+  "immediateActions": [
+    "action:notify_quality_manager"
+  ],
+  "correctiveActions": [
+    "action:refinish",
+    "action:record_ncr"
+  ],
+  "requiresEvidence": [
+    "doc:test_certificate",
+    "doc:ncr_report"
+  ],
+  "basisPriority": [
+    "standard:ks_k_iso_10319"
+  ]
+}

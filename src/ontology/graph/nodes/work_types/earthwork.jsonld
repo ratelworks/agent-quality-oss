@@ -1,0 +1,35 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "work:earthwork",
+  "@type": "WorkType",
+  "name": "토공사 및 기초공사",
+  "aliases": [
+    "토공",
+    "토공사",
+    "기초공사",
+    "흙쌓기",
+    "성토",
+    "되메우기",
+    "노상",
+    "노체",
+    "다짐공사"
+  ],
+  "_meta": {
+    "parent": "토목공사",
+    "domain": "civil_quality",
+    "note": "별표2 토공사·기초공사 시험종목(KS F)·방법·빈도 verified. 판정 수치(다짐도 95%·CBR 등)는 KCS 11/44 원문 확보 시 강화 — 현재 시험종목 커버리지."
+  },
+  "usesMaterial": [
+    "material:soil"
+  ],
+  "hasInspectionCheckpoint": [
+    "inspection:earthwork_compaction"
+  ],
+  "hasQualityRisk": [
+    "risk:soil_compaction_deficiency",
+    "risk:foundation_bearing_deficiency"
+  ],
+  "requiresStandard": [
+    "standard:quality_management_guideline"
+  ]
+}

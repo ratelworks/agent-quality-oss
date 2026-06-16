@@ -1,0 +1,13 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "doc:site_photo",
+  "@type": "EvidenceDocument",
+  "name": "현장 사진",
+  "aliases": [
+    "시공 사진"
+  ],
+  "_meta": {
+    "mandatory": false,
+    "priority": 3
+  }
+}

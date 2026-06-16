@@ -1,0 +1,29 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "inspection:insulation",
+  "@type": "InspectionCheckpoint",
+  "name": "단열 검측",
+  "aliases": [
+    "단열 검사"
+  ],
+  "_meta": {
+    "stage": "during",
+    "rule": "단열재 열전도율 시험성적서 검토 + 두께·연속성·열교 부위 시공 확인. 열전도율 판정값은 KS/에너지기준 확보 시.",
+    "reference": "별표2(단열공사)",
+    "sourceStatus": "verified",
+    "verifiedAgainst": "evaluation/sources/quality_test_standards_annex2.txt (단열공사)"
+  },
+  "verifies": [
+    "risk:insulation_defect"
+  ],
+  "isBasedOn": [
+    "standard:quality_management_guideline"
+  ],
+  "requiresEvidence": [
+    "doc:test_certificate",
+    "doc:inspection_request"
+  ],
+  "relatedWork": [
+    "work:insulation"
+  ]
+}

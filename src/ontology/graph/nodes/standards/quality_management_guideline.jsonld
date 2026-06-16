@@ -1,0 +1,15 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "standard:quality_management_guideline",
+  "@type": "Standard",
+  "name": "건설공사 품질관리 업무지침",
+  "aliases": [
+    "품질관리 업무지침",
+    "품질관리지침"
+  ],
+  "_meta": {
+    "issuer": "국토교통부 고시",
+    "scope": "품질시험·검사 빈도, 품질관리자 배치 기준",
+    "granularity": "document"
+  }
+}

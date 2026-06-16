@@ -1,0 +1,9 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "action:retest",
+  "@type": "CorrectiveAction",
+  "name": "재시험 실시",
+  "_meta": {
+    "urgency": "immediate"
+  }
+}

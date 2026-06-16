@@ -1,0 +1,23 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "criteria:wood_panel_strength",
+  "@type": "AcceptanceCriteria",
+  "name": "목질 마감재 강도·난연 기준 (KS 확보 대기)",
+  "_meta": {
+    "operator": "ge",
+    "threshold": null,
+    "unit": "성능등급",
+    "condition": "합판 밀도·집성재 강도·보드 휨강도·난연 합격 기준은 KS F 3101/3021/3103이 출처 — 미확보로 보류(UNDETERMINED).",
+    "fallbackToProject": true,
+    "reference": "KS F 3101/3021/3103 — 별표2 시험방법 인용",
+    "sourceStatus": "skeleton",
+    "referenceVerified": false,
+    "note": "별표2로 시험종목·방법 verified. 강도·난연 판정값은 KS 원문(공공 자동확보 제약)이라 skeleton."
+  },
+  "appliesTo": [
+    "test:wood_panel_strength"
+  ],
+  "derivedFrom": [
+    "standard:ks_f_3101"
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "standard:form.rule_no42_quality_inspection_register",
+  "@type": "Standard",
+  "name": "시행규칙 별지 제42호 — 품질검사 실시대장",
+  "aliases": [
+    "품질검사 실시대장",
+    "별지 제42호"
+  ],
+  "_meta": {
+    "category": "form",
+    "basisType": "standard_form",
+    "issuer": "국토교통부",
+    "referenceDoc": "건설기술 진흥법 시행규칙",
+    "section": "별지 제42호 서식",
+    "scope": "시공자가 작성·비치하는 품질검사 실시 대장 (시험·검사 누적 기록)",
+    "sourceUrl": "https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EA%B1%B4%EC%84%A4%EA%B8%B0%EC%88%A0%EC%A7%84%ED%9D%A5%EB%B2%95%EC%8B%9C%ED%96%89%EA%B7%9C%EC%B9%99",
+    "sourceHash": null,
+    "license": "Korea Open Government License Type 4",
+    "legalWeight": "mandatory",
+    "incorrectAliases": [
+      "점검결과 통보서"
+    ],
+    "_revisionNote": "이전 명칭 \"점검결과 통보서\"는 오류 — 시행규칙 본문 기준 \"품질검사 실시대장\"이 정확"
+  }
+}

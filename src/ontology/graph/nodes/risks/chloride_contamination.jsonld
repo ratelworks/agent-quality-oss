@@ -1,0 +1,19 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "risk:chloride_contamination",
+  "@type": "QualityRisk",
+  "name": "염화물 함유량 이탈",
+  "aliases": [
+    "염분 초과",
+    "철근 부식 리스크"
+  ],
+  "_meta": {
+    "severity": "high"
+  },
+  "mayCause": [
+    "ncr:chloride_excess"
+  ],
+  "relatedTest": [
+    "test:chloride"
+  ]
+}

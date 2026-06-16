@@ -1,0 +1,23 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "standard:form.cm_guideline_no37_material_source_approval",
+  "@type": "Standard",
+  "name": "사업관리방식 지침 별지 제37호 — 자재 공급원 승인요청·결과통보서",
+  "aliases": [
+    "자재공급원 승인요청서",
+    "공급원 승인서",
+    "별지 제37호 (사업관리방식)"
+  ],
+  "_meta": {
+    "category": "form",
+    "basisType": "standard_form",
+    "issuer": "국토교통부 고시",
+    "referenceDoc": "건설공사 사업관리방식 검토기준 및 업무수행지침",
+    "section": "별지 제37호 서식",
+    "scope": "자재 공급원(생산공장·제조사) 변경 시 시공자→감리원→발주자 승인 요청 및 결과 통보",
+    "sourceHash": null,
+    "license": "Korea Open Government License Type 4",
+    "legalWeight": "mandatory",
+    "_revisionNote": "건진법 시행규칙 별지 제37호가 아님(시행규칙 별지 제37호는 벌점 총괄표). 이 서식은 사업관리방식(감리) 지침 소관."
+  }
+}

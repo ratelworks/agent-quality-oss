@@ -1,0 +1,15 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "standard:guideline.part4",
+  "@type": "Standard",
+  "name": "업무지침 제4편 (철강구조물 제작공장 인증)",
+  "_meta": {
+    "category": "guideline",
+    "part": "제4편",
+    "scope": "제작공장 인증·기준·절차 (별도 제도)",
+    "legalWeight": "administrative_rule",
+    "basisType": "guideline",
+    "skeleton": true,
+    "note": "Phase A는 식별자만. 공종 온톨로지 연계는 Phase B."
+  }
+}

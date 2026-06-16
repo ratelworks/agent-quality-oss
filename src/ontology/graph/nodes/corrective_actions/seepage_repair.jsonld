@@ -1,0 +1,13 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "action:seepage_repair",
+  "@type": "CorrectiveAction",
+  "name": "차수 보강·재다짐",
+  "aliases": [
+    "차수 보수",
+    "누수 보강"
+  ],
+  "_meta": {
+    "urgency": "corrective"
+  }
+}

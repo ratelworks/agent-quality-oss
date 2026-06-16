@@ -1,0 +1,13 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "action:non_destructive_test",
+  "@type": "CorrectiveAction",
+  "name": "비파괴 시험 실시",
+  "aliases": [
+    "슈미트 해머",
+    "초음파 시험"
+  ],
+  "_meta": {
+    "urgency": "corrective"
+  }
+}

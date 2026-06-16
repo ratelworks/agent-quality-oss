@@ -1,0 +1,26 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "standard:form.rule_no43_quality_inspection_summary",
+  "@type": "Standard",
+  "name": "시행규칙 별지 제43호 — 품질검사 성과 총괄표",
+  "aliases": [
+    "품질검사 성과 총괄표",
+    "별지 제43호"
+  ],
+  "_meta": {
+    "category": "form",
+    "basisType": "standard_form",
+    "issuer": "국토교통부",
+    "referenceDoc": "건설기술 진흥법 시행규칙",
+    "section": "별지 제43호 서식",
+    "scope": "월별·기간별 품질검사 실적 총괄 보고",
+    "sourceUrl": "https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EA%B1%B4%EC%84%A4%EA%B8%B0%EC%88%A0%EC%A7%84%ED%9D%A5%EB%B2%95%EC%8B%9C%ED%96%89%EA%B7%9C%EC%B9%99",
+    "sourceHash": null,
+    "license": "Korea Open Government License Type 4",
+    "legalWeight": "mandatory",
+    "incorrectAliases": [
+      "이행점검 결과 통보서"
+    ],
+    "_revisionNote": "이전 명칭 \"이행점검 결과 통보서\"는 오류 — \"품질검사 성과 총괄표\"가 정확"
+  }
+}

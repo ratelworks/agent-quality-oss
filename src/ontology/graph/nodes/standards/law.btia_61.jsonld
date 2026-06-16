@@ -1,0 +1,14 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "standard:law.btia_61",
+  "@type": "Standard",
+  "name": "건설기술 진흥법 §61 (시정명령 등)",
+  "_meta": {
+    "category": "law",
+    "lawName": "건설기술 진흥법",
+    "articleNo": "61",
+    "scope": "품질관리 위반 시 시정명령·공사중지·영업정지",
+    "legalWeight": "mandatory",
+    "basisType": "law"
+  }
+}

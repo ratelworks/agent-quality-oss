@@ -1,0 +1,23 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "criteria:soil_gradation",
+  "@type": "AcceptanceCriteria",
+  "name": "흙 입도 기준 (설계기준·KCS 확보 대기)",
+  "_meta": {
+    "operator": "ge",
+    "threshold": null,
+    "unit": "통과율%",
+    "condition": "입도분포(균등계수·곡률계수) 합격 기준은 설계기준·KCS 44에 따름 — 미확보로 보류(UNDETERMINED).",
+    "fallbackToProject": true,
+    "reference": "KS F 2302 — 별표2 시험방법 인용",
+    "sourceStatus": "skeleton",
+    "referenceVerified": false,
+    "note": "별표2로 시험종목(입도)·방법(KS F 2302) verified. 판정값은 설계기준·KCS이라 skeleton."
+  },
+  "appliesTo": [
+    "test:soil_gradation"
+  ],
+  "derivedFrom": [
+    "standard:ks_f_2302"
+  ]
+}

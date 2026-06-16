@@ -1,0 +1,44 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "ncr:asphalt_marshall_fail",
+  "@type": "Nonconformance",
+  "name": "아스팔트 혼합물 품질 부적합",
+  "aliases": [
+    "마샬안정도 미달",
+    "아스콘 불합격"
+  ],
+  "_meta": {
+    "direction": "too_low",
+    "severity": "high",
+    "possibleCauses": [
+      "배합설계 이탈",
+      "아스팔트 함량 부적정",
+      "골재 입도 불량",
+      "혼합·포설 온도 저하"
+    ],
+    "owner": "아스콘 생산자 + 현장 품질관리자",
+    "approver": "감리원 / 공사감독자",
+    "effectivenessCheck": "배합 수정 후 후속 생산분 마샬안정도 재시험",
+    "closureCriteria": "재시험 합격 또는 불합격 구간 재포장 + NCR 보고서 승인",
+    "sourceStatus": "verified",
+    "verifiedAgainst": "evaluation/sources/quality_test_standards_annex2.txt (도로공사 아스팔트 혼합물)"
+  },
+  "relatedTest": [
+    "test:asphalt_marshall"
+  ],
+  "immediateActions": [
+    "action:notify_quality_manager"
+  ],
+  "correctiveActions": [
+    "action:asphalt_repave",
+    "action:record_ncr"
+  ],
+  "requiresEvidence": [
+    "doc:site_test_record",
+    "doc:ncr_report"
+  ],
+  "basisPriority": [
+    "standard:ks_f_2337",
+    "standard:ks_f_2354"
+  ]
+}

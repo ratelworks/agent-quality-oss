@@ -1,0 +1,20 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "risk:paint_defect",
+  "@type": "QualityRisk",
+  "name": "도장 품질 결함",
+  "aliases": [
+    "도장 불량",
+    "도막 결함",
+    "부착 불량"
+  ],
+  "_meta": {
+    "severity": "medium"
+  },
+  "mayCause": [
+    "ncr:paint_fail"
+  ],
+  "relatedTest": [
+    "test:paint_film"
+  ]
+}

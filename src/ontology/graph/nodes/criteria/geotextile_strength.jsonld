@@ -1,0 +1,23 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "criteria:geotextile_strength",
+  "@type": "AcceptanceCriteria",
+  "name": "토목섬유 인장강도·투수 기준 (설계도서 확보 대기)",
+  "_meta": {
+    "operator": "ge",
+    "threshold": null,
+    "unit": "kN/m",
+    "condition": "토목섬유 인장강도·투수계수 합격 기준은 KS K ISO·설계도서가 출처 — 미확보로 보류(UNDETERMINED).",
+    "fallbackToProject": true,
+    "reference": "KS K ISO 10319/11058 — 별표2 시험방법 인용",
+    "sourceStatus": "skeleton",
+    "referenceVerified": false,
+    "note": "별표2로 시험종목·방법·빈도 verified. 판정값은 KS K ISO/설계도서(공공 자동확보 제약)이라 skeleton."
+  },
+  "appliesTo": [
+    "test:geotextile_strength"
+  ],
+  "derivedFrom": [
+    "standard:ks_k_iso_10319"
+  ]
+}

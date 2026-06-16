@@ -1,0 +1,39 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "test:soil_compaction",
+  "@type": "TestItem",
+  "name": "흙 다짐도 시험",
+  "aliases": [
+    "다짐도",
+    "다짐",
+    "현장밀도",
+    "들밀도",
+    "상대다짐도",
+    "건조밀도"
+  ],
+  "_meta": {
+    "method": "실내 다짐시험 KS F 2312(최대건조밀도) + 현장 들밀도 KS F 2308. 다짐도 = 현장건조밀도 ÷ 최대건조밀도",
+    "timing": "성토·다짐 시공 중",
+    "frequency": "토취장마다·재질변화시마다 (별표2)",
+    "typicalAcceptance": "다짐도 판정값(노상 95%·노체 90% 등)은 KCS 11 20/KCS 44 원문 확보 시 — 현재 시험종목·방법 커버리지만 verified"
+  },
+  "relatedWork": [
+    "work:earthwork"
+  ],
+  "hasAcceptanceCriteria": [
+    "criteria:soil_compaction_degree"
+  ],
+  "possibleNonconformance": [
+    "ncr:soil_compaction_fail"
+  ],
+  "correctiveActions": [
+    "action:soil_recompaction"
+  ],
+  "requiresEvidence": [
+    "doc:site_test_record"
+  ],
+  "requiresStandard": [
+    "standard:ks_f_2312",
+    "standard:ks_f_2308"
+  ]
+}

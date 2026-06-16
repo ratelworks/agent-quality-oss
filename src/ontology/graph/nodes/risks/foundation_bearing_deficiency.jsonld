@@ -1,0 +1,17 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "risk:foundation_bearing_deficiency",
+  "@type": "QualityRisk",
+  "name": "기초 지지력 부족",
+  "aliases": [
+    "말뚝 지지력 부족",
+    "지지력 미달",
+    "기초 침하"
+  ],
+  "_meta": {
+    "severity": "high"
+  },
+  "relatedTest": [
+    "test:pile_bearing_capacity"
+  ]
+}

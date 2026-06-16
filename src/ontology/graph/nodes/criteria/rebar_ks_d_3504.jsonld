@@ -1,0 +1,26 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "criteria:rebar_ks_d_3504",
+  "@type": "AcceptanceCriteria",
+  "name": "철근 기계적 성질 KS D 3504 적합",
+  "aliases": [
+    "철근 KS 적합"
+  ],
+  "_meta": {
+    "operator": "ge",
+    "threshold": null,
+    "unit": "MPa",
+    "condition": "KS D 3504 등급별 기준항복강도(SD300 300·SD400 400·SD500 500·SD600 600 MPa급) 이상 + 인장강도·연신율 적합. 등급·수치는 KS D 3504 원문(한국산업표준, 유료)이 출처 — 미확보로 자동 수치판정 보류(threshold 미주입 시 UNDETERMINED).",
+    "fallbackToProject": true,
+    "reference": "KS D 3504 (철근콘크리트용 봉강) — 별표2가 시험방법으로 인용",
+    "sourceStatus": "skeleton",
+    "referenceVerified": false,
+    "note": "별표2(법제처)로 시험종목·방법·빈도 verified. 합격 수치(등급별 항복강도)는 KS D 3504 본문이 출처이나 유료 표준이라 미확보 → skeleton. e나라표준/KS 원문 확보 시 등급별 criteria로 분리."
+  },
+  "appliesTo": [
+    "test:rebar_mechanical"
+  ],
+  "derivedFrom": [
+    "standard:ks_d_3504"
+  ]
+}

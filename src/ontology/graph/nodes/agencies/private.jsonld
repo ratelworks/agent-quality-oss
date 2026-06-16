@@ -1,0 +1,16 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "agency:private",
+  "@type": "Agency",
+  "name": "민간 발주자",
+  "aliases": [
+    "민간시행사"
+  ],
+  "_meta": {
+    "agencyType": "private_owner",
+    "scope": "민간 건축 · 재건축·재개발 조합 · 기업 발주",
+    "approverRole": "건축주·시행사 + CM/감리",
+    "typicalSpecSource": "민간 특기시방서 + 주택법/건축법 기준",
+    "note": "주택법 적용 대상(공동주택) 여부에 따라 법정 품질 의무 범위 변동"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "risk:soil_compaction_deficiency",
+  "@type": "QualityRisk",
+  "name": "다짐 불량 (다짐도 미달)",
+  "aliases": [
+    "다짐 부족",
+    "성토 침하 리스크"
+  ],
+  "_meta": {
+    "severity": "high"
+  },
+  "mayCause": [
+    "ncr:soil_compaction_fail"
+  ],
+  "relatedTest": [
+    "test:soil_compaction"
+  ]
+}

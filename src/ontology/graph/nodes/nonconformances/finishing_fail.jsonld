@@ -1,0 +1,44 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "ncr:finishing_fail",
+  "@type": "Nonconformance",
+  "name": "마감·목공 품질 부적합",
+  "aliases": [
+    "합판 불합격",
+    "목재 결함",
+    "마감 불량"
+  ],
+  "_meta": {
+    "direction": "too_low",
+    "severity": "medium",
+    "possibleCauses": [
+      "규격 미달 제품",
+      "함수율 초과",
+      "난연 성능 미달",
+      "보관 중 손상"
+    ],
+    "owner": "마감재 공급사 + 품질관리자",
+    "approver": "감리원",
+    "effectivenessCheck": "동일 제품 재시험",
+    "closureCriteria": "불합격 자재 반출 + 적합 자재 재시공 + NCR 승인",
+    "sourceStatus": "verified",
+    "verifiedAgainst": "evaluation/sources/quality_test_standards_annex2.txt (마감공사)"
+  },
+  "relatedTest": [
+    "test:wood_panel_strength"
+  ],
+  "immediateActions": [
+    "action:notify_quality_manager"
+  ],
+  "correctiveActions": [
+    "action:refinish",
+    "action:record_ncr"
+  ],
+  "requiresEvidence": [
+    "doc:test_certificate",
+    "doc:ncr_report"
+  ],
+  "basisPriority": [
+    "standard:ks_f_3101"
+  ]
+}

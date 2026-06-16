@@ -1,0 +1,12 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "action:structural_review",
+  "@type": "CorrectiveAction",
+  "name": "구조 검토",
+  "aliases": [
+    "구조 안전성 검토"
+  ],
+  "_meta": {
+    "urgency": "corrective"
+  }
+}

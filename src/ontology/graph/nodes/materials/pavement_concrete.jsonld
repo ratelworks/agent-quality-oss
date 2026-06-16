@@ -1,0 +1,21 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "material:pavement_concrete",
+  "@type": "Material",
+  "name": "포장용 콘크리트",
+  "aliases": [
+    "포장 콘크리트",
+    "도로 콘크리트",
+    "콘크리트포장재"
+  ],
+  "_meta": {
+    "category": "포장재",
+    "note": "별표2 시멘트 콘크리트 포장재. 휨강도 KS F 2408·두께 KS F 2367. 기준값은 KCS 44 확보 시."
+  },
+  "requiresTest": [
+    "test:concrete_pavement_strength"
+  ],
+  "requiresStandard": [
+    "standard:ks_f_2408"
+  ]
+}

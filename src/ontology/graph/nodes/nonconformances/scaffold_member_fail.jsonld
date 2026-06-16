@@ -1,0 +1,44 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "ncr:scaffold_member_fail",
+  "@type": "Nonconformance",
+  "name": "가설기자재 부재 하중 부적합",
+  "aliases": [
+    "가설재 불합격",
+    "비계 하중 미달"
+  ],
+  "_meta": {
+    "direction": "too_low",
+    "severity": "high",
+    "possibleCauses": [
+      "규격 미달 제품",
+      "재사용 자재 변형·부식",
+      "안전인증 미취득 제품",
+      "용접부 결함"
+    ],
+    "owner": "가설재 공급사 + 현장 품질관리자",
+    "approver": "감리원 / 안전관리자",
+    "effectivenessCheck": "동일 규격 재시험 + 안전인증·시험성적서 확인",
+    "closureCriteria": "불합격 자재 반출 + 적합 자재 재반입 + NCR 보고서 승인",
+    "sourceStatus": "verified",
+    "verifiedAgainst": "evaluation/sources/quality_test_standards_annex2.txt (가설기자재)"
+  },
+  "relatedTest": [
+    "test:scaffold_member"
+  ],
+  "immediateActions": [
+    "action:scaffold_member_reject",
+    "action:notify_quality_manager"
+  ],
+  "correctiveActions": [
+    "action:record_ncr"
+  ],
+  "requiresEvidence": [
+    "doc:test_certificate",
+    "doc:ncr_report"
+  ],
+  "basisPriority": [
+    "standard:ks_f_8021",
+    "standard:ks_f_8002"
+  ]
+}

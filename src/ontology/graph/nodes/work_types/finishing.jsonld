@@ -1,0 +1,31 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "work:finishing",
+  "@type": "WorkType",
+  "name": "마감공사 (지붕·목공 포함)",
+  "aliases": [
+    "마감공사",
+    "목공사",
+    "지붕공사",
+    "합판",
+    "집성재",
+    "내장공사"
+  ],
+  "_meta": {
+    "parent": "건축공사",
+    "domain": "architecture_quality",
+    "note": "별표2 마감공사(지붕·목공 포함) 시험종목(합판·집성재·보드 밀도·휨강도·난연성·함수율) verified. 판정 수치는 KS 확보 시."
+  },
+  "usesMaterial": [
+    "material:wood_panel"
+  ],
+  "hasInspectionCheckpoint": [
+    "inspection:finishing"
+  ],
+  "hasQualityRisk": [
+    "risk:finishing_defect"
+  ],
+  "requiresStandard": [
+    "standard:quality_management_guideline"
+  ]
+}

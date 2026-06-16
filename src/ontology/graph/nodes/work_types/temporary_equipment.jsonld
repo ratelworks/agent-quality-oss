@@ -1,0 +1,28 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "work:temporary_equipment",
+  "@type": "WorkType",
+  "name": "가설기자재 설치",
+  "aliases": [
+    "가설공사",
+    "가설기자재"
+  ],
+  "_meta": {
+    "parent": "가설공사",
+    "domain": "architecture_quality",
+    "note": "별표2 가설기자재 시험종목(비계·동바리 부재 하중시험·압연강재) verified. 안전인증기준 하중 판정값은 산업안전보건법 안전인증/KS 확보 시 강화."
+  },
+  "usesMaterial": [
+    "material:scaffold"
+  ],
+  "hasInspectionCheckpoint": [
+    "inspection:scaffold_member"
+  ],
+  "hasQualityRisk": [
+    "risk:scaffold_member_defect"
+  ],
+  "requiresStandard": [
+    "standard:guideline.part5",
+    "standard:quality_management_guideline"
+  ]
+}

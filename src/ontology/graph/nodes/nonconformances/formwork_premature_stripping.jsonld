@@ -1,0 +1,47 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "ncr:formwork_premature_stripping",
+  "@type": "Nonconformance",
+  "name": "거푸집 조기 해체 (해체강도 미달)",
+  "aliases": [
+    "존치기간 미달",
+    "조기 탈형"
+  ],
+  "_meta": {
+    "direction": "too_low",
+    "severity": "high",
+    "possibleCauses": [
+      "존치기간 부족",
+      "현장양생 강도 발현 지연",
+      "한중 시기 양생 대책 미흡",
+      "공정 압박에 의한 조기 탈형"
+    ],
+    "owner": "현장 공사 담당 + 품질관리자",
+    "approver": "감리원 / 구조기술사",
+    "effectivenessCheck": "현장양생 공시체 강도 재확인 + 처짐·균열 점검",
+    "closureCriteria": "해체강도 도달 확인 또는 구조 안전성 검토 완료 + NCR 보고서 승인",
+    "sourceStatus": "verified",
+    "verifiedAgainst": "evaluation/sources/kcs_14_20_01.txt L5159-5189"
+  },
+  "relatedTest": [
+    "test:formwork_stripping_strength"
+  ],
+  "immediateActions": [
+    "action:notify_quality_manager",
+    "action:notify_supervisor"
+  ],
+  "correctiveActions": [
+    "action:extend_form_curing",
+    "action:structural_review",
+    "action:record_ncr"
+  ],
+  "requiresEvidence": [
+    "doc:site_test_record",
+    "doc:specimen_record",
+    "doc:ncr_report"
+  ],
+  "basisPriority": [
+    "standard:kcs_14_20.12.3_3",
+    "doc:structural_drawing"
+  ]
+}

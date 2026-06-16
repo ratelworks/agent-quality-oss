@@ -1,0 +1,34 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "test:unit_water_content",
+  "@type": "TestItem",
+  "name": "단위수량 시험",
+  "aliases": [
+    "단위수량",
+    "unit water content"
+  ],
+  "_meta": {
+    "method": "KS F 2715 또는 고주파 가열법 등",
+    "timing": "콘크리트 반입 시",
+    "frequency": "1회/일, 120㎥마다 1회, 또는 배합이 변경될 때마다 (업무지침 2024-638호 신설)",
+    "typicalAcceptance": "배합설계서 단위수량 ±20 kg/㎥ (프로젝트별)",
+    "note": "2024-638호 개정으로 신규 편입된 시험 항목"
+  },
+  "targetMaterial": [
+    "material:ready_mixed_concrete"
+  ],
+  "relatedWork": [
+    "work:concrete_placement"
+  ],
+  "hasAcceptanceCriteria": [
+    "criteria:unit_water_content_project"
+  ],
+  "requiresEvidence": [
+    "doc:site_test_record",
+    "doc:delivery_ticket",
+    "doc:mix_design"
+  ],
+  "requiresStandard": [
+    "standard:kcs_14_20.10.3_2"
+  ]
+}

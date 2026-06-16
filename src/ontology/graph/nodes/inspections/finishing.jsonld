@@ -1,0 +1,30 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "inspection:finishing",
+  "@type": "InspectionCheckpoint",
+  "name": "마감·목공 검측",
+  "aliases": [
+    "마감 검사",
+    "목공 검사"
+  ],
+  "_meta": {
+    "stage": "during",
+    "rule": "합판·집성재·보드 시험성적서 검토 + 밀도·휨강도·함수율·난연 확인. 빈도: 제조회사별·제품규격별.",
+    "reference": "별표2(마감공사)",
+    "sourceStatus": "verified",
+    "verifiedAgainst": "evaluation/sources/quality_test_standards_annex2.txt (마감공사)"
+  },
+  "verifies": [
+    "risk:finishing_defect"
+  ],
+  "isBasedOn": [
+    "standard:quality_management_guideline"
+  ],
+  "requiresEvidence": [
+    "doc:test_certificate",
+    "doc:inspection_request"
+  ],
+  "relatedWork": [
+    "work:finishing"
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "test:waterproofing",
+  "@type": "TestItem",
+  "name": "방수재 성능 시험",
+  "aliases": [
+    "방수재 시험",
+    "방수 성능",
+    "가열신축성상",
+    "접합인장",
+    "투수비"
+  ],
+  "_meta": {
+    "method": "방수시트 가열신축성상·접합인장 KS F 4911 / 도막방수재 KS F 3211·4922 / 액체방수제 투수비·물흡수계수 KS F 2609",
+    "timing": "방수재 반입 시",
+    "frequency": "제조회사별·제품규격별 (별표2)",
+    "typicalAcceptance": "방수재 성능 기준은 KS F 4911/3211/2609 확보 시 — 시험종목·방법 커버리지"
+  },
+  "targetMaterial": [
+    "material:waterproof"
+  ],
+  "relatedWork": [
+    "work:waterproofing"
+  ],
+  "hasAcceptanceCriteria": [
+    "criteria:waterproofing"
+  ],
+  "possibleNonconformance": [
+    "ncr:waterproofing_fail"
+  ],
+  "correctiveActions": [
+    "action:refinish"
+  ],
+  "requiresEvidence": [
+    "doc:test_certificate"
+  ],
+  "requiresStandard": [
+    "standard:ks_f_4911"
+  ]
+}

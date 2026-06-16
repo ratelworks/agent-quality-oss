@@ -1,0 +1,13 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "action:reject_truck",
+  "@type": "CorrectiveAction",
+  "name": "레미콘 반송",
+  "aliases": [
+    "트럭 반송",
+    "반품"
+  ],
+  "_meta": {
+    "urgency": "immediate"
+  }
+}

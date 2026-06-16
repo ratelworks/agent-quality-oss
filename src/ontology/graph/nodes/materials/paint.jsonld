@@ -1,0 +1,22 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "material:paint",
+  "@type": "Material",
+  "name": "도료",
+  "aliases": [
+    "도료",
+    "페인트",
+    "방청도료",
+    "수성페인트"
+  ],
+  "_meta": {
+    "category": "마감재",
+    "note": "별표2 도료 시험 대상. 부착강도·은폐율·도막두께 기준은 KS M 6010 확보 시."
+  },
+  "requiresTest": [
+    "test:paint_film"
+  ],
+  "requiresStandard": [
+    "standard:ks_m_6010"
+  ]
+}

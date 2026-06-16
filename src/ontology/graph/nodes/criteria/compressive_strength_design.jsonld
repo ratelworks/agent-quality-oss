@@ -1,0 +1,34 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "criteria:compressive_strength_design",
+  "@type": "AcceptanceCriteria",
+  "name": "압축강도 호칭강도품질기준강도 이상 (단순 ge — deprecated v0.2)",
+  "aliases": [
+    "fck 이상 단순"
+  ],
+  "_meta": {
+    "operator": "ge",
+    "threshold": null,
+    "unit": "MPa",
+    "condition": "DEPRECATED — R1 통계 모드 도입 후 criteria.compressive_strength_statistical_le35 / _gt35 우선 적용. 본 criterion은 backward-compat용. fcn 주입 시 단순 1회 비교만 수행.",
+    "fallbackToProject": true,
+    "note": "R1 (2026-04-28) 이후 evaluator는 statistical criterion을 우선 선택. 본 criterion은 forbiddenBasisIds로 audit 시나리오에서 사용.",
+    "reference": "KCS 14 20 10 §1.8.2 (재령 28일 기준 — 통계 판정은 §3.5.3.2 statistical criterion 사용)",
+    "sourceStatus": "verified",
+    "verifiedAgainst": "evaluation/sources/kcs_14_20_01.txt L1634-1652",
+    "referenceVerified": true,
+    "deprecated": true,
+    "supersededBy": [
+      "criteria.compressive_strength_statistical_le35",
+      "criteria.compressive_strength_statistical_gt35"
+    ]
+  },
+  "appliesTo": [
+    "test:compressive_strength"
+  ],
+  "derivedFrom": [
+    "standard:kcs_14_20.10.1_8_2",
+    "standard:ks_f_2405",
+    "standard:ks_f_2403"
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "risk:finishing_defect",
+  "@type": "QualityRisk",
+  "name": "마감·목공 품질 결함",
+  "aliases": [
+    "마감 불량",
+    "합판 강도 미달",
+    "목재 결함"
+  ],
+  "_meta": {
+    "severity": "medium"
+  },
+  "mayCause": [
+    "ncr:finishing_fail"
+  ],
+  "relatedTest": [
+    "test:wood_panel_strength"
+  ]
+}

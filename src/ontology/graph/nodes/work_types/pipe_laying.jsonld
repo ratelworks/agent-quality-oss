@@ -1,0 +1,32 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "work:pipe_laying",
+  "@type": "WorkType",
+  "name": "상하수도 관 부설",
+  "aliases": [
+    "상수도관",
+    "하수도관",
+    "관 부설",
+    "배관공사",
+    "도복장강관",
+    "흄관",
+    "관로공사"
+  ],
+  "_meta": {
+    "parent": "토목공사",
+    "domain": "civil_quality",
+    "note": "별표2 공통 기타 — 상하수도 관류(도복장강관·PVC·PE·철근콘크리트관) 시험종목 verified. 강도·수압 판정 수치는 KS 확보 시."
+  },
+  "usesMaterial": [
+    "material:pipe"
+  ],
+  "hasInspectionCheckpoint": [
+    "inspection:pipe"
+  ],
+  "hasQualityRisk": [
+    "risk:pipe_defect"
+  ],
+  "requiresStandard": [
+    "standard:quality_management_guideline"
+  ]
+}

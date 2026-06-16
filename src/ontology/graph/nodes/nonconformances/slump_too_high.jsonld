@@ -1,0 +1,52 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "ncr:slump_too_high",
+  "@type": "Nonconformance",
+  "name": "슬럼프 기준 초과",
+  "aliases": [
+    "슬럼프 과다",
+    "슬럼프 오버"
+  ],
+  "_meta": {
+    "direction": "too_high",
+    "possibleCauses": [
+      "가수(현장 물 투입)",
+      "배합설계 오류",
+      "운반 시간 초과",
+      "혼화제 과다 투입"
+    ],
+    "owner": "레미콘 공급사 + 현장 품질관리자",
+    "approver": "감리원 / 공사감독자",
+    "effectivenessCheck": "후속 반입차 3대 연속 슬럼프 기준 내 재확인",
+    "closureCriteria": "반송 또는 재시험 합격 + NCR 보고서 승인"
+  },
+  "relatedTest": [
+    "test:slump"
+  ],
+  "relatedMaterial": [
+    "material:ready_mixed_concrete"
+  ],
+  "immediateActions": [
+    "action:hold_delivery",
+    "action:retest",
+    "action:notify_quality_manager",
+    "action:check_delivery_ticket"
+  ],
+  "correctiveActions": [
+    "action:reject_truck",
+    "action:request_supplier_report",
+    "action:record_ncr"
+  ],
+  "requiresEvidence": [
+    "doc:delivery_ticket",
+    "doc:mix_design",
+    "doc:site_test_record",
+    "doc:site_photo",
+    "doc:ncr_report"
+  ],
+  "basisPriority": [
+    "doc:mix_design",
+    "standard:kcs_14_20.10.3_2",
+    "standard:quality_management_guideline"
+  ]
+}

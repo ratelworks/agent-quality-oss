@@ -1,0 +1,12 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "action:core_sampling",
+  "@type": "CorrectiveAction",
+  "name": "코어 채취 시험",
+  "aliases": [
+    "코어링"
+  ],
+  "_meta": {
+    "urgency": "corrective"
+  }
+}

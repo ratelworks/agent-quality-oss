@@ -1,0 +1,42 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "ncr:brick_fail",
+  "@type": "Nonconformance",
+  "name": "조적재 품질 부적합",
+  "aliases": [
+    "벽돌 불합격",
+    "블록 강도 미달"
+  ],
+  "_meta": {
+    "direction": "too_low",
+    "severity": "medium",
+    "possibleCauses": [
+      "규격 미달 제품",
+      "양생 불량",
+      "흡수율 초과"
+    ],
+    "owner": "조적재 공급사 + 품질관리자",
+    "approver": "감리원",
+    "effectivenessCheck": "동일 제품 재시험",
+    "closureCriteria": "불합격 자재 반출 + 적합 자재 재반입 + NCR 승인",
+    "sourceStatus": "verified",
+    "verifiedAgainst": "evaluation/sources/quality_test_standards_annex2.txt (조적공사)"
+  },
+  "relatedTest": [
+    "test:brick_strength"
+  ],
+  "immediateActions": [
+    "action:notify_quality_manager"
+  ],
+  "correctiveActions": [
+    "action:refinish",
+    "action:record_ncr"
+  ],
+  "requiresEvidence": [
+    "doc:test_certificate",
+    "doc:ncr_report"
+  ],
+  "basisPriority": [
+    "standard:ks_f_4004"
+  ]
+}

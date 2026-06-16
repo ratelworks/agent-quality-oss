@@ -1,0 +1,17 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "standard:kcs_14_20.10.1_7_4",
+  "@type": "Standard",
+  "name": "KCS 14 20 10 §1.7.4 공기량",
+  "aliases": [
+    "공기량 기준"
+  ],
+  "_meta": {
+    "parent": "standard.kcs_14_20.10",
+    "sectionRef": "14 20 10 §1.7.4",
+    "scope": "보통 4.5% / 경량 5.5% / 포장 4.5% / 고강도 3.5% 이하, 허용오차 ±1.5%",
+    "granularity": "clause",
+    "sourceStatus": "verified",
+    "verifiedAgainst": "evaluation/sources/kcs_14_20_01.txt L1610"
+  }
+}

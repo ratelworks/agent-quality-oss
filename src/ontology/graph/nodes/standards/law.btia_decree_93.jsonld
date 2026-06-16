@@ -1,0 +1,14 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "standard:law.btia_decree_93",
+  "@type": "Standard",
+  "name": "건설기술 진흥법 시행령 §93 (기록의 보존)",
+  "_meta": {
+    "category": "decree",
+    "lawName": "건설기술 진흥법 시행령",
+    "articleNo": "93",
+    "scope": "품질관리 기록물 장기 보존 의무 (하자담보기간 연동)",
+    "legalWeight": "mandatory",
+    "basisType": "decree"
+  }
+}

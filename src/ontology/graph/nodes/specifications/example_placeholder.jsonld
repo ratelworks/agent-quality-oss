@@ -1,0 +1,10 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "spec:example_placeholder",
+  "@type": "Specification",
+  "name": "예시 프로젝트 시방서 placeholder",
+  "_meta": {
+    "placeholder": true,
+    "note": "실제 프로젝트 시방서는 projectContext.availableDocuments로 전달. 글로벌 온톨로지는 타입 정의만 유지."
+  }
+}

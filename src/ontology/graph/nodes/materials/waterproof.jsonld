@@ -1,0 +1,23 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "material:waterproof",
+  "@type": "Material",
+  "name": "방수재",
+  "aliases": [
+    "방수재",
+    "방수시트",
+    "도막방수재",
+    "액체방수제",
+    "아스팔트 방수"
+  ],
+  "_meta": {
+    "category": "마감재",
+    "note": "별표2 방수재 시험 대상. 성능 기준은 KS F 4911/3211/2609 확보 시."
+  },
+  "requiresTest": [
+    "test:waterproofing"
+  ],
+  "requiresStandard": [
+    "standard:ks_f_4911"
+  ]
+}

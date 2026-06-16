@@ -1,0 +1,14 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "standard:kcs_14_20.10.3_3",
+  "@type": "Standard",
+  "name": "KCS 14 20 10 §3.3 타설",
+  "_meta": {
+    "parent": "standard.kcs_14_20.10",
+    "sectionRef": "14 20 10 §3.3",
+    "scope": "타설 일반 + 하위 §3.3.1~§3.3.4(거푸집·이어치기·다지기·침하균열)",
+    "granularity": "clause",
+    "note": "이전 v0.1 라벨 '강도 품질관리'는 오인용. §3.3은 타설 조항임",
+    "sourceStatus": "verified"
+  }
+}

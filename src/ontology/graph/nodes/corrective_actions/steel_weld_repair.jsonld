@@ -1,0 +1,14 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "action:steel_weld_repair",
+  "@type": "CorrectiveAction",
+  "name": "용접 결함부 보수",
+  "aliases": [
+    "재용접",
+    "용접 보수",
+    "결함부 제거"
+  ],
+  "_meta": {
+    "urgency": "corrective"
+  }
+}

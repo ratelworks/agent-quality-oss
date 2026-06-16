@@ -1,0 +1,13 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "equipment:concrete_vibrator",
+  "@type": "Equipment",
+  "name": "콘크리트 진동기(바이브레이터)",
+  "aliases": [
+    "바이브레이터"
+  ],
+  "_meta": {
+    "category": "construction_tool",
+    "note": "다짐 불량·허니컴 리스크 완화 주 장비"
+  }
+}

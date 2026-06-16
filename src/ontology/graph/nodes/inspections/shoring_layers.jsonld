@@ -1,0 +1,29 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "inspection:shoring_layers",
+  "@type": "InspectionCheckpoint",
+  "name": "동바리 존치 (고층 최소 3개층)",
+  "aliases": [
+    "동바리 층수",
+    "필러동바리 존치"
+  ],
+  "_meta": {
+    "stage": "during",
+    "rule": "시공 중 고층건물은 최소 3개 층에 걸쳐 동바리 설치. 동바리 해체 후 해당 부재에 가해지는 전 하중이 설계하중을 초과하면 존치기간과 무관하게 재설치.",
+    "reference": "KCS 14 20 12 §3.3.2",
+    "verifiedAgainst": "evaluation/sources/kcs_14_20_01.txt L5217-5228"
+  },
+  "verifies": [
+    "risk:formwork_premature_stripping"
+  ],
+  "isBasedOn": [
+    "standard:kcs_14_20.12.3_3"
+  ],
+  "requiresEvidence": [
+    "doc:site_photo",
+    "doc:inspection_request"
+  ],
+  "relatedWork": [
+    "work:formwork_shoring"
+  ]
+}

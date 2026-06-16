@@ -1,0 +1,14 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "standard:law.btia_decree_91",
+  "@type": "Standard",
+  "name": "건설기술 진흥법 시행령 §91 (품질관리비 산출·사용)",
+  "_meta": {
+    "category": "decree",
+    "lawName": "건설기술 진흥법 시행령",
+    "articleNo": "91",
+    "scope": "품질관리비 산출 기준 및 용도 제한",
+    "legalWeight": "mandatory",
+    "basisType": "decree"
+  }
+}

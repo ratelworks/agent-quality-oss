@@ -1,0 +1,23 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "material:stone",
+  "@type": "Material",
+  "name": "석재",
+  "aliases": [
+    "석재",
+    "자연석",
+    "건축용 석재",
+    "조경석",
+    "깬돌"
+  ],
+  "_meta": {
+    "category": "마감재",
+    "note": "별표2 석재 — 밀도·흡수율 KS F 2518, 압축강도 KS F 2519."
+  },
+  "requiresTest": [
+    "test:stone_strength"
+  ],
+  "requiresStandard": [
+    "standard:ks_f_2519"
+  ]
+}

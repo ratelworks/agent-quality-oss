@@ -1,0 +1,19 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "risk:insulation_defect",
+  "@type": "QualityRisk",
+  "name": "단열 성능 미달",
+  "aliases": [
+    "단열 불량",
+    "열전도율 초과"
+  ],
+  "_meta": {
+    "severity": "medium"
+  },
+  "mayCause": [
+    "ncr:insulation_fail"
+  ],
+  "relatedTest": [
+    "test:thermal_conductivity"
+  ]
+}

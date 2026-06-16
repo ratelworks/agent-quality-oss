@@ -1,0 +1,25 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "criteria:air_content_general",
+  "@type": "AcceptanceCriteria",
+  "name": "공기량 보통 콘크리트 4.5±1.5%",
+  "_meta": {
+    "operator": "tolerance",
+    "target": 4.5,
+    "plusMinus": 1.5,
+    "unit": "%",
+    "condition": "보통(일반) 콘크리트 (AE제 사용 시)",
+    "fallbackToProject": true,
+    "reference": "KCS 14 20 10 §1.7.4 (1)",
+    "sourceStatus": "verified",
+    "verifiedAgainst": "evaluation/sources/kcs_14_20_01.txt L1610",
+    "note": "v0.1 reference '표 1.7-3'은 슬럼프 플로 허용오차표라 완전 오인용. §1.7.4(1)이 정확 출처 (2026-04-28 R0-G1)"
+  },
+  "appliesTo": [
+    "test:air_content"
+  ],
+  "derivedFrom": [
+    "standard:kcs_14_20.10.1_7_4",
+    "standard:ks_f_2421"
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "standard:kcs_14_20.12",
+  "@type": "Standard",
+  "name": "KCS 14 20 12 거푸집 및 동바리",
+  "aliases": [
+    "KCS 14 20 12",
+    "거푸집 및 동바리 표준시방서",
+    "거푸집동바리 기준"
+  ],
+  "_meta": {
+    "parent": "standard.kcs_14_20",
+    "sectionRef": "14 20 12",
+    "scope": "거푸집·동바리 설계(§1.7)·재료(§2)·시공 및 해체(§3.3). 해체강도·설계하중·동바리 존치 규정",
+    "issuer": "국토교통부 / 국가건설기준센터",
+    "granularity": "document",
+    "sourceStatus": "verified",
+    "verifiedAgainst": "evaluation/sources/kcs_14_20_01.txt L4726-5255"
+  }
+}

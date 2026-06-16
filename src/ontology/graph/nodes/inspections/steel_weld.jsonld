@@ -1,0 +1,31 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "inspection:steel_weld",
+  "@type": "InspectionCheckpoint",
+  "name": "용접부 검사 (외관·비파괴)",
+  "aliases": [
+    "용접 검사",
+    "비파괴검사 입회",
+    "용접부 검측"
+  ],
+  "_meta": {
+    "stage": "after",
+    "rule": "용접 후 외관검사 전수 + 비파괴검사(방사선/초음파 내부결함, 자분/침투 표면균열). 빈도: 내부결함 5/100 또는 10이음당 1장, 필렛 균열 매 용접길이 3m당. 합격 등급은 KCS 14 31 확보 시.",
+    "reference": "별표2(철강구조물 용접부 검사) — 판정 등급은 KCS 14 31 원문 확보 대기",
+    "sourceStatus": "verified",
+    "verifiedAgainst": "evaluation/sources/quality_test_standards_annex2.txt (철강구조물공사)"
+  },
+  "verifies": [
+    "risk:steel_weld_defect"
+  ],
+  "isBasedOn": [
+    "standard:quality_management_guideline"
+  ],
+  "requiresEvidence": [
+    "doc:site_test_record",
+    "doc:inspection_request"
+  ],
+  "relatedWork": [
+    "work:steel_fabrication"
+  ]
+}

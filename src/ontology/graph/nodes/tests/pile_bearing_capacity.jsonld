@@ -1,0 +1,30 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "test:pile_bearing_capacity",
+  "@type": "TestItem",
+  "name": "말뚝 지지력 시험",
+  "aliases": [
+    "말뚝 지지력",
+    "동재하시험",
+    "정재하시험",
+    "말뚝 재하시험"
+  ],
+  "_meta": {
+    "method": "동재하시험 KS F 2591 / 정재하시험 KS F 2445",
+    "timing": "말뚝 시공 중·후",
+    "frequency": "전체 말뚝 수량의 1% 이상(100개 미만도 최소 1개), 교량하부구조는 250개당 1회 또는 구조물별 1회 (별표2)",
+    "typicalAcceptance": "설계 지지력 기준은 설계도서/KDS — 시험종목·방법·빈도 커버리지"
+  },
+  "relatedWork": [
+    "work:earthwork"
+  ],
+  "requiresEvidence": [
+    "doc:site_test_record"
+  ],
+  "requiresStandard": [
+    "standard:ks_f_2591"
+  ],
+  "hasAcceptanceCriteria": [
+    "criteria:pile_bearing_capacity"
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "standard:ks_m_3332",
+  "@type": "Standard",
+  "name": "KS M 3332 열경화성 수지 화장판",
+  "aliases": [
+    "KS M 3332",
+    "화장판"
+  ],
+  "_meta": {
+    "issuer": "국가기술표준원",
+    "category": "제품규격",
+    "granularity": "document"
+  }
+}

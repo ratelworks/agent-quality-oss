@@ -1,0 +1,15 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "standard:kcs_14_20.10",
+  "@type": "Standard",
+  "name": "KCS 14 20 10 일반콘크리트",
+  "aliases": [
+    "KCS 14 20 10"
+  ],
+  "_meta": {
+    "parent": "standard.kcs_14_20",
+    "sectionRef": "14 20 10",
+    "scope": "일반 콘크리트의 재료, 배합, 생산, 시공, 품질관리",
+    "granularity": "section"
+  }
+}

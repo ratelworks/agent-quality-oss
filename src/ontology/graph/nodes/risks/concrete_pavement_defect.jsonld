@@ -1,0 +1,20 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "risk:concrete_pavement_defect",
+  "@type": "QualityRisk",
+  "name": "콘크리트 포장 품질 결함",
+  "aliases": [
+    "포장 휨강도 미달",
+    "포장 두께 부족",
+    "콘크리트포장 불량"
+  ],
+  "_meta": {
+    "severity": "high"
+  },
+  "mayCause": [
+    "ncr:concrete_pavement_fail"
+  ],
+  "relatedTest": [
+    "test:concrete_pavement_strength"
+  ]
+}

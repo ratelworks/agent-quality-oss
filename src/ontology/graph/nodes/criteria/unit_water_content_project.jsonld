@@ -1,0 +1,30 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "criteria:unit_water_content_project",
+  "@type": "AcceptanceCriteria",
+  "name": "단위수량 배합설계서 기준 ±20 kg/㎥ (업계 관행)",
+  "aliases": [
+    "단위수량 허용차"
+  ],
+  "_meta": {
+    "operator": "tolerance",
+    "target": null,
+    "plusMinus": 20,
+    "unit": "kg/㎥",
+    "condition": "목표 단위수량은 배합설계서 기준값 주입 필요. ±20 kg/㎥ 허용차는 업계 관행 + KCS 14 20 10 §1.9.1(4) 단위수량 185 kg/m³ 상한 제약",
+    "fallbackToProject": true,
+    "note": "target은 프로젝트 배합설계서에서 주입. 글로벌 온톨로지는 허용차 체계만 제공. 업무지침 2024-638호 인용은 호수 검증 미실시",
+    "reference": "KCS 14 20 10 §1.9.1 (4) (단위수량 185 kg/m³ 상한) + 업계 관행 ±20 kg/㎥",
+    "sourceStatus": "indirect_source",
+    "referenceVerified": false,
+    "verifiedAgainst": "evaluation/sources/kcs_14_20_01.txt L1652-1660 부분 확인",
+    "verificationNote": "업무지침 2024-638호 호수 검증 필요. 표 3.5-2(받아들이기 검사)에 단위수량 항목 존재하나 ±20 kg/㎥ 허용차는 업계 관행으로 표기"
+  },
+  "appliesTo": [
+    "test:unit_water_content"
+  ],
+  "derivedFrom": [
+    "standard:kcs_14_20.10",
+    "standard:guideline.part2_art5"
+  ]
+}

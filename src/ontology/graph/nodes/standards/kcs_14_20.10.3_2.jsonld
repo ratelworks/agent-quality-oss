@@ -1,0 +1,17 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "standard:kcs_14_20.10.3_2",
+  "@type": "Standard",
+  "name": "KCS 14 20 10 §3.2 운반",
+  "aliases": [
+    "KCS 14 20 10 3.2"
+  ],
+  "_meta": {
+    "parent": "standard.kcs_14_20.10",
+    "sectionRef": "14 20 10 §3.2",
+    "scope": "운반 시간(25℃↑ 1.5h, 25℃↓ 2h), 운반 장비, 운반 중 품질 관리",
+    "granularity": "clause",
+    "note": "이전 v0.1 라벨 '굳지 않은 콘크리트의 품질관리'는 오인용. §3.2는 운반 조항임",
+    "sourceStatus": "verified"
+  }
+}

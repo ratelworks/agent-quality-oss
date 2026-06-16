@@ -1,0 +1,20 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "risk:waterproofing_defect",
+  "@type": "QualityRisk",
+  "name": "방수 결함",
+  "aliases": [
+    "방수 불량",
+    "누수",
+    "방수재 결함"
+  ],
+  "_meta": {
+    "severity": "high"
+  },
+  "mayCause": [
+    "ncr:waterproofing_fail"
+  ],
+  "relatedTest": [
+    "test:waterproofing"
+  ]
+}

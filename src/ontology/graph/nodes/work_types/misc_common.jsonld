@@ -1,0 +1,31 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "work:misc_common",
+  "@type": "WorkType",
+  "name": "기타 공통자재 (석재·토목섬유)",
+  "aliases": [
+    "석재공사",
+    "석재",
+    "토목섬유",
+    "지오텍스타일",
+    "부직포"
+  ],
+  "_meta": {
+    "parent": "공통",
+    "domain": "civil_quality",
+    "note": "별표2 공통 '마.기타' — 석재(KS F 2518/2519)·토목섬유(KS K ISO) 시험종목 verified. 판정 수치는 KS/설계도서 확보 시."
+  },
+  "usesMaterial": [
+    "material:stone",
+    "material:geotextile"
+  ],
+  "hasInspectionCheckpoint": [
+    "inspection:misc_material"
+  ],
+  "hasQualityRisk": [
+    "risk:misc_material_defect"
+  ],
+  "requiresStandard": [
+    "standard:quality_management_guideline"
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "equipment:specimen_mold",
+  "@type": "Equipment",
+  "name": "공시체 제작 몰드",
+  "aliases": [
+    "공시체 주형"
+  ],
+  "_meta": {
+    "category": "lab_test_equipment",
+    "standard": "KS F 2403",
+    "dimension": "원주 공시체 φ100×200mm 또는 φ150×300mm"
+  }
+}

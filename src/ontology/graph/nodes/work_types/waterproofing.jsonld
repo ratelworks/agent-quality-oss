@@ -1,0 +1,30 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "work:waterproofing",
+  "@type": "WorkType",
+  "name": "방수공사",
+  "aliases": [
+    "방수",
+    "방수공사",
+    "도막방수",
+    "시트방수",
+    "액체방수"
+  ],
+  "_meta": {
+    "parent": "건축공사",
+    "domain": "architecture_quality",
+    "note": "별표2 방수공사 시험종목(방수시트·도막·액체 방수재) verified. 성능 판정값은 KCS 41/KS 확보 시."
+  },
+  "usesMaterial": [
+    "material:waterproof"
+  ],
+  "hasInspectionCheckpoint": [
+    "inspection:waterproofing"
+  ],
+  "hasQualityRisk": [
+    "risk:waterproofing_defect"
+  ],
+  "requiresStandard": [
+    "standard:quality_management_guideline"
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "material:scaffold",
+  "@type": "Material",
+  "name": "가설기자재 (비계·동바리)",
+  "aliases": [
+    "가설기자재",
+    "비계재",
+    "동바리재",
+    "강관비계",
+    "파이프서포트",
+    "시스템비계"
+  ],
+  "_meta": {
+    "category": "가설재",
+    "note": "KS F 8001/8002/8021 비계·동바리 부재. 하중 판정값은 안전인증기준(산업안전보건법)·KS 확보 시."
+  },
+  "requiresTest": [
+    "test:scaffold_member"
+  ],
+  "requiresStandard": [
+    "standard:ks_f_8002"
+  ]
+}

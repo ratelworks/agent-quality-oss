@@ -1,0 +1,39 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "test:asphalt_marshall",
+  "@type": "TestItem",
+  "name": "마샬안정도 시험",
+  "aliases": [
+    "마샬안정도",
+    "마샬",
+    "안정도",
+    "흐름값"
+  ],
+  "_meta": {
+    "method": "KS F 2337 마샬 시험기를 사용한 역청 혼합물의 소성흐름 시험 (안정도·흐름값)",
+    "timing": "혼합물 생산·포설 시",
+    "frequency": "1일 1회 이상 (별표2)",
+    "typicalAcceptance": "마샬안정도·흐름값·공극률 기준은 KCS 44(도로포장) 확보 시 — 시험종목·방법·빈도 커버리지"
+  },
+  "targetMaterial": [
+    "material:asphalt_mixture"
+  ],
+  "relatedWork": [
+    "work:road_pavement"
+  ],
+  "hasAcceptanceCriteria": [
+    "criteria:asphalt_marshall"
+  ],
+  "possibleNonconformance": [
+    "ncr:asphalt_marshall_fail"
+  ],
+  "correctiveActions": [
+    "action:asphalt_repave"
+  ],
+  "requiresEvidence": [
+    "doc:site_test_record"
+  ],
+  "requiresStandard": [
+    "standard:ks_f_2337"
+  ]
+}

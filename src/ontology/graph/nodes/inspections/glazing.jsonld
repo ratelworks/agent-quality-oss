@@ -1,0 +1,29 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "inspection:glazing",
+  "@type": "InspectionCheckpoint",
+  "name": "유리 검측",
+  "aliases": [
+    "유리 검사"
+  ],
+  "_meta": {
+    "stage": "before",
+    "rule": "유리 시험성적서(강화·복층) 검토 + 두께·종류·설치 상태 확인. 강도 판정값은 KS 확보 시.",
+    "reference": "별표2(유리공사)",
+    "sourceStatus": "verified",
+    "verifiedAgainst": "evaluation/sources/quality_test_standards_annex2.txt (유리공사)"
+  },
+  "verifies": [
+    "risk:glass_defect"
+  ],
+  "isBasedOn": [
+    "standard:quality_management_guideline"
+  ],
+  "requiresEvidence": [
+    "doc:test_certificate",
+    "doc:inspection_request"
+  ],
+  "relatedWork": [
+    "work:glazing"
+  ]
+}

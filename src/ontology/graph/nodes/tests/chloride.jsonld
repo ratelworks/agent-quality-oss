@@ -1,0 +1,41 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "test:chloride",
+  "@type": "TestItem",
+  "name": "염화물량 시험",
+  "aliases": [
+    "염화물",
+    "염분",
+    "chloride test"
+  ],
+  "_meta": {
+    "method": "KS F 2515 염화물 함유량 시험",
+    "timing": "콘크리트 반입 시",
+    "frequency": "120㎥마다 1회 (업무지침 2024-638호 개정 반영)",
+    "typicalAcceptance": "염소이온량(Cl⁻) 0.30 kg/㎥ 이하 (KCS 14 20 10)"
+  },
+  "targetMaterial": [
+    "material:ready_mixed_concrete"
+  ],
+  "relatedWork": [
+    "work:concrete_placement"
+  ],
+  "hasAcceptanceCriteria": [
+    "criteria:chloride_limit_030"
+  ],
+  "possibleNonconformance": [
+    "ncr:chloride_excess"
+  ],
+  "correctiveActions": [
+    "action:reject_truck",
+    "action:notify_quality_manager"
+  ],
+  "requiresEvidence": [
+    "doc:site_test_record",
+    "doc:delivery_ticket"
+  ],
+  "requiresStandard": [
+    "standard:ks_f_2515",
+    "standard:kcs_14_20.10.3_2"
+  ]
+}

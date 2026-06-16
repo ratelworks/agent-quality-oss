@@ -1,0 +1,29 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "test:soil_gradation",
+  "@type": "TestItem",
+  "name": "흙 입도 시험",
+  "aliases": [
+    "입도",
+    "입도분석",
+    "체분석"
+  ],
+  "_meta": {
+    "method": "KS F 2302 흙의 입도 시험",
+    "timing": "성토 재료 반입 시",
+    "frequency": "토취장마다·재질변화시마다 (별표2)",
+    "typicalAcceptance": "재료 입도 기준은 설계도서/KCS — 시험종목·방법 커버리지"
+  },
+  "relatedWork": [
+    "work:earthwork"
+  ],
+  "requiresEvidence": [
+    "doc:site_test_record"
+  ],
+  "requiresStandard": [
+    "standard:ks_f_2302"
+  ],
+  "hasAcceptanceCriteria": [
+    "criteria:soil_gradation"
+  ]
+}

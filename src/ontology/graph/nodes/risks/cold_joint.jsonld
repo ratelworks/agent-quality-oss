@@ -1,0 +1,17 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "risk:cold_joint",
+  "@type": "QualityRisk",
+  "name": "콜드조인트",
+  "aliases": [
+    "시공이음",
+    "cold joint",
+    "이어치기 불량"
+  ],
+  "_meta": {
+    "severity": "high"
+  },
+  "mayCause": [
+    "ncr:cold_joint"
+  ]
+}

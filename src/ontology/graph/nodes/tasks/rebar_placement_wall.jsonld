@@ -1,0 +1,10 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "task:rebar_placement_wall",
+  "@type": "Task",
+  "name": "벽체 철근 배근",
+  "_meta": {
+    "parentWork": "work.rebar_placement",
+    "stage": "pre_pour"
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "test:stone_strength",
+  "@type": "TestItem",
+  "name": "석재 강도·흡수율 시험",
+  "aliases": [
+    "석재 압축강도",
+    "석재 흡수율",
+    "석재 밀도"
+  ],
+  "_meta": {
+    "method": "밀도·흡수율 KS F 2518 / 압축강도 KS F 2519",
+    "timing": "반입 시",
+    "frequency": "석산마다·제품규격별 (별표2)",
+    "typicalAcceptance": "압축강도·흡수율 기준은 KS F 2518/2519·설계도서 확보 시 — 시험종목·방법 커버리지"
+  },
+  "targetMaterial": [
+    "material:stone"
+  ],
+  "relatedWork": [
+    "work:misc_common"
+  ],
+  "hasAcceptanceCriteria": [
+    "criteria:stone_strength"
+  ],
+  "possibleNonconformance": [
+    "ncr:stone_fail"
+  ],
+  "correctiveActions": [
+    "action:refinish"
+  ],
+  "requiresEvidence": [
+    "doc:test_certificate"
+  ],
+  "requiresStandard": [
+    "standard:ks_f_2518",
+    "standard:ks_f_2519"
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "material:deco_panel",
+  "@type": "Material",
+  "name": "화장판 등 마감자재",
+  "aliases": [
+    "화장판",
+    "멜라민화장판",
+    "데코타일",
+    "치장판"
+  ],
+  "_meta": {
+    "category": "마감재",
+    "note": "별표2 건축 기타 — 일반용 화장판 KS M 3332. 내열·내마모·내오염 기준은 KS 확보 시."
+  },
+  "requiresTest": [
+    "test:deco_panel"
+  ],
+  "requiresStandard": [
+    "standard:ks_m_3332"
+  ]
+}

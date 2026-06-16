@@ -1,0 +1,26 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "criteria:formwork_strip_side",
+  "@type": "AcceptanceCriteria",
+  "name": "거푸집 측면 해체강도 5MPa 이상",
+  "aliases": [
+    "측면 해체강도"
+  ],
+  "_meta": {
+    "operator": "ge",
+    "threshold": 5,
+    "unit": "MPa",
+    "condition": "확대기초·보·기둥·벽 등의 측면 거푸집널 해체 (시험에 의할 경우)",
+    "fallbackToProject": true,
+    "reference": "KCS 14 20 12 §3.3 표(콘크리트의 압축강도를 시험할 경우 거푸집널의 해체 시기)",
+    "sourceStatus": "verified",
+    "verifiedAgainst": "evaluation/sources/kcs_14_20_01.txt L5175-5181",
+    "referenceVerified": true
+  },
+  "appliesTo": [
+    "test:formwork_stripping_strength"
+  ],
+  "derivedFrom": [
+    "standard:kcs_14_20.12.3_3"
+  ]
+}

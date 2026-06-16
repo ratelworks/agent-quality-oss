@@ -1,0 +1,15 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "standard:ks_d_3565",
+  "@type": "Standard",
+  "name": "KS D 3565 상수도용 도복장 강관",
+  "aliases": [
+    "KS D 3565",
+    "도복장강관"
+  ],
+  "_meta": {
+    "issuer": "국가기술표준원",
+    "category": "제품규격",
+    "granularity": "document"
+  }
+}

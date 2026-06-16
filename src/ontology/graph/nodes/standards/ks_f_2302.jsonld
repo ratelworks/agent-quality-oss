@@ -1,0 +1,15 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "standard:ks_f_2302",
+  "@type": "Standard",
+  "name": "KS F 2302 흙의 입도 시험",
+  "aliases": [
+    "KS F 2302",
+    "입도 시험"
+  ],
+  "_meta": {
+    "issuer": "국가기술표준원",
+    "category": "시험방법",
+    "granularity": "document"
+  }
+}

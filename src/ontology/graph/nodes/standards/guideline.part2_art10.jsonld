@@ -1,0 +1,14 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "standard:guideline.part2_art10",
+  "@type": "Standard",
+  "name": "업무지침 §10 (품질관리계획 이행여부 점검)",
+  "_meta": {
+    "category": "guideline",
+    "part": "제2편",
+    "articleNo": "10",
+    "scope": "점검계획·점검표·이행결과 기록 방법",
+    "legalWeight": "administrative_rule",
+    "basisType": "guideline"
+  }
+}

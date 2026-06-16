@@ -1,0 +1,18 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "standard:kcs_14_20.10.3_5_3_2",
+  "@type": "Standard",
+  "name": "KCS 14 20 10 §3.5.3.2 압축강도에 의한 콘크리트의 품질 검사",
+  "aliases": [
+    "표 3.5-3",
+    "압축강도 판정기준"
+  ],
+  "_meta": {
+    "parent": "standard.kcs_14_20.10",
+    "sectionRef": "14 20 10 §3.5.3.2",
+    "scope": "표 3.5-3 판정기준: ≤35MPa(연속3회 평균≥fcn AND 1회≥fcn-3.5MPa) / >35MPa(평균≥fcn AND 1회≥fcn×90%)",
+    "granularity": "clause",
+    "sourceStatus": "verified",
+    "verifiedAgainst": "evaluation/sources/kcs_14_20_01.txt L3274-3294"
+  }
+}

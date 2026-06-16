@@ -1,0 +1,23 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "criteria:deco_panel",
+  "@type": "AcceptanceCriteria",
+  "name": "마감자재 성능 기준 (KS 확보 대기)",
+  "_meta": {
+    "operator": "ge",
+    "threshold": null,
+    "unit": "성능등급",
+    "condition": "화장판 내열·내마모·내오염 합격 기준은 KS M 3332가 출처 — 미확보로 보류(UNDETERMINED).",
+    "fallbackToProject": true,
+    "reference": "KS M 3332 — 별표2 시험방법 인용",
+    "sourceStatus": "skeleton",
+    "referenceVerified": false,
+    "note": "별표2로 시험종목·방법 verified. 성능 판정값은 KS 원문(공공 자동확보 제약)이라 skeleton."
+  },
+  "appliesTo": [
+    "test:deco_panel"
+  ],
+  "derivedFrom": [
+    "standard:ks_m_3332"
+  ]
+}

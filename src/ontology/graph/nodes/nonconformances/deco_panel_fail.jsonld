@@ -1,0 +1,41 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "ncr:deco_panel_fail",
+  "@type": "Nonconformance",
+  "name": "마감자재 성능 부적합",
+  "aliases": [
+    "화장판 불합격",
+    "내마모 미달"
+  ],
+  "_meta": {
+    "direction": "too_low",
+    "severity": "low",
+    "possibleCauses": [
+      "규격 미달 제품",
+      "내열·내마모 성능 부족"
+    ],
+    "owner": "마감재 공급사 + 품질관리자",
+    "approver": "감리원",
+    "effectivenessCheck": "동일 제품 재시험",
+    "closureCriteria": "불합격 자재 반출 + 적합 자재 재시공 + NCR 승인",
+    "sourceStatus": "verified",
+    "verifiedAgainst": "evaluation/sources/quality_test_standards_annex2.txt (건축 기타)"
+  },
+  "relatedTest": [
+    "test:deco_panel"
+  ],
+  "immediateActions": [
+    "action:notify_quality_manager"
+  ],
+  "correctiveActions": [
+    "action:refinish",
+    "action:record_ncr"
+  ],
+  "requiresEvidence": [
+    "doc:test_certificate",
+    "doc:ncr_report"
+  ],
+  "basisPriority": [
+    "standard:ks_m_3332"
+  ]
+}

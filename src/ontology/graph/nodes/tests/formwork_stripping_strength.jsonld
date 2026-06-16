@@ -1,0 +1,42 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "test:formwork_stripping_strength",
+  "@type": "TestItem",
+  "name": "거푸집 해체 압축강도",
+  "aliases": [
+    "거푸집 해체강도",
+    "존치기간 강도",
+    "해체 압축강도",
+    "거푸집널 해체강도",
+    "탈형강도"
+  ],
+  "_meta": {
+    "method": "현장양생 공시체 압축강도(KS F 2405) 또는 비파괴 시험. 거푸집널 해체 가부 판정용",
+    "timing": "거푸집 해체 직전",
+    "frequency": "부재·구획별 해체 시점마다",
+    "typicalAcceptance": "부재별 — 측면 5MPa 이상 / 슬래브·보 밑면 설계기준압축강도(fck)의 2/3배 또한 최소 14MPa / 내구성 중요 구조물 10MPa (KCS 14 20 12 §3.3)"
+  },
+  "relatedWork": [
+    "work:formwork_shoring"
+  ],
+  "hasAcceptanceCriteria": [
+    "criteria:formwork_strip_side",
+    "criteria:formwork_strip_durable",
+    "criteria:formwork_strip_slab_bottom"
+  ],
+  "possibleNonconformance": [
+    "ncr:formwork_premature_stripping"
+  ],
+  "correctiveActions": [
+    "action:extend_form_curing",
+    "action:structural_review"
+  ],
+  "requiresEvidence": [
+    "doc:site_test_record",
+    "doc:specimen_record"
+  ],
+  "requiresStandard": [
+    "standard:kcs_14_20.12.3_3",
+    "standard:ks_f_2405"
+  ]
+}

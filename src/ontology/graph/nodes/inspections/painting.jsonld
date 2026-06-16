@@ -1,0 +1,30 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "inspection:painting",
+  "@type": "InspectionCheckpoint",
+  "name": "도장 검측",
+  "aliases": [
+    "도장 검사",
+    "도막두께 측정"
+  ],
+  "_meta": {
+    "stage": "during",
+    "rule": "도료 시험성적서 검토 + 바탕면 처리·도막두께(현장 측정)·부착 상태 확인. 도막두께 판정값은 KS/도장 시방 확보 시.",
+    "reference": "별표2(도장공사)",
+    "sourceStatus": "verified",
+    "verifiedAgainst": "evaluation/sources/quality_test_standards_annex2.txt (도장공사)"
+  },
+  "verifies": [
+    "risk:paint_defect"
+  ],
+  "isBasedOn": [
+    "standard:quality_management_guideline"
+  ],
+  "requiresEvidence": [
+    "doc:test_certificate",
+    "doc:inspection_request"
+  ],
+  "relatedWork": [
+    "work:painting"
+  ]
+}

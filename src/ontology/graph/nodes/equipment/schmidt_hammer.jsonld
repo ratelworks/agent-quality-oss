@@ -1,0 +1,13 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "equipment:schmidt_hammer",
+  "@type": "Equipment",
+  "name": "슈미트 해머",
+  "aliases": [
+    "반발경도 시험기"
+  ],
+  "_meta": {
+    "category": "ndt_equipment",
+    "purpose": "경화 콘크리트 강도 추정 (비파괴)"
+  }
+}

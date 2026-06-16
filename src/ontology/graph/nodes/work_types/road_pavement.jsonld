@@ -1,0 +1,30 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "work:road_pavement",
+  "@type": "WorkType",
+  "name": "도로 아스팔트 포장",
+  "aliases": [
+    "도로공사",
+    "아스팔트 포장",
+    "아스콘 포장",
+    "포장공사",
+    "아스팔트공사"
+  ],
+  "_meta": {
+    "parent": "토목공사",
+    "domain": "civil_quality",
+    "note": "별표2 도로공사 아스팔트 포장 시험종목(마샬안정도·아스팔트 함량) verified. 마샬 기준값은 KCS 44(도로포장) 확보 시 강화. 노상·기층 다짐은 work.earthwork 참조."
+  },
+  "usesMaterial": [
+    "material:asphalt_mixture"
+  ],
+  "hasInspectionCheckpoint": [
+    "inspection:asphalt_pavement"
+  ],
+  "hasQualityRisk": [
+    "risk:asphalt_pavement_defect"
+  ],
+  "requiresStandard": [
+    "standard:quality_management_guideline"
+  ]
+}

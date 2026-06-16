@@ -1,0 +1,13 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "action:rebar_reject",
+  "@type": "CorrectiveAction",
+  "name": "불합격 철근 반출",
+  "aliases": [
+    "철근 반송",
+    "철근 반품"
+  ],
+  "_meta": {
+    "urgency": "immediate"
+  }
+}

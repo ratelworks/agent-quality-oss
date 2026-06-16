@@ -1,0 +1,39 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "test:brick_strength",
+  "@type": "TestItem",
+  "name": "벽돌·블록 강도 시험",
+  "aliases": [
+    "벽돌 압축강도",
+    "벽돌 흡수율",
+    "블록 강도"
+  ],
+  "_meta": {
+    "method": "콘크리트벽돌 KS F 4004(압축강도·흡수율·기건비중) / 점토벽돌 KS L 4201 / 콘크리트블록 KS F 4002",
+    "timing": "반입 시",
+    "frequency": "콘크리트벽돌 100,000매당·점토벽돌 50,000매당·블록 1,000매당 (별표2)",
+    "typicalAcceptance": "압축강도·흡수율 기준은 KS F 4004/KS L 4201 확보 시 — 시험종목·방법·빈도 커버리지"
+  },
+  "targetMaterial": [
+    "material:brick"
+  ],
+  "relatedWork": [
+    "work:masonry"
+  ],
+  "hasAcceptanceCriteria": [
+    "criteria:brick_strength"
+  ],
+  "possibleNonconformance": [
+    "ncr:brick_fail"
+  ],
+  "correctiveActions": [
+    "action:refinish"
+  ],
+  "requiresEvidence": [
+    "doc:test_certificate"
+  ],
+  "requiresStandard": [
+    "standard:ks_f_4004",
+    "standard:ks_l_4201"
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "standard:ks_k_iso_11058",
+  "@type": "Standard",
+  "name": "KS K ISO 11058 지오텍스타일 수직 투수성 시험",
+  "aliases": [
+    "KS K ISO 11058",
+    "토목섬유 투수계수"
+  ],
+  "_meta": {
+    "issuer": "국가기술표준원",
+    "category": "시험방법",
+    "granularity": "document"
+  }
+}

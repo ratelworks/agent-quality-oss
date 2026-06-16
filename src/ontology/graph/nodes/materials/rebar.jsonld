@@ -1,0 +1,29 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "material:rebar",
+  "@type": "Material",
+  "name": "철근 (이형철근)",
+  "aliases": [
+    "철근",
+    "이형철근",
+    "봉강",
+    "철근콘크리트용 봉강",
+    "rebar",
+    "SD400",
+    "SD500"
+  ],
+  "_meta": {
+    "category": "구조재",
+    "note": "KS D 3504 이형철근. 등급별 기준항복강도(SD300/400/500/600)는 KS D 3504 원문(유료 표준) 확보 시 수치화 — 현재 시험종목·검측 커버리지만 verified."
+  },
+  "requiresTest": [
+    "test:rebar_mechanical"
+  ],
+  "requiresDocument": [
+    "doc:test_certificate"
+  ],
+  "requiresStandard": [
+    "standard:ks_d_3504",
+    "standard:kcs_14_20.11"
+  ]
+}

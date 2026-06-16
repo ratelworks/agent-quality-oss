@@ -1,0 +1,14 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "standard:ks_f_2515",
+  "@type": "Standard",
+  "name": "KS F 2515 염화물 함유량 시험",
+  "aliases": [
+    "KS F 2515"
+  ],
+  "_meta": {
+    "issuer": "국가기술표준원",
+    "category": "시험방법",
+    "granularity": "document"
+  }
+}

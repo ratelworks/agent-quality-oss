@@ -1,0 +1,14 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "standard:kcs_14_20.10.1_4",
+  "@type": "Standard",
+  "name": "KCS 14 20 10 §1.4 용어 정의",
+  "_meta": {
+    "parent": "standard.kcs_14_20.10",
+    "sectionRef": "14 20 10 §1.4",
+    "scope": "배합강도(fcr) / 호칭강도(fcn) / 품질기준강도 / 콜드조인트 / 보온양생 / 블리딩 / 잔골재율 등 50+개 용어 정의",
+    "granularity": "clause",
+    "sourceStatus": "verified",
+    "verifiedAgainst": "evaluation/sources/kcs_14_20_01.txt L1297-1340"
+  }
+}

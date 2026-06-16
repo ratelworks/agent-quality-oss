@@ -1,0 +1,23 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "material:insulation",
+  "@type": "Material",
+  "name": "단열재",
+  "aliases": [
+    "단열재",
+    "보온재",
+    "압출법보온판",
+    "비드법보온판",
+    "글라스울"
+  ],
+  "_meta": {
+    "category": "마감재",
+    "note": "별표2 단열재 시험 대상. 열전도율 기준은 KS L 3121/KS F 확보 시."
+  },
+  "requiresTest": [
+    "test:thermal_conductivity"
+  ],
+  "requiresStandard": [
+    "standard:ks_l_3121"
+  ]
+}

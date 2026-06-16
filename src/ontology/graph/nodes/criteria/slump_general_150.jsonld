@@ -1,0 +1,29 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "criteria:slump_general_150",
+  "@type": "AcceptanceCriteria",
+  "name": "슬럼프 호칭값 150 → 허용오차 ±25mm",
+  "aliases": [
+    "슬럼프 150"
+  ],
+  "_meta": {
+    "operator": "tolerance",
+    "target": 150,
+    "plusMinus": 25,
+    "unit": "mm",
+    "condition": "호칭 슬럼프 80mm 이상의 허용오차 ±25mm 적용 (목표 슬럼프 150은 RC 일반 표 2.2-5 상한). 배합설계서에서 다른 목표 슬럼프 지정 시 그쪽 우선",
+    "fallbackToProject": true,
+    "reference": "KCS 14 20 10 §1.7.3 표 1.7-2 (허용오차) + §2.2.7 표 2.2-5 (표준값)",
+    "sourceStatus": "verified",
+    "verifiedAgainst": "evaluation/sources/kcs_14_20_01.txt L1573-1605, L2444-2470",
+    "note": "v0.1 reference '§3.2'는 운반 조항이라 오인용. 정정 완료 (2026-04-28 R0-G1)"
+  },
+  "appliesTo": [
+    "test:slump"
+  ],
+  "derivedFrom": [
+    "standard:kcs_14_20.10.1_7_3",
+    "standard:kcs_14_20.10.2_2_7",
+    "standard:ks_f_2402"
+  ]
+}

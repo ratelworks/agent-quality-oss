@@ -1,0 +1,40 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "ncr:chloride_excess",
+  "@type": "Nonconformance",
+  "name": "염화물 함유량 초과",
+  "_meta": {
+    "direction": "too_high",
+    "possibleCauses": [
+      "세척되지 않은 해사",
+      "배합수 염분 오염"
+    ],
+    "owner": "레미콘 공급사",
+    "approver": "감리원 / 공사감독자 (강재 부식 직결로 즉시 반송 원칙)",
+    "effectivenessCheck": "공급자 원재료 추적 보고 + 후속 반입차 염화물 재확인",
+    "closureCriteria": "반송 확정 + 공급자 시정 보고서 + NCR 보고서 승인"
+  },
+  "relatedTest": [
+    "test:chloride"
+  ],
+  "relatedMaterial": [
+    "material:ready_mixed_concrete"
+  ],
+  "immediateActions": [
+    "action:reject_truck",
+    "action:notify_quality_manager"
+  ],
+  "correctiveActions": [
+    "action:request_supplier_report",
+    "action:record_ncr"
+  ],
+  "requiresEvidence": [
+    "doc:site_test_record",
+    "doc:delivery_ticket"
+  ],
+  "basisPriority": [
+    "standard:kcs_14_20.10.3_2",
+    "standard:ks_f_2515",
+    "standard:quality_management_guideline"
+  ]
+}

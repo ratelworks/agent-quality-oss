@@ -1,0 +1,17 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "standard:law.btia_rule_50",
+  "@type": "Standard",
+  "name": "건설기술 진흥법 시행규칙 §50 (품질관리자 배치 기준)",
+  "aliases": [
+    "시행규칙 §50"
+  ],
+  "_meta": {
+    "category": "rule",
+    "lawName": "건설기술 진흥법 시행규칙",
+    "articleNo": "50",
+    "scope": "품질관리자 등급·배치 인원·자격",
+    "legalWeight": "mandatory",
+    "basisType": "rule"
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "criteria:paint_film",
+  "@type": "AcceptanceCriteria",
+  "name": "도료·도막 기준 (KS 확보 대기)",
+  "_meta": {
+    "operator": "ge",
+    "threshold": null,
+    "unit": "성능등급",
+    "condition": "도료 부착강도·은폐율·도막두께 합격 기준은 KS M 6010/도장 시방이 출처 — 미확보로 보류(UNDETERMINED).",
+    "fallbackToProject": true,
+    "reference": "KS M 6010 — 별표2 시험방법 인용",
+    "sourceStatus": "skeleton",
+    "referenceVerified": false,
+    "note": "별표2로 시험종목·방법 verified. 판정값은 KS/도장 시방(공공 자동확보 제약)이라 skeleton."
+  },
+  "appliesTo": [
+    "test:paint_film"
+  ],
+  "derivedFrom": [
+    "standard:ks_m_6010"
+  ]
+}

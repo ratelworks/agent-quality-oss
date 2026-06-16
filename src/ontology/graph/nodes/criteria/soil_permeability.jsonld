@@ -1,0 +1,26 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "criteria:soil_permeability",
+  "@type": "AcceptanceCriteria",
+  "name": "차수재 투수계수 기준 (KCS 확보 대기)",
+  "aliases": [
+    "투수계수 기준"
+  ],
+  "_meta": {
+    "operator": "le",
+    "threshold": null,
+    "unit": "cm/s",
+    "condition": "차수재·제체 목표 투수계수는 댐/제방 설계기준·KCS가 출처 — 미확보로 자동판정 보류(UNDETERMINED).",
+    "fallbackToProject": true,
+    "reference": "KCS(수공구조물) / KS F 2322 — 별표2가 시험방법 인용",
+    "sourceStatus": "skeleton",
+    "referenceVerified": false,
+    "note": "별표2(법제처)로 시험종목·방법·빈도 verified. 투수계수 판정값은 설계기준/KCS(공공 자동확보 제약)이라 skeleton."
+  },
+  "appliesTo": [
+    "test:soil_permeability"
+  ],
+  "derivedFrom": [
+    "standard:ks_f_2322"
+  ]
+}

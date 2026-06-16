@@ -1,0 +1,23 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "material:geotextile",
+  "@type": "Material",
+  "name": "토목섬유 (지오텍스타일)",
+  "aliases": [
+    "토목섬유",
+    "지오텍스타일",
+    "부직포",
+    "드레인보드",
+    "보강매트"
+  ],
+  "_meta": {
+    "category": "토목재",
+    "note": "별표2 토목섬유 — 인장강도 KS K ISO 10319·투수계수 KS K ISO 11058·봉합강도 KS K ISO 10321."
+  },
+  "requiresTest": [
+    "test:geotextile_strength"
+  ],
+  "requiresStandard": [
+    "standard:ks_k_iso_10319"
+  ]
+}

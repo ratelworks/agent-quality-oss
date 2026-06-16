@@ -1,0 +1,30 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "work:glazing",
+  "@type": "WorkType",
+  "name": "유리공사",
+  "aliases": [
+    "유리",
+    "유리공사",
+    "강화유리",
+    "복층유리",
+    "창호 유리"
+  ],
+  "_meta": {
+    "parent": "건축공사",
+    "domain": "architecture_quality",
+    "note": "별표2 유리공사 시험종목(강화유리 충격강도·복층유리) verified. 판정값은 KCS 41/KS 확보 시."
+  },
+  "usesMaterial": [
+    "material:glass"
+  ],
+  "hasInspectionCheckpoint": [
+    "inspection:glazing"
+  ],
+  "hasQualityRisk": [
+    "risk:glass_defect"
+  ],
+  "requiresStandard": [
+    "standard:quality_management_guideline"
+  ]
+}

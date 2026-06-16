@@ -1,0 +1,14 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "doc:structural_drawing",
+  "@type": "EvidenceDocument",
+  "name": "구조 도면",
+  "aliases": [
+    "구조도",
+    "structural drawing"
+  ],
+  "_meta": {
+    "mandatory": true,
+    "priority": 1
+  }
+}

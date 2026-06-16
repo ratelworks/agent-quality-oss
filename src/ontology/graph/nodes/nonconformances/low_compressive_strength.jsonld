@@ -1,0 +1,48 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "ncr:low_compressive_strength",
+  "@type": "Nonconformance",
+  "name": "압축강도 부족",
+  "_meta": {
+    "direction": "too_low",
+    "severity": "high",
+    "possibleCauses": [
+      "양생 불량",
+      "배합수 과다",
+      "배합설계 오류",
+      "공시체 관리 불량"
+    ],
+    "owner": "현장 품질관리자 + 구조 설계자",
+    "approver": "감리단장 / 구조기술사",
+    "effectivenessCheck": "코어 채취·비파괴 시험 결과 + 구조 검토 결론",
+    "closureCriteria": "구조 안전성 확정 또는 보강·재시공 완료 + NCR 보고서 감리단장 승인"
+  },
+  "relatedTest": [
+    "test:compressive_strength"
+  ],
+  "relatedMaterial": [
+    "material:ready_mixed_concrete"
+  ],
+  "immediateActions": [
+    "action:notify_quality_manager",
+    "action:notify_supervisor"
+  ],
+  "correctiveActions": [
+    "action:core_sampling",
+    "action:non_destructive_test",
+    "action:structural_review",
+    "action:record_ncr"
+  ],
+  "requiresEvidence": [
+    "doc:specimen_record",
+    "doc:test_certificate",
+    "doc:mix_design",
+    "doc:ncr_report"
+  ],
+  "basisPriority": [
+    "doc:mix_design",
+    "doc:structural_drawing",
+    "standard:kcs_14_20.10.3_3",
+    "standard:ks_f_2405"
+  ]
+}

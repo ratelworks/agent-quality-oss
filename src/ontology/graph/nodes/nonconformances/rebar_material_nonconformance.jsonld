@@ -1,0 +1,48 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "ncr:rebar_material_nonconformance",
+  "@type": "Nonconformance",
+  "name": "철근 기계적 성질 부적합",
+  "aliases": [
+    "철근 강도 미달",
+    "철근 시험 불합격"
+  ],
+  "_meta": {
+    "direction": "too_low",
+    "severity": "high",
+    "possibleCauses": [
+      "KS 미달 제품",
+      "시험성적서 불일치",
+      "보관 중 부식·손상",
+      "등급 혼입"
+    ],
+    "owner": "철근 공급사 + 현장 품질관리자",
+    "approver": "감리원 / 구조기술사",
+    "effectivenessCheck": "동일 로트 재시험 + 공급사 시험성적서·KS 인증 확인",
+    "closureCriteria": "불합격 로트 반출 + 적합 철근 재반입 + NCR 보고서 승인",
+    "sourceStatus": "verified",
+    "verifiedAgainst": "evaluation/sources/quality_test_standards_annex2.txt(철근 시험종목) + kcs_14_20_01.txt L4283-4725(KCS 14 20 11 §2 재료)"
+  },
+  "relatedTest": [
+    "test:rebar_mechanical"
+  ],
+  "relatedMaterial": [
+    "material:rebar"
+  ],
+  "immediateActions": [
+    "action:rebar_reject",
+    "action:notify_quality_manager"
+  ],
+  "correctiveActions": [
+    "action:request_supplier_report",
+    "action:record_ncr"
+  ],
+  "requiresEvidence": [
+    "doc:test_certificate",
+    "doc:ncr_report"
+  ],
+  "basisPriority": [
+    "standard:ks_d_3504",
+    "standard:kcs_14_20.11"
+  ]
+}

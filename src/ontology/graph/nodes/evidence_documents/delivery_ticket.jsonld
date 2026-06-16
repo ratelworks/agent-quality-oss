@@ -1,0 +1,15 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "doc:delivery_ticket",
+  "@type": "EvidenceDocument",
+  "name": "납품서",
+  "aliases": [
+    "송장",
+    "레미콘 납품서",
+    "delivery ticket"
+  ],
+  "_meta": {
+    "mandatory": true,
+    "priority": 2
+  }
+}

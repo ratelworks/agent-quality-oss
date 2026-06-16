@@ -1,0 +1,24 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "criteria:air_content_lightweight",
+  "@type": "AcceptanceCriteria",
+  "name": "공기량 경량 콘크리트 5.5±1.5%",
+  "_meta": {
+    "operator": "tolerance",
+    "target": 5.5,
+    "plusMinus": 1.5,
+    "unit": "%",
+    "condition": "경량 콘크리트",
+    "fallbackToProject": true,
+    "reference": "KCS 14 20 10 §1.7.4 (1)",
+    "sourceStatus": "verified",
+    "verifiedAgainst": "evaluation/sources/kcs_14_20_01.txt L1610"
+  },
+  "appliesTo": [
+    "test:air_content"
+  ],
+  "derivedFrom": [
+    "standard:kcs_14_20.10.1_7_4",
+    "standard:ks_f_2421"
+  ]
+}

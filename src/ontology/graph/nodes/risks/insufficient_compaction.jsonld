@@ -1,0 +1,17 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "risk:insufficient_compaction",
+  "@type": "QualityRisk",
+  "name": "다짐 불량",
+  "aliases": [
+    "바이브레이터 부족",
+    "다짐 미흡"
+  ],
+  "_meta": {
+    "severity": "medium"
+  },
+  "mayCause": [
+    "ncr:honeycomb",
+    "ncr:low_compressive_strength"
+  ]
+}

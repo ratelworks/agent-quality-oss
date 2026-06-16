@@ -1,0 +1,38 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "test:soil_permeability",
+  "@type": "TestItem",
+  "name": "흙 투수 시험",
+  "aliases": [
+    "투수",
+    "투수계수",
+    "투수시험"
+  ],
+  "_meta": {
+    "method": "KS F 2322 흙의 투수 시험",
+    "timing": "차수재·제체 다짐 시",
+    "frequency": "토질변화시마다 (별표2 — 흙댐·용배수로)",
+    "typicalAcceptance": "차수 목표 투수계수는 설계도서/KCS 확보 시 — 시험종목·방법 커버리지"
+  },
+  "targetMaterial": [
+    "material:soil"
+  ],
+  "relatedWork": [
+    "work:hydraulic_structure"
+  ],
+  "hasAcceptanceCriteria": [
+    "criteria:soil_permeability"
+  ],
+  "possibleNonconformance": [
+    "ncr:seepage_fail"
+  ],
+  "correctiveActions": [
+    "action:seepage_repair"
+  ],
+  "requiresEvidence": [
+    "doc:site_test_record"
+  ],
+  "requiresStandard": [
+    "standard:ks_f_2322"
+  ]
+}

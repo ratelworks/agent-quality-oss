@@ -1,0 +1,39 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "ncr:concrete_temperature_out_of_range",
+  "@type": "Nonconformance",
+  "name": "콘크리트 온도 기준 이탈",
+  "_meta": {
+    "direction": "out_of_range",
+    "possibleCauses": [
+      "외기 온도 극값",
+      "운반 시간 초과",
+      "양생 조치 미흡"
+    ],
+    "owner": "현장 품질관리자 + 레미콘 공급사",
+    "approver": "감리원 / 공사감독자",
+    "effectivenessCheck": "한중/서중 대책 적용 후 후속 반입차 온도 재확인",
+    "closureCriteria": "온도 대책 서면 합의 + 후속 반입차 합격 + NCR 보고서 승인"
+  },
+  "relatedTest": [
+    "test:concrete_temperature"
+  ],
+  "relatedMaterial": [
+    "material:ready_mixed_concrete"
+  ],
+  "immediateActions": [
+    "action:hold_delivery",
+    "action:notify_supervisor"
+  ],
+  "correctiveActions": [
+    "action:record_ncr"
+  ],
+  "requiresEvidence": [
+    "doc:site_test_record"
+  ],
+  "basisPriority": [
+    "doc:mix_design",
+    "standard:kcs_14_20.10.3_2",
+    "standard:quality_management_guideline"
+  ]
+}

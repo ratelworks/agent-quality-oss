@@ -1,0 +1,42 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "ncr:stone_fail",
+  "@type": "Nonconformance",
+  "name": "석재 품질 부적합",
+  "aliases": [
+    "석재 불합격",
+    "석재 강도 미달"
+  ],
+  "_meta": {
+    "direction": "too_low",
+    "severity": "medium",
+    "possibleCauses": [
+      "풍화·균열 석재",
+      "흡수율 초과",
+      "강도 미달 석산"
+    ],
+    "owner": "석재 공급사 + 품질관리자",
+    "approver": "감리원",
+    "effectivenessCheck": "동일 석산 재시험",
+    "closureCriteria": "불합격 석재 반출 + 적합 석재 재반입 + NCR 승인",
+    "sourceStatus": "verified",
+    "verifiedAgainst": "evaluation/sources/quality_test_standards_annex2.txt (공통 기타-석재)"
+  },
+  "relatedTest": [
+    "test:stone_strength"
+  ],
+  "immediateActions": [
+    "action:notify_quality_manager"
+  ],
+  "correctiveActions": [
+    "action:refinish",
+    "action:record_ncr"
+  ],
+  "requiresEvidence": [
+    "doc:test_certificate",
+    "doc:ncr_report"
+  ],
+  "basisPriority": [
+    "standard:ks_f_2519"
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "criteria:window_performance",
+  "@type": "AcceptanceCriteria",
+  "name": "창호 강도·성능 기준 (KS 확보 대기)",
+  "_meta": {
+    "operator": "ge",
+    "threshold": null,
+    "unit": "성능등급",
+    "condition": "창호 비틀림강도·연직하중·기밀·수밀 합격 기준은 KS F 3109가 출처 — 미확보로 보류(UNDETERMINED).",
+    "fallbackToProject": true,
+    "reference": "KS F 3109 — 별표2 시험방법 인용",
+    "sourceStatus": "skeleton",
+    "referenceVerified": false,
+    "note": "별표2로 시험종목·방법 verified. 성능 판정값은 KS 원문(공공 자동확보 제약)이라 skeleton."
+  },
+  "appliesTo": [
+    "test:window_performance"
+  ],
+  "derivedFrom": [
+    "standard:ks_f_3109"
+  ]
+}

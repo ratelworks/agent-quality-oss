@@ -1,0 +1,39 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "test:concrete_temperature",
+  "@type": "TestItem",
+  "name": "콘크리트 온도 측정",
+  "aliases": [
+    "콘크리트 온도",
+    "타설 온도",
+    "concrete temperature"
+  ],
+  "_meta": {
+    "method": "현장 온도계 측정",
+    "timing": "콘크리트 반입 시 · 타설 중",
+    "frequency": "120㎥마다 1회 (업무지침 2024-638호 개정 반영)",
+    "typicalAcceptance": "일반 5℃~35℃ — 실판정은 criteria.concrete_temperature_general"
+  },
+  "targetMaterial": [
+    "material:ready_mixed_concrete"
+  ],
+  "relatedWork": [
+    "work:concrete_placement"
+  ],
+  "hasAcceptanceCriteria": [
+    "criteria:concrete_temperature_general"
+  ],
+  "possibleNonconformance": [
+    "ncr:concrete_temperature_out_of_range"
+  ],
+  "correctiveActions": [
+    "action:hold_delivery",
+    "action:notify_supervisor"
+  ],
+  "requiresEvidence": [
+    "doc:site_test_record"
+  ],
+  "requiresStandard": [
+    "standard:kcs_14_20.10"
+  ]
+}

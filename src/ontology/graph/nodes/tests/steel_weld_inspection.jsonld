@@ -1,0 +1,39 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "test:steel_weld_inspection",
+  "@type": "TestItem",
+  "name": "용접부 검사",
+  "aliases": [
+    "용접부 검사",
+    "용접 외관",
+    "방사선투과",
+    "초음파탐상",
+    "자분탐상",
+    "비파괴검사"
+  ],
+  "_meta": {
+    "method": "외관 + 비파괴: 방사선투과 KS B 0845, 초음파탐상 KS B 0896, 자분탐상 KS D 0213, 침투 KS B 0816",
+    "timing": "용접 후",
+    "frequency": "내부결함 5/100 또는 10이음당 1장, 필렛 균열 매 용접길이 3m당 (별표2)",
+    "typicalAcceptance": "용접부 결함 합격 등급은 KCS 14 31/KS 판정기준 확보 시 — 시험종목·방법·빈도 커버리지"
+  },
+  "relatedWork": [
+    "work:steel_fabrication"
+  ],
+  "hasAcceptanceCriteria": [
+    "criteria:steel_weld_defect"
+  ],
+  "possibleNonconformance": [
+    "ncr:steel_weld_fail"
+  ],
+  "correctiveActions": [
+    "action:steel_weld_repair"
+  ],
+  "requiresEvidence": [
+    "doc:site_test_record"
+  ],
+  "requiresStandard": [
+    "standard:ks_b_0845",
+    "standard:ks_b_0896"
+  ]
+}

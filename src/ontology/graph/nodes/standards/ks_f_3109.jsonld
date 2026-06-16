@@ -1,0 +1,15 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "standard:ks_f_3109",
+  "@type": "Standard",
+  "name": "KS F 3109 문·창 세트",
+  "aliases": [
+    "KS F 3109",
+    "창호 세트"
+  ],
+  "_meta": {
+    "issuer": "국가기술표준원",
+    "category": "제품규격",
+    "granularity": "document"
+  }
+}

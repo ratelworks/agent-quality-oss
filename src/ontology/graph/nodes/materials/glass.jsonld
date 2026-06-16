@@ -1,0 +1,22 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "material:glass",
+  "@type": "Material",
+  "name": "유리",
+  "aliases": [
+    "유리",
+    "강화유리",
+    "복층유리",
+    "로이유리"
+  ],
+  "_meta": {
+    "category": "마감재",
+    "note": "별표2 유리 시험 대상. 충격강도·내알칼리성 기준은 KS L 2002/2003 확보 시."
+  },
+  "requiresTest": [
+    "test:glass_strength"
+  ],
+  "requiresStandard": [
+    "standard:ks_l_2002"
+  ]
+}

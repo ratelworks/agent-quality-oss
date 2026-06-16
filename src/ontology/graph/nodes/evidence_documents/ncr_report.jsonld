@@ -1,0 +1,14 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "doc:ncr_report",
+  "@type": "EvidenceDocument",
+  "name": "부적합 보고서(NCR)",
+  "aliases": [
+    "NCR",
+    "Nonconformance Report"
+  ],
+  "_meta": {
+    "mandatory": true,
+    "priority": 1
+  }
+}

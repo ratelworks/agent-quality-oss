@@ -1,0 +1,23 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "criteria:pile_bearing_capacity",
+  "@type": "AcceptanceCriteria",
+  "name": "말뚝 지지력 기준 (설계기준 확보 대기)",
+  "_meta": {
+    "operator": "ge",
+    "threshold": null,
+    "unit": "kN",
+    "condition": "말뚝 허용지지력은 구조계산서·설계도서에 따름 — 미확보로 보류(UNDETERMINED).",
+    "fallbackToProject": true,
+    "reference": "KS F 2591 — 별표2 시험방법 인용",
+    "sourceStatus": "skeleton",
+    "referenceVerified": false,
+    "note": "별표2로 시험종목(재하시험)·방법(KS F 2591) verified. 지지력 판정값은 설계기준(공공 자동확보 제약)이라 skeleton."
+  },
+  "appliesTo": [
+    "test:pile_bearing_capacity"
+  ],
+  "derivedFrom": [
+    "standard:ks_f_2591"
+  ]
+}

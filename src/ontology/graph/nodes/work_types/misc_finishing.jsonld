@@ -1,0 +1,29 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "work:misc_finishing",
+  "@type": "WorkType",
+  "name": "기타 마감자재",
+  "aliases": [
+    "화장판",
+    "데코타일",
+    "멜라민판",
+    "기타 마감"
+  ],
+  "_meta": {
+    "parent": "건축공사",
+    "domain": "architecture_quality",
+    "note": "별표2 건축 기타 — 일반용 화장판 등 마감자재(KS M 3332) 내열·내마모 시험종목 verified. 판정 수치는 KS 확보 시."
+  },
+  "usesMaterial": [
+    "material:deco_panel"
+  ],
+  "hasInspectionCheckpoint": [
+    "inspection:misc_finishing"
+  ],
+  "hasQualityRisk": [
+    "risk:deco_panel_defect"
+  ],
+  "requiresStandard": [
+    "standard:quality_management_guideline"
+  ]
+}

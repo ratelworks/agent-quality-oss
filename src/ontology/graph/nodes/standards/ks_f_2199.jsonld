@@ -1,0 +1,15 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "standard:ks_f_2199",
+  "@type": "Standard",
+  "name": "KS F 2199 목재의 함수율 측정",
+  "aliases": [
+    "KS F 2199",
+    "목재 함수율"
+  ],
+  "_meta": {
+    "issuer": "국가기술표준원",
+    "category": "시험방법",
+    "granularity": "document"
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "work:concrete_placement",
+  "@type": "WorkType",
+  "name": "콘크리트 타설",
+  "aliases": [
+    "레미콘 타설",
+    "슬래브 타설",
+    "기초 타설",
+    "벽체 타설",
+    "콘크리트 치기",
+    "양생",
+    "콘크리트공사"
+  ],
+  "_meta": {
+    "parent": "철근콘크리트공사",
+    "domain": "architecture_quality"
+  },
+  "hasTask": [
+    "task:concrete_pour_slab",
+    "task:concrete_pour_foundation",
+    "task:concrete_pour_wall",
+    "task:concrete_curing"
+  ],
+  "usesMaterial": [
+    "material:ready_mixed_concrete"
+  ],
+  "hasInspectionCheckpoint": [
+    "inspection:before_concrete_placement",
+    "inspection:during_concrete_placement",
+    "inspection:after_concrete_placement"
+  ],
+  "hasQualityRisk": [
+    "risk:slump_out_of_range",
+    "risk:air_content_deviation",
+    "risk:chloride_contamination",
+    "risk:concrete_temperature_deviation",
+    "risk:material_segregation",
+    "risk:cold_joint",
+    "risk:insufficient_compaction",
+    "risk:insufficient_curing",
+    "risk:low_compressive_strength"
+  ],
+  "requiresStandard": [
+    "standard:kcs_14_20",
+    "standard:quality_management_guideline"
+  ]
+}

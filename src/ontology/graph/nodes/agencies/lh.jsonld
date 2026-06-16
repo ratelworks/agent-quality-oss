@@ -1,0 +1,16 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "agency:lh",
+  "@type": "Agency",
+  "name": "한국토지주택공사(LH)",
+  "aliases": [
+    "LH공사",
+    "Korea Land and Housing Corporation"
+  ],
+  "_meta": {
+    "agencyType": "public_owner",
+    "scope": "공공주택 사업 · LH 자체 시방서·품질 기준",
+    "approverRole": "LH 사업본부 감독 + 감리단장",
+    "typicalSpecSource": "LH 시방서 + LH 품질관리 지침"
+  }
+}

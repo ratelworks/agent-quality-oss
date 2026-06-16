@@ -1,0 +1,18 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "standard:kcs_14_20.12.3_3",
+  "@type": "Standard",
+  "name": "KCS 14 20 12 §3.3 거푸집 및 동바리 해체",
+  "aliases": [
+    "거푸집 해체시기",
+    "거푸집 존치기간"
+  ],
+  "_meta": {
+    "parent": "standard.kcs_14_20.12",
+    "sectionRef": "14 20 12 §3.3",
+    "scope": "해체 압축강도(측면 5MPa / 슬래브·보 밑면 fck×2/3 또한 최소 14MPa / 내구성 중요 10MPa) + 동바리 존치(고층 최소 3개층)",
+    "granularity": "clause",
+    "sourceStatus": "verified",
+    "verifiedAgainst": "evaluation/sources/kcs_14_20_01.txt L5159-5228"
+  }
+}

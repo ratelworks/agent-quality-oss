@@ -1,0 +1,29 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "inspection:misc_finishing",
+  "@type": "InspectionCheckpoint",
+  "name": "기타 마감자재 검측",
+  "aliases": [
+    "화장판 검사"
+  ],
+  "_meta": {
+    "stage": "before",
+    "rule": "화장판 등 마감자재 시험성적서(내열·내마모·내오염) 검토. 빈도: 제조회사별·제품규격별.",
+    "reference": "별표2(건축 기타)",
+    "sourceStatus": "verified",
+    "verifiedAgainst": "evaluation/sources/quality_test_standards_annex2.txt (건축 아.기타)"
+  },
+  "verifies": [
+    "risk:deco_panel_defect"
+  ],
+  "isBasedOn": [
+    "standard:quality_management_guideline"
+  ],
+  "requiresEvidence": [
+    "doc:test_certificate",
+    "doc:inspection_request"
+  ],
+  "relatedWork": [
+    "work:misc_finishing"
+  ]
+}

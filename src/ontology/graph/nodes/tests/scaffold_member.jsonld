@@ -1,0 +1,42 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "test:scaffold_member",
+  "@type": "TestItem",
+  "name": "가설기자재 부재 하중시험",
+  "aliases": [
+    "비계 하중시험",
+    "동바리 하중시험",
+    "압축하중",
+    "휨하중",
+    "파이프서포트 압축"
+  ],
+  "_meta": {
+    "method": "파이프서포트 평누름 압축 KS F 8001 / 비계용 강관 인장·휨 KS F 8002 / 비계·동바리 부재 압축·휨·인장 KS F 8021 (또는 산업안전보건법 안전인증기준)",
+    "timing": "반입 시",
+    "frequency": "제품규격마다(3개)·공급자마다 (별표2)",
+    "typicalAcceptance": "안전인증기준 허용하중 적합 — 판정값은 안전인증/KS 확보 시"
+  },
+  "targetMaterial": [
+    "material:scaffold"
+  ],
+  "relatedWork": [
+    "work:temporary_equipment"
+  ],
+  "hasAcceptanceCriteria": [
+    "criteria:scaffold_member_load"
+  ],
+  "possibleNonconformance": [
+    "ncr:scaffold_member_fail"
+  ],
+  "correctiveActions": [
+    "action:scaffold_member_reject"
+  ],
+  "requiresEvidence": [
+    "doc:test_certificate"
+  ],
+  "requiresStandard": [
+    "standard:ks_f_8001",
+    "standard:ks_f_8002",
+    "standard:ks_f_8021"
+  ]
+}

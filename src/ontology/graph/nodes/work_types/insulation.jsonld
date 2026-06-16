@@ -1,0 +1,29 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "work:insulation",
+  "@type": "WorkType",
+  "name": "단열·보온공사",
+  "aliases": [
+    "단열",
+    "단열공사",
+    "보온공사",
+    "단열재 시공"
+  ],
+  "_meta": {
+    "parent": "건축공사",
+    "domain": "architecture_quality",
+    "note": "별표2 단열공사 시험종목(열전도율·단열성) verified. 열전도율 판정값은 KCS 41/KS 확보 시."
+  },
+  "usesMaterial": [
+    "material:insulation"
+  ],
+  "hasInspectionCheckpoint": [
+    "inspection:insulation"
+  ],
+  "hasQualityRisk": [
+    "risk:insulation_defect"
+  ],
+  "requiresStandard": [
+    "standard:quality_management_guideline"
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "standard:kcs_14_20",
+  "@type": "Standard",
+  "name": "KCS 14 20 콘크리트공사",
+  "aliases": [
+    "KCS 14 20",
+    "콘크리트공사 표준시방서"
+  ],
+  "_meta": {
+    "issuer": "국토교통부 / 국가건설기준센터",
+    "reference": "KCS 14 20 00 ~ KCS 14 20 80",
+    "discipline": "건축",
+    "url": "https://www.kcsc.re.kr",
+    "revision": "2022",
+    "granularity": "document"
+  }
+}

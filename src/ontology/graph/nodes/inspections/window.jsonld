@@ -1,0 +1,29 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "inspection:window",
+  "@type": "InspectionCheckpoint",
+  "name": "창호 검측",
+  "aliases": [
+    "창호 검사"
+  ],
+  "_meta": {
+    "stage": "before",
+    "rule": "창호 시험성적서 검토 + 비틀림·연직하중 강도·함수율 확인 + 설치 정밀도·기밀·수밀 확인.",
+    "reference": "별표2(창호공사)",
+    "sourceStatus": "verified",
+    "verifiedAgainst": "evaluation/sources/quality_test_standards_annex2.txt (창호공사)"
+  },
+  "verifies": [
+    "risk:window_defect"
+  ],
+  "isBasedOn": [
+    "standard:quality_management_guideline"
+  ],
+  "requiresEvidence": [
+    "doc:test_certificate",
+    "doc:inspection_request"
+  ],
+  "relatedWork": [
+    "work:window"
+  ]
+}

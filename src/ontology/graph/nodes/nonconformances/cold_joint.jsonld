@@ -1,0 +1,42 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "ncr:cold_joint",
+  "@type": "Nonconformance",
+  "name": "콜드조인트 발생",
+  "_meta": {
+    "direction": "defect",
+    "severity": "high",
+    "possibleCauses": [
+      "타설 지연",
+      "운반 시간 초과",
+      "다짐 시점 지연",
+      "이어치기 시간 초과 (표 3.3-1)"
+    ],
+    "owner": "현장 공사 담당 + 품질관리자",
+    "approver": "감리원 / 구조기술사",
+    "effectivenessCheck": "구조 검토 + 보강 조치 후 단면 확인",
+    "closureCriteria": "구조 안전성 확정 또는 보강 완료 + NCR 보고서 승인",
+    "sourceStatus": "verified",
+    "note": "v0.1 basisPriority에서 §3.3.2(8) 표 3.3-1(이어치기 시간) + §1.4 콜드조인트 정의 누락. 정정 완료 (2026-04-28 R0-G1)"
+  },
+  "relatedMaterial": [
+    "material:ready_mixed_concrete"
+  ],
+  "immediateActions": [
+    "action:notify_quality_manager",
+    "action:notify_supervisor"
+  ],
+  "correctiveActions": [
+    "action:structural_review",
+    "action:record_ncr"
+  ],
+  "requiresEvidence": [
+    "doc:site_photo",
+    "doc:ncr_report"
+  ],
+  "basisPriority": [
+    "doc:structural_drawing",
+    "standard:kcs_14_20.10.3_3_2",
+    "standard:kcs_14_20.10.1_4"
+  ]
+}

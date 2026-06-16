@@ -1,0 +1,39 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "test:window_performance",
+  "@type": "TestItem",
+  "name": "창호 성능 시험",
+  "aliases": [
+    "창호 비틀림강도",
+    "연직하중 강도",
+    "창호 함수율"
+  ],
+  "_meta": {
+    "method": "창호 비틀림강도·연직하중 강도 KS F 3109 / 목제 틀재 휨강도 KS F 3108 / 함수율 KS F 2199",
+    "timing": "반입 시",
+    "frequency": "제조회사별·제품규격별 (별표2)",
+    "typicalAcceptance": "창호 강도·기밀·수밀 기준은 KS F 3109 확보 시 — 시험종목·방법 커버리지"
+  },
+  "targetMaterial": [
+    "material:window_frame"
+  ],
+  "relatedWork": [
+    "work:window"
+  ],
+  "hasAcceptanceCriteria": [
+    "criteria:window_performance"
+  ],
+  "possibleNonconformance": [
+    "ncr:window_fail"
+  ],
+  "correctiveActions": [
+    "action:refinish"
+  ],
+  "requiresEvidence": [
+    "doc:test_certificate"
+  ],
+  "requiresStandard": [
+    "standard:ks_f_3109",
+    "standard:ks_f_2199"
+  ]
+}

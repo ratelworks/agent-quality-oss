@@ -1,0 +1,40 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "test:wood_panel_strength",
+  "@type": "TestItem",
+  "name": "목질 마감재 시험",
+  "aliases": [
+    "합판 밀도",
+    "집성재 강도",
+    "보드 휨강도",
+    "난연성"
+  ],
+  "_meta": {
+    "method": "보통합판 밀도 KS F 3101 / 구조용 집성재 KS F 3021 / 플로어링보드 휨강도 KS F 3103 / 함수율 KS F 2199 / 난연성 KS F 2271",
+    "timing": "반입 시",
+    "frequency": "제조회사별·제품규격별 (별표2)",
+    "typicalAcceptance": "밀도·휨강도·난연 기준은 KS F 3101/3021/3103 확보 시 — 시험종목·방법 커버리지"
+  },
+  "targetMaterial": [
+    "material:wood_panel"
+  ],
+  "relatedWork": [
+    "work:finishing"
+  ],
+  "hasAcceptanceCriteria": [
+    "criteria:wood_panel_strength"
+  ],
+  "possibleNonconformance": [
+    "ncr:finishing_fail"
+  ],
+  "correctiveActions": [
+    "action:refinish"
+  ],
+  "requiresEvidence": [
+    "doc:test_certificate"
+  ],
+  "requiresStandard": [
+    "standard:ks_f_3101",
+    "standard:ks_f_2199"
+  ]
+}

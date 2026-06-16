@@ -1,0 +1,17 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "risk:insufficient_curing",
+  "@type": "QualityRisk",
+  "name": "양생 불량",
+  "aliases": [
+    "양생 미흡",
+    "건조 균열"
+  ],
+  "_meta": {
+    "severity": "medium"
+  },
+  "mayCause": [
+    "ncr:low_compressive_strength",
+    "ncr:surface_crack"
+  ]
+}

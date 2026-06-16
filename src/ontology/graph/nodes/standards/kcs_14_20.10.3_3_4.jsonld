@@ -1,0 +1,14 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "standard:kcs_14_20.10.3_3_4",
+  "@type": "Standard",
+  "name": "KCS 14 20 10 §3.3.4 침하균열에 대한 조치",
+  "_meta": {
+    "parent": "standard.kcs_14_20.10.3_3",
+    "sectionRef": "14 20 10 §3.3.4",
+    "scope": "(1) 벽·기둥과 슬래브·보 침하 종료 후 타설. (2) 침하균열 발생 시 즉시 다짐 또는 재진동",
+    "granularity": "clause",
+    "sourceStatus": "verified",
+    "verifiedAgainst": "evaluation/sources/kcs_14_20_01.txt L3044-3060"
+  }
+}

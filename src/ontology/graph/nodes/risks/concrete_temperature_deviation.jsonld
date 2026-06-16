@@ -1,0 +1,15 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "risk:concrete_temperature_deviation",
+  "@type": "QualityRisk",
+  "name": "콘크리트 온도 기준 이탈",
+  "_meta": {
+    "severity": "medium"
+  },
+  "mayCause": [
+    "ncr:concrete_temperature_out_of_range"
+  ],
+  "relatedTest": [
+    "test:concrete_temperature"
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "standard:law.btia_55",
+  "@type": "Standard",
+  "name": "건설기술 진흥법 §55 (건설공사의 품질관리)",
+  "aliases": [
+    "건진법 §55",
+    "건설기술진흥법 제55조"
+  ],
+  "_meta": {
+    "category": "law",
+    "lawName": "건설기술 진흥법",
+    "articleNo": "55",
+    "scope": "건설업자·주택건설등록업자의 품질관리계획·품질시험계획 수립·시행 의무",
+    "legalWeight": "mandatory",
+    "basisType": "law",
+    "issuer": "국회 / 국토교통부",
+    "url": "https://www.law.go.kr/%EB%B2%95%EB%A0%B9/%EA%B1%B4%EC%84%A4%EA%B8%B0%EC%88%A0%EC%A7%84%ED%9D%A5%EB%B2%95"
+  }
+}

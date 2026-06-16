@@ -1,0 +1,14 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "standard:guideline.part5",
+  "@type": "Standard",
+  "name": "업무지침 제5편 (가설기자재 품질관리)",
+  "_meta": {
+    "category": "guideline",
+    "part": "제5편",
+    "scope": "가설기자재 안전인증·품질점검",
+    "legalWeight": "administrative_rule",
+    "basisType": "guideline",
+    "skeleton": true
+  }
+}

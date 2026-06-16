@@ -1,0 +1,28 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "inspection:after_concrete_placement",
+  "@type": "InspectionCheckpoint",
+  "name": "콘크리트 타설 후 검측",
+  "aliases": [
+    "양생 검측",
+    "타설 후 확인"
+  ],
+  "_meta": {
+    "stage": "after"
+  },
+  "verifies": [
+    "risk:insufficient_curing",
+    "risk:low_compressive_strength"
+  ],
+  "isBasedOn": [
+    "standard:kcs_14_20"
+  ],
+  "requiresEvidence": [
+    "doc:site_photo",
+    "doc:specimen_record",
+    "doc:test_certificate"
+  ],
+  "relatedWork": [
+    "work:concrete_placement"
+  ]
+}

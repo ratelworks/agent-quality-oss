@@ -1,0 +1,39 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "test:glass_strength",
+  "@type": "TestItem",
+  "name": "유리 강도·성능 시험",
+  "aliases": [
+    "유리 강도",
+    "낙구충격강도",
+    "파쇄시험",
+    "내알칼리성"
+  ],
+  "_meta": {
+    "method": "강화유리 낙구충격파괴강도·파쇄시험 KS L 2002 / 복층유리 내알칼리성 KS L 2003",
+    "timing": "유리 반입 시",
+    "frequency": "제조회사별·제품규격별 (별표2)",
+    "typicalAcceptance": "강화유리 강도·복층유리 성능 기준은 KS L 2002/2003 확보 시 — 시험종목·방법 커버리지"
+  },
+  "targetMaterial": [
+    "material:glass"
+  ],
+  "relatedWork": [
+    "work:glazing"
+  ],
+  "hasAcceptanceCriteria": [
+    "criteria:glass_strength"
+  ],
+  "possibleNonconformance": [
+    "ncr:glass_fail"
+  ],
+  "correctiveActions": [
+    "action:refinish"
+  ],
+  "requiresEvidence": [
+    "doc:test_certificate"
+  ],
+  "requiresStandard": [
+    "standard:ks_l_2002"
+  ]
+}

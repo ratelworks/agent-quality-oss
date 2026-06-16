@@ -1,0 +1,44 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "test:slump",
+  "@type": "TestItem",
+  "name": "슬럼프 시험",
+  "aliases": [
+    "슬럼프",
+    "slump test",
+    "굳지 않은 콘크리트 슬럼프 시험"
+  ],
+  "_meta": {
+    "method": "KS F 2402 슬럼프 시험 (슬럼프 콘 300mm). 슬럼프 플로 지정 시 KS F 2594",
+    "timing": "콘크리트 반입 시 · 타설 개시 직전",
+    "frequency": "120㎥마다 1회 또는 타설일 1회 이상 (업무지침 2024-638호 개정 반영)",
+    "typicalAcceptance": "배합설계서 기준값 ±25mm (일반 150±25mm) — 실판정은 criteria.slump_general_150"
+  },
+  "targetMaterial": [
+    "material:ready_mixed_concrete"
+  ],
+  "relatedWork": [
+    "work:concrete_placement"
+  ],
+  "hasAcceptanceCriteria": [
+    "criteria:slump_general_150"
+  ],
+  "possibleNonconformance": [
+    "ncr:slump_too_high",
+    "ncr:slump_too_low"
+  ],
+  "correctiveActions": [
+    "action:hold_delivery",
+    "action:retest",
+    "action:reject_truck"
+  ],
+  "requiresEvidence": [
+    "doc:site_test_record",
+    "doc:delivery_ticket",
+    "doc:site_photo"
+  ],
+  "requiresStandard": [
+    "standard:ks_f_2402",
+    "standard:kcs_14_20.10.3_2"
+  ]
+}

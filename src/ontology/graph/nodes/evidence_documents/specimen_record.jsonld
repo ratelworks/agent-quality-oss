@@ -1,0 +1,13 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "doc:specimen_record",
+  "@type": "EvidenceDocument",
+  "name": "공시체 제작·관리 기록",
+  "aliases": [
+    "공시체 기록"
+  ],
+  "_meta": {
+    "mandatory": true,
+    "priority": 2
+  }
+}

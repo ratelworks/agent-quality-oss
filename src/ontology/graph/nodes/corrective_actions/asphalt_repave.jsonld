@@ -1,0 +1,13 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "action:asphalt_repave",
+  "@type": "CorrectiveAction",
+  "name": "불합격 포장 구간 재포장",
+  "aliases": [
+    "재포장",
+    "포장 보수"
+  ],
+  "_meta": {
+    "urgency": "corrective"
+  }
+}

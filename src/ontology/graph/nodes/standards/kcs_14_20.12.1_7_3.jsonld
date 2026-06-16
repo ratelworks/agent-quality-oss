@@ -1,0 +1,17 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "standard:kcs_14_20.12.1_7_3",
+  "@type": "Standard",
+  "name": "KCS 14 20 12 §1.7.3 거푸집 및 동바리 구조계산",
+  "aliases": [
+    "거푸집 설계하중"
+  ],
+  "_meta": {
+    "parent": "standard.kcs_14_20.12",
+    "sectionRef": "14 20 12 §1.7.3",
+    "scope": "연직하중(고정 24kN/㎥·활 2.5kN/㎡·합 5.0kN/㎡)·수평하중(고정의 2% 또는 1.5kN/m)·콘크리트 측압 설계",
+    "granularity": "clause",
+    "sourceStatus": "verified",
+    "verifiedAgainst": "evaluation/sources/kcs_14_20_01.txt L4838-4863"
+  }
+}

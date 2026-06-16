@@ -1,0 +1,14 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "equipment:slump_cone",
+  "@type": "Equipment",
+  "name": "슬럼프 콘",
+  "aliases": [
+    "slump cone"
+  ],
+  "_meta": {
+    "category": "field_test_equipment",
+    "standard": "KS F 2402",
+    "dimension": "300mm 높이 절두원추"
+  }
+}

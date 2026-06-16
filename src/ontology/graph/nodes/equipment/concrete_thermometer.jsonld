@@ -1,0 +1,9 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "equipment:concrete_thermometer",
+  "@type": "Equipment",
+  "name": "콘크리트 온도계",
+  "_meta": {
+    "category": "field_test_equipment"
+  }
+}

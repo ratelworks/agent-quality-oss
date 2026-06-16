@@ -1,0 +1,30 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "inspection:masonry",
+  "@type": "InspectionCheckpoint",
+  "name": "조적 검측",
+  "aliases": [
+    "조적 검사",
+    "벽돌 검사"
+  ],
+  "_meta": {
+    "stage": "before",
+    "rule": "벽돌·블록 시험성적서 검토 + 압축강도·흡수율 확인. 빈도: 제품 수량별(콘크리트벽돌 100,000매당 등).",
+    "reference": "별표2(조적공사)",
+    "sourceStatus": "verified",
+    "verifiedAgainst": "evaluation/sources/quality_test_standards_annex2.txt (조적공사)"
+  },
+  "verifies": [
+    "risk:brick_defect"
+  ],
+  "isBasedOn": [
+    "standard:quality_management_guideline"
+  ],
+  "requiresEvidence": [
+    "doc:test_certificate",
+    "doc:inspection_request"
+  ],
+  "relatedWork": [
+    "work:masonry"
+  ]
+}

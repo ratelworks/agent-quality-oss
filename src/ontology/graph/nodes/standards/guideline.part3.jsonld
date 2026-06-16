@@ -1,0 +1,13 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "standard:guideline.part3",
+  "@type": "Standard",
+  "name": "업무지침 제3편 (레미콘·아스콘 관리)",
+  "_meta": {
+    "category": "guideline",
+    "part": "제3편",
+    "scope": "레미콘 운반시간·현장배치플랜트·아스콘 품질관리 전담 규정",
+    "legalWeight": "administrative_rule",
+    "basisType": "guideline"
+  }
+}

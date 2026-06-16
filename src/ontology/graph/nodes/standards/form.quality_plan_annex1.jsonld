@@ -1,0 +1,19 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "standard:form.quality_plan_annex1",
+  "@type": "Standard",
+  "name": "품질관리계획서 작성기준 (업무지침 별표1)",
+  "_meta": {
+    "category": "form",
+    "basisType": "standard_form",
+    "issuer": "국토교통부 고시 2025-311호",
+    "referenceDoc": "건설공사 품질관리 업무지침",
+    "section": "별표1",
+    "effectiveFrom": "2025-06-12",
+    "sourceHashAlgo": "sha256",
+    "sourceHash": null,
+    "sourceUrl": "https://www.law.go.kr/%ED%96%89%EC%A0%95%EA%B7%9C%EC%B9%99/%EA%B1%B4%EC%84%A4%EA%B3%B5%EC%82%AC%ED%92%88%EC%A7%88%EA%B4%80%EB%A6%AC%EC%97%85%EB%AC%B4%EC%A7%80%EC%B9%A8",
+    "license": "Korea Open Government License Type 4",
+    "legalWeight": "mandatory"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "standard:law.btia_57",
+  "@type": "Standard",
+  "name": "건설기술 진흥법 §57 (건설공사 품질관리 전문기관)",
+  "_meta": {
+    "category": "law",
+    "lawName": "건설기술 진흥법",
+    "articleNo": "57",
+    "scope": "품질검사 대행 전문기관 지정·관리",
+    "legalWeight": "mandatory",
+    "basisType": "law"
+  }
+}

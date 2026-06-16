@@ -1,0 +1,38 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "test:thermal_conductivity",
+  "@type": "TestItem",
+  "name": "단열재 열전도율 시험",
+  "aliases": [
+    "열전도율",
+    "단열성",
+    "단열재 시험"
+  ],
+  "_meta": {
+    "method": "KS L 3121 열전도율 시험 / KS F 2277 단열성 시험",
+    "timing": "단열재 반입 시",
+    "frequency": "제조회사별·제품규격별 (별표2)",
+    "typicalAcceptance": "열전도율 등급 기준은 KS L 3121/건축물 에너지절약기준 확보 시 — 시험종목·방법 커버리지"
+  },
+  "targetMaterial": [
+    "material:insulation"
+  ],
+  "relatedWork": [
+    "work:insulation"
+  ],
+  "hasAcceptanceCriteria": [
+    "criteria:thermal_conductivity"
+  ],
+  "possibleNonconformance": [
+    "ncr:insulation_fail"
+  ],
+  "correctiveActions": [
+    "action:refinish"
+  ],
+  "requiresEvidence": [
+    "doc:test_certificate"
+  ],
+  "requiresStandard": [
+    "standard:ks_l_3121"
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "work:hydraulic_structure",
+  "@type": "WorkType",
+  "name": "수공구조물공사",
+  "aliases": [
+    "수공구조물",
+    "흙댐",
+    "제방",
+    "용수로",
+    "배수로",
+    "축제",
+    "필댐"
+  ],
+  "_meta": {
+    "parent": "토목공사",
+    "domain": "civil_quality",
+    "note": "별표2 수공구조물공사 — 토공 시험종목(함수비·다짐·현장밀도) + 투수(KS F 2322) verified. 투수계수 판정값은 댐/제방 설계기준·KCS 확보 시. 토공 자재·시험 공유."
+  },
+  "usesMaterial": [
+    "material:soil"
+  ],
+  "hasInspectionCheckpoint": [
+    "inspection:hydraulic_seepage"
+  ],
+  "hasQualityRisk": [
+    "risk:soil_compaction_deficiency",
+    "risk:seepage"
+  ],
+  "requiresStandard": [
+    "standard:quality_management_guideline"
+  ]
+}

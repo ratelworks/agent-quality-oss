@@ -1,0 +1,40 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "test:paint_film",
+  "@type": "TestItem",
+  "name": "도료·도막 시험",
+  "aliases": [
+    "도막",
+    "도막두께",
+    "부착강도",
+    "은폐율",
+    "건조시간"
+  ],
+  "_meta": {
+    "method": "도료 부착강도·은폐율·건조시간·내수성 KS M 6010 / 건조시간 KS M 5000 / 도막두께 현장 측정",
+    "timing": "도료 반입·도장 시공 시",
+    "frequency": "제품규격별 (별표2)",
+    "typicalAcceptance": "도료 성능·도막두께 기준은 KS M 6010/도장 시방 확보 시 — 시험종목·방법 커버리지"
+  },
+  "targetMaterial": [
+    "material:paint"
+  ],
+  "relatedWork": [
+    "work:painting"
+  ],
+  "hasAcceptanceCriteria": [
+    "criteria:paint_film"
+  ],
+  "possibleNonconformance": [
+    "ncr:paint_fail"
+  ],
+  "correctiveActions": [
+    "action:refinish"
+  ],
+  "requiresEvidence": [
+    "doc:test_certificate"
+  ],
+  "requiresStandard": [
+    "standard:ks_m_6010"
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "doc:site_test_record",
+  "@type": "EvidenceDocument",
+  "name": "현장 시험 기록",
+  "aliases": [
+    "시험 일지",
+    "현장 시험 성적표"
+  ],
+  "_meta": {
+    "mandatory": true,
+    "priority": 2
+  }
+}

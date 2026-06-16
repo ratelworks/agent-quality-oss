@@ -1,0 +1,23 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "criteria:brick_strength",
+  "@type": "AcceptanceCriteria",
+  "name": "벽돌·블록 압축강도 기준 (KS 확보 대기)",
+  "_meta": {
+    "operator": "ge",
+    "threshold": null,
+    "unit": "MPa",
+    "condition": "콘크리트벽돌·점토벽돌·블록 압축강도·흡수율 합격 기준은 KS F 4004/KS L 4201이 출처 — 미확보로 보류(UNDETERMINED).",
+    "fallbackToProject": true,
+    "reference": "KS F 4004/KS L 4201 — 별표2 시험방법 인용",
+    "sourceStatus": "skeleton",
+    "referenceVerified": false,
+    "note": "별표2로 시험종목·방법·빈도 verified. 강도 판정값은 KS 원문(공공 자동확보 제약)이라 skeleton."
+  },
+  "appliesTo": [
+    "test:brick_strength"
+  ],
+  "derivedFrom": [
+    "standard:ks_f_4004"
+  ]
+}

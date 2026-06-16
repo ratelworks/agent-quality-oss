@@ -1,0 +1,32 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "inspection:rebar_placement",
+  "@type": "InspectionCheckpoint",
+  "name": "철근 배근·이음·피복 검측",
+  "aliases": [
+    "배근검사",
+    "철근 검측",
+    "피복두께 검사",
+    "철근 이음 검사"
+  ],
+  "_meta": {
+    "stage": "before",
+    "rule": "가공치수 허용오차(d≤200mm −10mm, d>200mm −13mm)·피복두께 확보(고임재·간격재 배치)·이음 검사 — 가스압접: 외관 전수 + 초음파탐상 1검사로트당 30개소 발취(KS B 0839) + 인장시험(KS B 0554) / 용접이음: 인장강도 모재 규격값의 125% / 기계적 이음: 외관·인장",
+    "reference": "KCS 14 20 11 §3.1.2 가공 / §3.1.3 이음 / 표(가공치수의 허용오차)",
+    "verifiedAgainst": "evaluation/sources/kcs_14_20_01.txt L4283-4725 (가공 허용오차·가스압접 30개소·용접 125%)"
+  },
+  "verifies": [
+    "risk:rebar_material_deficiency"
+  ],
+  "isBasedOn": [
+    "standard:kcs_14_20.11"
+  ],
+  "requiresEvidence": [
+    "doc:inspection_request",
+    "doc:site_photo",
+    "doc:structural_drawing"
+  ],
+  "relatedWork": [
+    "work:rebar_placement"
+  ]
+}

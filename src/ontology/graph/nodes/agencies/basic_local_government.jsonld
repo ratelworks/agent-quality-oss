@@ -1,0 +1,14 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "agency:basic_local_government",
+  "@type": "Agency",
+  "name": "기초자치단체 (시·군·구)",
+  "aliases": [
+    "기초지자체"
+  ],
+  "_meta": {
+    "agencyType": "local_government",
+    "scope": "시·군·구 발주공사",
+    "approverRole": "발주부서 감독 + 감리"
+  }
+}

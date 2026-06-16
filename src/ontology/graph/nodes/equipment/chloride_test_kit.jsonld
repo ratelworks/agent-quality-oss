@@ -1,0 +1,10 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "equipment:chloride_test_kit",
+  "@type": "Equipment",
+  "name": "염화물 측정기",
+  "_meta": {
+    "category": "field_test_equipment",
+    "standard": "KS F 2515"
+  }
+}

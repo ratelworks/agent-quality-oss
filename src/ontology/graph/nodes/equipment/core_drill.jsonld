@@ -1,0 +1,10 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "equipment:core_drill",
+  "@type": "Equipment",
+  "name": "코어 드릴",
+  "_meta": {
+    "category": "ndt_equipment",
+    "purpose": "경화 콘크리트 코어 채취 → 압축강도 시험"
+  }
+}

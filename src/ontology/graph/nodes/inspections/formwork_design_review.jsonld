@@ -1,0 +1,29 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "inspection:formwork_design_review",
+  "@type": "InspectionCheckpoint",
+  "name": "거푸집·동바리 구조검토 (설계하중)",
+  "aliases": [
+    "거푸집 설계검토",
+    "동바리 구조계산 확인"
+  ],
+  "_meta": {
+    "stage": "before",
+    "rule": "연직하중(고정+활)·수평하중·콘크리트 측압에 대해 설계. 고정하중 보통콘크리트 24 kN/㎥(1종경량 20·2종경량 17) + 거푸집 0.4 kN/㎡ 이상, 활하중 2.5 kN/㎡ 이상(진동식 카트 3.75), 연직하중 합 5.0 kN/㎡ 이상(전동식 카트 6.25). 동바리 수평하중 고정하중의 2% 또는 1.5 kN/m 중 큰 값, 벽체 거푸집 측면 0.5 kN/㎡ 이상.",
+    "reference": "KCS 14 20 12 §1.7.3",
+    "verifiedAgainst": "evaluation/sources/kcs_14_20_01.txt L4838-4863"
+  },
+  "verifies": [
+    "risk:formwork_premature_stripping"
+  ],
+  "isBasedOn": [
+    "standard:kcs_14_20.12.1_7_3"
+  ],
+  "requiresEvidence": [
+    "doc:structural_drawing",
+    "doc:inspection_request"
+  ],
+  "relatedWork": [
+    "work:formwork_shoring"
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "inspection:waterproofing",
+  "@type": "InspectionCheckpoint",
+  "name": "방수 검측",
+  "aliases": [
+    "방수 검사",
+    "담수시험"
+  ],
+  "_meta": {
+    "stage": "during",
+    "rule": "방수재 시험성적서 검토 + 바탕면 처리·이음부·치켜올림 시공 확인 + 담수시험. 성능 판정값은 KS 확보 시.",
+    "reference": "별표2(방수공사)",
+    "sourceStatus": "verified",
+    "verifiedAgainst": "evaluation/sources/quality_test_standards_annex2.txt (방수공사)"
+  },
+  "verifies": [
+    "risk:waterproofing_defect"
+  ],
+  "isBasedOn": [
+    "standard:quality_management_guideline"
+  ],
+  "requiresEvidence": [
+    "doc:test_certificate",
+    "doc:inspection_request"
+  ],
+  "relatedWork": [
+    "work:waterproofing"
+  ]
+}

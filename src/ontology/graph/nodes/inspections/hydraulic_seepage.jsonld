@@ -1,0 +1,31 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "inspection:hydraulic_seepage",
+  "@type": "InspectionCheckpoint",
+  "name": "수공구조물 차수·다짐 검측",
+  "aliases": [
+    "차수 검측",
+    "제체 다짐 검사",
+    "투수 검사"
+  ],
+  "_meta": {
+    "stage": "during",
+    "rule": "제체·차수재 다짐 시 함수비·현장밀도·투수 시험. 빈도: 토질변화시마다. 투수계수 판정값은 댐/제방 설계기준·KCS 확보 시.",
+    "reference": "별표2(수공구조물공사) — 판정값은 KCS 원문 확보 대기",
+    "sourceStatus": "verified",
+    "verifiedAgainst": "evaluation/sources/quality_test_standards_annex2.txt (수공구조물공사)"
+  },
+  "verifies": [
+    "risk:seepage"
+  ],
+  "isBasedOn": [
+    "standard:quality_management_guideline"
+  ],
+  "requiresEvidence": [
+    "doc:site_test_record",
+    "doc:inspection_request"
+  ],
+  "relatedWork": [
+    "work:hydraulic_structure"
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "criteria:concrete_pavement_strength",
+  "@type": "AcceptanceCriteria",
+  "name": "콘크리트 포장 휨강도·두께 기준 (KCS 44 확보 대기)",
+  "_meta": {
+    "operator": "ge",
+    "threshold": null,
+    "unit": "MPa",
+    "condition": "콘크리트 포장 설계기준 휨강도·두께·평탄성 합격 기준은 KCS 44(도로포장)가 출처 — 미확보로 보류(UNDETERMINED).",
+    "fallbackToProject": true,
+    "reference": "KCS 44 / KS F 2408·2367 — 별표2 시험방법 인용",
+    "sourceStatus": "skeleton",
+    "referenceVerified": false,
+    "note": "별표2로 시험종목·방법·빈도 verified. 휨강도·두께 판정값은 KCS 44 원문(공공 자동확보 제약)이라 skeleton."
+  },
+  "appliesTo": [
+    "test:concrete_pavement_strength"
+  ],
+  "derivedFrom": [
+    "standard:ks_f_2408"
+  ]
+}

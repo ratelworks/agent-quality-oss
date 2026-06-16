@@ -1,0 +1,23 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "criteria:asphalt_content",
+  "@type": "AcceptanceCriteria",
+  "name": "아스팔트 함량 기준 (배합설계 확보 대기)",
+  "_meta": {
+    "operator": "ge",
+    "threshold": null,
+    "unit": "%",
+    "condition": "아스팔트 함량 허용범위는 배합설계·도로포장 시방(KCS 44)에 따름 — 미확보로 보류(UNDETERMINED).",
+    "fallbackToProject": true,
+    "reference": "KS F 2354 — 별표2 시험방법 인용",
+    "sourceStatus": "skeleton",
+    "referenceVerified": false,
+    "note": "별표2로 시험종목(함량)·방법(KS F 2354) verified. 함량 판정범위는 배합설계(공공 자동확보 제약)이라 skeleton."
+  },
+  "appliesTo": [
+    "test:asphalt_content"
+  ],
+  "derivedFrom": [
+    "standard:ks_f_2354"
+  ]
+}

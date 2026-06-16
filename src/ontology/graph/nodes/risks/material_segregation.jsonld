@@ -1,0 +1,16 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "risk:material_segregation",
+  "@type": "QualityRisk",
+  "name": "재료분리",
+  "aliases": [
+    "blocks",
+    "pouring segregation"
+  ],
+  "_meta": {
+    "severity": "high"
+  },
+  "mayCause": [
+    "ncr:honeycomb"
+  ]
+}

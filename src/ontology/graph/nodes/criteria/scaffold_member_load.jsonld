@@ -1,0 +1,26 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "criteria:scaffold_member_load",
+  "@type": "AcceptanceCriteria",
+  "name": "가설기자재 허용하중 적합 (안전인증기준 확보 대기)",
+  "aliases": [
+    "가설기자재 하중 기준"
+  ],
+  "_meta": {
+    "operator": "ge",
+    "threshold": null,
+    "unit": "kN",
+    "condition": "비계·동바리 부재의 허용 압축·휨·인장 하중은 산업안전보건법 안전인증기준 또는 KS F 8001/8002/8021이 출처 — 미확보로 자동판정 보류(UNDETERMINED).",
+    "fallbackToProject": true,
+    "reference": "KS F 8001/8002/8021 / 산업안전보건법 안전인증기준 — 별표2가 시험방법 인용",
+    "sourceStatus": "skeleton",
+    "referenceVerified": false,
+    "note": "별표2(법제처)로 시험종목·방법·빈도 verified. 하중 판정값은 안전인증기준/KS 원문(공공 자동확보 제약)이라 skeleton."
+  },
+  "appliesTo": [
+    "test:scaffold_member"
+  ],
+  "derivedFrom": [
+    "standard:ks_f_8021"
+  ]
+}

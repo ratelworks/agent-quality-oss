@@ -1,0 +1,41 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "test:rebar_mechanical",
+  "@type": "TestItem",
+  "name": "철근 기계적 성질 시험",
+  "aliases": [
+    "철근 인장시험",
+    "철근 항복강도",
+    "철근 인장강도",
+    "철근 연신율",
+    "철근 굽힘성"
+  ],
+  "_meta": {
+    "method": "KS D 3504 — 항복점/항복강도·인장강도·연신율·굽힘성·겉모양·치수·무게",
+    "timing": "반입 시",
+    "frequency": "제조회사별·제품규격별 50톤마다 (별표2)",
+    "typicalAcceptance": "KS D 3504 등급(SD300/400/500/600)별 기준항복강도·인장강도·연신율 적합 — 합격 수치는 KS D 3504 원문(유료) 참조, 자동 판정 보류"
+  },
+  "targetMaterial": [
+    "material:rebar"
+  ],
+  "relatedWork": [
+    "work:rebar_placement"
+  ],
+  "hasAcceptanceCriteria": [
+    "criteria:rebar_ks_d_3504"
+  ],
+  "possibleNonconformance": [
+    "ncr:rebar_material_nonconformance"
+  ],
+  "correctiveActions": [
+    "action:rebar_reject"
+  ],
+  "requiresEvidence": [
+    "doc:test_certificate"
+  ],
+  "requiresStandard": [
+    "standard:ks_d_3504",
+    "standard:kcs_14_20.11"
+  ]
+}

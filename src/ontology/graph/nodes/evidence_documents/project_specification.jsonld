@@ -1,0 +1,14 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "doc:project_specification",
+  "@type": "EvidenceDocument",
+  "name": "공사시방서",
+  "aliases": [
+    "특기시방서",
+    "project spec"
+  ],
+  "_meta": {
+    "mandatory": true,
+    "priority": 1
+  }
+}

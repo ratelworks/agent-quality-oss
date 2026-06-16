@@ -1,0 +1,23 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "criteria:soil_cbr",
+  "@type": "AcceptanceCriteria",
+  "name": "노상·노체 CBR 기준 (설계기준·KCS 확보 대기)",
+  "_meta": {
+    "operator": "ge",
+    "threshold": null,
+    "unit": "%",
+    "condition": "CBR 합격값은 설계기준·도로공사 표준시방서(KCS 44)에 따름 — 미확보로 보류(UNDETERMINED).",
+    "fallbackToProject": true,
+    "reference": "KS F 2320 — 별표2 시험방법 인용",
+    "sourceStatus": "skeleton",
+    "referenceVerified": false,
+    "note": "별표2로 시험종목(CBR)·방법(KS F 2320) verified. 판정값은 설계기준·KCS(공공 자동확보 제약)이라 skeleton."
+  },
+  "appliesTo": [
+    "test:soil_cbr"
+  ],
+  "derivedFrom": [
+    "standard:ks_f_2320"
+  ]
+}

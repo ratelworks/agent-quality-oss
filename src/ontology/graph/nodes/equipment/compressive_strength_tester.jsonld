@@ -1,0 +1,11 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "equipment:compressive_strength_tester",
+  "@type": "Equipment",
+  "name": "압축강도 시험기",
+  "_meta": {
+    "category": "lab_test_equipment",
+    "standard": "KS F 2405",
+    "note": "교정 주기 1년 (KOLAS)"
+  }
+}

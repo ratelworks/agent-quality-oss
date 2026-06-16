@@ -1,0 +1,14 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "standard:kcs_14_20.10.3_4",
+  "@type": "Standard",
+  "name": "KCS 14 20 10 §3.4 양생",
+  "_meta": {
+    "parent": "standard.kcs_14_20.10",
+    "sectionRef": "14 20 10 §3.4",
+    "scope": "§3.4.1 일반 / §3.4.2 습윤 양생(표 3.4-1 시멘트별 양생일수) / §3.4.3 온도제어 양생",
+    "granularity": "clause",
+    "sourceStatus": "verified",
+    "verifiedAgainst": "evaluation/sources/kcs_14_20_01.txt L3074-3120"
+  }
+}

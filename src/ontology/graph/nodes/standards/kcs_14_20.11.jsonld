@@ -1,0 +1,19 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "standard:kcs_14_20.11",
+  "@type": "Standard",
+  "name": "KCS 14 20 11 철근공사",
+  "aliases": [
+    "KCS 14 20 11",
+    "철근공사 표준시방서"
+  ],
+  "_meta": {
+    "parent": "standard.kcs_14_20",
+    "sectionRef": "14 20 11",
+    "scope": "철근 재료(KS D 3504)·가공(허용오차)·이음(가스압접·기계적·용접)·정착·피복두께 시공기준",
+    "issuer": "국토교통부 / 국가건설기준센터",
+    "granularity": "document",
+    "sourceStatus": "verified",
+    "verifiedAgainst": "evaluation/sources/kcs_14_20_01.txt L4283-4725"
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "inspection:during_concrete_placement",
+  "@type": "InspectionCheckpoint",
+  "name": "콘크리트 타설 중 검측",
+  "aliases": [
+    "타설 중 검측",
+    "타설 입회"
+  ],
+  "_meta": {
+    "stage": "during"
+  },
+  "verifies": [
+    "risk:slump_out_of_range",
+    "risk:material_segregation",
+    "risk:cold_joint",
+    "risk:insufficient_compaction"
+  ],
+  "isBasedOn": [
+    "standard:kcs_14_20",
+    "standard:quality_management_guideline"
+  ],
+  "requiresEvidence": [
+    "doc:site_test_record",
+    "doc:delivery_ticket",
+    "doc:specimen_record",
+    "doc:site_photo"
+  ],
+  "relatedWork": [
+    "work:concrete_placement"
+  ]
+}

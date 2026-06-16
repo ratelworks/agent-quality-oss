@@ -1,0 +1,23 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "criteria:steel_material",
+  "@type": "AcceptanceCriteria",
+  "name": "구조용 강재 기계적 성질 기준 (KS 등급 확보 대기)",
+  "_meta": {
+    "operator": "ge",
+    "threshold": null,
+    "unit": "MPa",
+    "condition": "항복강도·인장강도·연신율 합격값은 KS D 3503 등 강종 등급에 따름 — 미확보로 보류(UNDETERMINED).",
+    "fallbackToProject": true,
+    "reference": "KS D 3503 — 별표2 시험방법 인용",
+    "sourceStatus": "skeleton",
+    "referenceVerified": false,
+    "note": "별표2로 시험종목·방법 verified. 등급별 강도 판정값은 KS 원문(공공 자동확보 제약)이라 skeleton."
+  },
+  "appliesTo": [
+    "test:steel_material"
+  ],
+  "derivedFrom": [
+    "standard:ks_d_3503"
+  ]
+}

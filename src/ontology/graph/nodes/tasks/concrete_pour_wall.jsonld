@@ -1,0 +1,10 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "task:concrete_pour_wall",
+  "@type": "Task",
+  "name": "벽체 콘크리트 타설",
+  "_meta": {
+    "parentWork": "work.concrete_placement",
+    "stage": "execution"
+  }
+}

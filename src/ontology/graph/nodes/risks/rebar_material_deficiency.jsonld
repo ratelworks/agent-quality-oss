@@ -1,0 +1,19 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "risk:rebar_material_deficiency",
+  "@type": "QualityRisk",
+  "name": "철근 재료 품질 미달",
+  "aliases": [
+    "철근 강도 부족",
+    "철근 불량"
+  ],
+  "_meta": {
+    "severity": "high"
+  },
+  "mayCause": [
+    "ncr:rebar_material_nonconformance"
+  ],
+  "relatedTest": [
+    "test:rebar_mechanical"
+  ]
+}

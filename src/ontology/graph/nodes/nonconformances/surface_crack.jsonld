@@ -1,0 +1,40 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "ncr:surface_crack",
+  "@type": "Nonconformance",
+  "name": "표면 균열",
+  "aliases": [
+    "건조수축 균열",
+    "초기 균열",
+    "침하균열"
+  ],
+  "_meta": {
+    "direction": "defect",
+    "possibleCauses": [
+      "양생 불량 (§3.4)",
+      "외기 극한 환경",
+      "급속 건조",
+      "침하균열 (§3.3.4)"
+    ],
+    "owner": "현장 공사 담당",
+    "approver": "감리원",
+    "effectivenessCheck": "균열 폭 측정 + 보수 후 재확인",
+    "closureCriteria": "허용 균열폭 이내 또는 보수 완료 + NCR 보고서 승인",
+    "sourceStatus": "verified",
+    "note": "v0.1 basisPriority에서 §3.3.4 침하균열 + §3.4 양생 + §3.5.5.2 표면상태 검사 누락. 정정 완료 (2026-04-28 R0-G1)"
+  },
+  "immediateActions": [
+    "action:notify_quality_manager"
+  ],
+  "correctiveActions": [
+    "action:record_ncr"
+  ],
+  "requiresEvidence": [
+    "doc:site_photo"
+  ],
+  "basisPriority": [
+    "standard:kcs_14_20.10.3_3_4",
+    "standard:kcs_14_20.10.3_4",
+    "standard:kcs_14_20.10.3_5_5_2"
+  ]
+}

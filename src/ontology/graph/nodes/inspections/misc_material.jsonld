@@ -1,0 +1,30 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "inspection:misc_material",
+  "@type": "InspectionCheckpoint",
+  "name": "기타 공통자재 검측 (석재·토목섬유)",
+  "aliases": [
+    "석재 검사",
+    "토목섬유 검사"
+  ],
+  "_meta": {
+    "stage": "before",
+    "rule": "석재 압축강도·흡수율, 토목섬유 인장강도·투수·봉합강도 시험성적서 검토. 빈도: 석산마다·20,000㎡마다.",
+    "reference": "별표2(공통 마.기타)",
+    "sourceStatus": "verified",
+    "verifiedAgainst": "evaluation/sources/quality_test_standards_annex2.txt (공통 마.기타)"
+  },
+  "verifies": [
+    "risk:misc_material_defect"
+  ],
+  "isBasedOn": [
+    "standard:quality_management_guideline"
+  ],
+  "requiresEvidence": [
+    "doc:test_certificate",
+    "doc:inspection_request"
+  ],
+  "relatedWork": [
+    "work:misc_common"
+  ]
+}

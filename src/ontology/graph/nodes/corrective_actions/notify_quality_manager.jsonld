@@ -1,0 +1,9 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "action:notify_quality_manager",
+  "@type": "CorrectiveAction",
+  "name": "품질관리자 통보",
+  "_meta": {
+    "urgency": "immediate"
+  }
+}

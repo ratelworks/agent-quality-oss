@@ -1,0 +1,15 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "risk:air_content_deviation",
+  "@type": "QualityRisk",
+  "name": "공기량 기준 이탈",
+  "_meta": {
+    "severity": "medium"
+  },
+  "mayCause": [
+    "ncr:air_content_out_of_range"
+  ],
+  "relatedTest": [
+    "test:air_content"
+  ]
+}

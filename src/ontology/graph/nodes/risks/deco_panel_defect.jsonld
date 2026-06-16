@@ -1,0 +1,19 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "risk:deco_panel_defect",
+  "@type": "QualityRisk",
+  "name": "마감자재 품질 결함",
+  "aliases": [
+    "화장판 불량",
+    "내마모 미달"
+  ],
+  "_meta": {
+    "severity": "low"
+  },
+  "mayCause": [
+    "ncr:deco_panel_fail"
+  ],
+  "relatedTest": [
+    "test:deco_panel"
+  ]
+}

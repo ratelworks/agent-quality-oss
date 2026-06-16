@@ -1,0 +1,39 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "test:deco_panel",
+  "@type": "TestItem",
+  "name": "마감자재 성능 시험",
+  "aliases": [
+    "화장판 시험",
+    "내열수성",
+    "내마모성",
+    "내오염성"
+  ],
+  "_meta": {
+    "method": "일반용 화장판 내열수성·내끓임성·내마모성·내오염성·내광성 KS M 3332",
+    "timing": "반입 시",
+    "frequency": "제조회사별·제품규격별 (별표2)",
+    "typicalAcceptance": "내열·내마모·내오염 성능 기준은 KS M 3332 확보 시 — 시험종목·방법 커버리지"
+  },
+  "targetMaterial": [
+    "material:deco_panel"
+  ],
+  "relatedWork": [
+    "work:misc_finishing"
+  ],
+  "hasAcceptanceCriteria": [
+    "criteria:deco_panel"
+  ],
+  "possibleNonconformance": [
+    "ncr:deco_panel_fail"
+  ],
+  "correctiveActions": [
+    "action:refinish"
+  ],
+  "requiresEvidence": [
+    "doc:test_certificate"
+  ],
+  "requiresStandard": [
+    "standard:ks_m_3332"
+  ]
+}

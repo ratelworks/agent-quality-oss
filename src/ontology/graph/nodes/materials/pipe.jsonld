@@ -1,0 +1,25 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "material:pipe",
+  "@type": "Material",
+  "name": "상하수도 관",
+  "aliases": [
+    "관",
+    "강관",
+    "도복장강관",
+    "염화비닐관",
+    "폴리에틸렌관",
+    "흄관",
+    "철근콘크리트관"
+  ],
+  "_meta": {
+    "category": "관재",
+    "note": "별표2 상하수도 관 — 도복장강관 KS D 3565·PVC KS M 3404·PE KS M 3407·철근콘크리트관 KS F 4402."
+  },
+  "requiresTest": [
+    "test:pipe_strength"
+  ],
+  "requiresStandard": [
+    "standard:ks_d_3565"
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "standard:ks_f_2306",
+  "@type": "Standard",
+  "name": "KS F 2306 흙의 함수비 시험",
+  "aliases": [
+    "KS F 2306",
+    "함수비 시험"
+  ],
+  "_meta": {
+    "issuer": "국가기술표준원",
+    "category": "시험방법",
+    "granularity": "document"
+  }
+}

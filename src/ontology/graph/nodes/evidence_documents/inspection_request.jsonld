@@ -1,0 +1,13 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "doc:inspection_request",
+  "@type": "EvidenceDocument",
+  "name": "검측 요청서",
+  "aliases": [
+    "검측원 확인서"
+  ],
+  "_meta": {
+    "mandatory": true,
+    "priority": 2
+  }
+}

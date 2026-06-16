@@ -1,0 +1,14 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "standard:law.btia_60",
+  "@type": "Standard",
+  "name": "건설기술 진흥법 §60 (품질검사의 대행 및 확인)",
+  "_meta": {
+    "category": "law",
+    "lawName": "건설기술 진흥법",
+    "articleNo": "60",
+    "scope": "공인 시험기관 대행·봉인·확인 절차 (chain of custody 근거)",
+    "legalWeight": "mandatory",
+    "basisType": "law"
+  }
+}

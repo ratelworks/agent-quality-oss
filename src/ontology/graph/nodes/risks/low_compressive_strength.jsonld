@@ -1,0 +1,18 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "risk:low_compressive_strength",
+  "@type": "QualityRisk",
+  "name": "압축강도 부족",
+  "aliases": [
+    "강도 부족"
+  ],
+  "_meta": {
+    "severity": "high"
+  },
+  "mayCause": [
+    "ncr:low_compressive_strength"
+  ],
+  "relatedTest": [
+    "test:compressive_strength"
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "action:extend_form_curing",
+  "@type": "CorrectiveAction",
+  "name": "거푸집 존치기간 연장·재양생",
+  "aliases": [
+    "존치 연장",
+    "양생 연장"
+  ],
+  "_meta": {
+    "urgency": "immediate"
+  }
+}

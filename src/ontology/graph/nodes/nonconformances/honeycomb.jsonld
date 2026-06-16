@@ -1,0 +1,42 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "ncr:honeycomb",
+  "@type": "Nonconformance",
+  "name": "곰보(허니컴)",
+  "aliases": [
+    "허니컴"
+  ],
+  "_meta": {
+    "direction": "defect",
+    "possibleCauses": [
+      "다짐 불량 (§3.3.3)",
+      "재료분리",
+      "거푸집 누수"
+    ],
+    "owner": "현장 공사 담당",
+    "approver": "감리원",
+    "effectivenessCheck": "보수 후 육안 검사 + 필요 시 비파괴 시험",
+    "closureCriteria": "보수 완료 + 감리원 승인 + NCR 보고서 승인",
+    "sourceStatus": "verified",
+    "note": "v0.1 basisPriority에서 §3.3.3 다지기 + §3.5.5.2 표 3.5-6 표면상태 검사 누락. 정정 완료 (2026-04-28 R0-G1)"
+  },
+  "relatedMaterial": [
+    "material:ready_mixed_concrete"
+  ],
+  "immediateActions": [
+    "action:notify_quality_manager"
+  ],
+  "correctiveActions": [
+    "action:structural_review",
+    "action:record_ncr"
+  ],
+  "requiresEvidence": [
+    "doc:site_photo",
+    "doc:ncr_report"
+  ],
+  "basisPriority": [
+    "doc:structural_drawing",
+    "standard:kcs_14_20.10.3_3_3",
+    "standard:kcs_14_20.10.3_5_5_2"
+  ]
+}

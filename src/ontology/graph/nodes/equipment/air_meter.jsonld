@@ -1,0 +1,13 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "equipment:air_meter",
+  "@type": "Equipment",
+  "name": "공기량 측정기 (압력법)",
+  "aliases": [
+    "air content meter"
+  ],
+  "_meta": {
+    "category": "field_test_equipment",
+    "standard": "KS F 2421"
+  }
+}

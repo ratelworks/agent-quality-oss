@@ -1,0 +1,34 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "work:rebar_placement",
+  "@type": "WorkType",
+  "name": "철근 배근",
+  "aliases": [
+    "철근공사",
+    "철근 배치",
+    "철근조립"
+  ],
+  "_meta": {
+    "parent": "철근콘크리트공사",
+    "domain": "architecture_quality",
+    "note": "KCS 14 20 11 + 별표2. 시험종목(KS D 3504)·이음·가공·피복 검측 verified. 등급별 항복강도 수치는 KS D 3504(유료 표준) 확보 시 강화."
+  },
+  "hasTask": [
+    "task:rebar_placement_slab",
+    "task:rebar_placement_wall"
+  ],
+  "usesMaterial": [
+    "material:rebar"
+  ],
+  "hasInspectionCheckpoint": [
+    "inspection:rebar_placement"
+  ],
+  "hasQualityRisk": [
+    "risk:rebar_material_deficiency"
+  ],
+  "requiresStandard": [
+    "standard:kcs_14_20.11",
+    "standard:quality_management_guideline",
+    "standard:guideline.part2_art6"
+  ]
+}

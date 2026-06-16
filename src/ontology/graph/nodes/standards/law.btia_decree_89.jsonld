@@ -1,0 +1,17 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "standard:law.btia_decree_89",
+  "@type": "Standard",
+  "name": "건설기술 진흥법 시행령 §89 (품질관리계획 수립 대상)",
+  "aliases": [
+    "시행령 §89"
+  ],
+  "_meta": {
+    "category": "decree",
+    "lawName": "건설기술 진흥법 시행령",
+    "articleNo": "89",
+    "scope": "총공사비 500억 원 이상·주요구조부 500㎡ 이상 등 품질관리계획 의무 대상",
+    "legalWeight": "mandatory",
+    "basisType": "decree"
+  }
+}

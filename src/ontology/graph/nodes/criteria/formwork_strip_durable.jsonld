@@ -1,0 +1,26 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "criteria:formwork_strip_durable",
+  "@type": "AcceptanceCriteria",
+  "name": "내구성 중요 구조물 거푸집 해체강도 10MPa 이상",
+  "aliases": [
+    "내구성 해체강도"
+  ],
+  "_meta": {
+    "operator": "ge",
+    "threshold": 10,
+    "unit": "MPa",
+    "condition": "내구성이 중요한 구조물의 거푸집널 해체",
+    "fallbackToProject": true,
+    "reference": "KCS 14 20 12 §3.3 (내구성이 중요한 구조물)",
+    "sourceStatus": "verified",
+    "verifiedAgainst": "evaluation/sources/kcs_14_20_01.txt L5159-5165",
+    "referenceVerified": true
+  },
+  "appliesTo": [
+    "test:formwork_stripping_strength"
+  ],
+  "derivedFrom": [
+    "standard:kcs_14_20.12.3_3"
+  ]
+}

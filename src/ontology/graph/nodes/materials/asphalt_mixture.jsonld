@@ -1,0 +1,23 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "material:asphalt_mixture",
+  "@type": "Material",
+  "name": "아스팔트 혼합물 (아스콘)",
+  "aliases": [
+    "아스콘",
+    "아스팔트 혼합물",
+    "가열 아스팔트 혼합물",
+    "플랜트혼합물"
+  ],
+  "_meta": {
+    "category": "포장재",
+    "note": "별표2 아스팔트 혼합물 시험 대상. 마샬안정도·흐름값 기준은 KCS 44(도로포장) 확보 시."
+  },
+  "requiresTest": [
+    "test:asphalt_marshall",
+    "test:asphalt_content"
+  ],
+  "requiresStandard": [
+    "standard:ks_f_2337"
+  ]
+}

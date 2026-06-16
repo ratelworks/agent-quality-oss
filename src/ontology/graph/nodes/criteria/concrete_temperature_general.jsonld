@@ -1,0 +1,25 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "criteria:concrete_temperature_general",
+  "@type": "AcceptanceCriteria",
+  "name": "콘크리트 온도 5℃~35℃ (출처 미확정)",
+  "_meta": {
+    "operator": "between",
+    "min": 5,
+    "max": 35,
+    "unit": "℃",
+    "condition": "한중 5℃ 이상(KCS 14 20 40), 서중 35℃ 이하(KCS 14 20 41) 별도 기준 존재. 일반 5~35 범위 출처는 KCS 14 20 10 본문에서 직접 미발견",
+    "fallbackToProject": true,
+    "reference": "범위 출처 미확정 — 한중·서중 임계값을 거꾸로 결합한 추론값일 가능성. R6 WorkType 분기 시 한중/서중 별도 criteria로 분리 권장",
+    "sourceStatus": "skeleton",
+    "verifiedAgainst": null,
+    "referenceVerified": false,
+    "note": "v0.1 reference 'KCS 14 20 10' 일반 인용. 본문 1:1 대조 결과 5~35 범위 직접 명시 미발견. R6에서 한중·서중 분리 후 본 노드 폐기 또는 derivedFrom 정정 (2026-04-28 R0-G1)"
+  },
+  "appliesTo": [
+    "test:concrete_temperature"
+  ],
+  "derivedFrom": [
+    "standard:kcs_14_20.10"
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "action:notify_supervisor",
+  "@type": "CorrectiveAction",
+  "name": "감리원 통보",
+  "_meta": {
+    "urgency": "immediate"
+  }
+}

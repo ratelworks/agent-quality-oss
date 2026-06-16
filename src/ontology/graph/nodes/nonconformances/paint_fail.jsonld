@@ -1,0 +1,44 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "ncr:paint_fail",
+  "@type": "Nonconformance",
+  "name": "도장 품질 부적합",
+  "aliases": [
+    "도장 불합격",
+    "도막두께 미달",
+    "부착 불량"
+  ],
+  "_meta": {
+    "direction": "too_low",
+    "severity": "medium",
+    "possibleCauses": [
+      "도료 규격 미달",
+      "바탕면 처리 불량",
+      "도막두께 부족",
+      "건조 불량"
+    ],
+    "owner": "도장 시공사 + 품질관리자",
+    "approver": "감리원",
+    "effectivenessCheck": "도막두께 재측정 또는 부착강도 재시험",
+    "closureCriteria": "재도장 + NCR 보고서 승인",
+    "sourceStatus": "verified",
+    "verifiedAgainst": "evaluation/sources/quality_test_standards_annex2.txt (도장공사)"
+  },
+  "relatedTest": [
+    "test:paint_film"
+  ],
+  "immediateActions": [
+    "action:notify_quality_manager"
+  ],
+  "correctiveActions": [
+    "action:refinish",
+    "action:record_ncr"
+  ],
+  "requiresEvidence": [
+    "doc:test_certificate",
+    "doc:ncr_report"
+  ],
+  "basisPriority": [
+    "standard:ks_m_6010"
+  ]
+}

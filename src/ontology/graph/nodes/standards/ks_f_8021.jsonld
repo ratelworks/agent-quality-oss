@@ -1,0 +1,16 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "standard:ks_f_8021",
+  "@type": "Standard",
+  "name": "KS F 8021 조립형 비계 및 동바리 부재",
+  "aliases": [
+    "KS F 8021",
+    "시스템비계",
+    "시스템동바리"
+  ],
+  "_meta": {
+    "issuer": "국가기술표준원",
+    "category": "제품규격",
+    "granularity": "document"
+  }
+}

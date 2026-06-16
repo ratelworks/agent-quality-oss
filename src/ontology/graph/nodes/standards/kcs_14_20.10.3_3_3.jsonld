@@ -1,0 +1,13 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "standard:kcs_14_20.10.3_3_3",
+  "@type": "Standard",
+  "name": "KCS 14 20 10 §3.3.3 다지기",
+  "_meta": {
+    "parent": "standard.kcs_14_20.10.3_3",
+    "sectionRef": "14 20 10 §3.3.3",
+    "scope": "내부 진동기 사용 원칙, 진동기 간격, 다지기 방법",
+    "granularity": "clause",
+    "sourceStatus": "verified"
+  }
+}

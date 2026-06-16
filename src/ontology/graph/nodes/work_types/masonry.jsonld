@@ -1,0 +1,31 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "work:masonry",
+  "@type": "WorkType",
+  "name": "조적공사",
+  "aliases": [
+    "조적",
+    "조적공사",
+    "벽돌",
+    "블록",
+    "벽돌쌓기",
+    "조적조"
+  ],
+  "_meta": {
+    "parent": "건축공사",
+    "domain": "architecture_quality",
+    "note": "별표2 조적공사 시험종목(콘크리트벽돌·점토벽돌·블록 압축강도·흡수율) verified. 판정 수치는 KS 확보 시."
+  },
+  "usesMaterial": [
+    "material:brick"
+  ],
+  "hasInspectionCheckpoint": [
+    "inspection:masonry"
+  ],
+  "hasQualityRisk": [
+    "risk:brick_defect"
+  ],
+  "requiresStandard": [
+    "standard:quality_management_guideline"
+  ]
+}

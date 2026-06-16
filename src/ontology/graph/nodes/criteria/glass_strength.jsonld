@@ -1,0 +1,23 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "criteria:glass_strength",
+  "@type": "AcceptanceCriteria",
+  "name": "유리 강도·성능 기준 (KS 확보 대기)",
+  "_meta": {
+    "operator": "ge",
+    "threshold": null,
+    "unit": "성능등급",
+    "condition": "강화유리 충격강도·복층유리 성능 합격 기준은 KS L 2002/2003이 출처 — 미확보로 보류(UNDETERMINED).",
+    "fallbackToProject": true,
+    "reference": "KS L 2002/2003 — 별표2 시험방법 인용",
+    "sourceStatus": "skeleton",
+    "referenceVerified": false,
+    "note": "별표2로 시험종목·방법 verified. 판정값은 KS 원문(공공 자동확보 제약)이라 skeleton."
+  },
+  "appliesTo": [
+    "test:glass_strength"
+  ],
+  "derivedFrom": [
+    "standard:ks_l_2002"
+  ]
+}

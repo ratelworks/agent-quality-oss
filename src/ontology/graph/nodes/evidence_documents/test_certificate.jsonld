@@ -1,0 +1,14 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "doc:test_certificate",
+  "@type": "EvidenceDocument",
+  "name": "시험성적서",
+  "aliases": [
+    "TR",
+    "test report"
+  ],
+  "_meta": {
+    "mandatory": true,
+    "priority": 1
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "ncr:air_content_out_of_range",
+  "@type": "Nonconformance",
+  "name": "공기량 기준 이탈",
+  "_meta": {
+    "direction": "out_of_range",
+    "possibleCauses": [
+      "배합설계 오류",
+      "AE제 투입량 이상",
+      "운반 중 공기량 변화"
+    ],
+    "owner": "레미콘 공급사 + 현장 품질관리자",
+    "approver": "감리원 / 공사감독자",
+    "effectivenessCheck": "배합 수정 후 후속 반입차 공기량 재확인",
+    "closureCriteria": "재시험 합격 또는 반송 + NCR 보고서 승인"
+  },
+  "relatedTest": [
+    "test:air_content"
+  ],
+  "relatedMaterial": [
+    "material:ready_mixed_concrete"
+  ],
+  "immediateActions": [
+    "action:hold_delivery",
+    "action:retest"
+  ],
+  "correctiveActions": [
+    "action:reject_truck",
+    "action:record_ncr"
+  ],
+  "requiresEvidence": [
+    "doc:site_test_record",
+    "doc:delivery_ticket"
+  ],
+  "basisPriority": [
+    "doc:mix_design",
+    "standard:kcs_14_20.10.3_2",
+    "standard:ks_f_2421"
+  ]
+}

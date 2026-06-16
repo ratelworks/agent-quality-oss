@@ -1,0 +1,46 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "ncr:slump_too_low",
+  "@type": "Nonconformance",
+  "name": "슬럼프 기준 미달",
+  "aliases": [
+    "슬럼프 부족"
+  ],
+  "_meta": {
+    "direction": "too_low",
+    "possibleCauses": [
+      "운반 시간 초과",
+      "배합수 부족",
+      "배합설계 오류",
+      "외기 고온"
+    ],
+    "owner": "레미콘 공급사 + 현장 품질관리자",
+    "approver": "감리원 / 공사감독자",
+    "effectivenessCheck": "후속 반입차 3대 연속 슬럼프 기준 내 재확인",
+    "closureCriteria": "반송 또는 재시험 합격 + NCR 보고서 승인"
+  },
+  "relatedTest": [
+    "test:slump"
+  ],
+  "relatedMaterial": [
+    "material:ready_mixed_concrete"
+  ],
+  "immediateActions": [
+    "action:hold_delivery",
+    "action:retest"
+  ],
+  "correctiveActions": [
+    "action:reject_truck",
+    "action:record_ncr"
+  ],
+  "requiresEvidence": [
+    "doc:delivery_ticket",
+    "doc:mix_design",
+    "doc:site_test_record"
+  ],
+  "basisPriority": [
+    "doc:mix_design",
+    "standard:kcs_14_20.10.3_2",
+    "standard:quality_management_guideline"
+  ]
+}

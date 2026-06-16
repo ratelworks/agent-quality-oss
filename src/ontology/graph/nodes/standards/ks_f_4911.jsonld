@@ -1,0 +1,15 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "standard:ks_f_4911",
+  "@type": "Standard",
+  "name": "KS F 4911 개량 아스팔트 방수시트",
+  "aliases": [
+    "KS F 4911",
+    "방수시트"
+  ],
+  "_meta": {
+    "issuer": "국가기술표준원",
+    "category": "제품규격",
+    "granularity": "document"
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "work:painting",
+  "@type": "WorkType",
+  "name": "도장공사",
+  "aliases": [
+    "도장",
+    "도장공사",
+    "페인트",
+    "도막",
+    "방청도장"
+  ],
+  "_meta": {
+    "parent": "건축공사",
+    "domain": "architecture_quality",
+    "note": "별표2 도장공사 시험종목(도료 부착강도·은폐율·건조시간·도막두께) verified. 판정값은 KCS 41/KS 확보 시."
+  },
+  "usesMaterial": [
+    "material:paint"
+  ],
+  "hasInspectionCheckpoint": [
+    "inspection:painting"
+  ],
+  "hasQualityRisk": [
+    "risk:paint_defect"
+  ],
+  "requiresStandard": [
+    "standard:quality_management_guideline"
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "standard:ks_f_4009",
+  "@type": "Standard",
+  "name": "KS F 4009 레디믹스트 콘크리트",
+  "aliases": [
+    "KS F 4009",
+    "레미콘 KS"
+  ],
+  "_meta": {
+    "issuer": "국가기술표준원",
+    "category": "제품규격",
+    "granularity": "document"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "risk:glass_defect",
+  "@type": "QualityRisk",
+  "name": "유리 강도·성능 결함",
+  "aliases": [
+    "유리 불량",
+    "강화유리 강도 미달"
+  ],
+  "_meta": {
+    "severity": "high"
+  },
+  "mayCause": [
+    "ncr:glass_fail"
+  ],
+  "relatedTest": [
+    "test:glass_strength"
+  ]
+}

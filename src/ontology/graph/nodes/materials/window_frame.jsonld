@@ -1,0 +1,22 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "material:window_frame",
+  "@type": "Material",
+  "name": "창호재",
+  "aliases": [
+    "창호재",
+    "창틀",
+    "창호 틀재",
+    "목제창호"
+  ],
+  "_meta": {
+    "category": "마감재",
+    "note": "별표2 창호 자재. 목제 틀재 KS F 3108. 강도 기준은 KS 확보 시."
+  },
+  "requiresTest": [
+    "test:window_performance"
+  ],
+  "requiresStandard": [
+    "standard:ks_f_3108"
+  ]
+}

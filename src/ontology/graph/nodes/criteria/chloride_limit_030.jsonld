@@ -1,0 +1,27 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "criteria:chloride_limit_030",
+  "@type": "AcceptanceCriteria",
+  "name": "염화물 이온 0.30 kg/㎥ 이하",
+  "aliases": [
+    "염화물 0.3"
+  ],
+  "_meta": {
+    "operator": "le",
+    "threshold": 0.3,
+    "unit": "kg/㎥",
+    "condition": "굳지 않은 콘크리트 중 염소이온량(Cl-) 원칙. 책임기술자 승인 시 0.60 kg/㎥까지 상향 가능 — §1.8.1(4)",
+    "fallbackToProject": true,
+    "reference": "KCS 14 20 10 §1.8.1 (2)",
+    "sourceStatus": "verified",
+    "verifiedAgainst": "evaluation/sources/kcs_14_20_01.txt L1614-1632",
+    "note": "v0.1 reference '§3.2, KS F 2515'는 §3.2가 운반조항이라 오인용. KS F 2515는 시험법이지 기준 출처 아님. §1.8.1(2)이 정확 (2026-04-28 R0-G1)"
+  },
+  "appliesTo": [
+    "test:chloride"
+  ],
+  "derivedFrom": [
+    "standard:kcs_14_20.10.1_8_1",
+    "standard:ks_f_2515"
+  ]
+}

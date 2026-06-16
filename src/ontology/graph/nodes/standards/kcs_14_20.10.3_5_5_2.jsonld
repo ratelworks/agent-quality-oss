@@ -1,0 +1,17 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "standard:kcs_14_20.10.3_5_5_2",
+  "@type": "Standard",
+  "name": "KCS 14 20 10 §3.5.5.2 표면상태의 검사",
+  "aliases": [
+    "표 3.5-6"
+  ],
+  "_meta": {
+    "parent": "standard.kcs_14_20.10",
+    "sectionRef": "14 20 10 §3.5.5.2",
+    "scope": "표 3.5-6: 노출면(허니컴·기포·결함 없을 것), 균열폭(KDS 14 20 30 4.1), 시공이음(신구 일체성)",
+    "granularity": "clause",
+    "sourceStatus": "verified",
+    "verifiedAgainst": "evaluation/sources/kcs_14_20_01.txt L3368-3392"
+  }
+}

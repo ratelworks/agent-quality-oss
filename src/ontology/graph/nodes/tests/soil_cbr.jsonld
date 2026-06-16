@@ -1,0 +1,29 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "test:soil_cbr",
+  "@type": "TestItem",
+  "name": "노상토 지지력비(CBR) 시험",
+  "aliases": [
+    "CBR",
+    "지지력비",
+    "노상토지지력비"
+  ],
+  "_meta": {
+    "method": "KS F 2320 노상토 지지력비(CBR) 시험",
+    "timing": "노상 완성 후",
+    "frequency": "토취장마다·재질변화시마다 (별표2)",
+    "typicalAcceptance": "설계 CBR 기준은 설계도서/KCS 확보 시 — 시험종목·방법 커버리지"
+  },
+  "relatedWork": [
+    "work:earthwork"
+  ],
+  "requiresEvidence": [
+    "doc:site_test_record"
+  ],
+  "requiresStandard": [
+    "standard:ks_f_2320"
+  ],
+  "hasAcceptanceCriteria": [
+    "criteria:soil_cbr"
+  ]
+}

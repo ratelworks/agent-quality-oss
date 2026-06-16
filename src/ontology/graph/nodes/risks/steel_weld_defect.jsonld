@@ -1,0 +1,20 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "risk:steel_weld_defect",
+  "@type": "QualityRisk",
+  "name": "용접 결함",
+  "aliases": [
+    "용접 불량",
+    "용접부 결함",
+    "비파괴 불합격"
+  ],
+  "_meta": {
+    "severity": "high"
+  },
+  "mayCause": [
+    "ncr:steel_weld_fail"
+  ],
+  "relatedTest": [
+    "test:steel_weld_inspection"
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "risk:formwork_premature_stripping",
+  "@type": "QualityRisk",
+  "name": "거푸집 조기 해체 (해체강도 미달)",
+  "aliases": [
+    "조기 해체",
+    "존치기간 부족",
+    "조기 탈형"
+  ],
+  "_meta": {
+    "severity": "high"
+  },
+  "mayCause": [
+    "ncr:formwork_premature_stripping"
+  ],
+  "relatedTest": [
+    "test:formwork_stripping_strength"
+  ]
+}

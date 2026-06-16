@@ -1,0 +1,43 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "test:air_content",
+  "@type": "TestItem",
+  "name": "공기량 시험",
+  "aliases": [
+    "공기량",
+    "air content test"
+  ],
+  "_meta": {
+    "method": "KS F 2421 압력법 공기량 시험",
+    "timing": "콘크리트 반입 시",
+    "frequency": "120㎥마다 1회 (업무지침 2024-638호 개정 반영)",
+    "typicalAcceptance": "보통 4.5%, 경량 5.5%, 포장 4.5%, 고강도 3.5% 이하 · 허용오차 ±1.5% (KCS 14 20 10)"
+  },
+  "targetMaterial": [
+    "material:ready_mixed_concrete"
+  ],
+  "relatedWork": [
+    "work:concrete_placement"
+  ],
+  "hasAcceptanceCriteria": [
+    "criteria:air_content_general",
+    "criteria:air_content_lightweight",
+    "criteria:air_content_pavement",
+    "criteria:air_content_high_strength"
+  ],
+  "possibleNonconformance": [
+    "ncr:air_content_out_of_range"
+  ],
+  "correctiveActions": [
+    "action:hold_delivery",
+    "action:retest"
+  ],
+  "requiresEvidence": [
+    "doc:site_test_record",
+    "doc:delivery_ticket"
+  ],
+  "requiresStandard": [
+    "standard:ks_f_2421",
+    "standard:kcs_14_20.10.3_2"
+  ]
+}

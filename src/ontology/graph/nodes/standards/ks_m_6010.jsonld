@@ -1,0 +1,15 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "standard:ks_m_6010",
+  "@type": "Standard",
+  "name": "KS M 6010 수성 도료",
+  "aliases": [
+    "KS M 6010",
+    "수성도료"
+  ],
+  "_meta": {
+    "issuer": "국가기술표준원",
+    "category": "제품규격",
+    "granularity": "document"
+  }
+}

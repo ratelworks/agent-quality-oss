@@ -1,0 +1,50 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "test:compressive_strength",
+  "@type": "TestItem",
+  "name": "압축강도 시험",
+  "aliases": [
+    "압축강도",
+    "공시체 압축강도",
+    "compressive strength"
+  ],
+  "_meta": {
+    "method": "KS F 2403/2405 공시체 제작 및 압축강도 시험 (표준 양생). 레미콘은 KS F 4009, 비레미콘은 KCS 14 20 10 기준",
+    "timing": "타설 시 공시체 제작 → 재령 7일·28일 시험",
+    "frequency": "1회/일 및 120㎥마다 1회 이상 (재령별 3개씩, 업무지침 2024-638호 개정 반영)",
+    "typicalAcceptance": "표 3.5-3 통계 판정. ≤35MPa: 평균≥fcn AND 1회≥fcn-3.5MPa. >35MPa: 평균≥fcn AND 1회≥fcn×0.9. (R1 2026-04-28 통계 모드 도입)"
+  },
+  "targetMaterial": [
+    "material:ready_mixed_concrete"
+  ],
+  "relatedWork": [
+    "work:concrete_placement"
+  ],
+  "hasAcceptanceCriteria": [
+    "criteria:compressive_strength_statistical_le35",
+    "criteria:compressive_strength_statistical_gt35",
+    "criteria:compressive_strength_design"
+  ],
+  "possibleNonconformance": [
+    "ncr:compressive_strength_statistical_fail",
+    "ncr:low_compressive_strength"
+  ],
+  "correctiveActions": [
+    "action:core_sampling",
+    "action:non_destructive_test",
+    "action:structural_review",
+    "action:record_ncr"
+  ],
+  "requiresEvidence": [
+    "doc:specimen_record",
+    "doc:test_certificate",
+    "doc:mix_design",
+    "doc:delivery_ticket"
+  ],
+  "requiresStandard": [
+    "standard:ks_f_2403",
+    "standard:ks_f_2405",
+    "standard:kcs_14_20.10.3_3",
+    "standard:ks_f_4009"
+  ]
+}

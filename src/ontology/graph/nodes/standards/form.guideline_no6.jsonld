@@ -1,0 +1,21 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "standard:form.guideline_no6",
+  "@type": "Standard",
+  "name": "업무지침 별지 제6호 — 부적합 조치결과 확인서",
+  "aliases": [
+    "별지 제6호"
+  ],
+  "_meta": {
+    "category": "form",
+    "basisType": "standard_form",
+    "issuer": "국토교통부 고시 2025-311호",
+    "referenceDoc": "건설공사 품질관리 업무지침",
+    "section": "별지 제6호",
+    "scope": "재평가 실시 시 부적합사항 조치결과 확인 기재",
+    "relatedArticle": "standard.guideline.part2_art7",
+    "sourceHash": null,
+    "license": "Korea Open Government License Type 4",
+    "legalWeight": "mandatory"
+  }
+}

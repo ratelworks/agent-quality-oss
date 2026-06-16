@@ -1,0 +1,15 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "doc:mix_design",
+  "@type": "EvidenceDocument",
+  "name": "배합설계서",
+  "aliases": [
+    "배합표",
+    "배합 설계",
+    "mix design"
+  ],
+  "_meta": {
+    "mandatory": true,
+    "priority": 1
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "test:steel_material",
+  "@type": "TestItem",
+  "name": "강재 기계적 성질 시험",
+  "aliases": [
+    "강재 인장강도",
+    "강재 굽힘",
+    "압연강재 시험"
+  ],
+  "_meta": {
+    "method": "KS D 3503 — 인장강도·굽힘성·겉모양·치수·무게",
+    "timing": "강재 반입 시",
+    "frequency": "제조회사별·제품규격별 (별표2)",
+    "typicalAcceptance": "KS D 3503 강종별 항복·인장강도 적합 — 합격 수치는 KS 원문(유료) 확보 시"
+  },
+  "targetMaterial": [
+    "material:steel"
+  ],
+  "relatedWork": [
+    "work:steel_fabrication"
+  ],
+  "requiresEvidence": [
+    "doc:test_certificate"
+  ],
+  "requiresStandard": [
+    "standard:ks_d_3503"
+  ],
+  "hasAcceptanceCriteria": [
+    "criteria:steel_material"
+  ]
+}

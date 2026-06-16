@@ -1,0 +1,39 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "test:geotextile_strength",
+  "@type": "TestItem",
+  "name": "토목섬유 성능 시험",
+  "aliases": [
+    "토목섬유 인장강도",
+    "투수계수",
+    "봉합강도"
+  ],
+  "_meta": {
+    "method": "인장강도·인장변형률 KS K ISO 10319 / 수직 투수계수 KS K ISO 11058 / 봉합강도 KS K ISO 10321",
+    "timing": "반입 시",
+    "frequency": "제조회사별·20,000㎡마다 (별표2)",
+    "typicalAcceptance": "인장강도·투수계수 기준은 KS K ISO·설계도서 확보 시 — 시험종목·방법·빈도 커버리지"
+  },
+  "targetMaterial": [
+    "material:geotextile"
+  ],
+  "relatedWork": [
+    "work:misc_common"
+  ],
+  "hasAcceptanceCriteria": [
+    "criteria:geotextile_strength"
+  ],
+  "possibleNonconformance": [
+    "ncr:geotextile_fail"
+  ],
+  "correctiveActions": [
+    "action:refinish"
+  ],
+  "requiresEvidence": [
+    "doc:test_certificate"
+  ],
+  "requiresStandard": [
+    "standard:ks_k_iso_10319",
+    "standard:ks_k_iso_11058"
+  ]
+}

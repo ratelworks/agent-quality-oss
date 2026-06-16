@@ -1,0 +1,14 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "standard:kcs_14_20.10.1_8_2",
+  "@type": "Standard",
+  "name": "KCS 14 20 10 §1.8.2 강도",
+  "_meta": {
+    "parent": "standard.kcs_14_20.10",
+    "sectionRef": "14 20 10 §1.8.2",
+    "scope": "재령 28일 표준양생 공시체 압축강도 기준. 시험은 KS F 2405, 공시체 제작 KS F 2403",
+    "granularity": "clause",
+    "sourceStatus": "verified",
+    "verifiedAgainst": "evaluation/sources/kcs_14_20_01.txt L1634-1652"
+  }
+}

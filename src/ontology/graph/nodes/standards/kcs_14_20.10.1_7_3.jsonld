@@ -1,0 +1,19 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "standard:kcs_14_20.10.1_7_3",
+  "@type": "Standard",
+  "name": "KCS 14 20 10 §1.7.3 슬럼프 및 슬럼프 플로 허용오차",
+  "aliases": [
+    "표 1.7-2",
+    "표 1.7-3",
+    "슬럼프 허용오차"
+  ],
+  "_meta": {
+    "parent": "standard.kcs_14_20.10",
+    "sectionRef": "14 20 10 §1.7.3",
+    "scope": "표 1.7-2 슬럼프 허용오차(호칭 25 ±10 / 50,65 ±15 / 80↑ ±25), 표 1.7-3 슬럼프 플로 허용오차(500 ±75 / 600 ±100 / 700 ±100)",
+    "granularity": "clause",
+    "sourceStatus": "verified",
+    "verifiedAgainst": "evaluation/sources/kcs_14_20_01.txt L1573-1605"
+  }
+}
