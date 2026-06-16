@@ -39,11 +39,11 @@ function check(name: string, ok: boolean, detail?: string): void {
 
 console.log('\n=== A. 구현 정합성 감사 ===\n');
 
-const dataFiles = readdirSync(DIR).filter((f) => f.endsWith('.json'));
+const nodeTypeCount = new Set([...graph.entities.values()].map((e) => e.type)).size;
 check(
-  'A1. data 파일 13개 이상 로드',
-  dataFiles.length >= 13,
-  `현재 ${dataFiles.length}개: ${dataFiles.join(', ')}`,
+  'A1. 그래프 노드 타입 13개 이상 로드',
+  nodeTypeCount >= 13,
+  `현재 ${nodeTypeCount}개 타입 · ${graph.entities.size} 노드 (graph/nodes JSON-LD)`,
 );
 
 const prefixViolations: string[] = [];

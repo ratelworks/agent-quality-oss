@@ -254,7 +254,7 @@ WorkType         →  QualityRisk (리스크) → Nonconformance (부적합) →
 SchemaForm (양식) →  Standard (KCS/KS/법령/지침 인용 위치)
 ```
 
-온톨로지는 `cc:` IRI 네임스페이스 규약(JSON-LD `@context` 로 정의)을 따르며, 자매 프로젝트 [`agent-safety-oss`](https://github.com/ratelworks/agent-safety-oss)(`safety:`)와 **같은 IRI 공간**을 공유합니다 — 안전·품질 그래프를 합쳐도 하나의 건설 도메인으로 관계 추론을 이어갈 수 있습니다. **현재 런타임은 경량 in-memory 그래프**(plain JSON 엔티티 + 별칭·타입 인덱스, 외부 의존성 0)로 동작합니다 — 무거운 그래프 DB가 없습니다. JSON-LD/RDF·SHACL 기반 완전 시맨틱 그래프(`src/taxonomy/graph/`)로의 마이그레이션은 로드맵입니다. (자매 프로젝트 agent-safety-oss 는 JSON-LD 그래프를 사용하므로 같은 IRI 규약을 공유하되 런타임 구현은 다릅니다.)
+온톨로지는 `cc:` IRI 네임스페이스 규약(JSON-LD `@context` 로 정의)을 따르며, 자매 프로젝트 [`agent-safety-oss`](https://github.com/ratelworks/agent-safety-oss)(`safety:`)와 **같은 IRI 공간**을 공유합니다 — 안전·품질 그래프를 합쳐도 하나의 건설 도메인으로 관계 추론을 이어갈 수 있습니다. 온톨로지 데이터는 자매 프로젝트 agent-safety-oss 와 **동일한 JSON-LD 노드 구조**(`src/ontology/graph/nodes/{type}/*.jsonld` — `@id` IRI · `@type` · 관계 IRI 참조 · `_meta`)를 SSoT 로 사용합니다. 런타임은 이를 경량 in-memory 그래프(인접 리스트 + 별칭·타입 인덱스, 외부 의존성 0, sync)로 로드합니다 — 330노드 규모라 graphology 같은 무거운 그래프 엔진은 두지 않습니다. 즉 **데이터 구조는 safety 와 동일**하고 그래프 엔진만 규모에 맞게 경량입니다.
 
 설계 원칙:
 

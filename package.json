@@ -22,7 +22,7 @@
   },
   "scripts": {
     "build": "tsc && npm run copy:data && chmod +x build/cli.js build/index.js",
-    "copy:data": "node -e \"import('node:fs/promises').then(async fs => { await fs.cp('src/ontology/data', 'build/ontology/data', { recursive: true }); await fs.cp('src/schemas/document-schemas.json', 'build/schemas/document-schemas.json'); })\"",
+    "copy:data": "node -e \"import('node:fs/promises').then(async fs => { await fs.cp('src/ontology/graph', 'build/ontology/graph', { recursive: true }); await fs.cp('src/schemas/document-schemas.json', 'build/schemas/document-schemas.json'); })\"",
     "watch": "tsc --watch",
     "dev": "tsx src/index.ts",
     "dev:stdio": "tsx src/index.ts --stdio",
@@ -88,7 +88,7 @@
   },
   "files": [
     "build",
-    "src/ontology/data",
+    "src/ontology/graph",
     "src/schemas/document-schemas.json",
     "docs",
     "examples",
