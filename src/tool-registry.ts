@@ -1,5 +1,5 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// tool-registry.ts — 33개 quality-oss 도구의 단일 등록 지점.
+// tool-registry.ts — quality-oss 도구의 단일 등록 지점 (도구 수는 TOOL_DEFS 길이로 동적; 현재 46개).
 //
 // 두 가지 등록 형태를 지원한다:
 //   1) ToolDefinition (신규, zod inputSchema + run(input, ctx)) — 권장
