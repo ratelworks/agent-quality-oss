@@ -32,6 +32,10 @@ coverage/
 *.log
 *.tsbuildinfo
 
+# FSD 런타임 산출물 (재실행 시 덮어써짐 — 영속 회귀 자산은 tests/*.test.mjs)
+tests/test-results.json
+.fsd/
+
 # Project-local (프로젝트별 현장문서 RAG 캐시)
 data/cache/
 data/embeddings-cache/
