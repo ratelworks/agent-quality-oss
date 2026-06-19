@@ -23,7 +23,7 @@ export const spec: ToolSpec = {
     properties: {
       docId: {
         type: "string",
-        description: "문서 양식 id (render_quality_form 과 동일한 9종)",
+        description: "문서 양식 id (render_quality_form 과 동일한 19종)",
       },
       formValues: {
         type: "object",

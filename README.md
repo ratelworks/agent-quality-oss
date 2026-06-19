@@ -220,7 +220,7 @@ npm run check:oss-hygiene   # 공개 위생 (내부 용어·경로·PII 차단)
 최근 검증 결과:
 
 - 온톨로지 무결성: 통과 (노드 330 · 관계 930 · orphan 0)
-- smoke 회귀: 86/86 통과
+- smoke 회귀: 87/87 통과
 - typecheck: 통과 · OSS hygiene: 통과
 - 별표2 커버리지: 공통·토목·건축 **전 절**
 

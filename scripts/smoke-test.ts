@@ -36,6 +36,13 @@ const CASES: Case[] = [
       r.result.relatedTests.some((t: { id: string }) => t.id === 'test.slump'),
   },
   {
+    // P4 회귀: '콘크리트' 단독 입력은 도로포장(concrete_pavement)이 아닌 구조체 타설 우선.
+    // concrete_placement 에 '콘크리트' alias 추가로 exact 매칭(1.0) 보장.
+    tool: 'resolve_worktype',
+    args: { input: '콘크리트' },
+    assert: (r) => r.result.resolved?.id === 'work.concrete_placement',
+  },
+  {
     tool: 'get_work_quality_profile',
     args: { workType: '콘크리트 타설' },
     assert: (r) =>

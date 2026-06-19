@@ -1,15 +1,16 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// render-quality-form.ts — 문서 양식(9종)을 A2UI 입력 폼(JSONL)으로 렌더.
+// render-quality-form.ts — 문서 양식(19종)을 A2UI 입력 폼(JSONL)으로 렌더.
 //
 // agent-safety-oss 의 render_a2ui_form 과 통일한 A2UI 메시지 구조를 quality 도메인에
 // 적용한다. document-schemas.json 의 sections/fields 를 A2UI 컴포넌트 트리로 변환하고,
 // 적용 근거(basis)·보존기간·참조 표준을 함께 반환한다.
+// 지원 양식 종수·목록은 document-schemas.json 을 SSoT 로 listSchemaIds() 가 동적 산정한다.
 //
 // 본질: 본 도구는 "양식 구조"만 제공한다. 문서 본문 작성은 LLM, 결재는 사람.
 // (compose_writing_context 로 입력값을 작성 컨텍스트화)
 // ─────────────────────────────────────────────────────────────────────────────
 
-import { getSchema } from "../schemas/loader.js";
+import { getSchema, listSchemaIds } from "../schemas/loader.js";
 import { buildResponse, entityBasisWithStatus } from "../lib/response.js";
 import type { ToolSpec, BasisRef, A2UIComponent, A2UIMessage } from "../lib/types.js";
 import type { OntologyGraph } from "../ontology/graph.js";
@@ -22,7 +23,7 @@ const ROOT_ID = "form_root";
 export const spec: ToolSpec = {
   name: "render_quality_form",
   description:
-    "문서 양식(itp·ncr·inspection_request 등 9종)을 A2UI 입력 폼(JSONL 메시지)으로 렌더한다. " +
+    `문서 양식(itp·ncr 등 ${listSchemaIds().length}종)을 A2UI 입력 폼(JSONL 메시지)으로 렌더한다. ` +
     "필드 구조 + 적용 근거 + 보존기간 + 참조 표준을 함께 반환한다. 문서를 직접 생성하지 않는다. " +
     "[근거 제공용 · 작성은 LLM · 결재는 품질관리자·감리원·발주자]",
   inputSchema: {
@@ -31,8 +32,7 @@ export const spec: ToolSpec = {
       docId: {
         type: "string",
         description:
-          "문서 양식 id. 9종: itp · ncr · inspection_request · concrete_delivery_record · " +
-          "specimen_record · test_report_review · qc_assignment_notice · quality_test_plan · quality_inspection_register",
+          `문서 양식 id. ${listSchemaIds().length}종: ${listSchemaIds().join(" · ")}`,
       },
     },
     required: ["docId"],
@@ -71,9 +71,8 @@ export function run(args: RenderQualityFormArgs, graph: OntologyGraph) {
   const schema = getSchema(docId);
   if (!schema) {
     throw new Error(
-      `문서 양식을 찾을 수 없습니다: ${docId}. 9종: itp · ncr · inspection_request · ` +
-        `concrete_delivery_record · specimen_record · test_report_review · ` +
-        `qc_assignment_notice · quality_test_plan · quality_inspection_register`,
+      `문서 양식을 찾을 수 없습니다: ${docId}. ` +
+        `사용 가능 양식(${listSchemaIds().length}종): ${listSchemaIds().join(" · ")}`,
     );
   }
 

@@ -3,18 +3,22 @@
     "id": "C01",
     "persona": "신입",
     "intent": "슬럼프 경계값 (175mm = 150+25)",
-    "expect": "PASS marginal (KS F 4009 허용오차 ±25)",
+    "expect": "PASS marginal (KCS 14 20 10 §1.7.3 표 1.7-2 허용오차 ±25)",
     "tool": "evaluate_observation",
     "args": {
       "observation": "슬럼프 175mm",
       "testId": "test.slump"
     },
-    "ms": 1,
+    "expectedVerdict": "PASS",
+    "expectedBasisIds": [
+      "criteria.slump_general_150"
+    ],
+    "ms": 2,
     "response": {
       "result": {
         "expertAssessment": {
           "observation": "슬럼프 175mm",
-          "applicableCriterion": "150 ± 25 mm (KCS 14 20 10 §3.2)",
+          "applicableCriterion": "150 ± 25 mm (KCS 14 20 10 §1.7.3 표 1.7-2 (허용오차) + §2.2.7 표 2.2-5 (표준값))",
           "criterionId": "criteria.slump_general_150",
           "observedValue": 175,
           "observedUnit": "mm",
@@ -31,7 +35,9 @@
           "candidateNonconformance": [],
           "suggestedNextSteps": [],
           "legalBasis": [
-            "standard.kcs_14_20.10.3_2"
+            "standard.kcs_14_20.10.1_7_3",
+            "standard.kcs_14_20.10.2_2_7",
+            "standard.ks_f_2402"
           ],
           "judgmentEngineNote": "legalVerdict(법적 합부) ≠ qualitySignal(도메인 경계 신호). MARGINAL은 합부 판정에서 분리 — legalVerdict=PASS이지만 qualitySignal=marginal. UNDETERMINED는 판정 불가(수동). 본 expertAssessment는 LLM이 최종 판정을 작성할 재료."
         }
@@ -49,7 +55,17 @@
         },
         {
           "type": "ontology",
-          "id": "standard.kcs_14_20.10.3_2",
+          "id": "standard.kcs_14_20.10.1_7_3",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "standard.kcs_14_20.10.2_2_7",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "standard.ks_f_2402",
           "priority": 1
         }
       ],
@@ -64,13 +80,23 @@
           "reason": "FAIL 판정 시 NCR 작성 재료 수집"
         }
       ],
+      "sourceStatusSummary": {
+        "worst": "unknown",
+        "counts": {
+          "verified": 0,
+          "indirect_source": 0,
+          "skeleton": 0,
+          "unknown": 5
+        },
+        "warnings": []
+      },
       "lineage": {
         "toolName": "evaluate_observation",
-        "toolCallId": "b06321f0-5bab-4ff2-972f-b05014b7072c",
-        "ontologyVersion": "0.1.0",
-        "generatedAt": "2026-04-25T08:38:38.500Z",
+        "toolCallId": "eec53ee2-7bf0-4972-be54-7f28c128148e",
+        "ontologyVersion": "0.3.0",
+        "generatedAt": "2026-06-19T16:15:14.481Z",
         "contentHashAlgo": "sha256",
-        "contentHash": "61f7d2f04e1f647bc8f49688fa87f9a235c8e2b5258123b05b1134a34950775e"
+        "contentHash": "3ff021c369cc810886a857cefa64397697104e3ead53a1e5120776d608cb2d81"
       }
     }
   },
@@ -84,29 +110,44 @@
       "observation": "7일 압축강도 18MPa, 호칭 24MPa",
       "testId": "test.compressive_strength"
     },
-    "ms": 0,
+    "expectedVerdict": "FAIL",
+    "notes": "R1 통계 모드: 단일값 18MPa, fcn=24, le35 1회 기준 18 < (24-3.5)=20.5 → FAIL. 7일 양생 부적절 환기는 expertContext에서 LLM이 처리. 향후 timing(7일 vs 28일) parser 도입 시 UNDETERMINED로 분기 가능.",
+    "ms": 1,
     "response": {
       "result": {
         "expertAssessment": {
           "observation": "7일 압축강도 18MPa, 호칭 24MPa",
-          "applicableCriterion": "≥ <프로젝트 주입 대기> MPa (KCS 14 20 10 §3.3)",
-          "criterionId": "criteria.compressive_strength_design",
+          "applicableCriterion": "압축강도 통계 판정 — 호칭강도 ≤ 35MPa (표 3.5-3) (KCS 14 20 10 §3.5.3.2 표 3.5-3 (≤35MPa 판정기준))",
+          "criterionId": "criteria.compressive_strength_statistical_le35",
           "observedValue": 18,
           "observedUnit": "MPa",
-          "comparison": "threshold가 프로젝트 주입 대기 상태 (예: fck)",
-          "legalVerdict": "UNDETERMINED",
-          "qualitySignal": "undetermined",
-          "verdict": "UNDETERMINED",
-          "direction": "n/a",
-          "expertContext": "베테랑 시각: 자동 비교 불가 — 단위·기준 주입 또는 수동 검토 필요.",
+          "comparison": "[≤35MPa (1회 ≥ fcn-3.5), 1회 단독] 18<20.50 (fcn 24 -3.5)",
+          "legalVerdict": "FAIL",
+          "qualitySignal": "out_of_range_low",
+          "verdict": "FAIL",
+          "direction": "too_low",
+          "expertContext": "베테랑 시각: 부적합 추정 — 후속 NCR 재료 수집 후 감리 협의.",
           "marginalWarning": null,
-          "candidateNonconformance": [],
+          "candidateNonconformance": [
+            {
+              "id": "ncr.compressive_strength_statistical_fail",
+              "name": "압축강도 통계 판정 불합격 (표 3.5-3)",
+              "direction": "too_low"
+            },
+            {
+              "id": "ncr.low_compressive_strength",
+              "name": "압축강도 부족",
+              "direction": "too_low"
+            }
+          ],
           "suggestedNextSteps": [
-            "단위·기준값 주입 또는 수동 판정 검토",
-            "compile_concrete_pour_references 호출로 도메인 재료 종합 수집"
+            "compile_ncr_references(ncrId='ncr.compressive_strength_statistical_fail') 호출해 NCR 작성 재료 수집",
+            "현장 증빙(납품서·배합설계서·시험기록·사진) 확보",
+            "감리원 결재 요청"
           ],
           "legalBasis": [
-            "standard.kcs_14_20.10.3_3",
+            "standard.kcs_14_20.10.3_5_3_2",
+            "standard.kcs_14_20.10.1_8_2",
             "standard.ks_f_2405"
           ],
           "judgmentEngineNote": "legalVerdict(법적 합부) ≠ qualitySignal(도메인 경계 신호). MARGINAL은 합부 판정에서 분리 — legalVerdict=PASS이지만 qualitySignal=marginal. UNDETERMINED는 판정 불가(수동). 본 expertAssessment는 LLM이 최종 판정을 작성할 재료."
@@ -115,7 +156,7 @@
       "basis": [
         {
           "type": "ontology",
-          "id": "criteria.compressive_strength_design",
+          "id": "criteria.compressive_strength_statistical_le35",
           "priority": 1
         },
         {
@@ -125,18 +166,33 @@
         },
         {
           "type": "ontology",
-          "id": "standard.kcs_14_20.10.3_3",
+          "id": "standard.kcs_14_20.10.3_5_3_2",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "standard.kcs_14_20.10.1_8_2",
           "priority": 1
         },
         {
           "type": "ontology",
           "id": "standard.ks_f_2405",
           "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "ncr.compressive_strength_statistical_fail",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "ncr.low_compressive_strength",
+          "priority": 1
         }
       ],
       "humanCheckpoint": {
         "required": true,
-        "reason": "판정 불가 (legalVerdict=UNDETERMINED) — 수동 처리 필요",
+        "reason": "부적합 판정 후보 — NCR 작성 + 감리 결재 필요",
         "legalNote": "본 서버는 **근거 제공용**이며 최종 판정과 법적 책임은 품질관리자·감리원·발주자에게 있다. Tool 출력을 법적 조언·확정 결과로 취급하지 말 것."
       },
       "nextSteps": [
@@ -145,49 +201,65 @@
           "reason": "FAIL 판정 시 NCR 작성 재료 수집"
         }
       ],
+      "sourceStatusSummary": {
+        "worst": "unknown",
+        "counts": {
+          "verified": 0,
+          "indirect_source": 0,
+          "skeleton": 0,
+          "unknown": 7
+        },
+        "warnings": []
+      },
       "lineage": {
         "toolName": "evaluate_observation",
-        "toolCallId": "a0d95b5c-d14c-4c08-a4df-f40e862397b4",
-        "ontologyVersion": "0.1.0",
-        "generatedAt": "2026-04-25T08:38:38.501Z",
+        "toolCallId": "4c5d35a1-3e1b-4c24-b619-4b92bbed2004",
+        "ontologyVersion": "0.3.0",
+        "generatedAt": "2026-06-19T16:15:14.482Z",
         "contentHashAlgo": "sha256",
-        "contentHash": "745c37a9cd51b90803a663ca9f2f63fc79495fac348081d4bbda7c2a41ec7639"
+        "contentHash": "e4b321715c5e125d2682a459a07fc917210d5a87f5381b25c784fe9b25eb370b"
       }
     }
   },
   {
     "id": "C03",
     "persona": "경력",
-    "intent": "1회 -3.5MPa 룰",
-    "expect": "21 ≥ 24-3.5=20.5 → 1회 기준 통과 (연속 3회 평균은 별도)",
+    "intent": "1회 -3.5MPa 룰 (단일값 21MPa, R1 검증)",
+    "expect": "단일 시험값 21MPa, fcn 24 → 표 3.5-3 (≤35MPa, 1회 ≥ fcn-3.5 = 20.5) → PASS marginal(평균 미수반)",
     "tool": "evaluate_observation",
     "args": {
       "observation": "압축강도 1회 시험값 21MPa, 호칭강도 24MPa",
       "testId": "test.compressive_strength"
     },
+    "expectedVerdict": "PASS",
+    "expectedBasisIds": [
+      "criteria.compressive_strength_statistical_le35"
+    ],
+    "notes": "R1 (2026-04-28) 통계 모드 도입. 단일값 입력이라 평균 검증 부재 → MARGINAL = legalVerdict PASS + qualitySignal=marginal. expectedVerdict=PASS는 legalVerdict 비교.",
     "ms": 0,
     "response": {
       "result": {
         "expertAssessment": {
           "observation": "압축강도 1회 시험값 21MPa, 호칭강도 24MPa",
-          "applicableCriterion": "≥ <프로젝트 주입 대기> MPa (KCS 14 20 10 §3.3)",
-          "criterionId": "criteria.compressive_strength_design",
+          "applicableCriterion": "압축강도 통계 판정 — 호칭강도 ≤ 35MPa (표 3.5-3) (KCS 14 20 10 §3.5.3.2 표 3.5-3 (≤35MPa 판정기준))",
+          "criterionId": "criteria.compressive_strength_statistical_le35",
           "observedValue": 21,
           "observedUnit": "MPa",
-          "comparison": "threshold가 프로젝트 주입 대기 상태 (예: fck)",
-          "legalVerdict": "UNDETERMINED",
-          "qualitySignal": "undetermined",
-          "verdict": "UNDETERMINED",
-          "direction": "n/a",
-          "expertContext": "베테랑 시각: 자동 비교 불가 — 단위·기준 주입 또는 수동 검토 필요.",
-          "marginalWarning": null,
+          "comparison": "[≤35MPa (1회 ≥ fcn-3.5), 1회 단독] 21≥20.50 통과 — 단 평균(연속 3회) 검증 부재. 추가 시험값 확보 시 재판정 필요. (PASS 단언 불가)",
+          "legalVerdict": "PASS",
+          "qualitySignal": "marginal",
+          "verdict": "PASS",
+          "direction": "in_range",
+          "expertContext": "베테랑 시각: 경계 근접 — 다음 반입차·동일 위치 후속 시험에서 흐름 추적 권고.",
+          "marginalWarning": {
+            "flagged": true,
+            "note": "허용치 경계 근접 — 재시험 또는 품질관리자 확인 권고. 본 경계치는 업무지침 명시 기준이 아닌 경험적 보조 지표."
+          },
           "candidateNonconformance": [],
-          "suggestedNextSteps": [
-            "단위·기준값 주입 또는 수동 판정 검토",
-            "compile_concrete_pour_references 호출로 도메인 재료 종합 수집"
-          ],
+          "suggestedNextSteps": [],
           "legalBasis": [
-            "standard.kcs_14_20.10.3_3",
+            "standard.kcs_14_20.10.3_5_3_2",
+            "standard.kcs_14_20.10.1_8_2",
             "standard.ks_f_2405"
           ],
           "judgmentEngineNote": "legalVerdict(법적 합부) ≠ qualitySignal(도메인 경계 신호). MARGINAL은 합부 판정에서 분리 — legalVerdict=PASS이지만 qualitySignal=marginal. UNDETERMINED는 판정 불가(수동). 본 expertAssessment는 LLM이 최종 판정을 작성할 재료."
@@ -196,7 +268,7 @@
       "basis": [
         {
           "type": "ontology",
-          "id": "criteria.compressive_strength_design",
+          "id": "criteria.compressive_strength_statistical_le35",
           "priority": 1
         },
         {
@@ -206,7 +278,12 @@
         },
         {
           "type": "ontology",
-          "id": "standard.kcs_14_20.10.3_3",
+          "id": "standard.kcs_14_20.10.3_5_3_2",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "standard.kcs_14_20.10.1_8_2",
           "priority": 1
         },
         {
@@ -217,7 +294,7 @@
       ],
       "humanCheckpoint": {
         "required": true,
-        "reason": "판정 불가 (legalVerdict=UNDETERMINED) — 수동 처리 필요",
+        "reason": "경계 근접 (qualitySignal=marginal) — 재시험 또는 품질관리자 확인 권고",
         "legalNote": "본 서버는 **근거 제공용**이며 최종 판정과 법적 책임은 품질관리자·감리원·발주자에게 있다. Tool 출력을 법적 조언·확정 결과로 취급하지 말 것."
       },
       "nextSteps": [
@@ -226,36 +303,377 @@
           "reason": "FAIL 판정 시 NCR 작성 재료 수집"
         }
       ],
+      "sourceStatusSummary": {
+        "worst": "unknown",
+        "counts": {
+          "verified": 0,
+          "indirect_source": 0,
+          "skeleton": 0,
+          "unknown": 5
+        },
+        "warnings": []
+      },
       "lineage": {
         "toolName": "evaluate_observation",
-        "toolCallId": "a6e72ef3-32c2-4648-ba39-7b6af79908c8",
-        "ontologyVersion": "0.1.0",
-        "generatedAt": "2026-04-25T08:38:38.501Z",
+        "toolCallId": "23989338-1347-4153-8879-7c5e59baacfd",
+        "ontologyVersion": "0.3.0",
+        "generatedAt": "2026-06-19T16:15:14.482Z",
         "contentHashAlgo": "sha256",
-        "contentHash": "8d3c8af6a51f7ed2e561f977407a1a54aa0a19e70daa6b99b003da1a8b784387"
+        "contentHash": "741c5973e941ab700f5bbb789a4840e74647f4cba23dd2368008833558306ed3"
+      }
+    }
+  },
+  {
+    "id": "C03b",
+    "persona": "경력",
+    "intent": "R1 통계 series PASS — 평균 26 최저 22, fcn 24",
+    "expect": "series 입력. ≤35MPa: 평균 26 ≥ 24 AND 최저 22 ≥ 20.5 → 둘 다 통과 → PASS (full)",
+    "tool": "evaluate_observation",
+    "args": {
+      "observation": "연속 3회 평균 26MPa 최저 22MPa, 호칭강도 24MPa",
+      "testId": "test.compressive_strength"
+    },
+    "expectedVerdict": "PASS",
+    "expectedBasisIds": [
+      "criteria.compressive_strength_statistical_le35"
+    ],
+    "notes": "R1 통계 모드 series 입력 검증. partial=false. legalVerdict=PASS, qualitySignal=in_range.",
+    "ms": 0,
+    "response": {
+      "result": {
+        "expertAssessment": {
+          "observation": "연속 3회 평균 26MPa 최저 22MPa, 호칭강도 24MPa",
+          "applicableCriterion": "압축강도 통계 판정 — 호칭강도 ≤ 35MPa (표 3.5-3) (KCS 14 20 10 §3.5.3.2 표 3.5-3 (≤35MPa 판정기준))",
+          "criterionId": "criteria.compressive_strength_statistical_le35",
+          "observedValue": 26,
+          "observedUnit": "MPa",
+          "comparison": "[≤35MPa (1회 ≥ fcn-3.5)] 평균 26≥fcn 24 AND 최저 22≥20.50 → 통과",
+          "legalVerdict": "PASS",
+          "qualitySignal": "in_range",
+          "verdict": "PASS",
+          "direction": "in_range",
+          "expertContext": "관측값이 허용범위 내. 베테랑 시각: 일상 합격.",
+          "marginalWarning": null,
+          "candidateNonconformance": [],
+          "suggestedNextSteps": [
+            "해당 시험 통과 — 다음 검측·시험 항목으로 이동"
+          ],
+          "legalBasis": [
+            "standard.kcs_14_20.10.3_5_3_2",
+            "standard.kcs_14_20.10.1_8_2",
+            "standard.ks_f_2405"
+          ],
+          "judgmentEngineNote": "legalVerdict(법적 합부) ≠ qualitySignal(도메인 경계 신호). MARGINAL은 합부 판정에서 분리 — legalVerdict=PASS이지만 qualitySignal=marginal. UNDETERMINED는 판정 불가(수동). 본 expertAssessment는 LLM이 최종 판정을 작성할 재료."
+        }
+      },
+      "basis": [
+        {
+          "type": "ontology",
+          "id": "criteria.compressive_strength_statistical_le35",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "test.compressive_strength",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "standard.kcs_14_20.10.3_5_3_2",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "standard.kcs_14_20.10.1_8_2",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "standard.ks_f_2405",
+          "priority": 1
+        }
+      ],
+      "humanCheckpoint": {
+        "required": false,
+        "reason": null,
+        "legalNote": "본 서버는 **근거 제공용**이며 최종 판정과 법적 책임은 품질관리자·감리원·발주자에게 있다. Tool 출력을 법적 조언·확정 결과로 취급하지 말 것."
+      },
+      "nextSteps": [
+        {
+          "tool": "compile_ncr_references",
+          "reason": "FAIL 판정 시 NCR 작성 재료 수집"
+        }
+      ],
+      "sourceStatusSummary": {
+        "worst": "unknown",
+        "counts": {
+          "verified": 0,
+          "indirect_source": 0,
+          "skeleton": 0,
+          "unknown": 5
+        },
+        "warnings": []
+      },
+      "lineage": {
+        "toolName": "evaluate_observation",
+        "toolCallId": "c612889e-a0b5-47e5-8296-dcd59d9904ac",
+        "ontologyVersion": "0.3.0",
+        "generatedAt": "2026-06-19T16:15:14.482Z",
+        "contentHashAlgo": "sha256",
+        "contentHash": "a1d73c667fd6ef0b81897c97da59395a2353a2b27627fa850cdcfc3e920ace20"
+      }
+    }
+  },
+  {
+    "id": "C03c",
+    "persona": "경력",
+    "intent": "R1 통계 series FAIL — 평균 25 최저 19, fcn 24",
+    "expect": "series 입력. ≤35MPa: 평균 25 ≥ 24 OK BUT 최저 19 < 20.5 → 1회 기준 미달 → FAIL",
+    "tool": "evaluate_observation",
+    "args": {
+      "observation": "3회 시험값 23 25 19 평균 22.3 최저 19, 호칭강도 24MPa",
+      "testId": "test.compressive_strength"
+    },
+    "expectedVerdict": "FAIL",
+    "expectedBasisIds": [
+      "criteria.compressive_strength_statistical_le35"
+    ],
+    "notes": "R1 통계 모드 1회 기준 단독 미달. ncr.compressive_strength_statistical_fail 후속 발화 검증.",
+    "ms": 0,
+    "response": {
+      "result": {
+        "expertAssessment": {
+          "observation": "3회 시험값 23 25 19 평균 22.3 최저 19, 호칭강도 24MPa",
+          "applicableCriterion": "압축강도 통계 판정 — 호칭강도 ≤ 35MPa (표 3.5-3) (KCS 14 20 10 §3.5.3.2 표 3.5-3 (≤35MPa 판정기준))",
+          "criterionId": "criteria.compressive_strength_statistical_le35",
+          "observedValue": 22.3,
+          "observedUnit": "MPa",
+          "comparison": "[≤35MPa (1회 ≥ fcn-3.5)] 평균 22.3<fcn 24 / 최저 19<20.50 (fcn 24 -3.5)",
+          "legalVerdict": "FAIL",
+          "qualitySignal": "out_of_range_low",
+          "verdict": "FAIL",
+          "direction": "too_low",
+          "expertContext": "베테랑 시각: 부적합 추정 — 후속 NCR 재료 수집 후 감리 협의.",
+          "marginalWarning": null,
+          "candidateNonconformance": [
+            {
+              "id": "ncr.compressive_strength_statistical_fail",
+              "name": "압축강도 통계 판정 불합격 (표 3.5-3)",
+              "direction": "too_low"
+            },
+            {
+              "id": "ncr.low_compressive_strength",
+              "name": "압축강도 부족",
+              "direction": "too_low"
+            }
+          ],
+          "suggestedNextSteps": [
+            "compile_ncr_references(ncrId='ncr.compressive_strength_statistical_fail') 호출해 NCR 작성 재료 수집",
+            "현장 증빙(납품서·배합설계서·시험기록·사진) 확보",
+            "감리원 결재 요청"
+          ],
+          "legalBasis": [
+            "standard.kcs_14_20.10.3_5_3_2",
+            "standard.kcs_14_20.10.1_8_2",
+            "standard.ks_f_2405"
+          ],
+          "judgmentEngineNote": "legalVerdict(법적 합부) ≠ qualitySignal(도메인 경계 신호). MARGINAL은 합부 판정에서 분리 — legalVerdict=PASS이지만 qualitySignal=marginal. UNDETERMINED는 판정 불가(수동). 본 expertAssessment는 LLM이 최종 판정을 작성할 재료."
+        }
+      },
+      "basis": [
+        {
+          "type": "ontology",
+          "id": "criteria.compressive_strength_statistical_le35",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "test.compressive_strength",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "standard.kcs_14_20.10.3_5_3_2",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "standard.kcs_14_20.10.1_8_2",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "standard.ks_f_2405",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "ncr.compressive_strength_statistical_fail",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "ncr.low_compressive_strength",
+          "priority": 1
+        }
+      ],
+      "humanCheckpoint": {
+        "required": true,
+        "reason": "부적합 판정 후보 — NCR 작성 + 감리 결재 필요",
+        "legalNote": "본 서버는 **근거 제공용**이며 최종 판정과 법적 책임은 품질관리자·감리원·발주자에게 있다. Tool 출력을 법적 조언·확정 결과로 취급하지 말 것."
+      },
+      "nextSteps": [
+        {
+          "tool": "compile_ncr_references",
+          "reason": "FAIL 판정 시 NCR 작성 재료 수집"
+        }
+      ],
+      "sourceStatusSummary": {
+        "worst": "unknown",
+        "counts": {
+          "verified": 0,
+          "indirect_source": 0,
+          "skeleton": 0,
+          "unknown": 7
+        },
+        "warnings": []
+      },
+      "lineage": {
+        "toolName": "evaluate_observation",
+        "toolCallId": "b0765703-e546-4343-bc3c-3f982202623e",
+        "ontologyVersion": "0.3.0",
+        "generatedAt": "2026-06-19T16:15:14.482Z",
+        "contentHashAlgo": "sha256",
+        "contentHash": "24161c2f1ef249191b9e4d1b981826638bb62bb8bbc33fdd1bad0f1baab1230d"
+      }
+    }
+  },
+  {
+    "id": "C03d",
+    "persona": "경력",
+    "intent": "R1 통계 gt35 — 평균 41 최저 37, fcn 40",
+    "expect": "series. >35MPa: 평균 41 ≥ 40 OK AND 최저 37 ≥ 40×0.9=36 → 통과 → PASS",
+    "tool": "evaluate_observation",
+    "args": {
+      "observation": "연속 3회 평균 41MPa 최저 37MPa, 호칭강도 40MPa",
+      "testId": "test.compressive_strength"
+    },
+    "expectedVerdict": "PASS",
+    "expectedBasisIds": [
+      "criteria.compressive_strength_statistical_gt35"
+    ],
+    "notes": "R1 gt35 분기 검증. fcn=40 → gt35 자동 선택.",
+    "ms": 0,
+    "response": {
+      "result": {
+        "expertAssessment": {
+          "observation": "연속 3회 평균 41MPa 최저 37MPa, 호칭강도 40MPa",
+          "applicableCriterion": "압축강도 통계 판정 — 호칭강도 > 35MPa (표 3.5-3) (KCS 14 20 10 §3.5.3.2 표 3.5-3 (>35MPa 판정기준))",
+          "criterionId": "criteria.compressive_strength_statistical_gt35",
+          "observedValue": 41,
+          "observedUnit": "MPa",
+          "comparison": "[>35MPa (1회 ≥ fcn×0.9)] 평균 41≥fcn 40 AND 최저 37≥36.00 → 통과",
+          "legalVerdict": "PASS",
+          "qualitySignal": "in_range",
+          "verdict": "PASS",
+          "direction": "in_range",
+          "expertContext": "관측값이 허용범위 내. 베테랑 시각: 일상 합격.",
+          "marginalWarning": null,
+          "candidateNonconformance": [],
+          "suggestedNextSteps": [
+            "해당 시험 통과 — 다음 검측·시험 항목으로 이동"
+          ],
+          "legalBasis": [
+            "standard.kcs_14_20.10.3_5_3_2",
+            "standard.kcs_14_20.10.1_8_2",
+            "standard.ks_f_2405"
+          ],
+          "judgmentEngineNote": "legalVerdict(법적 합부) ≠ qualitySignal(도메인 경계 신호). MARGINAL은 합부 판정에서 분리 — legalVerdict=PASS이지만 qualitySignal=marginal. UNDETERMINED는 판정 불가(수동). 본 expertAssessment는 LLM이 최종 판정을 작성할 재료."
+        }
+      },
+      "basis": [
+        {
+          "type": "ontology",
+          "id": "criteria.compressive_strength_statistical_gt35",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "test.compressive_strength",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "standard.kcs_14_20.10.3_5_3_2",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "standard.kcs_14_20.10.1_8_2",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "standard.ks_f_2405",
+          "priority": 1
+        }
+      ],
+      "humanCheckpoint": {
+        "required": false,
+        "reason": null,
+        "legalNote": "본 서버는 **근거 제공용**이며 최종 판정과 법적 책임은 품질관리자·감리원·발주자에게 있다. Tool 출력을 법적 조언·확정 결과로 취급하지 말 것."
+      },
+      "nextSteps": [
+        {
+          "tool": "compile_ncr_references",
+          "reason": "FAIL 판정 시 NCR 작성 재료 수집"
+        }
+      ],
+      "sourceStatusSummary": {
+        "worst": "unknown",
+        "counts": {
+          "verified": 0,
+          "indirect_source": 0,
+          "skeleton": 0,
+          "unknown": 5
+        },
+        "warnings": []
+      },
+      "lineage": {
+        "toolName": "evaluate_observation",
+        "toolCallId": "c815d9f3-80ce-4785-8ddb-76c9fb767099",
+        "ontologyVersion": "0.3.0",
+        "generatedAt": "2026-06-19T16:15:14.483Z",
+        "contentHashAlgo": "sha256",
+        "contentHash": "5db49e2cdc16022d211ec7b2a4e378d5bb085d48a77524b54f49c3d56e0634a4"
       }
     }
   },
   {
     "id": "C04",
     "persona": "경력",
-    "intent": "기둥 측면 해체 강도",
-    "expect": "기둥 측면 5MPa 이상이면 가능. 7MPa → 가능",
+    "intent": "기둥 측면 해체 강도 (R5 H1 미도입, R1 통계 모드 부재 fcn으로 UNDETERMINED 기대)",
+    "expect": "KCS 14 20 12 §3.3.1 측면 5MPa↑. 7MPa 가능. R1 통계 criterion이 fcn 미입력 → UNDETERMINED. R5 H1 도입 후 거푸집 별도 criteria.",
     "tool": "evaluate_observation",
     "args": {
       "observation": "기둥 거푸집 해체 시점 압축강도 7MPa",
       "testId": "test.compressive_strength"
     },
+    "expectedVerdict": "UNDETERMINED",
+    "forbiddenBasisIds": [
+      "criteria.compressive_strength_design"
+    ],
+    "notes": "R1: pickBestCriterion이 statistical_le35 우선 선택, fcn 미입력 → UNDETERMINED. deprecated design은 forbidden. R5 H1 도입 후 거푸집 부재 키워드 라우팅으로 PASS.",
     "ms": 0,
     "response": {
       "result": {
         "expertAssessment": {
           "observation": "기둥 거푸집 해체 시점 압축강도 7MPa",
-          "applicableCriterion": "≥ <프로젝트 주입 대기> MPa (KCS 14 20 10 §3.3)",
-          "criterionId": "criteria.compressive_strength_design",
-          "observedValue": 7,
+          "applicableCriterion": "압축강도 통계 판정 — 호칭강도 ≤ 35MPa (표 3.5-3) (KCS 14 20 10 §3.5.3.2 표 3.5-3 (≤35MPa 판정기준))",
+          "criterionId": "criteria.compressive_strength_statistical_le35",
+          "observedValue": 0,
           "observedUnit": "MPa",
-          "comparison": "threshold가 프로젝트 주입 대기 상태 (예: fck)",
+          "comparison": "통계 판정 불가 — fcn(호칭강도품질기준강도) 미주입. observation 텍스트에 'fcn N' / 'fck N' / '호칭강도 N' 명시 또는 criterion threshold 주입 필요.",
           "legalVerdict": "UNDETERMINED",
           "qualitySignal": "undetermined",
           "verdict": "UNDETERMINED",
@@ -268,7 +686,8 @@
             "compile_concrete_pour_references 호출로 도메인 재료 종합 수집"
           ],
           "legalBasis": [
-            "standard.kcs_14_20.10.3_3",
+            "standard.kcs_14_20.10.3_5_3_2",
+            "standard.kcs_14_20.10.1_8_2",
             "standard.ks_f_2405"
           ],
           "judgmentEngineNote": "legalVerdict(법적 합부) ≠ qualitySignal(도메인 경계 신호). MARGINAL은 합부 판정에서 분리 — legalVerdict=PASS이지만 qualitySignal=marginal. UNDETERMINED는 판정 불가(수동). 본 expertAssessment는 LLM이 최종 판정을 작성할 재료."
@@ -277,7 +696,7 @@
       "basis": [
         {
           "type": "ontology",
-          "id": "criteria.compressive_strength_design",
+          "id": "criteria.compressive_strength_statistical_le35",
           "priority": 1
         },
         {
@@ -287,7 +706,12 @@
         },
         {
           "type": "ontology",
-          "id": "standard.kcs_14_20.10.3_3",
+          "id": "standard.kcs_14_20.10.3_5_3_2",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "standard.kcs_14_20.10.1_8_2",
           "priority": 1
         },
         {
@@ -307,27 +731,39 @@
           "reason": "FAIL 판정 시 NCR 작성 재료 수집"
         }
       ],
+      "sourceStatusSummary": {
+        "worst": "unknown",
+        "counts": {
+          "verified": 0,
+          "indirect_source": 0,
+          "skeleton": 0,
+          "unknown": 5
+        },
+        "warnings": []
+      },
       "lineage": {
         "toolName": "evaluate_observation",
-        "toolCallId": "c2e16fe6-eae2-4ff0-b372-f05ec532de01",
-        "ontologyVersion": "0.1.0",
-        "generatedAt": "2026-04-25T08:38:38.501Z",
+        "toolCallId": "aa77f500-bd6b-48b1-bd0e-2ec8e76346e7",
+        "ontologyVersion": "0.3.0",
+        "generatedAt": "2026-06-19T16:15:14.483Z",
         "contentHashAlgo": "sha256",
-        "contentHash": "dd93d7c7c54082e2114be33db9733857ac08315ebebb0f17d66c877a3d54f348"
+        "contentHash": "db38b5178f92f2d99c0a6ef34ff75ef8e92925ced096cf6a17b691d189ad5972"
       }
     }
   },
   {
     "id": "C05",
     "persona": "경력",
-    "intent": "한중 적용 기준",
-    "expect": "하루평균 4℃ 이하 → 한중 콘크리트 적용 (KCS 14 20 40 §1.1(2))",
+    "intent": "한중 적용 기준 (R6 미도입)",
+    "expect": "하루평균 4℃ 이하 → 한중 콘크리트 (KCS 14 20 40 §1.1(2)). R6 WorkType 도입 전 hit 적음.",
     "tool": "discover_relevant_domain",
     "args": {
       "situation": "내일 외기온도 3℃ 예보. 일반 콘크리트로 시공해도 되나요",
       "maxResults": 6
     },
-    "ms": 0,
+    "expectedHitsMax": 4,
+    "notes": "R6 work.cold_weather_concrete 도입 후 expectedHitsMin: 1 추가 + cold_weather worktype 매칭 검증.",
+    "ms": 2,
     "response": {
       "result": {
         "situation": "내일 외기온도 3℃ 예보. 일반 콘크리트로 시공해도 되나요",
@@ -369,45 +805,68 @@
           "reason": "미매칭 — 공종 표현 정정 후 재호출"
         }
       ],
+      "sourceStatusSummary": {
+        "worst": "unknown",
+        "counts": {
+          "verified": 0,
+          "indirect_source": 0,
+          "skeleton": 0,
+          "unknown": 1
+        },
+        "warnings": []
+      },
       "lineage": {
         "toolName": "discover_relevant_domain",
-        "toolCallId": "4d0cf8a5-eccc-42f2-bb5d-1b5d5c1408b3",
-        "ontologyVersion": "0.1.0",
-        "generatedAt": "2026-04-25T08:38:38.502Z",
+        "toolCallId": "08728413-e1ad-49e7-b8b4-aad62c2d3819",
+        "ontologyVersion": "0.3.0",
+        "generatedAt": "2026-06-19T16:15:14.485Z",
         "contentHashAlgo": "sha256",
-        "contentHash": "881a0080b2b0df863578c52158a9e5456538145d727016f8f8cb09ed95493886"
+        "contentHash": "6d6529f78389395d71910339911d82912605e5ef80dd7dd39f6ff4f79483c2a4"
       }
     }
   },
   {
     "id": "C06",
     "persona": "경력",
-    "intent": "운반시간 한도",
-    "expect": "외기 25℃↑이면 1.5시간(90분) 한도 (KCS 14 20 10 §3.2(3)). 95분 > 90분 → 반송",
+    "intent": "운반시간 한도 (R4 미도입, false PASS 차단 핵심)",
+    "expect": "외기 25℃↑ 1.5h(90분) 한도, 95분 > 90분 → 반송 (KCS 14 20 10 §3.2(3)). R4 미도입 시 UNDETERMINED 정상.",
     "tool": "evaluate_observation",
     "args": {
       "observation": "외기 28℃, 비비기-타설 운반시간 95분",
       "testId": "test.concrete_temperature"
     },
+    "expectedVerdict": "UNDETERMINED",
+    "forbiddenBasisIds": [
+      "criteria.concrete_temperature_general"
+    ],
+    "notes": "C06이 R3 D1 false PASS 직격 시나리오. testItem이 concrete_temperature지만 실제는 운반시간 평가 필요. concrete_temperature 기준에 잘못 라우팅되면 false PASS. R4 D5 도입 후 test.delivery_time + criteria.delivery_time_25c_high로 정확 매칭.",
     "ms": 0,
     "response": {
       "result": {
         "expertAssessment": {
           "observation": "외기 28℃, 비비기-타설 운반시간 95분",
-          "applicableCriterion": "[5 ~ 35] ℃ (KCS 14 20 10)",
+          "applicableCriterion": "[5 ~ 35] ℃ (범위 출처 미확정 — 한중·서중 임계값을 거꾸로 결합한 추론값일 가능성. R6 WorkType 분기 시 한중/서중 별도 criteria로 분리 권장)",
           "criterionId": "criteria.concrete_temperature_general",
-          "observedValue": 28,
+          "observedValue": 95,
           "observedUnit": "℃",
-          "comparison": "28℃ ∈ [5, 35]℃",
-          "legalVerdict": "PASS",
-          "qualitySignal": "in_range",
-          "verdict": "PASS",
-          "direction": "in_range",
-          "expertContext": "[주의] 입력에 \"외기/기온\"이 포함됨 — 본 기준은 콘크리트 자체 온도(KCS 14 20 10). 외기온도 한도는 한중(<4℃)·서중(>30℃) 별도 규정. 측정 대상 재확인 필요. / 관측값이 허용범위 내. 베테랑 시각: 일상 합격.",
+          "comparison": "95℃ > 35℃",
+          "legalVerdict": "FAIL",
+          "qualitySignal": "out_of_range_high",
+          "verdict": "FAIL",
+          "direction": "too_high",
+          "expertContext": "[주의] 입력에 \"외기/기온\"이 포함됨 — 본 기준은 콘크리트 자체 온도(KCS 14 20 10). 외기온도 한도는 한중(<4℃)·서중(>30℃) 별도 규정. 측정 대상 재확인 필요. / 베테랑 시각: 한중·서중 대책 적용 여부 확인. 배합·운반·양생 단계 점검.",
           "marginalWarning": null,
-          "candidateNonconformance": [],
+          "candidateNonconformance": [
+            {
+              "id": "ncr.concrete_temperature_out_of_range",
+              "name": "콘크리트 온도 기준 이탈",
+              "direction": "out_of_range"
+            }
+          ],
           "suggestedNextSteps": [
-            "해당 시험 통과 — 다음 검측·시험 항목으로 이동"
+            "compile_ncr_references(ncrId='ncr.concrete_temperature_out_of_range') 호출해 NCR 작성 재료 수집",
+            "현장 증빙(납품서·배합설계서·시험기록·사진) 확보",
+            "감리원 결재 요청"
           ],
           "legalBasis": [
             "standard.kcs_14_20.10"
@@ -430,11 +889,16 @@
           "type": "ontology",
           "id": "standard.kcs_14_20.10",
           "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "ncr.concrete_temperature_out_of_range",
+          "priority": 1
         }
       ],
       "humanCheckpoint": {
-        "required": false,
-        "reason": null,
+        "required": true,
+        "reason": "부적합 판정 후보 — NCR 작성 + 감리 결재 필요",
         "legalNote": "본 서버는 **근거 제공용**이며 최종 판정과 법적 책임은 품질관리자·감리원·발주자에게 있다. Tool 출력을 법적 조언·확정 결과로 취급하지 말 것."
       },
       "nextSteps": [
@@ -443,49 +907,74 @@
           "reason": "FAIL 판정 시 NCR 작성 재료 수집"
         }
       ],
+      "sourceStatusSummary": {
+        "worst": "unknown",
+        "counts": {
+          "verified": 0,
+          "indirect_source": 0,
+          "skeleton": 0,
+          "unknown": 4
+        },
+        "warnings": []
+      },
       "lineage": {
         "toolName": "evaluate_observation",
-        "toolCallId": "e5abae82-a658-4c4e-83d5-918b611934d0",
-        "ontologyVersion": "0.1.0",
-        "generatedAt": "2026-04-25T08:38:38.502Z",
+        "toolCallId": "1590d90a-9306-4038-89a3-8623a3c2ec8f",
+        "ontologyVersion": "0.3.0",
+        "generatedAt": "2026-06-19T16:15:14.485Z",
         "contentHashAlgo": "sha256",
-        "contentHash": "6c5fc619032a69d44ecda7eed1e6d4e964926ed19c271944c03c3384cb3f41e5"
+        "contentHash": "2e564c03347d2ed7b5e72172ac46901f4c5237b23ebbafdb56863deaeb3ecb18"
       }
     }
   },
   {
     "id": "C07",
     "persona": "감리",
-    "intent": "슬래브 해체 강도",
-    "expect": "fck=24, 24×2/3=16 그리고 14MPa↑ 둘 다 만족 → 승인",
+    "intent": "슬래브 해체 강도 (R5 H2 미도입, R1 통계 모드로 인해 statistical 평가)",
+    "expect": "fck=24, 24×2/3=16 + 14MPa↑ → 승인. R5 H2 미도입 — R1에서는 statistical_le35로 평가 (16 < 20.5 → FAIL).",
     "tool": "evaluate_observation",
     "args": {
       "observation": "슬래브 거푸집 해체 시점 압축강도 16MPa, 설계기준압축강도 fck 24MPa",
       "testId": "test.compressive_strength"
     },
+    "expectedVerdict": "FAIL",
+    "notes": "R1: statistical_le35로 평가, fcn=24, 16 < 20.5 → FAIL. R5 H2 도입 후 슬래브 부재 키워드 라우팅 → 거푸집 별도 criteria → PASS.",
     "ms": 0,
     "response": {
       "result": {
         "expertAssessment": {
           "observation": "슬래브 거푸집 해체 시점 압축강도 16MPa, 설계기준압축강도 fck 24MPa",
-          "applicableCriterion": "≥ <프로젝트 주입 대기> MPa (KCS 14 20 10 §3.3)",
-          "criterionId": "criteria.compressive_strength_design",
+          "applicableCriterion": "압축강도 통계 판정 — 호칭강도 ≤ 35MPa (표 3.5-3) (KCS 14 20 10 §3.5.3.2 표 3.5-3 (≤35MPa 판정기준))",
+          "criterionId": "criteria.compressive_strength_statistical_le35",
           "observedValue": 16,
           "observedUnit": "MPa",
-          "comparison": "threshold가 프로젝트 주입 대기 상태 (예: fck)",
-          "legalVerdict": "UNDETERMINED",
-          "qualitySignal": "undetermined",
-          "verdict": "UNDETERMINED",
-          "direction": "n/a",
-          "expertContext": "베테랑 시각: 자동 비교 불가 — 단위·기준 주입 또는 수동 검토 필요.",
+          "comparison": "[≤35MPa (1회 ≥ fcn-3.5), 1회 단독] 16<20.50 (fcn 24 -3.5)",
+          "legalVerdict": "FAIL",
+          "qualitySignal": "out_of_range_low",
+          "verdict": "FAIL",
+          "direction": "too_low",
+          "expertContext": "베테랑 시각: 부적합 추정 — 후속 NCR 재료 수집 후 감리 협의.",
           "marginalWarning": null,
-          "candidateNonconformance": [],
+          "candidateNonconformance": [
+            {
+              "id": "ncr.compressive_strength_statistical_fail",
+              "name": "압축강도 통계 판정 불합격 (표 3.5-3)",
+              "direction": "too_low"
+            },
+            {
+              "id": "ncr.low_compressive_strength",
+              "name": "압축강도 부족",
+              "direction": "too_low"
+            }
+          ],
           "suggestedNextSteps": [
-            "단위·기준값 주입 또는 수동 판정 검토",
-            "compile_concrete_pour_references 호출로 도메인 재료 종합 수집"
+            "compile_ncr_references(ncrId='ncr.compressive_strength_statistical_fail') 호출해 NCR 작성 재료 수집",
+            "현장 증빙(납품서·배합설계서·시험기록·사진) 확보",
+            "감리원 결재 요청"
           ],
           "legalBasis": [
-            "standard.kcs_14_20.10.3_3",
+            "standard.kcs_14_20.10.3_5_3_2",
+            "standard.kcs_14_20.10.1_8_2",
             "standard.ks_f_2405"
           ],
           "judgmentEngineNote": "legalVerdict(법적 합부) ≠ qualitySignal(도메인 경계 신호). MARGINAL은 합부 판정에서 분리 — legalVerdict=PASS이지만 qualitySignal=marginal. UNDETERMINED는 판정 불가(수동). 본 expertAssessment는 LLM이 최종 판정을 작성할 재료."
@@ -494,7 +983,7 @@
       "basis": [
         {
           "type": "ontology",
-          "id": "criteria.compressive_strength_design",
+          "id": "criteria.compressive_strength_statistical_le35",
           "priority": 1
         },
         {
@@ -504,18 +993,33 @@
         },
         {
           "type": "ontology",
-          "id": "standard.kcs_14_20.10.3_3",
+          "id": "standard.kcs_14_20.10.3_5_3_2",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "standard.kcs_14_20.10.1_8_2",
           "priority": 1
         },
         {
           "type": "ontology",
           "id": "standard.ks_f_2405",
           "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "ncr.compressive_strength_statistical_fail",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "ncr.low_compressive_strength",
+          "priority": 1
         }
       ],
       "humanCheckpoint": {
         "required": true,
-        "reason": "판정 불가 (legalVerdict=UNDETERMINED) — 수동 처리 필요",
+        "reason": "부적합 판정 후보 — NCR 작성 + 감리 결재 필요",
         "legalNote": "본 서버는 **근거 제공용**이며 최종 판정과 법적 책임은 품질관리자·감리원·발주자에게 있다. Tool 출력을 법적 조언·확정 결과로 취급하지 말 것."
       },
       "nextSteps": [
@@ -524,49 +1028,74 @@
           "reason": "FAIL 판정 시 NCR 작성 재료 수집"
         }
       ],
+      "sourceStatusSummary": {
+        "worst": "unknown",
+        "counts": {
+          "verified": 0,
+          "indirect_source": 0,
+          "skeleton": 0,
+          "unknown": 7
+        },
+        "warnings": []
+      },
       "lineage": {
         "toolName": "evaluate_observation",
-        "toolCallId": "b4dfd4b1-fdb9-454c-a3ac-0b6b36780654",
-        "ontologyVersion": "0.1.0",
-        "generatedAt": "2026-04-25T08:38:38.502Z",
+        "toolCallId": "7b33ec54-eab9-45ce-8bac-82db5af272d1",
+        "ontologyVersion": "0.3.0",
+        "generatedAt": "2026-06-19T16:15:14.485Z",
         "contentHashAlgo": "sha256",
-        "contentHash": "13f3e359ab2fe14c0758f1d0dca6a883343979b88900685aaf2da7a62aaba9d2"
+        "contentHash": "d056a57861c4ed8f1b43ae4f8977dffcabddada74883bc9e5b9c7ebc35a187e0"
       }
     }
   },
   {
     "id": "C08",
     "persona": "감리",
-    "intent": "코어 §3.5.5.7 평가",
-    "expect": "평균 22>20.4 OK, 최저 17<18=fck×0.75 → 불합격",
+    "intent": "코어 §3.5.5.7 평가 (R7 G 미도입, R1 통계 모드와 차이)",
+    "expect": "코어 §3.5.5.7(4): 평균≥fcn×0.85 AND 각각≥fcn×0.75. R1 통계는 §3.5.3.2 (-3.5 또는 ×0.9) — 코어 기준과 다름. R1에서는 잘못된 분기로 PASS 가능 → forbidden 검출.",
     "tool": "evaluate_observation",
     "args": {
       "observation": "코어 4개 평균 22MPa 최저 17MPa, fck 24MPa",
       "testId": "test.compressive_strength"
     },
+    "expectedVerdict": "FAIL",
+    "notes": "R1 statistical_le35: 평균 22 ≥ 24? FAIL. 그러나 진짜 코어 기준은 평균≥20.4 AND 각각≥18 — 평균 22≥20.4 OK, 최저 17<18 → FAIL. 우연히 verdict 일치. R7 G 코어 별도 criterion 필요. 향후 timing parser(코어 키워드) 도입.",
     "ms": 0,
     "response": {
       "result": {
         "expertAssessment": {
           "observation": "코어 4개 평균 22MPa 최저 17MPa, fck 24MPa",
-          "applicableCriterion": "≥ <프로젝트 주입 대기> MPa (KCS 14 20 10 §3.3)",
-          "criterionId": "criteria.compressive_strength_design",
+          "applicableCriterion": "압축강도 통계 판정 — 호칭강도 ≤ 35MPa (표 3.5-3) (KCS 14 20 10 §3.5.3.2 표 3.5-3 (≤35MPa 판정기준))",
+          "criterionId": "criteria.compressive_strength_statistical_le35",
           "observedValue": 22,
           "observedUnit": "MPa",
-          "comparison": "threshold가 프로젝트 주입 대기 상태 (예: fck)",
-          "legalVerdict": "UNDETERMINED",
-          "qualitySignal": "undetermined",
-          "verdict": "UNDETERMINED",
-          "direction": "n/a",
-          "expertContext": "베테랑 시각: 자동 비교 불가 — 단위·기준 주입 또는 수동 검토 필요.",
+          "comparison": "[≤35MPa (1회 ≥ fcn-3.5)] 평균 22<fcn 24 / 최저 17<20.50 (fcn 24 -3.5)",
+          "legalVerdict": "FAIL",
+          "qualitySignal": "out_of_range_low",
+          "verdict": "FAIL",
+          "direction": "too_low",
+          "expertContext": "베테랑 시각: 부적합 추정 — 후속 NCR 재료 수집 후 감리 협의.",
           "marginalWarning": null,
-          "candidateNonconformance": [],
+          "candidateNonconformance": [
+            {
+              "id": "ncr.compressive_strength_statistical_fail",
+              "name": "압축강도 통계 판정 불합격 (표 3.5-3)",
+              "direction": "too_low"
+            },
+            {
+              "id": "ncr.low_compressive_strength",
+              "name": "압축강도 부족",
+              "direction": "too_low"
+            }
+          ],
           "suggestedNextSteps": [
-            "단위·기준값 주입 또는 수동 판정 검토",
-            "compile_concrete_pour_references 호출로 도메인 재료 종합 수집"
+            "compile_ncr_references(ncrId='ncr.compressive_strength_statistical_fail') 호출해 NCR 작성 재료 수집",
+            "현장 증빙(납품서·배합설계서·시험기록·사진) 확보",
+            "감리원 결재 요청"
           ],
           "legalBasis": [
-            "standard.kcs_14_20.10.3_3",
+            "standard.kcs_14_20.10.3_5_3_2",
+            "standard.kcs_14_20.10.1_8_2",
             "standard.ks_f_2405"
           ],
           "judgmentEngineNote": "legalVerdict(법적 합부) ≠ qualitySignal(도메인 경계 신호). MARGINAL은 합부 판정에서 분리 — legalVerdict=PASS이지만 qualitySignal=marginal. UNDETERMINED는 판정 불가(수동). 본 expertAssessment는 LLM이 최종 판정을 작성할 재료."
@@ -575,7 +1104,7 @@
       "basis": [
         {
           "type": "ontology",
-          "id": "criteria.compressive_strength_design",
+          "id": "criteria.compressive_strength_statistical_le35",
           "priority": 1
         },
         {
@@ -585,18 +1114,33 @@
         },
         {
           "type": "ontology",
-          "id": "standard.kcs_14_20.10.3_3",
+          "id": "standard.kcs_14_20.10.3_5_3_2",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "standard.kcs_14_20.10.1_8_2",
           "priority": 1
         },
         {
           "type": "ontology",
           "id": "standard.ks_f_2405",
           "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "ncr.compressive_strength_statistical_fail",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "ncr.low_compressive_strength",
+          "priority": 1
         }
       ],
       "humanCheckpoint": {
         "required": true,
-        "reason": "판정 불가 (legalVerdict=UNDETERMINED) — 수동 처리 필요",
+        "reason": "부적합 판정 후보 — NCR 작성 + 감리 결재 필요",
         "legalNote": "본 서버는 **근거 제공용**이며 최종 판정과 법적 책임은 품질관리자·감리원·발주자에게 있다. Tool 출력을 법적 조언·확정 결과로 취급하지 말 것."
       },
       "nextSteps": [
@@ -605,26 +1149,38 @@
           "reason": "FAIL 판정 시 NCR 작성 재료 수집"
         }
       ],
+      "sourceStatusSummary": {
+        "worst": "unknown",
+        "counts": {
+          "verified": 0,
+          "indirect_source": 0,
+          "skeleton": 0,
+          "unknown": 7
+        },
+        "warnings": []
+      },
       "lineage": {
         "toolName": "evaluate_observation",
-        "toolCallId": "a7672f6c-53ff-4af3-9c97-e93b5862cd66",
-        "ontologyVersion": "0.1.0",
-        "generatedAt": "2026-04-25T08:38:38.502Z",
+        "toolCallId": "e0697655-7254-43b7-9755-21602f9412aa",
+        "ontologyVersion": "0.3.0",
+        "generatedAt": "2026-06-19T16:15:14.485Z",
         "contentHashAlgo": "sha256",
-        "contentHash": "19699a654af86d2c3bd68c4005be1b50bdd122a8175bd2429b18930a02affe7d"
+        "contentHash": "3df56a10b086fd98ae64354d2aac07f753f6b2ab87d54e6172d2f2dcb7b14429"
       }
     }
   },
   {
     "id": "C09",
     "persona": "감리",
-    "intent": "강우 시 빗물 고임",
-    "expect": "KCS 14 20 10 §3.3.2(10): 제거 후 타설, 홈 흐름 금지",
+    "intent": "강우 시 빗물 고임 (R7 미도입)",
+    "expect": "KCS 14 20 10 §3.3.2(10): 제거 후 타설. R7 강우 키워드 인식 도입 전 hit 적음.",
     "tool": "discover_relevant_domain",
     "args": {
       "situation": "타설 중 비. 표면 빗물 고임. 어떻게 처리하나요",
       "maxResults": 5
     },
+    "expectedHitsMax": 3,
+    "notes": "R7 강우 키워드 도입 후 expectedHitsMin: 1 + standard.kcs_14_20.10.3_3_2 매칭.",
     "ms": 0,
     "response": {
       "result": {
@@ -667,25 +1223,37 @@
           "reason": "미매칭 — 공종 표현 정정 후 재호출"
         }
       ],
+      "sourceStatusSummary": {
+        "worst": "unknown",
+        "counts": {
+          "verified": 0,
+          "indirect_source": 0,
+          "skeleton": 0,
+          "unknown": 1
+        },
+        "warnings": []
+      },
       "lineage": {
         "toolName": "discover_relevant_domain",
-        "toolCallId": "9f4e7ed8-2c2e-490a-ac80-674da2dee968",
-        "ontologyVersion": "0.1.0",
-        "generatedAt": "2026-04-25T08:38:38.502Z",
+        "toolCallId": "5daa7a1f-ffee-4739-b1ac-ac6a2434bdae",
+        "ontologyVersion": "0.3.0",
+        "generatedAt": "2026-06-19T16:15:14.485Z",
         "contentHashAlgo": "sha256",
-        "contentHash": "2a0c6d0e4afb5738e0cf0b96c6daefb3ccd7f42aed42050201781876913b5cad"
+        "contentHash": "bbe5f20fc792a1c61f5f1fadc398e578e9921890b4fbb0c4f92dabfb59f6461d"
       }
     }
   },
   {
     "id": "C10",
     "persona": "공장",
-    "intent": "기온보정 Tn 표",
-    "expect": "KCS 14 20 10 표 2.2-1: 4~8℃ 6MPa, 8~18℃ 3MPa, 18℃↑ 0",
+    "intent": "기온보정 Tn 표 (R7 K 미도입)",
+    "expect": "KCS 14 20 10 표 2.2-1 (시멘트×재령×기온 3D). R7 K 도입 전 search threshold로 환각 차단 확인.",
     "tool": "search_construction_standards",
     "args": {
       "query": "기온보정값 Tn 28일 예상평균기온"
     },
+    "expectedHitsMax": 5,
+    "notes": "R7 K 도입 후 expectedHitsMin: 1 + standard.kcs_14_20.10.2_2_2 (Tn 표) 매칭.",
     "ms": 0,
     "response": {
       "result": {
@@ -714,26 +1282,41 @@
           "reason": "특정 KCS 섹션 인용 명칭 검증"
         }
       ],
+      "sourceStatusSummary": {
+        "worst": "unknown",
+        "counts": {
+          "verified": 0,
+          "indirect_source": 0,
+          "skeleton": 0,
+          "unknown": 1
+        },
+        "warnings": []
+      },
       "lineage": {
         "toolName": "search_construction_standards",
-        "toolCallId": "361cc32d-d185-4d74-a05f-378cc19f7e57",
-        "ontologyVersion": "0.1.0",
-        "generatedAt": "2026-04-25T08:38:38.502Z",
+        "toolCallId": "9fb0942c-1cbe-48f2-ac4e-57d6ab82aaa0",
+        "ontologyVersion": "0.3.0",
+        "generatedAt": "2026-06-19T16:15:14.485Z",
         "contentHashAlgo": "sha256",
-        "contentHash": "b4430df169036242779d793d61e7b4f2181d1e68747aa437dba518e9f7daee87"
+        "contentHash": "3a5e2f1a0b0c2ea43296fe2fad6ff49d75aa1ce5a9f05904f060a10cc2a1f4a9"
       }
     }
   },
   {
     "id": "C11",
     "persona": "신입",
-    "intent": "콜드조인트 NCR 양식",
-    "expect": "ncr.cold_joint 시드 없음 — 갭. compile_ncr_references가 fallback 안내해야",
+    "intent": "콜드조인트 NCR 양식 (R0-G1 정정 후)",
+    "expect": "ncr.cold_joint basisPriority에 §3.3.2(8) 표 3.3-1 + §1.4 콜드조인트 정의 포함 확인",
     "tool": "compile_ncr_references",
     "args": {
       "ncrId": "ncr.cold_joint",
       "workType": "work.concrete_placement"
     },
+    "expectedBasisIds": [
+      "standard.kcs_14_20.10.3_3_2",
+      "standard.kcs_14_20.10.1_4"
+    ],
+    "notes": "R0-G1 인용 정정으로 §3.3.2 + §1.4 노드가 새로 ref됨. R0-G1 검증 시나리오.",
     "ms": 0,
     "response": {
       "result": {
@@ -751,7 +1334,8 @@
             "possibleCauses": [
               "타설 지연",
               "운반 시간 초과",
-              "다짐 시점 지연"
+              "다짐 시점 지연",
+              "이어치기 시간 초과 (표 3.3-1)"
             ],
             "owner": "현장 공사 담당 + 품질관리자",
             "approver": "감리원 / 구조기술사",
@@ -800,8 +1384,13 @@
                 "category": null
               },
               {
-                "id": "standard.kcs_14_20.10",
-                "name": "KCS 14 20 10 일반콘크리트",
+                "id": "standard.kcs_14_20.10.3_3_2",
+                "name": "KCS 14 20 10 §3.3.2 타설 (이어치기 시간)",
+                "category": null
+              },
+              {
+                "id": "standard.kcs_14_20.10.1_4",
+                "name": "KCS 14 20 10 §1.4 용어 정의",
                 "category": null
               }
             ]
@@ -1017,7 +1606,12 @@
         },
         {
           "type": "ontology",
-          "id": "standard.kcs_14_20.10",
+          "id": "standard.kcs_14_20.10.3_3_2",
+          "priority": 1
+        },
+        {
+          "type": "ontology",
+          "id": "standard.kcs_14_20.10.1_4",
           "priority": 1
         },
         {
@@ -1045,51 +1639,59 @@
           "reason": "NCR 초안 인용 검증"
         }
       ],
+      "sourceStatusSummary": {
+        "worst": "unknown",
+        "counts": {
+          "verified": 0,
+          "indirect_source": 0,
+          "skeleton": 0,
+          "unknown": 10
+        },
+        "warnings": []
+      },
       "lineage": {
         "toolName": "compile_ncr_references",
-        "toolCallId": "ec7394a4-dda3-4847-986f-e56b559abaf4",
-        "ontologyVersion": "0.1.0",
-        "generatedAt": "2026-04-25T08:38:38.502Z",
+        "toolCallId": "89cb4046-aecd-4cfd-aa80-78664f8f3286",
+        "ontologyVersion": "0.3.0",
+        "generatedAt": "2026-06-19T16:15:14.486Z",
         "contentHashAlgo": "sha256",
-        "contentHash": "6f3695f21759cc849629f43ed28bce1be3b11a7127042063f3acf864dd20e97c"
+        "contentHash": "ea9c57dc822267697c73317adac449e5120738c7806a20827bb520e16fc6113c"
       }
     }
   },
   {
     "id": "C12",
     "persona": "경력",
-    "intent": "fck/fcn/fcr/fcm 용어",
-    "expect": "4개 용어 정의. 현재 시드 부재 — 환각 가드 작동해야",
+    "intent": "fck/fcn/fcr/fcm 용어 (R1 Glossary 미도입, G4 환각 차단 확인)",
+    "expect": "R1 Glossary entity 도입 전 NO_MATCH. G4 score threshold로 \"광역자치단체\"와 환각 매칭 차단 확인.",
     "tool": "search_quality_ontology",
     "args": {
       "query": "fck fcn fcr fcm 호칭강도 설계기준 배합강도"
     },
+    "expectedHitsMax": 8,
+    "forbiddenBasisIds": [
+      "agency.metropolitan_city"
+    ],
+    "notes": "R0-G4 환각 차단 검증 시나리오. R1 Glossary 도입 후 expectedHitsMin: 4 (fck/fcn/fcr/fcm 4개 용어).",
     "ms": 0,
     "response": {
       "result": {
         "query": "fck fcn fcr fcm 호칭강도 설계기준 배합강도",
         "entityType": null,
-        "matchCount": 1,
-        "matches": [
-          {
-            "id": "agency.metropolitan_city",
-            "type": "Agency",
-            "name": "광역자치단체 (서울시·부산시 등)",
-            "matchedBy": "substring",
-            "score": 0.413
-          }
-        ]
+        "matchCount": 0,
+        "matches": []
       },
       "basis": [
         {
-          "type": "ontology",
-          "id": "agency.metropolitan_city",
-          "priority": 1
+          "type": "ontology_meta",
+          "id": "no_match",
+          "priority": 3,
+          "note": "매칭 0건 — 온톨로지 확장 필요 가능성"
         }
       ],
       "humanCheckpoint": {
-        "required": false,
-        "reason": null,
+        "required": true,
+        "reason": "검색어 \"fck fcn fcr fcm 호칭강도 설계기준 배합강도\"에 매칭되는 온톨로지 노드 없음. 표현 변경 또는 신규 엔티티 등록 필요.",
         "legalNote": "본 서버는 **근거 제공용**이며 최종 판정과 법적 책임은 품질관리자·감리원·발주자에게 있다. Tool 출력을 법적 조언·확정 결과로 취급하지 말 것."
       },
       "nextSteps": [
@@ -1098,487 +1700,97 @@
           "reason": "특정 공종을 선택해 도메인 프로파일 전체 조회"
         }
       ],
+      "sourceStatusSummary": {
+        "worst": "unknown",
+        "counts": {
+          "verified": 0,
+          "indirect_source": 0,
+          "skeleton": 0,
+          "unknown": 1
+        },
+        "warnings": []
+      },
       "lineage": {
         "toolName": "search_quality_ontology",
-        "toolCallId": "73fd6a96-e33c-43dd-9a96-e6e72b84bd1d",
-        "ontologyVersion": "0.1.0",
-        "generatedAt": "2026-04-25T08:38:38.502Z",
+        "toolCallId": "5060e99a-8386-41fc-9bb8-6cdc45e76ca9",
+        "ontologyVersion": "0.3.0",
+        "generatedAt": "2026-06-19T16:15:14.486Z",
         "contentHashAlgo": "sha256",
-        "contentHash": "39a7deb3e48fceed5fff93a1152ce139258388c2dd3a9e0541eb0996f9f84e96"
+        "contentHash": "6dbfebe417786ec7e1ae16b3251032e48c73d241a4f4c14d38c32c568b690e45"
       }
     }
   },
   {
     "id": "C13",
     "persona": "신입",
-    "intent": "한중 양생온도 정의",
-    "expect": "콘크리트 온도. 5℃↑ 유지, 0℃↑ 2일 (KCS 14 20 40 §3.4.1(4))",
+    "intent": "한중 양생온도 정의 (R6 미도입)",
+    "expect": "콘크리트 온도. 5℃↑ 유지, 0℃↑ 2일 (KCS 14 20 40 §3.4.1(4)). R6 미도입 시 hit 적음.",
     "tool": "discover_relevant_domain",
     "args": {
       "situation": "한중 시공인데 양생온도가 콘크리트 온도인지 외기온도인지 헷갈려요",
       "maxResults": 6
     },
+    "expectedHitsMax": 4,
+    "notes": "R6 work.cold_weather_concrete + Glossary 양생온도 도입 후 expectedHitsMin: 2.",
     "ms": 0,
     "response": {
       "result": {
         "situation": "한중 시공인데 양생온도가 콘크리트 온도인지 외기온도인지 헷갈려요",
         "domainPackage": {
-          "WorkType": [
-            {
-              "id": "work.concrete_placement",
-              "name": "콘크리트 타설",
-              "score": 0.423
-            }
-          ],
-          "Material": [
-            {
-              "id": "material.ready_mixed_concrete",
-              "name": "레미콘",
-              "score": 0.5
-            }
-          ],
-          "TestItem": [
-            {
-              "id": "test.concrete_temperature",
-              "name": "콘크리트 온도 측정",
-              "score": 0.48
-            },
-            {
-              "id": "test.slump",
-              "name": "슬럼프 시험",
-              "score": 0.4
-            },
-            {
-              "id": "test.air_content",
-              "name": "공기량 시험",
-              "score": 0.4
-            },
-            {
-              "id": "test.chloride",
-              "name": "염화물량 시험",
-              "score": 0.4
-            },
-            {
-              "id": "test.unit_water_content",
-              "name": "단위수량 시험",
-              "score": 0.4
-            },
-            {
-              "id": "test.compressive_strength",
-              "name": "압축강도 시험",
-              "score": 0.4
-            }
-          ],
-          "InspectionCheckpoint": [
-            {
-              "id": "inspection.before_concrete_placement",
-              "name": "콘크리트 타설 전 검측",
-              "score": 0.5
-            },
-            {
-              "id": "inspection.during_concrete_placement",
-              "name": "콘크리트 타설 중 검측",
-              "score": 0.5
-            },
-            {
-              "id": "inspection.after_concrete_placement",
-              "name": "콘크리트 타설 후 검측",
-              "score": 0.5
-            }
-          ],
-          "AcceptanceCriteria": [
-            {
-              "id": "criteria.concrete_temperature_general",
-              "name": "콘크리트 온도 5℃~35℃",
-              "score": 0.3
-            },
-            {
-              "id": "criteria.slump_general_150",
-              "name": "슬럼프 일반 150±25mm",
-              "score": 0.3
-            },
-            {
-              "id": "criteria.air_content_general",
-              "name": "공기량 보통 콘크리트 4.5±1.5%",
-              "score": 0.3
-            },
-            {
-              "id": "criteria.air_content_lightweight",
-              "name": "공기량 경량 콘크리트 5.5±1.5%",
-              "score": 0.3
-            },
-            {
-              "id": "criteria.air_content_pavement",
-              "name": "공기량 포장 콘크리트 4.5±1.5%",
-              "score": 0.3
-            },
-            {
-              "id": "criteria.air_content_high_strength",
-              "name": "공기량 고강도 콘크리트 3.5% 이하 ±1.5%",
-              "score": 0.3
-            }
-          ],
-          "QualityRisk": [
-            {
-              "id": "risk.slump_out_of_range",
-              "name": "슬럼프 기준 이탈",
-              "score": 0.5
-            },
-            {
-              "id": "risk.air_content_deviation",
-              "name": "공기량 기준 이탈",
-              "score": 0.5
-            },
-            {
-              "id": "risk.chloride_contamination",
-              "name": "염화물 함유량 이탈",
-              "score": 0.5
-            },
-            {
-              "id": "risk.concrete_temperature_deviation",
-              "name": "콘크리트 온도 기준 이탈",
-              "score": 0.5
-            },
-            {
-              "id": "risk.material_segregation",
-              "name": "재료분리",
-              "score": 0.5
-            },
-            {
-              "id": "risk.cold_joint",
-              "name": "콜드조인트",
-              "score": 0.5
-            },
-            {
-              "id": "risk.insufficient_compaction",
-              "name": "다짐 불량",
-              "score": 0.5
-            },
-            {
-              "id": "risk.insufficient_curing",
-              "name": "양생 불량",
-              "score": 0.5
-            },
-            {
-              "id": "risk.low_compressive_strength",
-              "name": "압축강도 부족",
-              "score": 0.5
-            }
-          ],
+          "WorkType": [],
+          "Material": [],
+          "TestItem": [],
+          "InspectionCheckpoint": [],
+          "AcceptanceCriteria": [],
+          "QualityRisk": [],
           "Nonconformance": [],
-          "Standard": [
-            {
-              "id": "standard.kcs_14_20",
-              "name": "KCS 14 20 콘크리트공사",
-              "score": 0.5
-            },
-            {
-              "id": "standard.quality_management_guideline",
-              "name": "건설공사 품질관리 업무지침",
-              "score": 0.5
-            }
-          ]
+          "Standard": []
         },
-        "primaryWorkType": {
-          "id": "work.concrete_placement",
-          "name": "콘크리트 타설",
-          "neighborhood": {
-            "hasTask": [
-              {
-                "id": "task.concrete_pour_slab",
-                "name": "슬래브 콘크리트 타설"
-              },
-              {
-                "id": "task.concrete_pour_foundation",
-                "name": "기초 콘크리트 타설"
-              },
-              {
-                "id": "task.concrete_pour_wall",
-                "name": "벽체 콘크리트 타설"
-              },
-              {
-                "id": "task.concrete_curing",
-                "name": "콘크리트 양생"
-              }
-            ],
-            "usesMaterial": [
-              {
-                "id": "material.ready_mixed_concrete",
-                "name": "레미콘"
-              }
-            ],
-            "hasInspectionCheckpoint": [
-              {
-                "id": "inspection.before_concrete_placement",
-                "name": "콘크리트 타설 전 검측"
-              },
-              {
-                "id": "inspection.during_concrete_placement",
-                "name": "콘크리트 타설 중 검측"
-              },
-              {
-                "id": "inspection.after_concrete_placement",
-                "name": "콘크리트 타설 후 검측"
-              }
-            ],
-            "hasQualityRisk": [
-              {
-                "id": "risk.slump_out_of_range",
-                "name": "슬럼프 기준 이탈"
-              },
-              {
-                "id": "risk.air_content_deviation",
-                "name": "공기량 기준 이탈"
-              },
-              {
-                "id": "risk.chloride_contamination",
-                "name": "염화물 함유량 이탈"
-              },
-              {
-                "id": "risk.concrete_temperature_deviation",
-                "name": "콘크리트 온도 기준 이탈"
-              },
-              {
-                "id": "risk.material_segregation",
-                "name": "재료분리"
-              },
-              {
-                "id": "risk.cold_joint",
-                "name": "콜드조인트"
-              },
-              {
-                "id": "risk.insufficient_compaction",
-                "name": "다짐 불량"
-              },
-              {
-                "id": "risk.insufficient_curing",
-                "name": "양생 불량"
-              },
-              {
-                "id": "risk.low_compressive_strength",
-                "name": "압축강도 부족"
-              }
-            ],
-            "requiresStandard": [
-              {
-                "id": "standard.kcs_14_20",
-                "name": "KCS 14 20 콘크리트공사"
-              },
-              {
-                "id": "standard.quality_management_guideline",
-                "name": "건설공사 품질관리 업무지침"
-              }
-            ]
-          }
-        },
+        "primaryWorkType": null,
         "expertGuidance": [
-          "공종 \"콘크리트 타설\"이 식별됨. 베테랑 시각: 자재·시험·검측·법령을 동시에 확인하라.",
-          "관련 표준·법령 발견 — verify_form_reference로 인용 정확성 검증"
+          "직접 매칭된 도메인 노드가 적음. resolve_worktype로 공종 표현 정정 권고."
         ]
       },
       "basis": [
         {
-          "type": "ontology",
-          "id": "work.concrete_placement",
-          "priority": 1
-        },
-        {
-          "type": "ontology",
-          "id": "test.concrete_temperature",
-          "priority": 1
-        },
-        {
-          "type": "ontology",
-          "id": "task.concrete_pour_slab",
-          "priority": 1
-        },
-        {
-          "type": "ontology",
-          "id": "task.concrete_pour_foundation",
-          "priority": 1
-        },
-        {
-          "type": "ontology",
-          "id": "task.concrete_pour_wall",
-          "priority": 1
-        },
-        {
-          "type": "ontology",
-          "id": "task.concrete_curing",
-          "priority": 1
-        },
-        {
-          "type": "ontology",
-          "id": "material.ready_mixed_concrete",
-          "priority": 1
-        },
-        {
-          "type": "ontology",
-          "id": "inspection.before_concrete_placement",
-          "priority": 1
-        },
-        {
-          "type": "ontology",
-          "id": "inspection.during_concrete_placement",
-          "priority": 1
-        },
-        {
-          "type": "ontology",
-          "id": "inspection.after_concrete_placement",
-          "priority": 1
-        },
-        {
-          "type": "ontology",
-          "id": "risk.slump_out_of_range",
-          "priority": 1
-        },
-        {
-          "type": "ontology",
-          "id": "risk.air_content_deviation",
-          "priority": 1
-        },
-        {
-          "type": "ontology",
-          "id": "risk.chloride_contamination",
-          "priority": 1
-        },
-        {
-          "type": "ontology",
-          "id": "risk.concrete_temperature_deviation",
-          "priority": 1
-        },
-        {
-          "type": "ontology",
-          "id": "risk.material_segregation",
-          "priority": 1
-        },
-        {
-          "type": "ontology",
-          "id": "risk.cold_joint",
-          "priority": 1
-        },
-        {
-          "type": "ontology",
-          "id": "risk.insufficient_compaction",
-          "priority": 1
-        },
-        {
-          "type": "ontology",
-          "id": "risk.insufficient_curing",
-          "priority": 1
-        },
-        {
-          "type": "ontology",
-          "id": "risk.low_compressive_strength",
-          "priority": 1
-        },
-        {
-          "type": "ontology",
-          "id": "standard.kcs_14_20",
-          "priority": 1
-        },
-        {
-          "type": "ontology",
-          "id": "standard.quality_management_guideline",
-          "priority": 1
-        },
-        {
-          "type": "ontology",
-          "id": "test.slump",
-          "priority": 1
-        },
-        {
-          "type": "ontology",
-          "id": "test.air_content",
-          "priority": 1
-        },
-        {
-          "type": "ontology",
-          "id": "test.chloride",
-          "priority": 1
-        },
-        {
-          "type": "ontology",
-          "id": "test.unit_water_content",
-          "priority": 1
-        },
-        {
-          "type": "ontology",
-          "id": "test.compressive_strength",
-          "priority": 1
-        },
-        {
-          "type": "ontology",
-          "id": "criteria.concrete_temperature_general",
-          "priority": 1
-        },
-        {
-          "type": "ontology",
-          "id": "criteria.slump_general_150",
-          "priority": 1
-        },
-        {
-          "type": "ontology",
-          "id": "criteria.air_content_general",
-          "priority": 1
-        },
-        {
-          "type": "ontology",
-          "id": "criteria.air_content_lightweight",
-          "priority": 1
-        },
-        {
-          "type": "ontology",
-          "id": "criteria.air_content_pavement",
-          "priority": 1
-        },
-        {
-          "type": "ontology",
-          "id": "criteria.air_content_high_strength",
-          "priority": 1
-        },
-        {
-          "type": "ontology",
-          "id": "criteria.chloride_limit_030",
-          "priority": 1
-        },
-        {
-          "type": "ontology",
-          "id": "criteria.unit_water_content_project",
-          "priority": 1
-        },
-        {
-          "type": "ontology",
-          "id": "criteria.compressive_strength_design",
-          "priority": 1
+          "type": "ontology_meta",
+          "id": "no_match",
+          "priority": 3,
+          "note": "매칭 도메인 없음"
         }
       ],
       "humanCheckpoint": {
-        "required": false,
-        "reason": null,
+        "required": true,
+        "reason": "\"한중 시공인데 양생온도가 콘크리트 온도인지 외기온도인지 헷갈려요\"에서 도메인 매칭 0건 — 표현 정정 필요",
         "legalNote": "본 서버는 **근거 제공용**이며 최종 판정과 법적 책임은 품질관리자·감리원·발주자에게 있다. Tool 출력을 법적 조언·확정 결과로 취급하지 말 것."
       },
       "nextSteps": [
         {
-          "tool": "compile_concrete_pour_references",
-          "reason": "콘크리트 타설 1회 도메인 재료 패키지"
-        },
-        {
-          "tool": "compile_inspection_references",
-          "reason": "\"콘크리트 타설\" 검측 입회 재료 패키지"
-        },
-        {
           "tool": "list_core_quality_laws",
           "reason": "관련 법령 목록"
+        },
+        {
+          "tool": "resolve_worktype",
+          "reason": "미매칭 — 공종 표현 정정 후 재호출"
         }
       ],
+      "sourceStatusSummary": {
+        "worst": "unknown",
+        "counts": {
+          "verified": 0,
+          "indirect_source": 0,
+          "skeleton": 0,
+          "unknown": 1
+        },
+        "warnings": []
+      },
       "lineage": {
         "toolName": "discover_relevant_domain",
-        "toolCallId": "67d4fd34-ca00-4b16-a9dd-a5c5c54ec667",
-        "ontologyVersion": "0.1.0",
-        "generatedAt": "2026-04-25T08:38:38.503Z",
+        "toolCallId": "7f15c64a-db59-4457-bb0c-3b5c9dd19d8e",
+        "ontologyVersion": "0.3.0",
+        "generatedAt": "2026-06-19T16:15:14.486Z",
         "contentHashAlgo": "sha256",
-        "contentHash": "fc87780b3a4c32ac30313077fc99998e7366dd85ae30abb24f97d10c3f514208"
+        "contentHash": "677a7b6b0a5dc68c76401b1cd04af69ab00aacd2cd2d176314afd6299b1c9952"
       }
     }
   }

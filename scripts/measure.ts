@@ -213,11 +213,78 @@ if (existsSync(summaryPath)) {
 const registeredSchemas = new Set(listSchemaIds());
 const coverage = computeCoverage(registeredSchemas);
 
-// R0+ KPI: 응답 신뢰도 — sourceStatusSummary.worst === 'verified' 비율
-const trustScenarios = results.filter(
+// R0+ KPI: 응답 신뢰도 — 단일 worst 지표의 "역설"(verified 자산이 그래프에 존재해도
+// basis에 skeleton이 하나라도 섞이면 worst===verified가 0이 되어 신뢰도 0%로 보고됨)을
+// 해소하기 위해 보수적·관용적·비중 3관점 지표를 함께 산출한다. 숫자 부풀리기가 아니라
+// 측정의 정직성(어떤 관점으로 보느냐를 명시)을 높이는 것이 목적.
+//
+// 한 응답(시나리오)의 verified basis 개수와 전체 basis 개수를 추출한다.
+//  - 1순위: basis[] 각 항목의 sourceStatus (개별 라벨이 있는 신형 응답)
+//  - 2순위: sourceStatusSummary.counts (개별 라벨은 없고 요약만 있는 응답)
+//  - 둘 다 없으면 hasStatusData=false (구형 응답 — 비중 산정 불가)
+interface VerifiedBreakdown {
+  verified: number; // 이 응답의 verified basis 개수
+  totalBasis: number; // 이 응답의 전체 basis 개수
+  hasStatusData: boolean; // sourceStatus 정보(개별 라벨 또는 counts)가 존재하는가
+}
+
+function extractVerifiedBreakdown(response: any): VerifiedBreakdown {
+  // 1순위: basis[] 개별 sourceStatus
+  const basis = Array.isArray(response?.basis) ? response.basis : [];
+  const labeled = basis.filter(
+    (b: any) => typeof b?.sourceStatus === 'string',
+  );
+  if (labeled.length > 0) {
+    const verified = labeled.filter(
+      (b: any) => b.sourceStatus === 'verified',
+    ).length;
+    // 개별 라벨이 일부만 있을 수 있으나, 비중 분모는 라벨이 달린 basis 수로 본다
+    // (라벨 없는 basis는 상태 불명 — 비중 계산에서 제외해야 verified 비중이 왜곡 안 됨)
+    return { verified, totalBasis: labeled.length, hasStatusData: true };
+  }
+
+  // 2순위: sourceStatusSummary.counts
+  const counts = response?.sourceStatusSummary?.counts;
+  if (counts && typeof counts === 'object') {
+    const verified = Number(counts.verified) || 0;
+    const totalBasis = Object.values(counts).reduce(
+      (sum: number, n) => sum + (Number(n) || 0),
+      0,
+    );
+    return { verified, totalBasis, hasStatusData: true };
+  }
+
+  // sourceStatus 정보 없음 (구형 응답)
+  return { verified: 0, totalBasis: basis.length, hasStatusData: false };
+}
+
+const breakdowns = results.map((s) => extractVerifiedBreakdown(s.response));
+
+// 지표 1 (보수적, 기존 worst 유지): basis 최저 등급이 verified인 응답 비율.
+// = 응답의 모든 근거가 verified여야 카운트. 가장 엄격해 0%가 나오기 쉽다.
+const trustWorstVerifiedScenarios = results.filter(
   (s) => s.response?.sourceStatusSummary?.worst === 'verified',
 ).length;
-const responseTrustRate = total ? trustScenarios / total : 0;
+const trustWorstVerifiedRate = total ? trustWorstVerifiedScenarios / total : 0;
+
+// 지표 2 (관용적): basis에 verified가 1개 이상 포함된 응답 비율.
+// = 검증된 근거를 (일부라도) 활용한 응답 비율. worst의 "역설" 해소가 한눈에 보인다.
+const trustAnyVerifiedScenarios = breakdowns.filter(
+  (b) => b.hasStatusData && b.verified > 0,
+).length;
+const trustAnyVerifiedRate = total ? trustAnyVerifiedScenarios / total : 0;
+
+// 지표 3 (비중): 시나리오별 (verified basis 수 / 전체 basis 수)의 평균.
+// = 응답 근거 중 검증분이 차지하는 평균 비중. sourceStatus 정보가 있는
+// 응답만 평균에 포함하며, 어떤 응답에도 정보가 없으면 'n/a'.
+const ratioEligible = breakdowns.filter(
+  (b) => b.hasStatusData && b.totalBasis > 0,
+);
+const trustVerifiedBasisRatio: number | 'n/a' =
+  ratioEligible.length > 0
+    ? ratioEligible.reduce((sum, b) => sum + b.verified / b.totalBasis, 0) /
+      ratioEligible.length
+    : 'n/a';
 
 const metrics = {
   label,
@@ -229,7 +296,10 @@ const metrics = {
   errorRate: total ? errorCount / total : 0,
   nodeUtilizationRate: nodeUtilization,
   documentCoverageRate: coverage.rate,
-  responseTrustRate,
+  // 응답 신뢰도 3지표 (worst의 역설 해소 — 보수적/관용적/비중 3관점)
+  trustWorstVerifiedRate, // 보수적: 모든 근거가 verified인 응답 비율
+  trustAnyVerifiedRate, // 관용적: verified 근거 1개 이상 포함 응답 비율
+  trustVerifiedBasisRatio, // 비중: 응답 근거 중 verified 평균 비중 ('n/a' 가능)
   documentCoverage: {
     total: coverage.total,
     covered: coverage.covered,
@@ -258,8 +328,15 @@ if (nodeUtilization !== null) {
 console.log(
   `★ 문서 커버리지       ${pct(coverage.rate)} (${coverage.covered}/${coverage.total}) ★ R10 목표 100%`,
 );
+console.log(`★ 응답 신뢰도(verified) — 같은 데이터를 3관점으로 본 정직한 지표:`);
 console.log(
-  `★ 응답 신뢰도(verified) ${pct(responseTrustRate)} (${trustScenarios}/${total})`,
+  `   worst  ${pct(trustWorstVerifiedRate)} (${trustWorstVerifiedScenarios}/${total}) — 모든 근거가 verified (가장 보수적)`,
+);
+console.log(
+  `   any    ${pct(trustAnyVerifiedRate)} (${trustAnyVerifiedScenarios}/${total}) — verified 근거 1개 이상 포함`,
+);
+console.log(
+  `   ratio  ${trustVerifiedBasisRatio === 'n/a' ? 'n/a (sourceStatus 정보 부재)' : pct(trustVerifiedBasisRatio)} — 응답 근거 중 verified 평균 비중`,
 );
 console.log(
   `   카테고리별: plan ${coverage.byCategory.plan!.covered}/${coverage.byCategory.plan!.total} · daily ${coverage.byCategory.daily!.covered}/${coverage.byCategory.daily!.total} · cumulative ${coverage.byCategory.cumulative!.covered}/${coverage.byCategory.cumulative!.total} · ncr ${coverage.byCategory.nonconformance!.covered}/${coverage.byCategory.nonconformance!.total} · audit ${coverage.byCategory.audit!.covered}/${coverage.byCategory.audit!.total}`,

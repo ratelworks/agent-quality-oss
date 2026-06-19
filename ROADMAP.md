@@ -203,12 +203,13 @@ OC API(Round 1) 외에는 모두 외부 신청 의존.
 
 | KPI | 현 | 목표 |
 |-----|---:|----:|
-| 19종 문서 schema 커버리지 | 9/19 = 47% | 19/19 = 100% |
-| 그래프 verified 노드 수 | 103 | 1,500+ (R1~R7 후) |
-| 응답 신뢰도 (sourceStatus.worst=verified 비율) | 측정 필요 | ≥ 95% |
-| MCP 도구 커버리지 | 36/54 = 67% | 54/54 = 100% |
+| 19종 문서 schema 커버리지 | 19/19 = 100% | 100% (달성) |
+| 그래프 노드 수 (verified) | 330노드 / verified 69 (21%) | 1,500+ (R1~R7 후) |
+| 응답 신뢰도 (measure 3관점) | worst 0% / any 0% / ratio 0% | 정량기준(R2·R3) 확보 시 상승 |
+| MCP 도구 커버리지 | 46/54 = 85% | 54/54 = 100% |
 
-PASS율보다 신뢰도가 더 부끄러운 숫자 (→ feedback_agentquality_endusers_qc).
+- **응답 신뢰도 3관점** (`scripts/measure.ts` 자동 측정): worst(모든 근거 verified)·any(verified 1개 이상 포함)·ratio(응답 근거 중 verified 평균 비중). 현 시나리오셋은 KCS/KS 미확보 skeleton 판정 중심이라 셋 다 0% — 이는 **그래프 verified 노드 자산(21%)과 구분되는 별개 지표**다(노드 자산 ≠ 응답 신뢰도). 정량 threshold(R2 KCS·R3 KS) 확보 시 verified 응답이 늘어 상승한다.
+- measure passRate 15/17 — C06(운반시간 95분을 온도 기준으로 평가)은 R4 운반시간 criteria 미도입(KCS 14 20 10 §3.2, 외부 데이터) 한계다. false PASS 차단을 위한 함정 시나리오로 보존하며, R4 도입 시 정확 매칭으로 전환한다 (→ feedback_agentquality_endusers_qc).
 
 ---
 
