@@ -206,6 +206,7 @@ OC API(Round 1) 외에는 모두 외부 신청 의존.
 | 19종 문서 schema 커버리지 | 19/19 = 100% | 100% (달성) |
 | 그래프 노드 수 (verified) | 330노드 / verified 69 (21%) | 1,500+ (R1~R7 후) |
 | 응답 신뢰도 (measure 3관점) | worst 0% / any 0% / ratio 0% | 정량기준(R2·R3) 확보 시 상승 |
+| **정량 판정 가능 기준** (criteria threshold) | 9/38 = 24% (콘크리트 공종 중심) | 전 공종 (R2·R3 KCS/KS 확보 후) |
 | MCP 도구 커버리지 | 46/54 = 85% | 54/54 = 100% |
 
 - **응답 신뢰도 3관점** (`scripts/measure.ts` 자동 측정): worst(모든 근거 verified)·any(verified 1개 이상 포함)·ratio(응답 근거 중 verified 평균 비중). 현 시나리오셋은 KCS/KS 미확보 skeleton 판정 중심이라 셋 다 0% — 이는 **그래프 verified 노드 자산(21%)과 구분되는 별개 지표**다(노드 자산 ≠ 응답 신뢰도). 정량 threshold(R2 KCS·R3 KS) 확보 시 verified 응답이 늘어 상승한다.
