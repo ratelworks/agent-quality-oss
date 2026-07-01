@@ -9,7 +9,7 @@ import { run as resolveWorktype } from "./resolve-worktype.js";
 import { run as evaluateObservation } from "./evaluate-observation.js";
 import { run as compileNcrReferences } from "./compile-ncr-references.js";
 import { buildResponse } from "./_response.js";
-import { mergeBasis, schemaLegalBasisSummaries } from "./_compile-common.js";
+import { mergeBasis, schemaLegalBasisRefs, schemaLegalBasisSummaries } from "./_compile-common.js";
 import type { ToolSpec, BasisRef, ToolResponse } from "../lib/types.js";
 import type { OntologyGraph } from "../ontology/graph.js";
 
@@ -83,7 +83,7 @@ export function run(args: ChainNcrArgs, graph: OntologyGraph): ToolResponse {
     "chain_nonconformance_report",
     graph.version,
     result,
-    mergeBasis(...basisGroups, legalBasis.map((b) => ({ type: "legal", id: b.id, priority: 1 }) as BasisRef)),
+    mergeBasis(...basisGroups, schemaLegalBasisRefs(graph, "ncr")),
     {
       required: true,
       reason: "NCR 발행·시정조치 지시·종결 판정은 품질관리자·감리원·발주자의 권한입니다.",
