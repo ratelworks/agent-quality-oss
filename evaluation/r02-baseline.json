@@ -46,27 +46,32 @@
         {
           "type": "ontology",
           "id": "criteria.slump_general_150",
-          "priority": 1
+          "priority": 1,
+          "sourceStatus": "verified"
         },
         {
           "type": "ontology",
           "id": "test.slump",
-          "priority": 1
+          "priority": 1,
+          "sourceStatus": "unknown"
         },
         {
           "type": "ontology",
           "id": "standard.kcs_14_20.10.1_7_3",
-          "priority": 1
+          "priority": 1,
+          "sourceStatus": "verified"
         },
         {
           "type": "ontology",
           "id": "standard.kcs_14_20.10.2_2_7",
-          "priority": 1
+          "priority": 1,
+          "sourceStatus": "verified"
         },
         {
           "type": "ontology",
           "id": "standard.ks_f_2402",
-          "priority": 1
+          "priority": 1,
+          "sourceStatus": "unknown"
         }
       ],
       "humanCheckpoint": {
@@ -83,20 +88,20 @@
       "sourceStatusSummary": {
         "worst": "unknown",
         "counts": {
-          "verified": 0,
+          "verified": 3,
           "indirect_source": 0,
           "skeleton": 0,
-          "unknown": 5
+          "unknown": 2
         },
         "warnings": []
       },
       "lineage": {
         "toolName": "evaluate_observation",
-        "toolCallId": "eec53ee2-7bf0-4972-be54-7f28c128148e",
+        "toolCallId": "8df7a406-1b89-4817-9f25-8408ac726ad7",
         "ontologyVersion": "0.3.0",
-        "generatedAt": "2026-06-19T16:15:14.481Z",
+        "generatedAt": "2026-07-01T21:59:40.666Z",
         "contentHashAlgo": "sha256",
-        "contentHash": "3ff021c369cc810886a857cefa64397697104e3ead53a1e5120776d608cb2d81"
+        "contentHash": "d27450e028670f157d6f5f2c6e16c4da4c142275bff494aa427dddb4aa20f328"
       }
     }
   },
@@ -157,37 +162,44 @@
         {
           "type": "ontology",
           "id": "criteria.compressive_strength_statistical_le35",
-          "priority": 1
+          "priority": 1,
+          "sourceStatus": "verified"
         },
         {
           "type": "ontology",
           "id": "test.compressive_strength",
-          "priority": 1
+          "priority": 1,
+          "sourceStatus": "unknown"
         },
         {
           "type": "ontology",
           "id": "standard.kcs_14_20.10.3_5_3_2",
-          "priority": 1
+          "priority": 1,
+          "sourceStatus": "verified"
         },
         {
           "type": "ontology",
           "id": "standard.kcs_14_20.10.1_8_2",
-          "priority": 1
+          "priority": 1,
+          "sourceStatus": "verified"
         },
         {
           "type": "ontology",
           "id": "standard.ks_f_2405",
-          "priority": 1
+          "priority": 1,
+          "sourceStatus": "unknown"
         },
         {
           "type": "ontology",
           "id": "ncr.compressive_strength_statistical_fail",
-          "priority": 1
+          "priority": 1,
+          "sourceStatus": "verified"
         },
         {
           "type": "ontology",
           "id": "ncr.low_compressive_strength",
-          "priority": 1
+          "priority": 1,
+          "sourceStatus": "unknown"
         }
       ],
       "humanCheckpoint": {
@@ -204,20 +216,20 @@
       "sourceStatusSummary": {
         "worst": "unknown",
         "counts": {
-          "verified": 0,
+          "verified": 4,
           "indirect_source": 0,
           "skeleton": 0,
-          "unknown": 7
+          "unknown": 3
         },
         "warnings": []
       },
       "lineage": {
         "toolName": "evaluate_observation",
-        "toolCallId": "4c5d35a1-3e1b-4c24-b619-4b92bbed2004",
+        "toolCallId": "4796e7ed-8fce-4882-b25f-a915dd5a7295",
         "ontologyVersion": "0.3.0",
-        "generatedAt": "2026-06-19T16:15:14.482Z",
+        "generatedAt": "2026-07-01T21:59:40.667Z",
         "contentHashAlgo": "sha256",
-        "contentHash": "e4b321715c5e125d2682a459a07fc917210d5a87f5381b25c784fe9b25eb370b"
+        "contentHash": "06cb9f27601fac0e28f6408c4394814d68c11bba5c75b42edd44a1733e42c88c"
       }
     }
   },
@@ -269,27 +281,32 @@
         {
           "type": "ontology",
           "id": "criteria.compressive_strength_statistical_le35",
-          "priority": 1
+          "priority": 1,
+          "sourceStatus": "verified"
         },
         {
           "type": "ontology",
           "id": "test.compressive_strength",
-          "priority": 1
+          "priority": 1,
+          "sourceStatus": "unknown"
         },
         {
           "type": "ontology",
           "id": "standard.kcs_14_20.10.3_5_3_2",
-          "priority": 1
+          "priority": 1,
+          "sourceStatus": "verified"
         },
         {
           "type": "ontology",
           "id": "standard.kcs_14_20.10.1_8_2",
-          "priority": 1
+          "priority": 1,
+          "sourceStatus": "verified"
         },
         {
           "type": "ontology",
           "id": "standard.ks_f_2405",
-          "priority": 1
+          "priority": 1,
+          "sourceStatus": "unknown"
         }
       ],
       "humanCheckpoint": {
@@ -306,20 +323,20 @@
       "sourceStatusSummary": {
         "worst": "unknown",
         "counts": {
-          "verified": 0,
+          "verified": 3,
           "indirect_source": 0,
           "skeleton": 0,
-          "unknown": 5
+          "unknown": 2
         },
         "warnings": []
       },
       "lineage": {
         "toolName": "evaluate_observation",
-        "toolCallId": "23989338-1347-4153-8879-7c5e59baacfd",
+        "toolCallId": "1224515a-d0b3-4df5-ab5f-3f58319797f9",
         "ontologyVersion": "0.3.0",
-        "generatedAt": "2026-06-19T16:15:14.482Z",
+        "generatedAt": "2026-07-01T21:59:40.668Z",
         "contentHashAlgo": "sha256",
-        "contentHash": "741c5973e941ab700f5bbb789a4840e74647f4cba23dd2368008833558306ed3"
+        "contentHash": "cf24847924e0b09e4b014c5b8af47bb29eeaeab8df4017c52095ac41e6da8b9a"
       }
     }
   },
@@ -338,7 +355,7 @@
       "criteria.compressive_strength_statistical_le35"
     ],
     "notes": "R1 통계 모드 series 입력 검증. partial=false. legalVerdict=PASS, qualitySignal=in_range.",
-    "ms": 0,
+    "ms": 1,
     "response": {
       "result": {
         "expertAssessment": {
@@ -370,27 +387,32 @@
         {
           "type": "ontology",
           "id": "criteria.compressive_strength_statistical_le35",
-          "priority": 1
+          "priority": 1,
+          "sourceStatus": "verified"
         },
         {
           "type": "ontology",
           "id": "test.compressive_strength",
-          "priority": 1
+          "priority": 1,
+          "sourceStatus": "unknown"
         },
         {
           "type": "ontology",
           "id": "standard.kcs_14_20.10.3_5_3_2",
-          "priority": 1
+          "priority": 1,
+          "sourceStatus": "verified"
         },
         {
           "type": "ontology",
           "id": "standard.kcs_14_20.10.1_8_2",
-          "priority": 1
+          "priority": 1,
+          "sourceStatus": "verified"
         },
         {
           "type": "ontology",
           "id": "standard.ks_f_2405",
-          "priority": 1
+          "priority": 1,
+          "sourceStatus": "unknown"
         }
       ],
       "humanCheckpoint": {
@@ -407,20 +429,20 @@
       "sourceStatusSummary": {
         "worst": "unknown",
         "counts": {
-          "verified": 0,
+          "verified": 3,
           "indirect_source": 0,
           "skeleton": 0,
-          "unknown": 5
+          "unknown": 2
         },
         "warnings": []
       },
       "lineage": {
         "toolName": "evaluate_observation",
-        "toolCallId": "c612889e-a0b5-47e5-8296-dcd59d9904ac",
+        "toolCallId": "17d61645-bd4f-441c-bdc4-9e8ce08ecf99",
         "ontologyVersion": "0.3.0",
-        "generatedAt": "2026-06-19T16:15:14.482Z",
+        "generatedAt": "2026-07-01T21:59:40.668Z",
         "contentHashAlgo": "sha256",
-        "contentHash": "a1d73c667fd6ef0b81897c97da59395a2353a2b27627fa850cdcfc3e920ace20"
+        "contentHash": "0e39dcf59e8fd4718ce0e7778e048e65bf12af43c714e34a4b1d3ad7774c52df"
       }
     }
   },
@@ -484,37 +506,44 @@
         {
           "type": "ontology",
           "id": "criteria.compressive_strength_statistical_le35",
-          "priority": 1
+          "priority": 1,
+          "sourceStatus": "verified"
         },
         {
           "type": "ontology",
           "id": "test.compressive_strength",
-          "priority": 1
+          "priority": 1,
+          "sourceStatus": "unknown"
         },
         {
           "type": "ontology",
           "id": "standard.kcs_14_20.10.3_5_3_2",
-          "priority": 1
+          "priority": 1,
+          "sourceStatus": "verified"
         },
         {
           "type": "ontology",
           "id": "standard.kcs_14_20.10.1_8_2",
-          "priority": 1
+          "priority": 1,
+          "sourceStatus": "verified"
         },
         {
           "type": "ontology",
           "id": "standard.ks_f_2405",
-          "priority": 1
+          "priority": 1,
+          "sourceStatus": "unknown"
         },
         {
           "type": "ontology",
           "id": "ncr.compressive_strength_statistical_fail",
-          "priority": 1
+          "priority": 1,
+          "sourceStatus": "verified"
         },
         {
           "type": "ontology",
           "id": "ncr.low_compressive_strength",
-          "priority": 1
+          "priority": 1,
+          "sourceStatus": "unknown"
         }
       ],
       "humanCheckpoint": {
@@ -531,20 +560,20 @@
       "sourceStatusSummary": {
         "worst": "unknown",
         "counts": {
-          "verified": 0,
+          "verified": 4,
           "indirect_source": 0,
           "skeleton": 0,
-          "unknown": 7
+          "unknown": 3
         },
         "warnings": []
       },
       "lineage": {
         "toolName": "evaluate_observation",
-        "toolCallId": "b0765703-e546-4343-bc3c-3f982202623e",
+        "toolCallId": "121ee018-d168-4350-9597-b889a4750c32",
         "ontologyVersion": "0.3.0",
-        "generatedAt": "2026-06-19T16:15:14.482Z",
+        "generatedAt": "2026-07-01T21:59:40.668Z",
         "contentHashAlgo": "sha256",
-        "contentHash": "24161c2f1ef249191b9e4d1b981826638bb62bb8bbc33fdd1bad0f1baab1230d"
+        "contentHash": "e1723bc30b29d92ec944ac59a56a7ebbaa766588f375f806be8c3ffcdaecdad9"
       }
     }
   },
@@ -595,27 +624,32 @@
         {
           "type": "ontology",
           "id": "criteria.compressive_strength_statistical_gt35",
-          "priority": 1
+          "priority": 1,
+          "sourceStatus": "verified"
         },
         {
           "type": "ontology",
           "id": "test.compressive_strength",
-          "priority": 1
+          "priority": 1,
+          "sourceStatus": "unknown"
         },
         {
           "type": "ontology",
           "id": "standard.kcs_14_20.10.3_5_3_2",
-          "priority": 1
+          "priority": 1,
+          "sourceStatus": "verified"
         },
         {
           "type": "ontology",
           "id": "standard.kcs_14_20.10.1_8_2",
-          "priority": 1
+          "priority": 1,
+          "sourceStatus": "verified"
         },
         {
           "type": "ontology",
           "id": "standard.ks_f_2405",
-          "priority": 1
+          "priority": 1,
+          "sourceStatus": "unknown"
         }
       ],
       "humanCheckpoint": {
@@ -632,20 +666,20 @@
       "sourceStatusSummary": {
         "worst": "unknown",
         "counts": {
-          "verified": 0,
+          "verified": 3,
           "indirect_source": 0,
           "skeleton": 0,
-          "unknown": 5
+          "unknown": 2
         },
         "warnings": []
       },
       "lineage": {
         "toolName": "evaluate_observation",
-        "toolCallId": "c815d9f3-80ce-4785-8ddb-76c9fb767099",
+        "toolCallId": "048f4a0a-6755-4c1c-8d2b-755454efd563",
         "ontologyVersion": "0.3.0",
-        "generatedAt": "2026-06-19T16:15:14.483Z",
+        "generatedAt": "2026-07-01T21:59:40.669Z",
         "contentHashAlgo": "sha256",
-        "contentHash": "5db49e2cdc16022d211ec7b2a4e378d5bb085d48a77524b54f49c3d56e0634a4"
+        "contentHash": "e3715cac59039403d541bce4a84c1ed7bc82bbfb20f7afb60166295f02583abc"
       }
     }
   },
@@ -697,27 +731,32 @@
         {
           "type": "ontology",
           "id": "criteria.compressive_strength_statistical_le35",
-          "priority": 1
+          "priority": 1,
+          "sourceStatus": "verified"
         },
         {
           "type": "ontology",
           "id": "test.compressive_strength",
-          "priority": 1
+          "priority": 1,
+          "sourceStatus": "unknown"
         },
         {
           "type": "ontology",
           "id": "standard.kcs_14_20.10.3_5_3_2",
-          "priority": 1
+          "priority": 1,
+          "sourceStatus": "verified"
         },
         {
           "type": "ontology",
           "id": "standard.kcs_14_20.10.1_8_2",
-          "priority": 1
+          "priority": 1,
+          "sourceStatus": "verified"
         },
         {
           "type": "ontology",
           "id": "standard.ks_f_2405",
-          "priority": 1
+          "priority": 1,
+          "sourceStatus": "unknown"
         }
       ],
       "humanCheckpoint": {
@@ -734,20 +773,20 @@
       "sourceStatusSummary": {
         "worst": "unknown",
         "counts": {
-          "verified": 0,
+          "verified": 3,
           "indirect_source": 0,
           "skeleton": 0,
-          "unknown": 5
+          "unknown": 2
         },
         "warnings": []
       },
       "lineage": {
         "toolName": "evaluate_observation",
-        "toolCallId": "aa77f500-bd6b-48b1-bd0e-2ec8e76346e7",
+        "toolCallId": "bf8a97ca-2367-4afc-beea-2a75619583c4",
         "ontologyVersion": "0.3.0",
-        "generatedAt": "2026-06-19T16:15:14.483Z",
+        "generatedAt": "2026-07-01T21:59:40.669Z",
         "contentHashAlgo": "sha256",
-        "contentHash": "db38b5178f92f2d99c0a6ef34ff75ef8e92925ced096cf6a17b691d189ad5972"
+        "contentHash": "300690537b69ec361af13e3a1092fc14606b724586b914eba8cfa9dd0e58a1f0"
       }
     }
   },
@@ -763,7 +802,7 @@
     },
     "expectedHitsMax": 4,
     "notes": "R6 work.cold_weather_concrete 도입 후 expectedHitsMin: 1 추가 + cold_weather worktype 매칭 검증.",
-    "ms": 2,
+    "ms": 1,
     "response": {
       "result": {
         "situation": "내일 외기온도 3℃ 예보. 일반 콘크리트로 시공해도 되나요",
@@ -817,9 +856,9 @@
       },
       "lineage": {
         "toolName": "discover_relevant_domain",
-        "toolCallId": "08728413-e1ad-49e7-b8b4-aad62c2d3819",
+        "toolCallId": "3a2a51f9-4836-41c1-a348-a1f695447666",
         "ontologyVersion": "0.3.0",
-        "generatedAt": "2026-06-19T16:15:14.485Z",
+        "generatedAt": "2026-07-01T21:59:40.670Z",
         "contentHashAlgo": "sha256",
         "contentHash": "6d6529f78389395d71910339911d82912605e5ef80dd7dd39f6ff4f79483c2a4"
       }
@@ -878,22 +917,26 @@
         {
           "type": "ontology",
           "id": "criteria.concrete_temperature_general",
-          "priority": 1
+          "priority": 1,
+          "sourceStatus": "skeleton"
         },
         {
           "type": "ontology",
           "id": "test.concrete_temperature",
-          "priority": 1
+          "priority": 1,
+          "sourceStatus": "unknown"
         },
         {
           "type": "ontology",
           "id": "standard.kcs_14_20.10",
-          "priority": 1
+          "priority": 1,
+          "sourceStatus": "unknown"
         },
         {
           "type": "ontology",
           "id": "ncr.concrete_temperature_out_of_range",
-          "priority": 1
+          "priority": 1,
+          "sourceStatus": "unknown"
         }
       ],
       "humanCheckpoint": {
@@ -908,22 +951,24 @@
         }
       ],
       "sourceStatusSummary": {
-        "worst": "unknown",
+        "worst": "skeleton",
         "counts": {
           "verified": 0,
           "indirect_source": 0,
-          "skeleton": 0,
-          "unknown": 4
+          "skeleton": 1,
+          "unknown": 3
         },
-        "warnings": []
+        "warnings": [
+          "skeleton 근거: criteria.concrete_temperature_general — 출처 미확정. 재인용 금지."
+        ]
       },
       "lineage": {
         "toolName": "evaluate_observation",
-        "toolCallId": "1590d90a-9306-4038-89a3-8623a3c2ec8f",
+        "toolCallId": "9c644a8f-6007-40d4-a0cf-ce7837b17cee",
         "ontologyVersion": "0.3.0",
-        "generatedAt": "2026-06-19T16:15:14.485Z",
+        "generatedAt": "2026-07-01T21:59:40.670Z",
         "contentHashAlgo": "sha256",
-        "contentHash": "2e564c03347d2ed7b5e72172ac46901f4c5237b23ebbafdb56863deaeb3ecb18"
+        "contentHash": "49ff447a6e39de9f22c6ab349b5578d9739b95e82dc95897d8a8415d63dae80b"
       }
     }
   },
@@ -984,37 +1029,44 @@
         {
           "type": "ontology",
           "id": "criteria.compressive_strength_statistical_le35",
-          "priority": 1
+          "priority": 1,
+          "sourceStatus": "verified"
         },
         {
           "type": "ontology",
           "id": "test.compressive_strength",
-          "priority": 1
+          "priority": 1,
+          "sourceStatus": "unknown"
         },
         {
           "type": "ontology",
           "id": "standard.kcs_14_20.10.3_5_3_2",
-          "priority": 1
+          "priority": 1,
+          "sourceStatus": "verified"
         },
         {
           "type": "ontology",
           "id": "standard.kcs_14_20.10.1_8_2",
-          "priority": 1
+          "priority": 1,
+          "sourceStatus": "verified"
         },
         {
           "type": "ontology",
           "id": "standard.ks_f_2405",
-          "priority": 1
+          "priority": 1,
+          "sourceStatus": "unknown"
         },
         {
           "type": "ontology",
           "id": "ncr.compressive_strength_statistical_fail",
-          "priority": 1
+          "priority": 1,
+          "sourceStatus": "verified"
         },
         {
           "type": "ontology",
           "id": "ncr.low_compressive_strength",
-          "priority": 1
+          "priority": 1,
+          "sourceStatus": "unknown"
         }
       ],
       "humanCheckpoint": {
@@ -1031,20 +1083,20 @@
       "sourceStatusSummary": {
         "worst": "unknown",
         "counts": {
-          "verified": 0,
+          "verified": 4,
           "indirect_source": 0,
           "skeleton": 0,
-          "unknown": 7
+          "unknown": 3
         },
         "warnings": []
       },
       "lineage": {
         "toolName": "evaluate_observation",
-        "toolCallId": "7b33ec54-eab9-45ce-8bac-82db5af272d1",
+        "toolCallId": "a85dde76-49e5-453b-ad3b-fc98da6c1a78",
         "ontologyVersion": "0.3.0",
-        "generatedAt": "2026-06-19T16:15:14.485Z",
+        "generatedAt": "2026-07-01T21:59:40.670Z",
         "contentHashAlgo": "sha256",
-        "contentHash": "d056a57861c4ed8f1b43ae4f8977dffcabddada74883bc9e5b9c7ebc35a187e0"
+        "contentHash": "31d95acc2f3c9eb839f2be2a153178579a04b036808078b805e2d6b5083ec9ca"
       }
     }
   },
@@ -1105,37 +1157,44 @@
         {
           "type": "ontology",
           "id": "criteria.compressive_strength_statistical_le35",
-          "priority": 1
+          "priority": 1,
+          "sourceStatus": "verified"
         },
         {
           "type": "ontology",
           "id": "test.compressive_strength",
-          "priority": 1
+          "priority": 1,
+          "sourceStatus": "unknown"
         },
         {
           "type": "ontology",
           "id": "standard.kcs_14_20.10.3_5_3_2",
-          "priority": 1
+          "priority": 1,
+          "sourceStatus": "verified"
         },
         {
           "type": "ontology",
           "id": "standard.kcs_14_20.10.1_8_2",
-          "priority": 1
+          "priority": 1,
+          "sourceStatus": "verified"
         },
         {
           "type": "ontology",
           "id": "standard.ks_f_2405",
-          "priority": 1
+          "priority": 1,
+          "sourceStatus": "unknown"
         },
         {
           "type": "ontology",
           "id": "ncr.compressive_strength_statistical_fail",
-          "priority": 1
+          "priority": 1,
+          "sourceStatus": "verified"
         },
         {
           "type": "ontology",
           "id": "ncr.low_compressive_strength",
-          "priority": 1
+          "priority": 1,
+          "sourceStatus": "unknown"
         }
       ],
       "humanCheckpoint": {
@@ -1152,20 +1211,20 @@
       "sourceStatusSummary": {
         "worst": "unknown",
         "counts": {
-          "verified": 0,
+          "verified": 4,
           "indirect_source": 0,
           "skeleton": 0,
-          "unknown": 7
+          "unknown": 3
         },
         "warnings": []
       },
       "lineage": {
         "toolName": "evaluate_observation",
-        "toolCallId": "e0697655-7254-43b7-9755-21602f9412aa",
+        "toolCallId": "f2dc7ed3-6dbd-44e7-ac8b-ad0a2e5bf389",
         "ontologyVersion": "0.3.0",
-        "generatedAt": "2026-06-19T16:15:14.485Z",
+        "generatedAt": "2026-07-01T21:59:40.670Z",
         "contentHashAlgo": "sha256",
-        "contentHash": "3df56a10b086fd98ae64354d2aac07f753f6b2ab87d54e6172d2f2dcb7b14429"
+        "contentHash": "a670f8c8746a7314036af2fb97c5f0d9f594c7204c7fe424d5cfd86fa6bbe1ec"
       }
     }
   },
@@ -1235,9 +1294,9 @@
       },
       "lineage": {
         "toolName": "discover_relevant_domain",
-        "toolCallId": "5daa7a1f-ffee-4739-b1ac-ac6a2434bdae",
+        "toolCallId": "25d0651d-639a-4dcf-b6d3-9ff0faa9a698",
         "ontologyVersion": "0.3.0",
-        "generatedAt": "2026-06-19T16:15:14.485Z",
+        "generatedAt": "2026-07-01T21:59:40.670Z",
         "contentHashAlgo": "sha256",
         "contentHash": "bbe5f20fc792a1c61f5f1fadc398e578e9921890b4fbb0c4f92dabfb59f6461d"
       }
@@ -1294,9 +1353,9 @@
       },
       "lineage": {
         "toolName": "search_construction_standards",
-        "toolCallId": "9fb0942c-1cbe-48f2-ac4e-57d6ab82aaa0",
+        "toolCallId": "b259a0de-9c75-47d8-8977-14710020b4d8",
         "ontologyVersion": "0.3.0",
-        "generatedAt": "2026-06-19T16:15:14.485Z",
+        "generatedAt": "2026-07-01T21:59:40.671Z",
         "contentHashAlgo": "sha256",
         "contentHash": "3a5e2f1a0b0c2ea43296fe2fad6ff49d75aa1ce5a9f05904f060a10cc2a1f4a9"
       }
@@ -1572,52 +1631,80 @@
         {
           "type": "ontology",
           "id": "action.notify_quality_manager",
-          "priority": 1
+          "priority": 1,
+          "sourceStatus": "unknown"
         },
         {
           "type": "ontology",
           "id": "action.notify_supervisor",
-          "priority": 1
+          "priority": 1,
+          "sourceStatus": "unknown"
         },
         {
           "type": "ontology",
           "id": "action.structural_review",
-          "priority": 1
+          "priority": 1,
+          "sourceStatus": "unknown"
         },
         {
           "type": "ontology",
           "id": "action.record_ncr",
-          "priority": 1
+          "priority": 1,
+          "sourceStatus": "unknown"
         },
         {
           "type": "ontology",
           "id": "doc.site_photo",
-          "priority": 1
+          "priority": 1,
+          "sourceStatus": "unknown"
         },
         {
           "type": "ontology",
           "id": "doc.ncr_report",
-          "priority": 1
+          "priority": 1,
+          "sourceStatus": "unknown"
         },
         {
           "type": "ontology",
           "id": "doc.structural_drawing",
-          "priority": 1
+          "priority": 1,
+          "sourceStatus": "unknown"
         },
         {
           "type": "ontology",
           "id": "standard.kcs_14_20.10.3_3_2",
-          "priority": 1
+          "priority": 1,
+          "sourceStatus": "verified"
         },
         {
           "type": "ontology",
           "id": "standard.kcs_14_20.10.1_4",
-          "priority": 1
+          "priority": 1,
+          "sourceStatus": "verified"
         },
         {
           "type": "ontology",
           "id": "ncr.cold_joint",
-          "priority": 1
+          "priority": 1,
+          "sourceStatus": "verified"
+        },
+        {
+          "type": "legal",
+          "id": "standard.guideline.art41",
+          "priority": 1,
+          "sourceStatus": "verified"
+        },
+        {
+          "type": "legal",
+          "id": "standard.guideline.art39",
+          "priority": 1,
+          "sourceStatus": "verified"
+        },
+        {
+          "type": "legal",
+          "id": "standard.law.btia_55",
+          "priority": 1,
+          "sourceStatus": "verified"
         }
       ],
       "humanCheckpoint": {
@@ -1642,20 +1729,20 @@
       "sourceStatusSummary": {
         "worst": "unknown",
         "counts": {
-          "verified": 0,
+          "verified": 6,
           "indirect_source": 0,
           "skeleton": 0,
-          "unknown": 10
+          "unknown": 7
         },
         "warnings": []
       },
       "lineage": {
         "toolName": "compile_ncr_references",
-        "toolCallId": "89cb4046-aecd-4cfd-aa80-78664f8f3286",
+        "toolCallId": "2af08804-80e0-401c-b208-e3dcbc4e8ab5",
         "ontologyVersion": "0.3.0",
-        "generatedAt": "2026-06-19T16:15:14.486Z",
+        "generatedAt": "2026-07-01T21:59:40.671Z",
         "contentHashAlgo": "sha256",
-        "contentHash": "ea9c57dc822267697c73317adac449e5120738c7806a20827bb520e16fc6113c"
+        "contentHash": "cdf379b94a04ab8257f33095d7b17f8431bce1a429ae687f19674e3fbd3d8efa"
       }
     }
   },
@@ -1712,9 +1799,9 @@
       },
       "lineage": {
         "toolName": "search_quality_ontology",
-        "toolCallId": "5060e99a-8386-41fc-9bb8-6cdc45e76ca9",
+        "toolCallId": "8ca84dd8-3860-4c6c-9be6-b59fe9c971c6",
         "ontologyVersion": "0.3.0",
-        "generatedAt": "2026-06-19T16:15:14.486Z",
+        "generatedAt": "2026-07-01T21:59:40.671Z",
         "contentHashAlgo": "sha256",
         "contentHash": "6dbfebe417786ec7e1ae16b3251032e48c73d241a4f4c14d38c32c568b690e45"
       }
@@ -1786,9 +1873,9 @@
       },
       "lineage": {
         "toolName": "discover_relevant_domain",
-        "toolCallId": "7f15c64a-db59-4457-bb0c-3b5c9dd19d8e",
+        "toolCallId": "c2824572-b95a-46a8-9280-9a116e391c47",
         "ontologyVersion": "0.3.0",
-        "generatedAt": "2026-06-19T16:15:14.486Z",
+        "generatedAt": "2026-07-01T21:59:40.671Z",
         "contentHashAlgo": "sha256",
         "contentHash": "677a7b6b0a5dc68c76401b1cd04af69ab00aacd2cd2d176314afd6299b1c9952"
       }

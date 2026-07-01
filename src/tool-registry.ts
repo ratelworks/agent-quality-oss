@@ -1,5 +1,5 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// tool-registry.ts — quality-oss 도구의 단일 등록 지점 (도구 수는 TOOL_DEFS 길이로 동적; 현재 46개).
+// tool-registry.ts — quality-oss 도구의 단일 등록 지점 (도구 수는 TOOL_DEFS 길이로 동적; 현재 52개).
 //
 // 두 가지 등록 형태를 지원한다:
 //   1) ToolDefinition (신규, zod inputSchema + run(input, ctx)) — 권장
@@ -66,6 +66,12 @@ import * as explainQualityDecisionPath from "./tools/explain-quality-decision-pa
 import * as verifyFormReference from "./tools/verify-form-reference.js";
 import * as renderQualityForm from "./tools/render-quality-form.js";
 import * as composeWritingContext from "./tools/compose-writing-context.js";
+import * as compileDocumentReferences from "./tools/compile-document-references.js";
+import * as chainQualityInspection from "./tools/chain-quality-inspection.js";
+import * as chainQualityTestPlan from "./tools/chain-quality-test-plan.js";
+import * as chainTestReportReview from "./tools/chain-test-report-review.js";
+import * as chainNonconformanceReport from "./tools/chain-nonconformance-report.js";
+import * as chainDailyQualityBriefing from "./tools/chain-daily-quality-briefing.js";
 
 // ───── Legacy module 목록 (기존 ToolModule 인터페이스) ─────
 // scripts/* 와 외부 도구가 직접 import 가능하도록 export 유지.
@@ -108,6 +114,12 @@ export const LEGACY_MODULES: ToolModuleLegacy[] = [
   compileQualityTestPlanReferences,
   compileQualityInspectionRegisterReferences,
   compileInspectionRequestReferences,
+  compileDocumentReferences,
+  chainQualityInspection,
+  chainQualityTestPlan,
+  chainTestReportReview,
+  chainNonconformanceReport,
+  chainDailyQualityBriefing,
   evaluateObservation,
   verifyQualityBasis,
   getProjectInfo,

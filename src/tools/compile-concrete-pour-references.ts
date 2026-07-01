@@ -1,6 +1,7 @@
 import { resolveWorkType } from '../ontology/resolver.js';
 import { getSchema } from '../schemas/loader.js';
 import { buildResponse } from './_response.js';
+import { mergeBasis, schemaLegalBasisRefs } from "./_compile-common.js";
 import type { ToolSpec } from '../lib/types.js';
 import type { OntologyGraph } from '../ontology/graph.js';
 
@@ -89,8 +90,9 @@ export function run(args: CompilePourArgs, graph: OntologyGraph) {
     basisType: (s.meta?.['basisType'] as string | undefined) ?? null,
   }));
   for (const gid of [
-    'standard.guideline.part2_art6',
-    'standard.guideline.part2_art7',
+    'standard.guideline.art8',
+    'standard.guideline.art38',
+    'standard.guideline.art41',
     'standard.guideline.part3',
   ]) {
     const g = graph.get(gid);
@@ -142,6 +144,10 @@ export function run(args: CompilePourArgs, graph: OntologyGraph) {
     'compile_concrete_pour_references',
     graph.version,
     result,
-    [...new Set(basisIds)].map((id) => ({ type: 'ontology', id, priority: 1 })),
+    mergeBasis(
+      [...new Set(basisIds)].map((id) => ({ type: 'ontology' as const, id, priority: 1 })),
+      schemaLegalBasisRefs(graph, 'concrete_delivery_record'),
+      schemaLegalBasisRefs(graph, 'specimen_record'),
+    ),
   );
 }

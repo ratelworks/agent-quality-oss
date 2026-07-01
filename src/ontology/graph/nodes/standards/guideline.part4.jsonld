@@ -2,14 +2,22 @@
   "@context": "../../context.jsonld",
   "@id": "standard:guideline.part4",
   "@type": "Standard",
-  "name": "업무지침 제4편 (철강구조물 제작공장 인증)",
+  "name": "업무지침 제4편 (철강구조물 제작공장 인증 세부기준 및 절차)",
   "_meta": {
     "category": "guideline",
     "part": "제4편",
-    "scope": "제작공장 인증·기준·절차 (별도 제도)",
+    "scope": "법 §58 철강구조물 제작공장 인증심사 (§46~54)",
     "legalWeight": "administrative_rule",
     "basisType": "guideline",
     "skeleton": true,
-    "note": "Phase A는 식별자만. 공종 온톨로지 연계는 Phase B."
-  }
+    "note": "Phase A는 식별자만. 공종 온톨로지 연계는 Phase B.",
+    "sourceStatus": "verified",
+    "sourceUrl": "https://www.law.go.kr/행정규칙/건설공사품질관리업무지침",
+    "verifiedBy": "법제처 admrul 원문 §3(적용범위)·편제 대조 (2026-07-02)",
+    "noticeNumber": "국토교통부고시 제2025-311호"
+  },
+  "aliases": [
+    "제4편",
+    "철강구조물 제작공장 인증"
+  ]
 }

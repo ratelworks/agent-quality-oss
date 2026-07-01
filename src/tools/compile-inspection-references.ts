@@ -1,6 +1,7 @@
 import { resolveWorkType } from '../ontology/resolver.js';
 import { getSchema } from '../schemas/loader.js';
 import { buildResponse } from './_response.js';
+import { mergeBasis, schemaLegalBasisRefs } from "./_compile-common.js";
 import type { ToolSpec } from '../lib/types.js';
 import type { OntologyGraph } from '../ontology/graph.js';
 
@@ -68,7 +69,7 @@ export function run(args: CompileInspectionArgs, graph: OntologyGraph) {
     }
   }
 
-  for (const id of ['standard.law.btia_55', 'standard.guideline.part2_art10']) {
+  for (const id of ['standard.law.btia_55', 'standard.guideline.art10']) {
     const e = graph.get(id);
     if (e && !allStandards.has(id)) {
       allStandards.set(id, {
@@ -111,6 +112,9 @@ export function run(args: CompileInspectionArgs, graph: OntologyGraph) {
     'compile_inspection_references',
     graph.version,
     result,
-    [...new Set(basisIds)].map((id) => ({ type: 'ontology', id, priority: 1 })),
+    mergeBasis(
+      [...new Set(basisIds)].map((id) => ({ type: 'ontology' as const, id, priority: 1 })),
+      schemaLegalBasisRefs(graph, 'inspection_checklist'),
+    ),
   );
 }

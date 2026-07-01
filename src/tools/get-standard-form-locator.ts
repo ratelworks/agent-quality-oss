@@ -94,6 +94,8 @@ export function run(args: FormLocatorArgs, graph: OntologyGraph) {
 }
 
 function toLocator(e: BaseEntity) {
+  const hwpDownloadUrl = (e.meta?.['hwpDownloadUrl'] as string | undefined) ?? null;
+  const pdfDownloadUrl = (e.meta?.['pdfDownloadUrl'] as string | undefined) ?? null;
   return {
     id: e.id,
     name: e.name,
@@ -103,11 +105,17 @@ function toLocator(e: BaseEntity) {
     relatedArticle: (e.meta?.['relatedArticle'] as string | undefined) ?? null,
     effectiveFrom: (e.meta?.['effectiveFrom'] as string | undefined) ?? null,
     sourceUrl: (e.meta?.['sourceUrl'] as string | undefined) ?? null,
+    // 법제처 sync 검증분 — 공식 서식 파일 직다운로드 링크 (없으면 null)
+    hwpDownloadUrl,
+    pdfDownloadUrl,
+    sourceStatus: (e.meta?.['sourceStatus'] as string | undefined) ?? 'indirect_source',
     sourceHash: (e.meta?.['sourceHash'] as string | null | undefined) ?? null,
     sourceHashAlgo: (e.meta?.['sourceHashAlgo'] as string | undefined) ?? 'sha256',
     license: (e.meta?.['license'] as string | undefined) ?? 'unspecified',
     legalWeight: (e.meta?.['legalWeight'] as string | undefined) ?? null,
     redistributionNote:
-      '본 서식의 원본은 공공누리 4유형(변경금지)이므로 npm/GitHub에 포함되지 않는다. 공식 출처에서 다운로드하여 사용할 것.',
+      hwpDownloadUrl || pdfDownloadUrl
+        ? '서식 원본은 재배포하지 않는다 (공공누리 4유형) — 위 공식 다운로드 링크(법제처)에서 직접 받아 사용할 것.'
+        : '본 서식의 원본은 공공누리 4유형(변경금지)이므로 npm/GitHub에 포함되지 않는다. 공식 출처에서 다운로드하여 사용할 것.',
   };
 }

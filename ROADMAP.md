@@ -9,7 +9,7 @@
 > **갱신 주기**: 라운드 종료 시. 노드 카운트는 자동 측정 도구(`scripts/measure.ts`)와 동기.
 > **선행 문서**: `plan.md` (제품 정의) · `dev.md` (개발 규칙) · `src/taxonomy/coverage/master-index.json` (도메인 인벤토리 SSoT)
 
-> **📍 현황 (2026-06-15)**: 문서 양식 **19/19 (100%)** 등록 완료 · MCP 도구 **46개** · 「건설공사 품질관리 업무지침」 별표2(품질시험기준)의 공통·토목·건축 **전 절** 커버 · **온톨로지 JSON-LD 마이그레이션(Round 7) 완료** — 데이터를 `graph/nodes/{type}/*.jsonld`(safety 와 동일 구조)로 전환, 옛 `data/*.json` 폐기. 아래 「1. 초기 상태 (2026-04-29)」 이하의 수치(36 도구·9/19·data/*.json 등)는 **초기 라운드 시점 기록**이며, 이후 라운드들이 완료되어 현재 수치에 도달했습니다. 최신 수치의 SSoT는 README·CHANGELOG 입니다.
+> **📍 현황 (2026-07-02)**: 문서 양식 **19/19 (100%)** 등록 완료 · MCP 도구 **46개** · 「건설공사 품질관리 업무지침」 별표2(품질시험기준)의 공통·토목·건축 **전 절** 커버 · **온톨로지 JSON-LD 마이그레이션(Round 7) 완료** · **Round 1.3·1.5 완료 (2026-07-02)** — 업무지침 현행(2025-311호) 조문 29개 원문 + 별표·별지 30종(사업관리지침 포함)을 taxonomy sync → 런타임 승격(promote-taxonomy.ts), verified 자산 149/382 (39%). 이 과정에서 **구 노드의 지침 조문 오인용 전면 정정**(존재하지 않는 '§7 부적합'·'별지 제6호 조치결과 확인서' 인용 제거 — 현행 §39·§41 로 교체). 아래 「1. 초기 상태 (2026-04-29)」 이하의 수치(36 도구·9/19·data/*.json 등)는 **초기 라운드 시점 기록**이며, 이후 라운드들이 완료되어 현재 수치에 도달했습니다. 최신 수치의 SSoT는 README·CHANGELOG 입니다.
 
 ---
 
@@ -89,7 +89,7 @@ LLM에게 공급할 지식은 6가지 형태로 그래프에 매핑된다 (plan.
 | 14 | quality_inspection_summary | 시행규칙 별지 43, 시행령 §93 | ✅ | ❌ |
 | 15 | ncr | 품질지침 §7 + ISO 9001 | ✅ | ✅ |
 | 16 | car | 품질지침 §7 | ✅ | ❌ |
-| 17 | nonconformance_closure | 품질지침 별지 6 | 🟡 | ❌ |
+| 17 | nonconformance_closure | ISO 9001 §8.7 관행 + 업무지침 §39 (법정 전용 서식 없음 — 구 '별지 6' 인용은 오류로 정정됨 2026-07-02) | ✅ | ❌ |
 | 18 | quality_inspection_report | 품질지침 §10 | ✅ | ❌ |
 | 19 | quality_audit_report | ISO 19011 + 품질지침 §10 | ✅ | ❌ |
 
@@ -108,9 +108,9 @@ LLM에게 공급할 지식은 6가지 형태로 그래프에 매핑된다 (plan.
 |------|------|----------|:---:|
 | 1.1 | 4법령 critical 조문 sync | articles +18 | ✅ |
 | 1.2 | 시행규칙·시행령 별표 sync | annexes +81 | ✅ |
-| 1.3 | 품질지침 별표 jsonld 노드 sync (별지 6 부적합조치 포함) | annexes +N | 🔲 |
+| 1.3 | 품질지침 별표·별지 sync + 현행 조문 29개 원문 (2025-311호) | annexes +15, articles +29 | ✅ |
 | 1.4 | 행정규칙 2건 본문 sync: 시공평가지침(2100000093486) + 하자심사규칙(2100000078829) | acts +2, articles +N, annexes +N | 🔲 |
-| 1.5 | 사업관리지침(자재공급원승인 별지 37) 보강 | annexes +1 | 🔲 |
+| 1.5 | 사업관리지침 품질·검측·자재 별지 15종 (별지 37 포함) | annexes +15 | ✅ |
 
 **Round 1 종료 KPI**: articles ~30, annexes ~120, schema 9 → **14**.
 
@@ -164,9 +164,9 @@ Round 1~5 진행 흐름에 맞춰 분산.
 
 `src/ontology/data/*.json` → `graph/nodes/{type}/*.jsonld` 변환 **완료** (330노드, 커밋 `ef134f4`). 1회용 변환 스크립트 사용 후 옛 `data/*.json` 폐기 → JSON-LD 단독 SSoT. 로더는 IRI 역변환으로 in-memory 그래프 구성(graphology 미도입, 도구 무영향).
 
-### Round 8 — MCP 도구 36 → 54
+### Round 8 ✅ 완료 (2026-07-02) — 도구 46 → 52 (제네릭 설계 채택)
 
-19종 × 2 (`get_*_schema` + `compile_*_references`) 신설. 카테고리별 chain 도구 5종 보강.
+~~19종 × 2 (`get_*_schema` + `compile_*_references`) 신설~~ → **설계 변경 (2026-07-02)**: 문서별 bespoke compile 12종 추가 대신 **제네릭 `compile_document_references(docId)` 1종**으로 19종 문서 전부의 근거 패키지를 커버 (MCP 도구 폭증은 LLM 도구 선택 정확도를 떨어뜨림 — 자매 safety-oss 의 assemble_doc_context 패턴 정합). 그래프 traversal 이 깊은 전용 compile 7종은 유지. chain 도구 5종(검측·시험계획·성적서검토·부적합·일일브리핑) 신설 완료. 전 compile·chain 의 basis 에 verified 법령 근거 포함 → 응답 신뢰도 any 62.5% · ratio 35.9% 달성 (측정 러너의 annotate 누락 결함도 함께 수정 — 서버 경로와 동일 측정).
 
 ---
 
@@ -204,10 +204,10 @@ OC API(Round 1) 외에는 모두 외부 신청 의존.
 | KPI | 현 | 목표 |
 |-----|---:|----:|
 | 19종 문서 schema 커버리지 | 19/19 = 100% | 100% (달성) |
-| 그래프 노드 수 (verified) | 330노드 / verified 69 (21%) | 1,500+ (R1~R7 후) |
+| 그래프 노드 수 (verified) | 382노드 / verified 149 (39%) | 1,500+ (R1~R7 후) |
 | 응답 신뢰도 (measure 3관점) | worst 0% / any 0% / ratio 0% | 정량기준(R2·R3) 확보 시 상승 |
 | **정량 판정 가능 기준** (criteria threshold) | 9/38 = 24% (콘크리트 공종 중심) | 전 공종 (R2·R3 KCS/KS 확보 후) |
-| MCP 도구 커버리지 | 46/54 = 85% | 54/54 = 100% |
+| MCP 도구 커버리지 | 52개 — 19종 문서 근거 패키지 전부 커버 (전용 7 + 제네릭 1) + 체인 5종 완비 | 달성 (2026-07-02) — 도구 수 자체는 KPI 아님 |
 
 - **응답 신뢰도 3관점** (`scripts/measure.ts` 자동 측정): worst(모든 근거 verified)·any(verified 1개 이상 포함)·ratio(응답 근거 중 verified 평균 비중). 현 시나리오셋은 KCS/KS 미확보 skeleton 판정 중심이라 셋 다 0% — 이는 **그래프 verified 노드 자산(21%)과 구분되는 별개 지표**다(노드 자산 ≠ 응답 신뢰도). 정량 threshold(R2 KCS·R3 KS) 확보 시 verified 응답이 늘어 상승한다.
 - measure passRate 15/17 — C06(운반시간 95분을 온도 기준으로 평가)은 R4 운반시간 criteria 미도입(KCS 14 20 10 §3.2, 외부 데이터) 한계다. false PASS 차단을 위한 함정 시나리오로 보존하며, R4 도입 시 정확 매칭으로 전환한다 (→ feedback_agentquality_endusers_qc).
@@ -216,8 +216,6 @@ OC API(Round 1) 외에는 모두 외부 신청 의존.
 
 ## 7. 다음 1번
 
-**Round 1.3 — 품질지침 별표 sync** (sync-annexes.ts에 admrul 분기 추가):
-- 외부 신청 0, 5분 작업
-- 산출: nonconformance_closure(별지 6) 데이터 확보 → 19종 schema 14/19 진입 사전 준비
-
-→ 진행 동의 시 즉시 착수.
+**Round 8 — MCP 도구 46 → 54+** (compile_*_references 19종 완성 + 체인 도구 5종):
+- 외부 신청 0. 문서마다 근거 패키지 조립 가능하게 — verified 법령 근거를 basis[] 에 포함해 응답 신뢰도(any/ratio) 상승 견인
+- 이후: Round 1.4(시공평가지침·하자심사규칙 sync) · Round 2(KCS 본문 — G1 KCSC 키 신청 필요)

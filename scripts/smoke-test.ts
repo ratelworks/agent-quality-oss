@@ -193,8 +193,8 @@ const CASES: Case[] = [
   },
   {
     tool: 'get_quality_guideline_article',
-    args: { articleId: 'standard.guideline.part2_art7' },
-    assert: (r) => r.result.article?.articleNo === '7',
+    args: { articleId: 'standard.guideline.art39' },
+    assert: (r) => r.result.article?.articleNo === '39',
   },
   {
     tool: 'search_construction_standards',
@@ -208,7 +208,8 @@ const CASES: Case[] = [
     args: { formId: 'standard.form.rule_no42_quality_inspection_register' },
     assert: (r) =>
       r.result.form?.license?.includes('Type 4') &&
-      r.result.form?.redistributionNote?.includes('포함되지 않는다'),
+      typeof r.result.form?.hwpDownloadUrl === 'string' &&
+      r.result.form?.redistributionNote?.includes('재배포하지 않는다'),
   },
   {
     tool: 'get_standard_form_locator',
@@ -669,6 +670,72 @@ const CASES: Case[] = [
     tool: 'get_quality_audit_report_schema',
     args: {},
     assert: (r) => r.result.schemaId === 'quality_audit_report' && r.result.sections.length >= 1,
+  },
+  // ── 제네릭 근거 패키지 + 체인 도구 (Round 8, 2026-07-02) ──
+  {
+    // 제네릭: 문서 1종의 근거 패키지 — verified 법령 원문 발췌 포함
+    tool: 'compile_document_references',
+    args: { docId: 'quality_plan' },
+    assert: (r) =>
+      r.result.document?.schemaId === 'quality_plan' &&
+      r.result.legalBasis.some((b: { sourceStatus: string }) => b.sourceStatus === 'verified') &&
+      r.result.legalBasis.some((b: { bodyExcerpt: string | null }) => typeof b.bodyExcerpt === 'string'),
+  },
+  {
+    // 제네릭 + 공종 재료
+    tool: 'compile_document_references',
+    args: { docId: 'ncr', workType: 'work.concrete_placement' },
+    assert: (r) =>
+      r.result.workContext?.workType?.id === 'work.concrete_placement' &&
+      r.result.workContext.tests.length >= 1,
+  },
+  {
+    // 체인: 검측 준비 원스톱 — 자연어 공종 해석 + 프로파일 + 서식 패키지
+    tool: 'chain_quality_inspection',
+    args: { workType: '슬래브 타설' },
+    assert: (r) =>
+      r.result.resolvedWorkType?.id != null &&
+      r.result.profile != null &&
+      r.result.inspectionChecklist?.document?.schemaId === 'inspection_checklist',
+  },
+  {
+    // 체인: 품질시험계획 매트릭스
+    tool: 'chain_quality_test_plan',
+    args: { workTypes: ['콘크리트 타설', '철근'] },
+    assert: (r) =>
+      r.result.matrixCount >= 3 &&
+      r.result.testMatrix.every((row: { test: string }) => row.test.length > 0) &&
+      r.result.testPlanDocument?.document?.schemaId === 'quality_test_plan',
+  },
+  {
+    // 체인: 성적서 검토 — 수치 판정 조합 (기준 초과 = FAIL)
+    tool: 'chain_test_report_review',
+    args: { observations: ['슬럼프 205mm'], testItem: 'test.slump' },
+    assert: (r) =>
+      r.result.verdicts.length === 1 &&
+      r.result.verdicts[0].verdict === 'FAIL' &&
+      r.result.summary.fail === 1,
+  },
+  {
+    // 체인: 부적합 처리 — NCR 패키지 + verified 법령 근거 (§39·§41)
+    tool: 'chain_nonconformance_report',
+    args: { testId: 'test.slump', observation: '슬럼프 205mm' },
+    assert: (r) =>
+      r.result.ncrPackage?.ncrs?.length >= 1 &&
+      r.result.legalBasis.some(
+        (b: { id: string; sourceStatus: string }) =>
+          b.id === 'standard.guideline.art41' && b.sourceStatus === 'verified',
+      ),
+  },
+  {
+    // 체인: 일일 브리핑 — 공종 카드 (리스크·검측·시험·서류)
+    tool: 'chain_daily_quality_briefing',
+    args: { workTypes: ['콘크리트 타설'] },
+    assert: (r) =>
+      r.result.briefing.length === 1 &&
+      r.result.briefing[0].workType != null &&
+      r.result.briefing[0].risks.length >= 1 &&
+      r.result.briefing[0].tests.length >= 1,
   },
 ];
 

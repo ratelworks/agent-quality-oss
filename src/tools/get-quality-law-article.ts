@@ -5,7 +5,7 @@ import type { OntologyGraph } from '../ontology/graph.js';
 export const spec: ToolSpec = {
   name: 'get_quality_law_article',
   description:
-    '법령 조항 id(standard.law.*) 또는 조항 이름을 받아 요약·적용 범위·법적 구속력·공식 링크를 반환한다. 원문 텍스트는 포함하지 않는다. [근거 제공용 · 최종 판정은 품질관리자·감리원·발주자]',
+    '법령·고시 조항 id(standard.law.* / standard.guideline.*)를 받아 요약·적용 범위·법적 구속력·공식 링크를 반환한다. 법제처 sync 로 검증된 조항은 원문(bodyText)과 개정 이력을 함께 제공한다. [근거 제공용 · 최종 판정은 품질관리자·감리원·발주자]',
   inputSchema: {
     type: 'object',
     properties: {
@@ -38,6 +38,8 @@ export function run(args: GetArticleArgs, graph: OntologyGraph) {
   }
 
   const meta = entity.meta;
+  const bodyText = (meta['bodyText'] as string | undefined) ?? null;
+  const sourceStatus = (meta['sourceStatus'] as string | undefined) ?? 'indirect_source';
   const result = {
     article: {
       id: entity.id,
@@ -51,6 +53,7 @@ export function run(args: GetArticleArgs, graph: OntologyGraph) {
         (meta['articleNo'] as string | undefined) ??
         (meta['section'] as string | undefined) ??
         null,
+      part: (meta['part'] as string | undefined) ?? null,
       scope: meta['scope'] as string | undefined,
       legalWeight: meta['legalWeight'] as string | undefined,
       basisType: meta['basisType'] as string | undefined,
@@ -61,8 +64,16 @@ export function run(args: GetArticleArgs, graph: OntologyGraph) {
         (meta['sourceUrl'] as string | undefined) ??
         null,
       aliases: entity.aliases ?? [],
+      // 법제처 sync 검증분 — 원문·개정 이력 (없으면 null = 요약만 제공)
+      sourceStatus,
+      bodyText,
+      ...(meta['bodyTruncated'] ? { bodyTruncated: true } : {}),
+      amendmentHistory: (meta['amendmentHistory'] as string[] | undefined) ?? null,
+      latestAmendment: (meta['latestAmendment'] as string | undefined) ?? null,
     },
-    sourceNote: '원문 텍스트는 국가법령정보센터(law.go.kr)에서 확인. 본 서버는 조항 요약·식별자만 제공.',
+    sourceNote: bodyText
+      ? `법제처 국가법령정보센터 원문 sync (${(meta['verifiedAt'] as string | undefined) ?? '검증일 미상'} 기준). 개정 여부는 공식 링크에서 재확인 가능.`
+      : '원문 텍스트 미보유 — 국가법령정보센터(law.go.kr)에서 확인. 본 응답은 조항 요약·식별자만 제공.',
   };
 
   return buildResponse('get_quality_law_article', graph.version, result, entityBasis([entity.id], 1));

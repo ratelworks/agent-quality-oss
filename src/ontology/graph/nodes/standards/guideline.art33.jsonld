@@ -1,0 +1,30 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "standard:guideline.art33",
+  "@type": "Standard",
+  "name": "업무지침 §33 (자재공급원의 사전점검)",
+  "aliases": [
+    "업무지침 제33조",
+    "품질관리 업무지침 §33",
+    "자재공급원의 사전점검"
+  ],
+  "_meta": {
+    "category": "guideline",
+    "lawName": "건설공사 품질관리 업무지침",
+    "articleNo": "33",
+    "part": "제3편 건설자재ㆍ부재의 품질관리",
+    "scope": "자재공급원의 사전점검",
+    "legalWeight": "administrative_rule",
+    "basisType": "guideline",
+    "issuer": "국토교통부 고시",
+    "noticeNumber": "국토교통부고시 제2025-311호",
+    "sourceStatus": "verified",
+    "bodyText": "제33조(자재공급원의 사전점검) ① 수요자는 레미콘 총 설계량이 1천세제곱미터 이상이거나 아스콘의 총 설계량이 2천톤 이상인 건설공사에 대하여 자재공급원 승인요청을 하려면 공사감독자와 합동으로 사전점검을 실시하고 그 결과를 공급원 승인권자에게 보고하여야 한다\n  ② 제1항에 따른 사전점검은 별지 제8호서식의 레미콘공장 사전점검표 또는 별지 제9호서식의 아스콘공장 사전점검표에 따라 실시한다.",
+    "bodyLength": 219,
+    "sourceUrl": "https://www.law.go.kr/행정규칙/%EA%B1%B4%EC%84%A4%EA%B3%B5%EC%82%AC%20%ED%92%88%EC%A7%88%EA%B4%80%EB%A6%AC%20%EC%97%85%EB%AC%B4%EC%A7%80%EC%B9%A8/제33조",
+    "fetchedAt": "2026-07-01",
+    "verifiedAt": "2026-07-01",
+    "verifiedBy": "법제처 admrul lawService.do (자동 sync)",
+    "effectiveFrom": "2025-06-12"
+  }
+}

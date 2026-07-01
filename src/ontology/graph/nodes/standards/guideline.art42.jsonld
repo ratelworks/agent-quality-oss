@@ -1,0 +1,30 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "standard:guideline.art42",
+  "@type": "Standard",
+  "name": "업무지침 §42 (현장배치플랜트의 설치 등)",
+  "aliases": [
+    "업무지침 제42조",
+    "품질관리 업무지침 §42",
+    "현장배치플랜트의 설치 등"
+  ],
+  "_meta": {
+    "category": "guideline",
+    "lawName": "건설공사 품질관리 업무지침",
+    "articleNo": "42",
+    "part": "제3편 건설자재ㆍ부재의 품질관리",
+    "scope": "현장배치플랜트의 설치 등",
+    "legalWeight": "administrative_rule",
+    "basisType": "guideline",
+    "issuer": "국토교통부 고시",
+    "noticeNumber": "국토교통부고시 제2025-311호",
+    "sourceStatus": "verified",
+    "bodyText": "제42조(현장배치플랜트의 설치 등) ① 발주청 또는 시공자는 법 제57조제2항에 따라 건설공사 품질확보 및 원활한 콘크리트의 생산ㆍ공급을 위해 현장배치플랜트를 설치할 수 있다.\n  ② 제1항에 따라 현장배치플랜트를 설치하려는 자는 「건축법」 제20조 및 같은 법 시행령 제15조에 따른 가설건축물 축조신고 등을 하여야 한다. <종전의 제목 외의 부분에서 이동>\n  ③ 발주청과 건설공사의 허가ㆍ인가ㆍ승인 등을 한 행정기관(이하 \"인ㆍ허가기관\"이라 한다)은 필요한 경우 제1항에 따른 현장배치플랜트 설치를 위해 행정지원을 할 수 있다.",
+    "bodyLength": 298,
+    "sourceUrl": "https://www.law.go.kr/행정규칙/%EA%B1%B4%EC%84%A4%EA%B3%B5%EC%82%AC%20%ED%92%88%EC%A7%88%EA%B4%80%EB%A6%AC%20%EC%97%85%EB%AC%B4%EC%A7%80%EC%B9%A8/제42조",
+    "fetchedAt": "2026-07-01",
+    "verifiedAt": "2026-07-01",
+    "verifiedBy": "법제처 admrul lawService.do (자동 sync)",
+    "effectiveFrom": "2025-06-12"
+  }
+}

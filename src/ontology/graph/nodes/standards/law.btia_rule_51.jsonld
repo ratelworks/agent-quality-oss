@@ -12,6 +12,15 @@
     "articleNo": "51",
     "scope": "발주자의 품질관리계획 이행점검 절차 및 결과 통보 (별지 제43호 품질검사 성과 총괄표 근거 조항)",
     "legalWeight": "mandatory",
-    "basisType": "rule"
+    "basisType": "rule",
+    "sourceStatus": "verified",
+    "bodyText": "**제51조 (품질검사 성과 총괄표)**\n\n제51조(품질검사 성과 총괄표) 영 제93조제1항에 따른 품질검사 성과 총괄표는 별지 제43호서식과 같다.",
+    "bodyLength": 83,
+    "sourceUrl": "https://www.law.go.kr/법령/%EA%B1%B4%EC%84%A4%EA%B8%B0%EC%88%A0%20%EC%A7%84%ED%9D%A5%EB%B2%95%20%EC%8B%9C%ED%96%89%EA%B7%9C%EC%B9%99/제51조",
+    "fetchedAt": "2026-04-28",
+    "verifiedAt": "2026-04-28",
+    "verifiedBy": "법제처 lawService.do (자동 sync)",
+    "amendmentHistory": [],
+    "effectiveFrom": "2025-10-31"
   }
 }

@@ -39,11 +39,14 @@ jobs:
       - name: Build (tsc + ontology data copy)
         run: npm run build
 
-      - name: Ontology validation — 무결성 (순환참조 / dangling / orphan)
-        run: npm run validate:ontology
+      - name: Test — 스위트 무결성(suite-coverage·roadmap-kpi·negative) + 온톨로지 무결성 + smoke 회귀
+        run: npm test
 
-      - name: Smoke — MCP Tool 시나리오 (49 케이스)
-        run: npm run smoke
+      - name: Doc-code sync — 문서·코드 수치 정합 (README 드리프트 차단)
+        run: npm run check:doc-code-sync
+
+      - name: Form conformance — 양식 법적근거 그래프 실재 검증
+        run: npm run form-conformance
 
       - name: Ontology audit — 그래프 건강성 (노드 / 관계 / 법령 커버리지)
         run: npm run audit

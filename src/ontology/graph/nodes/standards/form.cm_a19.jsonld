@@ -1,0 +1,30 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "standard:form.cm_a19",
+  "@type": "Standard",
+  "name": "사업관리지침 별지19 — 검측대장",
+  "aliases": [
+    "별지19",
+    "검측대장",
+    "검측대장"
+  ],
+  "_meta": {
+    "category": "form",
+    "basisType": "standard_form",
+    "lawName": "건설공사 사업관리방식 검토기준 및 업무수행지침",
+    "referenceDoc": "건설공사 사업관리방식 검토기준 및 업무수행지침",
+    "section": "별지19",
+    "issuer": "국토교통부",
+    "legalWeight": "administrative_rule",
+    "license": "Korea Open Government License Type 4",
+    "sourceStatus": "verified",
+    "bodyText": "[별지 제19호 서식]                                                                        \n  검  측  대  장                                                                            \n  공사명 : ○○공사          공사감독자(책임건설사업관리기술인) :                           \n  (인)                                                                                      \n┏━━━┯━━━━━━━━━━━━━━┯━━━┯━━━━━━┯━━┯━━━━━━━━━━━┓\n┃공 종 │검   측   부   위           │검측일│검 측 내 용 │합격│검측결과 또는 입증자료┃\n┃      │(설계규격, 단위, 수량 포함) │      │            │여부│                      ┃\n┠───┼──────────────┼───┼──────┼──┼───────────┨\n┃      │                            │      │            │    │                      ┃\n┗━━━┷━━━━━━━━━━━━━━┷━━━┷━━━━━━┷━━┷━━━━━━━━━━━┛\n   주) 매몰부분은 사진 첨부",
+    "bodyLength": 715,
+    "sourceUrl": "https://www.law.go.kr/행정규칙/%EA%B1%B4%EC%84%A4%EA%B3%B5%EC%82%AC%20%EC%82%AC%EC%97%85%EA%B4%80%EB%A6%AC%EB%B0%A9%EC%8B%9D%20%EA%B2%80%ED%86%A0%EA%B8%B0%EC%A4%80%20%EB%B0%8F%20%EC%97%85%EB%AC%B4%EC%88%98%ED%96%89%EC%A7%80%EC%B9%A8",
+    "fetchedAt": "2026-07-01",
+    "verifiedAt": "2026-07-01",
+    "verifiedBy": "법제처 admrul lawService.do <별표단위> 자동 sync",
+    "hwpDownloadUrl": "https://www.law.go.kr/LSW/flDownload.do?flSeq=149669643",
+    "pdfDownloadUrl": "https://www.law.go.kr/LSW/flDownload.do?flSeq=149669647"
+  }
+}

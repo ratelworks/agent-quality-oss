@@ -13,9 +13,9 @@
     "referenceDoc": "건설공사 품질관리 업무지침",
     "section": "별지 제7호",
     "scope": "평가기관의 장이 작성하는 확인보고서 (재평가 종료 후)",
-    "relatedArticle": "standard.guideline.part2_art7",
     "sourceHash": null,
     "license": "Korea Open Government License Type 4",
-    "legalWeight": "mandatory"
+    "legalWeight": "mandatory",
+    "note": "품질검사 대행 건설엔지니어링사업자 평가 서식 (제2편제3장 §17~30 영역 — 시공자 QC 주변 도메인)"
   }
 }

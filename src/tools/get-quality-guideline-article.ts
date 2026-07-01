@@ -9,7 +9,7 @@ export const spec: ToolSpec = {
   inputSchema: {
     type: 'object',
     properties: {
-      articleId: { type: 'string', description: '조항 id (예: standard.guideline.part2_art7)' },
+      articleId: { type: 'string', description: '조항 id (예: standard.guideline.art7)' },
     },
     required: ['articleId'],
   },

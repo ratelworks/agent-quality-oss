@@ -12,9 +12,9 @@
  *   이 게이트가 그 경계(양식 basis → 그래프 노드)를 메운다.
  *
  * basis IRI → 그래프 노드 해석 (런타임 도구와 동일 로직 재사용):
- *   basis 문자열(예: "standard.guideline.part2_art7")은 이미 단축 id 형태다.
- *   loader 가 노드 @id("standard:guideline.part2_art7")를 fromIri(첫 콜론→점)로 변환해
- *   동일한 단축 id("standard.guideline.part2_art7")로 그래프에 적재한다.
+ *   basis 문자열(예: "standard.guideline.art39")은 이미 단축 id 형태다.
+ *   loader 가 노드 @id("standard:guideline.art39")를 fromIri(첫 콜론→점)로 변환해
+ *   동일한 단축 id("standard.guideline.art39")로 그래프에 적재한다.
  *   따라서 map_quality_basis 도구와 동일하게 graph.get(basis) 로 직접 조회한다
  *   (직접 변환 규칙 재발명 금지 — 런타임 해석과 1:1 정합이어야 게이트가 의미를 가진다).
  *
@@ -246,7 +246,7 @@ function collectBasisMetaTokens(nodes: GraphEntityLike[]): Set<string> {
     if (typeof articleNo === "string" || typeof articleNo === "number") {
       set.add(`art:${String(articleNo)}`);
     }
-    // basis id 의 마지막 숫자(law.btia_55 → 55, guideline.part2_art7 → 7)도 보조 토큰화.
+    // basis id 의 마지막 숫자(law.btia_55 → 55, guideline.art39 → 39)도 보조 토큰화.
     const tail = node.id.match(/(\d+)$/);
     const tailN = tail?.[1];
     if (tailN !== undefined) set.add(`art:${tailN}`);

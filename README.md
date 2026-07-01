@@ -4,14 +4,14 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](./LICENSE)
 [![Node](https://img.shields.io/badge/node-%3E%3D22-brightgreen)](https://nodejs.org)
 [![MCP](https://img.shields.io/badge/MCP-1.x-purple)](https://modelcontextprotocol.io)
-[![Release](https://img.shields.io/badge/release-v0.3.0-blue.svg)](./CHANGELOG.md)
-[![Tools](https://img.shields.io/badge/MCP%20tools-46-orange.svg)](#현장-운영-흐름)
+[![Release](https://img.shields.io/badge/release-v0.4.0-blue.svg)](./CHANGELOG.md)
+[![Tools](https://img.shields.io/badge/MCP%20tools-52-orange.svg)](#현장-운영-흐름)
 
 **건설현장의 품질관리 문서 작성과 검토를 더 빠르고 정확하게.** 건설기술 진흥법·건설공사 품질관리 업무지침·KCS/KDS·KS 를 기반으로, 품질관리자(QC)와 감리원의 ITP·NCR·검사요청·시험성적서 검토 같은 작업을 돕는 오픈소스 도구입니다.
 
 **단순한 검색기가 아니라 "품질관리 전문가 레이어를 LLM에 장착"하는 것이 목표.** LLM 이 베테랑 품질관리자처럼 답하도록 도메인 관계망·정량 기준·의사결정 트리·법령 인용 위치·양식 구조를 즉시 공급합니다.
 
-[온톨로지 가이드](./docs/ONTOLOGY.md) · [Claude Desktop 설정](./docs/SETUP_CLAUDE_DESKTOP.md) · [로드맵](./ROADMAP.md) · [데이터 출처·라이선스](./NOTICE.md)
+[정체성·도구 카탈로그](./docs/IDENTITY.md) · [기술 구조](./docs/ARCHITECTURE.md) · [온톨로지 가이드](./docs/ONTOLOGY.md) · [Claude Desktop 설정](./docs/SETUP_CLAUDE_DESKTOP.md) · [로드맵](./ROADMAP.md) · [설계 결정 기록](./decisions) · [데이터 출처·라이선스](./NOTICE.md)
 
 ---
 
@@ -58,13 +58,14 @@ LLM 은 이 그래프를 보고 문서를 작성하거나 설명할 수 있지�
 
 | 영역 | 내용 |
 |---|---|
-| **품질관리 온톨로지** | 공종(WorkType) 19종 + 자재·시험·판정기준·리스크·부적합·시정조치·검측·증빙·표준을 관계로 연결. 그래프 노드 **330개** · 관계 **930개** |
+| **품질관리 온톨로지** | 공종(WorkType) 19종 + 자재·시험·판정기준·리스크·부적합·시정조치·검측·증빙·표준을 관계로 연결. 그래프 노드 **382개** · 관계 **934개** |
+| **법령·고시 원문 내장 (verified)** | 건진법 §55~60·시행령·시행규칙 핵심 조문과 **품질관리 업무지침(2025-311호) 현행 조문 29개**의 원문을 법제처 자동 sync 로 내장. 별표·별지 30종(업무지침 별표1~5·9, 사업관리지침 검측대장·품질시험검사대장 등)은 본문 + **공식 HWP/PDF 다운로드 링크** 제공 |
 | **법정 품질시험기준 커버리지** | 건설공사 품질관리 업무지침 **별표2(품질시험기준)** 의 공통·토목·건축 **전 절** 시험종목·방법·빈도 — 단 *식별*(무슨 시험·방법·빈도) 수준이며, 합격 *판정 수치*는 콘크리트 공종만 확보(그 외 공종은 `skeleton`, [현재 한계](#현재-한계) 참조) |
-| **MCP 도구 46개** | 온톨로지 탐색 · 정량 판정 · 리스크 추론 · 근거 검증 · 법령/기준 인용 위치 · 문서 양식 구조(19종) · 근거 패키지 조립(7종) · 입력 폼(A2UI) |
+| **MCP 도구 52개** | 온톨로지 탐색 · 정량 판정 · 리스크 추론 · 근거 검증 · 법령/기준 인용 위치 · 문서 양식 구조(19종) · 근거 패키지 조립(전용 7종 + 제네릭 1종 = 19종 문서 전부) · 체인 도구 5종(검측·시험계획·성적서검토·부적합·일일브리핑 원스톱) · 입력 폼(A2UI) |
 | **문서 양식 구조 19종** | (법정 16종) ITP · NCR · 검사요청서 · 콘크리트 납품기록 · 공시체 기록 · 시험성적서 검토 · 품질관리자 배치신고 · 품질시험계획 · 검사대장 · 품질관리계획서 · 성과총괄표(별지43) · 부적합조치결과확인서(별지6) · 점검결과보고서 · 시험의뢰서(KOLAS) · 검측체크리스트 · 자재공급원승인(별지37) + (실무·ISO 관행 3종) 시방서일지 · 시정조치요구서(CAR) · 품질감사보고서 — 시공자 작성 문서 전종 (필수 필드 + 근거 + 보존기간) |
 | **근거 추적(Lineage)** | 모든 도구 응답에 `basis[]` + `lineage.contentHash` + `sourceStatus` 요약 — 답이 어디서 왔는지, 출처가 검증됐는지 항상 확인 |
 
-→ 위 자료들이 **서로 연결**되어 있어, "콘크리트 타설" 한 단어만 알면 적용 자재·시험·판정기준·리스크·검측이 자동으로 따라옵니다. (패키지 버전: 0.3.0)
+→ 위 자료들이 **서로 연결**되어 있어, "콘크리트 타설" 한 단어만 알면 적용 자재·시험·판정기준·리스크·검측이 자동으로 따라옵니다. (패키지 버전: 0.4.0)
 
 ## 시작하기
 
@@ -141,7 +142,7 @@ node build/cli.js viewer
 ### C. 개발자
 
 ```bash
-node build/cli.js tools          # 등록된 도구 46개 목록
+node build/cli.js tools          # 등록된 도구 52개 목록
 node build/cli.js serve          # stdio MCP 서버
 node build/cli.js serve --http   # HTTP JSON 서버 (PORT env, 기본 8080 → /mcp/tools)
 node build/cli.js call get_work_quality_profile --workType 콘크리트
@@ -186,13 +187,14 @@ Claude Desktop 이나 Codex 에서 자연어로 요청합니다.
 |---|---|---|
 | **1. 프로젝트 컨텍스트** | 현장·공사 정보 확인 | `get_project_info` |
 | **2. 공종 파악** | 공종 한 단어 → 자재·시험·판정기준·리스크·검측을 그래프에서 조회 | `resolve_worktype` · `get_work_quality_profile` · `get_material_quality_profile` · `search_quality_ontology` · `discover_relevant_domain` |
-| **3. 양식·근거 조립** | 문서 양식 구조(19종) + 적용 근거 패키지 조립 | `get_itp_schema` 외 양식 19종 · `compile_ncr_references` 외 근거 7종 · `render_quality_form` |
+| **3. 양식·근거 조립** | 문서 양식 구조(19종) + 적용 근거 패키지 조립 | `get_itp_schema` 외 양식 19종 · `compile_document_references`(제네릭, 19종 전부) · `compile_ncr_references` 외 전용 7종 · `render_quality_form` |
+| **3+. 원스톱 체인** | 위 2~3단계를 한 번에 — 검측 준비·시험계획·성적서 검토·부적합 처리·일일 브리핑 | `chain_quality_inspection` · `chain_quality_test_plan` · `chain_test_report_review` · `chain_nonconformance_report` · `chain_daily_quality_briefing` |
 | **4. 정량 판정** | 시험 관측값 합격 여부 · 리스크·부적합 추론 (코드 계산) | `evaluate_observation` · `infer_quality_risks` · `explain_quality_decision_path` |
 | **5. 작성 컨텍스트** | 입력값 + 양식 구조 + 근거 → LLM 작성 컨텍스트 | `compose_writing_context` |
 | **6. 검수** | 근거 우선순위 · 인용 실존 · 서식 명칭 검증 | `map_quality_basis` · `verify_quality_basis` · `verify_form_reference` |
 | **법령·기준 인용 위치** | 법령·업무지침·KCS·서식의 인용 위치 조회 (원문 미포함) | `list_core_quality_laws` · `get_quality_law_article` · `search_quality_management_guideline` · `get_quality_guideline_article` · `search_construction_standards` · `get_standard_form_locator` |
 
-전체 도구 **46개** 목록·설명은 `node build/cli.js tools` 로 확인하세요.
+전체 도구 **52개** 목록·설명은 `node build/cli.js tools` 로 확인하세요.
 
 ## 신뢰성 — 근거 등급
 
@@ -219,8 +221,9 @@ npm run check:oss-hygiene   # 공개 위생 (내부 용어·경로·PII 차단)
 
 최근 검증 결과:
 
-- 온톨로지 무결성: 통과 (노드 330 · 관계 930 · orphan 0)
-- smoke 회귀: 87/87 통과
+- 온톨로지 무결성: 통과 (노드 382 · 관계 934 · orphan 0)
+- 출처 검증(verified) 자산: 149/382 노드 (39%) — 법제처 원문 sync 기준
+- smoke 회귀: 94/94 통과
 - typecheck: 통과 · OSS hygiene: 통과
 - 별표2 커버리지: 공통·토목·건축 **전 절**
 
@@ -255,7 +258,7 @@ WorkType         →  QualityRisk (리스크) → Nonconformance (부적합) →
 SchemaForm (양식) →  Standard (KCS/KS/법령/지침 인용 위치)
 ```
 
-온톨로지는 `cc:` IRI 네임스페이스 규약(JSON-LD `@context` 로 정의)을 따르며, 자매 프로젝트 [`agent-safety-oss`](https://github.com/ratelworks/agent-safety-oss)(`safety:`)와 **같은 IRI 공간**을 공유합니다 — 안전·품질 그래프를 합쳐도 하나의 건설 도메인으로 관계 추론을 이어갈 수 있습니다. 온톨로지 데이터는 자매 프로젝트 agent-safety-oss 와 **동일한 JSON-LD 노드 구조**(`src/ontology/graph/nodes/{type}/*.jsonld` — `@id` IRI · `@type` · 관계 IRI 참조 · `_meta`)를 SSoT 로 사용합니다. 런타임은 이를 경량 in-memory 그래프(인접 리스트 + 별칭·타입 인덱스, 외부 의존성 0, sync)로 로드합니다 — 330노드 규모라 graphology 같은 무거운 그래프 엔진은 두지 않습니다. 즉 **데이터 구조는 safety 와 동일**하고 그래프 엔진만 규모에 맞게 경량입니다.
+온톨로지는 `cc:` IRI 네임스페이스 규약(JSON-LD `@context` 로 정의)을 따르며, 자매 프로젝트 [`agent-safety-oss`](https://github.com/ratelworks/agent-safety-oss)(`safety:`)와 **같은 IRI 공간**을 공유합니다 — 안전·품질 그래프를 합쳐도 하나의 건설 도메인으로 관계 추론을 이어갈 수 있습니다. 온톨로지 데이터는 자매 프로젝트 agent-safety-oss 와 **동일한 JSON-LD 노드 구조**(`src/ontology/graph/nodes/{type}/*.jsonld` — `@id` IRI · `@type` · 관계 IRI 참조 · `_meta`)를 SSoT 로 사용합니다. 런타임은 이를 경량 in-memory 그래프(인접 리스트 + 별칭·타입 인덱스, 외부 의존성 0, sync)로 로드합니다 — 수백 노드 규모라 graphology 같은 무거운 그래프 엔진은 두지 않습니다. 즉 **데이터 구조는 safety 와 동일**하고 그래프 엔진만 규모에 맞게 경량입니다.
 
 설계 원칙:
 

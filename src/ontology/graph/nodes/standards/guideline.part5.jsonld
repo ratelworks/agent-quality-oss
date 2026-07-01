@@ -6,9 +6,17 @@
   "_meta": {
     "category": "guideline",
     "part": "제5편",
-    "scope": "가설기자재 안전인증·품질점검",
+    "scope": "적용 공사 현장에서 사용하는 가설 기자재 품질관리 (§3⑤)",
     "legalWeight": "administrative_rule",
     "basisType": "guideline",
-    "skeleton": true
-  }
+    "skeleton": true,
+    "sourceStatus": "verified",
+    "sourceUrl": "https://www.law.go.kr/행정규칙/건설공사품질관리업무지침",
+    "verifiedBy": "법제처 admrul 원문 §3(적용범위)·편제 대조 (2026-07-02)",
+    "noticeNumber": "국토교통부고시 제2025-311호"
+  },
+  "aliases": [
+    "제5편",
+    "가설기자재 품질관리"
+  ]
 }

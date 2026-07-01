@@ -72,11 +72,11 @@ const A_ROWS: CheckRow[] = [
   {
     id: 'A1',
     requirement: '품질관리계획서 작성 (건진법 시행령 §89 대상 시)',
-    source: '업무지침 §4 + 별표1 + 시행규칙 §52',
+    source: '업무지침 §7(작성기준) + 별표1 + 시행규칙 §52',
     mcpTool: 'get_quality_law_article, get_quality_guideline_article, get_standard_form_locator(form.quality_plan_annex1)',
     verification: () => {
       const law = run('get_quality_law_article', { articleId: 'standard.law.btia_decree_89' });
-      const guide = run('get_quality_guideline_article', { articleId: 'standard.guideline.part2_art4' });
+      const guide = run('get_quality_guideline_article', { articleId: 'standard.guideline.art7' });
       const form = run('get_standard_form_locator', { formId: 'standard.form.quality_plan_annex1' });
       return law.result.article && guide.result.article && form.result.form ? 'O' : '△';
     },
@@ -84,7 +84,7 @@ const A_ROWS: CheckRow[] = [
   {
     id: 'A2',
     requirement: '품질시험계획서 작성 (건진법 시행령 §90 대상)',
-    source: '업무지침 §5 + 별표2 + 시행규칙 §53',
+    source: '업무지침 §8(품질시험기준) + 별표2 + 시행규칙 §53',
     mcpTool: 'get_quality_law_article, get_quality_guideline_article, get_standard_form_locator(별표2·form.test_plan_template)',
     verification: () => {
       const annex2 = run('get_standard_form_locator', { formId: 'standard.form.guideline_annex2' });
@@ -107,24 +107,24 @@ const A_ROWS: CheckRow[] = [
   },
   {
     id: 'A4',
-    requirement: '부적합 발생 시 조치 (업무지침 §7)',
-    source: '업무지침 §7 + 별지 제6호 + 별지 제7호',
-    mcpTool: 'compile_ncr_references, get_ncr_schema, get_standard_form_locator(별지 6·7호)',
+    requirement: '부적합·불량 자재 조치 (업무지침 §39·§41)',
+    source: '업무지침 §39(점검결과 조치)·§41(불량 자재의 처리) + ISO 9001 §8.7 관행',
+    mcpTool: 'compile_ncr_references, get_ncr_schema, get_quality_guideline_article(§39·§41)',
     verification: () => {
       const ncr = run('compile_ncr_references', { ncrId: 'ncr.slump_too_high' });
-      const form6 = run('get_standard_form_locator', { formId: 'standard.form.guideline_no6' });
-      const form7 = run('get_standard_form_locator', { formId: 'standard.form.guideline_no7' });
-      return ncr.result.ncrs.length > 0 && form6.result.form && form7.result.form ? 'O' : '△';
+      const art39 = run('get_quality_guideline_article', { articleId: 'standard.guideline.art39' });
+      const art41 = run('get_quality_guideline_article', { articleId: 'standard.guideline.art41' });
+      return ncr.result.ncrs.length > 0 && art39.result.article && art41.result.article ? 'O' : '△';
     },
   },
   {
     id: 'A5',
-    requirement: '검사대행·시험기관 확인 (건진법 §60, 업무지침 §8)',
-    source: '건진법 §60 + 업무지침 §8',
-    mcpTool: 'get_quality_law_article(law.btia_60), get_quality_guideline_article(guideline.part2_art8), get_test_report_review_schema(custody section)',
+    requirement: '검사대행·시험기관 확인 (건진법 §60·§57)',
+    source: '건진법 §60(품질검사 대행·확인) + §57(전문기관) — 대행자 평가 상세는 업무지침 제2편제3장(§17~30)',
+    mcpTool: 'get_quality_law_article(law.btia_60·btia_57), get_test_report_review_schema(custody section)',
     verification: () => {
       const law = run('get_quality_law_article', { articleId: 'standard.law.btia_60' });
-      const guide = run('get_quality_guideline_article', { articleId: 'standard.guideline.part2_art8' });
+      const guide = run('get_quality_law_article', { articleId: 'standard.law.btia_57' });
       const tr = run('get_test_report_review_schema', {});
       const hasCustody = (tr.result.sections as Array<{ key: string }>).some((s) => s.key === 'custody');
       return law.result.article && guide.result.article && hasCustody ? 'O' : '△';
@@ -143,11 +143,11 @@ const A_ROWS: CheckRow[] = [
   },
   {
     id: 'A7',
-    requirement: '품질관리계획 이행점검 (업무지침 §10 + 시행규칙 §51 별지 제43호)',
-    source: '업무지침 §10 + 시행규칙 §51',
+    requirement: '품질관리의 적절성 확인 (업무지침 §10 + 시행규칙 §51 별지 제43호)',
+    source: '업무지침 §10(적절성 확인기준, 별표3) + 시행규칙 §51',
     mcpTool: 'get_quality_guideline_article(art10), get_standard_form_locator(rule_no43_quality_inspection_summary)',
     verification: () => {
-      const guide = run('get_quality_guideline_article', { articleId: 'standard.guideline.part2_art10' });
+      const guide = run('get_quality_guideline_article', { articleId: 'standard.guideline.art10' });
       const form = run('get_standard_form_locator', { formId: 'standard.form.rule_no43_quality_inspection_summary' });
       return guide.result.article && form.result.form ? 'O' : '△';
     },
@@ -349,10 +349,10 @@ const C_ROWS: CheckRow[] = [
   },
   {
     id: 'C6',
-    requirement: '업무지침 별지 제6호 (부적합 조치결과 확인서)',
-    source: '업무지침 별지 제6호',
-    mcpTool: 'get_standard_form_locator(guideline_no6)',
-    verification: () => (graph.get('standard.form.guideline_no6') ? 'O' : '✗'),
+    requirement: '부적합 조치결과 확인 — 법정 전용 서식 없음 (ISO 9001 §8.7 관행 + 업무지침 §39 연계)',
+    source: '업무지침 §39 (구 "별지 제6호 부적합 조치결과 확인서" 인용은 오류 — 현행 별지 제6호는 품질검사 대행자 부적합보고서)',
+    mcpTool: 'get_nc_corrective_result_schema, get_quality_guideline_article(art39)',
+    verification: () => (graph.get('standard.guideline.art39') ? 'O' : '✗'),
   },
   {
     id: 'C7',
