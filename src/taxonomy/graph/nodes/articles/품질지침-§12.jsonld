@@ -1,0 +1,39 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "art:품질지침:12",
+  "@type": [
+    "Article",
+    "Legislation"
+  ],
+  "articleNumber": "12",
+  "title": "품질시험비 산정방법 등",
+  "partOf": "act:건설공사품질관리업무지침",
+  "verificationStatus": "verified",
+  "legislationIdentifier": "건설공사 품질관리 업무지침",
+  "legislationDate": "2025-06-12",
+  "legislationType": "OfficialNotice",
+  "legislationLegalForce": "InForce",
+  "jurisdiction": "KR",
+  "temporalCoverage": "2025-06-12/..",
+  "description": "제12조(품질시험비 산정방법 등) ① 인건비 및 공공요금 산정 방법은 다음 각호와 같다.\n  1. 시험관리인력의 인건비는 별표4의 시험 종목별 산출단위량에 제11조제3항제1호의 노임단가를 곱하여 산정한다.\n  2. 시험인력의 인건비는 별표4의 시험종목별 산출단위량에 제11조제3항제2호의 노임단가를 곱하여 산정한다.\n  3. 전기요금은 별표4의 시험종목별 산출단위량에 제11조제4항제1호의 전력요금 단가를 곱하여 산정한다.\n  4. 수도요금은 별표4의 시험종목별 산출단위량에 제11조제4항제2호의 상ㆍ하수도요금 단가를 곱하여 산정한다.\n  5. 가스요금은 별도의 시험종목별 산출단위량에 제11조제4항제3호의 가스요금 단가를 곱하여 산정한다.\n  6. 공공요금 및 인건비의 산출단위량이 별표 4에 규정되지 아니하여 인건비 및 공공요금 산정이 어려워 품질시험비 산출이 곤란한 경우에는 발주자가 설계자와 협의하여 시장거래가격 또는 견적가격 등을 조사하여 설계도서에 반영할 수 있다.\n  ② 재료비, 장비손료, 시설비용, 시험 및 검사기구의 검정ㆍ교정비는 규칙 별표 6에 따라 산정하며, 국립ㆍ공립시험기관 및 품질검사를 대행하는 건설엔지니어링사업자의 품질시험ㆍ검사대행비 산출시에도 적용한다.",
+  "partLabel": "제2편 건설공사 품질관리",
+  "constructionRelevance": "high",
+  "userPersona": [
+    "quality_manager",
+    "supervisor",
+    "site_manager"
+  ],
+  "userVisible": true,
+  "isAppendix": false,
+  "_meta": {
+    "publishedBy": "법제처 국가법령정보센터 (자동 sync)",
+    "sourceUrl": "https://www.law.go.kr/행정규칙/%EA%B1%B4%EC%84%A4%EA%B3%B5%EC%82%AC%20%ED%92%88%EC%A7%88%EA%B4%80%EB%A6%AC%20%EC%97%85%EB%AC%B4%EC%A7%80%EC%B9%A8/제12조",
+    "fetchedAt": "2026-07-01",
+    "licenseHint": "저작권법 §7 비보호 (자유 인용)",
+    "verifiedAt": "2026-07-01",
+    "verifiedBy": "법제처 admrul lawService.do (자동 sync)",
+    "admRulId": "2100000260210",
+    "noticeNumber": "국토교통부고시 제2025-311호",
+    "bodyLength": 606
+  }
+}

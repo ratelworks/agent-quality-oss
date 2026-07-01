@@ -198,6 +198,7 @@ export const STANDARD_CATEGORIES = [
   "policy",
   "section",
   "document",
+  "annex", // 법령·고시의 별표 (기준·산출표 — 서식(form)과 구분)
 ] as const;
 
 export type StandardCategory = (typeof STANDARD_CATEGORIES)[number];

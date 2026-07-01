@@ -2,12 +2,21 @@
   "@context": "../../context.jsonld",
   "@id": "standard:guideline.part3",
   "@type": "Standard",
-  "name": "업무지침 제3편 (레미콘·아스콘 관리)",
+  "name": "업무지침 제3편 (건설자재·부재의 품질관리)",
   "_meta": {
     "category": "guideline",
     "part": "제3편",
-    "scope": "레미콘 운반시간·현장배치플랜트·아스콘 품질관리 전담 규정",
+    "scope": "레미콘·아스콘 생산공장·현장 품질관리 (§31~41) + 현장배치플랜트 (§42~45) + 철강 자재 (§45의2~45의3)",
     "legalWeight": "administrative_rule",
-    "basisType": "guideline"
-  }
+    "basisType": "guideline",
+    "sourceStatus": "verified",
+    "sourceUrl": "https://www.law.go.kr/행정규칙/건설공사품질관리업무지침",
+    "verifiedBy": "법제처 admrul 원문 §3(적용범위)·편제 대조 (2026-07-02)",
+    "noticeNumber": "국토교통부고시 제2025-311호"
+  },
+  "aliases": [
+    "제3편",
+    "레미콘·아스콘 품질관리",
+    "건설자재 품질관리"
+  ]
 }

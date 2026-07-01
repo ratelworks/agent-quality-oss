@@ -193,8 +193,8 @@ const CASES: Case[] = [
   },
   {
     tool: 'get_quality_guideline_article',
-    args: { articleId: 'standard.guideline.part2_art7' },
-    assert: (r) => r.result.article?.articleNo === '7',
+    args: { articleId: 'standard.guideline.art39' },
+    assert: (r) => r.result.article?.articleNo === '39',
   },
   {
     tool: 'search_construction_standards',
@@ -208,7 +208,8 @@ const CASES: Case[] = [
     args: { formId: 'standard.form.rule_no42_quality_inspection_register' },
     assert: (r) =>
       r.result.form?.license?.includes('Type 4') &&
-      r.result.form?.redistributionNote?.includes('포함되지 않는다'),
+      typeof r.result.form?.hwpDownloadUrl === 'string' &&
+      r.result.form?.redistributionNote?.includes('재배포하지 않는다'),
   },
   {
     tool: 'get_standard_form_locator',

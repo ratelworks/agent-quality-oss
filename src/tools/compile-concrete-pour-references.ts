@@ -89,8 +89,9 @@ export function run(args: CompilePourArgs, graph: OntologyGraph) {
     basisType: (s.meta?.['basisType'] as string | undefined) ?? null,
   }));
   for (const gid of [
-    'standard.guideline.part2_art6',
-    'standard.guideline.part2_art7',
+    'standard.guideline.art8',
+    'standard.guideline.art38',
+    'standard.guideline.art41',
     'standard.guideline.part3',
   ]) {
     const g = graph.get(gid);

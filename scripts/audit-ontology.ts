@@ -138,7 +138,7 @@ const defaultArgs: Record<string, Record<string, unknown>> = {
   list_core_quality_laws: {},
   get_quality_law_article: { articleId: 'standard.law.btia_55' },
   search_quality_management_guideline: {},
-  get_quality_guideline_article: { articleId: 'standard.guideline.part2_art7' },
+  get_quality_guideline_article: { articleId: 'standard.guideline.art39' },
   search_construction_standards: {},
   get_standard_form_locator: { formId: 'standard.form.rule_no42_quality_inspection_register' },
   get_ncr_schema: {},

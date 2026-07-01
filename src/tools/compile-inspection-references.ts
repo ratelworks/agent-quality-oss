@@ -68,7 +68,7 @@ export function run(args: CompileInspectionArgs, graph: OntologyGraph) {
     }
   }
 
-  for (const id of ['standard.law.btia_55', 'standard.guideline.part2_art10']) {
+  for (const id of ['standard.law.btia_55', 'standard.guideline.art10']) {
     const e = graph.get(id);
     if (e && !allStandards.has(id)) {
       allStandards.set(id, {

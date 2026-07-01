@@ -29,6 +29,6 @@
   "requiresStandard": [
     "standard:kcs_14_20.11",
     "standard:quality_management_guideline",
-    "standard:guideline.part2_art6"
+    "standard:guideline.art8"
   ]
 }

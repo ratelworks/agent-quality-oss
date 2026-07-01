@@ -1,0 +1,30 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "standard:guideline.art36",
+  "@type": "Standard",
+  "name": "업무지침 §36 (관급자재의 품질관리 등)",
+  "aliases": [
+    "업무지침 제36조",
+    "품질관리 업무지침 §36",
+    "관급자재의 품질관리 등"
+  ],
+  "_meta": {
+    "category": "guideline",
+    "lawName": "건설공사 품질관리 업무지침",
+    "articleNo": "36",
+    "part": "제3편 건설자재ㆍ부재의 품질관리",
+    "scope": "관급자재의 품질관리 등",
+    "legalWeight": "administrative_rule",
+    "basisType": "guideline",
+    "issuer": "국토교통부 고시",
+    "noticeNumber": "국토교통부고시 제2025-311호",
+    "sourceStatus": "verified",
+    "bodyText": "제36조(관급자재의 품질관리 등) 발주청 또는 공급원 승인권자는 사용될 자재가 관급인 경우에는 이 지침에 준하여 사전점검 및 정기점검 등 품질관리를 할 수 있으며, 다음 각 호의 어느 하나에 해당되는 경우 그 사유를 명시하여 조달청에 관급자재를 공급하는 생산자 변경 등 필요한 조치를 요청할 수 있다.\n  1. 제32조제4항 각 호의 어느 하나에 해당되는 때\n  2. 단, 구간 또는 단일 구조물에 사용되는 자재가 다수의 생산자로부터 자재를 공급받아 향후 하자관계가 불분명해 질 우려가 있을 때\n  3. 가까운 곳에 생산자가 있음에도 장거리 생산자로부터 자재를 공급받는 경우로서 품질관리에 지장을 초래하는 경우",
+    "bodyLength": 341,
+    "sourceUrl": "https://www.law.go.kr/행정규칙/%EA%B1%B4%EC%84%A4%EA%B3%B5%EC%82%AC%20%ED%92%88%EC%A7%88%EA%B4%80%EB%A6%AC%20%EC%97%85%EB%AC%B4%EC%A7%80%EC%B9%A8/제36조",
+    "fetchedAt": "2026-07-01",
+    "verifiedAt": "2026-07-01",
+    "verifiedBy": "법제처 admrul lawService.do (자동 sync)",
+    "effectiveFrom": "2025-06-12"
+  }
+}
