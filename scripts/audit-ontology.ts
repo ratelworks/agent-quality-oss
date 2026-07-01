@@ -155,6 +155,12 @@ const defaultArgs: Record<string, Record<string, unknown>> = {
     claimedBasisIds: ['standard.kcs_14_20'],
   },
   get_project_info: {},
+  compile_document_references: { docId: 'quality_plan' },
+  chain_quality_inspection: { workType: '슬래브 타설' },
+  chain_quality_test_plan: { workTypes: ['콘크리트 타설'] },
+  chain_test_report_review: { observations: ['슬럼프 180mm'], testItem: 'test.slump' },
+  chain_nonconformance_report: { testId: 'test.slump', observation: '슬럼프 205mm' },
+  chain_daily_quality_briefing: { workTypes: ['콘크리트 타설'] },
   discover_relevant_domain: { situation: '슬래브 콘크리트 타설' },
   explain_quality_decision_path: { entityId: 'ncr.slump_too_high' },
   verify_form_reference: { formId: 'standard.form.rule_no42_quality_inspection_register' },
@@ -196,6 +202,24 @@ const allowedSyntheticBasisTypes = new Set<string>([
   'judgment_meta',
   'project_meta',
   'audit_export',
+  // 표준 BASIS_TYPES (config/constants.ts) — 법령·지침·서식 근거 (그래프 노드 id, 실존 검사 대상)
+  'law',
+  'guideline',
+  'form_locator',
+  'kcs_section',
+  'kds_section',
+  'ks_standard',
+]);
+
+// 그래프 노드 id 를 가리키는 basis 타입 — 실존 검사 대상 (synthetic meta 류 제외)
+const nodeBackedBasisTypes = new Set<string>([
+  'ontology',
+  'law',
+  'guideline',
+  'form_locator',
+  'kcs_section',
+  'kds_section',
+  'ks_standard',
 ]);
 
 let legalNoteCount = 0;
@@ -229,7 +253,7 @@ for (const t of TOOLS) {
   let basisOk = true;
   for (const b of response.basis ?? []) {
     if (allowedSyntheticBasisTypes.has(b.type)) {
-      if (b.type === 'ontology' && !graph.get(b.id)) {
+      if (nodeBackedBasisTypes.has(b.type) && !graph.get(b.id)) {
         basisOk = false;
         allBasisIssues.push(`${t.spec.name}.basis ${b.id} 미존재`);
       }

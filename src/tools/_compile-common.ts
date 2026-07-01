@@ -23,6 +23,18 @@ export interface LegalBasisSummary {
   sourceUrl: string | null;
 }
 
+/** 노드 category → 표준 BasisType 매핑 (BASIS_TYPES 화이트리스트 준수) */
+function basisTypeOf(graph: OntologyGraph, id: string): string {
+  const category = (graph.get(id)?.meta?.["category"] as string | undefined) ?? "";
+  if (category === "law" || category === "regulation" || category === "rule") return "law";
+  if (category === "guideline" || category === "annex") return "guideline";
+  if (category === "form") return "form_locator";
+  if (category === "kcs") return "kcs_section";
+  if (category === "kds") return "kds_section";
+  if (category === "ks") return "ks_standard";
+  return "ontology";
+}
+
 /**
  * 문서 스키마의 basis id 들을 그래프에서 검증하며 BasisRef 로 변환.
  * 그래프에 없는 id 는 제외 (dangling 방지 — form-conformance 게이트가 실재를 강제).
@@ -34,7 +46,7 @@ export function schemaLegalBasisRefs(
   const schema = getSchema(schemaId);
   return (schema?.basis ?? [])
     .filter((id) => graph.get(id))
-    .map((id) => ({ type: "legal", id, priority: 1 }));
+    .map((id) => ({ type: basisTypeOf(graph, id), id, priority: 1 }));
 }
 
 /** 여러 도구 응답의 basis 를 id 기준 dedup 병합 (체인 도구용 — 우선순위 낮은 값 유지) */
