@@ -4,14 +4,14 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](./LICENSE)
 [![Node](https://img.shields.io/badge/node-%3E%3D22-brightgreen)](https://nodejs.org)
 [![MCP](https://img.shields.io/badge/MCP-1.x-purple)](https://modelcontextprotocol.io)
-[![Release](https://img.shields.io/badge/release-v0.3.0-blue.svg)](./CHANGELOG.md)
+[![Release](https://img.shields.io/badge/release-v0.4.0-blue.svg)](./CHANGELOG.md)
 [![Tools](https://img.shields.io/badge/MCP%20tools-52-orange.svg)](#현장-운영-흐름)
 
 **건설현장의 품질관리 문서 작성과 검토를 더 빠르고 정확하게.** 건설기술 진흥법·건설공사 품질관리 업무지침·KCS/KDS·KS 를 기반으로, 품질관리자(QC)와 감리원의 ITP·NCR·검사요청·시험성적서 검토 같은 작업을 돕는 오픈소스 도구입니다.
 
 **단순한 검색기가 아니라 "품질관리 전문가 레이어를 LLM에 장착"하는 것이 목표.** LLM 이 베테랑 품질관리자처럼 답하도록 도메인 관계망·정량 기준·의사결정 트리·법령 인용 위치·양식 구조를 즉시 공급합니다.
 
-[온톨로지 가이드](./docs/ONTOLOGY.md) · [Claude Desktop 설정](./docs/SETUP_CLAUDE_DESKTOP.md) · [로드맵](./ROADMAP.md) · [데이터 출처·라이선스](./NOTICE.md)
+[정체성·도구 카탈로그](./docs/IDENTITY.md) · [기술 구조](./docs/ARCHITECTURE.md) · [온톨로지 가이드](./docs/ONTOLOGY.md) · [Claude Desktop 설정](./docs/SETUP_CLAUDE_DESKTOP.md) · [로드맵](./ROADMAP.md) · [설계 결정 기록](./decisions) · [데이터 출처·라이선스](./NOTICE.md)
 
 ---
 
@@ -65,7 +65,7 @@ LLM 은 이 그래프를 보고 문서를 작성하거나 설명할 수 있지�
 | **문서 양식 구조 19종** | (법정 16종) ITP · NCR · 검사요청서 · 콘크리트 납품기록 · 공시체 기록 · 시험성적서 검토 · 품질관리자 배치신고 · 품질시험계획 · 검사대장 · 품질관리계획서 · 성과총괄표(별지43) · 부적합조치결과확인서(별지6) · 점검결과보고서 · 시험의뢰서(KOLAS) · 검측체크리스트 · 자재공급원승인(별지37) + (실무·ISO 관행 3종) 시방서일지 · 시정조치요구서(CAR) · 품질감사보고서 — 시공자 작성 문서 전종 (필수 필드 + 근거 + 보존기간) |
 | **근거 추적(Lineage)** | 모든 도구 응답에 `basis[]` + `lineage.contentHash` + `sourceStatus` 요약 — 답이 어디서 왔는지, 출처가 검증됐는지 항상 확인 |
 
-→ 위 자료들이 **서로 연결**되어 있어, "콘크리트 타설" 한 단어만 알면 적용 자재·시험·판정기준·리스크·검측이 자동으로 따라옵니다. (패키지 버전: 0.3.0)
+→ 위 자료들이 **서로 연결**되어 있어, "콘크리트 타설" 한 단어만 알면 적용 자재·시험·판정기준·리스크·검측이 자동으로 따라옵니다. (패키지 버전: 0.4.0)
 
 ## 시작하기
 

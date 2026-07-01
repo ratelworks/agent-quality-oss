@@ -1,6 +1,6 @@
 {
   "name": "agent-quality-oss",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Open-source MCP server for Korean construction quality management. Ontology-based reasoning over KCS/KDS, Quality Management Guidelines, KS, and project documents. Provided by Hwangryong Construction Co., Ltd. / Developed by Ratelworks Inc.",
   "type": "module",
   "main": "build/index.js",
@@ -35,6 +35,7 @@
     "typecheck": "tsc --noEmit && tsc --noEmit -p tsconfig.scripts.json",
     "validate:ontology": "tsx scripts/validate-ontology.ts",
     "smoke": "tsx scripts/smoke-test.ts",
+    "test": "node --test tests/*.test.mjs && npm run validate:ontology && npm run smoke",
     "audit": "tsx scripts/audit-ontology.ts",
     "coverage": "tsx scripts/coverage-matrix.ts",
     "check:oss-hygiene": "tsx scripts/verify/check-oss-hygiene.ts",
