@@ -6,6 +6,7 @@ import { writeFileSync } from 'node:fs';
 import { LEGACY_TOOL_MAP as TOOL_MAP } from '../src/tool-registry.js';
 import { OntologyGraph } from '../src/ontology/graph.js';
 import { loadOntologySync } from '../src/ontology/loader.js';
+import { annotateResponse } from '../src/lib/response.js';
 
 // R0-G2 자동 채점 입력 스펙.
 // - expectedVerdict       : evaluate_observation 전용 (legalVerdict 비교)
@@ -219,8 +220,10 @@ for (const sc of SCENARIOS) {
   }
   try {
     const t0 = performance.now();
-    const r = await tool.run(sc.args, graph);
+    const raw = await tool.run(sc.args, graph);
     const ms = Math.round(performance.now() - t0);
+    // 서버 레이어(stdio/http)와 동일 경로 — basis sourceStatus 주입 후 측정 (측정 정직성)
+    const r = annotateResponse(graph, raw);
     out.push({ ...sc, ms, response: r });
   } catch (e) {
     const err = e as Error;

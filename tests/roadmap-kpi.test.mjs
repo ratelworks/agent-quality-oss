@@ -11,7 +11,13 @@ import { resolve } from "node:path";
 const ROADMAP = readFileSync(resolve(import.meta.dirname, "../ROADMAP.md"), "utf8");
 
 // §6 KPI '현' 컬럼에 있던 초기 라운드 수치(현행 아님) — 잔존 시 fail
-const OUTDATED_KPI = ["9/19 = 47", "36/54 = 67", "그래프 verified 노드 수 | 103"];
+const OUTDATED_KPI = [
+  "9/19 = 47",
+  "36/54 = 67",
+  "그래프 verified 노드 수 | 103",
+  "46/54 = 85%", // Round 8 완료(2026-07-02, 52개·제네릭 설계)로 폐기된 표기
+  "330노드 / verified 69", // Round 1.3·1.5 완료(2026-07-02)로 폐기된 표기
+];
 
 test("ROADMAP §6 KPI 에 outdated 수치 부재 (현행 정합)", () => {
   for (const m of OUTDATED_KPI) {
@@ -21,6 +27,7 @@ test("ROADMAP §6 KPI 에 outdated 수치 부재 (현행 정합)", () => {
 
 test("ROADMAP §6 KPI 현행 수치 존재", () => {
   assert.ok(ROADMAP.includes("19/19 = 100%"), "19종 schema 현행 수치(19/19 = 100%) 없음");
-  assert.ok(ROADMAP.includes("46/54 = 85%"), "MCP 도구 현행 수치(46/54 = 85%) 없음");
-  assert.ok(ROADMAP.includes("330노드"), "그래프 노드 현행 수치(330노드) 없음");
+  assert.ok(ROADMAP.includes("52개"), "MCP 도구 현행 수치(52개) 없음");
+  assert.ok(ROADMAP.includes("382노드"), "그래프 노드 현행 수치(382노드) 없음");
+  assert.ok(ROADMAP.includes("149"), "verified 자산 현행 수치(149) 없음");
 });

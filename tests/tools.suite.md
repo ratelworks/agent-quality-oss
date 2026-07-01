@@ -10,12 +10,12 @@
 ```yaml
 meta:
   suite: tools
-  purpose: 46개 MCP 도구가 한국 건설 품질관리 도메인 지식을 올바르게 공급하는가 (입력→기대 출력의 행동 계약)
+  purpose: 52개 MCP 도구가 한국 건설 품질관리 도메인 지식을 올바르게 공급하는가 (입력→기대 출력의 행동 계약)
   module: src/tools/* (LEGACY_MODULES, src/tool-registry.ts 등록)
   runner_impl: scripts/smoke-test.ts   # CASES 배열 = 실행체. 이 suite 는 정의-자산
-  total_cases: 87
-  tools_registered: 46
-  tools_covered: 30                     # 87 케이스가 커버하는 고유 도구 수 (나머지 16개는 점진 확장 대상)
+  total_cases: 94
+  tools_registered: 52
+  tools_covered: 36                     # 94 케이스가 커버하는 고유 도구 수 (나머지 16개는 점진 확장 대상)
   types: [code]
   shared_contract: |
     모든 도구 응답은 공통 스키마를 만족해야 한다 (smoke-test.ts 의 schemaOk 게이트 = 전 케이스 공통 전제):
@@ -1809,6 +1809,154 @@ status: active
 runner: a-qa
 smoke_case: 87
 created_at: 2026-06-20T00:00:00+09:00
+```
+
+---
+
+## 그룹 E — 제네릭 근거 패키지·체인 (generic compile & chains, Round 8)
+
+> compile_document_references(제네릭 1종 — 19종 문서 전부 커버) + chain_* 5종.
+> 체인은 기존 도구 run 의 코드 오케스트레이션 — LLM 왕복 없이 근거 일습을 한 번에 조립.
+> 핵심 계약: verified 법령 근거(sourceStatus)가 legalBasis·basis 에 실려 응답 신뢰도를 견인한다.
+
+## TC-tools-088 (type: code)
+
+```yaml
+id: TC-tools-088
+suite: tools
+type: code
+tool: compile_document_references
+intent: 제네릭 근거 패키지가 verified 법령 원문 발췌를 포함하는가 (19종 공통 진입점)
+contract:
+  given: docId=quality_plan (품질관리계획서)
+  when: compile_document_references 호출
+  then: document.schemaId == 'quality_plan' 이고 legalBasis 에 sourceStatus=='verified' 항목과 bodyExcerpt(문자열) 항목이 존재
+severity: P0
+origin: spec
+status: active
+runner: a-qa
+smoke_case: 88
+created_at: 2026-07-02T00:00:00+09:00
+```
+
+## TC-tools-089 (type: code)
+
+```yaml
+id: TC-tools-089
+suite: tools
+type: code
+tool: compile_document_references
+intent: workType 지정 시 공종별 시험·검측·리스크 재료가 패키지에 포함되는가
+contract:
+  given: docId=ncr, workType=work.concrete_placement
+  when: compile_document_references 호출
+  then: workContext.workType.id == 'work.concrete_placement' 이고 workContext.tests.length >= 1
+severity: P1
+origin: spec
+status: active
+runner: a-qa
+smoke_case: 89
+created_at: 2026-07-02T00:00:00+09:00
+```
+
+## TC-tools-090 (type: code)
+
+```yaml
+id: TC-tools-090
+suite: tools
+type: code
+tool: chain_quality_inspection
+intent: 자연어 공종 한 마디로 검측 준비 일습(해석+프로파일+체크리스트+신청서)이 조립되는가
+contract:
+  given: workType='슬래브 타설' (자연어)
+  when: chain_quality_inspection 호출
+  then: resolvedWorkType.id 존재, profile 존재, inspectionChecklist.document.schemaId == 'inspection_checklist'
+severity: P0
+origin: spec
+status: active
+runner: a-qa
+smoke_case: 90
+created_at: 2026-07-02T00:00:00+09:00
+```
+
+## TC-tools-091 (type: code)
+
+```yaml
+id: TC-tools-091
+suite: tools
+type: code
+tool: chain_quality_test_plan
+intent: 공종 목록으로 공종×자재×시험 매트릭스와 시험계획서 패키지가 한 번에 조립되는가
+contract:
+  given: workTypes=['콘크리트 타설', '철근']
+  when: chain_quality_test_plan 호출
+  then: matrixCount >= 3, 모든 행에 test 명 존재, testPlanDocument.document.schemaId == 'quality_test_plan'
+severity: P0
+origin: spec
+status: active
+runner: a-qa
+smoke_case: 91
+created_at: 2026-07-02T00:00:00+09:00
+```
+
+## TC-tools-092 (type: code)
+
+```yaml
+id: TC-tools-092
+suite: tools
+type: code
+tool: chain_test_report_review
+intent: 성적서 관측값이 기준 초과일 때 코드 판정(FAIL)이 체인 요약에 반영되는가
+contract:
+  given: observations=['슬럼프 205mm'], testItem=test.slump (일반 기준 150±25 초과)
+  when: chain_test_report_review 호출
+  then: verdicts[0].verdict == 'FAIL', summary.fail == 1
+severity: P0
+origin: spec
+status: active
+runner: a-qa
+smoke_case: 92
+created_at: 2026-07-02T00:00:00+09:00
+```
+
+## TC-tools-093 (type: code)
+
+```yaml
+id: TC-tools-093
+suite: tools
+type: code
+tool: chain_nonconformance_report
+intent: 부적합 체인이 NCR 후보와 verified 지침 근거(§41 불량 자재 처리)를 함께 반환하는가
+contract:
+  given: testId=test.slump, observation='슬럼프 205mm'
+  when: chain_nonconformance_report 호출
+  then: ncrPackage.ncrs.length >= 1, legalBasis 에 standard.guideline.art41(sourceStatus=='verified') 포함
+severity: P0
+origin: spec
+status: active
+runner: a-qa
+smoke_case: 93
+created_at: 2026-07-02T00:00:00+09:00
+```
+
+## TC-tools-094 (type: code)
+
+```yaml
+id: TC-tools-094
+suite: tools
+type: code
+tool: chain_daily_quality_briefing
+intent: 일일 브리핑 카드에 공종별 리스크·시험 재료가 조립되는가
+contract:
+  given: workTypes=['콘크리트 타설']
+  when: chain_daily_quality_briefing 호출
+  then: briefing.length == 1, briefing[0].workType 존재, risks.length >= 1, tests.length >= 1
+severity: P1
+origin: spec
+status: active
+runner: a-qa
+smoke_case: 94
+created_at: 2026-07-02T00:00:00+09:00
 ```
 
 ---

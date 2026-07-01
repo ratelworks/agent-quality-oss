@@ -1,6 +1,6 @@
 {
   "label": "baseline",
-  "generatedAt": "2026-07-01T21:40:59.107Z",
+  "generatedAt": "2026-07-01T21:59:40.985Z",
   "scenarios": 16,
   "passRate": 0.9375,
   "falsePassRate": 0,
@@ -9,8 +9,8 @@
   "nodeUtilizationRate": 0.867,
   "documentCoverageRate": 1,
   "trustWorstVerifiedRate": 0,
-  "trustAnyVerifiedRate": 0,
-  "trustVerifiedBasisRatio": 0,
+  "trustAnyVerifiedRate": 0.625,
+  "trustVerifiedBasisRatio": 0.3592032967032967,
   "documentCoverage": {
     "total": 19,
     "covered": 19,

@@ -5,6 +5,7 @@
 
 import { getSchema } from '../schemas/loader.js';
 import { buildResponse } from './_response.js';
+import { mergeBasis, schemaLegalBasisRefs } from "./_compile-common.js";
 import type { BasisRef, ToolSpec } from '../lib/types.js';
 import type { OntologyGraph } from '../ontology/graph.js';
 
@@ -131,6 +132,6 @@ export function run(args: CompileQirArgs, graph: OntologyGraph) {
       usage:
         '본 패키지를 LLM에 입력 → entry 1건씩 자동 생성 + 기간 마감 시 별지 제43호 자동 산출 가능. 원본 별지 제42호 양식은 standard-forms locator의 sourceUrl에서 다운로드.',
     },
-    basis,
+    mergeBasis(basis, schemaLegalBasisRefs(graph, 'quality_inspection_register')),
   );
 }

@@ -24,7 +24,7 @@ const REGISTRY_PATH = resolve(ROOT, "src/tool-registry.ts");
 const TOOLS_DIR = resolve(ROOT, "src/tools");
 const SUITE_PATH = resolve(ROOT, "tests/tools.suite.md");
 const SMOKE_PATH = resolve(ROOT, "scripts/smoke-test.ts");
-const EXPECTED_TOOL_COUNT = 46; // src/tool-registry.ts 헤더 SSoT (현재 46개)
+const EXPECTED_TOOL_COUNT = 52; // src/tool-registry.ts 헤더 SSoT (현재 52개)
 
 // ── 정적 파싱 헬퍼 ────────────────────────────────────────────
 
@@ -177,7 +177,7 @@ test("(b) suite 가 참조하는 도구는 실제 등록된 46개 도구의 부�
   );
 });
 
-test("(b') 등록 도구 수가 SSoT(46)와 일치한다", () => {
+test("(b') 등록 도구 수가 SSoT(52)와 일치한다", () => {
   const { names } = readRegisteredToolNames();
   assert.strictEqual(
     names.length,

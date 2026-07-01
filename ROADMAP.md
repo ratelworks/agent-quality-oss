@@ -164,9 +164,9 @@ Round 1~5 진행 흐름에 맞춰 분산.
 
 `src/ontology/data/*.json` → `graph/nodes/{type}/*.jsonld` 변환 **완료** (330노드, 커밋 `ef134f4`). 1회용 변환 스크립트 사용 후 옛 `data/*.json` 폐기 → JSON-LD 단독 SSoT. 로더는 IRI 역변환으로 in-memory 그래프 구성(graphology 미도입, 도구 무영향).
 
-### Round 8 — MCP 도구 36 → 54
+### Round 8 ✅ 완료 (2026-07-02) — 도구 46 → 52 (제네릭 설계 채택)
 
-19종 × 2 (`get_*_schema` + `compile_*_references`) 신설. 카테고리별 chain 도구 5종 보강.
+~~19종 × 2 (`get_*_schema` + `compile_*_references`) 신설~~ → **설계 변경 (2026-07-02)**: 문서별 bespoke compile 12종 추가 대신 **제네릭 `compile_document_references(docId)` 1종**으로 19종 문서 전부의 근거 패키지를 커버 (MCP 도구 폭증은 LLM 도구 선택 정확도를 떨어뜨림 — 자매 safety-oss 의 assemble_doc_context 패턴 정합). 그래프 traversal 이 깊은 전용 compile 7종은 유지. chain 도구 5종(검측·시험계획·성적서검토·부적합·일일브리핑) 신설 완료. 전 compile·chain 의 basis 에 verified 법령 근거 포함 → 응답 신뢰도 any 62.5% · ratio 35.9% 달성 (측정 러너의 annotate 누락 결함도 함께 수정 — 서버 경로와 동일 측정).
 
 ---
 
@@ -207,7 +207,7 @@ OC API(Round 1) 외에는 모두 외부 신청 의존.
 | 그래프 노드 수 (verified) | 382노드 / verified 149 (39%) | 1,500+ (R1~R7 후) |
 | 응답 신뢰도 (measure 3관점) | worst 0% / any 0% / ratio 0% | 정량기준(R2·R3) 확보 시 상승 |
 | **정량 판정 가능 기준** (criteria threshold) | 9/38 = 24% (콘크리트 공종 중심) | 전 공종 (R2·R3 KCS/KS 확보 후) |
-| MCP 도구 커버리지 | 46/54 = 85% | 54/54 = 100% |
+| MCP 도구 커버리지 | 52개 — 19종 문서 근거 패키지 전부 커버 (전용 7 + 제네릭 1) + 체인 5종 완비 | 달성 (2026-07-02) — 도구 수 자체는 KPI 아님 |
 
 - **응답 신뢰도 3관점** (`scripts/measure.ts` 자동 측정): worst(모든 근거 verified)·any(verified 1개 이상 포함)·ratio(응답 근거 중 verified 평균 비중). 현 시나리오셋은 KCS/KS 미확보 skeleton 판정 중심이라 셋 다 0% — 이는 **그래프 verified 노드 자산(21%)과 구분되는 별개 지표**다(노드 자산 ≠ 응답 신뢰도). 정량 threshold(R2 KCS·R3 KS) 확보 시 verified 응답이 늘어 상승한다.
 - measure passRate 15/17 — C06(운반시간 95분을 온도 기준으로 평가)은 R4 운반시간 criteria 미도입(KCS 14 20 10 §3.2, 외부 데이터) 한계다. false PASS 차단을 위한 함정 시나리오로 보존하며, R4 도입 시 정확 매칭으로 전환한다 (→ feedback_agentquality_endusers_qc).

@@ -5,6 +5,7 @@
 
 import { getSchema } from '../schemas/loader.js';
 import { buildResponse } from './_response.js';
+import { mergeBasis, schemaLegalBasisRefs } from "./_compile-common.js";
 import type { BasisRef, ToolSpec } from '../lib/types.js';
 import type { OntologyGraph } from '../ontology/graph.js';
 import type { BaseEntity } from '../ontology/schema.js';
@@ -169,6 +170,6 @@ export function run(args: CompileQtpArgs, graph: OntologyGraph) {
       usage:
         '본 패키지를 LLM에 입력 → 양식 sections 채움. 별표2 본문은 별도 확보. 발주청 승인 필요.',
     },
-    basis,
+    mergeBasis(basis, schemaLegalBasisRefs(graph, 'quality_test_plan')),
   );
 }

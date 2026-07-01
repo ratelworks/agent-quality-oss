@@ -1,5 +1,6 @@
 import { getSchema } from '../schemas/loader.js';
 import { buildResponse } from './_response.js';
+import { mergeBasis, schemaLegalBasisRefs } from "./_compile-common.js";
 import type { ToolSpec } from '../lib/types.js';
 import type { OntologyGraph } from '../ontology/graph.js';
 import type { BaseEntity } from '../ontology/schema.js';
@@ -155,7 +156,10 @@ export function run(args: CompileNcrArgs, graph: OntologyGraph) {
     'compile_ncr_references',
     graph.version,
     result,
-    [...allBasisIds].map((id) => ({ type: 'ontology', id, priority: 1 })),
+    mergeBasis(
+      [...allBasisIds].map((id) => ({ type: 'ontology' as const, id, priority: 1 })),
+      schemaLegalBasisRefs(graph, 'ncr'),
+    ),
     {
       required: true,
       reason: 'NCR은 감리원·발주자 승인이 필요한 법정 기록물. 초안 작성 후 반드시 결재.',

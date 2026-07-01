@@ -5,6 +5,7 @@
 
 import { getSchema } from '../schemas/loader.js';
 import { buildResponse } from './_response.js';
+import { mergeBasis, schemaLegalBasisRefs } from "./_compile-common.js";
 import type { BasisRef, ToolSpec } from '../lib/types.js';
 import type { OntologyGraph } from '../ontology/graph.js';
 
@@ -85,6 +86,6 @@ export function run(args: CompileQcAssignmentArgs, graph: OntologyGraph) {
       usage:
         '본 패키지를 LLM에 입력 → 양식 sections 채움. 등급·인원의 적합성은 별표7 본문 대조 후 발주청 승인 필요.',
     },
-    basis,
+    mergeBasis(basis, schemaLegalBasisRefs(graph, 'qc_assignment_notice')),
   );
 }
