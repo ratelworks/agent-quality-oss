@@ -49,7 +49,7 @@ export function run(args: GetGuidelineArgs, graph: OntologyGraph) {
       relatedForm: (entity.meta?.['relatedForm'] as string | undefined) ?? null,
       skeleton: Boolean(entity.meta?.['skeleton']),
     },
-    sourceNote: '국토교통부 고시 2025-311호 — 원문 확인 필수.',
+    sourceNote: '국토교통부 고시 2026-360호 — 원문 확인 필수.',
   };
 
   return buildResponse(

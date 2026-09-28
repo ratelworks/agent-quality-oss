@@ -6,7 +6,7 @@
  * 런타임 온톨로지(src/ontology/graph/nodes/standards/)에 반영한다.
  *
  *   1. ENRICH — 기존 런타임 노드에 verified 원문·링크 병합 (조문 name·기본 alias 는 원문 제목에서 도출, 수기 scope·추가 alias 보존)
- *   2. CREATE(articles) — 품질지침 현행 조문(2025-311호) → guideline.art{N} 노드 생성
+ *   2. CREATE(articles) — 품질지침 현행 조문(2026-360호) → guideline.art{N} 노드 생성
  *   3. CREATE(annexes) — 품질 직결 별표·별지 → annex.* / form.* 노드 생성
  *
  * 선별 원칙(올바름>양): 시공자 QC·감리 실무 직결만 승격. 대행업자 평가·공장인증 서식은
@@ -259,7 +259,7 @@ async function main(): Promise<void> {
         legalWeight: "administrative_rule",
         basisType: "guideline",
         issuer: "국토교통부 고시",
-        noticeNumber: (tax._meta?.["noticeNumber"] as string) ?? "국토교통부고시 제2025-311호",
+        noticeNumber: (tax._meta?.["noticeNumber"] as string) ?? "국토교통부고시 제2026-360호",
         ...verifiedMetaFrom(tax),
       },
     };

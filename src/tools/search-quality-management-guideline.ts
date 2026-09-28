@@ -6,7 +6,7 @@ import type { OntologyGraph } from '../ontology/graph.js';
 export const spec: ToolSpec = {
   name: 'search_quality_management_guideline',
   description:
-    '건설공사 품질관리 업무지침(국토교통부 고시 2025-311호) 조항을 검색한다. 키워드 또는 편(part) 번호로 조회. [근거 제공용 · 최종 판정은 품질관리자·감리원·발주자]',
+    '건설공사 품질관리 업무지침(국토교통부 고시 2026-360호) 조항을 검색한다. 키워드 또는 편(part) 번호로 조회. [근거 제공용 · 최종 판정은 품질관리자·감리원·발주자]',
   inputSchema: {
     type: 'object',
     properties: {
@@ -68,7 +68,7 @@ export function run(args: SearchGuidelineArgs, graph: OntologyGraph) {
       scope: s.meta?.['scope'] as string | undefined,
       skeleton: Boolean(s.meta?.['skeleton']),
     })),
-    sourceNote: '국토교통부 고시 2025-311호 (2025.6.12 시행). 원문은 국가법령정보센터 참조.',
+    sourceNote: '국토교통부 고시 2026-360호 (2026.7.8 시행). 원문은 국가법령정보센터 참조.',
   };
 
   return buildResponse(

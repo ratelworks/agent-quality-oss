@@ -43,7 +43,7 @@
 |---|---|
 | `list_core_quality_laws` | 핵심 법령(법률·시행령·시행규칙·고시) 목록 |
 | `get_quality_law_article` | 조항 요약 + **verified 원문(bodyText)·개정 이력** (법제처 sync 분) |
-| `search_quality_management_guideline` | 품질관리 업무지침(2025-311호) 조항 검색 (편 필터) |
+| `search_quality_management_guideline` | 품질관리 업무지침(2026-360호) 조항 검색 (편 필터) |
 | `get_quality_guideline_article` | 지침 특정 조항 조회 |
 | `search_construction_standards` | KCS/KDS 섹션 검색 (원문 미포함 — 라이선스) |
 | `get_standard_form_locator` | 법정 별지 서식 locator + **공식 HWP/PDF 다운로드 링크** |

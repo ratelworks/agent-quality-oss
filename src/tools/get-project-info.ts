@@ -43,7 +43,7 @@ export function run(_args: Record<string, unknown>, graph: OntologyGraph) {
       },
       quality_management_guideline: {
         copyright: '국토교통부 고시',
-        note: '2025-311호 (2025.6.12 시행) 기준 식별자만 내장.',
+        note: '2026-360호 (2026.7.8 시행) 기준 식별자만 내장.',
       },
       KS: {
         copyright: '한국표준협회(KSA) / 국가기술표준원',

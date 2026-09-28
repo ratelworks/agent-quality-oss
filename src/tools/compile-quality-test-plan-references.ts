@@ -144,7 +144,7 @@ export function run(args: CompileQtpArgs, graph: OntologyGraph) {
 
   // 시험기준표(별표2) 보강 안내 — 그래프에 별표2 본문 미반영 상태
   const annex2Note =
-    '업무지침 별표2(시험기준표)는 standard.form.guideline_annex2 locator만 내장. 정확한 시험빈도·방법은 본문(고시 2025-311호) 대조 필수.';
+    '업무지침 별표2(시험기준표)는 standard.form.guideline_annex2 locator만 내장. 정확한 시험빈도·방법은 본문(고시 2026-360호) 대조 필수.';
 
   return buildResponse(
     'compile_quality_test_plan_references',
