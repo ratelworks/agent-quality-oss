@@ -2,7 +2,7 @@
   "@context": "../../context.jsonld",
   "@id": "standard:law.btia_60",
   "@type": "Standard",
-  "name": "건설기술 진흥법 §60 (품질검사의 대행 및 확인)",
+  "name": "건설기술 진흥법 §60 (품질검사의 대행 등)",
   "_meta": {
     "category": "law",
     "lawName": "건설기술 진흥법",
@@ -26,5 +26,10 @@
     ],
     "latestAmendment": "2024-1-9",
     "effectiveFrom": "2025-10-01"
-  }
+  },
+  "aliases": [
+    "건진법 §60",
+    "건설기술 진흥법 제60조",
+    "품질검사의 대행 등"
+  ]
 }

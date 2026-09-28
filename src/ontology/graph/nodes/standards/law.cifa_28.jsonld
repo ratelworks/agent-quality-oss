@@ -2,7 +2,7 @@
   "@context": "../../context.jsonld",
   "@id": "standard:law.cifa_28",
   "@type": "Standard",
-  "name": "건설산업기본법 §28 (건설공사의 하자담보책임)",
+  "name": "건설산업기본법 §28 (건설공사 수급인 등의 하자담보책임)",
   "aliases": [
     "건산법 §28"
   ],

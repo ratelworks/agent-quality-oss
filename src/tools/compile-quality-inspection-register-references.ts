@@ -1,6 +1,6 @@
 /**
  * 품질검사 실시대장(별지 제42호) 작성 1건에 필요한 재료 패키지.
- * 시행규칙 §51 + 별지 제42호 + entry 템플릿(검사·시험 1건 단위) + 별지 제43호 산출 안내.
+ * 시행규칙 §50① + 별지 제42호 + entry 템플릿(검사·시험 1건 단위) + 별지 제43호 산출 안내.
  */
 
 import { getSchema } from '../schemas/loader.js';
@@ -39,7 +39,7 @@ export function run(args: CompileQirArgs, graph: OntologyGraph) {
 
   const basisIds = [
     'standard.law.btia_55',
-    'standard.law.btia_rule_51',
+    'standard.law.btia_rule_50',
     'standard.form.rule_no42_quality_inspection_register',
   ];
   const basis: BasisRef[] = basisIds
@@ -112,7 +112,7 @@ export function run(args: CompileQirArgs, graph: OntologyGraph) {
         '프로젝트 코드·기간 명시',
         '책임 품질관리자(서명자) 등록',
         '보관 위치 명시 (현장 사무실 또는 본사)',
-        '시행규칙 §51 별지 제42호 양식 사용 확인',
+        '시행규칙 §50① 별지 제42호 양식 사용 확인',
         '발주청 점검 일정 사전 공지 시 즉시 응대 가능한 보관',
       ],
     };
@@ -127,7 +127,7 @@ export function run(args: CompileQirArgs, graph: OntologyGraph) {
       retentionRule: {
         period: '시설물 존속기간 또는 시행령 §93 명시 보존기간',
         scope: '시공자 매일 누적 작성·비치 의무',
-        consequence: '미작성·미비치 시 시정명령 + 영업정지 (건진법 §61)',
+        consequence: '미작성·미비치는 품질검사 기록 의무(건진법 §55②·시행규칙 §50①) 위반 — 구체적 제재는 벌칙·과태료 조항 본문 대조 필요',
       },
       usage:
         '본 패키지를 LLM에 입력 → entry 1건씩 자동 생성 + 기간 마감 시 별지 제43호 자동 산출 가능. 원본 별지 제42호 양식은 standard-forms locator의 sourceUrl에서 다운로드.',

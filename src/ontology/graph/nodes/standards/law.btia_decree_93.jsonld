@@ -2,12 +2,12 @@
   "@context": "../../context.jsonld",
   "@id": "standard:law.btia_decree_93",
   "@type": "Standard",
-  "name": "건설기술 진흥법 시행령 §93 (기록의 보존)",
+  "name": "건설기술 진흥법 시행령 §93 (품질시험 또는 검사 성과의 관리 등)",
   "_meta": {
     "category": "decree",
     "lawName": "건설기술 진흥법 시행령",
     "articleNo": "93",
-    "scope": "품질관리 기록물 장기 보존 의무 (하자담보기간 연동)",
+    "scope": "품질시험·검사 성과 총괄표 작성·제출(기성·준공검사 시), 검사자 검토, 관리주체 인계, 시설물 존속기간 보존",
     "legalWeight": "mandatory",
     "basisType": "decree",
     "sourceStatus": "verified",
@@ -23,5 +23,10 @@
     ],
     "latestAmendment": "2020-1-7",
     "effectiveFrom": "2026-02-27"
-  }
+  },
+  "aliases": [
+    "건진법 시행령 §93",
+    "건설기술 진흥법 시행령 제93조",
+    "품질시험 또는 검사 성과의 관리 등"
+  ]
 }

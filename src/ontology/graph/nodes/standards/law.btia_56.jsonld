@@ -2,12 +2,12 @@
   "@context": "../../context.jsonld",
   "@id": "standard:law.btia_56",
   "@type": "Standard",
-  "name": "건설기술 진흥법 §56 (건설자재·부재의 품질관리)",
+  "name": "건설기술 진흥법 §56 (품질관리 비용의 계상 및 집행)",
   "_meta": {
     "category": "law",
     "lawName": "건설기술 진흥법",
     "articleNo": "56",
-    "scope": "주요 건설자재·부재 생산자의 품질관리 · 검사시험 · 시정 명령",
+    "scope": "발주자의 품질관리비 공사금액 계상 의무 및 사용기준 위임(시행규칙 §53·별표6)",
     "legalWeight": "mandatory",
     "basisType": "law",
     "sourceStatus": "verified",
@@ -19,5 +19,10 @@
     "verifiedBy": "법제처 lawService.do (자동 sync)",
     "amendmentHistory": [],
     "effectiveFrom": "2025-10-01"
-  }
+  },
+  "aliases": [
+    "건진법 §56",
+    "건설기술 진흥법 제56조",
+    "품질관리 비용의 계상 및 집행"
+  ]
 }

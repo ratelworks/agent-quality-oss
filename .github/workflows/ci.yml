@@ -42,6 +42,9 @@ jobs:
       - name: Test — 스위트 무결성(suite-coverage·roadmap-kpi·negative) + 온톨로지 무결성 + smoke 회귀
         run: npm test
 
+      - name: Article titles — 조문 노드 이름과 내장 원문 조문 대조
+        run: npm run check:article-titles
+
       - name: Doc-code sync — 문서·코드 수치 정합 (README 드리프트 차단)
         run: npm run check:doc-code-sync
 

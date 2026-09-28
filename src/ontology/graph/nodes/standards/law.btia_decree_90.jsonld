@@ -2,15 +2,18 @@
   "@context": "../../context.jsonld",
   "@id": "standard:law.btia_decree_90",
   "@type": "Standard",
-  "name": "건설기술 진흥법 시행령 §90 (품질시험계획 수립 대상)",
+  "name": "건설기술 진흥법 시행령 §90 (품질관리계획 등의 수립절차)",
   "aliases": [
+    "건진법 시행령 §90",
+    "건설기술 진흥법 시행령 제90조",
+    "품질관리계획 등의 수립절차",
     "시행령 §90"
   ],
   "_meta": {
     "category": "decree",
     "lawName": "건설기술 진흥법 시행령",
     "articleNo": "90",
-    "scope": "품질관리계획 비대상 중 품질시험계획 수립 대상 (일반 현장)",
+    "scope": "품질관리계획·품질시험계획의 감독자 검토·확인, 착공 전 발주자 승인, 발주청 심사·통보 절차",
     "legalWeight": "mandatory",
     "basisType": "decree",
     "sourceStatus": "verified",

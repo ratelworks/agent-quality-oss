@@ -1,6 +1,6 @@
 /**
  * 품질시험계획서 작성 1건에 필요한 재료 패키지.
- * 시행령 §90 + 시행규칙 §53 + 업무지침 별표2(시험기준표) + workType별 시험 항목 자동 추출.
+ * 시행령 §89②·§90 + 업무지침 별표2(시험기준표) + workType별 시험 항목 자동 추출.
  */
 
 import { getSchema } from '../schemas/loader.js';
@@ -13,7 +13,7 @@ import type { BaseEntity } from '../ontology/schema.js';
 export const spec: ToolSpec = {
   name: 'compile_quality_test_plan_references',
   description:
-    '품질시험계획서 작성 1건에 필요한 재료 패키지를 반환한다 (양식 스키마 + 시행령 §90 대상 판정 가이드 + workType별 시험 항목 추출 + 업무지침 별표2 + 별지 양식 locator). [근거 제공용 · 최종 판정은 품질관리자·감리원·발주청]',
+    '품질시험계획서 작성 1건에 필요한 재료 패키지를 반환한다 (양식 스키마 + 시행령 §89 대상 판정 가이드 + workType별 시험 항목 추출 + 업무지침 별표2 + 별지 양식 locator). [근거 제공용 · 최종 판정은 품질관리자·감리원·발주청]',
   inputSchema: {
     type: 'object',
     properties: {
@@ -24,7 +24,7 @@ export const spec: ToolSpec = {
       },
       totalContractValue: {
         type: 'number',
-        description: '총공사비(원). 시행령 §89(품질관리계획) vs §90(품질시험계획) 대상 판정 기준',
+        description: '총공사비(원). 시행령 §89①(품질관리계획) vs §89②(품질시험계획) 대상 판정 기준',
       },
     },
   },
@@ -51,7 +51,7 @@ export function run(args: CompileQtpArgs, graph: OntologyGraph) {
   const { workTypes = [], totalContractValue } = args ?? {};
   const schema = getSchema('quality_test_plan');
 
-  // 시행령 §89 vs §90 대상 판정 (근사 — 본문 대조 권장)
+  // 시행령 §89① vs §89② 대상 판정 (근사 — 본문 대조 권장)
   let eligibility: { decree89: boolean; decree90: boolean; rationale: string };
   if (typeof totalContractValue === 'number') {
     const decree89 = totalContractValue >= 50_000_000_000;
@@ -62,14 +62,14 @@ export function run(args: CompileQtpArgs, graph: OntologyGraph) {
       rationale: decree89
         ? '500억 이상 → 시행령 §89 품질관리계획서 대상. 본 시험계획은 §89 계획서의 부속으로 통합'
         : decree90
-        ? '5억~500억 → 시행령 §90 품질시험계획서 대상'
+        ? '5억~500억 → 시행령 §89② 품질시험계획서 대상'
         : '5억 미만 → 의무 작성 대상 외 (다중이용시설 등 별도 사유 시 §89 대상 가능)',
     };
   } else {
     eligibility = {
       decree89: false,
       decree90: false,
-      rationale: 'totalContractValue 미입력. 발주청 사업서로 §89/§90 대상 판정 필요',
+      rationale: 'totalContractValue 미입력. 발주청 사업서로 시행령 §89①·② 대상 판정 필요',
     };
   }
 
@@ -133,8 +133,8 @@ export function run(args: CompileQtpArgs, graph: OntologyGraph) {
 
   const basisIds = [
     'standard.law.btia_55',
+    'standard.law.btia_decree_89',
     'standard.law.btia_decree_90',
-    'standard.law.btia_rule_53',
     'standard.form.test_plan_template',
     'standard.form.guideline_annex2',
   ];
@@ -158,14 +158,14 @@ export function run(args: CompileQtpArgs, graph: OntologyGraph) {
         '품질관리자 배치 신고서 (QCAN documentId 참조)',
         '시험실 평면도·장비 목록·교정성적서',
         '외부 시험소(KOLAS) 계약서',
-        '품질관리비 산출서 (시행령 §91 기준)',
+        '품질관리비 산출서 (시행규칙 §53·별표6 기준)',
       ],
       complianceChecklist: [
-        '시행령 §89/§90 대상 판정 근거 명시',
+        '시행령 §89①·② 대상 판정 근거 명시',
         '별표2 시험빈도 이상으로 자체 빈도 설정 (강화는 가능, 완화 불가)',
         '발주청 사양서 강화 시험 항목 통합',
-        '품질관리비 산출 근거 첨부 (시행령 §91)',
-        '감리원 검토 + 발주청 승인 (시행규칙 §53)',
+        '품질관리비 산출 근거 첨부 (시행규칙 §53·별표6)',
+        '감리원 검토 + 발주청 승인 (시행령 §90①)',
       ],
       usage:
         '본 패키지를 LLM에 입력 → 양식 sections 채움. 별표2 본문은 별도 확보. 발주청 승인 필요.',

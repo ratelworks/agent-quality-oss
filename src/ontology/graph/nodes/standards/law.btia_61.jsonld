@@ -2,13 +2,18 @@
   "@context": "../../context.jsonld",
   "@id": "standard:law.btia_61",
   "@type": "Standard",
-  "name": "건설기술 진흥법 §61 (시정명령 등)",
+  "name": "건설기술 진흥법 §61 (품질검사의 대행에 대한 평가기관)",
   "_meta": {
     "category": "law",
     "lawName": "건설기술 진흥법",
     "articleNo": "61",
-    "scope": "품질관리 위반 시 시정명령·공사중지·영업정지",
+    "scope": "품질검사 대행 건설엔지니어링사업자에 대한 평가기관 지정·운영 실태조사",
     "legalWeight": "mandatory",
     "basisType": "law"
-  }
+  },
+  "aliases": [
+    "건진법 §61",
+    "건설기술 진흥법 제61조",
+    "품질검사의 대행에 대한 평가기관"
+  ]
 }

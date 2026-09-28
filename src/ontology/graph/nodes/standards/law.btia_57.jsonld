@@ -2,12 +2,12 @@
   "@context": "../../context.jsonld",
   "@id": "standard:law.btia_57",
   "@type": "Standard",
-  "name": "건설기술 진흥법 §57 (건설공사 품질관리 전문기관)",
+  "name": "건설기술 진흥법 §57 (건설자재ㆍ부재의 품질 확보 등)",
   "_meta": {
     "category": "law",
     "lawName": "건설기술 진흥법",
     "articleNo": "57",
-    "scope": "품질검사 대행 전문기관 지정·관리",
+    "scope": "자재공급원 승인 및 건설자재·부재의 품질 확보 (적합 자재 공급·사용, 레미콘 반품 재사용 기준)",
     "legalWeight": "mandatory",
     "basisType": "law",
     "sourceStatus": "verified",
@@ -24,5 +24,10 @@
     ],
     "latestAmendment": "2024-1-9",
     "effectiveFrom": "2025-10-01"
-  }
+  },
+  "aliases": [
+    "건진법 §57",
+    "건설기술 진흥법 제57조",
+    "건설자재ㆍ부재의 품질 확보 등"
+  ]
 }

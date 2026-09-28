@@ -28,7 +28,7 @@ export const LEGAL_DOCUMENTS_19: LegalDocSpec[] = [
     title: '품질관리 계획서',
     category: 'plan',
     frequency: '분기 (변경 시)',
-    legalBasis: '건진법 §55 + 시행령 §89 + 시행규칙 §52',
+    legalBasis: '건진법 §55 + 시행령 §89 + 시행령 §90',
     registered: true,
   },
   {
@@ -36,7 +36,7 @@ export const LEGAL_DOCUMENTS_19: LegalDocSpec[] = [
     title: '품질시험 계획서',
     category: 'plan',
     frequency: '분기 (변경 시)',
-    legalBasis: '건진법 §55 + 시행령 §90 + 시행규칙 §53',
+    legalBasis: '건진법 §55 + 시행령 §89② + 시행령 §90',
     registered: true,
   },
   {
@@ -77,7 +77,7 @@ export const LEGAL_DOCUMENTS_19: LegalDocSpec[] = [
     title: '시험 의뢰서 (KOLAS)',
     category: 'daily',
     frequency: '매회 (외부 시험)',
-    legalBasis: '건진법 §57·§60',
+    legalBasis: '건진법 §60 + 시행령 §91',
     registered: true,
   },
   {
@@ -93,7 +93,7 @@ export const LEGAL_DOCUMENTS_19: LegalDocSpec[] = [
     title: '검측 신청서',
     category: 'daily',
     frequency: '매회',
-    legalBasis: '건진법 §55 + 감리계약 + 시행규칙 §51',
+    legalBasis: '건진법 §55 + 감리계약 + 시행규칙 §50②',
     registered: true,
   },
   {
@@ -109,7 +109,7 @@ export const LEGAL_DOCUMENTS_19: LegalDocSpec[] = [
     title: '자재 공급원 승인 요청서',
     category: 'daily',
     frequency: '신규 자재',
-    legalBasis: '건진법 §56 + 사업관리방식 지침 별지 제37호 (시행규칙 제37호 아님)',
+    legalBasis: '건진법 §57① + 사업관리방식 지침 별지 제37호 (시행규칙 제37호 아님)',
     registered: true,
   },
   {
@@ -126,7 +126,7 @@ export const LEGAL_DOCUMENTS_19: LegalDocSpec[] = [
     title: '품질검사 실시대장 (별지 제42호)',
     category: 'cumulative',
     frequency: '매일 누적',
-    legalBasis: '건진법 §55 + 시행규칙 §51 + 별지 제42호',
+    legalBasis: '건진법 §55 + 시행규칙 §50① + 별지 제42호',
     registered: true,
   },
   {
@@ -168,7 +168,7 @@ export const LEGAL_DOCUMENTS_19: LegalDocSpec[] = [
     title: '품질관리 점검 결과 보고서',
     category: 'audit',
     frequency: '월·분기',
-    legalBasis: '업무지침 §10 + 시행규칙 §51',
+    legalBasis: '업무지침 §10 + 시행규칙 §52',
     registered: true,
   },
   {

@@ -5,7 +5,7 @@
  * taxonomy(법제처 자동 sync 원본 보관소)의 verified 데이터(조문 원문·별표 본문·서식 다운로드 링크)를
  * 런타임 온톨로지(src/ontology/graph/nodes/standards/)에 반영한다.
  *
- *   1. ENRICH — 기존 런타임 노드에 verified 원문·링크 병합 (수기 큐레이션 name/aliases/scope 보존)
+ *   1. ENRICH — 기존 런타임 노드에 verified 원문·링크 병합 (조문 name·기본 alias 는 원문 제목에서 도출, 수기 scope·추가 alias 보존)
  *   2. CREATE(articles) — 품질지침 현행 조문(2025-311호) → guideline.art{N} 노드 생성
  *   3. CREATE(annexes) — 품질 직결 별표·별지 → annex.* / form.* 노드 생성
  *
@@ -108,6 +108,13 @@ const NOTICE_NAMES: Record<string, string> = {
   건진법시행령: "건설기술 진흥법 시행령",
 };
 
+/** 조문 노드 별칭용 약칭 (lawName → 약칭) */
+const LAW_SHORT_NAMES: Record<string, string> = {
+  "건설기술 진흥법": "건진법",
+  "건설기술 진흥법 시행령": "건진법 시행령",
+  "건설기술 진흥법 시행규칙": "건진법 시행규칙",
+};
+
 // ─────────────────────────────────────────────────────────────────────────────
 
 interface TaxonomyNode {
@@ -204,6 +211,20 @@ async function main(): Promise<void> {
     }
     const meta = (runtime["_meta"] as Record<string, unknown>) ?? {};
     runtime["_meta"] = { ...meta, ...verifiedMetaFrom(tax) };
+    // 조문 노드의 이름·기본 별칭은 verified 원문 제목에서 도출한다.
+    // 수기 이름을 보존하면 원문과 다른 조문 제목이 근거로 전파된다 (v0.4.1 정정 — 11건 실측).
+    if (taxRel.startsWith("articles/") && tax.title && tax.articleNumber) {
+      const lawName = String((runtime["_meta"] as Record<string, unknown>)["lawName"] ?? "");
+      const short = LAW_SHORT_NAMES[lawName];
+      if (!short) {
+        warnings.push(`[enrich-name-skip] 약칭 미등록 법령: ${lawName} (${runtimeFile})`);
+      } else {
+        const num = tax.articleNumber;
+        runtime["name"] = `${lawName} §${num} (${tax.title})`;
+        const curated = Array.isArray(runtime["aliases"]) ? (runtime["aliases"] as string[]) : [];
+        runtime["aliases"] = [...new Set([`${short} §${num}`, `${lawName} 제${num}조`, tax.title, ...curated])];
+      }
+    }
     await writeJson(runtimePath, runtime);
     enriched++;
   }

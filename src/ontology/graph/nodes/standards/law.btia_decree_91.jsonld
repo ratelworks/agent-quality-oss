@@ -2,12 +2,12 @@
   "@context": "../../context.jsonld",
   "@id": "standard:law.btia_decree_91",
   "@type": "Standard",
-  "name": "건설기술 진흥법 시행령 §91 (품질관리비 산출·사용)",
+  "name": "건설기술 진흥법 시행령 §91 (품질시험 및 검사)",
   "_meta": {
     "category": "decree",
     "lawName": "건설기술 진흥법 시행령",
     "articleNo": "91",
-    "scope": "품질관리비 산출 기준 및 용도 제한",
+    "scope": "품질검사 실시 기준(KS·건설기준·품질검사기준), 품질검사 면제 재료, 품질관리 건설기술인의 업무, 정보망 입력 사항",
     "legalWeight": "mandatory",
     "basisType": "decree",
     "sourceStatus": "verified",
@@ -28,5 +28,10 @@
     ],
     "latestAmendment": "2024-7-2",
     "effectiveFrom": "2026-02-27"
-  }
+  },
+  "aliases": [
+    "건진법 시행령 §91",
+    "건설기술 진흥법 시행령 제91조",
+    "품질시험 및 검사"
+  ]
 }

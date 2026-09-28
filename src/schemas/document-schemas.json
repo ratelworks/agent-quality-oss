@@ -415,9 +415,9 @@
       "title": "Inspection Test Plan (ITP) / 검측시험계획",
       "basis": [
         "standard.guideline.art7",
-        "standard.law.btia_rule_53"
+        "standard.law.btia_rule_50"
       ],
-      "reference": "건설공사 품질관리 업무지침 §7(품질관리계획서의 작성기준 — 별표1의 검사·검측 계획 포함) + 건설기술 진흥법 시행규칙 §53(품질시험계획서 작성)",
+      "reference": "건설공사 품질관리 업무지침 §7(품질관리계획서의 작성기준 — 별표1의 검사·검측 계획 포함) + 건설기술 진흥법 시행규칙 §50②(현장 품질검사, 구조물 안전에 중요한 시험의 발주자 확인)",
       "referenceStandard": "국제 표준 ITP (Hold/Witness/Surveillance/Review/Execution 5 point)",
       "retention": "품질시험계획서는 공사 완료 후 검사 성과 총괄표에 통합되어 시설물 존속 기간 보존(시행령 §93).",
       "sections": [
@@ -500,7 +500,7 @@
         "standard.guideline.art8",
         "standard.law.btia_60"
       ],
-      "reference": "건설공사 품질관리 업무지침 §8(품질시험기준, 별표2) + 건설기술 진흥법 §60(품질검사의 대행 및 확인)",
+      "reference": "건설공사 품질관리 업무지침 §8(품질시험기준, 별표2) + 건설기술 진흥법 §60(품질검사의 대행 등 — 봉인·확인 재료로 시험)",
       "retention": "시험성적서 자체와 검토 결과는 검사 성과 총괄표에 포함되어 시설물 존속 기간 보존(시행령 §93). KOLAS 시험기관은 별도 5년 보존(국가표준기본법 §23).",
       "sections": [
         {
@@ -618,7 +618,7 @@
         "standard.law.btia_55",
         "standard.law.btia_rule_50"
       ],
-      "reference": "건설기술 진흥법 §55 + 시행규칙 §50 (품질관리자 배치 기준)",
+      "reference": "건설기술 진흥법 §55 + 시행규칙 §50④(품질관리 시설 및 건설기술인 배치기준, 별표5)",
       "retention": "공사 완료 후 5년 (시행령 §93 일반 보존). 발주청 보고 사본은 발주청 정책 준수.",
       "_note": "변경 시(증원·감원·자격등급 변경·인적사항 변경) 즉시 발주청에 신고. 시행규칙 §50의 등급(특·고·중·초급)·배치인원·자격은 공사규모(공사비·공기·공종)에 따라 정해짐.",
       "sections": [
@@ -685,7 +685,7 @@
               "name": "totalContractValue",
               "type": "number",
               "required": true,
-              "note": "총공사비(원). 시행령 §89·§90 대상 판정 기준"
+              "note": "총공사비(원). 시행령 §89①(품질관리계획)·②(품질시험계획) 대상 판정 기준"
             },
             {
               "name": "constructionPeriod",
@@ -723,7 +723,7 @@
                 "assignedRole",
                 "fullTimeFlag"
               ],
-              "note": "grade: 특급/고급/중급/초급. fullTimeFlag: 상주 여부 (시행규칙 §50 별표7)"
+              "note": "grade: 특급/고급/중급/초급. fullTimeFlag: 상주 여부 (시행규칙 §50④ 별표5)"
             }
           ]
         },
@@ -735,7 +735,7 @@
               "name": "requiredGradeBySize",
               "type": "string",
               "required": true,
-              "note": "공사규모별 의무 등급 (시행규칙 §50 별표7)"
+              "note": "공사규모별 의무 등급 (시행규칙 §50④ 별표5)"
             },
             {
               "name": "requiredHeadcount",
@@ -797,13 +797,13 @@
       "basis": [
         "standard.law.btia_55",
         "standard.law.btia_decree_90",
-        "standard.law.btia_rule_53",
+        "standard.law.btia_decree_89",
         "standard.form.test_plan_template",
         "standard.form.guideline_annex2"
       ],
-      "reference": "건설기술 진흥법 §55 + 시행령 §90 + 시행규칙 §53 + 업무지침 별표2(시험기준표) + 별지 양식",
+      "reference": "건설기술 진흥법 §55 + 시행령 §89②(품질시험계획 수립 대상·내용 별표9) + 시행령 §90(수립절차) + 업무지침 별표2(시험기준표) + 별지 양식",
       "retention": "준공 후 5년 + 추가 보존(시행령 §93). 변경 시 변경분 즉시 보존.",
-      "_note": "시행령 §89(품질관리계획) 비대상 중 §90 대상 현장(일반 현장)이 작성. §89 대상은 품질관리계획서가 상위. 별표2의 공종·자재별 시험종목·방법·빈도가 baseline.",
+      "_note": "시행령 §89①(품질관리계획) 비대상 중 §89② 대상 현장(일반 현장)이 작성. §89① 대상은 품질관리계획서가 상위. 별표2의 공종·자재별 시험종목·방법·빈도가 baseline.",
       "sections": [
         {
           "key": "header",
@@ -836,7 +836,7 @@
         },
         {
           "key": "project",
-          "title": "공사 개요 및 §90 대상 판정",
+          "title": "공사 개요 및 §89② 대상 판정",
           "fields": [
             {
               "name": "projectName",
@@ -867,7 +867,7 @@
                 "thresholdCriterion",
                 "evaluationResult"
               ],
-              "note": "시행령 §90 대상 사유 (예: 총공사비 5억↑ 등)"
+              "note": "시행령 §89② 대상 사유 (예: 토목 총공사비 5억↑ 등)"
             }
           ]
         },
@@ -957,7 +957,7 @@
         },
         {
           "key": "quality_cost",
-          "title": "품질관리비 (시행령 §91)",
+          "title": "품질관리비 (시행규칙 §53·별표6)",
           "fields": [
             {
               "name": "qualityCostBudget",
@@ -978,7 +978,7 @@
               "name": "calculationStandard",
               "type": "string",
               "required": true,
-              "note": "시행령 §91 + 발주청 기준"
+              "note": "시행규칙 §53·별표6 + 발주청 기준"
             }
           ]
         },
@@ -1006,7 +1006,7 @@
               "name": "agencyApproval",
               "type": "object",
               "required": true,
-              "note": "발주청 승인 (시행규칙 §53)"
+              "note": "발주청 승인 (시행령 §90①)"
             }
           ]
         }
@@ -1196,10 +1196,10 @@
       "title": "품질검사 실시대장 (별지 제42호)",
       "basis": [
         "standard.law.btia_55",
-        "standard.law.btia_rule_51",
+        "standard.law.btia_rule_50",
         "standard.form.rule_no42_quality_inspection_register"
       ],
-      "reference": "건설기술 진흥법 §55 + 시행규칙 §51 + 별지 제42호 서식",
+      "reference": "건설기술 진흥법 §55 + 시행규칙 §50①(품질검사 대장 작성) + 별지 제42호 서식",
       "retention": "시설물 존속기간 또는 시행령 §93 명시 보존기간. 시공자 작성·비치 의무.",
       "_note": "★ 시공자 매일/매회 누적 작성 의무. 검사·시험 1건마다 1행 추가. 별지 제43호(품질검사 성과 총괄표)의 원천 데이터. 발주청 점검 시 즉시 제시 가능해야 함.",
       "sections": [
@@ -1357,10 +1357,10 @@
       "basis": [
         "standard.law.btia_55",
         "standard.law.btia_decree_89",
-        "standard.law.btia_rule_52",
+        "standard.law.btia_decree_90",
         "standard.guideline.art7"
       ],
-      "reference": "건설기술 진흥법 §55 + 시행령 §89(수립 대상) + 시행규칙 §52(작성) + 업무지침 §7(품질관리계획서의 작성기준, 별표1)",
+      "reference": "건설기술 진흥법 §55 + 시행령 §89(수립 대상, ④작성 기준) + 시행령 §90(수립절차) + 업무지침 §7(품질관리계획서의 작성기준, 별표1)",
       "retention": "공사 완료 후 시행령 §93에 따라 보존. 발주청 승인 후 내용 변경 시 재제출.",
       "sections": [
         {
@@ -1430,7 +1430,7 @@
                 "grade",
                 "licenseNo"
               ],
-              "note": "시행규칙 §50 등급 기준"
+              "note": "시행규칙 §50④ 별표5 등급 기준"
             },
             {
               "name": "organizationChart",
@@ -1536,7 +1536,7 @@
         "standard.law.btia_decree_93",
         "standard.form.rule_no43_quality_inspection_summary"
       ],
-      "reference": "건설기술 진흥법 §55 + 시행규칙 별지 제43호 서식(서식 근거는 시행규칙). 시행령 §93은 기록 보존 근거.",
+      "reference": "건설기술 진흥법 §55 + 시행규칙 §51(별지 제43호 서식 근거) + 시행령 §93(성과 총괄표 작성·제출·검토·보존)",
       "retention": "시설물 존속기간 또는 시행령 §93 보존기간. 별지 제42호 실시대장에서 집계.",
       "sections": [
         {
@@ -1759,9 +1759,9 @@
       "title": "품질관리 점검 결과 보고서",
       "basis": [
         "standard.guideline.art10",
-        "standard.law.btia_rule_51"
+        "standard.law.btia_rule_52"
       ],
-      "reference": "건설공사 품질관리 업무지침 §10(품질관리의 적절성 확인기준, 별표3) + 시행규칙 §51(이행점검)",
+      "reference": "건설공사 품질관리 업무지침 §10(품질관리의 적절성 확인기준, 별표3) + 시행규칙 §52(품질관리의 적절성 확인)",
       "retention": "공사 완료 후 시행령 §93 보존기간.",
       "sections": [
         {
@@ -1852,10 +1852,10 @@
       "id": "test_request",
       "title": "시험 의뢰서 (KOLAS 외부 시험)",
       "basis": [
-        "standard.law.btia_57",
-        "standard.law.btia_60"
+        "standard.law.btia_60",
+        "standard.law.btia_decree_91"
       ],
-      "reference": "건설기술 진흥법 §57(품질관리 전문기관) + §60(품질검사의 대행 및 확인). KOLAS 공인 시험기관 의뢰.",
+      "reference": "건설기술 진흥법 §60(품질검사의 대행 등) + 시행령 §91(품질시험 및 검사 기준). KOLAS 공인 시험기관 의뢰.",
       "retention": "시험성적서와 함께 검사 성과 총괄표에 포함되어 보존.",
       "sections": [
         {
@@ -1960,9 +1960,9 @@
       "title": "검측 체크리스트",
       "basis": [
         "standard.guideline.art6",
-        "standard.law.btia_rule_51"
+        "standard.law.btia_rule_50"
       ],
-      "reference": "건설공사 품질관리 업무지침 + 감리계약. 검측 신청서와 함께 부재별 작성.",
+      "reference": "건설공사 품질관리 업무지침 + 감리계약 + 시행규칙 §50②(현장 품질검사·발주자 확인). 검측 신청서와 함께 부재별 작성.",
       "retention": "검측 신청서·품질검사 실시대장과 함께 보존.",
       "sections": [
         {
@@ -2051,10 +2051,10 @@
       "id": "material_source_approval",
       "title": "자재 공급원 승인 요청서 (사업관리방식 지침 별지 제37호)",
       "basis": [
-        "standard.law.btia_56",
+        "standard.law.btia_57",
         "standard.form.cm_guideline_no37_material_source_approval"
       ],
-      "reference": "건설기술 진흥법 §56(건설자재·부재의 품질관리) + 사업관리방식(감리) 지침 별지 제37호 (시행규칙 별지 제37호 아님).",
+      "reference": "건설기술 진흥법 §57①(자재공급원 승인) + 사업관리방식(감리) 지침 별지 제37호 (시행규칙 별지 제37호 아님).",
       "retention": "공사 완료 후 보존. 자재 변경 시 재요청.",
       "sections": [
         {

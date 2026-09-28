@@ -2,12 +2,12 @@
   "@context": "../../context.jsonld",
   "@id": "standard:law.btia_rule_53",
   "@type": "Standard",
-  "name": "건설기술 진흥법 시행규칙 §53 (품질시험계획서 작성)",
+  "name": "건설기술 진흥법 시행규칙 §53 (품질관리비의 산출 및 사용 기준)",
   "_meta": {
     "category": "rule",
     "lawName": "건설기술 진흥법 시행규칙",
     "articleNo": "53",
-    "scope": "품질시험계획서 구성·제출",
+    "scope": "품질관리비의 산출 및 사용기준(별표6), 목적 외 사용 금지, 품질검사 대행 비용 부담",
     "legalWeight": "mandatory",
     "basisType": "rule",
     "sourceStatus": "verified",
@@ -22,5 +22,10 @@
     ],
     "latestAmendment": "2020-3-18",
     "effectiveFrom": "2025-10-31"
-  }
+  },
+  "aliases": [
+    "건진법 시행규칙 §53",
+    "건설기술 진흥법 시행규칙 제53조",
+    "품질관리비의 산출 및 사용 기준"
+  ]
 }

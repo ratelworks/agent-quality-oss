@@ -83,7 +83,7 @@ const A_ROWS: CheckRow[] = [
   },
   {
     id: 'A2',
-    requirement: '품질시험계획서 작성 (건진법 시행령 §90 대상)',
+    requirement: '품질시험계획서 작성 (건진법 시행령 §89② 대상)',
     source: '업무지침 §8(품질시험기준) + 별표2 + 시행규칙 §53',
     mcpTool: 'get_quality_law_article, get_quality_guideline_article, get_standard_form_locator(별표2·form.test_plan_template)',
     verification: () => {
@@ -119,12 +119,12 @@ const A_ROWS: CheckRow[] = [
   },
   {
     id: 'A5',
-    requirement: '검사대행·시험기관 확인 (건진법 §60·§57)',
-    source: '건진법 §60(품질검사 대행·확인) + §57(전문기관) — 대행자 평가 상세는 업무지침 제2편제3장(§17~30)',
-    mcpTool: 'get_quality_law_article(law.btia_60·btia_57), get_test_report_review_schema(custody section)',
+    requirement: '검사대행·시험기관 확인 (건진법 §60·시행령 §91②)',
+    source: '건진법 §60(품질검사의 대행 등 — 봉인·확인 재료) + 시행령 §91②(대행기관 시험성적서 제출 재료) — 대행자 평가 상세는 업무지침 제2편제3장(§17~30)',
+    mcpTool: 'get_quality_law_article(law.btia_60·btia_decree_91), get_test_report_review_schema(custody section)',
     verification: () => {
       const law = run('get_quality_law_article', { articleId: 'standard.law.btia_60' });
-      const guide = run('get_quality_law_article', { articleId: 'standard.law.btia_57' });
+      const guide = run('get_quality_law_article', { articleId: 'standard.law.btia_decree_91' });
       const tr = run('get_test_report_review_schema', {});
       const hasCustody = (tr.result.sections as Array<{ key: string }>).some((s) => s.key === 'custody');
       return law.result.article && guide.result.article && hasCustody ? 'O' : '△';

@@ -106,7 +106,7 @@ export function run(args: CompileInspectionRequestArgs, graph: OntologyGraph) {
           '감리원 일정 조율 + 자체 사전 검측 + 도면·서류 준비 + 후속 공정 영향 평가에 필요한 시간. 미달 시 감리 거절 또는 검측 지연 사유.',
       },
       consequenceOfSkip: {
-        legal: '감리 미입회 검측은 인정되지 않음 (감리계약 + 시행규칙 §51 보고 의무 위반 가능)',
+        legal: '감리 미입회 검측은 인정되지 않음 (감리계약 기준 — 구조물 안전에 중요한 시험은 시행규칙 §50② 발주자 확인 대상)',
         practical: '재시공·인증 누락·후속 검측 거절 위험',
       },
       usage:

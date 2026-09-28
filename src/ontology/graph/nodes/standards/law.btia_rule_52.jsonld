@@ -2,12 +2,12 @@
   "@context": "../../context.jsonld",
   "@id": "standard:law.btia_rule_52",
   "@type": "Standard",
-  "name": "건설기술 진흥법 시행규칙 §52 (품질관리계획서 작성)",
+  "name": "건설기술 진흥법 시행규칙 §52 (품질관리의 적절성 확인)",
   "_meta": {
     "category": "rule",
     "lawName": "건설기술 진흥법 시행규칙",
     "articleNo": "52",
-    "scope": "품질관리계획서 구성·작성 방법",
+    "scope": "품질관리의 적절성 확인 (연 1회 이상, 준공 2개월 전까지, 확인 기준·요령은 국토부 고시)",
     "legalWeight": "mandatory",
     "basisType": "rule",
     "sourceStatus": "verified",
@@ -22,5 +22,10 @@
     ],
     "latestAmendment": "2024-7-10",
     "effectiveFrom": "2025-10-31"
-  }
+  },
+  "aliases": [
+    "건진법 시행규칙 §52",
+    "건설기술 진흥법 시행규칙 제52조",
+    "품질관리의 적절성 확인"
+  ]
 }

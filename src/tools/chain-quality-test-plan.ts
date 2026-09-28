@@ -2,7 +2,7 @@
 // chain_quality_test_plan — 품질시험계획 재료 체인 (plan.md §7.4 Tool 17).
 //
 // 흐름: 공종 목록 각각 resolve → 자재별 시험종목·방법·빈도 수집(별표2 체계)
-//       → 품질시험계획서 양식 + verified 법령 근거 (시행령 §90·별표9).
+//       → 품질시험계획서 양식 + verified 법령 근거 (시행령 §89②·§90·별표9).
 // ─────────────────────────────────────────────────────────────────────────────
 
 import { run as resolveWorktype } from "./resolve-worktype.js";
@@ -15,7 +15,7 @@ import type { OntologyGraph } from "../ontology/graph.js";
 export const spec: ToolSpec = {
   name: "chain_quality_test_plan",
   description:
-    "품질시험계획 재료 체인 — 공사의 공종 목록(자연어 가능)을 받아 공종×자재×시험종목·방법·빈도 매트릭스와 품질시험계획서 양식·적용 법령(verified: 시행령 §90·별표9, 업무지침 §8·별표2)을 한 번에 조립한다. [근거 제공용 · 최종 판정은 품질관리자·감리원·발주자]",
+    "품질시험계획 재료 체인 — 공사의 공종 목록(자연어 가능)을 받아 공종×자재×시험종목·방법·빈도 매트릭스와 품질시험계획서 양식·적용 법령(verified: 시행령 §89②·§90·별표9, 업무지침 §8·별표2)을 한 번에 조립한다. [근거 제공용 · 최종 판정은 품질관리자·감리원·발주자]",
   inputSchema: {
     type: "object",
     properties: {
