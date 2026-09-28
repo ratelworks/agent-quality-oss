@@ -10,6 +10,7 @@
  *   - article_number_mismatch : name 의 §N ≠ 원문 머리의 제N조
  *   - article_title_mismatch  : name 괄호 안 제목 ≠ 원문 머리 제목 (공백·가운뎃점 차이는 무시)
  *   - article_heading_missing : 원문은 있는데 조문 머리를 찾지 못함
+ *   - article_name_format     : 원문은 조문인데 name 이 "§N (제목)" 형식이 아님 (건너뛰면 통과로 보인다)
  * 경고 (exit 0 유지):
  *   - article_unverified      : 원문이 내장되지 않은 조문 노드 (이름을 대조할 수 없음)
  *
@@ -55,7 +56,17 @@ async function main(): Promise<void> {
     const meta = node._meta ?? {};
     if (!ARTICLE_CATEGORIES.has(meta.category ?? "")) continue;
     const nameMatch = (node.name ?? "").match(NAME_RE);
-    if (!nameMatch) continue; // 조문 형식 이름이 아닌 노드 (고시 전체 등)
+    if (!nameMatch) {
+      // 원문이 조문이면 이름도 조문 형식이어야 한다 — 형식 이탈을 건너뛰면 틀린 이름이 통과로 보인다
+      const bodyIsArticle = (meta.bodyText ?? "")
+        .replace(/\*\*/g, "")
+        .split("\n")
+        .some((l) => HEADING_RE.test(l.trim()));
+      if (bodyIsArticle) {
+        errors.push({ file, code: "article_name_format", detail: `원문은 조문인데 이름이 "§N (제목)" 형식이 아님: ${node.name}` });
+      }
+      continue; // 고시 전체 등 조문이 아닌 노드
+    }
 
     if (!meta.bodyText) {
       warnings.push({ file, code: "article_unverified", detail: `원문 미내장 — 이름 대조 불가: ${node.name}` });

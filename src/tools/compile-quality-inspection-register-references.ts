@@ -125,7 +125,7 @@ export function run(args: CompileQirArgs, graph: OntologyGraph) {
       formSchema: schema,
       ...modeSpecific,
       retentionRule: {
-        period: '시설물 존속기간 또는 시행령 §93 명시 보존기간',
+        period: '집계 결과(성과 총괄표)는 시행령 §93④에 따라 시설물 존속기간 보존 — 대장 자체의 법정 보존기간은 내장 법령에서 확인되지 않음',
         scope: '시공자 매일 누적 작성·비치 의무',
         consequence: '미작성·미비치는 품질검사 기록 의무(건진법 §55②·시행규칙 §50①) 위반 — 구체적 제재는 벌칙·과태료 조항 본문 대조 필요',
       },

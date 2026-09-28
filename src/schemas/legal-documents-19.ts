@@ -156,10 +156,10 @@ export const LEGAL_DOCUMENTS_19: LegalDocSpec[] = [
   },
   {
     schemaId: 'nc_corrective_result',
-    title: '부적합 조치결과 확인서 (별지 제6호)',
+    title: '부적합 조치결과 확인서 (실무 서식)',
     category: 'nonconformance',
     frequency: 'CAR 클로징',
-    legalBasis: '업무지침 §7 + 별지 제6호',
+    legalBasis: 'ISO 9001 §8.7 + 업무지침 §39 (법정 전용 서식 없음)',
     registered: true,
   },
   // E. 보고·감사
