@@ -2,7 +2,7 @@
   "@context": "../../context.jsonld",
   "@id": "standard:ks_b_0845",
   "@type": "Standard",
-  "name": "KS B 0845 강 용접 이음부의 방사선 투과 시험",
+  "name": "KS B 0845 강 용접 이음부의 방사선투과검사",
   "aliases": [
     "KS B 0845",
     "방사선투과시험",
@@ -11,6 +11,9 @@
   "_meta": {
     "issuer": "국가기술표준원",
     "category": "시험방법",
-    "granularity": "document"
+    "granularity": "document",
+    "ksNumber": "KS B 0845",
+    "officialName": "강 용접 이음부의 방사선투과검사",
+    "confirmedOn": "2021-03-25"
   }
 }

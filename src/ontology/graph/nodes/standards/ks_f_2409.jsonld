@@ -1,0 +1,19 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "standard:ks_f_2409",
+  "@type": "Standard",
+  "name": "KS F 2409 굳지 않은 콘크리트의 단위용적 질량 및 공기량 시험방법(질량방법)",
+  "aliases": [
+    "KS F 2409",
+    "단위용적질량",
+    "공기량 질량 방법"
+  ],
+  "_meta": {
+    "issuer": "국가기술표준원",
+    "category": "시험방법",
+    "granularity": "document",
+    "ksNumber": "KS F 2409",
+    "officialName": "굳지 않은 콘크리트의 단위용적 질량 및 공기량 시험방법(질량방법)",
+    "confirmedOn": "2021-09-06"
+  }
+}

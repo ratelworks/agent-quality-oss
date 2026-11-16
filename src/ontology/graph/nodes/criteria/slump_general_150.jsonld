@@ -15,7 +15,15 @@
     "fallbackToProject": true,
     "reference": "KCS 14 20 10 §1.7.3 표 1.7-2 (허용오차) + §2.2.7 표 2.2-5 (표준값)",
     "sourceStatus": "verified",
-    "verifiedAgainst": "evaluation/sources/kcs_14_20_01.txt L1573-1605, L2444-2470",
+    "verifiedAgainst": {
+      "standard": "KCS 14 20 10",
+      "edition": "2024-12-30",
+      "clause": "1.7.3 표 1.7-2 · 2.2.7 표 2.2-5",
+      "quotes": [
+        "80 이상 | ± 25",
+        "표 2.2-5 슬럼프의 표준값(mm)"
+      ]
+    },
     "note": "v0.1 reference '§3.2'는 운반 조항이라 오인용. 정정 완료 (2026-04-28 R0-G1)"
   },
   "appliesTo": [

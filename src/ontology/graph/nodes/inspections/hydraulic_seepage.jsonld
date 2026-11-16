@@ -13,7 +13,17 @@
     "rule": "제체·차수재 다짐 시 함수비·현장밀도·투수 시험. 빈도: 토질변화시마다. 투수계수 판정값은 댐/제방 설계기준·KCS 확보 시.",
     "reference": "별표2(수공구조물공사) — 판정값은 KCS 원문 확보 대기",
     "sourceStatus": "verified",
-    "verifiedAgainst": "evaluation/sources/quality_test_standards_annex2.txt (수공구조물공사)"
+    "verifiedAgainst": {
+      "law": "건설공사 품질관리 업무지침",
+      "annex": "별표 2",
+      "section": "수공구조물공사",
+      "quotes": [
+        "투수",
+        "KS F 2322",
+        "현장밀도",
+        "토질변화시마다"
+      ]
+    }
   },
   "verifies": [
     "risk:seepage"

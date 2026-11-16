@@ -7,17 +7,17 @@
     "operator": "le",
     "threshold": null,
     "unit": "W/mK",
-    "condition": "단열재 열전도율 등급 기준은 KS L 3121/건축물 에너지절약기준이 출처 — 미확보로 보류(UNDETERMINED).",
+    "condition": "단열재 열전도율의 판정값은 해당 단열재의 KS 제품규격과 건축물의 에너지절약설계기준이 정한다 — 이 서버에는 수치가 없어 판정하지 않는다. 시험방법은 KS L 9016.",
     "fallbackToProject": true,
-    "reference": "KS L 3121 — 별표2 시험방법 인용",
+    "reference": "KS L 9016 (업무지침 별표 2 가 시험방법으로 인용)",
     "sourceStatus": "skeleton",
     "referenceVerified": false,
-    "note": "별표2로 시험종목·방법 verified. 열전도율 판정값은 KS/에너지기준(공공 자동확보 제약)이라 skeleton."
+    "note": "KS 본문은 유료라 판정값을 대조하지 못했다."
   },
   "appliesTo": [
     "test:thermal_conductivity"
   ],
   "derivedFrom": [
-    "standard:ks_l_3121"
+    "standard:ks_l_9016"
   ]
 }

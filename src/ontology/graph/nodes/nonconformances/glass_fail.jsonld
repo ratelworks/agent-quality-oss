@@ -20,7 +20,15 @@
     "effectivenessCheck": "동일 제품 재시험 + 시험성적서 확인",
     "closureCriteria": "불합격 제품 반출 + 적합 제품 재시공 + NCR 승인",
     "sourceStatus": "verified",
-    "verifiedAgainst": "evaluation/sources/quality_test_standards_annex2.txt (유리공사)"
+    "verifiedAgainst": {
+      "law": "건설공사 품질관리 업무지침",
+      "annex": "별표 2",
+      "section": "유리공사",
+      "quotes": [
+        "KS L 2002",
+        "KS L 2003"
+      ]
+    }
   },
   "relatedTest": [
     "test:glass_strength"

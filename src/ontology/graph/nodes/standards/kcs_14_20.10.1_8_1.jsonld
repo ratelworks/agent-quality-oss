@@ -12,6 +12,14 @@
     "scope": "(2) 염소이온량 0.30 kg/㎥ 이하 원칙. (4) 책임기술자 승인 시 0.60 kg/㎥ 상한 가능",
     "granularity": "clause",
     "sourceStatus": "verified",
-    "verifiedAgainst": "evaluation/sources/kcs_14_20_01.txt L1614-1632"
+    "verifiedAgainst": {
+      "standard": "KCS 14 20 10",
+      "edition": "2024-12-30",
+      "clause": "1.8.1 (2)·(4)",
+      "quotes": [
+        "염소이온량(Cl-)으로서 원칙적으로 0.30㎏/㎥ 이하로 하여야 한다",
+        "허용상한값을 0.60 ㎏/㎥로 할 수 있다"
+      ]
+    }
   }
 }

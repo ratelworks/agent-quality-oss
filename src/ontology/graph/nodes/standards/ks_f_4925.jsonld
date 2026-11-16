@@ -1,0 +1,18 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "standard:ks_f_4925",
+  "@type": "Standard",
+  "name": "KS F 4925 시멘트 액체형 방수제",
+  "aliases": [
+    "KS F 4925",
+    "시멘트계 액체형 방수제"
+  ],
+  "_meta": {
+    "issuer": "국가기술표준원",
+    "category": "제품규격",
+    "granularity": "document",
+    "ksNumber": "KS F 4925",
+    "officialName": "시멘트 액체형 방수제",
+    "confirmedOn": "2023-12-29"
+  }
+}

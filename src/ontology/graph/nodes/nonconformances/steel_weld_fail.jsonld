@@ -22,7 +22,15 @@
     "effectivenessCheck": "결함부 제거·재용접 후 동일 비파괴검사 재실시",
     "closureCriteria": "재검사 합격 + NCR 보고서 승인",
     "sourceStatus": "verified",
-    "verifiedAgainst": "evaluation/sources/quality_test_standards_annex2.txt (철강구조물 용접부 검사)"
+    "verifiedAgainst": {
+      "law": "건설공사 품질관리 업무지침",
+      "annex": "별표 2",
+      "section": "철강구조물공사",
+      "quotes": [
+        "KS B 0845",
+        "KS B 0896"
+      ]
+    }
   },
   "relatedTest": [
     "test:steel_weld_inspection"

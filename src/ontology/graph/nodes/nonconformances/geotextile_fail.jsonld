@@ -20,7 +20,15 @@
     "effectivenessCheck": "동일 제품 재시험",
     "closureCriteria": "불합격 자재 반출 + 적합 자재 재시공 + NCR 승인",
     "sourceStatus": "verified",
-    "verifiedAgainst": "evaluation/sources/quality_test_standards_annex2.txt (공통 기타-토목섬유)"
+    "verifiedAgainst": {
+      "law": "건설공사 품질관리 업무지침",
+      "annex": "별표 2",
+      "section": "공통 — 기타(토목섬유)",
+      "quotes": [
+        "KS K ISO 10319",
+        "KS K ISO 11058"
+      ]
+    }
   },
   "relatedTest": [
     "test:geotextile_strength"

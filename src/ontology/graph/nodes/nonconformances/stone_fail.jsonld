@@ -20,7 +20,15 @@
     "effectivenessCheck": "동일 석산 재시험",
     "closureCriteria": "불합격 석재 반출 + 적합 석재 재반입 + NCR 승인",
     "sourceStatus": "verified",
-    "verifiedAgainst": "evaluation/sources/quality_test_standards_annex2.txt (공통 기타-석재)"
+    "verifiedAgainst": {
+      "law": "건설공사 품질관리 업무지침",
+      "annex": "별표 2",
+      "section": "공통 — 기타(석재)",
+      "quotes": [
+        "KS F 2518",
+        "KS F 2519"
+      ]
+    }
   },
   "relatedTest": [
     "test:stone_strength"

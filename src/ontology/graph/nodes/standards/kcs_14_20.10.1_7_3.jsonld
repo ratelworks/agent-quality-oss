@@ -14,6 +14,16 @@
     "scope": "표 1.7-2 슬럼프 허용오차(호칭 25 ±10 / 50,65 ±15 / 80↑ ±25), 표 1.7-3 슬럼프 플로 허용오차(500 ±75 / 600 ±100 / 700 ±100)",
     "granularity": "clause",
     "sourceStatus": "verified",
-    "verifiedAgainst": "evaluation/sources/kcs_14_20_01.txt L1573-1605"
+    "verifiedAgainst": {
+      "standard": "KCS 14 20 10",
+      "edition": "2024-12-30",
+      "clause": "1.7.3 표 1.7-2 · 표 1.7-3",
+      "quotes": [
+        "25 | ± 10",
+        "50 및 65 | ± 15",
+        "80 이상 | ± 25",
+        "슬럼프 플로의 허용오차는 표 1.7-3에 따라야 한다"
+      ]
+    }
   }
 }

@@ -22,7 +22,15 @@
     "effectivenessCheck": "도막두께 재측정 또는 부착강도 재시험",
     "closureCriteria": "재도장 + NCR 보고서 승인",
     "sourceStatus": "verified",
-    "verifiedAgainst": "evaluation/sources/quality_test_standards_annex2.txt (도장공사)"
+    "verifiedAgainst": {
+      "law": "건설공사 품질관리 업무지침",
+      "annex": "별표 2",
+      "section": "도장공사",
+      "quotes": [
+        "KS M 6010",
+        "KS M 5000"
+      ]
+    }
   },
   "relatedTest": [
     "test:paint_film"

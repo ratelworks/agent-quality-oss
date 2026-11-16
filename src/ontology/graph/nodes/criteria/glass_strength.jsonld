@@ -9,10 +9,10 @@
     "unit": "성능등급",
     "condition": "강화유리 충격강도·복층유리 성능 합격 기준은 KS L 2002/2003이 출처 — 미확보로 보류(UNDETERMINED).",
     "fallbackToProject": true,
-    "reference": "KS L 2002/2003 — 별표2 시험방법 인용",
+    "reference": "KS L 2002·2003·2014 (업무지침 별표 2 가 시험방법으로 인용)",
     "sourceStatus": "skeleton",
     "referenceVerified": false,
-    "note": "별표2로 시험종목·방법 verified. 판정값은 KS 원문(공공 자동확보 제약)이라 skeleton."
+    "note": "시험종목·방법·빈도는 업무지침 별표 2 로 확인했다. 판정값은 해당 KS·표준시방서 본문과 대조하지 못해 이 서버에는 수치가 없다(KS 본문은 유료)."
   },
   "appliesTo": [
     "test:glass_strength"

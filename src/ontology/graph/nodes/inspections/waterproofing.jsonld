@@ -12,7 +12,18 @@
     "rule": "방수재 시험성적서 검토 + 바탕면 처리·이음부·치켜올림 시공 확인 + 담수시험. 성능 판정값은 KS 확보 시.",
     "reference": "별표2(방수공사)",
     "sourceStatus": "verified",
-    "verifiedAgainst": "evaluation/sources/quality_test_standards_annex2.txt (방수공사)"
+    "verifiedAgainst": {
+      "law": "건설공사 품질관리 업무지침",
+      "annex": "별표 2",
+      "section": "방수공사",
+      "quotes": [
+        "나. 방수공사",
+        "KS F 4911",
+        "KS F 4917",
+        "KS F 4925",
+        "KS F 3211"
+      ]
+    }
   },
   "verifies": [
     "risk:waterproofing_defect"

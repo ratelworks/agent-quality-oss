@@ -28,6 +28,7 @@
     "doc:mix_design"
   ],
   "requiresStandard": [
-    "standard:kcs_14_20.10.3_5_3_1"
+    "standard:kcs_14_20.10.3_5_3_1",
+    "standard:kci_rm101"
   ]
 }

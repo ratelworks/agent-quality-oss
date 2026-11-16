@@ -22,7 +22,15 @@
     "effectivenessCheck": "동일 제품 재시험 또는 현장 수압 재시험",
     "closureCriteria": "불합격 관 반출 + 적합 관 재시공 + NCR 승인",
     "sourceStatus": "verified",
-    "verifiedAgainst": "evaluation/sources/quality_test_standards_annex2.txt (공통 기타-관)"
+    "verifiedAgainst": {
+      "law": "건설공사 품질관리 업무지침",
+      "annex": "별표 2",
+      "section": "공통 — 기타(관)",
+      "quotes": [
+        "KS D 3565",
+        "KS F 4402"
+      ]
+    }
   },
   "relatedTest": [
     "test:pipe_strength"

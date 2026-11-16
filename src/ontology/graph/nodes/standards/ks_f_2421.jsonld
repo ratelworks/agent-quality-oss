@@ -2,13 +2,16 @@
   "@context": "../../context.jsonld",
   "@id": "standard:ks_f_2421",
   "@type": "Standard",
-  "name": "KS F 2421 공기량 시험",
+  "name": "KS F 2421 압력법에 의한 굳지 않은 콘크리트의 공기량 시험방법",
   "aliases": [
     "KS F 2421"
   ],
   "_meta": {
     "issuer": "국가기술표준원",
     "category": "시험방법",
-    "granularity": "document"
+    "granularity": "document",
+    "ksNumber": "KS F 2421",
+    "officialName": "압력법에 의한 굳지 않은 콘크리트의 공기량 시험방법",
+    "confirmedOn": "2021-09-06"
   }
 }

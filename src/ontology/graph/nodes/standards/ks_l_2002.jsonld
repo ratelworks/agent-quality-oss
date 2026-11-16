@@ -2,7 +2,7 @@
   "@context": "../../context.jsonld",
   "@id": "standard:ks_l_2002",
   "@type": "Standard",
-  "name": "KS L 2002 강화유리",
+  "name": "KS L 2002 강화 유리",
   "aliases": [
     "KS L 2002",
     "강화유리"
@@ -10,6 +10,9 @@
   "_meta": {
     "issuer": "국가기술표준원",
     "category": "제품규격",
-    "granularity": "document"
+    "granularity": "document",
+    "ksNumber": "KS L 2002",
+    "officialName": "강화 유리",
+    "confirmedOn": "2026-05-27"
   }
 }

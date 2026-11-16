@@ -20,7 +20,16 @@
     "effectivenessCheck": "동일 제품 재시험",
     "closureCriteria": "불합격 자재 반출 + 적합 자재 재반입 + NCR 승인",
     "sourceStatus": "verified",
-    "verifiedAgainst": "evaluation/sources/quality_test_standards_annex2.txt (조적공사)"
+    "verifiedAgainst": {
+      "law": "건설공사 품질관리 업무지침",
+      "annex": "별표 2",
+      "section": "조적공사",
+      "quotes": [
+        "콘크리트벽돌",
+        "KS F 4004",
+        "KS L 4201"
+      ]
+    }
   },
   "relatedTest": [
     "test:brick_strength"

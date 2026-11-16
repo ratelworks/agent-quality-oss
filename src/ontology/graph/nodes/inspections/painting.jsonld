@@ -12,7 +12,16 @@
     "rule": "도료 시험성적서 검토 + 바탕면 처리·도막두께(현장 측정)·부착 상태 확인. 도막두께 판정값은 KS/도장 시방 확보 시.",
     "reference": "별표2(도장공사)",
     "sourceStatus": "verified",
-    "verifiedAgainst": "evaluation/sources/quality_test_standards_annex2.txt (도장공사)"
+    "verifiedAgainst": {
+      "law": "건설공사 품질관리 업무지침",
+      "annex": "별표 2",
+      "section": "도장공사",
+      "quotes": [
+        "KS M 6010",
+        "도료",
+        "KS M 5000"
+      ]
+    }
   },
   "verifies": [
     "risk:paint_defect"

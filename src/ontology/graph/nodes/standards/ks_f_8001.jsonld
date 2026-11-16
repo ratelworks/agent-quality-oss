@@ -2,7 +2,7 @@
   "@context": "../../context.jsonld",
   "@id": "standard:ks_f_8001",
   "@type": "Standard",
-  "name": "KS F 8001 파이프 서포트",
+  "name": "KS F 8001 강재 파이프 서포트",
   "aliases": [
     "KS F 8001",
     "파이프서포트"
@@ -10,6 +10,9 @@
   "_meta": {
     "issuer": "국가기술표준원",
     "category": "제품규격",
-    "granularity": "document"
+    "granularity": "document",
+    "ksNumber": "KS F 8001",
+    "officialName": "강재 파이프 서포트",
+    "confirmedOn": "2022-09-30"
   }
 }

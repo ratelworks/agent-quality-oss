@@ -2,7 +2,7 @@
   "@context": "../../context.jsonld",
   "@id": "standard:ks_f_2354",
   "@type": "Standard",
-  "name": "KS F 2354 아스팔트 혼합물의 아스팔트 함량 시험",
+  "name": "KS F 2354 아스팔트 포장용 혼합물의 아스팔트 함유량 시험방법",
   "aliases": [
     "KS F 2354",
     "아스팔트 함량 시험"
@@ -10,6 +10,9 @@
   "_meta": {
     "issuer": "국가기술표준원",
     "category": "시험방법",
-    "granularity": "document"
+    "granularity": "document",
+    "ksNumber": "KS F 2354",
+    "officialName": "아스팔트 포장용 혼합물의 아스팔트 함유량 시험방법",
+    "confirmedOn": "2023-08-28"
   }
 }

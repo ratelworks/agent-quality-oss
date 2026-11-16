@@ -18,10 +18,28 @@
     ],
     "owner": "현장 공사 담당 + 품질관리자",
     "approver": "감리원 / 공사감독자",
-    "effectivenessCheck": "재다짐 후 동일 위치 들밀도(KS F 2308) 재시험으로 다짐도 재확인",
+    "effectivenessCheck": "재다짐 후 같은 위치에서 현장밀도(KS F 2311) 재시험으로 다짐도 재확인",
     "closureCriteria": "규정 다짐도 도달 확인 + NCR 보고서 승인",
     "sourceStatus": "verified",
-    "verifiedAgainst": "evaluation/sources/quality_test_standards_annex2.txt(토공사 다짐 시험종목·빈도)"
+    "verifiedAgainst": [
+      {
+        "law": "건설공사 품질관리 업무지침",
+        "annex": "별표 2",
+        "section": "토공사",
+        "quotes": [
+          "현장밀도",
+          "KS F 2311"
+        ]
+      },
+      {
+        "standard": "KCS 11 20 20",
+        "edition": "2025-12-24",
+        "clause": "3.2.16",
+        "quotes": [
+          "다짐도는 KS F 2311에 따른 흙의 밀도시험 또는 KS F 2310에 따른 평판재하시험으로 판정"
+        ]
+      }
+    ]
   },
   "relatedTest": [
     "test:soil_compaction"
@@ -38,7 +56,8 @@
     "doc:ncr_report"
   ],
   "basisPriority": [
-    "standard:ks_f_2308",
+    "standard:kcs_11_20_20",
+    "standard:ks_f_2311",
     "standard:ks_f_2312"
   ]
 }

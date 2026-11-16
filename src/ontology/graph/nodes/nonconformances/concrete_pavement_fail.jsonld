@@ -21,7 +21,16 @@
     "effectivenessCheck": "코어 채취 휨강도·두께 재확인",
     "closureCriteria": "불합격 구간 재포장 또는 구조 검토 + NCR 승인",
     "sourceStatus": "verified",
-    "verifiedAgainst": "evaluation/sources/quality_test_standards_annex2.txt (도로 콘크리트포장)"
+    "verifiedAgainst": {
+      "law": "건설공사 품질관리 업무지침",
+      "annex": "별표 2",
+      "section": "도로공사 — 콘크리트포장",
+      "quotes": [
+        "콘크리트포장",
+        "KS F 2373",
+        "KS F 2408"
+      ]
+    }
   },
   "relatedTest": [
     "test:concrete_pavement_strength"

@@ -2,17 +2,17 @@
   "@context": "../../context.jsonld",
   "@id": "test:concrete_pavement_strength",
   "@type": "TestItem",
-  "name": "콘크리트 포장 강도·두께 시험",
+  "name": "콘크리트 포장 휨강도·평탄성 시험",
   "aliases": [
     "포장 휨강도",
     "포장 두께",
     "콘크리트포장 평탄성"
   ],
   "_meta": {
-    "method": "콘크리트 휨강도 KS F 2408 / 포장 두께 KS F 2367 / 평탄성 KS F 2373(7.6m 프로파일미터)",
+    "method": "휨 강도 KS F 2408 / 평탄성 종방향 KS F 2373(7.6 m 측정기 또는 IRI, 쓸 수 없으면 3.0 m 측정기), 횡방향 직선자 — 업무지침 별표 2. KS F 2367(두께)은 아스팔트 혼합물 포설의 시험이다",
     "timing": "포장 시공 중·후",
-    "frequency": "휨강도 1일 1회·두께 포설 1층당 30아르마다·평탄성 차로마다 전구간 (별표2)",
-    "typicalAcceptance": "휨강도·두께·평탄성 기준은 KCS 44(도로포장) 확보 시 — 시험종목·방법·빈도 커버리지"
+    "frequency": "평탄성: 종방향 차로마다 전구간, 횡방향 200 m마다 / 휨 강도: 굳은 콘크리트의 빈도(배합이 다를 때마다, 1일 타설량 120 ㎥ 기준) — 업무지침 별표 2",
+    "typicalAcceptance": "휨강도·평탄성의 판정값은 KCS 44 50 15(시멘트 콘크리트 포장)와 설계도서를 따른다 — 이 서버에는 판정값이 없다"
   },
   "targetMaterial": [
     "material:pavement_concrete"
@@ -33,7 +33,6 @@
     "doc:site_test_record"
   ],
   "requiresStandard": [
-    "standard:ks_f_2408",
-    "standard:ks_f_2367"
+    "standard:ks_f_2408"
   ]
 }

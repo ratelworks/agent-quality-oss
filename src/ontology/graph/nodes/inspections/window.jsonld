@@ -11,7 +11,19 @@
     "rule": "창호 시험성적서 검토 + 비틀림·연직하중 강도·함수율 확인 + 설치 정밀도·기밀·수밀 확인.",
     "reference": "별표2(창호공사)",
     "sourceStatus": "verified",
-    "verifiedAgainst": "evaluation/sources/quality_test_standards_annex2.txt (창호공사)"
+    "verifiedAgainst": {
+      "law": "건설공사 품질관리 업무지침",
+      "annex": "별표 2",
+      "section": "창호공사",
+      "quotes": [
+        "문세트",
+        "비틀림 강도",
+        "연직 하중 강도",
+        "KS F 3109",
+        "KS F 2631",
+        "창세트"
+      ]
+    }
   },
   "verifies": [
     "risk:window_defect"

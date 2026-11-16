@@ -2,7 +2,7 @@
   "@context": "../../context.jsonld",
   "@id": "standard:ks_f_8002",
   "@type": "Standard",
-  "name": "KS F 8002 강관 비계용 부재",
+  "name": "KS F 8002 강관비계용 부재",
   "aliases": [
     "KS F 8002",
     "강관비계"
@@ -10,6 +10,9 @@
   "_meta": {
     "issuer": "국가기술표준원",
     "category": "제품규격",
-    "granularity": "document"
+    "granularity": "document",
+    "ksNumber": "KS F 8002",
+    "officialName": "강관비계용 부재",
+    "confirmedOn": "2022-12-23"
   }
 }

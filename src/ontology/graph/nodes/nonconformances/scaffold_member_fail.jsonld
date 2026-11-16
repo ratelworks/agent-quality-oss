@@ -21,7 +21,16 @@
     "effectivenessCheck": "동일 규격 재시험 + 안전인증·시험성적서 확인",
     "closureCriteria": "불합격 자재 반출 + 적합 자재 재반입 + NCR 보고서 승인",
     "sourceStatus": "verified",
-    "verifiedAgainst": "evaluation/sources/quality_test_standards_annex2.txt (가설기자재)"
+    "verifiedAgainst": {
+      "law": "건설공사 품질관리 업무지침",
+      "annex": "별표 2",
+      "section": "가설기자재",
+      "quotes": [
+        "KS F 8001",
+        "KS F 8002",
+        "KS F 8021"
+      ]
+    }
   },
   "relatedTest": [
     "test:scaffold_member"

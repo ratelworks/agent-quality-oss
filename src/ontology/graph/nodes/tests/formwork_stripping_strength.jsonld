@@ -37,6 +37,7 @@
   ],
   "requiresStandard": [
     "standard:kcs_14_20.12.3_3",
-    "standard:ks_f_2405"
+    "standard:ks_f_2405",
+    "standard:kci_ct118"
   ]
 }

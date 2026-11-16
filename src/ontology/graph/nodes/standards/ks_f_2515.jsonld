@@ -2,13 +2,18 @@
   "@context": "../../context.jsonld",
   "@id": "standard:ks_f_2515",
   "@type": "Standard",
-  "name": "KS F 2515 염화물 함유량 시험",
+  "name": "KS F 2515 골재중의 염화물 함유량 시험 방법",
   "aliases": [
-    "KS F 2515"
+    "KS F 2515",
+    "골재 염화물"
   ],
   "_meta": {
     "issuer": "국가기술표준원",
     "category": "시험방법",
-    "granularity": "document"
+    "granularity": "document",
+    "note": "골재의 염화물 함유량 시험이다. 굳지 않은 콘크리트의 염화물 함유량은 KS F 4009 부속서 A 의 방법으로 시험한다(KCS 14 20 10 표 3.5-2).",
+    "ksNumber": "KS F 2515",
+    "officialName": "골재중의 염화물 함유량 시험 방법",
+    "confirmedOn": "2024-11-15"
   }
 }

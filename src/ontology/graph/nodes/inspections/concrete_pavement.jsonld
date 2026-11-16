@@ -9,10 +9,20 @@
   ],
   "_meta": {
     "stage": "during",
-    "rule": "콘크리트 휨강도 시험(1일 1회) + 포장 두께(포설 1층당 30아르마다)·평탄성(차로마다 전구간) 확인. 휨강도 기준값은 KCS 44 확보 시.",
+    "rule": "콘크리트 휨강도 시험 + 평탄성(종방향 차로마다 전구간 — KS F 2373 7.6 m 측정기 또는 IRI, 횡방향 200 m마다 직선자) 확인. 판정값은 KCS 44 50 15 와 설계도서.",
     "reference": "별표2(도로 콘크리트포장)",
     "sourceStatus": "verified",
-    "verifiedAgainst": "evaluation/sources/quality_test_standards_annex2.txt (도로공사)"
+    "verifiedAgainst": {
+      "law": "건설공사 품질관리 업무지침",
+      "annex": "별표 2",
+      "section": "도로공사 (3) 기타 — 콘크리트포장",
+      "quotes": [
+        "콘크리트포장",
+        "KS F 2373",
+        "차로마다 전구간",
+        "200미터마다"
+      ]
+    }
   },
   "verifies": [
     "risk:concrete_pavement_defect"

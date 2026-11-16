@@ -15,7 +15,7 @@
     "reference": "KCS 14 31(강구조공사) / KS B 0845·0896 — 별표2가 시험방법 인용",
     "sourceStatus": "skeleton",
     "referenceVerified": false,
-    "note": "별표2(법제처)로 시험종목·방법·빈도 verified. 결함 등급 판정은 KCS 14 31 원문(KCSC viewer JS 렌더라 공공 자동확보 제약)이라 skeleton."
+    "note": "시험종목·방법·빈도는 업무지침 별표 2 로 확인했다. 판정값은 해당 KS·표준시방서 본문과 대조하지 못해 이 서버에는 수치가 없다(KS 본문은 유료)."
   },
   "appliesTo": [
     "test:steel_weld_inspection"

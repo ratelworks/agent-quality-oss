@@ -2,14 +2,18 @@
   "@context": "../../context.jsonld",
   "@id": "standard:ks_l_3121",
   "@type": "Standard",
-  "name": "KS L 3121 단열재의 열전도율 측정",
+  "name": "KS L 3121 내화 단열 벽돌의 열전도도 측정 방법",
   "aliases": [
     "KS L 3121",
-    "열전도율 시험"
+    "내화 단열 벽돌 열전도도"
   ],
   "_meta": {
     "issuer": "국가기술표준원",
     "category": "시험방법",
-    "granularity": "document"
+    "granularity": "document",
+    "note": "내화 단열 벽돌의 시험이다. 단열재(보온재)의 열전도율은 KS L 9016.",
+    "ksNumber": "KS L 3121",
+    "officialName": "내화 단열 벽돌의 열전도도 측정 방법",
+    "confirmedOn": "2026-05-27"
   }
 }

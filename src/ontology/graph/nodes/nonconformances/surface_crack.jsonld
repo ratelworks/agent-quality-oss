@@ -11,17 +11,24 @@
   "_meta": {
     "direction": "defect",
     "possibleCauses": [
-      "양생 불량 (§3.4)",
+      "양생 불량 (KCS 14 20 10 3.4)",
       "외기 극한 환경",
       "급속 건조",
-      "침하균열 (§3.3.4)"
+      "침하균열 (KCS 14 20 10 3.3.4)"
     ],
     "owner": "현장 공사 담당",
     "approver": "감리원",
     "effectivenessCheck": "균열 폭 측정 + 보수 후 재확인",
     "closureCriteria": "허용 균열폭 이내 또는 보수 완료 + NCR 보고서 승인",
     "sourceStatus": "verified",
-    "note": "v0.1 basisPriority에서 §3.3.4 침하균열 + §3.4 양생 + §3.5.5.2 표면상태 검사 누락. 정정 완료 (2026-04-28 R0-G1)"
+    "verifiedAgainst": {
+      "standard": "KCS 14 20 10",
+      "edition": "2024-12-30",
+      "clause": "3.5.5.2 표 3.5-6",
+      "quotes": [
+        "균열폭은 KDS 14 20 30(4.1)에 따르되, 구조물의 성능, 내구성, 미관 등 그의 사용목적을 손상시키지 않는 허용값의 범위 내에 있을 것"
+      ]
+    }
   },
   "immediateActions": [
     "action:notify_quality_manager"

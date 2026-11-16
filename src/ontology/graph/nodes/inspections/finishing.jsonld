@@ -12,7 +12,18 @@
     "rule": "합판·집성재·보드 시험성적서 검토 + 밀도·휨강도·함수율·난연 확인. 빈도: 제조회사별·제품규격별.",
     "reference": "별표2(마감공사)",
     "sourceStatus": "verified",
-    "verifiedAgainst": "evaluation/sources/quality_test_standards_annex2.txt (마감공사)"
+    "verifiedAgainst": {
+      "law": "건설공사 품질관리 업무지침",
+      "annex": "별표 2",
+      "section": "마감공사",
+      "quotes": [
+        "보통합판",
+        "KS F 3101",
+        "구조용 집성재",
+        "함수율",
+        "난연성"
+      ]
+    }
   },
   "verifies": [
     "risk:finishing_defect"

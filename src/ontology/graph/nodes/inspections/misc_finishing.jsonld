@@ -11,7 +11,18 @@
     "rule": "화장판 등 마감자재 시험성적서(내열·내마모·내오염) 검토. 빈도: 제조회사별·제품규격별.",
     "reference": "별표2(건축 기타)",
     "sourceStatus": "verified",
-    "verifiedAgainst": "evaluation/sources/quality_test_standards_annex2.txt (건축 아.기타)"
+    "verifiedAgainst": {
+      "law": "건설공사 품질관리 업무지침",
+      "annex": "별표 2",
+      "section": "건축 — 기타",
+      "quotes": [
+        "KS M 3332",
+        "화장판",
+        "내열성",
+        "내마모성",
+        "내오염성"
+      ]
+    }
   },
   "verifies": [
     "risk:deco_panel_defect"

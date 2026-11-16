@@ -12,7 +12,19 @@
     "rule": "벽돌·블록 시험성적서 검토 + 압축강도·흡수율 확인. 빈도: 제품 수량별(콘크리트벽돌 100,000매당 등).",
     "reference": "별표2(조적공사)",
     "sourceStatus": "verified",
-    "verifiedAgainst": "evaluation/sources/quality_test_standards_annex2.txt (조적공사)"
+    "verifiedAgainst": {
+      "law": "건설공사 품질관리 업무지침",
+      "annex": "별표 2",
+      "section": "조적공사",
+      "quotes": [
+        "콘크리트벽돌",
+        "제품 100,000매당",
+        "점토벽돌",
+        "제품 50,000매당",
+        "속빈콘크리트블록",
+        "제품 10,000매당"
+      ]
+    }
   },
   "verifies": [
     "risk:brick_defect"

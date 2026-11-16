@@ -2,25 +2,37 @@
   "@context": "../../context.jsonld",
   "@id": "criteria:soil_compaction_degree",
   "@type": "AcceptanceCriteria",
-  "name": "흙 다짐도 (노상 95%·노체 90% — KCS 확보 대기)",
+  "name": "흙 다짐도 — 다짐 부위에 따라 다름",
   "aliases": [
     "다짐도 기준"
   ],
   "_meta": {
-    "operator": "ge",
-    "threshold": null,
+    "operator": "condition_dependent",
     "unit": "%",
-    "condition": "다짐도 판정값은 용도별(노상 95%·노체 90%·구조물 되메우기 등) KCS 11 20/KCS 44 원문이 출처 — 미확보로 자동 수치판정 보류(threshold 미주입 시 UNDETERMINED).",
+    "condition": "다짐도 기준은 다짐 부위에 따라 다릅니다 — 흙쌓기 노체부는 최대건조밀도의 90 % 이상, 노상부는 95 % 이상입니다(KCS 11 20 20 3.2.16). 되메우기·구조물 뒤채움 등 그 밖의 부위는 해당 시방서와 설계도서를 따릅니다. 다짐 부위(노체·노상 등)를 알려 주세요.",
     "fallbackToProject": true,
-    "reference": "KCS 11 20(흙쌓기)/KCS 44(도로) — 별표2가 시험방법(KS F 2308·2312) 인용",
-    "sourceStatus": "skeleton",
+    "reference": "KCS 11 20 20 3.2.16",
+    "sourceStatus": "verified",
     "referenceVerified": false,
-    "note": "별표2(법제처)로 시험종목·방법·빈도 verified. 판정값(다짐도%)은 KCS 원문(KCSC viewer JS 렌더라 공공 자동확보 제약)이라 skeleton."
+    "neededInputs": [
+      "다짐 부위 (노체·노상 등)"
+    ],
+    "selectDefault": true,
+    "verifiedAgainst": {
+      "standard": "KCS 11 20 20",
+      "edition": "2025-12-24",
+      "clause": "3.2.16",
+      "quotes": [
+        "최대건조밀도의 90% 이상",
+        "최대건조밀도의 95% 이상"
+      ]
+    }
   },
   "appliesTo": [
     "test:soil_compaction"
   ],
   "derivedFrom": [
+    "standard:kcs_11_20_20",
     "standard:ks_f_2312"
   ]
 }

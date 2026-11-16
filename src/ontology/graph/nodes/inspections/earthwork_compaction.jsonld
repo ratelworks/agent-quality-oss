@@ -10,16 +10,37 @@
   ],
   "_meta": {
     "stage": "during",
-    "rule": "층별 포설두께·다짐 횟수 확인 + 현장 들밀도(KS F 2308)로 다짐도 측정. 함수비(KS F 2306) 최적함수비 관리. 판정 다짐도 기준값(노상 95%·노체 90% 등)은 KCS 11 20/KCS 44 확보 시.",
-    "reference": "별표2(토공사 다짐 시험종목·빈도) — 판정값은 KCS 원문 확보 대기",
+    "rule": "층별 포설 두께·다짐 횟수 확인 + 현장밀도(KS F 2311)로 다짐도 측정. 함수비(KS F 2306)로 최적함수비 관리. 흙쌓기 노체부는 최대건조밀도의 90 % 이상(1층 다짐 완료 후 두께 300 mm 이하), 노상부는 95 % 이상(200 mm 이하) — KCS 11 20 20 3.2.16.",
+    "reference": "업무지침 별표 2(토공사 시험종목·빈도) · KCS 11 20 20 3.2.16(다짐의 기준)",
     "sourceStatus": "verified",
-    "verifiedAgainst": "evaluation/sources/quality_test_standards_annex2.txt (토공사 및 기초공사)"
+    "verifiedAgainst": [
+      {
+        "law": "건설공사 품질관리 업무지침",
+        "annex": "별표 2",
+        "section": "토공사",
+        "quotes": [
+          "현장밀도",
+          "KS F 2311",
+          "KS F 2312"
+        ]
+      },
+      {
+        "standard": "KCS 11 20 20",
+        "edition": "2025-12-24",
+        "clause": "3.2.16",
+        "quotes": [
+          "최대건조밀도의 90% 이상",
+          "최대건조밀도의 95% 이상"
+        ]
+      }
+    ]
   },
   "verifies": [
     "risk:soil_compaction_deficiency"
   ],
   "isBasedOn": [
-    "standard:quality_management_guideline"
+    "standard:quality_management_guideline",
+    "standard:kcs_11_20_20"
   ],
   "requiresEvidence": [
     "doc:site_test_record",

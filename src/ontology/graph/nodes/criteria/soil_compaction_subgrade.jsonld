@@ -1,0 +1,37 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "criteria:soil_compaction_subgrade",
+  "@type": "AcceptanceCriteria",
+  "name": "흙쌓기 노상부 다짐도 95 % 이상 (KCS 11 20 20 3.2.16)",
+  "aliases": [
+    "노상 다짐도"
+  ],
+  "_meta": {
+    "operator": "ge",
+    "threshold": 95,
+    "unit": "%",
+    "condition": "노상부: 1층 다짐 완료 후 두께 200 mm 이하, 각 층마다 KS F 2312 의 C, D 또는 E 방법으로 정한 최대건조밀도의 95 % 이상.",
+    "selectKeywords": [
+      "노상"
+    ],
+    "reference": "KCS 11 20 20 3.2.16",
+    "sourceStatus": "verified",
+    "verifiedAgainst": {
+      "standard": "KCS 11 20 20",
+      "edition": "2025-12-24",
+      "clause": "3.2.16",
+      "quotes": [
+        "KS F 2312의 C, D 또는 E 방법에 의하여 정하여진 최대건조밀도의 95% 이상"
+      ]
+    },
+    "referenceVerified": true
+  },
+  "appliesTo": [
+    "test:soil_compaction"
+  ],
+  "derivedFrom": [
+    "standard:kcs_11_20_20",
+    "standard:ks_f_2312",
+    "standard:ks_f_2311"
+  ]
+}

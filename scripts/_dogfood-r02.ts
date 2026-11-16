@@ -185,7 +185,7 @@ const SCENARIOS: Scenario[] = [
     expect: 'ncr.cold_joint basisPriority에 §3.3.2(8) 표 3.3-1 + §1.4 콜드조인트 정의 포함 확인',
     tool: 'compile_ncr_references',
     args: { ncrId: 'ncr.cold_joint', workType: 'work.concrete_placement' },
-    expectedBasisIds: ['standard.kcs_14_20.10.3_3_2', 'standard.kcs_14_20.10.1_4'],
+    expectedBasisIds: ['standard.kcs_14_20.10.3_3_2', 'standard.kcs_14_20.10.1_3'],
     notes: 'R0-G1 인용 정정으로 §3.3.2 + §1.4 노드가 새로 ref됨. R0-G1 검증 시나리오.',
   },
   {

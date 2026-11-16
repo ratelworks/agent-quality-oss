@@ -1,0 +1,18 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "standard:ks_f_2449",
+  "@type": "Standard",
+  "name": "KS F 2449 굳지 않은 콘크리트의 용적에 의한 공기량 시험방법",
+  "aliases": [
+    "KS F 2449",
+    "공기량 용적 방법"
+  ],
+  "_meta": {
+    "issuer": "국가기술표준원",
+    "category": "시험방법",
+    "granularity": "document",
+    "ksNumber": "KS F 2449",
+    "officialName": "굳지 않은 콘크리트의 용적에 의한 공기량 시험방법",
+    "confirmedOn": "2022-12-23"
+  }
+}

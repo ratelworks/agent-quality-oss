@@ -2,14 +2,18 @@
   "@context": "../../context.jsonld",
   "@id": "standard:ks_f_3109",
   "@type": "Standard",
-  "name": "KS F 3109 문·창 세트",
+  "name": "KS F 3109 문세트",
   "aliases": [
     "KS F 3109",
-    "창호 세트"
+    "문세트"
   ],
   "_meta": {
     "issuer": "국가기술표준원",
     "category": "제품규격",
-    "granularity": "document"
+    "granularity": "document",
+    "note": "창세트는 KS F 3117.",
+    "ksNumber": "KS F 3109",
+    "officialName": "문세트",
+    "confirmedOn": "2024-12-13"
   }
 }

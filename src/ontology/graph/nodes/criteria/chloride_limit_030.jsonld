@@ -12,16 +12,24 @@
     "unit": "kg/㎥",
     "condition": "굳지 않은 콘크리트 중 염소이온량(Cl-) 원칙. 책임기술자 승인 시 0.60 kg/㎥까지 상향 가능 — §1.8.1(4)",
     "fallbackToProject": true,
-    "reference": "KCS 14 20 10 §1.8.1 (2)",
+    "reference": "KCS 14 20 10 1.8.1 (2)·(4)",
     "sourceStatus": "verified",
-    "verifiedAgainst": "evaluation/sources/kcs_14_20_01.txt L1614-1632",
-    "note": "v0.1 reference '§3.2, KS F 2515'는 §3.2가 운반조항이라 오인용. KS F 2515는 시험법이지 기준 출처 아님. §1.8.1(2)이 정확 (2026-04-28 R0-G1)"
+    "verifiedAgainst": {
+      "standard": "KCS 14 20 10",
+      "edition": "2024-12-30",
+      "clause": "1.8.1 (2)·(4)",
+      "quotes": [
+        "염소이온량(Cl-)으로서 원칙적으로 0.30㎏/㎥ 이하로 하여야 한다",
+        "책임기술자의 승인을 얻어 콘크리트 중의 전 염화물 함유량의 허용상한값을 0.60 ㎏/㎥로 할 수 있다"
+      ]
+    },
+    "note": "시험방법은 KS F 4009 부속서 A(KCS 14 20 10 표 3.5-2). 책임기술자의 승인을 얻어 0.60 kg/㎥ 까지 허용하는 경우는 1.8.1 (4)."
   },
   "appliesTo": [
     "test:chloride"
   ],
   "derivedFrom": [
     "standard:kcs_14_20.10.1_8_1",
-    "standard:ks_f_2515"
+    "standard:ks_f_4009"
   ]
 }

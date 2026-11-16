@@ -1,0 +1,18 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "standard:ks_l_2014",
+  "@type": "Standard",
+  "name": "KS L 2014 열선 반사 유리",
+  "aliases": [
+    "KS L 2014",
+    "열선 반사 유리"
+  ],
+  "_meta": {
+    "issuer": "국가기술표준원",
+    "category": "제품규격",
+    "granularity": "document",
+    "ksNumber": "KS L 2014",
+    "officialName": "열선 반사 유리",
+    "confirmedOn": "2025-09-01"
+  }
+}

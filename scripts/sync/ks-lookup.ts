@@ -56,7 +56,8 @@ export async function lookupKs(number: string): Promise<KsListing[]> {
     if (compactKsNumber(base) !== compactKsNumber(number)) continue;
     rows.push({
       number: base,
-      name: (cells[2] ?? "").replace(/\s*\(폐지\)\s*$/, "").trim(),
+      // 목록 화면은 KS 인증 대상 표준의 이름 앞에 표시 기호(㉿)를 붙인다 — 표준명이 아니다
+      name: (cells[2] ?? "").replace(/\s*\(폐지\)\s*$/, "").replace(/㉿/g, "").trim(),
       confirmedOn: cells[3] ?? "",
       abolished: /폐지/.test(listed) || /\(폐지\)/.test(cells[2] ?? ""),
     });

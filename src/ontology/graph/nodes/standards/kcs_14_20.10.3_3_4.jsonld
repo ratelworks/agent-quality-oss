@@ -9,6 +9,14 @@
     "scope": "(1) 벽·기둥과 슬래브·보 침하 종료 후 타설. (2) 침하균열 발생 시 즉시 다짐 또는 재진동",
     "granularity": "clause",
     "sourceStatus": "verified",
-    "verifiedAgainst": "evaluation/sources/kcs_14_20_01.txt L3044-3060"
+    "verifiedAgainst": {
+      "standard": "KCS 14 20 10",
+      "edition": "2024-12-30",
+      "clause": "3.3.4",
+      "quotes": [
+        "벽 또는 기둥의 콘크리트 침하가 거의 끝난 다음 슬래브, 보의 콘크리트를 타설하여야 한다",
+        "즉시 다짐이나 재 진동을 실시하여 균열을 제거하여야 한다"
+      ]
+    }
   }
 }

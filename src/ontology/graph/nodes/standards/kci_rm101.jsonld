@@ -1,0 +1,26 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "standard:kci_rm101",
+  "@type": "Standard",
+  "name": "KCI-RM101 굳지 않은 콘크리트의 단위수량 시험 (한국콘크리트학회 제규격)",
+  "aliases": [
+    "KCI-RM101",
+    "단위수량 시험방법"
+  ],
+  "_meta": {
+    "issuer": "한국콘크리트학회",
+    "category": "시험방법",
+    "granularity": "document",
+    "sourceStatus": "indirect_source",
+    "note": "제규격 본문은 대조하지 못했다. 표준시방서가 단위수량 시험방법으로 지정한 사실만 확인.",
+    "verifiedAgainst": {
+      "standard": "KCS 14 20 10",
+      "edition": "2024-12-30",
+      "clause": "3.5.3.1 표 3.5-2",
+      "quotes": [
+        "한국콘크리트학회 제규격(KCI-RM101)에 따른 굳지 않은 콘크리트의 단위수량시험",
+        "한국콘크리트학회 제규격(KCI-RM101)에 규정된 시험방법 중 한가지 시험방법을 정하여 시행한다"
+      ]
+    }
+  }
+}

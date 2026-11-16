@@ -12,7 +12,7 @@
     "reference": "KS F 3101/3021/3103 — 별표2 시험방법 인용",
     "sourceStatus": "skeleton",
     "referenceVerified": false,
-    "note": "별표2로 시험종목·방법 verified. 강도·난연 판정값은 KS 원문(공공 자동확보 제약)이라 skeleton."
+    "note": "시험종목·방법·빈도는 업무지침 별표 2 로 확인했다. 판정값은 해당 KS·표준시방서 본문과 대조하지 못해 이 서버에는 수치가 없다(KS 본문은 유료)."
   },
   "appliesTo": [
     "test:wood_panel_strength"

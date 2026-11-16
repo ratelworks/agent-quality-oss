@@ -2,15 +2,18 @@
   "@context": "../../context.jsonld",
   "@id": "standard:ks_f_2308",
   "@type": "Standard",
-  "name": "KS F 2308 흙의 현장 들밀도 시험",
+  "name": "KS F 2308 흙입자 밀도 시험방법",
   "aliases": [
     "KS F 2308",
-    "들밀도",
-    "현장밀도 시험"
+    "흙입자 밀도"
   ],
   "_meta": {
     "issuer": "국가기술표준원",
     "category": "시험방법",
-    "granularity": "document"
+    "granularity": "document",
+    "note": "흙 입자의 밀도 시험이다. 현장 밀도(들밀도)는 KS F 2311.",
+    "ksNumber": "KS F 2308",
+    "officialName": "흙입자 밀도 시험방법",
+    "confirmedOn": "2022-07-20"
   }
 }

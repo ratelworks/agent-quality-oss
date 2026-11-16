@@ -2,7 +2,7 @@
   "@context": "../../context.jsonld",
   "@id": "standard:ks_d_3503",
   "@type": "Standard",
-  "name": "KS D 3503 일반구조용 압연강재",
+  "name": "KS D 3503 일반 구조용 압연 강재",
   "aliases": [
     "KS D 3503",
     "압연강재 KS",
@@ -11,6 +11,9 @@
   "_meta": {
     "issuer": "국가기술표준원",
     "category": "제품규격",
-    "granularity": "document"
+    "granularity": "document",
+    "ksNumber": "KS D 3503",
+    "officialName": "일반 구조용 압연 강재",
+    "confirmedOn": "2026-06-30"
   }
 }

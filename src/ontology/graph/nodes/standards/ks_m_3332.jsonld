@@ -2,14 +2,17 @@
   "@context": "../../context.jsonld",
   "@id": "standard:ks_m_3332",
   "@type": "Standard",
-  "name": "KS M 3332 열경화성 수지 화장판",
+  "name": "KS M 3332 열경화성 수지 고압 화장판 시험방법",
   "aliases": [
     "KS M 3332",
-    "화장판"
+    "열경화성 수지 고압 화장판"
   ],
   "_meta": {
     "issuer": "국가기술표준원",
-    "category": "제품규격",
-    "granularity": "document"
+    "category": "시험방법",
+    "granularity": "document",
+    "ksNumber": "KS M 3332",
+    "officialName": "열경화성 수지 고압 화장판 시험방법",
+    "confirmedOn": "2022-11-02"
   }
 }

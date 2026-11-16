@@ -16,6 +16,7 @@ import { loadOntologySync } from "../../src/ontology/loader.js";
 import { OntologyGraph } from "../../src/ontology/graph.js";
 import { callTool } from "../../src/tool-registry.js";
 import { collectStandardAnchors } from "../sync/check-standards.js";
+import { quoteExists } from "../../src/knowledge/cite.js";
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "../..");
 const NODES_DIR = join(ROOT, "src/ontology/graph/nodes");
@@ -173,7 +174,98 @@ async function testStripping(): Promise<void> {
   check("위험 추론: 밑면 12 MPa 는 불합격, 부재 없는 6 MPa 는 판정하지 않음", summary.fail === 1 && summary.undetermined === 1 && summary.pass === 0, JSON.stringify(summary));
 }
 
-// ── 4. 노드 ─────────────────────────────────────────────────────────
+// ── 4. 흙 다짐도 (KCS 11 20 20 3.2.16) ─────────────────────────────
+async function testCompaction(): Promise<void> {
+  const by = { testId: "test.soil_compaction" };
+  await expectVerdict("노상 93 % (95 % 미만)", "노상 다짐도 93%", by, "FAIL", "criteria.soil_compaction_subgrade");
+  await expectVerdict("노상 96 %", "노상 다짐도 96%", by, "PASS", "criteria.soil_compaction_subgrade");
+  await expectVerdict("노체 92 % (90 % 이상)", "노체 다짐도 92%", by, "PASS", "criteria.soil_compaction_embankment");
+  await expectVerdict("노체 88 %", "노체 다짐도 88%", by, "FAIL", "criteria.soil_compaction_embankment");
+  const noPart = await expectVerdict("부위를 말하지 않은 93 %: 노체면 충족·노상이면 미달이라 판정하지 않음", "다짐도 93%", by, "UNDETERMINED", "criteria.soil_compaction_degree");
+  check("부위를 말하지 않음: 다짐 부위를 물음", noPart.neededInputs.some((n) => n.includes("다짐 부위")));
+}
+
+interface NodeFile {
+  id: string;
+  name: string;
+  meta: Record<string, unknown>;
+  relations: Record<string, unknown>;
+}
+
+function loadNodes(): NodeFile[] {
+  const nodes: NodeFile[] = [];
+  for (const dir of readdirSync(NODES_DIR)) {
+    for (const file of readdirSync(join(NODES_DIR, dir))) {
+      const raw = JSON.parse(readFileSync(join(NODES_DIR, dir, file), "utf8")) as Record<string, unknown>;
+      nodes.push({ id: String(raw["@id"]), name: String(raw["name"]), meta: (raw["_meta"] ?? {}) as Record<string, unknown>, relations: raw });
+    }
+  }
+  return nodes;
+}
+
+// ── 5. 근거 표기와 KS 번호 ──────────────────────────────────────────
+function testProvenance(): void {
+  const nodes = loadNodes();
+  const byId = new Map(nodes.map((n) => [n.id, n]));
+  const requires = (id: string): string[] => (byId.get(id)?.relations["requiresStandard"] as string[] | undefined) ?? [];
+
+  // 옛 사본 파일의 줄 번호가 아니라, 기준의 판·조항·구절(또는 수록 법령의 구절)로 적는다
+  const loose = nodes.filter((n) => typeof n.meta["verifiedAgainst"] === "string");
+  check("근거 표기: 글자 한 줄로 적은 것이 없음(모두 판·조항·구절 구조)", loose.length === 0, loose.map((n) => n.id).slice(0, 6).join(","));
+  const verifiedWithout = nodes.filter((n) => /^(criteria|inspection|ncr):/.test(n.id) && n.meta["sourceStatus"] === "verified" && n.meta["verifiedAgainst"] == null);
+  check("근거 표기: verified 인 기준·검측·부적합 노드는 모두 근거를 적음", verifiedWithout.length === 0, verifiedWithout.map((n) => n.id).slice(0, 8).join(","));
+
+  // 수록한 법령(업무지침 별표 2 등)을 근거로 든 구절은 이 자리에서 원문과 대조한다
+  let lawQuotes = 0;
+  const missing: string[] = [];
+  for (const n of nodes) {
+    const raw = n.meta["verifiedAgainst"];
+    for (const item of Array.isArray(raw) ? raw : [raw]) {
+      const a = item as { law?: string; annex?: string; article?: string; quotes?: string[] } | null | undefined;
+      if (!a || typeof a.law !== "string" || !Array.isArray(a.quotes)) continue;
+      for (const quote of a.quotes) {
+        lawQuotes += 1;
+        if (!quoteExists({ law: a.law, ...(a.annex ? { annex: a.annex } : {}), ...(a.article ? { article: a.article } : {}), quote })) missing.push(`${n.id}: "${quote}"`);
+      }
+    }
+  }
+  check(`법령 근거 구절 ${lawQuotes}건이 모두 수록 원문에 있음`, lawQuotes >= 60 && missing.length === 0, missing.slice(0, 6).join(" / "));
+
+  // KS 노드 — 번호와 공식 표준명을 갖춘다 (표준명 대조는 npm run check:ks-names)
+  const ks = nodes.filter((n) => n.id.startsWith("standard:ks_"));
+  const badKs = ks.filter((n) => typeof n.meta["ksNumber"] !== "string" || typeof n.meta["officialName"] !== "string" || !n.name.startsWith(String(n.meta["ksNumber"])));
+  check(`KS 노드 ${ks.length}개가 번호·공식 표준명을 갖춤`, ks.length >= 50 && badKs.length === 0, badKs.map((n) => n.id).join(","));
+  const nameOf = (id: string): string => byId.get(id)?.name ?? "";
+  // 번호와 용도가 어긋나 있던 것 — 표준명이 다시 바뀌면 여기서 드러난다
+  check("KS F 2308 은 흙입자 밀도(현장 밀도 아님)", nameOf("standard:ks_f_2308").includes("흙입자 밀도"));
+  check("KS F 2311 은 모래 치환법 현장 밀도", nameOf("standard:ks_f_2311").includes("모래 치환법"));
+  check("KS F 2515 는 골재의 염화물", nameOf("standard:ks_f_2515").includes("골재"));
+  check("KS L 3121 은 내화 단열 벽돌", nameOf("standard:ks_l_3121").includes("내화 단열 벽돌"));
+  check("KS F 4911 은 합성 고분자계 방수 시트", nameOf("standard:ks_f_4911").includes("합성 고분자계"));
+  check("KS F 4402 는 진동 및 전압 철근 콘크리트 관", nameOf("standard:ks_f_4402").includes("진동 및 전압"));
+  check("KS F 2367 은 아스팔트 포장용 혼합물의 두께", nameOf("standard:ks_f_2367").includes("아스팔트"));
+
+  // 시험이 가리키는 시험방법 (업무지침 별표 2 · KCS 14 20 10 표 3.5-2)
+  check("염화물 시험: KS F 4009(부속서 A), 골재용 KS F 2515 아님", requires("test:chloride").includes("standard:ks_f_4009") && !requires("test:chloride").includes("standard:ks_f_2515"));
+  check("단위수량 시험: KCI-RM101", requires("test:unit_water_content").includes("standard:kci_rm101"));
+  check("공기량 시험: KS F 2421·2409·2449", ["standard:ks_f_2421", "standard:ks_f_2409", "standard:ks_f_2449"].every((id) => requires("test:air_content").includes(id)));
+  check("다짐도 시험: 현장밀도 KS F 2311 (KS F 2308 아님)", requires("test:soil_compaction").includes("standard:ks_f_2311") && !requires("test:soil_compaction").includes("standard:ks_f_2308"));
+  check("단열재 열전도율: KS L 9016 (KS L 3121 아님)", requires("test:thermal_conductivity").includes("standard:ks_l_9016") && !requires("test:thermal_conductivity").includes("standard:ks_l_3121"));
+  check("콘크리트 포장: 아스팔트용 KS F 2367 을 가리키지 않음", !requires("test:concrete_pavement_strength").includes("standard:ks_f_2367"));
+  check("거푸집 해체 강도: 현장양생 방법 KCI-CT 118", requires("test:formwork_stripping_strength").includes("standard:kci_ct118"));
+
+  const everyRef = nodes.flatMap((n) => Object.values(n.relations).filter(Array.isArray).flat() as unknown[]).filter((v): v is string => typeof v === "string" && /^[a-z]+:/.test(v));
+  const dangling = [...new Set(everyRef.filter((id) => id.startsWith("standard:") && !byId.has(id)))];
+  check("노드가 가리키는 표준 노드가 모두 있음", dangling.length === 0, dangling.join(","));
+
+  const rebar = JSON.stringify(byId.get("ncr:rebar_material_nonconformance")?.meta ?? {});
+  check("철근 부적합: 불합격 자재의 반복 시험을 안내하지 않음", !rebar.includes("동일 로트 재시험") && rebar.includes("반복 시험을 요구할 수 없다"));
+  const placement = String(byId.get("inspection:rebar_placement")?.meta["rule"] ?? "");
+  check("철근 검측: 인장시험 판정은 설계기준항복강도의 125 %", placement.includes("설계기준항복강도의 125 %") && !placement.includes("모재 규격값"));
+  check("철근 검측: −10/−13 mm 는 최소피복두께의 허용오차", /최소피복두께 허용오차 d≤200 mm −10 mm/.test(placement));
+}
+
+// ── 6. 노드 ─────────────────────────────────────────────────────────
 function testNodes(): void {
   const anchors = collectStandardAnchors(NODES_DIR);
   check("국가건설기준을 근거로 적은 노드가 있음", anchors.length >= 20, String(anchors.length));
@@ -198,6 +290,8 @@ async function main(): Promise<void> {
   await testStrength();
   await testTemperature();
   await testStripping();
+  await testCompaction();
+  testProvenance();
   testNodes();
   console.log(`[standards-judgment] ${passed} 통과 / ${failed} 실패`);
   if (failed > 0) process.exit(1);

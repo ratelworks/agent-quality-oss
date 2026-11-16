@@ -21,7 +21,15 @@
     "effectivenessCheck": "재다짐·차수 보강 후 투수 재시험",
     "closureCriteria": "목표 투수계수 도달 확인 + NCR 보고서 승인",
     "sourceStatus": "verified",
-    "verifiedAgainst": "evaluation/sources/quality_test_standards_annex2.txt (수공구조물공사)"
+    "verifiedAgainst": {
+      "law": "건설공사 품질관리 업무지침",
+      "annex": "별표 2",
+      "section": "수공구조물공사",
+      "quotes": [
+        "투수",
+        "KS F 2322"
+      ]
+    }
   },
   "relatedTest": [
     "test:soil_permeability"

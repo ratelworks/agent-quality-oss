@@ -2,7 +2,7 @@
   "@context": "../../context.jsonld",
   "@id": "standard:ks_d_3504",
   "@type": "Standard",
-  "name": "KS D 3504 철근콘크리트용 봉강",
+  "name": "KS D 3504 철근 콘크리트용 봉강",
   "aliases": [
     "KS D 3504",
     "이형철근 KS"
@@ -12,6 +12,9 @@
     "category": "제품규격",
     "granularity": "document",
     "sourceStatus": "indirect_source",
-    "note": "별표2가 철근 시험방법으로 인용. 등급별 항복강도 수치 본문은 유료 표준이라 미확보 — 시험종목·방법·빈도만 verified."
+    "note": "별표2가 철근 시험방법으로 인용. 등급별 항복강도 수치 본문은 유료 표준이라 미확보 — 시험종목·방법·빈도만 verified.",
+    "ksNumber": "KS D 3504",
+    "officialName": "철근 콘크리트용 봉강",
+    "confirmedOn": "2025-06-02"
   }
 }

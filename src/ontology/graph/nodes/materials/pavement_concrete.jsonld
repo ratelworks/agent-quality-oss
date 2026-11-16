@@ -10,7 +10,7 @@
   ],
   "_meta": {
     "category": "포장재",
-    "note": "별표2 시멘트 콘크리트 포장재. 휨강도 KS F 2408·두께 KS F 2367. 기준값은 KCS 44 확보 시."
+    "note": "업무지침 별표 2 의 콘크리트포장 시험 대상 — 휨 강도 KS F 2408, 평탄성 KS F 2373. 판정값은 KCS 44 50 15 와 설계도서."
   },
   "requiresTest": [
     "test:concrete_pavement_strength"

@@ -2,7 +2,7 @@
   "@context": "../../context.jsonld",
   "@id": "standard:ks_f_2408",
   "@type": "Standard",
-  "name": "KS F 2408 콘크리트의 휨 강도 시험",
+  "name": "KS F 2408 콘크리트의 휨 강도 시험방법",
   "aliases": [
     "KS F 2408",
     "휨강도 시험"
@@ -10,6 +10,9 @@
   "_meta": {
     "issuer": "국가기술표준원",
     "category": "시험방법",
-    "granularity": "document"
+    "granularity": "document",
+    "ksNumber": "KS F 2408",
+    "officialName": "콘크리트의 휨 강도 시험방법",
+    "confirmedOn": "2021-09-06"
   }
 }

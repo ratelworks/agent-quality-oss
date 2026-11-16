@@ -2,13 +2,16 @@
   "@context": "../../context.jsonld",
   "@id": "standard:ks_f_2405",
   "@type": "Standard",
-  "name": "KS F 2405 압축강도 시험",
+  "name": "KS F 2405 콘크리트의 압축 강도 시험방법",
   "aliases": [
     "KS F 2405"
   ],
   "_meta": {
     "issuer": "국가기술표준원",
     "category": "시험방법",
-    "granularity": "document"
+    "granularity": "document",
+    "ksNumber": "KS F 2405",
+    "officialName": "콘크리트의 압축 강도 시험방법",
+    "confirmedOn": "2022-12-23"
   }
 }

@@ -1,0 +1,19 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "standard:ks_f_2422",
+  "@type": "Standard",
+  "name": "KS F 2422 콘크리트 코어 및 보의 시료 절취 및 강도 시험방법",
+  "aliases": [
+    "KS F 2422",
+    "코어 강도 시험",
+    "코어 채취"
+  ],
+  "_meta": {
+    "issuer": "국가기술표준원",
+    "category": "시험방법",
+    "granularity": "document",
+    "ksNumber": "KS F 2422",
+    "officialName": "콘크리트 코어 및 보의 시료 절취 및 강도 시험방법",
+    "confirmedOn": "2022-09-30"
+  }
+}

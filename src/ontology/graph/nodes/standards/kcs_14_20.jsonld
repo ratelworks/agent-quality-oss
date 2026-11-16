@@ -9,10 +9,10 @@
   ],
   "_meta": {
     "issuer": "국토교통부 / 국가건설기준센터",
-    "reference": "KCS 14 20 00 ~ KCS 14 20 80",
-    "discipline": "건축",
+    "reference": "KCS 14 20 00 콘크리트공사 — 하위 코드 KCS 14 20 01 ~ KCS 14 20 70",
+    "discipline": "공통(구조재료공사)",
     "url": "https://www.kcsc.re.kr",
-    "revision": "2022",
+    "revision": "코드마다 다름 — 일반콘크리트·철근공사·거푸집 및 동바리·한중 콘크리트 2024-12-30, 서중 콘크리트 2025-12-24",
     "granularity": "document"
   }
 }

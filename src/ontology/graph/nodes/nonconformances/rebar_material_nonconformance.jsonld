@@ -18,10 +18,28 @@
     ],
     "owner": "철근 공급사 + 현장 품질관리자",
     "approver": "감리원 / 구조기술사",
-    "effectivenessCheck": "동일 로트 재시험 + 공급사 시험성적서·KS 인증 확인",
+    "effectivenessCheck": "불합격 자재는 지체 없이 장외로 반출하고 불합격자재조치표를 작성·비치한다(KCS 10 10 15 1.5 (11)(12)). 불합격된 자재에 대해 시험결과 확인 등을 이유로 반복 시험을 요구할 수 없다(1.5 (14)). 다시 반입하는 철근의 시험성적서·KS 인증을 확인한다.",
     "closureCriteria": "불합격 로트 반출 + 적합 철근 재반입 + NCR 보고서 승인",
     "sourceStatus": "verified",
-    "verifiedAgainst": "evaluation/sources/quality_test_standards_annex2.txt(철근 시험종목) + kcs_14_20_01.txt L4283-4725(KCS 14 20 11 §2 재료)"
+    "verifiedAgainst": [
+      {
+        "standard": "KCS 10 10 15",
+        "edition": "2018-08-30",
+        "clause": "1.5 (11)(12)(14)",
+        "quotes": [
+          "불합격된 자재를 지체없이 장외로 반출하여야 한다",
+          "동일자재에 대하여 반복하여 시험을 요구할 수 없다"
+        ]
+      },
+      {
+        "law": "건설공사 품질관리 업무지침",
+        "annex": "별표 2",
+        "section": "철근",
+        "quotes": [
+          "KS D 3504"
+        ]
+      }
+    ]
   },
   "relatedTest": [
     "test:rebar_mechanical"
@@ -43,6 +61,7 @@
   ],
   "basisPriority": [
     "standard:ks_d_3504",
-    "standard:kcs_14_20.11"
+    "standard:kcs_14_20.11",
+    "standard:kcs_10_10_15"
   ]
 }

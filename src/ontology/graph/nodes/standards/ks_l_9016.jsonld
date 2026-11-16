@@ -1,0 +1,19 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "standard:ks_l_9016",
+  "@type": "Standard",
+  "name": "KS L 9016 보온재의 열전도율 측정 방법",
+  "aliases": [
+    "KS L 9016",
+    "보온재 열전도율",
+    "단열재 열전도율"
+  ],
+  "_meta": {
+    "issuer": "국가기술표준원",
+    "category": "시험방법",
+    "granularity": "document",
+    "ksNumber": "KS L 9016",
+    "officialName": "보온재의 열전도율 측정 방법",
+    "confirmedOn": "2022-11-04"
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "standard:ks_f_2311",
+  "@type": "Standard",
+  "name": "KS F 2311 모래 치환법에 의한 흙의 밀도 시험 방법",
+  "aliases": [
+    "KS F 2311",
+    "현장밀도",
+    "들밀도",
+    "모래 치환법"
+  ],
+  "_meta": {
+    "issuer": "국가기술표준원",
+    "category": "시험방법",
+    "granularity": "document",
+    "ksNumber": "KS F 2311",
+    "officialName": "모래 치환법에 의한 흙의 밀도 시험 방법",
+    "confirmedOn": "2022-07-20"
+  }
+}

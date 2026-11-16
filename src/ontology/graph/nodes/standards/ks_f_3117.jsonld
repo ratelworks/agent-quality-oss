@@ -1,0 +1,18 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "standard:ks_f_3117",
+  "@type": "Standard",
+  "name": "KS F 3117 창 세트",
+  "aliases": [
+    "KS F 3117",
+    "창세트"
+  ],
+  "_meta": {
+    "issuer": "국가기술표준원",
+    "category": "제품규격",
+    "granularity": "document",
+    "ksNumber": "KS F 3117",
+    "officialName": "창 세트",
+    "confirmedOn": "2026-11-04"
+  }
+}

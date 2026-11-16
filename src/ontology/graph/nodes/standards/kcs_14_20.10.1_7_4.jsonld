@@ -8,10 +8,17 @@
   ],
   "_meta": {
     "parent": "standard.kcs_14_20.10",
-    "sectionRef": "14 20 10 §1.7.4",
+    "sectionRef": "14 20 10 1.7.4",
     "scope": "보통 4.5% / 경량 5.5% / 포장 4.5% / 고강도 3.5% 이하, 허용오차 ±1.5%",
     "granularity": "clause",
     "sourceStatus": "verified",
-    "verifiedAgainst": "evaluation/sources/kcs_14_20_01.txt L1610"
+    "verifiedAgainst": {
+      "standard": "KCS 14 20 10",
+      "edition": "2024-12-30",
+      "clause": "1.7.4 (1)",
+      "quotes": [
+        "공기량은 보통콘크리트의 경우 4.5%, 경량 콘크리트의 경우 5.5%, 포장콘크리트 4.5%, 고강도콘크리트 3.5% 이하로 하되, 그 허용오차는 ±1.5%로 한다"
+      ]
+    }
   }
 }

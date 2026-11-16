@@ -38,6 +38,8 @@
   ],
   "requiresStandard": [
     "standard:ks_f_2421",
+    "standard:ks_f_2409",
+    "standard:ks_f_2449",
     "standard:kcs_14_20.10.3_5_3_1",
     "standard:kcs_14_20.10.1_7_4"
   ]

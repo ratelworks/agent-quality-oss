@@ -21,7 +21,15 @@
     "effectivenessCheck": "현장양생 공시체 강도 재확인 + 처짐·균열 점검",
     "closureCriteria": "해체강도 도달 확인 또는 구조 안전성 검토 완료 + NCR 보고서 승인",
     "sourceStatus": "verified",
-    "verifiedAgainst": "evaluation/sources/kcs_14_20_01.txt L5159-5189"
+    "verifiedAgainst": {
+      "standard": "KCS 14 20 12",
+      "edition": "2024-12-30",
+      "clause": "3.3.1",
+      "quotes": [
+        "거푸집 및 동바리는 콘크리트가 자중 및 시공 중에 가해지는 하중을 지지할 수 있는 강도를 가질 때까지 해체할 수 없다",
+        "책임기술자의 승인을 받아야 한다"
+      ]
+    }
   },
   "relatedTest": [
     "test:formwork_stripping_strength"

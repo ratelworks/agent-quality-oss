@@ -9,6 +9,13 @@
     "scope": "재령 28일 표준양생 공시체 압축강도 기준. 시험은 KS F 2405, 공시체 제작 KS F 2403",
     "granularity": "clause",
     "sourceStatus": "verified",
-    "verifiedAgainst": "evaluation/sources/kcs_14_20_01.txt L1634-1652"
+    "verifiedAgainst": {
+      "standard": "KCS 14 20 10",
+      "edition": "2024-12-30",
+      "clause": "1.8.2 (1)",
+      "quotes": [
+        "표준양생을 실시한 콘크리트 공시체의 재령 28일일 때 시험값을 기준으로 한다"
+      ]
+    }
   }
 }

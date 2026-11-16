@@ -12,7 +12,7 @@
   ],
   "_meta": {
     "category": "마감재",
-    "note": "별표2 단열재 시험 대상. 열전도율 기준은 KS L 3121/KS F 확보 시."
+    "note": "업무지침 별표 2 의 단열재 시험 대상 — 열전도율 KS L 9016. 판정값은 해당 단열재의 KS 제품규격과 건축물의 에너지절약설계기준."
   },
   "requiresTest": [
     "test:thermal_conductivity"

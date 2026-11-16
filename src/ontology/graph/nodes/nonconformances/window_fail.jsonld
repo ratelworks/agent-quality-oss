@@ -20,7 +20,15 @@
     "effectivenessCheck": "동일 제품 재시험 또는 현장 기밀·수밀 재확인",
     "closureCriteria": "불합격 제품 반출 + 적합 제품 재시공 + NCR 승인",
     "sourceStatus": "verified",
-    "verifiedAgainst": "evaluation/sources/quality_test_standards_annex2.txt (창호공사)"
+    "verifiedAgainst": {
+      "law": "건설공사 품질관리 업무지침",
+      "annex": "별표 2",
+      "section": "창호공사",
+      "quotes": [
+        "문세트",
+        "KS F 3109"
+      ]
+    }
   },
   "relatedTest": [
     "test:window_performance"

@@ -10,10 +10,10 @@
     "내알칼리성"
   ],
   "_meta": {
-    "method": "강화유리 낙구충격파괴강도·파쇄시험 KS L 2002 / 복층유리 내알칼리성 KS L 2003",
+    "method": "강화유리 KS L 2002(낙구 충격 파괴 강도·파쇄시험·쇼트백 충격 특성) / 열선 반사 유리 KS L 2014(내광성·내마모성·내산성·내알칼리성) / 복층유리 KS L 2003(겉모양 및 치수·이슬점·봉착의 가속 내구성) — 업무지침 별표 2",
     "timing": "유리 반입 시",
     "frequency": "제조회사별·제품규격별 (별표2)",
-    "typicalAcceptance": "강화유리 강도·복층유리 성능 기준은 KS L 2002/2003 확보 시 — 시험종목·방법 커버리지"
+    "typicalAcceptance": "유리의 판정값은 KS L 2002·2003·2014 를 따른다 — 이 서버에는 판정값이 없다"
   },
   "targetMaterial": [
     "material:glass"
@@ -34,6 +34,7 @@
     "doc:test_certificate"
   ],
   "requiresStandard": [
-    "standard:ks_l_2002"
+    "standard:ks_l_2002",
+    "standard:ks_l_2014"
   ]
 }

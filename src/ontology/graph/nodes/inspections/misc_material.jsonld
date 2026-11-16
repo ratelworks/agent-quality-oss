@@ -9,10 +9,22 @@
   ],
   "_meta": {
     "stage": "before",
-    "rule": "석재 압축강도·흡수율, 토목섬유 인장강도·투수·봉합강도 시험성적서 검토. 빈도: 석산마다·20,000㎡마다.",
+    "rule": "석재(밀도 및 흡수율 KS F 2518·압축강도 KS F 2519): 골재원마다·재질 변화시마다 / 토목섬유(인장강도 KS K ISO 10319·투수 KS K ISO 11058 등): 제조회사별·제품규격마다·20,000 ㎡마다 — 시험성적서 검토.",
     "reference": "별표2(공통 마.기타)",
     "sourceStatus": "verified",
-    "verifiedAgainst": "evaluation/sources/quality_test_standards_annex2.txt (공통 마.기타)"
+    "verifiedAgainst": {
+      "law": "건설공사 품질관리 업무지침",
+      "annex": "별표 2",
+      "section": "공통 — 기타",
+      "quotes": [
+        "석재",
+        "KS F 2519",
+        "골재원마다",
+        "토목섬유",
+        "KS K ISO 10319",
+        "20,000제곱미터마다"
+      ]
+    }
   },
   "verifies": [
     "risk:misc_material_defect"

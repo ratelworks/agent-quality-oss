@@ -54,8 +54,10 @@
     "check:law-editions": "tsx scripts/sync/sync-laws.ts --check",
     "test:laws": "tsx scripts/test/test-laws.ts",
     "test:conformance": "tsx scripts/test/test-conformance.ts",
-    "check:standards": "tsx scripts/sync/check-standards.ts",
-    "test:standards": "tsx scripts/test/test-standards.ts"
+    "check:standards": "tsx scripts/sync/check-standards.ts && tsx scripts/sync/sync-ks-names.ts --check",
+    "test:standards": "tsx scripts/test/test-standards.ts",
+    "sync:ks-names": "tsx scripts/sync/sync-ks-names.ts",
+    "check:ks-names": "tsx scripts/sync/sync-ks-names.ts --check"
   },
   "keywords": [
     "mcp",
