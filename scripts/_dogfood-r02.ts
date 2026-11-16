@@ -61,14 +61,13 @@ const SCENARIOS: Scenario[] = [
   {
     id: 'C03',
     persona: '경력',
-    intent: '1회 -3.5MPa 룰 (단일값 21MPa, R1 검증)',
-    expect: '단일 시험값 21MPa, fcn 24 → 표 3.5-3 (≤35MPa, 1회 ≥ fcn-3.5 = 20.5) → PASS marginal(평균 미수반)',
+    intent: '1회 시험값만 있을 때 — 합격으로 단정하지 않는다 (단일값 21MPa)',
+    expect: '단일 시험값 21MPa, 호칭강도 24 → 표 3.5-3 은 ① 연속 3회 평균 ≥ 호칭강도 와 ② 1회 ≥ 호칭강도−3.5 를 함께 요구한다. ② 는 충족(20.5 이상)하지만 ① 을 확인할 값이 없으므로 UNDETERMINED',
     tool: 'evaluate_observation',
     args: { observation: '압축강도 1회 시험값 21MPa, 호칭강도 24MPa', testId: 'test.compressive_strength' },
-    expectedVerdict: 'PASS',
+    expectedVerdict: 'UNDETERMINED',
     expectedBasisIds: ['criteria.compressive_strength_statistical_le35'],
-    // expectedSourceStatus는 응답 신뢰도 KPI(measure.ts)로 별도 추적 — 시나리오 PASS 게이트에서 분리. R6 Glossary 마이그레이션 후 R6+ baseline에서 재도입.
-    notes: 'R1 (2026-04-28) 통계 모드 도입. 단일값 입력이라 평균 검증 부재 → MARGINAL = legalVerdict PASS + qualitySignal=marginal. expectedVerdict=PASS는 legalVerdict 비교.',
+    notes: '두 조건을 모두 확인해야 합격이다(KCS 14 20 10 표 3.5-3). 1회 값만으로 PASS 를 내면 평균 조건을 건너뛴 판정이 된다 — 예전 기대값(PASS)을 고쳤다.',
   },
   {
     id: 'C03b',

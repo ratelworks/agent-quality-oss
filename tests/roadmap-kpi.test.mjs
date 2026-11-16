@@ -17,6 +17,8 @@ const OUTDATED_KPI = [
   "그래프 verified 노드 수 | 103",
   "46/54 = 85%", // Round 8 완료(2026-07-02, 52개·제네릭 설계)로 폐기된 표기
   "330노드 / verified 69", // Round 1.3·1.5 완료(2026-07-02)로 폐기된 표기
+  "382노드 / verified 149", // 손으로 적던 표기 — 자리 표시로 바꿈
+  "worst 0% / any 0% / ratio 0%", // 2026-11-16 다시 측정
 ];
 
 test("ROADMAP §6 KPI 에 outdated 수치 부재 (현행 정합)", () => {
@@ -25,9 +27,10 @@ test("ROADMAP §6 KPI 에 outdated 수치 부재 (현행 정합)", () => {
   }
 });
 
-test("ROADMAP §6 KPI 현행 수치 존재", () => {
+test("ROADMAP 의 현행 수치는 자료에서 다시 적는 자리에 있다", () => {
   assert.ok(ROADMAP.includes("19/19 = 100%"), "19종 schema 현행 수치(19/19 = 100%) 없음");
-  assert.ok(ROADMAP.includes("52개"), "MCP 도구 현행 수치(52개) 없음");
-  assert.ok(ROADMAP.includes("382노드"), "그래프 노드 현행 수치(382노드) 없음");
-  assert.ok(ROADMAP.includes("149"), "verified 자산 현행 수치(149) 없음");
+  // 손으로 적은 수는 낡는다 — 그래프·도구 수는 docs:sync 가 채우는 자리 표시로만 둔다(docs:check 가 값을 검사)
+  for (const key of ["tools", "verified", "criteria", "graph"]) {
+    assert.ok(ROADMAP.includes(`<!-- stat:${key} -->`), `ROADMAP 에 자리 표시 stat:${key} 없음`);
+  }
 });

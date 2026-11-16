@@ -4,7 +4,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](./LICENSE)
 [![Node](https://img.shields.io/badge/node-%3E%3D22.12-brightgreen)](https://nodejs.org)
 [![MCP](https://img.shields.io/badge/MCP-2026--07--28-purple)](https://modelcontextprotocol.io)
-[![Release](https://img.shields.io/badge/release-v0.4.3-blue.svg)](./CHANGELOG.md)
+[![Release](https://img.shields.io/badge/release-v1.0.0-blue.svg)](./CHANGELOG.md)
 [![Tools](https://img.shields.io/badge/MCP%20tools-56-orange.svg)](#현장-운영-흐름)
 
 **건설현장의 품질관리 문서 작성과 검토를 더 빠르고 정확하게.** 건설기술 진흥법·건설공사 품질관리 업무지침·KCS/KDS·KS 를 기반으로, 품질관리자(QC)와 감리원의 ITP·NCR·검사요청·시험성적서 검토 같은 작업을 돕는 오픈소스 도구입니다.
@@ -65,7 +65,7 @@ LLM 은 이 그래프를 보고 문서를 작성하거나 설명할 수 있지�
 | **문서 19종** | <!-- stat:forms -->법령·고시가 서식이나 기재 내용을 정한 문서 7종(품질시험계획서 · 검측요청서 · 품질검사 실시대장 · 품질관리계획서 · 품질검사 성과 총괄표 · 검측 체크리스트 · 자재 공급원 승인 요청서) + 실무 서식 12종(부적합 보고서(NCR) · 레미콘 차량별 입회시험 기록지 · 공시체 제작·관리 기록지 · 검사 및 시험 계획(ITP) · 시험성적서 검토 보고서 · 품질관리 건설기술인 배치 내역서 · 부적합 조치결과 확인서 · 자체 품질점검 결과 보고서 · 품질검사 대행 의뢰서 · 품질관리 일지 · 시정조치 요구서(CAR) · 내부심사(품질감사) 보고서)<!-- /stat:forms -->. 문서마다 필수 항목·근거·보존기간을 갖추고, 입력값으로 본문(Markdown · 한글 파일 · DocLang)을 만듭니다 |
 | **근거 추적(Lineage)** | 모든 도구 응답에 `basis[]` + `lineage.contentHash` + `sourceStatus` 요약 — 답이 어디서 왔는지, 출처가 검증됐는지 항상 확인 |
 
-→ 위 자료들이 **서로 연결**되어 있어, "콘크리트 타설" 한 단어만 알면 적용 자재·시험·판정기준·리스크·검측이 자동으로 따라옵니다. (패키지 버전: 0.4.3)
+→ 위 자료들이 **서로 연결**되어 있어, "콘크리트 타설" 한 단어만 알면 적용 자재·시험·판정기준·리스크·검측이 자동으로 따라옵니다. (패키지 버전: 1.0.0)
 
 ## 시작하기
 

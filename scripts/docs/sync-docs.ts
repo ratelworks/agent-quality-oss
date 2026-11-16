@@ -37,6 +37,8 @@ const TARGET_DOCS = [
   "docs/SETUP_CLAUDE_DESKTOP.md",
   "examples/README.md",
 ];
+/** 자리 표시만 다시 적는 문서 — 과거 시점 기록이 섞여 있어 "도구 N개" 같은 모양 찾기는 하지 않는다 */
+const MARKER_ONLY_DOCS = ["ROADMAP.md"];
 const CONTEXT_PATH = "src/ontology/graph/context.jsonld";
 const SMOKE_PATH = "scripts/smoke-test.ts";
 /** 문서 분류 — 양식 자료의 classification 값과 안내문에 적는 말 */
@@ -50,6 +52,8 @@ interface Facts {
   orphans: number;
   workTypes: number;
   verified: number;
+  criteria: number;
+  criteriaVerified: number;
   smoke: number;
   articles: number;
   annexTables: number;
@@ -88,6 +92,8 @@ function collectFacts(): Facts {
     orphans: report.issues.filter((i) => i.code === "ORPHAN_NODE").length,
     workTypes: [...graph.entities.values()].filter((e) => e.type === "WorkType").length,
     verified: [...graph.entities.values()].filter((e) => e.meta.sourceStatus === "verified").length,
+    criteria: [...graph.entities.values()].filter((e) => e.type === "AcceptanceCriteria").length,
+    criteriaVerified: [...graph.entities.values()].filter((e) => e.type === "AcceptanceCriteria" && e.meta.sourceStatus === "verified").length,
     // 회귀 사례 수 — 사례마다 네 칸 들여 쓴 "tool:" 줄이 하나씩 있다(문서 정합 검사와 같은 방식으로 센다)
     smoke: (smokeSource.match(/^ {4}tool:\s*['"]/gm) ?? []).length,
     articles: laws.reduce((sum, l) => sum + l.articles.filter((a) => !a.deleted).length, 0),
@@ -115,6 +121,8 @@ const MARKERS: Record<string, (f: Facts) => string> = {
   integrity: (f) => `통과 (노드 ${f.nodes} · 관계 ${f.relations} · orphan ${f.orphans})`,
   verified: (f) => `${f.verified}/${f.nodes} 노드 (${Math.round((f.verified / f.nodes) * 100)}%)`,
   smoke: (f) => `${f.smoke}/${f.smoke} 통과`,
+  tools: (f) => `${f.tools}개`,
+  criteria: (f) => `${f.criteriaVerified}/${f.criteria} (${Math.round((f.criteriaVerified / f.criteria) * 100)}%)`,
   "field-data": (f) => `현장 용어 ${f.fieldTerms}개 · 현장 표현 ${f.fieldPhrases}문장`,
 };
 
@@ -128,7 +136,7 @@ function patternRules(f: Facts): Array<[RegExp, string]> {
   ];
 }
 
-function syncText(text: string, facts: Facts, unknown: Set<string>): string {
+function syncText(text: string, facts: Facts, unknown: Set<string>, markersOnly = false): string {
   let next = text.replace(/<!-- stat:([\w-]+) -->[\s\S]*?<!-- \/stat:\1 -->/g, (whole, key: string) => {
     const render = MARKERS[key];
     if (!render) {
@@ -137,6 +145,7 @@ function syncText(text: string, facts: Facts, unknown: Set<string>): string {
     }
     return `<!-- stat:${key} -->${render(facts)}<!-- /stat:${key} -->`;
   });
+  if (markersOnly) return next;
   for (const [pattern, replacement] of patternRules(facts)) next = next.replace(pattern, replacement);
   return next;
 }
@@ -156,6 +165,10 @@ function main(): void {
   for (const file of TARGET_DOCS) {
     const current = readFileSync(join(ROOT, file), "utf8");
     apply(file, syncText(current, facts, unknown), current);
+  }
+  for (const file of MARKER_ONLY_DOCS) {
+    const current = readFileSync(join(ROOT, file), "utf8");
+    apply(file, syncText(current, facts, unknown, true), current);
   }
   // 맥락 정의 머리의 버전 표기
   const context = readFileSync(join(ROOT, CONTEXT_PATH), "utf8");
