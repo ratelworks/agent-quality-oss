@@ -101,11 +101,22 @@ export function run(args: ChainBriefingArgs, graph: OntologyGraph): ToolResponse
   });
 
   const unresolved = cards.filter((c) => !c.workType).map((c) => c.input);
+  // 하나도 알아보지 못했으면 근거가 비어 응답을 만들 수 없다 — 내부 오류로 끝내지 않고 고를 수 있는 공종 이름을 알린다
+  const availableWorkTypes =
+    unresolved.length > 0
+      ? [...graph.entities.values()].filter((e) => e.type === "WorkType").map((e) => ({ id: e.id, name: e.name }))
+      : undefined;
 
   const result = {
     input: { workTypes },
     briefing: cards,
     unresolvedWorkTypes: unresolved,
+    ...(availableWorkTypes
+      ? {
+          availableWorkTypes,
+          unresolvedNote: "알아보지 못한 공종이 있습니다 — availableWorkTypes 의 id 나 이름으로 다시 부르거나 resolve_worktype 으로 확인하세요. 알아보지 못한 공종의 카드는 비어 있습니다.",
+        }
+      : {}),
     usage:
       "공종 카드별로 ① risks 를 아침 회의에서 공유 ② inspections 의 timing 으로 검측 신청 시점 확인 (요청 시점은 현장 검측업무지침·계약에 따름) ③ tests·requiredDocs 로 오늘 챙길 시험·서류 준비. 시행은 현장 판단.",
   };
@@ -115,6 +126,7 @@ export function run(args: ChainBriefingArgs, graph: OntologyGraph): ToolResponse
     graph.version,
     result,
     mergeBasis(
+      ...(basisGroups.length === 0 ? [[{ type: "ontology_meta", id: "no_match", priority: 3, note: "공종 해석 실패" } as BasisRef]] : []),
       ...basisGroups,
       cards.flatMap((c) => [
         ...c.risks.map((r) => ({ type: "ontology", id: r.id, priority: 2 }) as BasisRef),

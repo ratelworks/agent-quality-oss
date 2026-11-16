@@ -128,6 +128,11 @@ export function searchEntities(
  * 공종(WorkType) 전용 단일 해석.
  */
 export function resolveWorkType(graph: OntologyGraph, query: string): ResolveHit | null {
+  // 공종 id("work.road_pavement")는 그대로 받는다 — 앞 도구가 돌려준 id 를 다음 도구에 넘기는 흐름에서 해석에 실패하지 않게
+  const byId = typeof query === 'string' ? graph.get(query.trim()) : undefined;
+  if (byId && byId.type === 'WorkType') {
+    return { id: byId.id, type: byId.type, name: byId.name, score: 1, matchedBy: 'exact', sourceStatus: readSourceStatus(byId.meta) };
+  }
   const hits = searchEntities(graph, query, 'WorkType', 5);
   return hits[0] ?? null;
 }

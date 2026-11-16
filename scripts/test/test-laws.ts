@@ -197,6 +197,35 @@ async function testLookup(): Promise<void> {
   check("도구: 법령+조문으로 원문", r1.article.title === "품질관리계획 등의 수립대상 공사" && r1.article.text.includes("660제곱미터") && /제\d+호/.test(r1.law.edition));
   const byAnnex = await callTool("get_quality_law_article", { law: "시행규칙", annex: "별표 5" }, { graph });
   check("도구: 법령+별표로 원문", (byAnnex.result as { annex: { title: string } }).annex.title.includes("배치기준"));
+  // 큰 별표(업무지침 별표 2 는 39만 자) — 통째로 주면 AI 비서가 읽지 못한다. 목차를 주고, 낱말을 주면 그 항목만
+  type AnnexOut = { annex: { length: number; text?: string; sections?: string[]; note?: string; matches?: number; excerpts?: Array<{ section: string | null; header: string | null; text: string }> } };
+  const bigAnnex = (await callTool("get_quality_law_article", { law: "품질관리 업무지침", annex: "별표 2" }, { graph })).result as AnnexOut;
+  check(
+    "도구: 큰 별표는 통째로 주지 않고 목차·찾는 법을 준다",
+    bigAnnex.annex.length > 300_000 && bigAnnex.annex.text === undefined && (bigAnnex.annex.sections ?? []).includes("가. 토공사 및 기초공사") && (bigAnnex.annex.note ?? "").includes("find") && JSON.stringify(bigAnnex).length < 40_000,
+    `${JSON.stringify(bigAnnex).length}자`,
+  );
+  const pile = (await callTool("get_quality_law_article", { law: "품질관리 업무지침", annex: "별표 2", find: "강관말뚝" }, { graph })).result as AnnexOut;
+  const pileText = (pile.annex.excerpts ?? []).map((e) => `${e.header ?? ""}\n${e.text}`).join("\n");
+  check(
+    "도구: 큰 별표에서 낱말이 든 항목 전체를 표 머리와 함께(강관말뚝 — 200개마다·10이음당 1회)",
+    pile.annex.matches === 1 && pileText.includes("200개마다") && pileText.includes("10이음당 1회") && pileText.includes("시험빈도") && pile.annex.excerpts?.[0]?.section === "가. 토공사 및 기초공사",
+    JSON.stringify(pile.annex).slice(0, 200),
+  );
+  const pileDyn = (await callTool("get_quality_law_article", { law: "품질관리 업무지침", annex: "별표 2", find: "정재하 동재하" }, { graph })).result as AnnexOut;
+  check("도구: 큰 별표 낱말 찾기 — 비고 칸까지(정재하 행의 '동재하시험을 선택적으로 적용')", (pileDyn.annex.excerpts ?? []).some((e) => e.text.includes("선택적으로")));
+  const smallAnnex = (await callTool("get_quality_law_article", { law: "시행규칙", annex: "별표 5" }, { graph })).result as AnnexOut;
+  check("도구: 작은 별표는 전문 그대로", typeof smallAnnex.annex.text === "string" && smallAnnex.annex.text.length === smallAnnex.annex.length);
+  // 공종 — 앞 도구가 돌려준 id 를 그대로 넘겨도, 현장 말("아스콘 표층 포설")로 넣어도 알아본다
+  type ResolveOut = { resolved: { id: string } | null };
+  const byWorkId = (await callTool("resolve_worktype", { input: "work.road_pavement" }, { graph })).result as ResolveOut;
+  const byFieldWord = (await callTool("resolve_worktype", { input: "아스콘 표층 포설" }, { graph })).result as ResolveOut;
+  check("공종: id 와 현장 말(아스콘 표층 포설)을 모두 알아본다", byWorkId.resolved?.id === "work.road_pavement" && byFieldWord.resolved?.id === "work.road_pavement");
+  const chainById = (await callTool("chain_quality_inspection", { workType: "work.road_pavement" }, { graph })).result as { resolvedWorkType?: { id: string } };
+  check("공종: 검측 연결 도구가 공종 id 를 받는다", chainById.resolvedWorkType?.id === "work.road_pavement");
+  // 하나도 알아보지 못해도 오류로 끝나지 않고 고를 수 있는 공종을 알린다(근거가 비어 내부 오류가 나던 일)
+  const unknownBrief = (await callTool("chain_daily_quality_briefing", { workTypes: ["양자역학"] }, { graph })).result as { unresolvedWorkTypes: string[]; availableWorkTypes?: Array<{ id: string }> };
+  check("일일 브리핑: 알 수 없는 공종만 주면 고를 수 있는 공종 목록을 준다", unknownBrief.unresolvedWorkTypes.includes("양자역학") && (unknownBrief.availableWorkTypes ?? []).some((w) => w.id === "work.road_pavement"));
   const byId = await callTool("get_quality_law_article", { articleId: "standard.law.btia_decree_89" }, { graph });
   const r3 = byId.result as { article: { bodyText: string; edition: string; scope: string } };
   check("도구: 노드 id 로 요약과 수록 원문", r3.article.bodyText.includes("500억원") && !!r3.article.scope && /시행/.test(r3.article.edition));
