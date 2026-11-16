@@ -21,7 +21,7 @@
     "agent-quality-oss": "build/cli.js"
   },
   "scripts": {
-    "build": "tsc && npm run copy:data && chmod +x build/cli.js build/index.js",
+    "build": "npm run clean && tsc && npm run copy:data && chmod +x build/cli.js build/index.js",
     "copy:data": "node -e \"import('node:fs/promises').then(async fs => { await fs.cp('src/ontology/graph', 'build/ontology/graph', { recursive: true }); await fs.cp('src/schemas/document-schemas.json', 'build/schemas/document-schemas.json'); })\"",
     "watch": "tsc --watch",
     "dev": "tsx src/index.ts",
@@ -35,7 +35,7 @@
     "typecheck": "tsc --noEmit && tsc --noEmit -p tsconfig.scripts.json",
     "validate:ontology": "tsx scripts/validate-ontology.ts",
     "smoke": "tsx scripts/smoke-test.ts",
-    "test": "node --test tests/*.test.mjs && npm run validate:ontology && npm run smoke",
+    "test": "node --test tests/*.test.mjs && npm run validate:ontology && npm run smoke && npm run mcp:test:input && npm run mcp:test:eras",
     "audit": "tsx scripts/audit-ontology.ts",
     "coverage": "tsx scripts/coverage-matrix.ts",
     "check:oss-hygiene": "tsx scripts/verify/check-oss-hygiene.ts",
@@ -44,7 +44,10 @@
     "form-conformance": "tsx scripts/verify/form-conformance.ts",
     "release:notes": "tsx scripts/release/extract-release-notes.ts --check",
     "release:notes:preview": "tsx scripts/release/extract-release-notes.ts",
-    "prepublishOnly": "npm run check:oss-hygiene && npm run check:article-titles && npm run release:notes && npm run build && npm run check:doc-code-sync && npm run validate:ontology && npm run form-conformance"
+    "prepublishOnly": "npm run check:oss-hygiene && npm run check:article-titles && npm run release:notes && npm run build && npm run check:doc-code-sync && npm run validate:ontology && npm run form-conformance",
+    "clean": "node -e \"import('node:fs').then(fs => fs.rmSync('build', { recursive: true, force: true }))\"",
+    "mcp:test:eras": "tsx scripts/test/test-mcp-protocol-eras.ts",
+    "mcp:test:input": "tsx scripts/test/test-input-schema.ts"
   },
   "keywords": [
     "mcp",
@@ -77,18 +80,18 @@
   },
   "homepage": "https://github.com/ratelworks/agent-quality-oss#readme",
   "dependencies": {
-    "@modelcontextprotocol/sdk": "^1.29.0",
-    "commander": "^12.1.0",
-    "zod": "^3.23.8",
-    "zod-to-json-schema": "^3.23.5"
+    "@modelcontextprotocol/server": "^2.4.0",
+    "commander": "^15.1.0",
+    "zod": "^4.6.7"
   },
   "devDependencies": {
-    "@types/node": "^22.19.21",
-    "tsx": "^4.19.2",
-    "typescript": "^5.7.2"
+    "@modelcontextprotocol/client": "^2.4.0",
+    "@types/node": "^22.20.5",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2"
   },
   "engines": {
-    "node": ">=22.0.0"
+    "node": ">=22.12.0"
   },
   "files": [
     "build",

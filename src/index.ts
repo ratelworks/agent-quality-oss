@@ -45,7 +45,7 @@ if (isDirect) {
   const mode = process.argv.includes("--stdio") ? "stdio" : "http";
   if (mode === "stdio") {
     const { startStdioServer } = await import("./server/stdio.js");
-    await startStdioServer(graph);
+    startStdioServer(graph);
   } else {
     const port = Number(process.env["PORT"] ?? 8080);
     createServer(app).listen(port, () => {

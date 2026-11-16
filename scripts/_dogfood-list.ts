@@ -1,4 +1,4 @@
-import { LEGACY_TOOL_MAP as TOOL_MAP } from '../src/tool-registry.js';
+import { TOOL_MODULE_MAP as TOOL_MAP } from '../src/tool-registry.js';
 import type { ToolInputSchema } from '../src/lib/types.js';
 
 for (const [name, m] of TOOL_MAP) {

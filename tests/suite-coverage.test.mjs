@@ -5,7 +5,7 @@
 // 검증 자산이 부패한다 — 이 게이트가 그 부패를 차단한다.
 //
 // 빌드 의존 최소화: build/ 산출물을 실행하지 않고 src 를 정적 파싱한다.
-//   - 등록 도구 SSoT  : src/tool-registry.ts 의 LEGACY_MODULES + import 매핑 → src/tools/*.ts 의 spec.name
+//   - 등록 도구 SSoT  : src/tool-registry.ts 의 TOOL_MODULES + import 매핑 → src/tools/*.ts 의 spec.name
 //   - suite 정의       : tests/tools.suite.md 의 `tool:` 필드 + uncovered_tools 블록
 //   - 실행체(runner)   : scripts/smoke-test.ts 의 CASES 배열 `tool:` 필드
 //
@@ -29,7 +29,7 @@ const EXPECTED_TOOL_COUNT = 52; // src/tool-registry.ts 헤더 SSoT (현재 52�
 // ── 정적 파싱 헬퍼 ────────────────────────────────────────────
 
 // 1) tool-registry.ts → 등록된 도구의 spec.name 집합 (코드 SSoT)
-//    import * as ALIAS from "./tools/FILE.js"  +  LEGACY_MODULES 배열 멤버(ALIAS) 를 교차해
+//    import * as ALIAS from "./tools/FILE.js"  +  TOOL_MODULES 배열 멤버(ALIAS) 를 교차해
 //    실제 등록된 모듈 파일만 골라 각 파일의 spec.name 을 읽는다.
 function readRegisteredToolNames() {
   const registry = readFileSync(REGISTRY_PATH, "utf8");
@@ -43,15 +43,15 @@ function readRegisteredToolNames() {
     importMap.set(m[1], m[2]);
   }
 
-  // LEGACY_MODULES 배열 본문 추출
-  // 주의: 타입 주석 `ToolModuleLegacy[]` 의 [] 가 아니라 대입 `= [ ... ]` 의 배열을 잡아야 한다.
-  const legacyStart = registry.indexOf("LEGACY_MODULES");
+  // TOOL_MODULES 배열 본문 추출
+  // 주의: 타입 주석 `ToolModule[]` 의 [] 가 아니라 대입 `= [ ... ]` 의 배열을 잡아야 한다.
+  const legacyStart = registry.indexOf("TOOL_MODULES");
   const assignIdx = registry.indexOf("= [", legacyStart);
   const arrOpen = assignIdx === -1 ? -1 : assignIdx + 2; // '= [' 의 '[' 위치
   const arrClose = arrOpen === -1 ? -1 : registry.indexOf("]", arrOpen);
   assert.ok(
     legacyStart !== -1 && arrOpen !== -1 && arrClose !== -1,
-    "tool-registry.ts 에서 LEGACY_MODULES 배열을 찾지 못했습니다",
+    "tool-registry.ts 에서 TOOL_MODULES 배열을 찾지 못했습니다",
   );
   const legacyBody = registry.slice(arrOpen + 1, arrClose);
   const registeredAliases = legacyBody
@@ -66,7 +66,7 @@ function readRegisteredToolNames() {
     const file = importMap.get(alias);
     assert.ok(
       file,
-      `LEGACY_MODULES 의 '${alias}' 에 대응하는 import 를 찾지 못했습니다`,
+      `TOOL_MODULES 의 '${alias}' 에 대응하는 import 를 찾지 못했습니다`,
     );
     const toolSrc = readFileSync(resolve(TOOLS_DIR, `${file}.ts`), "utf8");
     // 두 가지 도구 정의 패턴을 모두 지원:

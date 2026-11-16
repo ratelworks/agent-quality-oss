@@ -13,7 +13,8 @@ jobs:
 
     strategy:
       matrix:
-        node-version: ["22.x"]
+        # 최소 지원 버전과 현행 계열을 함께 돌린다
+        node-version: ["22.12.0", "22.x", "24.x", "26.x"]
 
     steps:
       - uses: actions/checkout@v7

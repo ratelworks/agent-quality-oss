@@ -1,25 +1,25 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// tool-registry.ts — quality-oss 도구의 단일 등록 지점 (도구 수는 TOOL_DEFS 길이로 동적; 현재 52개).
+// tool-registry.ts — 도구의 단일 등록 지점 (도구 수는 TOOL_MODULES 길이로 정해진다).
 //
-// 두 가지 등록 형태를 지원한다:
-//   1) ToolDefinition (신규, zod inputSchema + run(input, ctx)) — 권장
-//   2) ToolModuleLegacy (기존, JSON Schema raw + run(args, graph)) — 점진 마이그레이션
-//
-// 라우터(mcp/stdio·http, cli)는 본 모듈의 TOOL_DEFS·TOOL_MAP 만을 신뢰한다.
+// 도구 파일은 spec(이름·설명·입력 형식 JSON Schema)과 run(args, graph)을 내보낸다.
+// 이 모듈이 주의 표시 기본값을 붙여 ToolDefinition 으로 묶고, stdio·HTTP·명령줄·
+// 브라우저 폼은 여기의 TOOL_DEFS·TOOL_MAP·callTool 만 쓴다.
+// 입력은 callTool 에서 공개한 형식대로 검사한다(lib/input-schema).
 // ─────────────────────────────────────────────────────────────────────────────
 
-import { z } from "zod";
 import type {
-  ToolDefinition,
-  ToolModuleLegacy,
-  ToolSpecLegacy,
+  ToolAnnotations,
   ToolContext,
+  ToolDefinition,
+  ToolModule,
   ToolResponse,
+  ToolSpec,
 } from "./lib/types.js";
-import { zodToMcpInputSchema } from "./lib/json-schema.js";
+import { ERROR_CODES, QualityMcpError } from "./lib/errors.js";
+import { assertValidInput } from "./lib/input-schema.js";
+import { annotateResponse } from "./lib/response.js";
 
-// ───── 모든 도구 import (legacy 형태) ─────
-// 마이그레이션 진행에 따라 순차적으로 ToolDefinition 형태로 교체된다.
+// ───── 모든 도구 import ─────
 import * as searchQualityOntology from "./tools/search-quality-ontology.js";
 import * as resolveWorktype from "./tools/resolve-worktype.js";
 import * as getWorkQualityProfile from "./tools/get-work-quality-profile.js";
@@ -73,9 +73,21 @@ import * as chainTestReportReview from "./tools/chain-test-report-review.js";
 import * as chainNonconformanceReport from "./tools/chain-nonconformance-report.js";
 import * as chainDailyQualityBriefing from "./tools/chain-daily-quality-briefing.js";
 
-// ───── Legacy module 목록 (기존 ToolModule 인터페이스) ─────
-// scripts/* 와 외부 도구가 직접 import 가능하도록 export 유지.
-export const LEGACY_MODULES: ToolModuleLegacy[] = [
+// ───── 상수 ─────
+/**
+ * 주의 표시 기본값 — 내장 자료를 읽어 답을 돌려줄 뿐, 아무것도 바꾸지 않고
+ * 이 컴퓨터 밖과 통신하지 않는다. 파일을 쓰는 도구는 spec.annotations 로 따로 밝힌다.
+ */
+const READ_ONLY_ANNOTATIONS: ToolAnnotations = {
+  readOnlyHint: true,
+  destructiveHint: false,
+  idempotentHint: true,
+  openWorldHint: false,
+};
+
+// ───── 등록 도구 목록 ─────
+// scripts/* 와 외부 코드가 직접 import 할 수 있게 export 한다.
+export const TOOL_MODULES: ToolModule[] = [
   searchQualityOntology,
   resolveWorktype,
   getWorkQualityProfile,
@@ -130,72 +142,40 @@ export const LEGACY_MODULES: ToolModuleLegacy[] = [
   composeWritingContext,
 ];
 
-// ───── Legacy ToolModule → ToolDefinition 어댑터 ─────
-//
-// JSON Schema raw inputSchema는 무손실 zod 변환이 어려우므로 z.unknown()을 사용해
-// 검증을 도구 본체에 위임한다 (기존과 동작 동일). 마이그레이션 완료 시 도구별로
-// 명시 zod 스키마로 교체한다.
-function adaptLegacy(mod: ToolModuleLegacy): ToolDefinition {
+function toDefinition(mod: ToolModule): ToolDefinition {
   return {
     name: mod.spec.name,
     description: mod.spec.description,
-    inputSchema: z.unknown(),
-    run: (input: unknown, ctx: ToolContext): ToolResponse | Promise<ToolResponse> => {
-      const args = (typeof input === "object" && input !== null
-        ? (input as Record<string, unknown>)
-        : {}) as Record<string, unknown>;
-      return mod.run(args, ctx.graph);
-    },
+    inputSchema: mod.spec.inputSchema,
+    annotations: mod.spec.annotations ?? READ_ONLY_ANNOTATIONS,
+    run: (args, ctx) => mod.run(args, ctx.graph),
   };
 }
 
-// ───── 신규 ToolDefinition 직접 등록 (명시 zod 스키마) ─────
-// 마이그레이션이 진행되면 LEGACY_MODULES에서 빠지고 이 배열에 추가된다.
-const NEW_DEFINITIONS: ToolDefinition[] = [];
+export const TOOL_DEFS: ToolDefinition[] = TOOL_MODULES.map(toDefinition);
 
-// ───── 통합 TOOL_DEFS ─────
-export const TOOL_DEFS: ToolDefinition[] = [
-  ...LEGACY_MODULES.map(adaptLegacy),
-  ...NEW_DEFINITIONS,
-];
+export const TOOL_MAP: Map<string, ToolDefinition> = new Map(TOOL_DEFS.map((t) => [t.name, t]));
 
-export const TOOL_MAP: Map<string, ToolDefinition> = new Map(
-  TOOL_DEFS.map((t) => [t.name, t]),
+/** 입력 검사 없이 도구 본체를 직접 부를 때 쓴다(회귀 시험·감사 스크립트). */
+export const TOOL_MODULE_MAP: Map<string, ToolModule> = new Map(
+  TOOL_MODULES.map((m) => [m.spec.name, m]),
 );
 
-// ───── Legacy TOOL_MAP (scripts/* 호환용) ─────
-// 신규 라우터·CLI는 위의 TOOL_MAP (ToolDefinition) 을 사용한다.
-// scripts/_dogfood-*, audit-ontology, smoke-test 등은 legacy m.spec/m.run 패턴이
-// 박혀 있어 ToolModuleLegacy 형태를 그대로 노출한다.
-export const LEGACY_TOOL_MAP: Map<string, ToolModuleLegacy> = new Map(
-  LEGACY_MODULES.map((m) => [m.spec.name, m]),
-);
-
-// ───── Legacy Spec 노출 (mcp/stdio·http 가 listTools 에서 사용) ─────
-//
-// 신규 도구는 zod schema → JSON Schema 자동 파생.
-// Legacy 모듈은 원본 spec.inputSchema를 그대로 노출한다.
-const LEGACY_SPEC_BY_NAME: Map<string, ToolSpecLegacy> = new Map(
-  LEGACY_MODULES.map((m) => [m.spec.name, m.spec]),
-);
-
-export function getToolSpecs(): ToolSpecLegacy[] {
-  return TOOL_DEFS.map((def) => {
-    const legacy = LEGACY_SPEC_BY_NAME.get(def.name);
-    if (legacy) return legacy;
-    return {
-      name: def.name,
-      description: def.description,
-      inputSchema: zodToMcpInputSchema(def.inputSchema),
-    };
-  });
+/** 도구 목록 응답(tools/list)에 싣는 이름·설명·입력 형식·주의 표시 */
+export function getToolSpecs(): Required<ToolSpec>[] {
+  return TOOL_DEFS.map((def) => ({
+    name: def.name,
+    description: def.description,
+    inputSchema: def.inputSchema,
+    annotations: def.annotations,
+  }));
 }
 
 export function findTool(name: string): ToolDefinition | undefined {
   return TOOL_MAP.get(name);
 }
 
-// ───── 도구 실행 헬퍼 (CLI·라우터 공용) ─────
+// ───── 도구 실행 (stdio·HTTP·명령줄·브라우저 폼 공용) ─────
 export async function callTool(
   name: string,
   input: unknown,
@@ -203,9 +183,10 @@ export async function callTool(
 ): Promise<ToolResponse> {
   const tool = findTool(name);
   if (!tool) {
-    throw new Error(`unknown tool: ${name}`);
+    throw new QualityMcpError(ERROR_CODES.UNKNOWN_TOOL, `unknown tool: ${name}`);
   }
-  // zod 검증 — legacy 어댑터는 z.unknown() 이라 그대로 통과
-  const parsed = tool.inputSchema.parse(input);
-  return await tool.run(parsed, ctx);
+  const args = assertValidInput(tool.name, tool.inputSchema, input);
+  const response = tool.run(args, ctx);
+  // 근거마다 출처 검증 상태를 붙이고 요약·해시를 다시 계산한다
+  return annotateResponse(ctx.graph, response);
 }

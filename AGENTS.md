@@ -25,7 +25,8 @@ not to build a simple retriever.
 npm install
 npm run build              # tsc + data copy
 npm run typecheck
-npm run smoke              # smoke test
+npm test                   # suite integrity + ontology + regression + input-schema + protocol eras
+npm run smoke              # regression cases only
 npm run audit              # ontology/graph audit
 npm run validate:ontology  # ontology validation
 npm run mcp:tools          # list registered MCP tools
@@ -34,8 +35,9 @@ npm run check:oss-hygiene  # public-repo hygiene gate (also runs in prepublishOn
 
 ## Stack & Conventions
 
-- Runtime: **Node.js >=22**, ES Modules, TypeScript
-- MCP: `@modelcontextprotocol/sdk` (stdio transport) — entries `src/index.ts` (server) / `src/cli.ts` (CLI)
+- Runtime: **Node.js >=22.12**, ES Modules, TypeScript `strict`
+- MCP: `@modelcontextprotocol/server` 2.x (stdio, 프로토콜 2026-07-28 + 이전 규격 동시 지원) — entries `src/index.ts` (library · HTTP) / `src/cli.ts` (CLI · stdio)
+- Tool inputs are declared as JSON Schema in each tool's `spec.inputSchema` and enforced at call time (`src/lib/input-schema.ts`)
 - Comments: Korean (개발 주체가 라텔웍스). User-facing output is Korean by design
   (target users are Korean QC managers)
 - Constants at the top of the file they belong to

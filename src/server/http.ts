@@ -3,21 +3,9 @@
 // ─────────────────────────────────────────────────────────────────────────────
 
 import type { IncomingMessage, ServerResponse } from "node:http";
-import { TOOL_MAP, getToolSpecs } from "../tool-registry.js";
+import { callTool, getToolSpecs } from "../tool-registry.js";
 import type { OntologyGraph } from "../ontology/graph.js";
-import { annotateResponse } from "../lib/response.js";
 import { toHttpErrorPayload } from "../lib/errors.js";
-import type { ToolResponse } from "../lib/types.js";
-
-function isToolResponse(x: unknown): x is ToolResponse {
-  return (
-    typeof x === "object" &&
-    x !== null &&
-    "basis" in x &&
-    "lineage" in x &&
-    Array.isArray((x as ToolResponse).basis)
-  );
-}
 
 export function createHttpHandler(graph: OntologyGraph) {
   return async function handler(req: IncomingMessage, res: ServerResponse): Promise<void> {
@@ -104,16 +92,8 @@ async function runToolHttp(
   graph: OntologyGraph,
   res: ServerResponse,
 ): Promise<void> {
-  const tool = TOOL_MAP.get(name);
-  if (!tool) {
-    send(res, 404, { ok: false, error: `unknown tool: ${name}` });
-    return;
-  }
   try {
-    const parsed = tool.inputSchema.parse(body ?? {});
-    const raw = await tool.run(parsed, { graph });
-    const response = isToolResponse(raw) ? annotateResponse(graph, raw) : raw;
-    send(res, 200, response);
+    send(res, 200, await callTool(name, body, { graph }));
   } catch (err) {
     const { status, payload } = toHttpErrorPayload(err);
     send(res, status, payload);

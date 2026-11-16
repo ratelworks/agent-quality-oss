@@ -5,8 +5,6 @@
 // 라우터(mcp/stdio.ts, mcp/http.ts, cli.ts)는 toMcpErrorContent로 직렬화.
 // ─────────────────────────────────────────────────────────────────────────────
 
-import { ZodError } from "zod";
-
 // 파일 최상단 상수 — 표준 에러 코드
 export const ERROR_CODES = {
   INVALID_INPUT: "INVALID_INPUT",
@@ -35,40 +33,14 @@ export function isQualityMcpError(err: unknown): err is QualityMcpError {
   return err instanceof QualityMcpError;
 }
 
-// ZodError → INVALID_INPUT 페이로드
-function zodErrorToPayload(err: ZodError): {
-  code: ErrorCode;
-  message: string;
-  details: Array<{ path: string; message: string; code: string }>;
-} {
-  return {
-    code: ERROR_CODES.INVALID_INPUT,
-    message: "Input validation failed",
-    details: err.issues.map((i) => ({
-      path: i.path.join(".") || "(root)",
-      message: i.message,
-      code: i.code,
-    })),
-  };
-}
-
 // ───── MCP CallTool 응답용 에러 페이로드 직렬화 ─────
-export interface McpErrorContent {
+export type McpErrorContent = {
   content: Array<{ type: "text"; text: string }>;
   isError: true;
-}
+};
 
 export function toMcpErrorContent(err: unknown): McpErrorContent {
-  // 1) Zod 입력 검증 실패
-  if (err instanceof ZodError) {
-    const payload = zodErrorToPayload(err);
-    return {
-      content: [{ type: "text", text: JSON.stringify(payload, null, 2) }],
-      isError: true,
-    };
-  }
-
-  // 2) 내부 표준 에러
+  // 1) 내부 표준 에러 (입력 형식 오류 INVALID_INPUT 포함)
   if (isQualityMcpError(err)) {
     const payload: Record<string, unknown> = {
       code: err.code,
@@ -81,7 +53,7 @@ export function toMcpErrorContent(err: unknown): McpErrorContent {
     };
   }
 
-  // 3) 그 외 예기치 못한 오류만 INTERNAL
+  // 2) 그 외 예기치 못한 오류만 INTERNAL
   const message = err instanceof Error ? err.message : String(err);
   return {
     content: [
@@ -103,21 +75,6 @@ export interface HttpErrorPayload {
 }
 
 export function toHttpErrorPayload(err: unknown): { status: number; payload: HttpErrorPayload } {
-  if (err instanceof ZodError) {
-    return {
-      status: 400,
-      payload: {
-        ok: false,
-        code: ERROR_CODES.INVALID_INPUT,
-        message: "Input validation failed",
-        details: err.issues.map((i) => ({
-          path: i.path.join(".") || "(root)",
-          message: i.message,
-          code: i.code,
-        })),
-      },
-    };
-  }
   if (isQualityMcpError(err)) {
     const status =
       err.code === ERROR_CODES.NOT_FOUND || err.code === ERROR_CODES.UNKNOWN_TOOL

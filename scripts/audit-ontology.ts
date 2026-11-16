@@ -9,7 +9,7 @@ import { fileURLToPath } from 'node:url';
 import { loadOntologySync } from '../src/ontology/loader.js';
 import { OntologyGraph } from '../src/ontology/graph.js';
 import { STANDARD_RELATIONS, ID_PREFIX, isStandardRelation } from '../src/ontology/schema.js';
-import { LEGACY_MODULES as TOOLS, LEGACY_TOOL_MAP as TOOL_MAP } from '../src/tool-registry.js';
+import { TOOL_MODULES as TOOLS, TOOL_MODULE_MAP as TOOL_MAP } from '../src/tool-registry.js';
 import type { ToolResponse } from '../src/lib/types.js';
 
 const DIR = path.join(

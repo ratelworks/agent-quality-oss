@@ -38,11 +38,15 @@ src/ontology/graph/nodes/{type}/*.jsonld   ← runtime SSoT (로더가 읽는 �
 ## 응답 파이프라인
 
 ```
-tool.run(args, graph)                      # 도구 본체 — result + basis[] + humanCheckpoint
-  → annotateResponse(graph, raw)           # 서버 레이어 — basis 각 항목에 sourceStatus 주입
+callTool(name, input)                      # stdio·HTTP·명령줄·브라우저 폼 공용 진입
+  → assertValidInput(spec.inputSchema)     # 공개한 입력 형식대로 검사 — 틀리면 INVALID_INPUT
+  → tool.run(args, graph)                  # 도구 본체 — result + basis[] + humanCheckpoint
+  → annotateResponse(graph, raw)           # basis 각 항목에 sourceStatus 주입
   → sourceStatusSummary (worst/counts)     # 응답 신뢰도 요약
   → lineage { toolName, ontologyVersion, contentHash(sha256) }
 ```
+
+stdio 서버는 MCP 2026-07-28 규격과 그 이전 규격 클라이언트를 함께 받는다(`src/server/stdio.ts`). 도구는 주의 표시(annotations)를 달고 등록되며, 내장 자료만 읽는 도구는 읽기 전용으로 표시된다.
 
 측정 러너(`scripts/_dogfood-r02.ts`)도 동일하게 annotate 를 적용한다 — **측정 경로 = 서버 경로** (측정 정직성).
 

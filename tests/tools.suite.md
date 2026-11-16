@@ -11,7 +11,7 @@
 meta:
   suite: tools
   purpose: 52개 MCP 도구가 한국 건설 품질관리 도메인 지식을 올바르게 공급하는가 (입력→기대 출력의 행동 계약)
-  module: src/tools/* (LEGACY_MODULES, src/tool-registry.ts 등록)
+  module: src/tools/* (TOOL_MODULES, src/tool-registry.ts 등록)
   runner_impl: scripts/smoke-test.ts   # CASES 배열 = 실행체. 이 suite 는 정의-자산
   total_cases: 94
   tools_registered: 52

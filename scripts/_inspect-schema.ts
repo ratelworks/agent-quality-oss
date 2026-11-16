@@ -1,4 +1,4 @@
-import { LEGACY_TOOL_MAP as TOOL_MAP } from '../src/tool-registry.js';
+import { TOOL_MODULE_MAP as TOOL_MAP } from '../src/tool-registry.js';
 import { OntologyGraph } from '../src/ontology/graph.js';
 import { loadOntologySync } from '../src/ontology/loader.js';
 

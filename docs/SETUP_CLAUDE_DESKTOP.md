@@ -5,7 +5,7 @@
 ## 준비물
 
 - Claude Desktop
-- Node.js 22 이상 ([nodejs.org](https://nodejs.org))
+- Node.js 22.12 이상 ([nodejs.org](https://nodejs.org))
 
 키 없이 모든 도구(52개)가 동작합니다 — 온톨로지 탐색, 정량 판정, 법령·기준 인용 위치, 문서 양식 구조, 작성 컨텍스트 생성 모두 인터넷 없이 로컬에서 실행됩니다.
 
@@ -74,4 +74,4 @@ node build/cli.js viewer
 |---|---|
 | 도구가 안 보임 | Claude Desktop 완전 종료 후 재시작했는지 / 설정 JSON 문법(쉼표·따옴표) |
 | `Cannot find module` | `npm run build` 를 했는지 / `build/cli.js` 절대 경로가 정확한지 |
-| `node: command not found` | Node.js 22+ 설치 확인 (`node -v`) |
+| `node: command not found` | Node.js 22.12 이상 설치 확인 (`node -v`) · 설치 상태 점검은 `node build/cli.js doctor` |

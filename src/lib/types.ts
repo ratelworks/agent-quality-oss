@@ -10,7 +10,6 @@
 //              LLM에게 강제로 노출. 환각 방지 + 인용 검증의 contract.
 // ─────────────────────────────────────────────────────────────────────────────
 
-import type { z } from "zod";
 import type { OntologyGraph } from "../ontology/graph.js";
 import type { SourceStatus, BasisType } from "../config/constants.js";
 
@@ -83,51 +82,53 @@ export interface ToolInputSchema {
 }
 
 // ───── Tool 등록 단위 ─────
-// safety의 ToolDefinition + quality의 graph 의존성을 결합.
-// inputSchema는 zod (런타임 검증 + 타입 추론). MCP wire는 zod-to-json-schema로 파생.
+// 도구 파일은 spec(이름·설명·입력 형식)과 run(args, graph)을 내보낸다 — ToolModule.
+// 등록 모듈(tool-registry)이 이를 ToolDefinition 으로 묶어 stdio·HTTP·명령줄에 준다.
+// 입력 형식은 JSON Schema 가 정본이고, 호출 때 그 형식대로 검사한다(lib/input-schema).
 export interface ToolContext {
   graph: OntologyGraph;
 }
 
-export interface ToolDefinition<TInput = unknown, TResult = unknown> {
-  name: string;
-  title?: string;
-  description: string;
-  inputSchema: z.ZodTypeAny;
-  /**
-   * 내부 호출 표준 — input은 zod parse 이전의 unknown.
-   * tool-registry가 zod parse 후 ctx와 함께 호출.
-   */
-  run: (input: TInput, ctx: ToolContext) => ToolResponse<TResult> | Promise<ToolResponse<TResult>>;
+/**
+ * MCP 도구 주의 표시. AI 비서 프로그램이 실행 전 사용자 확인을 받을지 정하는 데 쓴다.
+ * 표시가 없는 도구는 읽기 전용으로 등록한다(등록 모듈의 기본값).
+ */
+export interface ToolAnnotations {
+  /** 아무것도 바꾸지 않는다 */
+  readOnlyHint?: boolean;
+  /** 지우거나 덮어쓴다 */
+  destructiveHint?: boolean;
+  /** 같은 입력으로 여러 번 불러도 결과가 같다 */
+  idempotentHint?: boolean;
+  /** 이 컴퓨터 밖과 통신한다 */
+  openWorldHint?: boolean;
 }
 
-// ───── Legacy ToolModule 호환 (마이그레이션 기간 동안만 유지) ─────
-// 기존 mcp/registry.ts가 사용하던 형태. 새 도구는 ToolDefinition 사용 권장.
-//
-// args를 any로 둔 이유: 33개 기존 도구가 각기 다른 좁은 args 타입(예: SearchArgs)으로
-// 정의되어 invariant 매개변수 위치에서 Record<string, unknown>과 호환되지 않는다.
-// 마이그레이션 도중 호환을 유지하기 위해 의도적으로 any 허용.
-// 기존 33개 도구가 모두 동기 반환이므로 sync로 좁힌다.
-// 외부에서 Promise를 반환하는 legacy 도구가 추가되면 그때 union으로 확장.
+// args 를 any 로 둔 이유: 도구마다 좁은 args 타입(예: SearchArgs)을 쓰는데,
+// 매개변수 위치에서는 Record<string, unknown> 과 호환되지 않는다.
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type ToolRunLegacy = (args: any, graph: OntologyGraph) => ToolResponse;
+export type ToolRun = (args: any, graph: OntologyGraph) => ToolResponse;
 
-export interface ToolSpecLegacy {
+export interface ToolSpec {
   name: string;
   description: string;
   inputSchema: ToolInputSchema;
+  annotations?: ToolAnnotations;
 }
 
-export interface ToolModuleLegacy {
-  spec: ToolSpecLegacy;
-  run: ToolRunLegacy;
+export interface ToolModule {
+  spec: ToolSpec;
+  run: ToolRun;
 }
 
-// ───── Legacy 이름 alias (33개 도구 호환) ─────
-// mcp/types.ts 가 제공하던 짧은 이름을 lib/types 에서 동일하게 노출한다.
-// 도구 코드는 ToolSpec / ToolModule 짧은 이름으로 import 가능.
-export type ToolSpec = ToolSpecLegacy;
-export type ToolModule = ToolModuleLegacy;
+export interface ToolDefinition {
+  name: string;
+  description: string;
+  inputSchema: ToolInputSchema;
+  annotations: ToolAnnotations;
+  /** 입력 검사를 마친 args 로 도구를 실행한다 */
+  run: (args: Record<string, unknown>, ctx: ToolContext) => ToolResponse;
+}
 
 // ───── A2UI (Google Agent-UI 프로토콜) 메시지 타입 ─────
 // agent-safety-oss 와 통일한 구조. render_quality_form 이 이 JSONL 배열을 반환하고,
