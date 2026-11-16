@@ -37,11 +37,22 @@ const REJECT_ITEM_BY_TEST: Record<string, { item: string; quote: string }> = {
   'test.asphalt_content': { item: '7', quote: '역청함유량 및 추출입도 측정결과 해당공사 시방기준에 벗어나는 경우' },
 };
 
-/** 불합격 뒤의 처리 — 즉시 반품·확약서·재시공 원칙(업무지침 제41조)과 자재 벌점·벌칙. 원문 구절 그대로 */
-function rejectionHandling(testId: string | undefined): Record<string, unknown> | null {
+/**
+ * 불합격 뒤의 처리 — 즉시 반품·확약서·재시공 원칙(업무지침 제41조)과 자재 벌점·벌칙. 원문 구절 그대로.
+ * 제41조의 반품 조건은 "해당 공사 시방기준"을 벗어난 경우다. 판정에 쓴 기준이 표준시방서 값(공사시방서에 다른 값이
+ * 없을 때 쓰는 기준)이면 이 공사의 시방기준으로도 벗어났는지 확인한 뒤 적용하도록 조건을 단다 — 단정하지 않는다.
+ */
+function rejectionHandling(testId: string | undefined, criterion: BaseEntity | null): Record<string, unknown> | null {
   const rule = testId ? REJECT_ITEM_BY_TEST[testId] : undefined;
   if (!rule) return null;
+  const reference = typeof criterion?.meta?.['reference'] === 'string' ? (criterion.meta['reference'] as string) : '표준시방서';
+  const appliesIf =
+    criterion?.meta?.['fallbackToProject'] === true
+      ? `판정에 쓴 기준은 ${reference} 의 값으로, 공사시방서에 다른 값이 없을 때 쓰는 기준입니다. 아래 처리는 이 공사의 공사시방서 기준으로도 벗어났을 때 적용합니다 — 공사시방서 값이 다르면 그 값으로 다시 판정하세요.`
+      : `아래 처리는 이 공사의 시방기준을 벗어났을 때 적용합니다 — 판정에 쓴 기준(${reference})이 이 공사의 공사시방서 기준과 같은지 확인하세요.`;
   return {
+    /** 이 처리를 적용하는 조건 — 이 공사의 시방기준을 벗어났을 때 */
+    appliesIf,
     ref: `${QUALITY_GUIDELINE} 제41조제1항제${rule.item}호`,
     returnImmediately: cite({ law: QUALITY_GUIDELINE, article: '41', quote: '불량자재가 발생한 경우 즉시 반품하여야 한다' }),
     item: cite({ law: QUALITY_GUIDELINE, article: '41', quote: rule.quote }),
@@ -49,7 +60,7 @@ function rejectionHandling(testId: string | undefined): Record<string, unknown> 
     ifAlreadyPlaced: cite({ law: QUALITY_GUIDELINE, article: '41', quote: '불량자재가 사용되어 시공된 부위는 재시공함을 원칙으로 한다' }),
     relatedPenalties: relatedPenalties(['topic:material']),
     relatedSanctions: relatedSanctions(['topic:material']),
-    note: '시방기준을 벗어난 자재는 즉시 반품하고(제1항), 생산자에게 불량자재폐기 확약서(별지 제13호)를 받아 준공 때까지 보관합니다(제2항). 이미 시공했으면 재시공이 원칙이고, 발주청 승인을 받아 안전진단 등으로 안전에 이상이 없다고 판명된 경우만 그 결과를 따를 수 있습니다(제5항). 벌점·벌칙은 who·조건과 함께 알립니다. 반품·재시공 결정은 공사감독자·감리원이 합니다.',
+    note: '이 공사의 시방기준을 벗어난 자재는 즉시 반품하고(제1항), 생산자에게 불량자재폐기 확약서(별지 제13호)를 받아 준공 때까지 보관합니다(제2항). 이미 시공했으면 재시공이 원칙이고, 발주청 승인을 받아 안전진단 등으로 안전에 이상이 없다고 판명된 경우만 그 결과를 따를 수 있습니다(제5항). 벌점·벌칙은 who·조건과 함께 알립니다. 반품·재시공 결정은 공사감독자·감리원이 합니다.',
   };
 }
 
@@ -254,7 +265,7 @@ export function run(args: EvaluateArgs, graph: OntologyGraph) {
     provisionalResult: j.provisional ?? null,
     candidateNonconformance: candidateNcrs,
     /** 불합격이면 그다음 처리 — 즉시 반품·확약서·재시공(업무지침 제41조), 자재 벌점·벌칙. 반품 대상 시험이 아니거나 불합격이 아니면 null */
-    ifRejected: legalVerdict === 'FAIL' ? rejectionHandling(resolvedTest?.id ?? (criterion?.relations?.['appliesTo'] ?? [])[0]) : null,
+    ifRejected: legalVerdict === 'FAIL' ? rejectionHandling(resolvedTest?.id ?? (criterion?.relations?.['appliesTo'] ?? [])[0], criterion ?? null) : null,
     suggestedNextSteps,
     legalBasis,
     judgmentEngineNote:
