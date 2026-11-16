@@ -256,6 +256,24 @@
         "wrongPass": 7,
         "wrongFail": 15
       }
+    },
+    "assistant": {
+      "model": "가장 작은 모델",
+      "tool": "H 를 처음 돌린 것과 같은 빌드",
+      "byAnswerKey": {
+        "correct": 104,
+        "wrongPass": 14,
+        "wrongFail": 2,
+        "heldThoughDecidable": 0,
+        "noToolCall": 12
+      },
+      "substantive": {
+        "correct": 119,
+        "wrongPass": 0,
+        "wrongFail": 0,
+        "assumedValue": 1,
+        "note": "정답 표와 어긋난 16문장(h006 h009 h022 h025 h029 h034 h039 h042 h047 h054 h058 h069 h078 h090 h093 h106)을 값마다 계산해 다시 본 결과(저장소 작업자가 계산). 15건은 맞음 — 값마다 따로 판정해 모두 맞음 12건(h009 h022 h029 h034 h039 h042 h047 h054 h058 h078 h090 h093, 이 가운데 h039 는 지난번 값·h078 은 옆 공구 값을 빼고 이번 값만 판정), cm 를 mm 로 정확히 환산 1건(h006), 건조밀도 비로 다짐도를 계산 1건(h069), 레미콘 규격 25-24-150 의 둘째 수를 호칭강도로 읽어 3회 시험값으로 판정 1건(h106 — 판정은 맞으나 답의 설명에 '셋째 수'라고 잘못 적음). 1건(h025)은 '기준보다 30mm 높게'를 측정값 180 으로 가정해 불합격 — 결과는 어느 해석으로도 불합격이나 가정에 기대어 맞은 것으로 세지 않음. 104 + 15 = 119. 도구를 부르지 않은 12건은 모두 측정값이 없는 문장을 바르게 보류"
+      }
     }
   },
   {
@@ -279,6 +297,54 @@
         "correct": 78,
         "wrongPass": 16,
         "wrongFail": 19
+      }
+    }
+  },
+  {
+    "set": "J (id j001~j120)",
+    "sentences": 120,
+    "date": "2026-11-17",
+    "note": "H·I 에서 드러난 갈래(이번 측정값이 아닌 값·다른 양의 이름이 붙은 값·파일 이름·슬럼프 플로)를 고친 뒤 처음 돌림. J·K 는 같은 빌드",
+    "direct": {
+      "correct": 111,
+      "wrongPass": 0,
+      "wrongFail": 0,
+      "askedThoughDecidable": 9
+    },
+    "published": {
+      "npm-0.4.0": {
+        "correct": 58,
+        "wrongPass": 25,
+        "wrongFail": 18
+      },
+      "main-5c5e467": {
+        "correct": 83,
+        "wrongPass": 13,
+        "wrongFail": 16
+      }
+    }
+  },
+  {
+    "set": "K (id q001~q120)",
+    "sentences": 120,
+    "date": "2026-11-17",
+    "note": "H·I 에서 드러난 갈래(이번 측정값이 아닌 값·다른 양의 이름이 붙은 값·파일 이름·슬럼프 플로)를 고친 뒤 처음 돌림. J·K 는 같은 빌드",
+    "direct": {
+      "correct": 108,
+      "wrongPass": 1,
+      "wrongFail": 0,
+      "askedThoughDecidable": 11
+    },
+    "published": {
+      "npm-0.4.0": {
+        "correct": 47,
+        "wrongPass": 21,
+        "wrongFail": 23
+      },
+      "main-5c5e467": {
+        "correct": 79,
+        "wrongPass": 12,
+        "wrongFail": 16
       }
     }
   }
