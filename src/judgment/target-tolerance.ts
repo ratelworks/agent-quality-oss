@@ -19,6 +19,7 @@ import {
   hasEvidence,
   isSupported,
   isCandidateRun,
+  labelledByOtherMeasure,
   normalizeUnit,
   readValueRuns,
   stripNonMeasurements,
@@ -49,6 +50,8 @@ export interface TargetReading {
   unitless: boolean;
   /** 측정값 어디에도 단위·항목 이름·재서 나온 값이라는 말이 붙어 있지 않다 — 측정값이라는 근거가 없는 수다 */
   unsupported: boolean;
+  /** 바로 앞에 다른 양의 이름이 붙은 후보가 있다("굵은골재 최대치수 … 40mm") — 판정하지 않는다 */
+  otherMeasureLabelled?: boolean;
   /** 지정값이 서로 다르게 두 군데 적혀 있다 (예: 규격의 슬럼프 180 과 "호칭 슬럼프 150") — 어느 쪽인지 정하지 않는다 */
   conflict?: [number, number];
 }
@@ -127,6 +130,7 @@ export function readTargetAndMeasured(text: string, keywords: string[], quantity
   reading.measured = [...new Set(candidates.flatMap((r) => r.values))];
   reading.unitless = candidates.length > 0 && candidates.every((r) => r.unit === null);
   reading.unsupported = candidates.length > 0 && !candidates.some((r) => isSupported(r, [quantity]));
+  reading.otherMeasureLabelled = candidates.some((r) => labelledByOtherMeasure(r.nearWord ?? null));
   return reading;
 }
 

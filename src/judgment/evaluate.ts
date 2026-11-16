@@ -192,6 +192,12 @@ export function evaluate(
   // 수 앞에 다른 항목의 이름이 적혀 있으면 이 기준의 값이 아니다 — 이 기준이 다루는 항목은 기준의 이름에서 얻는다
   const ownQuantities = quantityWordsIn([criterionEntity.name, ...(criterionEntity.aliases ?? []), meta.quantity ?? ''].join(' '));
   const candidates = readMeasuredCandidates(observationText, meta.unit, ownQuantities);
+  if (candidates.otherMeasureLabelled) {
+    base.reasoning = `문장의 수 가운데 바로 앞에 다른 양의 이름(오차·첨가량·진척률 등)이 붙은 것이 있어 판정하지 않습니다 — 그 수는 그 양의 값일 수 있습니다. 이 시험의 측정값을 항목 이름과 함께 적어 주세요(예: "${ownQuantities[0] ?? '측정값'} 4.5${meta.unit ?? ''}").`;
+    base.neededInputs = ['항목 이름을 붙인 측정값 하나'];
+    base.observedValue = null;
+    return base;
+  }
   if (candidates.values.length > 1) {
     base.reasoning = `값이 여러 개로 읽힙니다(${candidates.values.join(', ')}${candidates.unit ? ` ${candidates.unit}` : ''}) — 어느 값을 판정할지 정할 수 없어 판정하지 않습니다. 값 하나에 문장 하나로 나눠 주세요.`;
     base.neededInputs = ['값 하나씩 나눈 관측값 (문장 하나에 값 하나)'];
@@ -371,6 +377,11 @@ function evalByTarget(
   if (reading.measured.length === 0) {
     base.reasoning = `측정값을 읽지 못했습니다 — 예: "${quantity} 185${unit}, ${label} 150${unit}".`;
     base.neededInputs = [`${quantity} 측정값`];
+    return base;
+  }
+  if (reading.otherMeasureLabelled) {
+    base.reasoning = `문장의 수 가운데 바로 앞에 다른 양의 이름(골재 치수·두께·오차 등)이 붙은 것이 있어 판정하지 않습니다 — 그 수는 그 양의 값일 수 있습니다. 측정값을 항목 이름과 함께 적어 주세요(예: "${quantity} 165${unit}, ${label} 150${unit}").`;
+    base.neededInputs = ['항목 이름을 붙인 측정값 하나'];
     return base;
   }
   if (reading.measured.length > 1) {

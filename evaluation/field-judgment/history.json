@@ -233,5 +233,53 @@
         "wrongFail": 17
       }
     }
+  },
+  {
+    "set": "H (id h001~h120)",
+    "sentences": 120,
+    "date": "2026-11-17",
+    "note": "F·G 에서 드러난 갈래를 판정 전 거르기(견준 말·가정·어림·조건 충돌 등)로 고친 뒤 처음 돌림. H·I 는 같은 빌드",
+    "direct": {
+      "correct": 109,
+      "wrongPass": 1,
+      "wrongFail": 2,
+      "askedThoughDecidable": 8
+    },
+    "published": {
+      "npm-0.4.0": {
+        "correct": 54,
+        "wrongPass": 19,
+        "wrongFail": 18
+      },
+      "main-5c5e467": {
+        "correct": 89,
+        "wrongPass": 7,
+        "wrongFail": 15
+      }
+    }
+  },
+  {
+    "set": "I (id i001~i120)",
+    "sentences": 120,
+    "date": "2026-11-17",
+    "note": "F·G 에서 드러난 갈래를 판정 전 거르기(견준 말·가정·어림·조건 충돌 등)로 고친 뒤 처음 돌림. H·I 는 같은 빌드",
+    "direct": {
+      "correct": 110,
+      "wrongPass": 3,
+      "wrongFail": 1,
+      "askedThoughDecidable": 6
+    },
+    "published": {
+      "npm-0.4.0": {
+        "correct": 53,
+        "wrongPass": 25,
+        "wrongFail": 20
+      },
+      "main-5c5e467": {
+        "correct": 78,
+        "wrongPass": 16,
+        "wrongFail": 19
+      }
+    }
   }
 ]

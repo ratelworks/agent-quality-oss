@@ -143,6 +143,8 @@ const REFERENCE_RE =
 const IDENTIFIER_RE = new RegExp(
   [
     '(?<![\\d.])0\\d{1,2}[-.\\s]?(?:\\d{3,4}|[*xX○●]{3,4})[-.\\s]\\d{4}',
+    // 파일 이름 — "노상_다짐도_95.pdf"
+    '[^\\s,，、()（）]*\\.(?:pdf|hwpx?|xlsx?|xls|docx?|jpe?g|png|zip|csv)(?![A-Za-z])',
     '#\\s?\\d+',
     '[*]{2,}[-.\\s]?\\d{2,4}',
     '(?:[가-힣]{2}\\s?)?(?<![\\d.])\\d{2,3}\\s?[가나다라마거너더러머버서어저고노도로모보소오조구누두루무부수우주아바사자하허호배]\\s?\\d{4}(?!\\d)',
@@ -209,6 +211,16 @@ const QUANTITY_ALIASES: ReadonlyArray<readonly [RegExp, string]> = [
   [/(?<![A-Za-z])S\/a(?![A-Za-z])/giu, '잔골재율'],
 ];
 /** 측정값을 가리키는 말 — 수 바로 앞에 있으면 그 수는 이 시험의 값이다 ("시험값 30.8" · "결과 6.8") */
+/** 낱말 끝의 조사 — "질량의" → "질량", "사진에도" → "사진" */
+const PARTICLE_TAIL_RE = /(?:에서는|에서|에도|에는|에게|으로|해도|라도|까지|부터|의|은|는|이|가|을|를|로|에|와|과|도|만)$/u;
+/** 측정값을 가리키는 말이 든 낱말 — 다른 양의 이름이 아니다 ("재시험도 5.2%" · "판정란에도 170" · "염화물 함유량 0.34") */
+const NEUTRAL_MEASURE_PART_RE = /측정|시험|결과|실측|입회|판정|기록|확인|평균|수치|함유량|함량/u;
+/** 세는 말이 붙은 이름 — 양의 이름이 아니다 ("1호차" · "3회차") */
+const COUNTER_NOUN_RE = /(?:호차|회차|번차|차수|차량|일차|대차|층차)$/u;
+/** '도'로 끝나는 양의 이름 — '도'는 조사와 겹치므로 이름을 하나씩 적는다 */
+const OTHER_MEASURE_DO_RE = /(?:온도|밀도|강도|농도|습도|각도|속도|경도|입도|점도|조도)$/u;
+/** 양을 나타내는 이름의 끝 — "오차" · "첨가량" · "진척률" · "질량" · "두께" … */
+const OTHER_MEASURE_NOUN_RE = /(?:률|율|량|비|차|치|폭|두께|기간|시간|거리|길이|높이|깊이|간격|오차|편차|무게|용량|체적|면적|금액|단가|진척|공정)$/u;
 const GENERIC_VALUE_LABEL_RE = /(?:시험값|측정값|측정치|실측값?|결과값?|시험\s*결과|재시험|재측정|결과)\s*(?:은|는|이|가|도)?\s*[:=]?\s*$/u;
 
 /** 글에 든 측정 항목 이름들 — 판정기준의 이름에서 '이 기준이 다루는 항목'을 얻는 데 쓴다 */
@@ -245,6 +257,8 @@ export interface ValueRun {
   generic: boolean;
   /** 묶음 앞뒤에 재서 나온 값이라는 말이 있다 ("175 나왔습니다" · "쟀더니 160") */
   cue: boolean;
+  /** 묶음 바로 앞의 낱말 ("오차 0.1%" 의 오차) — 그 낱말의 값인지 가리는 데 쓴다 */
+  nearWord?: string | null;
 }
 
 /** 수 뒤에 붙는, 재서 나온 값이라는 말 */
@@ -458,7 +472,7 @@ export function readValueRuns(clean: string): ValueRun[] {
       current.unit ??= unit;
       current.cue ||= cue;
     } else {
-      current = { values: [value], unit, label: lastQuantityWord(gap), generic: GENERIC_VALUE_LABEL_RE.test(gap), cue };
+      current = { values: [value], unit, label: lastQuantityWord(gap), generic: GENERIC_VALUE_LABEL_RE.test(gap), cue, nearWord: nearWordOf(gap) };
       runs.push(current);
     }
     lastEnd = end;
@@ -555,6 +569,27 @@ export function isCandidateRun(
   return unitOk && labelOk;
 }
 
+/** 수 바로 앞 낱말 — 조사·기호를 건너뛴 마지막 낱말 */
+function nearWordOf(gap: string): string | null {
+  const m = gap.match(/([가-힣A-Za-z]{2,})[\s:：=_]*(?:[(（][^)）]{0,10}[)）])?[\s:：=_]*$/u);
+  return m ? (m[1] as string) : null;
+}
+
+/**
+ * 수 바로 앞 낱말이 이 시험 항목이 아닌 다른 양의 이름인가 ("오차 0.1%" · "AE제 첨가량 … 질량의 0.05%" · "진척률 96%").
+ * 그 수는 그 양의 값일 수 있다. 측정 항목 이름(공기량·다짐도…)이 들어 있거나 측정값을 가리키는 말(결과·측정값·실측)이면 다른 양이 아니다.
+ * 이런 수를 후보에서 빼지는 않는다 — 빼면 남은 값 하나로 판정하게 될 수 있다("함유량이 0.32였으나 … 0.28"). 후보에 섞이면 판정하지 않는다.
+ */
+export function labelledByOtherMeasure(word: string | null): boolean {
+  if (!word) return false;
+  const bare = word.replace(PARTICLE_TAIL_RE, '');
+  // 측정 항목 이름이 든 낱말은 기존 규칙(앞에 적힌 항목 이름)이 가린다
+  if (lastQuantityWord(word) !== null || NEUTRAL_MEASURE_PART_RE.test(word)) return false;
+  if (COUNTER_NOUN_RE.test(bare)) return false;
+  if (OTHER_MEASURE_DO_RE.test(word) || OTHER_MEASURE_DO_RE.test(bare)) return true;
+  return bare.length >= 2 && OTHER_MEASURE_NOUN_RE.test(bare);
+}
+
 /**
  * 단위 없이 적은 수를 후보로 세는 범위.
  *   all         모두 센다 (무엇인지 모르는 수가 남으면 되묻는다)
@@ -571,6 +606,8 @@ export interface MeasuredCandidates {
   unitless: boolean;
   /** 어느 후보에도 단위·항목 이름·재서 나온 값이라는 말이 붙어 있지 않다 — 측정값이라는 근거가 없는 수다 */
   unsupported: boolean;
+  /** 바로 앞에 다른 양의 이름이 붙은 후보가 있다("오차 0.1%") — 판정하지 않는다 */
+  otherMeasureLabelled: boolean;
 }
 
 /** 이 묶음이 측정값이라는 근거가 있는가 — 단위, 이 항목의 이름, 재서 나온 값이라는 말 */
@@ -607,6 +644,7 @@ export function readMeasuredCandidates(
     unit: runs.some((run) => run.unit !== null) ? wanted : null,
     unitless: runs.length > 0 && runs.every((run) => run.unit === null),
     unsupported: runs.length > 0 && !runs.some((run) => isSupported(run, ownQuantities)),
+    otherMeasureLabelled: runs.some((run) => labelledByOtherMeasure(run.nearWord ?? null)),
   };
 }
 
