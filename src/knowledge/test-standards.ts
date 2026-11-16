@@ -10,6 +10,7 @@
 //   - 원문에서 깨진 가운뎃점("?")은 가운뎃점으로 읽는다.
 // ─────────────────────────────────────────────────────────────────────────────
 
+import { loadFieldPhrases } from "./field-phrases.js";
 import { editionLabel, findAnnex, findLaw, loadLaws } from "../ontology/laws.js";
 import { parseBoxGrids } from "../lib/box-table.js";
 import type { BoxGrid, GridCell } from "../lib/box-table.js";
@@ -43,22 +44,21 @@ const PART_HEADING = /^\((\d+)\)\s*(.+)$/;
 const DEFAULT_LIMIT = 30;
 const MAX_LIMIT = 200;
 /** 현장에서 쓰는 말 → 별표 2 의 표기 (검색어에만 쓴다) */
-const FIELD_TERMS: Record<string, string[]> = {
-  레미콘: ["레미콘", "굳지아니한콘크리트", "굳은콘크리트"],
-  콘크리트: ["콘크리트"],
-  들밀도: ["현장밀도"],
-  현장밀도: ["현장밀도"],
-  아스콘: ["아스팔트"],
-  흄관: ["원심력철근콘크리트관"],
-  동바리: ["동바리", "파이프서포트"],
-  서포트: ["파이프서포트"],
-  비계: ["비계"],
-  공시체: ["압축강도"],
-  스티로폼: ["발포폴리스티렌"],
-  우레탄폼: ["폴리우레탄폼"],
-  pvc관: ["폴리염화비닐관"],
-  pe관: ["폴리에틸렌관"],
-};
+let fieldTermsCache: Record<string, string[]> | null = null;
+/** 현장 용어 → 표준 말 (띄어쓰기 없이). 자료는 ontology/field-phrases.json — 문장 검색과 같은 것을 쓴다 */
+function fieldTerms(): Record<string, string[]> {
+  if (!fieldTermsCache) {
+    fieldTermsCache = {};
+    const { terms, rowTerms } = loadFieldPhrases();
+    for (const [term, standards] of Object.entries(terms)) fieldTermsCache[squash(term)] = standards.map(squash);
+    // 이 표에서만 쓰는 표기는 원래 낱말에 더한다
+    for (const [term, standards] of Object.entries(rowTerms)) {
+      const key = squash(term);
+      fieldTermsCache[key] = [...new Set([...(fieldTermsCache[key] ?? [key]), ...standards.map(squash)])];
+    }
+  }
+  return fieldTermsCache;
+}
 
 export interface TestStandardRow {
   /** 표 번호와 행 번호 — "t02-r015" */
@@ -419,7 +419,7 @@ export function searchTestStandards(q: TestStandardQuery): { total: number; rows
     .split(/\s+/)
     .map(squash)
     .filter(Boolean)
-    .map((w) => FIELD_TERMS[w] ?? [w]);
+    .map((w) => fieldTerms()[w] ?? [w]);
   const section = squash(q.section ?? "");
   const category = squash(q.category ?? "");
   const item = squash(q.item ?? "");

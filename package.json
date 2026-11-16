@@ -22,7 +22,7 @@
   },
   "scripts": {
     "build": "npm run clean && tsc && npm run copy:data && chmod +x build/cli.js build/index.js",
-    "copy:data": "node -e \"import('node:fs/promises').then(async fs => { await fs.cp('src/ontology/graph', 'build/ontology/graph', { recursive: true }); await fs.cp('src/ontology/laws', 'build/ontology/laws', { recursive: true }); await fs.cp('src/schemas/document-schemas.json', 'build/schemas/document-schemas.json'); await fs.cp('src/schemas/field-labels.json', 'build/schemas/field-labels.json'); })\"",
+    "copy:data": "node -e \"import('node:fs/promises').then(async fs => { await fs.cp('src/ontology/graph', 'build/ontology/graph', { recursive: true }); await fs.cp('src/ontology/laws', 'build/ontology/laws', { recursive: true }); await fs.cp('src/ontology/field-phrases.json', 'build/ontology/field-phrases.json'); await fs.cp('src/schemas/document-schemas.json', 'build/schemas/document-schemas.json'); await fs.cp('src/schemas/field-labels.json', 'build/schemas/field-labels.json'); })\"",
     "watch": "tsc --watch",
     "dev": "tsx src/index.ts",
     "dev:stdio": "tsx src/index.ts --stdio",
@@ -35,7 +35,7 @@
     "typecheck": "tsc --noEmit && tsc --noEmit -p tsconfig.scripts.json",
     "validate:ontology": "tsx scripts/validate-ontology.ts",
     "smoke": "tsx scripts/smoke-test.ts",
-    "test": "node --test tests/*.test.mjs && npm run validate:ontology && npm run test:ontology-standard && npm run smoke && npm run test:laws && npm run test:conformance && npm run test:standards && npm run test:citations && npm run test:test-standards && npm run test:documents && npm run mcp:test:input && npm run mcp:test:a2ui && npm run mcp:test:eras && npm run mcp:test:access",
+    "test": "node --test tests/*.test.mjs && npm run validate:ontology && npm run test:ontology-standard && npm run smoke && npm run test:laws && npm run test:conformance && npm run test:standards && npm run test:citations && npm run test:test-standards && npm run test:documents && npm run test:field-questions && npm run mcp:test:input && npm run mcp:test:a2ui && npm run mcp:test:eras && npm run mcp:test:access",
     "audit": "tsx scripts/audit-ontology.ts",
     "coverage": "tsx scripts/coverage-matrix.ts",
     "check:oss-hygiene": "tsx scripts/verify/check-oss-hygiene.ts",
@@ -64,7 +64,8 @@
     "generate:shapes": "tsx scripts/ontology/generate-shapes.ts",
     "validate:shapes": "tsx scripts/verify/validate-shapes.ts",
     "export:rdf": "tsx scripts/ontology/export-rdf.ts",
-    "test:ontology-standard": "tsx scripts/test/test-ontology-standard.ts"
+    "test:ontology-standard": "tsx scripts/test/test-ontology-standard.ts",
+    "test:field-questions": "tsx scripts/test/test-field-search.ts && tsx scripts/test/test-field-questions.ts --min 93 && tsx scripts/test/test-field-questions.ts --holdout --min 90 && tsx scripts/test/test-field-questions.ts --set-c --min 70"
   },
   "keywords": [
     "mcp",

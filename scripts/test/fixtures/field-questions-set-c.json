@@ -1,0 +1,146 @@
+{
+  "_readme": "현장 말투 질문 — 도구와 현장 표현 자료를 고정한 뒤에 쓴 묶음. 한 번 재고 그 결과에 맞춰 도구를 고치지 않았다. 현장 표현 자료가 없는 노드·행을 여럿 넣었다. 정답 표기 — node:<그래프 노드 id> · law:<법령 id>:<조문·별표> · row:<품질시험기준(업무지침 별표 2)의 종별 일부>|<시험종목 일부>. 정답은 그래프 노드와 법령 원문·별표 2 원문을 읽고 정했다.",
+  "asOf": "2026-11-16",
+  "questions": [
+    {
+      "id": "c01",
+      "question": "레미콘 차가 두 시간 넘게 걸려서 왔다",
+      "expect": [
+        "law:quality_guideline:제41조"
+      ]
+    },
+    {
+      "id": "c02",
+      "question": "진동기를 제대로 안 돌려서 자갈만 모인 데가 있다",
+      "expect": [
+        "node:ncr.honeycomb"
+      ]
+    },
+    {
+      "id": "c03",
+      "question": "되메우기 한 데 다짐 시험은 층마다 하나",
+      "expect": [
+        "row:되메우기 및 구조물뒷채움|현장밀도"
+      ]
+    },
+    {
+      "id": "c04",
+      "question": "보조기층 깔고 다짐 확인은 얼마마다 하나",
+      "expect": [
+        "row:동상방지층 및 보조기층|현장밀도"
+      ]
+    },
+    {
+      "id": "c05",
+      "question": "콘크리트용 모래 자갈은 입도 시험을 얼마마다 하나",
+      "expect": [
+        "row:콘크리트용 골재|입도"
+      ]
+    },
+    {
+      "id": "c06",
+      "question": "강관말뚝 용접한 데는 비파괴를 얼마나 하나",
+      "expect": [
+        "row:강관말뚝|용접부의 비파괴검사"
+      ]
+    },
+    {
+      "id": "c07",
+      "question": "양생을 제대로 안 해서 걱정이다",
+      "expect": [
+        "node:risk.insufficient_curing"
+      ]
+    },
+    {
+      "id": "c08",
+      "question": "기초 밑 지반이 약한 것 같다",
+      "expect": [
+        "node:risk.foundation_bearing_deficiency"
+      ]
+    },
+    {
+      "id": "c09",
+      "question": "말뚝 박고 나서 지지력은 어떻게 확인하나",
+      "expect": [
+        "node:test.pile_bearing_capacity"
+      ]
+    },
+    {
+      "id": "c10",
+      "question": "외벽 페인트 칠한 두께가 얇은 것 같다",
+      "expect": [
+        "node:test.paint_film"
+      ]
+    },
+    {
+      "id": "c11",
+      "question": "하수관 묻기 전에 수압 시험을 해야 하나",
+      "expect": [
+        "node:test.pipe_strength"
+      ]
+    },
+    {
+      "id": "c12",
+      "question": "위층 타설하는데 아래층 동바리는 다 빼도 되나",
+      "expect": [
+        "node:inspection.shoring_layers"
+      ]
+    },
+    {
+      "id": "c13",
+      "question": "품질시험계획서에는 뭘 적어야 하나",
+      "expect": [
+        "law:btia_decree:별표 9"
+      ]
+    },
+    {
+      "id": "c14",
+      "question": "조경 공사만 하는데도 품질시험계획을 내야 하나",
+      "expect": [
+        "law:btia_rule:제49조"
+      ]
+    },
+    {
+      "id": "c15",
+      "question": "품질관리계획서 목차는 어떻게 잡나",
+      "expect": [
+        "law:quality_guideline:별표 1"
+      ]
+    },
+    {
+      "id": "c16",
+      "question": "관급으로 받은 레미콘은 품질을 누가 책임지나",
+      "expect": [
+        "law:quality_guideline:제36조"
+      ]
+    },
+    {
+      "id": "c17",
+      "question": "공장 점검에서 지적받은 게 있는데 그다음은 어떻게 되나",
+      "expect": [
+        "law:quality_guideline:제39조"
+      ]
+    },
+    {
+      "id": "c18",
+      "question": "시험 장비는 뭘 갖춰 놔야 하나",
+      "expect": [
+        "law:btia_rule:별표 5"
+      ]
+    },
+    {
+      "id": "c19",
+      "question": "KS 마크 있는 자재는 시험을 빼도 되나",
+      "expect": [
+        "law:btia_decree:제91조"
+      ]
+    },
+    {
+      "id": "c20",
+      "question": "콘크리트 타설한 양은 어떤 양식에 적나",
+      "expect": [
+        "law:cm_guideline:별지 35"
+      ]
+    }
+  ]
+}

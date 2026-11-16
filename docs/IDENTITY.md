@@ -34,7 +34,7 @@
 | `resolve_worktype` | 자연어 공종 표현 → 표준 공종 id (실패 시 humanCheckpoint) |
 | `get_work_quality_profile` | 공종 1건의 자재/시험/검측/리스크/증빙 전체 프로파일 |
 | `get_material_quality_profile` | 자재 1건의 시험·증빙·기준·리스크 |
-| `discover_relevant_domain` | 상황 서술 → 관련 도메인 노드 발견 |
+| `discover_relevant_domain` | 상황 서술(현장 말 문장 가능) → 관련 그래프 노드 · 법령·지침 조문 · 품질시험기준 행 |
 | `explain_quality_decision_path` | 판정·조치의 그래프 경로 설명 |
 
 ### ② 법령·기준·서식 locator (7)

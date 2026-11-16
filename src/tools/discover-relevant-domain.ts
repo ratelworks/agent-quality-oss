@@ -5,9 +5,13 @@
  * 관련 공종·자재·시험·기준·법령·서식을 한 번에 모은 도메인 지식 패키지로 반환.
  *
  * korean-law-mcp의 chain_full_research / discover_tools와 동일 철학.
+ *
+ * 현장 말로 쓴 문장도 받는다("레미콘이 너무 질다") — 문장에 든 이름을 알아보고,
+ * 현장 표현 자료로 견줘 그래프 노드·법령 조문·품질시험기준(업무지침 별표 2) 행을 함께 찾는다.
  */
 
 import { searchEntities } from '../ontology/resolver.js';
+import { searchLawArticlesBySentence, searchNodesBySentence, searchTestRowsBySentence } from '../knowledge/field-search.js';
 import { buildResponse } from './_response.js';
 import type { ToolSpec, NextStepHint } from '../lib/types.js';
 import type { OntologyGraph } from '../ontology/graph.js';
@@ -16,11 +20,11 @@ import type { BaseEntity, EntityType } from '../ontology/schema.js';
 export const spec: ToolSpec = {
   name: 'discover_relevant_domain',
   description:
-    '"내가 지금 이런 상황인데 뭘 알아야 하나?" 자연어 상황 입력을 받아 관련 도메인 지식(공종·자재·시험·기준·법령·서식)을 한 번에 묶은 패키지를 반환. 길잡이 + 도메인 전문성 공급. [근거 제공용 · 최종 판정은 품질관리자·감리원·발주자]',
+    '"내가 지금 이런 상황인데 뭘 알아야 하나?" 자연어 상황 입력을 받아 관련 도메인 지식(공종·자재·시험·기준·부적합 노드, 법령·지침 조문, 품질시험기준 행)을 한 번에 묶은 패키지를 반환. 현장 말로 쓴 문장을 그대로 넣어도 된다(예: "레미콘이 너무 질다", "들밀도 시험은 얼마마다 하나", "품질관리자를 몇 명 둬야 하나"). 조문과 시험기준은 위치만 알려 주므로 원문은 get_quality_law_article · search_quality_test_standards 로 확인한다. [근거 제공용 · 최종 판정은 품질관리자·감리원·발주자]',
   inputSchema: {
     type: 'object',
     properties: {
-      situation: { type: 'string', description: '상황 자연어 (예: "오늘 슬래브 콘크리트 타설")' },
+      situation: { type: 'string', description: '상황 자연어 — 공종 한마디나 현장 말 문장 (예: "오늘 슬래브 콘크리트 타설", "거푸집 떼보니 곰보가 생겼다")' },
       maxResults: { type: 'number', description: '카테고리별 최대 결과 수 (기본 5)' },
     },
     required: ['situation'],
@@ -43,6 +47,11 @@ const DOMAIN_TYPES: EntityType[] = [
   'Standard',
 ];
 
+/** 공종으로 보고 주변 노드까지 펼치는 최소 점수 — 문장에서 어렴풋이 걸린 공종으로는 펼치지 않는다 */
+const PRIMARY_WORK_MIN_SCORE = 0.6;
+/** 품질시험기준 행은 이만큼만 싣는다 — 전체는 search_quality_test_standards 로 본다 */
+const TEST_ROW_LIMIT = 6;
+
 export function run(args: DiscoverArgs, graph: OntologyGraph) {
   const { situation, maxResults = 5 } = args ?? ({ situation: '' } as DiscoverArgs);
   if (!situation) throw new Error('situation은 필수입니다.');
@@ -51,20 +60,39 @@ export function run(args: DiscoverArgs, graph: OntologyGraph) {
   const buckets: Record<string, Array<{ id: string; name: string; score: number }>> = {};
   const allBasis: string[] = [];
 
+  // 문장에 이름이 그대로 든 노드와, 현장 표현으로 견줘 찾은 노드
+  const sentenceHits = searchNodesBySentence(graph, situation);
   for (const type of DOMAIN_TYPES) {
-    const hits = searchEntities(graph, situation, type, maxResults);
-    buckets[type] = hits.map((h) => ({
-      id: h.id,
-      name: h.name,
-      score: Number(h.score.toFixed(3)),
-    }));
+    const merged = new Map<string, { id: string; name: string; score: number }>();
+    for (const h of searchEntities(graph, situation, type, maxResults)) {
+      merged.set(h.id, { id: h.id, name: h.name, score: Number(h.score.toFixed(3)) });
+    }
+    for (const h of sentenceHits) {
+      if (h.entity.type !== type) continue;
+      const score = Number(h.score.toFixed(3));
+      const before = merged.get(h.entity.id);
+      if (!before || before.score < score) merged.set(h.entity.id, { id: h.entity.id, name: h.entity.name, score });
+    }
+    const hits = [...merged.values()].sort((a, b) => b.score - a.score || (a.id < b.id ? -1 : 1)).slice(0, maxResults);
+    buckets[type] = hits;
     for (const h of hits) allBasis.push(h.id);
   }
+
+  // 법령·지침 조문과 품질시험기준 행 — 위치만 싣는다(원문은 해당 도구로)
+  const lawArticles = searchLawArticlesBySentence(situation, maxResults);
+  const testStandards = searchTestRowsBySentence(situation, TEST_ROW_LIMIT).map((r) => ({
+    id: r.id,
+    section: r.section,
+    category: r.category,
+    item: r.item,
+    method: r.method,
+    frequency: r.frequency,
+  }));
 
   // 1순위 WorkType이 있으면 1-hop 이웃까지 함께 반환 (베테랑 시각: 공종 잡히면 관련 자재·시험·검측 자동 따라옴)
   let primaryWork: BaseEntity | null = null;
   let primaryNeighborhood: Record<string, Array<{ id: string; name: string }>> = {};
-  if (buckets['WorkType'] && buckets['WorkType'].length > 0) {
+  if (buckets['WorkType'] && buckets['WorkType'].length > 0 && buckets['WorkType'][0]!.score >= PRIMARY_WORK_MIN_SCORE) {
     const id = buckets['WorkType'][0]!.id;
     primaryWork = graph.get(id) ?? null;
     if (primaryWork) {
@@ -137,6 +165,12 @@ export function run(args: DiscoverArgs, graph: OntologyGraph) {
   if ((buckets['Standard']?.length ?? 0) > 0) {
     expertGuidance.push('관련 표준·법령 발견 — verify_form_reference로 인용 정확성 검증');
   }
+  if (lawArticles.length > 0) {
+    expertGuidance.push(`관련 조문 ${lawArticles.length}건 — 문장으로 찾은 후보이므로 get_quality_law_article 로 원문을 확인`);
+  }
+  if (testStandards.length > 0) {
+    expertGuidance.push(`품질시험기준(업무지침 별표 2) 행 ${testStandards.length}건 — 종별 전체는 search_quality_test_standards 로 확인`);
+  }
   if (expertGuidance.length === 0) {
     expertGuidance.push('직접 매칭된 도메인 노드가 적음. resolve_worktype로 공종 표현 정정 권고.');
   }
@@ -144,6 +178,8 @@ export function run(args: DiscoverArgs, graph: OntologyGraph) {
   const result = {
     situation,
     domainPackage: buckets,
+    lawArticles,
+    testStandards,
     primaryWorkType: primaryWork
       ? {
           id: primaryWork.id,
@@ -155,6 +191,11 @@ export function run(args: DiscoverArgs, graph: OntologyGraph) {
   };
 
   const uniqueBasis = [...new Set(allBasis)];
+  const lawBasis = [
+    ...lawArticles.map((a) => `${a.law}:${a.ref}`),
+    ...(testStandards.length > 0 ? ['quality_guideline:별표 2'] : []),
+  ];
+  const uniqueLawBasis = [...new Set(lawBasis)];
 
   // 동적 nextSteps — primaryWork에 따라 적합한 패키지만 추천.
   // default(_response.ts)는 콘크리트 미커버 도메인용 일반 가이드만 둠.
@@ -171,6 +212,12 @@ export function run(args: DiscoverArgs, graph: OntologyGraph) {
       reason: `"${primaryWork.name}" 검측 입회 재료 패키지`,
     });
   }
+  if (lawArticles.length > 0) {
+    nextSteps.push({ tool: 'get_quality_law_article', reason: '찾은 조문의 원문 확인' });
+  }
+  if (testStandards.length > 0) {
+    nextSteps.push({ tool: 'search_quality_test_standards', reason: '해당 자재의 시험종목·방법·빈도 전체' });
+  }
   nextSteps.push({ tool: 'list_core_quality_laws', reason: '관련 법령 목록' });
   if (!primaryWork) {
     nextSteps.push({
@@ -183,10 +230,13 @@ export function run(args: DiscoverArgs, graph: OntologyGraph) {
     'discover_relevant_domain',
     graph.version,
     result,
-    uniqueBasis.length > 0
-      ? uniqueBasis.map((id) => ({ type: 'ontology' as const, id, priority: 1 }))
+    uniqueBasis.length + uniqueLawBasis.length > 0
+      ? [
+          ...uniqueBasis.map((id) => ({ type: 'ontology' as const, id, priority: 1 })),
+          ...uniqueLawBasis.map((id) => ({ type: 'law_text' as const, id, priority: 2 })),
+        ]
       : [{ type: 'ontology_meta', id: 'no_match', priority: 3, note: '매칭 도메인 없음' }],
-    uniqueBasis.length === 0
+    uniqueBasis.length + uniqueLawBasis.length === 0
       ? { required: true, reason: `"${situation}"에서 도메인 매칭 0건 — 표현 정정 필요` }
       : undefined,
     nextSteps,
