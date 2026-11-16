@@ -4,6 +4,7 @@
  * 대상 판정은 시행령 제89조(knowledge/plan-rules.ts) — 총공사비만으로 가리지 않는다.
  * 전문공사 2억원 이상, 연면적 660㎡ 이상 건축공사도 대상이고, 입력이 모자라면 판정하지 않는다.
  * 계획의 법정 내용은 시행령 별표 9 를 수록 원문에서 읽어 싣는다.
+ * 공종별 시험종목·시험방법·시험빈도는 업무지침 별표 2 를 행으로 푼 자료(knowledge/test-standards.ts)에서 가져온다.
  */
 
 import { getSchema } from '../schemas/loader.js';
@@ -11,6 +12,7 @@ import { buildResponse } from './_response.js';
 import { mergeBasis, schemaLegalBasisRefs } from "./_compile-common.js";
 import { cite } from '../knowledge/cite.js';
 import { judgePlanTarget, type ProjectFacts } from '../knowledge/plan-rules.js';
+import { loadTestStandards, searchTestStandards, type TestStandardRow } from '../knowledge/test-standards.js';
 import { findAnnex, findLaw } from '../ontology/laws.js';
 import type { BasisRef, ToolSpec } from '../lib/types.js';
 import type { OntologyGraph } from '../ontology/graph.js';
@@ -19,7 +21,7 @@ import type { BaseEntity } from '../ontology/schema.js';
 export const spec: ToolSpec = {
   name: 'compile_quality_test_plan_references',
   description:
-    '품질시험계획서 작성 1건에 필요한 재료 패키지를 반환한다 — 양식 스키마 + 시행령 제89조 대상 판정(공사 종류·총공사비·연면적 기준, 입력이 모자라면 판정하지 않음) + 시행령 별표 9 계획 내용 원문 + 공종별 시험 항목 + 수립·승인 절차 근거. [근거 제공용 · 최종 판정은 품질관리자·감리원·발주자]',
+    '품질시험계획서 작성 1건에 필요한 재료 패키지를 반환한다 — 양식 스키마 + 시행령 제89조 대상 판정(공사 종류·총공사비·연면적 기준, 입력이 모자라면 판정하지 않음) + 시행령 별표 9 계획 내용 원문 + 공종별 시험 항목 + 공종별 품질시험기준(업무지침 별표 2 의 시험종목·시험방법·시험빈도) + 수립·승인 절차 근거. [근거 제공용 · 최종 판정은 품질관리자·감리원·발주자]',
   inputSchema: {
     type: 'object',
     properties: {
@@ -52,6 +54,42 @@ export interface CompileQtpArgs {
 
 const DECREE = '건설기술 진흥법 시행령';
 const GUIDELINE = '건설공사 품질관리 업무지침';
+/** 공종 하나에 싣는 별표 2 행 수의 상한 — 넘으면 search_quality_test_standards 로 이어 받는다 */
+const STANDARD_ROWS_PER_WORK = 60;
+
+interface WorkStandardRows {
+  workType: string;
+  workTypeName: string;
+  /** 별표 2 의 구분 */
+  section: string;
+  /** 구분 안에서 고른 종별 낱말 (없으면 구분 전체) */
+  categories?: string[];
+  total: number;
+  rows: Array<Pick<TestStandardRow, 'id' | 'category' | 'item' | 'method' | 'frequency' | 'remarks'>>;
+  more?: string;
+}
+
+/** 공종 노드가 가리키는 별표 2 의 구분·종별에서 행을 가져온다 */
+function standardRowsFor(work: BaseEntity): WorkStandardRows | null {
+  const link = work.meta?.['testStandard'] as { section?: string; categories?: string[] } | undefined;
+  if (!link?.section) return null;
+  const inSection = searchTestStandards({ section: link.section, limit: loadTestStandards().rows.length }).rows;
+  const squash = (v: string): string => v.replace(/\s+/g, '');
+  const wanted = (link.categories ?? []).map(squash);
+  const matched = wanted.length === 0 ? inSection : inSection.filter((r) => wanted.some((w) => squash(r.category).includes(w)));
+  const first = matched[0];
+  return {
+    workType: work.id,
+    workTypeName: work.name,
+    section: first?.section ?? link.section,
+    ...(link.categories ? { categories: link.categories } : {}),
+    total: matched.length,
+    rows: matched.slice(0, STANDARD_ROWS_PER_WORK).map(({ id, category, item, method, frequency, remarks }) => ({ id, category, item, method, frequency, remarks })),
+    ...(matched.length > STANDARD_ROWS_PER_WORK
+      ? { more: `${matched.length - STANDARD_ROWS_PER_WORK}행이 더 있다 — search_quality_test_standards(section: '${link.section}') 로 종별을 좁혀 받는다.` }
+      : {}),
+  };
+}
 
 /** 시행령 별표 9 — 품질시험계획의 내용 (번호 붙은 줄만) */
 function planContents(): { source: string; lines: string[] } {
@@ -86,10 +124,13 @@ export function run(args: CompileQtpArgs, graph: OntologyGraph) {
 
   // workType별 시험 항목 자동 추출 — 그래프 1-hop 순회
   const testItemRefs: TestItemRef[] = [];
+  const standardRows: WorkStandardRows[] = [];
   const seen = new Set<string>();
   for (const wtId of workTypes) {
     const wt = graph.get(wtId);
     if (!wt || wt.type !== 'WorkType') continue;
+    const fromStandard = standardRowsFor(wt);
+    if (fromStandard) standardRows.push(fromStandard);
     const materials = wt.relations?.['usesMaterial'] ?? [];
     const tests = wt.relations?.['hasTest'] ?? wt.relations?.['requiresTest'] ?? [];
     for (const tId of tests) {
@@ -169,8 +210,12 @@ export function run(args: CompileQtpArgs, graph: OntologyGraph) {
       // 법령이 정한 계획 내용 — 이 항목은 빠지면 안 된다
       legalContents: planContents(),
       testItemsByWorkType: testItemRefs,
+      // 업무지침 별표 2 — 공종에 해당하는 구분·종별의 시험종목·시험방법·시험빈도 (원문 표를 행으로 푼 것)
+      testStandardsByWorkType: standardRows,
       testStandard: {
-        note: '공종별 시험종목·방법·빈도는 업무지침 별표 2 가 기준입니다. 전문은 get_quality_law_article(law: "품질관리 업무지침", annex: "별표 2") 로 받습니다.',
+        source: loadTestStandards().source,
+        edition: loadTestStandards().edition,
+        note: '공종별 시험종목·방법·빈도는 업무지침 별표 2 가 기준입니다. testStandardsByWorkType 은 공종에 해당하는 행이고, 다른 자재·종별은 search_quality_test_standards 로 찾습니다. 전문은 get_quality_law_article(law: "품질관리 업무지침", annex: "별표 2") 로 받습니다.',
         rules: [
           cite({ law: GUIDELINE, article: '8', quote: '건설공사 품질시험기준은 별표 2와 같다' }),
           cite({ law: GUIDELINE, article: '8', quote: '명시되지 아니한 공종이나 자재에 대해서는 시방서 등 설계도서에 제시된 시험종목ㆍ방법 및 빈도에 따른다' }),

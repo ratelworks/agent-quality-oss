@@ -13,7 +13,16 @@
   "_meta": {
     "parent": "공통",
     "domain": "civil_quality",
-    "note": "별표2 공통 '마.기타' — 석재(KS F 2518/2519)·토목섬유(KS K ISO) 시험종목 verified. 판정 수치는 KS/설계도서 확보 시."
+    "note": "별표2 공통 '마.기타' — 석재(KS F 2518/2519)·토목섬유(KS K ISO) 시험종목 verified. 판정 수치는 KS/설계도서 확보 시.",
+    "testStandard": {
+      "section": "1. 공통 > 마. 기타",
+      "categories": [
+        "석재",
+        "토목섬유",
+        "부직포",
+        "드레인보드"
+      ]
+    }
   },
   "usesMaterial": [
     "material:stone",

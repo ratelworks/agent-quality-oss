@@ -10,12 +10,12 @@
 ```yaml
 meta:
   suite: tools
-  purpose: 52개 MCP 도구가 한국 건설 품질관리 도메인 지식을 올바르게 공급하는가 (입력→기대 출력의 행동 계약)
+  purpose: 53개 MCP 도구가 한국 건설 품질관리 도메인 지식을 올바르게 공급하는가 (입력→기대 출력의 행동 계약)
   module: src/tools/* (TOOL_MODULES, src/tool-registry.ts 등록)
   runner_impl: scripts/smoke-test.ts   # CASES 배열 = 실행체. 이 suite 는 정의-자산
   total_cases: 94
-  tools_registered: 52
-  tools_covered: 36                     # 94 케이스가 커버하는 고유 도구 수 (나머지 16개는 점진 확장 대상)
+  tools_registered: 53
+  tools_covered: 36                     # 94 케이스가 커버하는 고유 도구 수 (나머지 17개는 점진 확장 대상 — 그중 search_quality_test_standards 는 전용 시험이 다룬다)
   types: [code]
   shared_contract: |
     모든 도구 응답은 공통 스키마를 만족해야 한다 (smoke-test.ts 의 schemaOk 게이트 = 전 케이스 공통 전제):
@@ -1969,6 +1969,8 @@ created_at: 2026-07-02T00:00:00+09:00
 
 ```yaml
 uncovered_tools:
+  # 품질시험기준 조회 (1) — 전용 시험 scripts/test/test-test-standards.ts 가 다룬다
+  - search_quality_test_standards
   # 양식 스키마 (12)
   - get_qc_assignment_notice_schema
   - get_quality_test_plan_schema

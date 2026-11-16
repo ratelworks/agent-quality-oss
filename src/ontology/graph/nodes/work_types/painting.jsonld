@@ -13,7 +13,10 @@
   "_meta": {
     "parent": "건축공사",
     "domain": "architecture_quality",
-    "note": "별표2 도장공사 시험종목(도료 부착강도·은폐율·건조시간·도막두께) verified. 판정값은 KCS 41/KS 확보 시."
+    "note": "별표2 도장공사 시험종목(도료 부착강도·은폐율·건조시간·도막두께) verified. 판정값은 KCS 41/KS 확보 시.",
+    "testStandard": {
+      "section": "도장공사"
+    }
   },
   "usesMaterial": [
     "material:paint"

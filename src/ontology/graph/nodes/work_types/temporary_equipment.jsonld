@@ -10,7 +10,10 @@
   "_meta": {
     "parent": "가설공사",
     "domain": "architecture_quality",
-    "note": "별표2 가설기자재 시험종목(비계·동바리 부재 하중시험·압연강재) verified. 안전인증기준 하중 판정값은 산업안전보건법 안전인증/KS 확보 시 강화."
+    "note": "별표2 가설기자재 시험종목(비계·동바리 부재 하중시험·압연강재) verified. 안전인증기준 하중 판정값은 산업안전보건법 안전인증/KS 확보 시 강화.",
+    "testStandard": {
+      "section": "가설기자재"
+    }
   },
   "usesMaterial": [
     "material:scaffold"

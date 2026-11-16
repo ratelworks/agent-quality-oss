@@ -15,7 +15,10 @@
   "_meta": {
     "parent": "토목공사",
     "domain": "civil_quality",
-    "note": "별표2 수공구조물공사 — 토공 시험종목(함수비·다짐·현장밀도) + 투수(KS F 2322) verified. 투수계수 판정값은 댐/제방 설계기준·KCS 확보 시. 토공 자재·시험 공유."
+    "note": "별표2 수공구조물공사 — 토공 시험종목(함수비·다짐·현장밀도) + 투수(KS F 2322) verified. 투수계수 판정값은 댐/제방 설계기준·KCS 확보 시. 토공 자재·시험 공유.",
+    "testStandard": {
+      "section": "수공구조물공사"
+    }
   },
   "usesMaterial": [
     "material:soil"

@@ -13,7 +13,10 @@
   "_meta": {
     "parent": "건축공사",
     "domain": "architecture_quality",
-    "note": "별표2 방수공사 시험종목(방수시트·도막·액체 방수재) verified. 성능 판정값은 KCS 41/KS 확보 시."
+    "note": "별표2 방수공사 시험종목(방수시트·도막·액체 방수재) verified. 성능 판정값은 KCS 41/KS 확보 시.",
+    "testStandard": {
+      "section": "방수공사"
+    }
   },
   "usesMaterial": [
     "material:waterproof"

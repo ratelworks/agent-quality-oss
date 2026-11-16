@@ -44,6 +44,8 @@ interface SchemaNode {
   additionalProperties?: boolean;
   items?: SchemaNode;
   enum?: unknown[];
+  minimum?: number;
+  maximum?: number;
 }
 interface ToolDef {
   name: string;
@@ -134,6 +136,7 @@ async function main(): Promise<void> {
       name: { type: "string" },
       count: { type: "number" },
       whole: { type: "integer" },
+      ranged: { type: "number", minimum: 1, maximum: 10 },
       tags: { type: "array", items: { type: "string" } },
       mode: { type: "string", enum: ["a", "b"] },
       nested: { type: "object", properties: { depth: { type: "number" } }, required: ["depth"] },
@@ -145,6 +148,9 @@ async function main(): Promise<void> {
   check("숫자 모양 문자열은 숫자로 받음", numeric.ok && numeric.value["count"] === 12.5);
   check("숫자가 아닌 문자열은 숫자 칸에서 거절", !validateInput(demo, { name: "x", count: "12개" }).ok);
   check("정수 칸의 소수 거절", !validateInput(demo, { name: "x", whole: 1.5 }).ok);
+  check("범위 안의 숫자 통과", validateInput(demo, { name: "x", ranged: 10 }).ok);
+  check("최솟값보다 작은 숫자 거절", !validateInput(demo, { name: "x", ranged: 0 }).ok);
+  check("최댓값보다 큰 숫자 거절", !validateInput(demo, { name: "x", ranged: 11 }).ok);
   const nullOptional = validateInput(demo, { name: "x", count: null });
   check("선택 칸의 null 은 보내지 않은 것으로 봄", nullOptional.ok && !("count" in nullOptional.value));
   check("필수 칸의 null 거절", !validateInput(demo, { name: null }).ok);

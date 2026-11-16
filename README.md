@@ -5,7 +5,7 @@
 [![Node](https://img.shields.io/badge/node-%3E%3D22.12-brightgreen)](https://nodejs.org)
 [![MCP](https://img.shields.io/badge/MCP-2026--07--28-purple)](https://modelcontextprotocol.io)
 [![Release](https://img.shields.io/badge/release-v0.4.3-blue.svg)](./CHANGELOG.md)
-[![Tools](https://img.shields.io/badge/MCP%20tools-52-orange.svg)](#현장-운영-흐름)
+[![Tools](https://img.shields.io/badge/MCP%20tools-53-orange.svg)](#현장-운영-흐름)
 
 **건설현장의 품질관리 문서 작성과 검토를 더 빠르고 정확하게.** 건설기술 진흥법·건설공사 품질관리 업무지침·KCS/KDS·KS 를 기반으로, 품질관리자(QC)와 감리원의 ITP·NCR·검사요청·시험성적서 검토 같은 작업을 돕는 오픈소스 도구입니다.
 
@@ -58,10 +58,10 @@ LLM 은 이 그래프를 보고 문서를 작성하거나 설명할 수 있지�
 
 | 영역 | 내용 |
 |---|---|
-| **품질관리 온톨로지** | 공종(WorkType) 19종 + 자재·시험·판정기준·리스크·부적합·시정조치·검측·증빙·표준을 관계로 연결. 그래프 노드 **382개** · 관계 **934개** |
+| **품질관리 온톨로지** | 공종(WorkType) 19종 + 자재·시험·판정기준·리스크·부적합·시정조치·검측·증빙·표준을 관계로 연결. 그래프 노드 **410개** · 관계 **985개** |
 | **법령·고시 원문 내장 (verified)** | 건진법 §55~60·시행령·시행규칙 핵심 조문과 **품질관리 업무지침(2026-360호) 현행 조문 29개**의 원문을 법제처 자동 sync 로 내장. 별표·별지 30종(업무지침 별표1~5·9, 사업관리지침 검측대장·품질시험검사대장 등)은 본문 + **공식 HWP/PDF 다운로드 링크** 제공 |
 | **법정 품질시험기준 커버리지** | 건설공사 품질관리 업무지침 **별표2(품질시험기준)** 의 공통·토목·건축 **전 절** 시험종목·방법·빈도 — 단 *식별*(무슨 시험·방법·빈도) 수준이며, 합격 *판정 수치*는 콘크리트 공종만 확보(그 외 공종은 `skeleton`, [현재 한계](#현재-한계) 참조) |
-| **MCP 도구 52개** | 온톨로지 탐색 · 정량 판정 · 리스크 추론 · 근거 검증 · 법령/기준 인용 위치 · 문서 양식 구조(19종) · 근거 패키지 조립(전용 7종 + 제네릭 1종 = 19종 문서 전부) · 체인 도구 5종(검측·시험계획·성적서검토·부적합·일일브리핑 원스톱) · 입력 폼(A2UI) |
+| **MCP 도구 53개** | 온톨로지 탐색 · 정량 판정 · 리스크 추론 · 근거 검증 · 법령/기준 인용 위치 · 문서 양식 구조(19종) · 근거 패키지 조립(전용 7종 + 제네릭 1종 = 19종 문서 전부) · 체인 도구 5종(검측·시험계획·성적서검토·부적합·일일브리핑 원스톱) · 입력 폼(A2UI) |
 | **문서 양식 구조 19종** | (법정 15종) ITP · NCR · 검사요청서 · 콘크리트 납품기록 · 공시체 기록 · 시험성적서 검토 · 품질관리자 배치신고 · 품질시험계획 · 검사대장 · 품질관리계획서 · 성과총괄표(별지43) · 점검결과보고서 · 시험의뢰서(KOLAS) · 검측체크리스트 · 자재공급원승인(별지37) + (실무·ISO 관행 4종) 부적합조치결과확인서 · 시방서일지 · 시정조치요구서(CAR) · 품질감사보고서 — 시공자 작성 문서 전종 (필수 필드 + 근거 + 보존기간) |
 | **근거 추적(Lineage)** | 모든 도구 응답에 `basis[]` + `lineage.contentHash` + `sourceStatus` 요약 — 답이 어디서 왔는지, 출처가 검증됐는지 항상 확인 |
 
@@ -142,7 +142,7 @@ node build/cli.js viewer
 ### C. 개발자
 
 ```bash
-node build/cli.js tools          # 등록된 도구 52개 목록
+node build/cli.js tools          # 등록된 도구 53개 목록
 node build/cli.js serve          # stdio MCP 서버
 node build/cli.js serve --http   # HTTP JSON 서버 (PORT env, 기본 8080 → /mcp/tools)
 node build/cli.js call get_work_quality_profile --workType 콘크리트
@@ -193,8 +193,9 @@ Claude Desktop 이나 Codex 에서 자연어로 요청합니다.
 | **5. 작성 컨텍스트** | 입력값 + 양식 구조 + 근거 → LLM 작성 컨텍스트 | `compose_writing_context` |
 | **6. 검수** | 근거 우선순위 · 인용 실존 · 서식 명칭 검증 | `map_quality_basis` · `verify_quality_basis` · `verify_form_reference` |
 | **법령·기준 인용 위치** | 법령·업무지침·KCS·서식의 인용 위치 조회 (원문 미포함) | `list_core_quality_laws` · `get_quality_law_article` · `search_quality_management_guideline` · `get_quality_guideline_article` · `search_construction_standards` · `get_standard_form_locator` |
+| **품질시험기준** | 업무지침 별표 2 전 항목(시험종목·시험방법·시험빈도)을 구분·종별·시험종목·KS 번호로 조회 | `search_quality_test_standards` |
 
-전체 도구 **52개** 목록·설명은 `node build/cli.js tools` 로 확인하세요.
+전체 도구 **53개** 목록·설명은 `node build/cli.js tools` 로 확인하세요.
 
 ## 신뢰성 — 근거 등급
 
@@ -221,7 +222,7 @@ npm run check:oss-hygiene   # 공개 위생 (내부 용어·경로·PII 차단)
 
 최근 검증 결과:
 
-- 온톨로지 무결성: 통과 (노드 382 · 관계 934 · orphan 0)
+- 온톨로지 무결성: 통과 (노드 410 · 관계 985 · orphan 0)
 - 출처 검증(verified) 자산: 149/382 노드 (39%) — 법제처 원문 sync 기준
 - smoke 회귀: 94/94 통과
 - typecheck: 통과 · OSS hygiene: 통과

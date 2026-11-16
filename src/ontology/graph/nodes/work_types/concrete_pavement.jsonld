@@ -12,7 +12,14 @@
   "_meta": {
     "parent": "토목공사",
     "domain": "civil_quality",
-    "note": "별표2 도로공사 시멘트 콘크리트 포장 시험종목(휨강도·두께·평탄성) verified. 휨강도 기준값은 KCS 44 확보 시. 아스팔트 포장은 work.road_pavement 참조."
+    "note": "별표2 도로공사 시멘트 콘크리트 포장 시험종목(휨강도·두께·평탄성) verified. 휨강도 기준값은 KCS 44 확보 시. 아스팔트 포장은 work.road_pavement 참조.",
+    "testStandard": {
+      "section": "도로공사 > (3) 기타",
+      "categories": [
+        "콘크리트포장",
+        "콘크리트 포장용"
+      ]
+    }
   },
   "usesMaterial": [
     "material:pavement_concrete"

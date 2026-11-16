@@ -24,7 +24,7 @@ const REGISTRY_PATH = resolve(ROOT, "src/tool-registry.ts");
 const TOOLS_DIR = resolve(ROOT, "src/tools");
 const SUITE_PATH = resolve(ROOT, "tests/tools.suite.md");
 const SMOKE_PATH = resolve(ROOT, "scripts/smoke-test.ts");
-const EXPECTED_TOOL_COUNT = 52; // src/tool-registry.ts 헤더 SSoT (현재 52개)
+const EXPECTED_TOOL_COUNT = 53; // src/tool-registry.ts 의 TOOL_MODULES 길이
 
 // ── 정적 파싱 헬퍼 ────────────────────────────────────────────
 

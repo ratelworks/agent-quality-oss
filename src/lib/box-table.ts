@@ -123,3 +123,180 @@ export function parseBoxTables(text: string): BoxTable[] {
 export function boxTableCells(text: string): string[] {
   return parseBoxTables(text).flatMap((t) => t.rows.flat().filter(Boolean));
 }
+
+// ─────────────────────────────────────────────────────────────────────────────
+// 칸 단위 풀이 — 칸마다 가로 범위(왼쪽·오른쪽 경계)와 세로 범위(시작·끝 줄)를 함께 돌려준다.
+// 세로로 합친 칸, 한 칸을 다시 나눈 칸(하위 열)이 섞인 큰 표를 행으로 다시 짤 때 쓴다.
+//
+// 법제처 원문의 표는 한글·기호를 두 칸, 영문·숫자를 한 칸으로 놓고 줄을 맞춘 것이다.
+// 글이 칸보다 길거나 글자가 깨진 줄은 한두 칸 어긋나므로, 위·아래 정상 줄의 경계에 맞춘다.
+// ─────────────────────────────────────────────────────────────────────────────
+
+/** 어긋난 경계를 이웃 줄의 경계에 맞출 때 허용하는 거리(화면 칸) */
+const SNAP_TOLERANCE = 2;
+
+export interface GridCell {
+  left: number;
+  right: number;
+  /** 칸이 시작하는 줄·끝나는 줄 (표 테두리 다음 줄이 0) */
+  top: number;
+  bottom: number;
+  /** 줄마다의 글 (앞뒤 공백 제거, 빈 줄 포함) */
+  lines: string[];
+}
+
+export interface BoxGrid {
+  /** 앞 표가 끝난 뒤부터 이 표 전까지의 글 줄 */
+  before: string[];
+  /** 표의 첫 줄(위 테두리 다음 줄)이 본문 전체에서 몇 번째 줄인가 (0부터) */
+  firstLine: number;
+  /** 표 안의 줄 수 (위·아래 테두리 제외) */
+  lineCount: number;
+  cells: GridCell[];
+  /** 줄마다 가로선이 그어진 구간 [왼쪽, 오른쪽] */
+  rules: Array<Array<[number, number]>>;
+  /** 너비가 어긋난 줄에서 이웃 줄의 경계에 맞추지 못한 경계 수 — 0 이어야 한다 */
+  unsnapped: number;
+}
+
+interface Segment {
+  left: number;
+  right: number;
+  raw: string;
+}
+
+/** 옛 두 바이트 글자 배치 — 영문·숫자만 한 칸, 나머지는 두 칸 */
+function legacyWidth(ch: string): number {
+  return (ch.codePointAt(0) ?? 0) < 0x80 ? 1 : 2;
+}
+
+function segmentsOf(line: string): { segments: Segment[]; width: number } {
+  const segments: Segment[] = [];
+  let pos = 0;
+  let left = -1;
+  let raw = "";
+  for (const ch of line) {
+    if (isBox(ch) && !HORIZONTALS.has(ch)) {
+      if (left >= 0) segments.push({ left, right: pos, raw });
+      left = pos;
+      raw = "";
+    } else if (left >= 0) {
+      raw += ch;
+    }
+    pos += legacyWidth(ch);
+  }
+  return { segments, width: pos };
+}
+
+function mostCommon(values: number[]): number {
+  const counts = new Map<number, number>();
+  for (const v of values) counts.set(v, (counts.get(v) ?? 0) + 1);
+  let best = values[0] ?? 0;
+  for (const [v, n] of counts) if (n > (counts.get(best) ?? 0)) best = v;
+  return best;
+}
+
+function boundariesOf(segments: Segment[]): number[] {
+  return [...new Set(segments.flatMap((s) => [s.left, s.right]))];
+}
+
+function gridOf(tableLines: string[], before: string[], firstLine: number): BoxGrid {
+  const parsed = tableLines.map(segmentsOf);
+  const mainWidth = mostCommon(parsed.map((p) => p.width));
+  const aligned = parsed.map((p) => p.width === mainWidth);
+  let unsnapped = 0;
+
+  /** 너비가 어긋난 줄의 경계를 위·아래에서 가장 가까운 정상 줄의 경계에 맞춘다 */
+  const snapperFor = (lineIndex: number): ((v: number) => number) => {
+    if (aligned[lineIndex]) return (v) => v;
+    const neighbours = new Set<number>();
+    for (let i = lineIndex - 1; i >= 0; i -= 1) {
+      if (!aligned[i]) continue;
+      for (const v of boundariesOf(parsed[i]?.segments ?? [])) neighbours.add(v);
+      break;
+    }
+    for (let i = lineIndex + 1; i < parsed.length; i += 1) {
+      if (!aligned[i]) continue;
+      for (const v of boundariesOf(parsed[i]?.segments ?? [])) neighbours.add(v);
+      break;
+    }
+    return (v) => {
+      if (neighbours.has(v)) return v;
+      let best = -1;
+      for (const c of neighbours) {
+        if (Math.abs(c - v) > SNAP_TOLERANCE) continue;
+        if (best < 0 || Math.abs(c - v) < Math.abs(best - v)) best = c;
+      }
+      if (best < 0) {
+        unsnapped += 1;
+        return v;
+      }
+      return best;
+    };
+  };
+
+  const cells: GridCell[] = [];
+  const rules: Array<Array<[number, number]>> = [];
+  let open: GridCell[] = [];
+  const closeOverlapping = (left: number, right: number): void => {
+    open = open.filter((c) => !(c.left < right && c.right > left));
+  };
+
+  parsed.forEach((p, lineIndex) => {
+    const snap = snapperFor(lineIndex);
+    const lineRules: Array<[number, number]> = [];
+    for (const s of p.segments) {
+      const left = snap(s.left);
+      const right = snap(s.right);
+      if (right <= left) continue;
+      const chars = [...s.raw];
+      if (chars.length > 0 && chars.every((c) => HORIZONTALS.has(c))) {
+        lineRules.push([left, right]);
+        closeOverlapping(left, right);
+        continue;
+      }
+      let cell = open.find((c) => c.left === left && c.right === right);
+      if (!cell) {
+        closeOverlapping(left, right);
+        cell = { left, right, top: lineIndex, bottom: lineIndex, lines: [] };
+        cells.push(cell);
+        open.push(cell);
+      }
+      cell.bottom = lineIndex;
+      cell.lines.push(s.raw.trim());
+    }
+    rules.push(lineRules);
+  });
+
+  return { before, firstLine, lineCount: tableLines.length, cells, rules, unsnapped };
+}
+
+/** 본문의 선 그림 표를 모두 칸 단위로 푼다 */
+export function parseBoxGrids(text: string): BoxGrid[] {
+  const lines = text.split("\n");
+  const grids: BoxGrid[] = [];
+  let before: string[] = [];
+  let i = 0;
+  while (i < lines.length) {
+    const line = lines[i] ?? "";
+    if (!TOP_LEFT.has(firstChar(line))) {
+      if (line.trim() !== "") before.push(line.trim());
+      i += 1;
+      continue;
+    }
+    const body: string[] = [];
+    i += 1;
+    const firstLine = i;
+    while (i < lines.length) {
+      const cur = lines[i] ?? "";
+      const head = firstChar(cur);
+      if (!isBox(head)) break; // 표가 닫히지 않고 끝남
+      i += 1;
+      if (BOTTOM_LEFT.has(head)) break;
+      body.push(cur);
+    }
+    grids.push(gridOf(body, before, firstLine));
+    before = [];
+  }
+  return grids;
+}

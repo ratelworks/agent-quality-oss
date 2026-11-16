@@ -15,7 +15,14 @@
   ],
   "_meta": {
     "parent": "철근콘크리트공사",
-    "domain": "architecture_quality"
+    "domain": "architecture_quality",
+    "testStandard": {
+      "section": "철근콘크리트공사",
+      "categories": [
+        "굳지 아니한 콘크리트",
+        "굳은 콘크리트"
+      ]
+    }
   },
   "hasTask": [
     "task:concrete_pour_slab",

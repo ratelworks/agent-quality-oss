@@ -12,7 +12,10 @@
   "_meta": {
     "parent": "건축공사",
     "domain": "architecture_quality",
-    "note": "별표2 건축 기타 — 일반용 화장판 등 마감자재(KS M 3332) 내열·내마모 시험종목 verified. 판정 수치는 KS 확보 시."
+    "note": "별표2 건축 기타 — 일반용 화장판 등 마감자재(KS M 3332) 내열·내마모 시험종목 verified. 판정 수치는 KS 확보 시.",
+    "testStandard": {
+      "section": "3. 건축 > 아. 기타"
+    }
   },
   "usesMaterial": [
     "material:deco_panel"

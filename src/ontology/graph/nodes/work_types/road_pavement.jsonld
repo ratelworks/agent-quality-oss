@@ -13,7 +13,10 @@
   "_meta": {
     "parent": "토목공사",
     "domain": "civil_quality",
-    "note": "별표2 도로공사 아스팔트 포장 시험종목(마샬안정도·아스팔트 함량) verified. 마샬 기준값은 KCS 44(도로포장) 확보 시 강화. 노상·기층 다짐은 work.earthwork 참조."
+    "note": "별표2 도로공사 아스팔트 포장 시험종목(마샬안정도·아스팔트 함량) verified. 마샬 기준값은 KCS 44(도로포장) 확보 시 강화. 노상·기층 다짐은 work.earthwork 참조.",
+    "testStandard": {
+      "section": "아스팔트 포장"
+    }
   },
   "usesMaterial": [
     "material:asphalt_mixture"

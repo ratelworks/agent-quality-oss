@@ -13,7 +13,10 @@
   "_meta": {
     "parent": "건축공사",
     "domain": "architecture_quality",
-    "note": "별표2 창호공사 시험종목(창호 비틀림강도·연직하중 강도·함수율) verified. 판정 수치는 KS 확보 시."
+    "note": "별표2 창호공사 시험종목(창호 비틀림강도·연직하중 강도·함수율) verified. 판정 수치는 KS 확보 시.",
+    "testStandard": {
+      "section": "창호공사"
+    }
   },
   "usesMaterial": [
     "material:window_frame"

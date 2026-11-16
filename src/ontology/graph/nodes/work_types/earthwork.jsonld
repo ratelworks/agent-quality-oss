@@ -17,7 +17,10 @@
   "_meta": {
     "parent": "토목공사",
     "domain": "civil_quality",
-    "note": "별표2 토공사·기초공사 시험종목(KS F)·방법·빈도 verified. 판정 수치(다짐도 95%·CBR 등)는 KCS 11/44 원문 확보 시 강화 — 현재 시험종목 커버리지."
+    "note": "별표2 토공사·기초공사 시험종목(KS F)·방법·빈도 verified. 판정 수치(다짐도 95%·CBR 등)는 KCS 11/44 원문 확보 시 강화 — 현재 시험종목 커버리지.",
+    "testStandard": {
+      "section": "토공사 및 기초공사"
+    }
   },
   "usesMaterial": [
     "material:soil"

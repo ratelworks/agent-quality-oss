@@ -14,7 +14,10 @@
   "_meta": {
     "parent": "건축공사",
     "domain": "architecture_quality",
-    "note": "별표2 조적공사 시험종목(콘크리트벽돌·점토벽돌·블록 압축강도·흡수율) verified. 판정 수치는 KS 확보 시."
+    "note": "별표2 조적공사 시험종목(콘크리트벽돌·점토벽돌·블록 압축강도·흡수율) verified. 판정 수치는 KS 확보 시.",
+    "testStandard": {
+      "section": "조적공사"
+    }
   },
   "usesMaterial": [
     "material:brick"

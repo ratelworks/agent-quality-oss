@@ -15,7 +15,15 @@
   "_meta": {
     "parent": "철근콘크리트공사",
     "domain": "architecture_quality",
-    "note": "KCS 14 20 12 거푸집 및 동바리. 해체강도·설계하중·동바리 존치 verified (원문 L4726-5255 대조). 측면·내구성 해체강도는 자동판정, 슬래브 밑면(fck 복합)은 fck 주입 대기."
+    "note": "KCS 14 20 12 거푸집 및 동바리. 해체강도·설계하중·동바리 존치 verified (원문 L4726-5255 대조). 측면·내구성 해체강도는 자동판정, 슬래브 밑면(fck 복합)은 fck 주입 대기.",
+    "testStandard": {
+      "section": "가설기자재",
+      "categories": [
+        "파이프서포트",
+        "동바리",
+        "거푸집"
+      ]
+    }
   },
   "hasInspectionCheckpoint": [
     "inspection:formwork_design_review",

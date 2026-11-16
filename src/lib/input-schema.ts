@@ -6,7 +6,7 @@
 //   2) 명령줄의 문자열 인자를 형식에 맞는 값으로 바꾼다(coerceCliArgs).
 //
 // 지원 범위는 도구들이 실제로 쓰는 키워드다: type(object·string·number·integer·
-// boolean·array), properties, required, additionalProperties, items, enum.
+// boolean·array), properties, required, additionalProperties, items, enum, minimum, maximum.
 // 그 밖의 키워드를 쓰는 도구가 생기면 여기에 검사를 더한다 — 모르는 키워드를
 // 조용히 통과시키지 않도록 UNSUPPORTED 로 알린다.
 // ─────────────────────────────────────────────────────────────────────────────
@@ -25,6 +25,8 @@ const CHECKED_KEYWORDS = new Set([
   "additionalProperties",
   "items",
   "enum",
+  "minimum",
+  "maximum",
 ]);
 const NUMERIC_STRING = /^-?\d+(\.\d+)?$/;
 
@@ -90,6 +92,14 @@ function checkNode(schema: SchemaNode, value: unknown, path: string, issues: Inp
       }
       if (type === "integer" && !Number.isInteger(n)) {
         issues.push({ path, message: "정수여야 합니다" });
+      }
+      const minimum = schema["minimum"];
+      const maximum = schema["maximum"];
+      if (typeof minimum === "number" && n < minimum) {
+        issues.push({ path, message: `${minimum} 이상이어야 합니다 (받은 값: ${n})` });
+      }
+      if (typeof maximum === "number" && n > maximum) {
+        issues.push({ path, message: `${maximum} 이하여야 합니다 (받은 값: ${n})` });
       }
       return n;
     }

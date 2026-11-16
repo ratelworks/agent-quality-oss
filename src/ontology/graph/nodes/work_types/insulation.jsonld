@@ -12,7 +12,10 @@
   "_meta": {
     "parent": "건축공사",
     "domain": "architecture_quality",
-    "note": "별표2 단열공사 시험종목(열전도율·단열성) verified. 열전도율 판정값은 KCS 41/KS 확보 시."
+    "note": "별표2 단열공사 시험종목(열전도율·단열성) verified. 열전도율 판정값은 KCS 41/KS 확보 시.",
+    "testStandard": {
+      "section": "단열·보온공사"
+    }
   },
   "usesMaterial": [
     "material:insulation"

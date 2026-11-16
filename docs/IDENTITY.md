@@ -24,7 +24,7 @@
 - ❌ 전자결재·문서번호·보존 이력을 책임지는 QMS
 - ❌ 품질 외 도메인 (안전은 자매 [agent-safety-oss](https://github.com/ratelworks/agent-safety-oss) — 같은 IRI 공간·같은 JSON-LD 구조)
 
-## 도구 카탈로그 (52종)
+## 도구 카탈로그 (53종)
 
 ### ① 온톨로지 탐색·프로파일 (6)
 
@@ -37,7 +37,7 @@
 | `discover_relevant_domain` | 상황 서술 → 관련 도메인 노드 발견 |
 | `explain_quality_decision_path` | 판정·조치의 그래프 경로 설명 |
 
-### ② 법령·기준·서식 locator (6)
+### ② 법령·기준·서식 locator (7)
 
 | 도구 | 역할 |
 |---|---|
@@ -45,6 +45,7 @@
 | `get_quality_law_article` | 조항 요약 + **verified 원문(bodyText)·개정 이력** (법제처 sync 분) |
 | `search_quality_management_guideline` | 품질관리 업무지침(2026-360호) 조항 검색 (편 필터) |
 | `get_quality_guideline_article` | 지침 특정 조항 조회 |
+| `search_quality_test_standards` | 품질시험기준(업무지침 별표 2) 전 항목에서 자재·공종별 시험종목·시험방법·시험빈도 찾기 |
 | `search_construction_standards` | KCS/KDS 섹션 검색 (원문 미포함 — 라이선스) |
 | `get_standard_form_locator` | 법정 별지 서식 locator + **공식 HWP/PDF 다운로드 링크** |
 

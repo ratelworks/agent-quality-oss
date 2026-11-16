@@ -15,7 +15,13 @@
   "_meta": {
     "parent": "토목공사",
     "domain": "civil_quality",
-    "note": "별표2 공통 기타 — 상하수도 관류(도복장강관·PVC·PE·철근콘크리트관) 시험종목 verified. 강도·수압 판정 수치는 KS 확보 시."
+    "note": "별표2 공통 기타 — 상하수도 관류(도복장강관·PVC·PE·철근콘크리트관) 시험종목 verified. 강도·수압 판정 수치는 KS 확보 시.",
+    "testStandard": {
+      "section": "1. 공통 > 마. 기타",
+      "categories": [
+        "관"
+      ]
+    }
   },
   "usesMaterial": [
     "material:pipe"

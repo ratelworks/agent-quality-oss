@@ -28,6 +28,7 @@ import * as inferQualityRisks from "./tools/infer-quality-risks.js";
 import * as mapQualityBasis from "./tools/map-quality-basis.js";
 import * as listCoreQualityLaws from "./tools/list-core-quality-laws.js";
 import * as getQualityLawArticle from "./tools/get-quality-law-article.js";
+import * as searchQualityTestStandards from "./tools/search-quality-test-standards.js";
 import * as searchQualityManagementGuideline from "./tools/search-quality-management-guideline.js";
 import * as getQualityGuidelineArticle from "./tools/get-quality-guideline-article.js";
 import * as searchConstructionStandards from "./tools/search-construction-standards.js";
@@ -96,6 +97,7 @@ export const TOOL_MODULES: ToolModule[] = [
   mapQualityBasis,
   listCoreQualityLaws,
   getQualityLawArticle,
+  searchQualityTestStandards,
   searchQualityManagementGuideline,
   getQualityGuidelineArticle,
   searchConstructionStandards,
