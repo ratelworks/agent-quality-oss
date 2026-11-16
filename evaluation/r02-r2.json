@@ -13,7 +13,7 @@
     "expectedBasisIds": [
       "criteria.slump_tolerance"
     ],
-    "ms": 4,
+    "ms": 5,
     "response": {
       "result": {
         "expertAssessment": {
@@ -105,9 +105,9 @@
       },
       "lineage": {
         "toolName": "evaluate_observation",
-        "toolCallId": "1b7a5d9f-9202-414b-8d27-6635652ae811",
+        "toolCallId": "bfbf8f1f-9dbf-40dc-bb07-1c1c142ef7bc",
         "ontologyVersion": "1.0.0",
-        "generatedAt": "2026-11-16T07:22:18.051Z",
+        "generatedAt": "2026-11-16T08:57:36.528Z",
         "contentHashAlgo": "sha256",
         "contentHash": "2e695aad52337525c6789e41a676f4b908821c1f0c9dfbe923d69c054f593516"
       }
@@ -243,9 +243,9 @@
       },
       "lineage": {
         "toolName": "evaluate_observation",
-        "toolCallId": "e25f2db8-f7c2-42b9-b6ef-024802493277",
+        "toolCallId": "9e6ea10f-c088-4efb-af07-d2c7b038e0dd",
         "ontologyVersion": "1.0.0",
-        "generatedAt": "2026-11-16T07:22:18.053Z",
+        "generatedAt": "2026-11-16T08:57:36.530Z",
         "contentHashAlgo": "sha256",
         "contentHash": "1e2050584eb5783df28ef79323fe1d796d3a13586afd4c156d1f8d32089f0203"
       }
@@ -360,9 +360,9 @@
       },
       "lineage": {
         "toolName": "evaluate_observation",
-        "toolCallId": "ebb47b4a-f512-4a8c-bd3c-0e1bd947b77f",
+        "toolCallId": "6aa28386-cc61-41f2-b273-5c8740bb39cd",
         "ontologyVersion": "1.0.0",
-        "generatedAt": "2026-11-16T07:22:18.053Z",
+        "generatedAt": "2026-11-16T08:57:36.530Z",
         "contentHashAlgo": "sha256",
         "contentHash": "1ca1d5f5a5ac9f13c1f428a2761f5fdc05036ec8ddebbb5fe68f97423dfd87a0"
       }
@@ -474,9 +474,9 @@
       },
       "lineage": {
         "toolName": "evaluate_observation",
-        "toolCallId": "fa1a941e-34a3-4cb1-8a34-cd9706a44653",
+        "toolCallId": "e7d00cce-fdfb-45d9-9fc7-84f42acae259",
         "ontologyVersion": "1.0.0",
-        "generatedAt": "2026-11-16T07:22:18.053Z",
+        "generatedAt": "2026-11-16T08:57:36.530Z",
         "contentHashAlgo": "sha256",
         "contentHash": "c33ce0685bd09a2865621bb1d1673cadaaf54c59737fc949768241423a2b7925"
       }
@@ -613,9 +613,9 @@
       },
       "lineage": {
         "toolName": "evaluate_observation",
-        "toolCallId": "f0ba13d3-73a3-477e-9750-50a25bab8fac",
+        "toolCallId": "3e7d305e-9ea5-44cc-b6b8-301fc20a9633",
         "ontologyVersion": "1.0.0",
-        "generatedAt": "2026-11-16T07:22:18.054Z",
+        "generatedAt": "2026-11-16T08:57:36.530Z",
         "contentHashAlgo": "sha256",
         "contentHash": "9e4ca8e703dc14f33b6c917bb60b205b29bef23d4b23216953abe791752a4296"
       }
@@ -727,9 +727,9 @@
       },
       "lineage": {
         "toolName": "evaluate_observation",
-        "toolCallId": "36511026-839b-4137-816e-cbfdf1e8e239",
+        "toolCallId": "1d6a6d46-7606-4d87-aaa0-6c413f847f44",
         "ontologyVersion": "1.0.0",
-        "generatedAt": "2026-11-16T07:22:18.054Z",
+        "generatedAt": "2026-11-16T08:57:36.530Z",
         "contentHashAlgo": "sha256",
         "contentHash": "a904d5e8fbe22b4e892356e465f9edb230db3b885b7771e60fbfeac8d5616f75"
       }
@@ -844,9 +844,9 @@
       },
       "lineage": {
         "toolName": "evaluate_observation",
-        "toolCallId": "388f7fd6-7652-46c3-a4a9-aea5179e88d1",
+        "toolCallId": "e9a1314d-4e02-4d8f-8697-bb4bc4355872",
         "ontologyVersion": "1.0.0",
-        "generatedAt": "2026-11-16T07:22:18.054Z",
+        "generatedAt": "2026-11-16T08:57:36.531Z",
         "contentHashAlgo": "sha256",
         "contentHash": "ffa14c1e36b12bbecc103d0931732b205f389bff69fe54e371de11b4977a3fa4"
       }
@@ -864,7 +864,7 @@
     },
     "expectedHitsMax": 4,
     "notes": "R6 work.cold_weather_concrete 도입 후 expectedHitsMin: 1 추가 + cold_weather worktype 매칭 검증.",
-    "ms": 113,
+    "ms": 115,
     "response": {
       "result": {
         "situation": "내일 외기온도 3℃ 예보. 일반 콘크리트로 시공해도 되나요",
@@ -1614,9 +1614,9 @@
       },
       "lineage": {
         "toolName": "discover_relevant_domain",
-        "toolCallId": "a4b10da0-e276-48b5-b9a1-2306deca7cb2",
+        "toolCallId": "06021d9e-26d8-4566-91ad-4888fab8f2bc",
         "ontologyVersion": "1.0.0",
-        "generatedAt": "2026-11-16T07:22:18.167Z",
+        "generatedAt": "2026-11-16T08:57:36.645Z",
         "contentHashAlgo": "sha256",
         "contentHash": "cf1462048040bd04a23703cc3d7cdb786db53502939510d8715e449414188602"
       }
@@ -1716,9 +1716,9 @@
       },
       "lineage": {
         "toolName": "evaluate_observation",
-        "toolCallId": "be652247-a098-4203-baca-c22ded5cb5d1",
+        "toolCallId": "8ba5e08f-6271-45e0-be7a-0b00f724aea3",
         "ontologyVersion": "1.0.0",
-        "generatedAt": "2026-11-16T07:22:18.168Z",
+        "generatedAt": "2026-11-16T08:57:36.646Z",
         "contentHashAlgo": "sha256",
         "contentHash": "e00fbf6608a315d16601d09e34925663bb1215180f44db0ac1916f43f4608359"
       }
@@ -1855,9 +1855,9 @@
       },
       "lineage": {
         "toolName": "evaluate_observation",
-        "toolCallId": "05beb59a-6ec0-4b66-9353-8a4f2b0cd0e9",
+        "toolCallId": "58087ea0-5f0a-420b-9f27-0695709a1c79",
         "ontologyVersion": "1.0.0",
-        "generatedAt": "2026-11-16T07:22:18.168Z",
+        "generatedAt": "2026-11-16T08:57:36.646Z",
         "contentHashAlgo": "sha256",
         "contentHash": "ef10d2859eceb92cfbe940e1481140408816cd01b944af3cb1b013f346ea709b"
       }
@@ -1985,9 +1985,9 @@
       },
       "lineage": {
         "toolName": "evaluate_observation",
-        "toolCallId": "d848f37b-bb7d-40e0-b783-cc0cd7f99503",
+        "toolCallId": "17274dab-abae-44e2-8e80-7cb783a45a0a",
         "ontologyVersion": "1.0.0",
-        "generatedAt": "2026-11-16T07:22:18.168Z",
+        "generatedAt": "2026-11-16T08:57:36.646Z",
         "contentHashAlgo": "sha256",
         "contentHash": "61f8d82aaddf678546623d613fe1cc954a6d57dc961b5677ba4fcf3696c1f487"
       }
@@ -2184,9 +2184,9 @@
       },
       "lineage": {
         "toolName": "discover_relevant_domain",
-        "toolCallId": "4308294e-fa5f-41cd-b188-46a2e6ea65d3",
+        "toolCallId": "4927320a-7554-4ab2-8a82-caa8b3076fe6",
         "ontologyVersion": "1.0.0",
-        "generatedAt": "2026-11-16T07:22:18.171Z",
+        "generatedAt": "2026-11-16T08:57:36.649Z",
         "contentHashAlgo": "sha256",
         "contentHash": "c54cb8713f06aedb4d8f0c5c19ed37ec567df8f5ee6c080a50dccf3e68982221"
       }
@@ -2243,9 +2243,9 @@
       },
       "lineage": {
         "toolName": "search_construction_standards",
-        "toolCallId": "5d7e1fb6-26e4-4f9a-aa9d-933a7cb43049",
+        "toolCallId": "d62c04aa-fe76-48ec-9815-1e68fcdb81c0",
         "ontologyVersion": "1.0.0",
-        "generatedAt": "2026-11-16T07:22:18.171Z",
+        "generatedAt": "2026-11-16T08:57:36.649Z",
         "contentHashAlgo": "sha256",
         "contentHash": "3a5e2f1a0b0c2ea43296fe2fad6ff49d75aa1ce5a9f05904f060a10cc2a1f4a9"
       }
@@ -2648,9 +2648,9 @@
       },
       "lineage": {
         "toolName": "compile_ncr_references",
-        "toolCallId": "93c3a272-1561-462e-92ea-a69a9d1c1c74",
+        "toolCallId": "136c12d5-9ab9-4f1e-932f-93620ac2e006",
         "ontologyVersion": "1.0.0",
-        "generatedAt": "2026-11-16T07:22:18.171Z",
+        "generatedAt": "2026-11-16T08:57:36.650Z",
         "contentHashAlgo": "sha256",
         "contentHash": "8bbd12d70b30ec02065473133c5b8e8377b68dda6b442a4670f3a151ab084536"
       }
@@ -2782,9 +2782,9 @@
       },
       "lineage": {
         "toolName": "search_quality_ontology",
-        "toolCallId": "03c6a882-ef05-4296-b71b-52cdd955d0a2",
+        "toolCallId": "2de4f80b-b253-4669-8b23-7625bdddb55a",
         "ontologyVersion": "1.0.0",
-        "generatedAt": "2026-11-16T07:22:18.172Z",
+        "generatedAt": "2026-11-16T08:57:36.651Z",
         "contentHashAlgo": "sha256",
         "contentHash": "2d00a72a84e8e61a3a1afa90e4e7e48c09f891bf7cfa8ad8d297a323081f7009"
       }
@@ -3565,9 +3565,9 @@
       },
       "lineage": {
         "toolName": "discover_relevant_domain",
-        "toolCallId": "618d4771-3cb3-46a0-955a-c6987aa2cccc",
+        "toolCallId": "b1fd64da-40ea-41c2-8aa2-68d3d0a3218a",
         "ontologyVersion": "1.0.0",
-        "generatedAt": "2026-11-16T07:22:18.176Z",
+        "generatedAt": "2026-11-16T08:57:36.655Z",
         "contentHashAlgo": "sha256",
         "contentHash": "737e0d84e9ddd0b6f50dd70ca6720db176f4f2ef53fa2dad221df6c6c157af79"
       }

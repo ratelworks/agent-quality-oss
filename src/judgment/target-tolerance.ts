@@ -12,7 +12,7 @@
 // 허용오차 표와 지정값을 가리키는 말은 판정기준 노드가 갖는다(코드에 수치를 두지 않는다).
 // ─────────────────────────────────────────────────────────────────────────────
 
-import { DATE_TIME_RE, MIX_CODE_RE, normalizeUnit, readValueRuns, stripCriterionStatements } from "./parse-observation.js";
+import { DATE_TIME_RE, MIX_CODE_RE, isCandidateRun, normalizeUnit, readValueRuns, stripCriterionStatements } from "./parse-observation.js";
 
 // ───── 상수 ─────
 const NUMBER = "-?\\d+(?:\\.\\d+)?";
@@ -76,13 +76,12 @@ export function readTargetAndMeasured(text: string, keywords: string[], quantity
   }
 
   // 이어 적은 값은 한 묶음이다 — 단위를 마지막 값에만 붙여도("160, 175, 190mm") 셋 모두 측정값이다.
-  // 이 항목의 단위가 붙은 묶음이 있으면 그것만 측정값으로 보고, 없으면 단위 없이 적은 수를 본다(다른 단위의 수는 뺀다).
+  // 이 항목의 단위가 붙은 수와 단위 없이 적은 수가 모두 측정값 후보다("160mm, 재시험 190" 의 190).
+  // 다른 단위의 수와 다른 항목의 이름이 앞에 적힌 수("공기량 4.8")는 뺀다.
   // 지정값을 읽고 난 뒤에 남은 기준 표현("허용 125~175mm" · "175mm 이하")은 측정값이 아니다
   const runs = readValueRuns(stripCriterionStatements(rest));
   const wanted = normalizeUnit(unit);
-  const withUnit = runs.filter((r) => r.unit !== null && r.unit === wanted).flatMap((r) => r.values);
-  const bare = runs.filter((r) => r.unit === null).flatMap((r) => r.values);
-  reading.measured = withUnit.length > 0 ? withUnit : bare;
+  reading.measured = [...new Set(runs.filter((r) => isCandidateRun(r, wanted, [quantity])).flatMap((r) => r.values))];
   return reading;
 }
 
