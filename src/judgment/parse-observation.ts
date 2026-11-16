@@ -86,30 +86,73 @@ const SCALAR_WITH_UNIT_RE = new RegExp(
   'iu',
 );
 const SCALAR_GLOBAL_RE = new RegExp(SCALAR_WITH_UNIT_RE.source, 'giu');
-/** 쉼표로 이어 적은 값 둘 이상 — "190, 150 mm" · "190mm, 150mm" */
-const VALUE_LIST_RE = new RegExp(
-  `-?\\d+(?:\\.\\d+)?\\s*(?:${UNIT_INLINE})?(?:\\s*[,，、]\\s*-?\\d+(?:\\.\\d+)?\\s*(?:${UNIT_INLINE})?)+`,
-  'iu',
-);
-const UNIT_GLOBAL_RE = new RegExp(UNIT_INLINE, 'giu');
+/** 수 하나와 그 뒤의 단위 */
+const VALUE_TOKEN_RE = new RegExp(`(?<![\\d.])(-?\\d+(?:\\.\\d+)?)(?:\\s*(${UNIT_INLINE})(?![A-Za-z]))?`, 'giu');
+/** 값과 값 사이에 올 수 있는 것 — 공백, 구분 기호 하나, 잇는 말 하나 ("190, 150" · "190·150" · "190 및 150" · "190이고 150") */
+const LIST_JOIN_RE = /^\s*(?:(?:이고|이며|이랑|랑|와|과|하고|및|그리고)\s*|[,，、·ㆍ/]\s*)?$/u;
+/**
+ * 순번·횟수·기간·위치처럼 세는 말이 붙은 수 — 측정값이 아니다 ("3호차" · "2회차" · "28일" · "90분" · "2구역").
+ * 여기에 없는 말이 붙은 수는 값으로 남긴다 — 값을 놓쳐 하나만 판정하는 것보다 되묻는 쪽이 안전하다.
+ */
+export const COUNTER_RE =
+  /\d+(?:\.\d+)?\s*(?:호차|회차|차수|차례|번째|번|차|층|대|회|개월|개소|개|일|동|호기|호|분|시간|초|톤|명|주|년|배|구간|구역|공구|블록|단계|열|단|급|종)(?![가-힣a-z])/giu;
+/** 기준·조문·표 번호 — 측정값이 아니다 ("KS F 2402" · "KCS 14 20 10" · "제41조" · "별표 2" · "표 1.7-2") */
+const REFERENCE_RE =
+  /K(?:CS|DS)\s*\d{2}\s*\d{2}(?:\s*\d{2})?(?!\d)|KS\s*[A-Z](?:\s*ISO)?\s*\d+(?:-\d+)?|제\s*\d+\s*조(?:의\s*\d+)?(?:\s*제?\s*\d+\s*항)?|별표\s*\d+|(?<![가-힣])표\s*\d+(?:\.\d+)*-\d+/giu;
 /** 날짜·시각 — 측정값으로 읽지 않는다 */
 export const DATE_TIME_RE =
   /\d{4}\s*[-./년]\s*\d{1,2}\s*[-./월]\s*\d{1,2}\s*일?|\d{1,2}\s*월\s*\d{1,2}\s*일|\d{1,2}\s*:\s*\d{2}(?::\d{2})?|\d{1,2}\s*시\s*(?:\d{1,2}\s*분)?/gu;
 /** 레디믹스트 콘크리트 규격 "굵은골재 최대치수-호칭강도-슬럼프" (예: 25-24-150) */
 export const MIX_CODE_RE = /(\d{2})\s*-\s*(\d{2,3})\s*-\s*(\d{2,3})(?!\s*-?\d)/u;
 
+/** 이어 적은 값의 묶음 */
+export interface ValueRun {
+  values: number[];
+  /** 묶음 안 어느 값에든 붙어 있던 단위 — 하나도 없으면 null */
+  unit: string | null;
+}
+
+/** 측정값이 아닌 수(날짜·시각·레미콘 규격·기준 번호·세는 말이 붙은 수)를 걷어 낸다 */
+function stripNonValues(text: string): string {
+  return text.replace(DATE_TIME_RE, ' ').replace(MIX_CODE_RE, ' ').replace(REFERENCE_RE, ' ').replace(COUNTER_RE, ' ');
+}
+
 /**
- * 한 문장에 같은 단위의 값을 쉼표로 여럿 적었는지 본다.
- * 단위가 하나도 없거나 단위가 섞여 있으면 값 목록으로 보지 않는다(날짜·시각·서로 다른 항목일 수 있다).
+ * 글에 적힌 수를 이어 적은 묶음으로 나눈다.
+ * 값 사이에 공백·구분 기호·잇는 말만 있으면 한 묶음이다. 단위는 묶음의 어느 값에 붙어 있어도 묶음 전체의 단위로 본다
+ * ("160, 175, 190mm" 는 mm 값 셋). 서로 다른 단위가 붙은 수는 한 묶음으로 잇지 않는다("185mm, 25℃").
  */
-export function parseValueList(text: string): { values: number[]; unit: string } | null {
-  const m = text.match(VALUE_LIST_RE);
-  if (!m) return null;
-  const units = new Set((m[0].match(UNIT_GLOBAL_RE) ?? []).map((u) => normalizeUnit(u)));
-  const unit = [...units][0];
-  if (units.size !== 1 || !unit) return null;
-  const values = (m[0].replace(UNIT_GLOBAL_RE, ' ').match(/-?\d+(?:\.\d+)?/gu) ?? []).map(Number);
-  return values.length >= 2 ? { values, unit } : null;
+export function readValueRuns(text: string): ValueRun[] {
+  const clean = stripNonValues(text);
+  const runs: ValueRun[] = [];
+  let current: ValueRun | null = null;
+  let lastEnd = 0;
+  for (const m of clean.matchAll(VALUE_TOKEN_RE)) {
+    const value = Number(m[1]);
+    const unit = normalizeUnit(m[2]);
+    const start = m.index ?? 0;
+    const joined =
+      current !== null && LIST_JOIN_RE.test(clean.slice(lastEnd, start)) && (current.unit === null || unit === null || current.unit === unit);
+    if (joined && current) {
+      current.values.push(value);
+      current.unit ??= unit;
+    } else {
+      current = { values: [value], unit };
+      runs.push(current);
+    }
+    lastEnd = start + m[0].length;
+  }
+  return runs;
+}
+
+/**
+ * 한 문장에 값을 여럿 이어 적었는지 본다 — 쉼표·가운뎃점·빗금·공백·"및" 으로 이은 것, 단위를 마지막 값에만 붙인 것,
+ * 단위 없이 적은 것 모두. 기준을 적은 표현(150±25 · 3~6)은 값 목록이 아니므로 먼저 걷어 낸다.
+ */
+export function parseValueList(text: string): { values: number[]; unit: string | null } | null {
+  const clean = stripNonValues(text).replace(TOLERANCE_RE, ' ').replace(RANGE_RE, ' ');
+  const run = readValueRuns(clean).find((r) => r.values.length >= 2);
+  return run ? { values: run.values, unit: run.unit } : null;
 }
 
 const OP_MAP: Readonly<Record<string, string>> = {
@@ -189,8 +232,6 @@ export function parseContext(text: string): ObservationContext {
 /** 기준 강도를 적은 부분 — 시험값 목록에서 뺀다 */
 const STRENGTH_LABEL_RE =
   /(?:호칭강도|설계기준\s*압축?강도|품질기준강도|내구성기준\s*압축?강도|배합강도|f\s*c[knqr])\s*[:=은는이가]?\s*-?\d+(?:\.\d+)?\s*(?:MPa)?/giu;
-/** 쉼표로 이어 적은 값 둘 이상 (값마다 또는 끝에 MPa) */
-const STRENGTH_LIST_RE = /-?\d+(?:\.\d+)?\s*(?:MPa)?(?:\s*[,，、]\s*-?\d+(?:\.\d+)?\s*(?:MPa)?)+/iu;
 
 /**
  * R1: 시리즈 (n회 평균/최저/최고/values) 인식.
@@ -209,10 +250,13 @@ function detectSeries(text: string): ObservationToken | null {
   const nM = text.match(nRe);
   const valuesM = text.match(valuesRe);
 
-  // 쉼표로 이어 적은 강도 값 — "25.1, 26.4, 27.8 MPa" · "25.1MPa, 26.4MPa, 27.8MPa"
-  // 기준 강도(호칭강도 27MPa 등)는 시험값이 아니므로 먼저 걷어 낸다. MPa 가 붙은 목록만 받는다.
-  const listM = meanM || minM || maxM || valuesM ? null : text.replace(STRENGTH_LABEL_RE, ' ').match(STRENGTH_LIST_RE);
-  const listValues = listM && /mpa/iu.test(listM[0]) ? (listM[0].match(/-?\d+(?:\.\d+)?/gu) ?? []).map(Number) : null;
+  // 이어 적은 강도 값 — "25.1, 26.4, 27.8 MPa" · "25.1MPa 26.4MPa 27.8MPa"
+  // 기준 강도(호칭강도 27MPa 등)는 시험값이 아니므로 먼저 걷어 낸다. MPa 가 붙은 묶음만 받는다.
+  const listRun =
+    meanM || minM || maxM || valuesM
+      ? undefined
+      : readValueRuns(text.replace(STRENGTH_LABEL_RE, ' ')).find((r) => r.unit === 'MPa' && r.values.length >= 2);
+  const listValues = listRun ? listRun.values : null;
 
   // series로 분류할 신호: 평균·최저·최고 중 하나라도 있거나 명시 values 배열이 있을 때.
   if (!meanM && !minM && !maxM && !valuesM && !listValues) return null;
@@ -274,8 +318,9 @@ function pickScalar(clean: string, original: string, context: ObservationContext
 
 export function parseObservation(text: string): { tokens: ObservationToken[]; context: ObservationContext } {
   if (typeof text !== 'string' || !text.trim()) return { tokens: [], context: {} };
-  // 날짜·시각·레미콘 규격(25-24-150)은 측정값이 아니다 — 범위(a-b)나 수치로 잘못 읽지 않게 걷어 낸다
-  const norm = text.trim().replace(DATE_TIME_RE, ' ').replace(MIX_CODE_RE, ' ');
+  // 날짜·시각·레미콘 규격(25-24-150)·기준 번호(KS F 2421)는 측정값이 아니다 — 범위(a-b)나 수치로 잘못 읽지 않게 걷어 낸다.
+  // 세는 말이 붙은 수("공시체 3개")는 남긴다 — 시험 횟수를 읽는 데 쓴다.
+  const norm = text.trim().replace(DATE_TIME_RE, ' ').replace(MIX_CODE_RE, ' ').replace(REFERENCE_RE, ' ');
   const tokens: ObservationToken[] = [];
   const context = parseContext(text);
   /** 기준 표현(150±25 · 125~175)을 걷어 낸 나머지에 측정값이 있으면 함께 싣는다 */
@@ -345,7 +390,7 @@ export function parseObservation(text: string): { tokens: ObservationToken[]; co
   return { tokens, context };
 }
 
-function normalizeUnit(u: string | undefined): string | null {
+export function normalizeUnit(u: string | undefined): string | null {
   if (!u) return null;
   const lower = u.toLowerCase();
   return UNIT_ALIAS[lower] ?? u;

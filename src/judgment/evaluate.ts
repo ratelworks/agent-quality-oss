@@ -144,8 +144,10 @@ export function evaluate(
   // 값이 여러 개면 하나를 골라 판정하지 않는다 — 고르지 않은 값이 기준을 벗어났을 수 있다
   const listed = parseValueList(observationText);
   if (listed) {
-    base.reasoning = `값이 여러 개로 읽힙니다(${listed.values.join(', ')} ${listed.unit}) — 어느 값을 판정할지 정할 수 없어 판정하지 않습니다. 값 하나에 문장 하나로 나눠 주세요.`;
+    base.reasoning = `값이 여러 개로 읽힙니다(${listed.values.join(', ')}${listed.unit ? ` ${listed.unit}` : ''}) — 어느 값을 판정할지 정할 수 없어 판정하지 않습니다. 값 하나에 문장 하나로 나눠 주세요.`;
     base.neededInputs = ['값 하나씩 나눈 관측값 (문장 하나에 값 하나)'];
+    // 고르지 않았으므로 관측값 칸에 값 하나를 싣지 않는다
+    base.observedValue = null;
     return base;
   }
 
@@ -288,6 +290,8 @@ function evalByTarget(
     return base;
   }
   if (reading.measured.length > 1) {
+    // 고르지 않았으므로 관측값 칸에 값 하나를 싣지 않는다
+    base.observedValue = null;
     base.reasoning = `측정값이 여러 개로 읽힙니다(${reading.measured.join(', ')} ${unit}) — 어느 값을 판정할지 정할 수 없어 판정하지 않습니다. 값 하나에 문장 하나로 나눠 주세요.`;
     base.neededInputs = ['값 하나씩 나눈 관측값 (문장 하나에 값 하나)'];
     return base;
@@ -337,7 +341,7 @@ function mk(
   base: Judgment,
   verdict: Verdict,
   direction: FailDirection,
-  observedValue: number,
+  observedValue: number | null,
   unit: string,
   reasoning: string,
 ): Judgment {
@@ -381,17 +385,18 @@ function evalStrength(
   const kind: StrengthCase = meta.strengthCase ?? 'ready_mixed';
 
   if (context.strengthCase !== undefined && context.strengthCase !== kind) {
-    return mk(base, 'UNDETERMINED', 'n/a', 0, unit,
+    return mk(base, 'UNDETERMINED', 'n/a', null, unit,
       `입력은 ${STRENGTH_CASE_LABEL[context.strengthCase]}의 시험값인데 이 기준은 ${STRENGTH_CASE_LABEL[kind]}용입니다. ${STRENGTH_CASE_CRITERION[context.strengthCase]} 로 판정하세요.`);
   }
   const token = series ?? scalar;
   if (token && !unitsCompatible(token.unit ?? null, meta.unit ?? null)) {
-    return mk(base, 'UNDETERMINED', 'n/a', token.value ?? token.mean ?? 0, unit,
+    return mk(base, 'UNDETERMINED', 'n/a', token.value ?? token.mean ?? null, unit,
       `단위 불일치: 관측 ${token.unit} vs 기준 ${meta.unit}.`);
   }
 
   const j = judgeStrength(kind, series, scalar, context);
-  const observed = j.observedMean ?? j.observedMin ?? 0;
+  // 읽은 값이 없으면 0 이 아니라 빈 값으로 둔다 — 0 MPa 는 측정값으로 읽힌다
+  const observed = j.observedMean ?? j.observedMin ?? null;
 
   // 기준 강도가 정해졌는데 이 기준 노드가 다루는 범위 밖이면 다른 쪽 기준으로 보낸다
   const exact = j.bounds !== null && j.bounds.lo === j.bounds.hi;

@@ -12,14 +12,12 @@
 // 허용오차 표와 지정값을 가리키는 말은 판정기준 노드가 갖는다(코드에 수치를 두지 않는다).
 // ─────────────────────────────────────────────────────────────────────────────
 
-import { DATE_TIME_RE, MIX_CODE_RE } from "./parse-observation.js";
+import { DATE_TIME_RE, MIX_CODE_RE, normalizeUnit, readValueRuns } from "./parse-observation.js";
 
 // ───── 상수 ─────
 const NUMBER = "-?\\d+(?:\\.\\d+)?";
 /** "150±25" */
 const PLUS_MINUS_RE = new RegExp(`(${NUMBER})\\s*(?:mm)?\\s*[±]\\s*(${NUMBER})`, "u");
-/** 순번·위치를 세는 말이 붙은 수 — 측정값으로 읽지 않는다 */
-const COUNTER_RE = /\d+\s*(?:호차|번째|번|차|층|대|회|개|일|동|호)(?![가-힣a-z])/giu;
 
 /** 허용오차 표의 한 줄 — 지정값이 targets 중 하나이거나 min 이상이면 plusMinus 를 쓴다 */
 export interface ToleranceRow {
@@ -77,10 +75,12 @@ export function readTargetAndMeasured(text: string, keywords: string[], quantity
     rest = rest.replace(label[0], " ");
   }
 
-  rest = rest.replace(COUNTER_RE, " ");
-  const withUnit = [...rest.matchAll(new RegExp(`(${NUMBER})\\s*${escapeRegExp(unit)}`, "gu"))].map((m) => Number(m[1]));
-  const bare = [...rest.matchAll(new RegExp(NUMBER, "gu"))].map((m) => Number(m[0]));
-  // 단위가 붙은 수가 있으면 그것만 측정값으로 본다
+  // 이어 적은 값은 한 묶음이다 — 단위를 마지막 값에만 붙여도("160, 175, 190mm") 셋 모두 측정값이다.
+  // 이 항목의 단위가 붙은 묶음이 있으면 그것만 측정값으로 보고, 없으면 단위 없이 적은 수를 본다(다른 단위의 수는 뺀다).
+  const runs = readValueRuns(rest);
+  const wanted = normalizeUnit(unit);
+  const withUnit = runs.filter((r) => r.unit !== null && r.unit === wanted).flatMap((r) => r.values);
+  const bare = runs.filter((r) => r.unit === null).flatMap((r) => r.values);
   reading.measured = withUnit.length > 0 ? withUnit : bare;
   return reading;
 }

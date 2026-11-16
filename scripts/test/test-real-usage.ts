@@ -43,6 +43,38 @@ const SLUMP_CASES: Array<[string, string, string]> = [
   ["슬럼프 180mm, 기준 150±30mm", "UNDETERMINED", "결과가 갈립니다"],
 ];
 
+/** 값을 여럿 적은 문장 — 판정하지 않아야 한다 */
+const MULTI_VALUE_SENTENCES = [
+  "호칭 슬럼프 150mm, 슬럼프 160, 175, 190mm",
+  "슬럼프 160, 175, 190mm, 호칭 슬럼프 150mm",
+  "슬럼프 190, 150 mm, 호칭 슬럼프 150mm",
+  "슬럼프 180 170mm 호칭 150",
+  "슬럼프 190·150mm, 호칭 슬럼프 150mm",
+  "슬럼프 190/150mm, 호칭 슬럼프 150mm",
+  "슬럼프 190 및 150mm, 호칭 슬럼프 150mm",
+  "슬럼프 190이고 150mm, 호칭 슬럼프 150mm",
+  "슬럼프 190, 150, 호칭 슬럼프 150",
+  "공기량 4.0, 6.5",
+  "공기량 6.5 4.0%",
+  "공기량 6.5 4.0 나옴",
+  "노상 다짐도 96이고 92%",
+  "노상 다짐도 96 92%",
+  "염화물 0.25, 0.35",
+];
+/** 값은 하나이고 다른 수가 섞인 문장 — [문장, 판정, 읽어야 하는 값] */
+const SINGLE_VALUE_SENTENCES: Array<[string, string, number]> = [
+  ["3호차 슬럼프 170mm, 호칭 슬럼프 150mm", "PASS", 170],
+  ["슬럼프 185, 기온 25℃, 호칭 150", "FAIL", 185],
+  ["지하 2층 B3 구간 슬럼프 170mm, 호칭 슬럼프 150mm", "PASS", 170],
+  ["KCS 14 20 10 표 1.7-2 슬럼프 185mm 호칭 슬럼프 150mm", "FAIL", 185],
+  ["업무지침 제41조 슬럼프 200mm, 호칭 슬럼프 180mm", "PASS", 200],
+  ["KS F 2421 공기량 4.5", "PASS", 4.5],
+  ["2구역 공기량 5.0%", "PASS", 5],
+  ["공기량 4.5%, 기온 25℃", "PASS", 4.5],
+  ["노상 들밀도 시험 다짐도 92% 3회차", "FAIL", 92],
+  ["염화물 0.25 kg/m3 운반 90분", "PASS", 0.25],
+];
+
 const { loadOntologySync } = await import("../../src/ontology/loader.js");
 const { OntologyGraph } = await import("../../src/ontology/graph.js");
 const { callTool } = await import("../../src/tool-registry.js");
@@ -61,6 +93,7 @@ function check(name: string, ok: boolean, detail = ""): void {
 
 interface Assessment {
   verdict: string;
+  observedValue: number | null;
   comparison: string;
   criterionId: string | null;
   resolvedTest: { id: string; name: string; by: string } | null;
@@ -133,6 +166,21 @@ async function testValues(): Promise<void> {
     const { a } = await evaluate({ observation: sentence });
     check(`값 여러 개: ${sentence} → 하나만 골라 합격으로 내지 않음`, a.verdict === "UNDETERMINED" && a.comparison.includes("여러 개"), `${a.verdict} | ${a.comparison}`);
   }
+  // 값을 여럿 이어 적는 여러 모양 — 구분 기호·공백·잇는 말, 단위를 마지막 값에만 붙인 것, 단위 없이 적은 것.
+  // 어느 것도 하나만 골라 판정하지 않는다. (고르지 않은 값이 기준을 벗어났을 수 있다)
+  for (const sentence of MULTI_VALUE_SENTENCES) {
+    const { a } = await evaluate({ observation: sentence });
+    check(
+      `값 여러 개: ${sentence} → 판정하지 않고 값 하나도 싣지 않음`,
+      a.verdict === "UNDETERMINED" && a.comparison.includes("여러 개") && a.observedValue === null,
+      `${a.verdict} | observed=${a.observedValue} | ${a.comparison.slice(0, 60)}`,
+    );
+  }
+  // 값은 하나인데 다른 수(호차·기온·기준 번호·회차·시간)가 섞인 문장 — 되묻지 않고 그 값으로 판정한다
+  for (const [sentence, verdict, value] of SINGLE_VALUE_SENTENCES) {
+    const { a } = await evaluate({ observation: sentence });
+    check(`값 하나: ${sentence} → ${verdict} (${value})`, a.verdict === verdict && a.observedValue === value, `${a.verdict} | observed=${a.observedValue} | ${a.comparison.slice(0, 60)}`);
+  }
   const dated = (await evaluate({ observation: "2026-11-16 공기량 4.2%" })).a;
   check("날짜가 섞인 문장: 날짜를 범위로 읽지 않음", dated.verdict === "PASS", `${dated.verdict} | ${dated.comparison}`);
   const stated = (await evaluate({ observation: "공기량 6.5%, 기준 4.5±1.5%" })).a;
@@ -148,6 +196,14 @@ async function testStrength(): Promise<void> {
     "공시체 3개: 평균(26.43)을 1회 시험값으로 봄",
     specimens.verdict === "UNDETERMINED" && specimens.comparison.includes("1회 시험값 26.43") && specimens.comparison.includes("충족"),
     specimens.comparison,
+  );
+  const spaced = (await evaluate({ observation: "압축강도 공시체 3개 25.1 26.4 27.8 MPa, 호칭강도 27MPa" })).a;
+  check("공시체 3개를 공백으로 나눠 적어도 평균을 1회 시험값으로 봄", spaced.verdict === "UNDETERMINED" && spaced.comparison.includes("1회 시험값 26.43"), spaced.comparison);
+  const unclearSpaced = (await evaluate({ observation: "압축강도 22.0 26.4 27.8 MPa, 호칭강도 27MPa" })).a;
+  check(
+    "무엇인지 모르는 값 3개(공백): 마지막 값만 보지 않고 되물음, 관측값 칸은 비움",
+    unclearSpaced.verdict === "UNDETERMINED" && unclearSpaced.comparison.includes("공시체 3개의 값(1회 시험)인지") && unclearSpaced.observedValue === null,
+    `observed=${unclearSpaced.observedValue} | ${unclearSpaced.comparison.slice(0, 80)}`,
   );
   const unclear = (await evaluate({ observation: "압축강도 25.1, 26.4, 27.8 MPa, 호칭강도 27MPa" })).a;
   check("무엇인지 모르는 값 3개: 공시체인지 3회인지 되물음", unclear.verdict === "UNDETERMINED" && unclear.comparison.includes("공시체 3개의 값(1회 시험)인지"), unclear.comparison);

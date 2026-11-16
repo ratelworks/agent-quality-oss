@@ -105,9 +105,9 @@
       },
       "lineage": {
         "toolName": "evaluate_observation",
-        "toolCallId": "8c34f670-c2c6-446b-a660-7a69597c588a",
+        "toolCallId": "f93f9710-f6ec-467e-81b3-c342ece823a7",
         "ontologyVersion": "1.0.0",
-        "generatedAt": "2026-11-16T06:50:11.323Z",
+        "generatedAt": "2026-11-16T07:08:47.843Z",
         "contentHashAlgo": "sha256",
         "contentHash": "2e695aad52337525c6789e41a676f4b908821c1f0c9dfbe923d69c054f593516"
       }
@@ -243,9 +243,9 @@
       },
       "lineage": {
         "toolName": "evaluate_observation",
-        "toolCallId": "8526d9dc-c476-49ad-8003-3127b5f45e6f",
+        "toolCallId": "5c79092d-ac79-4d52-976f-5bddbb67ab8e",
         "ontologyVersion": "1.0.0",
-        "generatedAt": "2026-11-16T06:50:11.326Z",
+        "generatedAt": "2026-11-16T07:08:47.844Z",
         "contentHashAlgo": "sha256",
         "contentHash": "1e2050584eb5783df28ef79323fe1d796d3a13586afd4c156d1f8d32089f0203"
       }
@@ -360,9 +360,9 @@
       },
       "lineage": {
         "toolName": "evaluate_observation",
-        "toolCallId": "8c66bbe3-bbdb-4ca0-bffe-84508c8909fd",
+        "toolCallId": "fb8e9fa0-fc37-49ea-938d-1736c46a8241",
         "ontologyVersion": "1.0.0",
-        "generatedAt": "2026-11-16T06:50:11.326Z",
+        "generatedAt": "2026-11-16T07:08:47.845Z",
         "contentHashAlgo": "sha256",
         "contentHash": "1ca1d5f5a5ac9f13c1f428a2761f5fdc05036ec8ddebbb5fe68f97423dfd87a0"
       }
@@ -474,9 +474,9 @@
       },
       "lineage": {
         "toolName": "evaluate_observation",
-        "toolCallId": "f324576f-a11c-45d8-8a68-1a2af396a41e",
+        "toolCallId": "989f78a8-f5d3-4b4b-a6cf-e15e4894d378",
         "ontologyVersion": "1.0.0",
-        "generatedAt": "2026-11-16T06:50:11.326Z",
+        "generatedAt": "2026-11-16T07:08:47.845Z",
         "contentHashAlgo": "sha256",
         "contentHash": "c33ce0685bd09a2865621bb1d1673cadaaf54c59737fc949768241423a2b7925"
       }
@@ -613,9 +613,9 @@
       },
       "lineage": {
         "toolName": "evaluate_observation",
-        "toolCallId": "45dab846-6800-4ce7-9bb6-3b82b92c573b",
+        "toolCallId": "21386c9c-a57a-4111-9c7c-eceedc5e40d4",
         "ontologyVersion": "1.0.0",
-        "generatedAt": "2026-11-16T06:50:11.326Z",
+        "generatedAt": "2026-11-16T07:08:47.845Z",
         "contentHashAlgo": "sha256",
         "contentHash": "9e4ca8e703dc14f33b6c917bb60b205b29bef23d4b23216953abe791752a4296"
       }
@@ -727,9 +727,9 @@
       },
       "lineage": {
         "toolName": "evaluate_observation",
-        "toolCallId": "6e14a7f0-3b58-43c2-87ff-8668f31c98da",
+        "toolCallId": "0bfaab3b-bbc0-4f08-8f93-11e554c83a6d",
         "ontologyVersion": "1.0.0",
-        "generatedAt": "2026-11-16T06:50:11.326Z",
+        "generatedAt": "2026-11-16T07:08:47.845Z",
         "contentHashAlgo": "sha256",
         "contentHash": "a904d5e8fbe22b4e892356e465f9edb230db3b885b7771e60fbfeac8d5616f75"
       }
@@ -762,7 +762,7 @@
           },
           "applicableCriterion": "압축강도 품질 검사 — 레디믹스트 콘크리트, 호칭강도 35 MPa 이하 (KCS 14 20 10 표 3.5-3) (KCS 14 20 10 3.5.3.2 표 3.5-3)",
           "criterionId": "criteria.compressive_strength_statistical_le35",
-          "observedValue": 0,
+          "observedValue": null,
           "observedUnit": "MPa",
           "comparison": "기준 강도를 알려 주지 않아 판정하지 못합니다. 호칭강도 (납품서에 적힌 호칭강도)를 함께 알려 주세요.",
           "legalVerdict": "UNDETERMINED",
@@ -844,11 +844,11 @@
       },
       "lineage": {
         "toolName": "evaluate_observation",
-        "toolCallId": "d61b1e12-28b6-461d-9990-53560087d051",
+        "toolCallId": "662dea1a-5235-4fdf-9605-2a85a130952e",
         "ontologyVersion": "1.0.0",
-        "generatedAt": "2026-11-16T06:50:11.326Z",
+        "generatedAt": "2026-11-16T07:08:47.845Z",
         "contentHashAlgo": "sha256",
-        "contentHash": "8d8c4c7a943514833ddcb2331d11ad41d1bf4a243ae10e67f440073f6ddf083b"
+        "contentHash": "ffa14c1e36b12bbecc103d0931732b205f389bff69fe54e371de11b4977a3fa4"
       }
     }
   },
@@ -864,7 +864,7 @@
     },
     "expectedHitsMax": 4,
     "notes": "R6 work.cold_weather_concrete 도입 후 expectedHitsMin: 1 추가 + cold_weather worktype 매칭 검증.",
-    "ms": 106,
+    "ms": 111,
     "response": {
       "result": {
         "situation": "내일 외기온도 3℃ 예보. 일반 콘크리트로 시공해도 되나요",
@@ -1614,9 +1614,9 @@
       },
       "lineage": {
         "toolName": "discover_relevant_domain",
-        "toolCallId": "399dd601-a75f-461a-bf24-6c59387a5abb",
+        "toolCallId": "1adaff4a-a984-4319-bb06-00eff888e1e0",
         "ontologyVersion": "1.0.0",
-        "generatedAt": "2026-11-16T06:50:11.433Z",
+        "generatedAt": "2026-11-16T07:08:47.956Z",
         "contentHashAlgo": "sha256",
         "contentHash": "cf1462048040bd04a23703cc3d7cdb786db53502939510d8715e449414188602"
       }
@@ -1637,7 +1637,7 @@
       "criteria.concrete_temperature_general"
     ],
     "notes": "C06이 R3 D1 false PASS 직격 시나리오. testItem이 concrete_temperature지만 실제는 운반시간 평가 필요. concrete_temperature 기준에 잘못 라우팅되면 false PASS. R4 D5 도입 후 test.delivery_time + criteria.delivery_time_25c_high로 정확 매칭.",
-    "ms": 1,
+    "ms": 0,
     "response": {
       "result": {
         "expertAssessment": {
@@ -1716,9 +1716,9 @@
       },
       "lineage": {
         "toolName": "evaluate_observation",
-        "toolCallId": "9f8028e2-fda1-499f-b613-e65d4f2858ce",
+        "toolCallId": "387987d1-0a1c-462b-a4af-db3d4734a10a",
         "ontologyVersion": "1.0.0",
-        "generatedAt": "2026-11-16T06:50:11.434Z",
+        "generatedAt": "2026-11-16T07:08:47.956Z",
         "contentHashAlgo": "sha256",
         "contentHash": "e00fbf6608a315d16601d09e34925663bb1215180f44db0ac1916f43f4608359"
       }
@@ -1855,9 +1855,9 @@
       },
       "lineage": {
         "toolName": "evaluate_observation",
-        "toolCallId": "93178a14-6e1a-411f-bdfc-638289f20100",
+        "toolCallId": "85214aa1-ce27-41c9-aa92-632506eaa1d7",
         "ontologyVersion": "1.0.0",
-        "generatedAt": "2026-11-16T06:50:11.434Z",
+        "generatedAt": "2026-11-16T07:08:47.957Z",
         "contentHashAlgo": "sha256",
         "contentHash": "ef10d2859eceb92cfbe940e1481140408816cd01b944af3cb1b013f346ea709b"
       }
@@ -1985,9 +1985,9 @@
       },
       "lineage": {
         "toolName": "evaluate_observation",
-        "toolCallId": "c01d8c31-5748-4edc-98aa-0ffa62b6a022",
+        "toolCallId": "0fbf9dd3-c5b7-4465-9775-061f63a38fe3",
         "ontologyVersion": "1.0.0",
-        "generatedAt": "2026-11-16T06:50:11.434Z",
+        "generatedAt": "2026-11-16T07:08:47.957Z",
         "contentHashAlgo": "sha256",
         "contentHash": "61f8d82aaddf678546623d613fe1cc954a6d57dc961b5677ba4fcf3696c1f487"
       }
@@ -2184,9 +2184,9 @@
       },
       "lineage": {
         "toolName": "discover_relevant_domain",
-        "toolCallId": "398c3f34-f321-4305-a12c-91ea7e797d46",
+        "toolCallId": "449b780c-63cb-4a40-ad3a-feb0971a38cb",
         "ontologyVersion": "1.0.0",
-        "generatedAt": "2026-11-16T06:50:11.436Z",
+        "generatedAt": "2026-11-16T07:08:47.959Z",
         "contentHashAlgo": "sha256",
         "contentHash": "c54cb8713f06aedb4d8f0c5c19ed37ec567df8f5ee6c080a50dccf3e68982221"
       }
@@ -2243,9 +2243,9 @@
       },
       "lineage": {
         "toolName": "search_construction_standards",
-        "toolCallId": "bc2443e2-286e-47cc-9a65-55dde67fe59f",
+        "toolCallId": "fda527cc-9f84-4ad5-add6-b9ab01c2e67c",
         "ontologyVersion": "1.0.0",
-        "generatedAt": "2026-11-16T06:50:11.437Z",
+        "generatedAt": "2026-11-16T07:08:47.959Z",
         "contentHashAlgo": "sha256",
         "contentHash": "3a5e2f1a0b0c2ea43296fe2fad6ff49d75aa1ce5a9f05904f060a10cc2a1f4a9"
       }
@@ -2648,9 +2648,9 @@
       },
       "lineage": {
         "toolName": "compile_ncr_references",
-        "toolCallId": "b84ab9af-f877-4319-bdf2-7c00c4cf820a",
+        "toolCallId": "c5ce297d-906c-4abe-baa2-e50070fbd783",
         "ontologyVersion": "1.0.0",
-        "generatedAt": "2026-11-16T06:50:11.437Z",
+        "generatedAt": "2026-11-16T07:08:47.960Z",
         "contentHashAlgo": "sha256",
         "contentHash": "8bbd12d70b30ec02065473133c5b8e8377b68dda6b442a4670f3a151ab084536"
       }
@@ -2782,9 +2782,9 @@
       },
       "lineage": {
         "toolName": "search_quality_ontology",
-        "toolCallId": "0a99b063-0240-41ea-9da6-bae9ccc06c88",
+        "toolCallId": "eb08a52c-9356-4dd5-94b5-79e713cef610",
         "ontologyVersion": "1.0.0",
-        "generatedAt": "2026-11-16T06:50:11.438Z",
+        "generatedAt": "2026-11-16T07:08:47.960Z",
         "contentHashAlgo": "sha256",
         "contentHash": "2d00a72a84e8e61a3a1afa90e4e7e48c09f891bf7cfa8ad8d297a323081f7009"
       }
@@ -2802,7 +2802,7 @@
     },
     "expectedHitsMax": 4,
     "notes": "R6 work.cold_weather_concrete + Glossary 양생온도 도입 후 expectedHitsMin: 2.",
-    "ms": 4,
+    "ms": 3,
     "response": {
       "result": {
         "situation": "한중 시공인데 양생온도가 콘크리트 온도인지 외기온도인지 헷갈려요",
@@ -3565,9 +3565,9 @@
       },
       "lineage": {
         "toolName": "discover_relevant_domain",
-        "toolCallId": "b898cd28-d4af-4d06-9d7c-2f0eb27fc148",
+        "toolCallId": "e2f69433-ded5-4627-9c0d-9e7f01ec24fd",
         "ontologyVersion": "1.0.0",
-        "generatedAt": "2026-11-16T06:50:11.441Z",
+        "generatedAt": "2026-11-16T07:08:47.964Z",
         "contentHashAlgo": "sha256",
         "contentHash": "737e0d84e9ddd0b6f50dd70ca6720db176f4f2ef53fa2dad221df6c6c157af79"
       }
