@@ -29,6 +29,7 @@ npm test                   # suite integrity + ontology + regression + input-sch
 npm run smoke              # regression cases only
 npm run audit              # ontology/graph audit
 npm run validate:ontology  # ontology validation
+npm run validate:shapes    # SHACL shapes + RDF round trip + inverse relations
 npm run mcp:tools          # list registered MCP tools
 npm run check:oss-hygiene  # public-repo hygiene gate (also runs in prepublishOnly)
 ```

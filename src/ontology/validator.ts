@@ -9,7 +9,7 @@
 // ─────────────────────────────────────────────────────────────────────────────
 
 import { isStandardRelation, type EntityType } from "./schema.js";
-import { isAllowedSrc, isAllowedDst, getRelationSpec } from "./relations.js";
+import { isAllowedSrc, isAllowedDst, getRelationSpec, requiredInverse } from "./relations.js";
 import type { OntologyGraph, GraphStats } from "./graph.js";
 
 export type IssueLevel = "error" | "warn";
@@ -86,6 +86,9 @@ export function validateOntology(graph: OntologyGraph): ValidationReport {
     }
   }
 
+  // ───── 1-b. 한쪽에만 적힌 역관계 ─────
+  issues.push(...findOneSidedInverses(graph));
+
   // ───── 2. 고아 노드 (인스턴스 타입 정의 성격은 제외) ─────
   const orphanExemptTypes: ReadonlySet<EntityType> = new Set<EntityType>([
     "WorkType",
@@ -129,6 +132,35 @@ export function validateOntology(graph: OntologyGraph): ValidationReport {
 
   const errors = issues.filter((i) => i.level === "error");
   return { ok: errors.length === 0, issues, stats: graph.stats() };
+}
+
+/**
+ * 한쪽에만 적힌 역관계 — A -관계-> B 인데 B 의 역관계에 A 가 없는 것.
+ * 한쪽만 적히면 어느 노드에서 출발하느냐에 따라 답이 달라진다(자재에서는 시험이 보이는데 시험에서는 자재가 안 보임).
+ * 서버 기동은 막지 않는다(warn). 저장소의 검증 시험은 한 건이라도 있으면 실패한다.
+ */
+export function findOneSidedInverses(graph: OntologyGraph): Issue[] {
+  const issues: Issue[] = [];
+  for (const e of graph.entities.values()) {
+    for (const [rel, ids] of Object.entries(e.relations ?? {})) {
+      if (!isStandardRelation(rel) || !Array.isArray(ids)) continue;
+      for (const target of ids) {
+        const dst = graph.entities.get(target);
+        if (!dst) continue; // 없는 대상은 DANGLING_REFERENCE 가 알린다
+        const inverse = requiredInverse(rel, e.type, dst.type);
+        if (!inverse) continue;
+        const back = dst.relations?.[inverse];
+        if (Array.isArray(back) && back.includes(e.id)) continue;
+        issues.push({
+          level: "warn",
+          code: "ONE_SIDED_INVERSE",
+          message: `${rel} → ${target} 인데 ${target} 의 ${inverse} 에 ${e.id} 가 없음`,
+          entityId: e.id,
+        });
+      }
+    }
+  }
+  return issues;
 }
 
 // ───── R0-G3 헬퍼 — sourceStatus 라벨 커버리지 통계 ─────

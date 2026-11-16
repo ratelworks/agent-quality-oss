@@ -22,7 +22,10 @@ export interface RelationSpec {
   dst: readonly EntityType[] | "*";
   /** 도착 측 카디널리티 (default: many) */
   cardinality?: Cardinality;
-  /** 역방향 관계명 (정의된 경우 양방향 traversal 가능) */
+  /**
+   * 역방향 관계명 — A -관계-> B 를 적으면 B -역관계-> A 도 적는다.
+   * 역관계가 B 종류에서 출발해 A 종류에 닿을 수 있을 때만 해당한다(requiredInverse 참조).
+   */
   inverse?: RelationName;
   /** 짧은 설명 */
   doc?: string;
@@ -51,7 +54,8 @@ export const RELATION_SPECS: Readonly<Record<RelationName, RelationSpec>> = Obje
   hasInspectionCheckpoint: {
     src: ["WorkType"],
     dst: ["InspectionCheckpoint"],
-    doc: "공종 → 검측 체크포인트",
+    inverse: "relatedWork",
+    doc: "공종 → 검측 체크포인트 (검측의 relatedWork 와 짝)",
   },
   hasQualityRisk: {
     src: ["WorkType", "Material"],
@@ -63,7 +67,8 @@ export const RELATION_SPECS: Readonly<Record<RelationName, RelationSpec>> = Obje
   requiresTest: {
     src: ["Material"],
     dst: ["TestItem"],
-    doc: "자재 → 요구 시험 항목",
+    inverse: "targetMaterial",
+    doc: "자재 → 요구 시험 항목 (targetMaterial 과 짝)",
   },
   requiresDocument: {
     src: ["Material", "WorkType", "InspectionCheckpoint"],
@@ -73,7 +78,8 @@ export const RELATION_SPECS: Readonly<Record<RelationName, RelationSpec>> = Obje
   hasAcceptanceCriteria: {
     src: ["TestItem", "Material"],
     dst: ["AcceptanceCriteria"],
-    doc: "시험/자재 → 합부 판정 기준",
+    inverse: "appliesTo",
+    doc: "시험/자재 → 합부 판정 기준 (appliesTo 와 짝)",
   },
 
   // ── TestItem 중심 ──
@@ -90,7 +96,8 @@ export const RELATION_SPECS: Readonly<Record<RelationName, RelationSpec>> = Obje
   possibleNonconformance: {
     src: ["TestItem", "InspectionCheckpoint"],
     dst: ["Nonconformance"],
-    doc: "시험/검측 → 발생 가능 NCR",
+    inverse: "relatedTest",
+    doc: "시험/검측 → 발생 가능 NCR (시험에서 나온 것은 NCR 의 relatedTest 와 짝)",
   },
   correctiveActions: {
     src: ["TestItem", "Nonconformance"],
@@ -106,14 +113,16 @@ export const RELATION_SPECS: Readonly<Record<RelationName, RelationSpec>> = Obje
   relatedWork: {
     src: ["TestItem", "InspectionCheckpoint"],
     dst: ["WorkType"],
-    doc: "시험/검측 → 관련 공종",
+    inverse: "hasInspectionCheckpoint",
+    doc: "시험/검측 → 관련 공종 (검측에서 나온 것은 공종의 hasInspectionCheckpoint 와 짝)",
   },
 
   // ── AcceptanceCriteria 중심 ──
   appliesTo: {
     src: ["AcceptanceCriteria"],
     dst: ["TestItem", "Material", "WorkType"],
-    doc: "기준 → 적용 대상",
+    inverse: "hasAcceptanceCriteria",
+    doc: "기준 → 적용 대상 (시험·자재에 닿는 것은 hasAcceptanceCriteria 와 짝)",
   },
   derivedFrom: {
     src: ["AcceptanceCriteria", "Standard"],
@@ -162,7 +171,8 @@ export const RELATION_SPECS: Readonly<Record<RelationName, RelationSpec>> = Obje
   relatedTest: {
     src: ["Nonconformance", "QualityRisk"],
     dst: ["TestItem"],
-    doc: "NCR/Risk → 관련 시험",
+    inverse: "possibleNonconformance",
+    doc: "NCR/Risk → 관련 시험 (NCR 에서 나온 것은 시험의 possibleNonconformance 와 짝)",
   },
   relatedMaterial: {
     src: ["Nonconformance", "QualityRisk"],
@@ -213,6 +223,21 @@ export function isAllowedDst(rel: RelationName, dstType: EntityType): boolean {
 
 export function inverseOf(rel: RelationName): RelationName | undefined {
   return RELATION_SPECS[rel].inverse;
+}
+
+/**
+ * A -rel-> B 가 적혀 있을 때 B 쪽에도 적혀 있어야 하는 역관계.
+ * 역관계가 선언돼 있고, 그 역관계가 B 종류에서 출발해 A 종류에 닿을 수 있을 때만 돌려준다
+ * (예: 시험 → 공종 인 relatedWork 는 공종 → 검측 인 hasInspectionCheckpoint 로 되돌릴 수 없다 → undefined).
+ */
+export function requiredInverse(
+  rel: RelationName,
+  srcType: EntityType,
+  dstType: EntityType,
+): RelationName | undefined {
+  const inverse = RELATION_SPECS[rel].inverse;
+  if (!inverse) return undefined;
+  return isAllowedSrc(inverse, dstType) && isAllowedDst(inverse, srcType) ? inverse : undefined;
 }
 
 // 디버깅·tooling 용 — 모든 관계명 dump

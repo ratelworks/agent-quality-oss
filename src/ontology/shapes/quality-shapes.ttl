@@ -1,0 +1,455 @@
+# 한국 건설 품질관리 그래프의 형태 정의 (SHACL).
+# 이 파일은 코드의 정의에서 만든다 — 직접 고치지 말고 `npm run generate:shapes` 로 다시 만든다.
+# 검증: `npm run validate:shapes` (표준 SHACL 엔진으로 그래프 전체를 본다)
+
+@prefix cc: <https://construction.ratelworks.org/ontology/v1/> .
+@prefix qsh: <https://quality.ratelworks.org/shapes/v1/> .
+@prefix quality: <https://quality.ratelworks.org/ontology/v1/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix schema: <https://schema.org/> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+qsh:AnyNodeShape a sh:NodeShape ;
+  sh:targetSubjectsOf rdf:type, schema:name, quality:meta ;
+  sh:property qsh:AnyNode-type, qsh:AnyNode-name, qsh:AnyNode-alias, qsh:AnyNode-meta .
+
+qsh:AnyNode-type a sh:PropertyShape ;
+  sh:path rdf:type ; sh:minCount 1 ; sh:maxCount 1 ;
+  sh:in ( quality:WorkType quality:Task quality:Material cc:Equipment quality:Standard quality:Specification quality:TestItem quality:InspectionCheckpoint quality:AcceptanceCriteria quality:QualityRisk quality:Nonconformance quality:CorrectiveAction quality:EvidenceDocument quality:Agency quality:SiteRecord cc:Project ) ;
+  sh:message "노드 종류는 정해진 16가지 가운데 하나여야 합니다" .
+
+qsh:AnyNode-name a sh:PropertyShape ;
+  sh:path schema:name ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ; sh:minLength 1 ;
+  sh:message "이름이 하나 있어야 합니다" .
+
+qsh:AnyNode-alias a sh:PropertyShape ;
+  sh:path skos:altLabel ; sh:datatype xsd:string ; sh:minLength 1 ;
+  sh:message "별칭은 빈 값이 아닌 글자열이어야 합니다" .
+
+qsh:AnyNode-meta a sh:PropertyShape ;
+  sh:path quality:meta ; sh:maxCount 1 ; sh:datatype rdf:JSON ;
+  sh:message "부가 정보는 JSON 값 하나여야 합니다" .
+
+qsh:WorkTypeShape a sh:NodeShape ;
+  sh:targetClass quality:WorkType ;
+  sh:nodeKind sh:IRI ;
+  sh:pattern "^https://quality\\.ratelworks\\.org/work/" ;
+  sh:message "WorkType 노드의 주소는 https://quality.ratelworks.org/work/ 로 시작해야 합니다" .
+
+qsh:TaskShape a sh:NodeShape ;
+  sh:targetClass quality:Task ;
+  sh:nodeKind sh:IRI ;
+  sh:pattern "^https://quality\\.ratelworks\\.org/task/" ;
+  sh:message "Task 노드의 주소는 https://quality.ratelworks.org/task/ 로 시작해야 합니다" .
+
+qsh:MaterialShape a sh:NodeShape ;
+  sh:targetClass quality:Material ;
+  sh:nodeKind sh:IRI ;
+  sh:pattern "^https://quality\\.ratelworks\\.org/material/" ;
+  sh:message "Material 노드의 주소는 https://quality.ratelworks.org/material/ 로 시작해야 합니다" .
+
+qsh:EquipmentShape a sh:NodeShape ;
+  sh:targetClass cc:Equipment ;
+  sh:nodeKind sh:IRI ;
+  sh:pattern "^https://quality\\.ratelworks\\.org/equipment/" ;
+  sh:message "Equipment 노드의 주소는 https://quality.ratelworks.org/equipment/ 로 시작해야 합니다" .
+
+qsh:StandardShape a sh:NodeShape ;
+  sh:targetClass quality:Standard ;
+  sh:nodeKind sh:IRI ;
+  sh:pattern "^https://quality\\.ratelworks\\.org/standard/" ;
+  sh:message "Standard 노드의 주소는 https://quality.ratelworks.org/standard/ 로 시작해야 합니다" .
+
+qsh:SpecificationShape a sh:NodeShape ;
+  sh:targetClass quality:Specification ;
+  sh:nodeKind sh:IRI ;
+  sh:pattern "^https://quality\\.ratelworks\\.org/spec/" ;
+  sh:message "Specification 노드의 주소는 https://quality.ratelworks.org/spec/ 로 시작해야 합니다" .
+
+qsh:TestItemShape a sh:NodeShape ;
+  sh:targetClass quality:TestItem ;
+  sh:nodeKind sh:IRI ;
+  sh:pattern "^https://quality\\.ratelworks\\.org/test/" ;
+  sh:message "TestItem 노드의 주소는 https://quality.ratelworks.org/test/ 로 시작해야 합니다" .
+
+qsh:InspectionCheckpointShape a sh:NodeShape ;
+  sh:targetClass quality:InspectionCheckpoint ;
+  sh:nodeKind sh:IRI ;
+  sh:pattern "^https://quality\\.ratelworks\\.org/inspection/" ;
+  sh:message "InspectionCheckpoint 노드의 주소는 https://quality.ratelworks.org/inspection/ 로 시작해야 합니다" .
+
+qsh:AcceptanceCriteriaShape a sh:NodeShape ;
+  sh:targetClass quality:AcceptanceCriteria ;
+  sh:nodeKind sh:IRI ;
+  sh:pattern "^https://quality\\.ratelworks\\.org/criteria/" ;
+  sh:message "AcceptanceCriteria 노드의 주소는 https://quality.ratelworks.org/criteria/ 로 시작해야 합니다" .
+
+qsh:QualityRiskShape a sh:NodeShape ;
+  sh:targetClass quality:QualityRisk ;
+  sh:nodeKind sh:IRI ;
+  sh:pattern "^https://quality\\.ratelworks\\.org/risk/" ;
+  sh:message "QualityRisk 노드의 주소는 https://quality.ratelworks.org/risk/ 로 시작해야 합니다" .
+
+qsh:NonconformanceShape a sh:NodeShape ;
+  sh:targetClass quality:Nonconformance ;
+  sh:nodeKind sh:IRI ;
+  sh:pattern "^https://quality\\.ratelworks\\.org/nonconformance/" ;
+  sh:message "Nonconformance 노드의 주소는 https://quality.ratelworks.org/nonconformance/ 로 시작해야 합니다" .
+
+qsh:CorrectiveActionShape a sh:NodeShape ;
+  sh:targetClass quality:CorrectiveAction ;
+  sh:nodeKind sh:IRI ;
+  sh:pattern "^https://quality\\.ratelworks\\.org/action/" ;
+  sh:message "CorrectiveAction 노드의 주소는 https://quality.ratelworks.org/action/ 로 시작해야 합니다" .
+
+qsh:EvidenceDocumentShape a sh:NodeShape ;
+  sh:targetClass quality:EvidenceDocument ;
+  sh:nodeKind sh:IRI ;
+  sh:pattern "^https://quality\\.ratelworks\\.org/document/" ;
+  sh:message "EvidenceDocument 노드의 주소는 https://quality.ratelworks.org/document/ 로 시작해야 합니다" .
+
+qsh:AgencyShape a sh:NodeShape ;
+  sh:targetClass quality:Agency ;
+  sh:nodeKind sh:IRI ;
+  sh:pattern "^https://quality\\.ratelworks\\.org/agency/" ;
+  sh:message "Agency 노드의 주소는 https://quality.ratelworks.org/agency/ 로 시작해야 합니다" .
+
+qsh:SiteRecordShape a sh:NodeShape ;
+  sh:targetClass quality:SiteRecord ;
+  sh:nodeKind sh:IRI ;
+  sh:pattern "^https://quality\\.ratelworks\\.org/record/" ;
+  sh:message "SiteRecord 노드의 주소는 https://quality.ratelworks.org/record/ 로 시작해야 합니다" .
+
+qsh:ProjectShape a sh:NodeShape ;
+  sh:targetClass cc:Project ;
+  sh:nodeKind sh:IRI ;
+  sh:pattern "^https://quality\\.ratelworks\\.org/project/" ;
+  sh:message "Project 노드의 주소는 https://quality.ratelworks.org/project/ 로 시작해야 합니다" .
+
+qsh:WorkType-needs-requiresStandard a sh:PropertyShape ;
+  sh:targetClass quality:WorkType ;
+  sh:path quality:requiresStandard ; sh:minCount 1 ;
+  sh:message "공종에는 근거 기준이 하나 이상 있어야 합니다" .
+
+qsh:Material-needs-requiresTest-or-requiresStandard a sh:NodeShape ;
+  sh:targetClass quality:Material ;
+  sh:or ( [ sh:path quality:requiresTest ; sh:minCount 1 ] [ sh:path quality:requiresStandard ; sh:minCount 1 ] ) ;
+  sh:message "자재에는 시험이나 근거 기준이 하나 이상 있어야 합니다" .
+
+qsh:TestItem-needs-requiresStandard a sh:PropertyShape ;
+  sh:targetClass quality:TestItem ;
+  sh:path quality:requiresStandard ; sh:minCount 1 ;
+  sh:message "시험에는 근거 기준이 하나 이상 있어야 합니다" .
+
+qsh:AcceptanceCriteria-needs-derivedFrom a sh:PropertyShape ;
+  sh:targetClass quality:AcceptanceCriteria ;
+  sh:path quality:derivedFrom ; sh:minCount 1 ;
+  sh:message "판정 기준에는 그 기준이 나온 표준이 하나 이상 있어야 합니다" .
+
+qsh:AcceptanceCriteria-needs-appliesTo a sh:PropertyShape ;
+  sh:targetClass quality:AcceptanceCriteria ;
+  sh:path quality:appliesTo ; sh:minCount 1 ;
+  sh:message "판정 기준에는 적용 대상이 하나 이상 있어야 합니다" .
+
+qsh:InspectionCheckpoint-needs-relatedWork a sh:PropertyShape ;
+  sh:targetClass quality:InspectionCheckpoint ;
+  sh:path quality:relatedWork ; sh:minCount 1 ;
+  sh:message "검측에는 관련 공종이 하나 이상 있어야 합니다" .
+
+qsh:InspectionCheckpoint-needs-isBasedOn a sh:PropertyShape ;
+  sh:targetClass quality:InspectionCheckpoint ;
+  sh:path quality:isBasedOn ; sh:minCount 1 ;
+  sh:message "검측에는 근거 기준이 하나 이상 있어야 합니다" .
+
+qsh:Nonconformance-needs-immediateActions a sh:PropertyShape ;
+  sh:targetClass quality:Nonconformance ;
+  sh:path quality:immediateActions ; sh:minCount 1 ;
+  sh:message "부적합에는 즉시 조치가 하나 이상 있어야 합니다" .
+
+qsh:Nonconformance-needs-correctiveActions a sh:PropertyShape ;
+  sh:targetClass quality:Nonconformance ;
+  sh:path quality:correctiveActions ; sh:minCount 1 ;
+  sh:message "부적합에는 시정 조치가 하나 이상 있어야 합니다" .
+
+qsh:Nonconformance-needs-basisPriority a sh:PropertyShape ;
+  sh:targetClass quality:Nonconformance ;
+  sh:path ( quality:basisPriority rdf:first ) ; sh:minCount 1 ;
+  sh:message "부적합에는 근거 우선순위가 하나 이상 있어야 합니다" .
+
+qsh:hasTask-domain a sh:NodeShape ;
+  sh:targetSubjectsOf quality:hasTask ;
+  sh:class quality:WorkType ;
+  sh:message "hasTask 은(는) WorkType 에서만 출발합니다" .
+
+qsh:hasTask-range a sh:NodeShape ;
+  sh:targetObjectsOf quality:hasTask ;
+  sh:nodeKind sh:IRI ; sh:class quality:Task ;
+  sh:message "hasTask 은(는) Task 노드를 가리켜야 합니다" .
+
+qsh:usesMaterial-domain a sh:NodeShape ;
+  sh:targetSubjectsOf quality:usesMaterial ;
+  sh:class quality:WorkType ;
+  sh:message "usesMaterial 은(는) WorkType 에서만 출발합니다" .
+
+qsh:usesMaterial-range a sh:NodeShape ;
+  sh:targetObjectsOf quality:usesMaterial ;
+  sh:nodeKind sh:IRI ; sh:class quality:Material ;
+  sh:message "usesMaterial 은(는) Material 노드를 가리켜야 합니다" .
+
+qsh:requiresStandard-domain a sh:NodeShape ;
+  sh:targetSubjectsOf quality:requiresStandard ;
+  sh:or ( [ sh:class quality:WorkType ] [ sh:class quality:Material ] [ sh:class quality:TestItem ] ) ;
+  sh:message "requiresStandard 은(는) WorkType · Material · TestItem 에서만 출발합니다" .
+
+qsh:requiresStandard-range a sh:NodeShape ;
+  sh:targetObjectsOf quality:requiresStandard ;
+  sh:nodeKind sh:IRI ; sh:class quality:Standard ;
+  sh:message "requiresStandard 은(는) Standard 노드를 가리켜야 합니다" .
+
+qsh:hasInspectionCheckpoint-domain a sh:NodeShape ;
+  sh:targetSubjectsOf quality:hasInspectionCheckpoint ;
+  sh:class quality:WorkType ;
+  sh:message "hasInspectionCheckpoint 은(는) WorkType 에서만 출발합니다" .
+
+qsh:hasInspectionCheckpoint-range a sh:NodeShape ;
+  sh:targetObjectsOf quality:hasInspectionCheckpoint ;
+  sh:nodeKind sh:IRI ; sh:class quality:InspectionCheckpoint ;
+  sh:message "hasInspectionCheckpoint 은(는) InspectionCheckpoint 노드를 가리켜야 합니다" .
+
+qsh:hasQualityRisk-domain a sh:NodeShape ;
+  sh:targetSubjectsOf quality:hasQualityRisk ;
+  sh:or ( [ sh:class quality:WorkType ] [ sh:class quality:Material ] ) ;
+  sh:message "hasQualityRisk 은(는) WorkType · Material 에서만 출발합니다" .
+
+qsh:hasQualityRisk-range a sh:NodeShape ;
+  sh:targetObjectsOf quality:hasQualityRisk ;
+  sh:nodeKind sh:IRI ; sh:class quality:QualityRisk ;
+  sh:message "hasQualityRisk 은(는) QualityRisk 노드를 가리켜야 합니다" .
+
+qsh:requiresTest-domain a sh:NodeShape ;
+  sh:targetSubjectsOf quality:requiresTest ;
+  sh:class quality:Material ;
+  sh:message "requiresTest 은(는) Material 에서만 출발합니다" .
+
+qsh:requiresTest-range a sh:NodeShape ;
+  sh:targetObjectsOf quality:requiresTest ;
+  sh:nodeKind sh:IRI ; sh:class quality:TestItem ;
+  sh:message "requiresTest 은(는) TestItem 노드를 가리켜야 합니다" .
+
+qsh:requiresDocument-domain a sh:NodeShape ;
+  sh:targetSubjectsOf quality:requiresDocument ;
+  sh:or ( [ sh:class quality:Material ] [ sh:class quality:WorkType ] [ sh:class quality:InspectionCheckpoint ] ) ;
+  sh:message "requiresDocument 은(는) Material · WorkType · InspectionCheckpoint 에서만 출발합니다" .
+
+qsh:requiresDocument-range a sh:NodeShape ;
+  sh:targetObjectsOf quality:requiresDocument ;
+  sh:nodeKind sh:IRI ; sh:class quality:EvidenceDocument ;
+  sh:message "requiresDocument 은(는) EvidenceDocument 노드를 가리켜야 합니다" .
+
+qsh:hasAcceptanceCriteria-domain a sh:NodeShape ;
+  sh:targetSubjectsOf quality:hasAcceptanceCriteria ;
+  sh:or ( [ sh:class quality:TestItem ] [ sh:class quality:Material ] ) ;
+  sh:message "hasAcceptanceCriteria 은(는) TestItem · Material 에서만 출발합니다" .
+
+qsh:hasAcceptanceCriteria-range a sh:NodeShape ;
+  sh:targetObjectsOf quality:hasAcceptanceCriteria ;
+  sh:nodeKind sh:IRI ; sh:class quality:AcceptanceCriteria ;
+  sh:message "hasAcceptanceCriteria 은(는) AcceptanceCriteria 노드를 가리켜야 합니다" .
+
+qsh:hasMethod-domain a sh:NodeShape ;
+  sh:targetSubjectsOf quality:hasMethod ;
+  sh:class quality:TestItem ;
+  sh:message "hasMethod 은(는) TestItem 에서만 출발합니다" .
+
+qsh:hasMethod-range a sh:NodeShape ;
+  sh:targetObjectsOf quality:hasMethod ;
+  sh:nodeKind sh:IRI ;
+  sh:message "hasMethod 의 값은 노드 주소여야 합니다" .
+
+qsh:hasFrequency-domain a sh:NodeShape ;
+  sh:targetSubjectsOf quality:hasFrequency ;
+  sh:class quality:TestItem ;
+  sh:message "hasFrequency 은(는) TestItem 에서만 출발합니다" .
+
+qsh:hasFrequency-range a sh:NodeShape ;
+  sh:targetObjectsOf quality:hasFrequency ;
+  sh:nodeKind sh:IRI ;
+  sh:message "hasFrequency 의 값은 노드 주소여야 합니다" .
+
+qsh:possibleNonconformance-domain a sh:NodeShape ;
+  sh:targetSubjectsOf quality:possibleNonconformance ;
+  sh:or ( [ sh:class quality:TestItem ] [ sh:class quality:InspectionCheckpoint ] ) ;
+  sh:message "possibleNonconformance 은(는) TestItem · InspectionCheckpoint 에서만 출발합니다" .
+
+qsh:possibleNonconformance-range a sh:NodeShape ;
+  sh:targetObjectsOf quality:possibleNonconformance ;
+  sh:nodeKind sh:IRI ; sh:class quality:Nonconformance ;
+  sh:message "possibleNonconformance 은(는) Nonconformance 노드를 가리켜야 합니다" .
+
+qsh:correctiveActions-domain a sh:NodeShape ;
+  sh:targetSubjectsOf quality:correctiveActions ;
+  sh:or ( [ sh:class quality:TestItem ] [ sh:class quality:Nonconformance ] ) ;
+  sh:message "correctiveActions 은(는) TestItem · Nonconformance 에서만 출발합니다" .
+
+qsh:correctiveActions-range a sh:NodeShape ;
+  sh:targetObjectsOf quality:correctiveActions ;
+  sh:nodeKind sh:IRI ; sh:class quality:CorrectiveAction ;
+  sh:message "correctiveActions 은(는) CorrectiveAction 노드를 가리켜야 합니다" .
+
+qsh:targetMaterial-domain a sh:NodeShape ;
+  sh:targetSubjectsOf quality:targetMaterial ;
+  sh:class quality:TestItem ;
+  sh:message "targetMaterial 은(는) TestItem 에서만 출발합니다" .
+
+qsh:targetMaterial-range a sh:NodeShape ;
+  sh:targetObjectsOf quality:targetMaterial ;
+  sh:nodeKind sh:IRI ; sh:class quality:Material ;
+  sh:message "targetMaterial 은(는) Material 노드를 가리켜야 합니다" .
+
+qsh:relatedWork-domain a sh:NodeShape ;
+  sh:targetSubjectsOf quality:relatedWork ;
+  sh:or ( [ sh:class quality:TestItem ] [ sh:class quality:InspectionCheckpoint ] ) ;
+  sh:message "relatedWork 은(는) TestItem · InspectionCheckpoint 에서만 출발합니다" .
+
+qsh:relatedWork-range a sh:NodeShape ;
+  sh:targetObjectsOf quality:relatedWork ;
+  sh:nodeKind sh:IRI ; sh:class quality:WorkType ;
+  sh:message "relatedWork 은(는) WorkType 노드를 가리켜야 합니다" .
+
+qsh:appliesTo-domain a sh:NodeShape ;
+  sh:targetSubjectsOf quality:appliesTo ;
+  sh:class quality:AcceptanceCriteria ;
+  sh:message "appliesTo 은(는) AcceptanceCriteria 에서만 출발합니다" .
+
+qsh:appliesTo-range a sh:NodeShape ;
+  sh:targetObjectsOf quality:appliesTo ;
+  sh:nodeKind sh:IRI ; sh:or ( [ sh:class quality:TestItem ] [ sh:class quality:Material ] [ sh:class quality:WorkType ] ) ;
+  sh:message "appliesTo 은(는) TestItem · Material · WorkType 노드를 가리켜야 합니다" .
+
+qsh:derivedFrom-domain a sh:NodeShape ;
+  sh:targetSubjectsOf quality:derivedFrom ;
+  sh:or ( [ sh:class quality:AcceptanceCriteria ] [ sh:class quality:Standard ] ) ;
+  sh:message "derivedFrom 은(는) AcceptanceCriteria · Standard 에서만 출발합니다" .
+
+qsh:derivedFrom-range a sh:NodeShape ;
+  sh:targetObjectsOf quality:derivedFrom ;
+  sh:nodeKind sh:IRI ; sh:class quality:Standard ;
+  sh:message "derivedFrom 은(는) Standard 노드를 가리켜야 합니다" .
+
+qsh:isBasedOn-range a sh:NodeShape ;
+  sh:targetObjectsOf quality:isBasedOn ;
+  sh:nodeKind sh:IRI ; sh:or ( [ sh:class quality:Standard ] [ sh:class quality:AcceptanceCriteria ] ) ;
+  sh:message "isBasedOn 은(는) Standard · AcceptanceCriteria 노드를 가리켜야 합니다" .
+
+qsh:verifies-domain a sh:NodeShape ;
+  sh:targetSubjectsOf quality:verifies ;
+  sh:class quality:InspectionCheckpoint ;
+  sh:message "verifies 은(는) InspectionCheckpoint 에서만 출발합니다" .
+
+qsh:verifies-range a sh:NodeShape ;
+  sh:targetObjectsOf quality:verifies ;
+  sh:nodeKind sh:IRI ; sh:or ( [ sh:class quality:AcceptanceCriteria ] [ sh:class quality:TestItem ] [ sh:class quality:QualityRisk ] ) ;
+  sh:message "verifies 은(는) AcceptanceCriteria · TestItem · QualityRisk 노드를 가리켜야 합니다" .
+
+qsh:requiresEvidence-domain a sh:NodeShape ;
+  sh:targetSubjectsOf quality:requiresEvidence ;
+  sh:or ( [ sh:class quality:InspectionCheckpoint ] [ sh:class quality:TestItem ] [ sh:class quality:Nonconformance ] ) ;
+  sh:message "requiresEvidence 은(는) InspectionCheckpoint · TestItem · Nonconformance 에서만 출발합니다" .
+
+qsh:requiresEvidence-range a sh:NodeShape ;
+  sh:targetObjectsOf quality:requiresEvidence ;
+  sh:nodeKind sh:IRI ; sh:class quality:EvidenceDocument ;
+  sh:message "requiresEvidence 은(는) EvidenceDocument 노드를 가리켜야 합니다" .
+
+qsh:mayCause-domain a sh:NodeShape ;
+  sh:targetSubjectsOf quality:mayCause ;
+  sh:class quality:QualityRisk ;
+  sh:message "mayCause 은(는) QualityRisk 에서만 출발합니다" .
+
+qsh:mayCause-range a sh:NodeShape ;
+  sh:targetObjectsOf quality:mayCause ;
+  sh:nodeKind sh:IRI ; sh:class quality:Nonconformance ;
+  sh:message "mayCause 은(는) Nonconformance 노드를 가리켜야 합니다" .
+
+qsh:requires-range a sh:NodeShape ;
+  sh:targetObjectsOf quality:requires ;
+  sh:nodeKind sh:IRI ;
+  sh:message "requires 의 값은 노드 주소여야 합니다" .
+
+qsh:possibleCauses-domain a sh:NodeShape ;
+  sh:targetSubjectsOf quality:possibleCauses ;
+  sh:class quality:Nonconformance ;
+  sh:message "possibleCauses 은(는) Nonconformance 에서만 출발합니다" .
+
+qsh:possibleCauses-range a sh:NodeShape ;
+  sh:targetObjectsOf quality:possibleCauses ;
+  sh:nodeKind sh:IRI ;
+  sh:message "possibleCauses 의 값은 노드 주소여야 합니다" .
+
+qsh:immediateActions-domain a sh:NodeShape ;
+  sh:targetSubjectsOf quality:immediateActions ;
+  sh:class quality:Nonconformance ;
+  sh:message "immediateActions 은(는) Nonconformance 에서만 출발합니다" .
+
+qsh:immediateActions-range a sh:NodeShape ;
+  sh:targetObjectsOf quality:immediateActions ;
+  sh:nodeKind sh:IRI ; sh:class quality:CorrectiveAction ;
+  sh:message "immediateActions 은(는) CorrectiveAction 노드를 가리켜야 합니다" .
+
+qsh:relatedTest-domain a sh:NodeShape ;
+  sh:targetSubjectsOf quality:relatedTest ;
+  sh:or ( [ sh:class quality:Nonconformance ] [ sh:class quality:QualityRisk ] ) ;
+  sh:message "relatedTest 은(는) Nonconformance · QualityRisk 에서만 출발합니다" .
+
+qsh:relatedTest-range a sh:NodeShape ;
+  sh:targetObjectsOf quality:relatedTest ;
+  sh:nodeKind sh:IRI ; sh:class quality:TestItem ;
+  sh:message "relatedTest 은(는) TestItem 노드를 가리켜야 합니다" .
+
+qsh:relatedMaterial-domain a sh:NodeShape ;
+  sh:targetSubjectsOf quality:relatedMaterial ;
+  sh:or ( [ sh:class quality:Nonconformance ] [ sh:class quality:QualityRisk ] ) ;
+  sh:message "relatedMaterial 은(는) Nonconformance · QualityRisk 에서만 출발합니다" .
+
+qsh:relatedMaterial-range a sh:NodeShape ;
+  sh:targetObjectsOf quality:relatedMaterial ;
+  sh:nodeKind sh:IRI ; sh:class quality:Material ;
+  sh:message "relatedMaterial 은(는) Material 노드를 가리켜야 합니다" .
+
+qsh:basisPriority-range a sh:PropertyShape ;
+  sh:targetSubjectsOf quality:basisPriority ;
+  sh:path ( quality:basisPriority [ sh:zeroOrMorePath rdf:rest ] rdf:first ) ;
+  sh:nodeKind sh:IRI ; sh:or ( [ sh:class quality:Standard ] [ sh:class quality:EvidenceDocument ] [ sh:class quality:AcceptanceCriteria ] ) ;
+  sh:message "basisPriority 은(는) Standard · EvidenceDocument · AcceptanceCriteria 노드를 가리켜야 합니다" .
+
+qsh:hasSpecification-domain a sh:NodeShape ;
+  sh:targetSubjectsOf quality:hasSpecification ;
+  sh:class cc:Project ;
+  sh:message "hasSpecification 은(는) Project 에서만 출발합니다" .
+
+qsh:hasSpecification-range a sh:NodeShape ;
+  sh:targetObjectsOf quality:hasSpecification ;
+  sh:nodeKind sh:IRI ; sh:class quality:Specification ;
+  sh:message "hasSpecification 은(는) Specification 노드를 가리켜야 합니다" .
+
+qsh:overridesStandard-domain a sh:NodeShape ;
+  sh:targetSubjectsOf quality:overridesStandard ;
+  sh:class quality:Specification ;
+  sh:message "overridesStandard 은(는) Specification 에서만 출발합니다" .
+
+qsh:overridesStandard-range a sh:NodeShape ;
+  sh:targetObjectsOf quality:overridesStandard ;
+  sh:nodeKind sh:IRI ; sh:class quality:Standard ;
+  sh:message "overridesStandard 은(는) Standard 노드를 가리켜야 합니다" .
+
+qsh:proves-domain a sh:NodeShape ;
+  sh:targetSubjectsOf quality:proves ;
+  sh:class quality:EvidenceDocument ;
+  sh:message "proves 은(는) EvidenceDocument 에서만 출발합니다" .
+
+qsh:proves-range a sh:NodeShape ;
+  sh:targetObjectsOf quality:proves ;
+  sh:nodeKind sh:IRI ;
+  sh:message "proves 의 값은 노드 주소여야 합니다" .

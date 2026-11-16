@@ -33,7 +33,7 @@ src/ontology/graph/nodes/{type}/*.jsonld   ← runtime SSoT (로더가 읽는 �
 
 - `src/ontology/loader.ts` — 서버 기동 시 1회 sync 로드. `graph/nodes/**/*.jsonld` 전량 → zod(EntityZ) 검증 → in-memory 그래프.
 - 그래프 엔진 = 인접 리스트 + 별칭·타입 인덱스 (`src/ontology/graph.ts`, 외부 의존성 0). 수백 노드 규모라 graphology 급 엔진은 두지 않는다.
-- JSON-LD 규약: `@id` IRI(`work:concrete` → 단축 id `work.concrete`) · `@type` closed set(16종) · 배열 값 = 관계 · `_meta` = 속성. 자매 safety-oss 와 동일 구조·동일 IRI 공간.
+- JSON-LD 규약: `@id` IRI(`work:concrete` → 단축 id `work.concrete`) · `@type` closed set(16종) · 배열 값 = 관계 · `_meta` = 속성. 자매 safety-oss 와 동일 구조·동일 IRI 공간. 표준 SHACL 엔진과 RDF 왕복으로 검증한다(`npm run validate:shapes`, [ONTOLOGY.md](./ONTOLOGY.md) "표준 검증").
 
 ## 응답 파이프라인
 

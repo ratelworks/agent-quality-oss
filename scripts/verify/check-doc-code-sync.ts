@@ -584,7 +584,8 @@ function scanFile(file: string, ssot: SSoT) {
     //   "관계 **930개**"(노드·관계가 한 줄에 공존, line 61) 와 "관계 930"(line 222) 둘 다 포착.
     //   `관계` 직후 숫자가 와야만 매치 → "관계 추론"·"관계명"·"관계 정의" 같은 서술 표현은 미매치.
     //   같은 라인의 노드 수(검출 5)와는 정규식 키워드가 달라 충돌하지 않는다.
-    const relationBodyMatch = line.match(/관계\s*\*{0,2}(\d+)\s*개?\*{0,2}/);
+    // "역관계 0" 처럼 다른 낱말의 끝에 붙은 "관계" 는 그래프의 관계 수가 아니다
+    const relationBodyMatch = line.match(/(?<![가-힣])관계\s*\*{0,2}(\d+)\s*개?\*{0,2}/);
     const relationBodyN = relationBodyMatch?.[1];
     if (
       relationBodyN &&

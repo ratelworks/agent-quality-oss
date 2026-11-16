@@ -63,6 +63,16 @@
     "DigitalDocument": "schema:DigitalDocument",
     "Thing": "schema:Thing",
 
+    "name": "schema:name",
+    "aliases": {
+      "@id": "skos:altLabel",
+      "@container": "@set"
+    },
+    "_meta": {
+      "@id": "quality:meta",
+      "@type": "@json"
+    },
+
     "hasTask": {
       "@id": "quality:hasTask",
       "@type": "@id",
@@ -183,7 +193,9 @@
       "@type": "@id"
     },
     "basisPriority": {
-      "@id": "quality:basisPriority"
+      "@id": "quality:basisPriority",
+      "@type": "@id",
+      "@container": "@list"
     },
     "hasSpecification": {
       "@id": "quality:hasSpecification",

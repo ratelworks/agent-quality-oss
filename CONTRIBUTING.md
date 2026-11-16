@@ -18,12 +18,13 @@ npm run build          # tsc + 데이터 복사
 npm run typecheck
 npm run smoke          # 스모크 테스트
 npm run validate:ontology
+npm run validate:shapes # 그래프 표준 검증 (노드를 고쳤을 때)
 ```
 
 ## 3. PR 절차
 
 1. 새 브랜치에서 작업 후 PR
-2. 통과 필수: `npm run typecheck` · `npm run smoke` · `npm run validate:ontology` · `npm run check:oss-hygiene`
+2. 통과 필수: `npm run typecheck` · `npm run smoke` · `npm run validate:ontology` · `npm run validate:shapes` · `npm run check:oss-hygiene`
 3. 커밋 메시지: `<type>(<scope>): <한국어 요약>` (type: feat / fix / docs / chore / refactor / test)
 
 ## 4. Release 절차 (maintainer)

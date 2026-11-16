@@ -81,6 +81,7 @@ src/ontology/graph/
    ```bash
    npm run build
    npm run validate:ontology   # orphan/dangling 0 확인
+   npm run validate:shapes     # 형태 정의(SHACL) · RDF 대조 · 역관계
    npm run smoke               # 회귀 케이스
    ```
 6. `scripts/smoke-test.ts` 에 회귀 케이스(`resolve_worktype` · `get_work_quality_profile` 경로)를 추가.
@@ -88,7 +89,23 @@ src/ontology/graph/
 ## 검증 게이트
 
 - **무결성**: `validate:ontology` — 깨진 참조(dangling)·고립 노드(orphan)를 0 으로 유지.
+- **표준 표현**: `validate:shapes` — 아래 "표준 검증" 절의 세 가지를 0 으로 유지.
 - **회귀**: `smoke` — 공종·시험·양식 경로가 깨지지 않는지.
 - **공개 위생**: `check:oss-hygiene` — 내부 용어·경로·PII 차단.
 
-PR 은 위 세 게이트를 통과해야 합니다.
+PR 은 위 네 게이트를 통과해야 합니다.
+
+## 표준 검증
+
+그래프는 JSON-LD 로 적혀 있어 다른 RDF 도구에서 그대로 읽을 수 있습니다. 그 약속이 지켜지는지 `npm run validate:shapes` 가 표준 도구로 확인합니다.
+
+| 확인 | 무엇을 보나 |
+|---|---|
+| 형태 정의 (SHACL) | 표준 SHACL 엔진으로 노드 전체를 검증 — 노드 종류·주소 규칙·이름, 관계의 출발·도착 종류, 종류별 필수 관계(공종의 근거 기준, 판정 기준이 나온 표준, 부적합의 조치·근거 우선순위 등) |
+| RDF 대조 | 그래프를 RDF 로 옮겼다가 되돌려 원본과 견줌 — 맥락 정의에 없는 속성, 주소가 아닌 관계 값, 겹친 별칭처럼 옮기다 사라지는 값을 찾음 |
+| 역관계 | 짝을 이루는 관계가 양쪽에 다 적혀 있는지 — `requiresTest`↔`targetMaterial`, `hasAcceptanceCriteria`↔`appliesTo`, `hasInspectionCheckpoint`↔`relatedWork`(검측), `possibleNonconformance`↔`relatedTest`(시험·부적합) |
+
+- 형태 정의 파일은 `src/ontology/shapes/quality-shapes.ttl` 입니다. 코드의 정의(노드 종류·관계의 출발·도착 종류)에서 만들므로 직접 고치지 않고 `npm run generate:shapes` 로 다시 만듭니다.
+- 이름은 `schema:name`, 별칭은 `skos:altLabel`, `_meta` 는 JSON 값(`rdf:JSON`), 근거 우선순위(`basisPriority`)는 순서가 있는 목록으로 옮겨집니다.
+- 그래프 전체를 RDF(N-Quads)로 받으려면 `npm run -s export:rdf > quality-graph.nq`.
+- 직접 고친 노드 폴더를 볼 때는 `QUALITY_NODES_DIR=<폴더> npm run validate:shapes`.

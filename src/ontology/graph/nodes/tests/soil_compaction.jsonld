@@ -17,6 +17,9 @@
     "frequency": "업무지침 별표 2 — 부위에 따라 다름(예: 되메우기 및 구조물 뒷채움의 현장밀도는 독립구조물 개소별 3층마다, 다짐은 재질 변화시마다)",
     "typicalAcceptance": "흙쌓기 노체부 최대건조밀도의 90 % 이상(1층 다짐 완료 후 두께 300 mm 이하), 노상부 95 % 이상(200 mm 이하) — KCS 11 20 20 3.2.16"
   },
+  "targetMaterial": [
+    "material:soil"
+  ],
   "relatedWork": [
     "work:earthwork"
   ],

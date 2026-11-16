@@ -13,6 +13,9 @@
     "frequency": "토취장마다·재질변화시마다 (별표2)",
     "typicalAcceptance": "최적함수비(OMC) 대비 관리범위는 설계도서/KCS — 시험종목·방법 커버리지"
   },
+  "targetMaterial": [
+    "material:soil"
+  ],
   "relatedWork": [
     "work:earthwork"
   ],
