@@ -22,7 +22,7 @@
   },
   "scripts": {
     "build": "npm run clean && tsc && npm run copy:data && chmod +x build/cli.js build/index.js",
-    "copy:data": "node scripts/build/copy-data.mjs",
+    "copy:data": "node scripts/copy-build-data.mjs",
     "watch": "tsc --watch",
     "dev": "tsx src/index.ts",
     "dev:stdio": "tsx src/index.ts --stdio",
