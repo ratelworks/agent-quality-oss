@@ -1,3 +1,4 @@
+import { penaltyBlock } from './_compile-common.js';
 import { resolveWorkType } from '../ontology/resolver.js';
 import { getSchema } from '../schemas/loader.js';
 import { buildResponse } from './_response.js';
@@ -118,6 +119,7 @@ export function run(args: CompilePourArgs, graph: OntologyGraph) {
 
   const result = {
     workType: { id: work.id, name: work.name },
+    ...penaltyBlock(['tool:compile_concrete_pour_references', `work:${work.id}`]),
     ...(mixCodeReading ? { mixCodeReading } : {}),
     materials,
     tests: [...tests.values()],

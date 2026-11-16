@@ -7,6 +7,7 @@
  * 공종별 시험종목·시험방법·시험빈도는 업무지침 별표 2 를 행으로 푼 자료(knowledge/test-standards.ts)에서 가져온다.
  */
 
+import { penaltyBlock } from './_compile-common.js';
 import { getSchema } from '../schemas/loader.js';
 import { buildResponse } from './_response.js';
 import { mergeBasis, schemaLegalBasisRefs } from "./_compile-common.js";
@@ -200,6 +201,7 @@ export function run(args: CompileQtpArgs, graph: OntologyGraph) {
     'compile_quality_test_plan_references',
     graph.version,
     {
+      ...penaltyBlock(['tool:compile_quality_test_plan_references', ...workTypes.map((w) => `work:${w}`)]),
       planTarget: {
         qualityPlan: planTarget.qualityPlan,
         testPlan: planTarget.testPlan,

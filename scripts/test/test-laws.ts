@@ -19,7 +19,7 @@ import { OntologyGraph } from "../../src/ontology/graph.js";
 import { findAnnex, findArticle, findLaw, loadLaws, normalizeLawText, searchLaws } from "../../src/ontology/laws.js";
 import { boxTableCells, parseBoxTables } from "../../src/lib/box-table.js";
 import { QualityMcpError } from "../../src/lib/errors.js";
-import { loadPenaltyItems } from "../../src/knowledge/penalty-points.js";
+import { loadPenaltyItems, loadPenaltyLinks } from "../../src/knowledge/penalty-points.js";
 import { judgePlanTarget } from "../../src/knowledge/plan-rules.js";
 
 // ── 상수 ────────────────────────────────────────────────────────────
@@ -244,6 +244,15 @@ async function testPracticeAnswers(): Promise<void> {
   check("벌점 항목: 가목 2)가) 균열관리 3점", at("제5호 가목 2)가)")?.points === 3 && normalizeLawText(at("제5호 가목 2)가)")?.text ?? "").includes("균열관리를하지"));
   check("벌점 항목: 가목 7)가) 주요 구조부 검토·확인 없이 시공 3점", at("제5호 가목 7)가)")?.points === 3 && normalizeLawText(at("제5호 가목 7)가)")?.text ?? "").includes("주요구조부"));
   check("벌점 항목: 가목 15)나) 슬럼프시험 미실시·타설완료시간 1점", at("제5호 가목 15)나)")?.points === 1 && normalizeLawText(at("제5호 가목 15)나)")?.text ?? "").includes("타설완료시간"));
+  // 상황 → 벌점 연결 자료: 가리키는 항목이 모두 원문에 있어야 한다(법령이 바뀌면 여기서 알린다)
+  const links = loadPenaltyLinks();
+  const missingPaths = Object.values(links.topics).flatMap((t) => t.paths).filter((p) => !items.some((i) => i.path === p));
+  const unknownTopics = [...Object.values(links.workTypes), ...Object.values(links.tools), ...Object.values(links.documents)].flat().filter((t) => !links.topics[t]);
+  check("벌점 연결 자료: 항목 번호가 모두 원문에 있음", missingPaths.length === 0, missingPaths.join(", "));
+  check("벌점 연결 자료: 가리키는 상황이 모두 정의됨", unknownTopics.length === 0, unknownTopics.join(", "));
+  const insp = await callTool("compile_inspection_references", { workType: "work.rebar_placement" }, { graph });
+  const inspPen = (insp.result as { relatedPenalties?: Array<{ ref: string; points: number }> }).relatedPenalties ?? [];
+  check("검측 근거 묶음: 검토·확인 없이 시공(가목 7)가) 3점)과 철근 배근 불량 벌점을 함께 줌", inspPen.some((p) => p.ref === "별표 8 제5호 가목 7)가)" && p.points === 3) && inspPen.some((p) => p.ref === "별표 8 제5호 가목 4)가)"));
   // 어기면 어떻게 되는지 — 검색 결과에 벌점 항목이 번호·점수와 함께 붙는다
   const pen = await callTool("search_quality_law_text", { query: "균열 벌점" }, { graph });
   const penItems = (pen.result as { penaltyItems?: Array<{ ref: string; points: number }> }).penaltyItems ?? [];

@@ -9,6 +9,7 @@
 import { getSchema } from "../schemas/loader.js";
 import type { BasisRef } from "../lib/types.js";
 import type { OntologyGraph } from "../ontology/graph.js";
+import { PENALTY_SCORING_NOTE, relatedPenalties } from "../knowledge/penalty-points.js";
 
 /** 법령 근거 요약 (도구 result 에 실어 LLM 이 바로 인용할 수 있는 형태) */
 export interface LegalBasisSummary {
@@ -118,4 +119,17 @@ export function schemaLegalBasisSummaries(
     });
   }
   return out;
+}
+
+/**
+ * 이 일을 어기면 받는 벌점(시행령 별표 8) — 근거 묶음에 함께 싣는다.
+ * @param keys "tool:…" · "work:…" · "document:…" (ontology/penalty-links.json)
+ */
+export function penaltyBlock(keys: readonly string[]): { relatedPenalties?: ReturnType<typeof relatedPenalties>; penaltyNote?: string } {
+  const items = relatedPenalties(keys);
+  if (items.length === 0) return {};
+  return {
+    relatedPenalties: items,
+    penaltyNote: `이 일을 어기면 받을 수 있는 벌점 항목입니다 — 답에 해당하는 항목을 번호·점수와 함께 알린다. ${PENALTY_SCORING_NOTE}`,
+  };
 }

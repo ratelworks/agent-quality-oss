@@ -9,6 +9,9 @@
 // 수록 원문(src/ontology/laws)만 읽는다 — 항목 글·점수는 원문 그대로다.
 // ─────────────────────────────────────────────────────────────────────────────
 
+import { readFileSync } from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { findLaw } from '../ontology/laws.js';
 
 // ───── 상수 ─────
@@ -180,3 +183,67 @@ export function searchPenaltyItems(groups: readonly (readonly string[])[], limit
   // 가장 많이 맞은 수보다 둘 이상 적게 맞은 항목은 버린다(낱말 하나만 우연히 겹친 항목)
   return scored.filter((r) => r.matched.length >= Math.max(1, best - 1)).slice(0, limit);
 }
+
+// ───── 상황과 벌점 잇기 (ontology/penalty-links.json) ─────
+interface PenaltyLinks {
+  topics: Record<string, { label: string; paths: string[] }>;
+  workTypes: Record<string, string[]>;
+  tools: Record<string, string[]>;
+  documents: Record<string, string[]>;
+}
+const LINKS_PATH = path.join(path.dirname(fileURLToPath(import.meta.url)), '..', 'ontology', 'penalty-links.json');
+let linksCache: PenaltyLinks | null = null;
+
+/** 상황 → 벌점 항목 연결 자료 */
+export function loadPenaltyLinks(): PenaltyLinks {
+  if (linksCache) return linksCache;
+  const data = JSON.parse(readFileSync(LINKS_PATH, 'utf8')) as Partial<PenaltyLinks>;
+  linksCache = { topics: data.topics ?? {}, workTypes: data.workTypes ?? {}, tools: data.tools ?? {}, documents: data.documents ?? {} };
+  return linksCache;
+}
+
+export interface RelatedPenalty {
+  law: string;
+  ref: string;
+  points: number;
+  /** 누구에게 매기는 벌점인지 (별표 8 제5호의 목 이름) */
+  appliesTo: string;
+  /** 이 항목이 걸리는 상황 */
+  situation: string;
+  item: string;
+  text: string;
+}
+
+/**
+ * 도구·일·문서에 걸린 벌점 항목. 항목의 글과 점수는 수록 원문에서 읽는다.
+ * @param keys "tool:compile_inspection_references" · "work:concrete_placement" · "document:inspection_request" · "topic:inspection"
+ */
+export function relatedPenalties(keys: readonly string[]): RelatedPenalty[] {
+  const links = loadPenaltyLinks();
+  const topics = new Set<string>();
+  for (const key of keys) {
+    const [kind, raw] = key.split(':', 2) as [string, string];
+    const id = (raw ?? '').replace(/^work[.:]/u, '');
+    const found =
+      kind === 'tool' ? links.tools[id] : kind === 'work' ? links.workTypes[id] : kind === 'document' ? links.documents[id] : kind === 'topic' ? [id] : undefined;
+    for (const t of found ?? []) topics.add(t);
+  }
+  const items = new Map(loadPenaltyItems().map((i) => [i.path, i]));
+  const out: RelatedPenalty[] = [];
+  const seen = new Set<string>();
+  for (const t of topics) {
+    const topic = links.topics[t];
+    if (!topic) continue;
+    for (const p of topic.paths) {
+      const item = items.get(p);
+      if (!item || seen.has(p)) continue;
+      seen.add(p);
+      out.push({ law: DECREE_NAME, ref: `별표 8 ${item.path}`, points: item.points, appliesTo: item.part, situation: topic.label, item: item.itemTitle, text: item.text });
+    }
+  }
+  return out;
+}
+
+/** 벌점이 쌓이는 방식 — 반기벌점과 합산벌점(별표 8 제3호) */
+export const PENALTY_SCORING_NOTE =
+  '벌점은 업체와 건설기술인등에 각각 매긴다(별표 8 제5호). 반기에 받은 벌점 합계에서 경감점수를 뺀 것이 반기벌점이고, 합산벌점은 최근 2년간의 반기벌점 합계를 2로 나눈 값이다(별표 8 제3호). 합산벌점에 따라 입찰 참가자격 사전심사에서 감점된다(별표 8 제4호). 어느 항목을 매길지는 측정기관(발주청·인허가기관 등)이 정한다.';

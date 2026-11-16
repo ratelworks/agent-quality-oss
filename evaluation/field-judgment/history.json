@@ -492,5 +492,73 @@
         "wrongFail": 15
       }
     }
+  },
+  {
+    "set": "R (id x001~x120)",
+    "sentences": 120,
+    "date": "2026-11-17",
+    "note": "P·Q 에서 드러난 갈래와 잡수 변형 결함(층 표기)을 고친 뒤 처음 돌림. R·S 는 같은 빌드",
+    "direct": {
+      "correct": 115,
+      "wrongPass": 1,
+      "wrongFail": 0,
+      "askedThoughDecidable": 4,
+      "detail": "x078 시험기 교정 점검의 기준 용기 값을 측정값으로 읽음"
+    },
+    "published": {
+      "npm-0.4.0": {
+        "correct": 54,
+        "wrongPass": 24,
+        "wrongFail": 20
+      },
+      "main-5c5e467": {
+        "correct": 91,
+        "wrongPass": 6,
+        "wrongFail": 19
+      }
+    }
+  },
+  {
+    "set": "S (id y001~y120)",
+    "sentences": 120,
+    "date": "2026-11-17",
+    "note": "P·Q 에서 드러난 갈래와 잡수 변형 결함(층 표기)을 고친 뒤 처음 돌림. R·S 는 같은 빌드",
+    "direct": {
+      "correct": 116,
+      "wrongPass": 0,
+      "wrongFail": 1,
+      "askedThoughDecidable": 3,
+      "detail": "y069 '혹시 180 나오면' 가정을 측정값으로 읽음"
+    },
+    "published": {
+      "npm-0.4.0": {
+        "correct": 52,
+        "wrongPass": 27,
+        "wrongFail": 11
+      },
+      "main-5c5e467": {
+        "correct": 87,
+        "wrongPass": 14,
+        "wrongFail": 11
+      }
+    },
+    "assistant": {
+      "model": "가장 작은 모델",
+      "tool": "S 를 처음 돌린 것과 같은 빌드",
+      "byAnswerKey": {
+        "correct": 101,
+        "wrongPass": 17,
+        "wrongFail": 2,
+        "heldThoughDecidable": 0,
+        "noToolCall": 10
+      },
+      "substantive": {
+        "correct": 119,
+        "wrongPass": 0,
+        "wrongFail": 0,
+        "assumedValue": 1,
+        "note": "정답 표와 어긋난 19문장(y002 y003 y004 y017 y018 y019 y020 y028 y030 y038 y040 y050 y069 y076 y084 y106 y107 y110 y115)을 값마다 계산해 다시 본 결과(저장소 작업자가 계산). 18건은 맞음 — 값마다 따로 판정 12(y002 y017 y018 y028 y030 y038 y040 y050 y076 y106 y107 y110), cm 를 mm 로 환산 2(y004 y115), 건조밀도 비로 다짐도 계산 2(y003 y084), 규격 둘째 수를 호칭강도로 읽어 3회 판정 1(y020), 가정한 값을 묻는 질문에 그 값으로 답함 1(y069). 1건(y019)은 '기준보다 30mm 높게'를 측정값 180 으로 가정해 불합격 — 어느 해석으로도 불합격이나 가정에 기댄 답이라 맞은 것으로 세지 않음. 101 + 18 = 119."
+      }
+    }
   }
 ]

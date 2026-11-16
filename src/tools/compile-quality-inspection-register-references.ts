@@ -3,6 +3,7 @@
  * 시행규칙 §50① + 별지 제42호 + entry 템플릿(검사·시험 1건 단위) + 별지 제43호 산출 안내.
  */
 
+import { penaltyBlock } from './_compile-common.js';
 import { getSchema } from '../schemas/loader.js';
 import { buildResponse } from './_response.js';
 import { mergeBasis, schemaLegalBasisRefs } from "./_compile-common.js";
@@ -119,6 +120,7 @@ export function run(args: CompileQirArgs, graph: OntologyGraph) {
     {
       formSchema: schema,
       ...modeSpecific,
+      ...penaltyBlock(['tool:compile_quality_inspection_register_references']),
       retentionRule: {
         period: '대장의 법정 보존기간은 없다. 집계 결과인 성과 총괄표는 시설물 존속기간 보존(시행령 제93조제4항).',
         recording: cite({ law: '건설기술 진흥법 시행규칙', article: '50', quote: '별지 제42호서식의 품질검사 대장에 품질검사의 결과를 적되' }),
