@@ -11,7 +11,7 @@
 
 ## 1. 소스 빌드
 
-> npm 공개 후에는 이 단계 없이 `npx -y agent-quality-oss serve` 로 바로 쓸 수 있습니다. 현재는 소스 빌드 기준입니다.
+> npm 에 게시돼 있어 이 단계 없이 `npx -y agent-quality-oss serve` 로 바로 쓸 수 있습니다. 아래는 소스를 받아 빌드해 쓰는 경우입니다.
 
 ```bash
 git clone https://github.com/ratelworks/agent-quality-oss.git
@@ -45,7 +45,7 @@ pwd   # 절대 경로 확인 (아래 설정에 사용)
 }
 ```
 
-> npm 공개 후에는 `"command": "npx"`, `"args": ["-y", "agent-quality-oss", "serve"]` 로 교체하면 절대 경로가 필요 없습니다.
+> 소스를 받지 않고 쓰려면 `"command": "npx"`, `"args": ["-y", "agent-quality-oss", "serve"]` 로 적습니다 — 절대 경로가 필요 없습니다.
 
 ## 4. 재시작·확인
 

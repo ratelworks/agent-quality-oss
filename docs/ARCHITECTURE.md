@@ -48,7 +48,7 @@ callTool(name, input)                      # stdio·HTTP·명령줄·브라우�
 
 stdio 서버는 MCP 2026-07-28 규격과 그 이전 규격 클라이언트를 함께 받는다(`src/server/stdio.ts`). 도구는 주의 표시(annotations)를 달고 등록되며, 내장 자료만 읽는 도구는 읽기 전용으로 표시된다.
 
-측정 러너(`scripts/_dogfood-r02.ts`)도 동일하게 annotate 를 적용한다 — **측정 경로 = 서버 경로** (측정 정직성).
+시험도 도구 등록 모듈의 `callTool` 로 부르므로 같은 경로를 탄다 — **재는 경로 = 서버 경로**.
 
 ## 품질 게이트 체인 (3중 방어)
 
@@ -56,7 +56,7 @@ stdio 서버는 MCP 2026-07-28 규격과 그 이전 규격 클라이언트를 �
 |---|---|---|
 | L1 로컬 | `npm test` | 스위트 무결성(suite↔smoke 1:1·도구 수 SSoT) + 온톨로지 무결성(orphan/dangling/cycle 0) + smoke 회귀 94케이스 |
 | L2 CI | `.github/workflows/ci.yml` | audit(high) → oss-hygiene → typecheck → build → **npm test** → doc-code-sync → form-conformance → audit(그래프 건강성) → coverage → release:notes → pack dry-run + **CodeQL**(별도 워크플로우, 주간 재스캔) |
-| L3 배포 | `prepublishOnly` | oss-hygiene → release:notes → build → doc-code-sync → validate:ontology → form-conformance |
+| L3 배포 | `prepublishOnly` | oss-hygiene → typecheck → article-titles → release:notes → build → 전체 시험(`npm test`) → docs:check → doc-code-sync → form-conformance |
 
 - **doc-code-sync** — README·docs·examples 의 수치(도구 수·노드 수·smoke 수)가 코드 실측과 다르면 차단 (문서 드리프트 게이트).
 - **form-conformance** — 19종 문서 스키마의 legalBasis id 가 그래프에 실재하는지 검증 (환각 인용 차단).

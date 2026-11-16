@@ -14,24 +14,22 @@ freely, including commercially, as long as you preserve the copyright notice.
 
 ---
 
-## 2. Upstream Standards — Identifiers Only, No Full Text
+## 2. Upstream Laws and Standards — What Is Bundled
 
-This MCP server reasons over Korean construction **quality** standards. It
-bundles **only identifiers and structural metadata** (titles, clause numbers,
-section locators) — **never the full text** of the following third-party
-standards, whose copyright belongs to their respective issuers:
+This MCP server reasons over Korean construction **quality** standards.
 
-| Material | Copyright holder | What this repo ships |
+| Material | Issuer | What this repo ships |
 |---|---|---|
-| KCS / KDS (국가건설기준, 표준시방서·설계기준) | 국토교통부 / 국가건설기준센터 | **Identifiers & section metadata only** (title, clause number). Redistribution of clause text is prohibited. |
-| 건설공사 품질관리 업무지침 | 국토교통부 고시 (Ministry of Land notice) | Identifiers & scope only |
-| KS 표준 (KS F 2402, KS F 2405 등) | 한국표준협회(KSA) / 국가기술표준원 | **Identifiers & titles only.** Full text requires a KSA license. |
-| 건설기술 진흥법·시행령·시행규칙 등 법령 | 대한민국 (저작권법 §7 비보호) | Article identifiers & locators (freely citable) |
+| 건설기술 진흥법·시행령·시행규칙 | 대한민국 | **Full text** of articles, annexes and forms, with promulgation number and effective date. Source: 법제처 국가법령정보 공동활용 (open.law.go.kr). Not protected by copyright — 저작권법 제7조 제1호. |
+| 건설공사 품질관리 업무지침 · 건설공사 사업관리방식 검토기준 및 업무수행지침 | 국토교통부 고시 | **Full text** of articles, annexes and forms. Same source. Not protected by copyright — 저작권법 제7조 제2호. |
+| KCS / KDS (국가건설기준, 표준시방서·설계기준) | 국토교통부 / 국가건설기준센터 | Clause numbers and titles, plus **short quoted phrases** used to verify acceptance criteria against the current edition. The full clause text is **not** shipped. |
+| KS 표준 (KS F 2402, KS F 2405 등) | 한국표준협회(KSA) / 국가기술표준원 | **Numbers and titles only.** Full text requires a KSA license. |
 
-> **The OSS distribution contains no upstream clause text.** When a user needs
-> the **full clause text** of KCS/KDS/KS, it must be obtained separately from
-> the issuing body. The standards RAG (Phase 2+) operates **only on documents
-> the user supplies locally**.
+> The bundled law and notice text is the edition fetched at sync time. Check the
+> current edition before relying on it (`npm run check:law-editions`).
+> When a user needs the **full clause text** of KCS/KDS/KS, it must be obtained
+> separately from the issuing body. The standards RAG (roadmap) operates **only
+> on documents the user supplies locally**.
 
 The bundled seed data in `src/ontology/graph/nodes/**/*.jsonld` carries `license` /
 `redistributionNote` metadata (under `_meta`) reflecting these constraints.

@@ -5,7 +5,7 @@ import type { OntologyGraph } from '../ontology/graph.js';
 export const spec: ToolSpec = {
   name: 'list_core_quality_laws',
   description:
-    '한국 건설 품질관리에 관련된 핵심 법령(법률·시행령·시행규칙·행정규칙) 목록을 반환한다. 원문은 포함하지 않으며 조항 요약·식별자·링크만 제공. category(law/decree/rule/guideline)로 필터 가능. [근거 제공용 · 최종 판정은 품질관리자·감리원·발주자]',
+    '한국 건설 품질관리에 관련된 핵심 법령(법률·시행령·시행규칙·행정규칙) 목록을 반환한다. 이 목록에는 조항 요약·식별자·링크만 있다 — 조문 본문과 판본은 get_quality_law_article · get_quality_guideline_article 로 본다. category(law/decree/rule/guideline)로 필터 가능. [근거 제공용 · 최종 판정은 품질관리자·감리원·발주자]',
   inputSchema: {
     type: 'object',
     properties: {
@@ -42,7 +42,7 @@ export function run(args: ListLawsArgs, graph: OntologyGraph) {
       scope: (s.meta?.['scope'] as string | undefined) ?? null,
     })),
     sourceNote:
-      '원문은 국가법령정보센터(law.go.kr)에서 최신 개정본 확인 필수. 본 데이터는 식별자·조항 요약만 제공.',
+      '이 목록은 식별자·조항 요약이다. 조문 본문은 get_quality_law_article 로 보고, 적용 전에는 국가법령정보센터(law.go.kr)에서 현행 여부를 확인한다.',
   };
 
   return buildResponse(

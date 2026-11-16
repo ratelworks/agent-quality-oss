@@ -44,7 +44,7 @@
     "form-conformance": "tsx scripts/verify/form-conformance.ts",
     "release:notes": "tsx scripts/release/extract-release-notes.ts --check",
     "release:notes:preview": "tsx scripts/release/extract-release-notes.ts",
-    "prepublishOnly": "npm run check:oss-hygiene && npm run check:article-titles && npm run release:notes && npm run build && npm run check:doc-code-sync && npm run validate:ontology && npm run form-conformance",
+    "prepublishOnly": "npm run check:oss-hygiene && npm run typecheck && npm run check:article-titles && npm run release:notes && npm run build && npm test && npm run docs:check && npm run check:doc-code-sync && npm run form-conformance",
     "clean": "node -e \"import('node:fs').then(fs => fs.rmSync('build', { recursive: true, force: true }))\"",
     "mcp:test:eras": "tsx scripts/test/test-mcp-protocol-eras.ts",
     "mcp:test:input": "tsx scripts/test/test-input-schema.ts",
@@ -65,7 +65,9 @@
     "validate:shapes": "tsx scripts/verify/validate-shapes.ts",
     "export:rdf": "tsx scripts/ontology/export-rdf.ts",
     "test:ontology-standard": "tsx scripts/test/test-ontology-standard.ts",
-    "test:field-questions": "tsx scripts/test/test-field-search.ts && tsx scripts/test/test-field-questions.ts --min 93 && tsx scripts/test/test-field-questions.ts --holdout --min 90 && tsx scripts/test/test-field-questions.ts --set-c --min 70"
+    "test:field-questions": "tsx scripts/test/test-field-search.ts && tsx scripts/test/test-field-questions.ts --min 93 && tsx scripts/test/test-field-questions.ts --holdout --min 90 && tsx scripts/test/test-field-questions.ts --set-c --min 70",
+    "docs:sync": "tsx scripts/build/sync-docs.ts",
+    "docs:check": "tsx scripts/build/sync-docs.ts --check"
   },
   "keywords": [
     "mcp",

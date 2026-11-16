@@ -1,0 +1,42 @@
+name: Editions
+
+# 수록한 법령·기준의 판본이 현행과 같은지 매주 확인한다.
+#   - 법령·고시: 법제처 국가법령정보 공동활용 — 저장소 비밀값 LAW_OC(등록 ID)가 필요하다
+#   - KCS/KDS: 국가건설기준센터 공개 자료 · KS: 표준 번호와 표준명
+# 달라졌으면 실패해 알린다. 자료는 사람이 확인하고 `npm run sync:laws` 등으로 갱신한다.
+on:
+  schedule:
+    - cron: "0 0 * * 1" # 매주 월요일 09:00 KST
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  laws:
+    name: 법령·고시 판본
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v6
+        with:
+          node-version: "22.x"
+          cache: npm
+      - run: npm ci
+      - name: 수록 판본과 현행 판본 비교
+        env:
+          LAW_OC: ${{ secrets.LAW_OC }}
+        run: npm run check:law-editions
+
+  standards:
+    name: KCS·KS 판본
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v6
+        with:
+          node-version: "22.x"
+          cache: npm
+      - run: npm ci
+      - name: 인용 구절과 표준 번호를 현행판과 비교
+        run: npm run check:standards

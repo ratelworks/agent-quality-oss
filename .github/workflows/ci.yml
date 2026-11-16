@@ -8,7 +8,7 @@ on:
 
 jobs:
   build:
-    name: typecheck · build · smoke
+    name: typecheck · build · test
     runs-on: ubuntu-latest
 
     strategy:
@@ -40,8 +40,11 @@ jobs:
       - name: Build (tsc + ontology data copy)
         run: npm run build
 
-      - name: Test — 스위트 무결성(suite-coverage·roadmap-kpi·negative) + 온톨로지 무결성 + smoke 회귀
+      - name: Test — 스위트 무결성 · 온톨로지 무결성·표준 검증 · smoke 회귀 · 법령·판정·인용·문서·현장 질문 · 입력 검사·접근 경계
         run: npm test
+
+      - name: Docs — 안내문의 수치가 자료와 같은지
+        run: npm run docs:check
 
       - name: Article titles — 조문 노드 이름과 내장 원문 조문 대조
         run: npm run check:article-titles

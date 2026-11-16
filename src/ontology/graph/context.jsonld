@@ -250,7 +250,7 @@
   "dc:creator": "Ratelworks Inc.",
   "dc:contributor": "Hwangryong Construction Co., Ltd.",
   "dc:license": "https://opensource.org/licenses/MIT",
-  "owl:versionInfo": "0.3.0",
+  "owl:versionInfo": "0.4.3",
   "owl:imports": [
     "https://construction.ratelworks.org/ontology/v1/"
   ]

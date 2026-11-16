@@ -46,7 +46,7 @@
 | `search_quality_management_guideline` | 품질관리 업무지침(2026-360호) 조항 검색 (편 필터) |
 | `get_quality_guideline_article` | 지침 특정 조항 조회 |
 | `search_quality_test_standards` | 품질시험기준(업무지침 별표 2) 전 항목에서 자재·공종별 시험종목·시험방법·시험빈도 찾기 |
-| `search_construction_standards` | KCS/KDS 섹션 검색 (원문 미포함 — 라이선스) |
+| `search_construction_standards` | KCS/KDS 조항 위치 검색 (KCS/KDS 본문은 싣지 않음) |
 | `get_standard_form_locator` | 법정 별지 서식 locator + **공식 HWP/PDF 다운로드 링크** |
 
 ### ③ 문서 양식 스키마 (19) — `get_*_schema`
