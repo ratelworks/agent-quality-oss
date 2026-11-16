@@ -223,6 +223,15 @@ export function judgeStrength(
       neededInputs: needed,
     };
   }
+  if (series?.listUnclear && !ctx.specimenAverage) {
+    const count = series.values?.length ?? 0;
+    return {
+      ...base,
+      verdict: "UNDETERMINED",
+      reasoning: `값 ${count}개가 공시체 ${count}개의 값(1회 시험)인지 ${count}회의 시험값인지 문장에 없어 판정하지 않습니다 — 공시체 3개의 평균이 1회 시험값이고(표 3.5-3 주 1), 어느 쪽이냐에 따라 결과가 달라집니다. '공시체 ${count}개' 또는 '${count}회 시험값'이라고 함께 적어 주세요.`,
+      neededInputs: [`값 ${count}개가 공시체 ${count}개(1회 시험)인지 ${count}회 시험값인지`],
+    };
+  }
   const observed = readObservation(series, scalar, ctx);
   if (!observed) {
     return {

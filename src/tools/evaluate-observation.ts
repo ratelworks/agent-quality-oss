@@ -11,11 +11,17 @@
 import { evaluate } from '../judgment/evaluate.js';
 import type { Judgment } from '../judgment/evaluate.js';
 import { judgeBestCriterion } from '../judgment/select-criterion.js';
+import { describeTable, isToleranceTable } from '../judgment/target-tolerance.js';
 import { searchEntities } from '../ontology/resolver.js';
+import { spotNodes } from '../knowledge/field-search.js';
+import { expandFieldTerms } from '../knowledge/field-phrases.js';
 import { buildResponse, entityBasis } from './_response.js';
 import type { ToolSpec, BasisRef } from '../lib/types.js';
 import type { OntologyGraph } from '../ontology/graph.js';
 import type { BaseEntity } from '../ontology/schema.js';
+
+/** 콘크리트공사 표준시방서 노드 id 의 앞부분 */
+const CONCRETE_STANDARD_PREFIX = 'standard.kcs_14_20';
 
 export const spec: ToolSpec = {
   name: 'evaluate_observation',
@@ -24,12 +30,20 @@ export const spec: ToolSpec = {
   inputSchema: {
     type: 'object',
     properties: {
-      observation: { type: 'string', description: '관측값 문자열 (예: "슬럼프 210mm")' },
+      observation: {
+        type: 'string',
+        description:
+          '관측값 문장 (예: "슬럼프 210mm, 호칭 슬럼프 150mm" — 슬럼프는 납품서의 호칭 슬럼프를 함께 적는다). 한 시험의 여러 값은 한 문장에 함께 적는다 (예: "압축강도 공시체 3개 25.1, 26.4, 27.8 MPa, 호칭강도 27MPa"). 사용자가 말한 기준 강도의 이름을 그대로 적는다 — 설계기준강도라고 했으면 "설계기준강도 27MPa" 로 적고 호칭강도로 바꿔 적지 않는다(둘은 다른 값이다). 부위·조건(노상·한중 등)도 함께 적는다.',
+      },
       criterionId: {
         type: 'string',
         description: 'AcceptanceCriteria id (없으면 testId·관측값에서 자동 해석)',
       },
-      testId: { type: 'string', description: '시험 id (criterionId 미지정 시 사용)' },
+      testId: {
+        type: 'string',
+        description:
+          '시험 id (예: test.slump). 생략하면 문장에 적힌 시험 이름으로 찾는다. id 는 search_quality_ontology 로 확인한다 — 짐작해서 넣지 않는다.',
+      },
     },
     required: ['observation'],
   },
@@ -49,24 +63,50 @@ export function run(args: EvaluateArgs, graph: OntologyGraph) {
   let criterion: BaseEntity | null | undefined = null;
   let j: Judgment;
   let selectionNote: string | null = null;
-  if (criterionId) {
+  /** 판정에 쓴 시험 — 어떻게 정했는지와 함께 답에 밝힌다 */
+  let resolvedTest: { id: string; name: string; by: 'testId' | 'observation' } | null = null;
+  /** 받은 id 가 온톨로지에 없을 때의 안내 */
+  const idNotes: string[] = [];
+  if (criterionId && graph.get(criterionId)?.type !== 'AcceptanceCriteria') {
+    idNotes.push(`criterionId '${criterionId}' 는 온톨로지에 없는 판정기준 id 입니다`);
+  }
+  if (criterionId && idNotes.length === 0) {
     criterion = graph.get(criterionId);
     j = evaluate(observation, criterion ?? null);
   } else {
-    const resolvedTestId = testId ?? searchEntities(graph, observation, 'TestItem', 1)[0]?.id;
-    const cids = (resolvedTestId ? graph.get(resolvedTestId)?.relations?.['hasAcceptanceCriteria'] : undefined) ?? [];
+    const given = testId ? graph.get(testId) : undefined;
+    if (testId && given?.type !== 'TestItem') {
+      idNotes.push(`testId '${testId}' 는 온톨로지에 없는 시험 id 입니다`);
+    }
+    if (given?.type === 'TestItem') {
+      resolvedTest = { id: given.id, name: given.name, by: 'testId' };
+    } else {
+      const found = searchEntities(graph, observation, 'TestItem', 1)[0]?.id ?? spotTest(graph, observation);
+      const entity = found ? graph.get(found) : undefined;
+      if (entity) resolvedTest = { id: entity.id, name: entity.name, by: 'observation' };
+    }
+    const cids = (resolvedTest ? graph.get(resolvedTest.id)?.relations?.['hasAcceptanceCriteria'] : undefined) ?? [];
     const selected = judgeBestCriterion(graph, cids, observation);
     criterion = selected.criterion;
     j = selected.judgment;
     selectionNote = selected.selectionNote;
+    if (!criterion) {
+      // 기준을 찾지 못한 까닭을 구분해 알린다 — 시험을 못 알아본 것과 그 시험의 기준이 없는 것은 다르다
+      const why = resolvedTest
+        ? `'${resolvedTest.name}'(${resolvedTest.id}) 의 판정기준이 온톨로지에 없습니다 — 시험방법·시험빈도는 search_quality_test_standards 로, 합격 기준은 공사시방서와 해당 표준시방서로 확인하세요.`
+        : '문장에서 어떤 시험인지 알아보지 못했습니다 — 시험 이름을 문장에 적거나, search_quality_ontology 로 찾은 testId·criterionId 를 지정하세요.';
+      j = { ...j, reasoning: [...idNotes, why].join(' / ') };
+    } else if (idNotes.length > 0 && resolvedTest) {
+      idNotes.push(`문장에 적힌 이름으로 '${resolvedTest.name}'(${resolvedTest.id}) 시험을 골라 판정했습니다`);
+    }
   }
 
-  const criterionExpr = criterion ? formatCriterion(criterion) : null;
+  const criterionExpr = criterion ? formatCriterion(criterion, j.appliedCriterion) : null;
   const baseContext = inferExpertContext(j.verdict, j.direction, criterion ?? null);
   // 입력 자연어 단서와 testId 의미가 어긋나면(예: "외기온도 33℃" + testId=test.concrete_temperature)
   // 베테랑이 옆에서 환기시킬 만한 한 줄을 prepend.
   const semanticHint = detectSemanticMismatch(observation, criterion ?? null);
-  const hints = [semanticHint, selectionNote].filter((h): h is string => !!h);
+  const hints = [...(criterion ? idNotes : []), semanticHint, selectionNote].filter((h): h is string => !!h);
   const expertContext =
     hints.length > 0 ? `[주의] ${hints.join(' / ')}${baseContext ? ' / ' + baseContext : ''}` : baseContext;
 
@@ -86,7 +126,14 @@ export function run(args: EvaluateArgs, graph: OntologyGraph) {
     }
   }
 
-  const suggestedNextSteps = buildNextSteps(j.verdict, candidateNcrs, criterion ?? null, j.neededInputs ?? []);
+  const suggestedNextSteps = buildNextSteps(
+    j.verdict,
+    candidateNcrs,
+    criterion ?? null,
+    j.neededInputs ?? [],
+    // 콘크리트공사 표준시방서(KCS 14 20)에 근거한 기준인가
+    (criterion?.relations?.['derivedFrom'] ?? []).some((id) => id.startsWith(CONCRETE_STANDARD_PREFIX)),
+  );
 
   const legalBasis: string[] = [];
   if (criterion) {
@@ -120,6 +167,8 @@ export function run(args: EvaluateArgs, graph: OntologyGraph) {
 
   const expertAssessment = {
     observation,
+    /** 판정에 쓴 시험 — by: 'testId'(받은 id) | 'observation'(문장에 적힌 이름으로 찾음) */
+    resolvedTest,
     applicableCriterion: criterionExpr,
     criterionId: j.criterionId,
     observedValue: j.observedValue,
@@ -152,7 +201,7 @@ export function run(args: EvaluateArgs, graph: OntologyGraph) {
 
   const basisIds: string[] = [];
   if (criterion) basisIds.push(criterion.id);
-  if (testId) basisIds.push(testId);
+  if (resolvedTest) basisIds.push(resolvedTest.id);
   for (const id of legalBasis) basisIds.push(id);
   for (const c of candidateNcrs) basisIds.push(c.id);
 
@@ -182,11 +231,10 @@ export function run(args: EvaluateArgs, graph: OntologyGraph) {
   );
 }
 
-function formatCriterion(c: {
-  id: string;
-  name: string;
-  meta?: Record<string, unknown>;
-}): string {
+function formatCriterion(
+  c: { id: string; name: string; meta?: Record<string, unknown> },
+  applied?: { target?: number; plusMinus?: number } | null,
+): string {
   const m = c.meta ?? {};
   const op = m['operator'] as string | undefined;
   const unit = (m['unit'] as string | undefined) ?? '';
@@ -200,6 +248,17 @@ function formatCriterion(c: {
     case 'tolerance':
       expr = `${m['target']} ± ${m['plusMinus']} ${unit}`;
       break;
+    case 'tolerance_by_target': {
+      // 지정값을 읽었으면 그 값의 허용범위를, 아니면 허용오차 표를 보여 준다
+      const table = m['toleranceTable'];
+      const label = (m['targetLabel'] as string | undefined) ?? '지정값';
+      if (applied?.target !== undefined && applied.plusMinus !== undefined) {
+        expr = `${label} ${applied.target} ± ${applied.plusMinus} ${unit}`;
+      } else if (isToleranceTable(table)) {
+        expr = `${label} ± 허용오차 (${describeTable(table, unit)})`;
+      }
+      break;
+    }
     case 'between':
       expr = `[${m['min']} ~ ${m['max']}] ${unit}`;
       break;
@@ -257,7 +316,7 @@ function inferExpertContext(
     return '베테랑 시각: 경계 근접 — 다음 반입차·동일 위치 후속 시험에서 흐름 추적 권고.';
   }
   const id = criterion.id;
-  if (id === 'criteria.slump_general_150') {
+  if (id === 'criteria.slump_tolerance') {
     return direction === 'too_high'
       ? '베테랑 시각: 운반 지연·가수·혼화제 과다 의심. 납품서·배합설계 재확인 우선.'
       : '베테랑 시각: 외기 고온·배합수 부족·운반 시간 초과 의심. 펌프 압송 영향 확인.';
@@ -280,11 +339,26 @@ function inferExpertContext(
   return '베테랑 시각: 부적합 추정 — 후속 NCR 재료 수집 후 감리 협의.';
 }
 
+/** 문장에 이름·별칭이 그대로 적힌 시험 — 이름이 긴 것, 판정기준이 있는 것부터 */
+function spotTest(graph: OntologyGraph, observation: string): string | undefined {
+  const hasCriteria = (id: string): number => ((graph.get(id)?.relations?.['hasAcceptanceCriteria'] ?? []).length > 0 ? 1 : 0);
+  const tests = spotNodes(graph, expandFieldTerms(observation))
+    .filter((h) => h.entity.type === 'TestItem')
+    .sort(
+      (a, b) =>
+        b.score - a.score ||
+        hasCriteria(b.entity.id) - hasCriteria(a.entity.id) ||
+        (a.entity.id < b.entity.id ? -1 : 1),
+    );
+  return tests[0]?.entity.id;
+}
+
 function buildNextSteps(
   verdict: string,
   candidateNcrs: Array<{ id: string }>,
   criterion: { id: string } | null,
   neededInputs: string[],
+  isConcreteTest: boolean,
 ): string[] {
   const steps: string[] = [];
   if (verdict === 'FAIL' && candidateNcrs.length > 0) {
@@ -299,7 +373,14 @@ function buildNextSteps(
     } else if (criterion) {
       steps.push('단위·기준값 주입 또는 수동 판정 검토');
     }
-    steps.push('compile_concrete_pour_references 호출로 도메인 재료 종합 수집');
+    if (!criterion) {
+      steps.push('search_quality_ontology 또는 discover_relevant_domain 으로 시험·판정기준을 찾아 testId·criterionId 를 지정해 다시 판정');
+      steps.push('search_quality_test_standards 로 시험방법·시험빈도 확인');
+    } else if (isConcreteTest) {
+      steps.push('compile_concrete_pour_references 호출로 도메인 재료 종합 수집');
+    } else {
+      steps.push('discover_relevant_domain 으로 관련 공종·검측·부적합 확인');
+    }
   } else if (verdict === 'PASS') {
     steps.push('해당 시험 통과 — 다음 검측·시험 항목으로 이동');
   }

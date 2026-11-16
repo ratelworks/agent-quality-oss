@@ -1,6 +1,6 @@
 /**
  * 현장 관측값 문자열 파서.
- * "슬럼프 210mm", "기준 150±25mm", "염화물 ≤ 0.30 kg/㎥" 등.
+ * "슬럼프 210mm", "기준 150±25mm", "염화물 ≤ 0.30 kg/㎥" 등. 날짜·시각·레미콘 규격(25-24-150)은 측정값으로 읽지 않는다.
  *
  * 여러 번의 시험값과, 판정에 필요한 조건(강도의 종류·공시체의 종류·시공 조건)도 함께 읽는다.
  *   "연속 3회 평균 25 최저 21" → series { mean, min, n }
@@ -23,6 +23,8 @@ export interface ObservationToken {
   n?: number;
   mean?: number;
   values?: number[];
+  /** 쉼표로 이어 적은 값들이 공시체 여러 개(1회 시험)인지 여러 회의 시험값인지 문장에 없을 때 */
+  listUnclear?: boolean;
 }
 
 /**
@@ -84,6 +86,31 @@ const SCALAR_WITH_UNIT_RE = new RegExp(
   'iu',
 );
 const SCALAR_GLOBAL_RE = new RegExp(SCALAR_WITH_UNIT_RE.source, 'giu');
+/** 쉼표로 이어 적은 값 둘 이상 — "190, 150 mm" · "190mm, 150mm" */
+const VALUE_LIST_RE = new RegExp(
+  `-?\\d+(?:\\.\\d+)?\\s*(?:${UNIT_INLINE})?(?:\\s*[,，、]\\s*-?\\d+(?:\\.\\d+)?\\s*(?:${UNIT_INLINE})?)+`,
+  'iu',
+);
+const UNIT_GLOBAL_RE = new RegExp(UNIT_INLINE, 'giu');
+/** 날짜·시각 — 측정값으로 읽지 않는다 */
+export const DATE_TIME_RE =
+  /\d{4}\s*[-./년]\s*\d{1,2}\s*[-./월]\s*\d{1,2}\s*일?|\d{1,2}\s*월\s*\d{1,2}\s*일|\d{1,2}\s*:\s*\d{2}(?::\d{2})?|\d{1,2}\s*시\s*(?:\d{1,2}\s*분)?/gu;
+/** 레디믹스트 콘크리트 규격 "굵은골재 최대치수-호칭강도-슬럼프" (예: 25-24-150) */
+export const MIX_CODE_RE = /(\d{2})\s*-\s*(\d{2,3})\s*-\s*(\d{2,3})(?!\s*-?\d)/u;
+
+/**
+ * 한 문장에 같은 단위의 값을 쉼표로 여럿 적었는지 본다.
+ * 단위가 하나도 없거나 단위가 섞여 있으면 값 목록으로 보지 않는다(날짜·시각·서로 다른 항목일 수 있다).
+ */
+export function parseValueList(text: string): { values: number[]; unit: string } | null {
+  const m = text.match(VALUE_LIST_RE);
+  if (!m) return null;
+  const units = new Set((m[0].match(UNIT_GLOBAL_RE) ?? []).map((u) => normalizeUnit(u)));
+  const unit = [...units][0];
+  if (units.size !== 1 || !unit) return null;
+  const values = (m[0].replace(UNIT_GLOBAL_RE, ' ').match(/-?\d+(?:\.\d+)?/gu) ?? []).map(Number);
+  return values.length >= 2 ? { values, unit } : null;
+}
 
 const OP_MAP: Readonly<Record<string, string>> = {
   '≤': 'le',
@@ -159,6 +186,12 @@ export function parseContext(text: string): ObservationContext {
   return ctx;
 }
 
+/** 기준 강도를 적은 부분 — 시험값 목록에서 뺀다 */
+const STRENGTH_LABEL_RE =
+  /(?:호칭강도|설계기준\s*압축?강도|품질기준강도|내구성기준\s*압축?강도|배합강도|f\s*c[knqr])\s*[:=은는이가]?\s*-?\d+(?:\.\d+)?\s*(?:MPa)?/giu;
+/** 쉼표로 이어 적은 값 둘 이상 (값마다 또는 끝에 MPa) */
+const STRENGTH_LIST_RE = /-?\d+(?:\.\d+)?\s*(?:MPa)?(?:\s*[,，、]\s*-?\d+(?:\.\d+)?\s*(?:MPa)?)+/iu;
+
 /**
  * R1: 시리즈 (n회 평균/최저/최고/values) 인식.
  * "연속 3회 평균 25 최저 21" / "3회 시험값 23 24 22" / "코어 4개 평균 22 최저 17"
@@ -176,8 +209,13 @@ function detectSeries(text: string): ObservationToken | null {
   const nM = text.match(nRe);
   const valuesM = text.match(valuesRe);
 
+  // 쉼표로 이어 적은 강도 값 — "25.1, 26.4, 27.8 MPa" · "25.1MPa, 26.4MPa, 27.8MPa"
+  // 기준 강도(호칭강도 27MPa 등)는 시험값이 아니므로 먼저 걷어 낸다. MPa 가 붙은 목록만 받는다.
+  const listM = meanM || minM || maxM || valuesM ? null : text.replace(STRENGTH_LABEL_RE, ' ').match(STRENGTH_LIST_RE);
+  const listValues = listM && /mpa/iu.test(listM[0]) ? (listM[0].match(/-?\d+(?:\.\d+)?/gu) ?? []).map(Number) : null;
+
   // series로 분류할 신호: 평균·최저·최고 중 하나라도 있거나 명시 values 배열이 있을 때.
-  if (!meanM && !minM && !maxM && !valuesM) return null;
+  if (!meanM && !minM && !maxM && !valuesM && !listValues) return null;
 
   const token: ObservationToken = {
     kind: 'series',
@@ -188,6 +226,16 @@ function detectSeries(text: string): ObservationToken | null {
   if (minM) token.min = Number(minM[1]);
   if (maxM) token.max = Number(maxM[1]);
   if (nM) token.n = Number(nM[1]);
+  if (listValues) {
+    token.unit = 'MPa';
+    token.values = listValues;
+    token.mean = listValues.reduce((a, b) => a + b, 0) / listValues.length;
+    token.min = Math.min(...listValues);
+    token.max = Math.max(...listValues);
+    // "3회"·"공시체 3개" 같은 말이 없으면 값들이 무엇인지 알 수 없다 — 판정 단계가 되묻는다
+    if (token.n === undefined || !/\d+\s*(?:회|개|차)/u.test(text)) token.listUnclear = true;
+    token.n = listValues.length;
+  }
   if (valuesM && valuesM[1]) {
     const vals = valuesM[1].trim().split(/\s+/).map((s) => Number(s));
     token.values = vals;
@@ -199,11 +247,43 @@ function detectSeries(text: string): ObservationToken | null {
   return token;
 }
 
+/**
+ * 글에서 측정값 하나를 고른다.
+ * 자연어에는 여러 숫자가 나온다("28일 압축강도 26MPa"). 기준 강도·기온처럼 조건으로 읽은 수는 빼고,
+ * 단위가 붙은 수를 먼저 고른다.
+ * @param unitOnly 단위가 붙은 수만 받는다 (기준 표현 옆의 측정값을 찾을 때)
+ */
+function pickScalar(clean: string, original: string, context: ObservationContext, unitOnly: boolean): ObservationToken | null {
+  const exclude = new Set<number>();
+  if (context.fcn !== undefined) exclude.add(context.fcn);
+  if (context.fcq !== undefined) exclude.add(context.fcq);
+  if (context.fck !== undefined) exclude.add(context.fck);
+  if (context.durabilityFc !== undefined) exclude.add(context.durabilityFc);
+  if (context.tempCorrection !== undefined) exclude.add(context.tempCorrection);
+  if (context.ambientTemperature !== undefined) exclude.add(context.ambientTemperature);
+
+  const all = Array.from(clean.matchAll(SCALAR_GLOBAL_RE));
+  const candidates = all.filter((m) => !exclude.has(Number(m[1])));
+  // 조건으로 읽은 수가 아닌 것 가운데 단위가 붙은 것 → 아무 수 → (조건 수까지 포함해) 단위가 붙은 것 → 아무 수
+  const chosen = unitOnly
+    ? candidates.find((m) => m[2])
+    : (candidates.find((m) => m[2]) ?? candidates[0] ?? all.find((m) => m[2]) ?? all[0]);
+  if (!chosen) return null;
+  return { kind: 'scalar', value: Number(chosen[1]), unit: normalizeUnit(chosen[2]), original };
+}
+
 export function parseObservation(text: string): { tokens: ObservationToken[]; context: ObservationContext } {
   if (typeof text !== 'string' || !text.trim()) return { tokens: [], context: {} };
-  const norm = text.trim();
+  // 날짜·시각·레미콘 규격(25-24-150)은 측정값이 아니다 — 범위(a-b)나 수치로 잘못 읽지 않게 걷어 낸다
+  const norm = text.trim().replace(DATE_TIME_RE, ' ').replace(MIX_CODE_RE, ' ');
   const tokens: ObservationToken[] = [];
   const context = parseContext(text);
+  /** 기준 표현(150±25 · 125~175)을 걷어 낸 나머지에 측정값이 있으면 함께 싣는다 */
+  const withMeasured = (matched: string): { tokens: ObservationToken[]; context: ObservationContext } => {
+    const measured = pickScalar(norm.replace(matched, ' '), text, context, true);
+    if (measured) tokens.push(measured);
+    return { tokens, context };
+  };
 
   // R1: series 우선 검사 (평균·최저 등 키워드 존재 시)
   const series = detectSeries(norm);
@@ -225,7 +305,7 @@ export function parseObservation(text: string): { tokens: ObservationToken[]; co
       unit: normalizeUnit(tol[3]),
       original: text,
     });
-    return { tokens, context };
+    return withMeasured(tol[0]);
   }
 
   const rng = norm.match(RANGE_RE);
@@ -239,7 +319,7 @@ export function parseObservation(text: string): { tokens: ObservationToken[]; co
       unit: normalizeUnit(rng[3]),
       original: text,
     });
-    return { tokens, context };
+    return withMeasured(rng[0]);
   }
 
   const cmp = norm.match(COMPARE_RE);
@@ -255,46 +335,10 @@ export function parseObservation(text: string): { tokens: ObservationToken[]; co
     return { tokens, context };
   }
 
-  // 자연어에 여러 숫자가 등장할 수 있다 ("28일 압축강도 26MPa").
-  // R1: fcn/fck/외기온도 컨텍스트 수치는 parseContext가 별도 추출했으므로
-  // 여기서는 그 수치들을 scalar 후보에서 제외 → 진짜 관측값만 매칭.
-  const exclude = new Set<number>();
-  if (context.fcn !== undefined) exclude.add(context.fcn);
-  if (context.fcq !== undefined) exclude.add(context.fcq);
-  if (context.fck !== undefined) exclude.add(context.fck);
-  if (context.durabilityFc !== undefined) exclude.add(context.durabilityFc);
-  if (context.tempCorrection !== undefined) exclude.add(context.tempCorrection);
-  if (context.ambientTemperature !== undefined) exclude.add(context.ambientTemperature);
-
-  const all = Array.from(norm.matchAll(SCALAR_GLOBAL_RE));
-  // 단위가 명시된 수-단위 페어 + 컨텍스트 수치 아닌 것을 우선
-  const candidates = all.filter((m) => !exclude.has(Number(m[1])));
-  if (candidates.length > 0) {
-    const withUnit = candidates.find((m) => m[2]);
-    const chosen = withUnit ?? candidates[0];
-    if (chosen) {
-      tokens.push({
-        kind: 'scalar',
-        value: Number(chosen[1]),
-        unit: normalizeUnit(chosen[2]),
-        original: text,
-      });
-      return { tokens, context };
-    }
-  }
-  // fallback — exclude 무시
-  if (all.length > 0) {
-    const withUnit = all.find((m) => m[2]);
-    const chosen = withUnit ?? all[0];
-    if (chosen) {
-      tokens.push({
-        kind: 'scalar',
-        value: Number(chosen[1]),
-        unit: normalizeUnit(chosen[2]),
-        original: text,
-      });
-      return { tokens, context };
-    }
+  const scalar = pickScalar(norm, text, context, false);
+  if (scalar) {
+    tokens.push(scalar);
+    return { tokens, context };
   }
 
   tokens.push({ kind: 'qualitative', unit: null, original: text });

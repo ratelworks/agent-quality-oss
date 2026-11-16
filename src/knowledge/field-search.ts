@@ -124,7 +124,7 @@ function nodeIndex(graph: OntologyGraph): SentenceIndex {
 }
 
 /** 문장에 이름·별칭이 그대로 들어 있는 노드 — 긴 이름일수록 점수가 높다 */
-function spotNodes(graph: OntologyGraph, sentence: string): NodeHit[] {
+export function spotNodes(graph: OntologyGraph, sentence: string): NodeHit[] {
   const flat = squash(sentence);
   const best = new Map<string, number>();
   for (const [key, ids] of graph.aliasIndex) {

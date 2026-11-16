@@ -6,23 +6,28 @@
     "expect": "PASS marginal (KCS 14 20 10 §1.7.3 표 1.7-2 허용오차 ±25)",
     "tool": "evaluate_observation",
     "args": {
-      "observation": "슬럼프 175mm",
+      "observation": "슬럼프 175mm, 호칭 슬럼프 150mm",
       "testId": "test.slump"
     },
     "expectedVerdict": "PASS",
     "expectedBasisIds": [
-      "criteria.slump_general_150"
+      "criteria.slump_tolerance"
     ],
     "ms": 4,
     "response": {
       "result": {
         "expertAssessment": {
-          "observation": "슬럼프 175mm",
-          "applicableCriterion": "150 ± 25 mm (KCS 14 20 10 §1.7.3 표 1.7-2 (허용오차) + §2.2.7 표 2.2-5 (표준값))",
-          "criterionId": "criteria.slump_general_150",
+          "observation": "슬럼프 175mm, 호칭 슬럼프 150mm",
+          "resolvedTest": {
+            "id": "test.slump",
+            "name": "슬럼프 시험",
+            "by": "testId"
+          },
+          "applicableCriterion": "호칭 슬럼프 150 ± 25 mm (KCS 14 20 10 1.7.3 표 1.7-2 (슬럼프의 허용오차))",
+          "criterionId": "criteria.slump_tolerance",
           "observedValue": 175,
           "observedUnit": "mm",
-          "comparison": "175mm 허용치 경계 ±2.5mm 이내",
+          "comparison": "호칭 슬럼프 150mm → 허용오차 ±25mm → 허용범위 125~175mm. 측정 175mm — 범위 안이지만 경계에서 2.5mm 이내",
           "legalVerdict": "PASS",
           "qualitySignal": "marginal",
           "verdict": "PASS",
@@ -47,7 +52,7 @@
       "basis": [
         {
           "type": "ontology",
-          "id": "criteria.slump_general_150",
+          "id": "criteria.slump_tolerance",
           "priority": 1,
           "sourceStatus": "verified"
         },
@@ -73,7 +78,8 @@
           "type": "ontology",
           "id": "standard.ks_f_2402",
           "priority": 1,
-          "sourceStatus": "unknown"
+          "sourceStatus": "unknown",
+          "note": "KS F 2402 콘크리트의 슬럼프 시험 방법 — 표준 번호와 표준명을 국가기술표준원 표준 목록과 대조함 (확인일 2022-12-23). 본문은 수록하지 않음"
         }
       ],
       "humanCheckpoint": {
@@ -99,11 +105,11 @@
       },
       "lineage": {
         "toolName": "evaluate_observation",
-        "toolCallId": "a7ba2afd-0038-4019-a078-23989e22e50e",
-        "ontologyVersion": "0.4.3",
-        "generatedAt": "2026-11-16T05:10:07.956Z",
+        "toolCallId": "8c34f670-c2c6-446b-a660-7a69597c588a",
+        "ontologyVersion": "1.0.0",
+        "generatedAt": "2026-11-16T06:50:11.323Z",
         "contentHashAlgo": "sha256",
-        "contentHash": "bdbad3d820cc1dc7ae811872a0ed7063df256789f2bfee24e0bfbb0c50f8f1d5"
+        "contentHash": "2e695aad52337525c6789e41a676f4b908821c1f0c9dfbe923d69c054f593516"
       }
     }
   },
@@ -124,6 +130,11 @@
       "result": {
         "expertAssessment": {
           "observation": "7일 압축강도 18MPa, 호칭 24MPa",
+          "resolvedTest": {
+            "id": "test.compressive_strength",
+            "name": "압축강도 시험",
+            "by": "testId"
+          },
           "applicableCriterion": "압축강도 품질 검사 — 레디믹스트 콘크리트, 호칭강도 35 MPa 이하 (KCS 14 20 10 표 3.5-3) (KCS 14 20 10 3.5.3.2 표 3.5-3)",
           "criterionId": "criteria.compressive_strength_statistical_le35",
           "observedValue": 18,
@@ -193,7 +204,8 @@
           "type": "ontology",
           "id": "standard.ks_f_2405",
           "priority": 1,
-          "sourceStatus": "unknown"
+          "sourceStatus": "unknown",
+          "note": "KS F 2405 콘크리트의 압축 강도 시험방법 — 표준 번호와 표준명을 국가기술표준원 표준 목록과 대조함 (확인일 2022-12-23). 본문은 수록하지 않음"
         },
         {
           "type": "ontology",
@@ -231,11 +243,11 @@
       },
       "lineage": {
         "toolName": "evaluate_observation",
-        "toolCallId": "85508d25-4dcb-4f3d-82d8-0944d7e47684",
-        "ontologyVersion": "0.4.3",
-        "generatedAt": "2026-11-16T05:10:07.958Z",
+        "toolCallId": "8526d9dc-c476-49ad-8003-3127b5f45e6f",
+        "ontologyVersion": "1.0.0",
+        "generatedAt": "2026-11-16T06:50:11.326Z",
         "contentHashAlgo": "sha256",
-        "contentHash": "e0a51e86aa4eab4f1374d9ff02145f953aa87fcfe6443b0f3dcf9c510a636bcd"
+        "contentHash": "1e2050584eb5783df28ef79323fe1d796d3a13586afd4c156d1f8d32089f0203"
       }
     }
   },
@@ -259,6 +271,11 @@
       "result": {
         "expertAssessment": {
           "observation": "압축강도 1회 시험값 21MPa, 호칭강도 24MPa",
+          "resolvedTest": {
+            "id": "test.compressive_strength",
+            "name": "압축강도 시험",
+            "by": "testId"
+          },
           "applicableCriterion": "압축강도 품질 검사 — 레디믹스트 콘크리트, 호칭강도 35 MPa 이하 (KCS 14 20 10 표 3.5-3) (KCS 14 20 10 3.5.3.2 표 3.5-3)",
           "criterionId": "criteria.compressive_strength_statistical_le35",
           "observedValue": 21,
@@ -316,7 +333,8 @@
           "type": "ontology",
           "id": "standard.ks_f_2405",
           "priority": 1,
-          "sourceStatus": "unknown"
+          "sourceStatus": "unknown",
+          "note": "KS F 2405 콘크리트의 압축 강도 시험방법 — 표준 번호와 표준명을 국가기술표준원 표준 목록과 대조함 (확인일 2022-12-23). 본문은 수록하지 않음"
         }
       ],
       "humanCheckpoint": {
@@ -342,11 +360,11 @@
       },
       "lineage": {
         "toolName": "evaluate_observation",
-        "toolCallId": "23526642-153b-4f0e-964f-48d551f06d9e",
-        "ontologyVersion": "0.4.3",
-        "generatedAt": "2026-11-16T05:10:07.958Z",
+        "toolCallId": "8c66bbe3-bbdb-4ca0-bffe-84508c8909fd",
+        "ontologyVersion": "1.0.0",
+        "generatedAt": "2026-11-16T06:50:11.326Z",
         "contentHashAlgo": "sha256",
-        "contentHash": "b3ab63380d892f10e02bf125e25c1e008e36c24bd8b760de0f784b0c16d1ea10"
+        "contentHash": "1ca1d5f5a5ac9f13c1f428a2761f5fdc05036ec8ddebbb5fe68f97423dfd87a0"
       }
     }
   },
@@ -370,6 +388,11 @@
       "result": {
         "expertAssessment": {
           "observation": "연속 3회 평균 26MPa 최저 22MPa, 호칭강도 24MPa",
+          "resolvedTest": {
+            "id": "test.compressive_strength",
+            "name": "압축강도 시험",
+            "by": "testId"
+          },
           "applicableCriterion": "압축강도 품질 검사 — 레디믹스트 콘크리트, 호칭강도 35 MPa 이하 (KCS 14 20 10 표 3.5-3) (KCS 14 20 10 3.5.3.2 표 3.5-3)",
           "criterionId": "criteria.compressive_strength_statistical_le35",
           "observedValue": 26,
@@ -424,7 +447,8 @@
           "type": "ontology",
           "id": "standard.ks_f_2405",
           "priority": 1,
-          "sourceStatus": "unknown"
+          "sourceStatus": "unknown",
+          "note": "KS F 2405 콘크리트의 압축 강도 시험방법 — 표준 번호와 표준명을 국가기술표준원 표준 목록과 대조함 (확인일 2022-12-23). 본문은 수록하지 않음"
         }
       ],
       "humanCheckpoint": {
@@ -450,11 +474,11 @@
       },
       "lineage": {
         "toolName": "evaluate_observation",
-        "toolCallId": "a015b70b-73f4-419a-bb7c-64669144a838",
-        "ontologyVersion": "0.4.3",
-        "generatedAt": "2026-11-16T05:10:07.958Z",
+        "toolCallId": "f324576f-a11c-45d8-8a68-1a2af396a41e",
+        "ontologyVersion": "1.0.0",
+        "generatedAt": "2026-11-16T06:50:11.326Z",
         "contentHashAlgo": "sha256",
-        "contentHash": "162ef92a50c7014069782513e552e1a69a2776d6cc904fefeef5f953985136a5"
+        "contentHash": "c33ce0685bd09a2865621bb1d1673cadaaf54c59737fc949768241423a2b7925"
       }
     }
   },
@@ -478,6 +502,11 @@
       "result": {
         "expertAssessment": {
           "observation": "3회 시험값 23 25 19 평균 22.3 최저 19, 호칭강도 24MPa",
+          "resolvedTest": {
+            "id": "test.compressive_strength",
+            "name": "압축강도 시험",
+            "by": "testId"
+          },
           "applicableCriterion": "압축강도 품질 검사 — 레디믹스트 콘크리트, 호칭강도 35 MPa 이하 (KCS 14 20 10 표 3.5-3) (KCS 14 20 10 3.5.3.2 표 3.5-3)",
           "criterionId": "criteria.compressive_strength_statistical_le35",
           "observedValue": 22.333333333333332,
@@ -545,7 +574,8 @@
           "type": "ontology",
           "id": "standard.ks_f_2405",
           "priority": 1,
-          "sourceStatus": "unknown"
+          "sourceStatus": "unknown",
+          "note": "KS F 2405 콘크리트의 압축 강도 시험방법 — 표준 번호와 표준명을 국가기술표준원 표준 목록과 대조함 (확인일 2022-12-23). 본문은 수록하지 않음"
         },
         {
           "type": "ontology",
@@ -583,11 +613,11 @@
       },
       "lineage": {
         "toolName": "evaluate_observation",
-        "toolCallId": "e644f531-0c47-412e-984c-05a2a957a210",
-        "ontologyVersion": "0.4.3",
-        "generatedAt": "2026-11-16T05:10:07.959Z",
+        "toolCallId": "45dab846-6800-4ce7-9bb6-3b82b92c573b",
+        "ontologyVersion": "1.0.0",
+        "generatedAt": "2026-11-16T06:50:11.326Z",
         "contentHashAlgo": "sha256",
-        "contentHash": "b7183e5a731ef54b036f7670019b3e2ddc549ab1c4b15361495eff3a6ef1c393"
+        "contentHash": "9e4ca8e703dc14f33b6c917bb60b205b29bef23d4b23216953abe791752a4296"
       }
     }
   },
@@ -611,6 +641,11 @@
       "result": {
         "expertAssessment": {
           "observation": "연속 3회 평균 41MPa 최저 37MPa, 호칭강도 40MPa",
+          "resolvedTest": {
+            "id": "test.compressive_strength",
+            "name": "압축강도 시험",
+            "by": "testId"
+          },
           "applicableCriterion": "압축강도 품질 검사 — 레디믹스트 콘크리트, 호칭강도 35 MPa 초과 (KCS 14 20 10 표 3.5-3) (KCS 14 20 10 3.5.3.2 표 3.5-3)",
           "criterionId": "criteria.compressive_strength_statistical_gt35",
           "observedValue": 41,
@@ -665,7 +700,8 @@
           "type": "ontology",
           "id": "standard.ks_f_2405",
           "priority": 1,
-          "sourceStatus": "unknown"
+          "sourceStatus": "unknown",
+          "note": "KS F 2405 콘크리트의 압축 강도 시험방법 — 표준 번호와 표준명을 국가기술표준원 표준 목록과 대조함 (확인일 2022-12-23). 본문은 수록하지 않음"
         }
       ],
       "humanCheckpoint": {
@@ -691,11 +727,11 @@
       },
       "lineage": {
         "toolName": "evaluate_observation",
-        "toolCallId": "f2c261dc-88f5-4567-818b-446bd2df76d9",
-        "ontologyVersion": "0.4.3",
-        "generatedAt": "2026-11-16T05:10:07.959Z",
+        "toolCallId": "6e14a7f0-3b58-43c2-87ff-8668f31c98da",
+        "ontologyVersion": "1.0.0",
+        "generatedAt": "2026-11-16T06:50:11.326Z",
         "contentHashAlgo": "sha256",
-        "contentHash": "54c524ceb3be234ca6206d90c7e374a47e1abf366dfe009283f36b9efc451caa"
+        "contentHash": "a904d5e8fbe22b4e892356e465f9edb230db3b885b7771e60fbfeac8d5616f75"
       }
     }
   },
@@ -719,6 +755,11 @@
       "result": {
         "expertAssessment": {
           "observation": "기둥 거푸집 해체 시점 압축강도 7MPa",
+          "resolvedTest": {
+            "id": "test.compressive_strength",
+            "name": "압축강도 시험",
+            "by": "testId"
+          },
           "applicableCriterion": "압축강도 품질 검사 — 레디믹스트 콘크리트, 호칭강도 35 MPa 이하 (KCS 14 20 10 표 3.5-3) (KCS 14 20 10 3.5.3.2 표 3.5-3)",
           "criterionId": "criteria.compressive_strength_statistical_le35",
           "observedValue": 0,
@@ -776,7 +817,8 @@
           "type": "ontology",
           "id": "standard.ks_f_2405",
           "priority": 1,
-          "sourceStatus": "unknown"
+          "sourceStatus": "unknown",
+          "note": "KS F 2405 콘크리트의 압축 강도 시험방법 — 표준 번호와 표준명을 국가기술표준원 표준 목록과 대조함 (확인일 2022-12-23). 본문은 수록하지 않음"
         }
       ],
       "humanCheckpoint": {
@@ -802,11 +844,11 @@
       },
       "lineage": {
         "toolName": "evaluate_observation",
-        "toolCallId": "a95fd0c7-c27a-4ba8-ac7f-52e01a3f1f47",
-        "ontologyVersion": "0.4.3",
-        "generatedAt": "2026-11-16T05:10:07.959Z",
+        "toolCallId": "d61b1e12-28b6-461d-9990-53560087d051",
+        "ontologyVersion": "1.0.0",
+        "generatedAt": "2026-11-16T06:50:11.326Z",
         "contentHashAlgo": "sha256",
-        "contentHash": "e43d7caafe109d05aeae78dd4668734185a783fdaab758f74a57a29daf762f6d"
+        "contentHash": "8d8c4c7a943514833ddcb2331d11ad41d1bf4a243ae10e67f440073f6ddf083b"
       }
     }
   },
@@ -822,7 +864,7 @@
     },
     "expectedHitsMax": 4,
     "notes": "R6 work.cold_weather_concrete 도입 후 expectedHitsMin: 1 추가 + cold_weather worktype 매칭 검증.",
-    "ms": 173,
+    "ms": 106,
     "response": {
       "result": {
         "situation": "내일 외기온도 3℃ 예보. 일반 콘크리트로 시공해도 되나요",
@@ -845,7 +887,7 @@
             {
               "id": "test.concrete_temperature",
               "name": "콘크리트 온도 측정",
-              "score": 0.579
+              "score": 0.585
             },
             {
               "id": "test.slump",
@@ -875,13 +917,13 @@
           ],
           "InspectionCheckpoint": [
             {
-              "id": "inspection.before_concrete_placement",
-              "name": "콘크리트 타설 전 검측",
-              "score": 0.5
-            },
-            {
               "id": "inspection.during_concrete_placement",
               "name": "콘크리트 타설 중 검측",
+              "score": 0.532
+            },
+            {
+              "id": "inspection.before_concrete_placement",
+              "name": "콘크리트 타설 전 검측",
               "score": 0.5
             },
             {
@@ -894,26 +936,26 @@
             {
               "id": "criteria.concrete_temperature_general",
               "name": "콘크리트 온도 — 일반 콘크리트는 정해진 조건에 따름 (KCS 14 20 10 표 3.5-2)",
-              "score": 0.596
+              "score": 0.603
             },
             {
               "id": "criteria.concrete_temperature_cold_weather",
               "name": "한중 콘크리트 타설 온도 5~20 ℃ (KCS 14 20 40 3.3)",
-              "score": 0.464
+              "score": 0.466
             },
             {
               "id": "criteria.concrete_temperature_hot_weather",
               "name": "서중 콘크리트 타설 온도 35 ℃ 이하 (KCS 14 20 41 3.3)",
-              "score": 0.463
+              "score": 0.466
             },
             {
               "id": "criteria.air_content_general",
               "name": "공기량 보통 콘크리트 4.5±1.5%",
-              "score": 0.392
+              "score": 0.398
             },
             {
-              "id": "criteria.slump_general_150",
-              "name": "슬럼프 호칭값 150 → 허용오차 ±25mm",
+              "id": "criteria.slump_tolerance",
+              "name": "슬럼프 허용오차 (호칭 슬럼프 기준)",
               "score": 0.3
             },
             {
@@ -926,7 +968,7 @@
             {
               "id": "risk.concrete_temperature_deviation",
               "name": "콘크리트 온도 기준 이탈",
-              "score": 0.442
+              "score": 0.445
             },
             {
               "id": "risk.slump_out_of_range",
@@ -973,7 +1015,7 @@
             {
               "id": "ncr.concrete_temperature_out_of_range",
               "name": "콘크리트 온도 기준 이탈",
-              "score": 0.596
+              "score": 0.595
             }
           ],
           "Standard": [
@@ -985,17 +1027,12 @@
             {
               "id": "standard.kcs_14_20.40",
               "name": "KCS 14 20 40 한중 콘크리트",
-              "score": 0.765
+              "score": 0.766
             },
             {
               "id": "standard.kcs_14_20.10",
               "name": "KCS 14 20 10 일반콘크리트",
-              "score": 0.528
-            },
-            {
-              "id": "standard.kcs_14_20.10.3_2",
-              "name": "KCS 14 20 10 §3.2 운반",
-              "score": 0.415
+              "score": 0.536
             },
             {
               "id": "standard.annex.guideline_t9",
@@ -1003,9 +1040,14 @@
               "score": 0.41
             },
             {
+              "id": "standard.kcs_14_20.10.3_2",
+              "name": "KCS 14 20 10 §3.2 운반",
+              "score": 0.407
+            },
+            {
               "id": "standard.kcs_14_20",
               "name": "KCS 14 20 콘크리트공사",
-              "score": 0.38
+              "score": 0.385
             },
             {
               "id": "standard.quality_management_guideline",
@@ -1223,6 +1265,12 @@
         },
         {
           "type": "ontology",
+          "id": "inspection.during_concrete_placement",
+          "priority": 1,
+          "sourceStatus": "verified"
+        },
+        {
+          "type": "ontology",
           "id": "criteria.concrete_temperature_general",
           "priority": 1,
           "sourceStatus": "verified"
@@ -1277,13 +1325,13 @@
         },
         {
           "type": "ontology",
-          "id": "standard.kcs_14_20.10.3_2",
+          "id": "standard.annex.guideline_t9",
           "priority": 1,
           "sourceStatus": "verified"
         },
         {
           "type": "ontology",
-          "id": "standard.annex.guideline_t9",
+          "id": "standard.kcs_14_20.10.3_2",
           "priority": 1,
           "sourceStatus": "verified"
         },
@@ -1327,19 +1375,13 @@
           "type": "ontology",
           "id": "inspection.before_concrete_placement",
           "priority": 1,
-          "sourceStatus": "unknown"
-        },
-        {
-          "type": "ontology",
-          "id": "inspection.during_concrete_placement",
-          "priority": 1,
-          "sourceStatus": "unknown"
+          "sourceStatus": "verified"
         },
         {
           "type": "ontology",
           "id": "inspection.after_concrete_placement",
           "priority": 1,
-          "sourceStatus": "unknown"
+          "sourceStatus": "verified"
         },
         {
           "type": "ontology",
@@ -1427,7 +1469,7 @@
         },
         {
           "type": "ontology",
-          "id": "criteria.slump_general_150",
+          "id": "criteria.slump_tolerance",
           "priority": 1,
           "sourceStatus": "verified"
         },
@@ -1563,20 +1605,20 @@
       "sourceStatusSummary": {
         "worst": "unknown",
         "counts": {
-          "verified": 20,
+          "verified": 23,
           "indirect_source": 0,
           "skeleton": 0,
-          "unknown": 35
+          "unknown": 32
         },
         "warnings": []
       },
       "lineage": {
         "toolName": "discover_relevant_domain",
-        "toolCallId": "231b5fcf-315c-43be-b627-b22874b32bcc",
-        "ontologyVersion": "0.4.3",
-        "generatedAt": "2026-11-16T05:10:08.131Z",
+        "toolCallId": "399dd601-a75f-461a-bf24-6c59387a5abb",
+        "ontologyVersion": "1.0.0",
+        "generatedAt": "2026-11-16T06:50:11.433Z",
         "contentHashAlgo": "sha256",
-        "contentHash": "2b75eca801acb817f647992c0a768c417c72c2242f7bd396971ea66d21c251f4"
+        "contentHash": "cf1462048040bd04a23703cc3d7cdb786db53502939510d8715e449414188602"
       }
     }
   },
@@ -1595,11 +1637,16 @@
       "criteria.concrete_temperature_general"
     ],
     "notes": "C06이 R3 D1 false PASS 직격 시나리오. testItem이 concrete_temperature지만 실제는 운반시간 평가 필요. concrete_temperature 기준에 잘못 라우팅되면 false PASS. R4 D5 도입 후 test.delivery_time + criteria.delivery_time_25c_high로 정확 매칭.",
-    "ms": 0,
+    "ms": 1,
     "response": {
       "result": {
         "expertAssessment": {
           "observation": "외기 28℃, 비비기-타설 운반시간 95분",
+          "resolvedTest": {
+            "id": "test.concrete_temperature",
+            "name": "콘크리트 온도 측정",
+            "by": "testId"
+          },
           "applicableCriterion": "콘크리트 온도 — 일반 콘크리트는 정해진 조건에 따름 (KCS 14 20 10 표 3.5-2) (KCS 14 20 10 3.5.3.1 표 3.5-2 (온도))",
           "criterionId": "criteria.concrete_temperature_general",
           "observedValue": 95,
@@ -1669,11 +1716,11 @@
       },
       "lineage": {
         "toolName": "evaluate_observation",
-        "toolCallId": "e9fd59f3-9dc3-47a8-841f-bd404e40b5dd",
-        "ontologyVersion": "0.4.3",
-        "generatedAt": "2026-11-16T05:10:08.132Z",
+        "toolCallId": "9f8028e2-fda1-499f-b613-e65d4f2858ce",
+        "ontologyVersion": "1.0.0",
+        "generatedAt": "2026-11-16T06:50:11.434Z",
         "contentHashAlgo": "sha256",
-        "contentHash": "7c253b2026300a3541cb7fb64cedb6106b443932f8dc6b7856236063e0da2149"
+        "contentHash": "e00fbf6608a315d16601d09e34925663bb1215180f44db0ac1916f43f4608359"
       }
     }
   },
@@ -1694,6 +1741,11 @@
       "result": {
         "expertAssessment": {
           "observation": "슬래브 거푸집 해체 시점 압축강도 16MPa, 설계기준압축강도 fck 24MPa",
+          "resolvedTest": {
+            "id": "test.compressive_strength",
+            "name": "압축강도 시험",
+            "by": "testId"
+          },
           "applicableCriterion": "압축강도 품질 검사 — 레디믹스트 콘크리트, 호칭강도 35 MPa 이하 (KCS 14 20 10 표 3.5-3) (KCS 14 20 10 3.5.3.2 표 3.5-3)",
           "criterionId": "criteria.compressive_strength_statistical_le35",
           "observedValue": 16,
@@ -1764,7 +1816,8 @@
           "type": "ontology",
           "id": "standard.ks_f_2405",
           "priority": 1,
-          "sourceStatus": "unknown"
+          "sourceStatus": "unknown",
+          "note": "KS F 2405 콘크리트의 압축 강도 시험방법 — 표준 번호와 표준명을 국가기술표준원 표준 목록과 대조함 (확인일 2022-12-23). 본문은 수록하지 않음"
         },
         {
           "type": "ontology",
@@ -1802,11 +1855,11 @@
       },
       "lineage": {
         "toolName": "evaluate_observation",
-        "toolCallId": "574ca216-8297-4e97-b0bc-0278924f7609",
-        "ontologyVersion": "0.4.3",
-        "generatedAt": "2026-11-16T05:10:08.132Z",
+        "toolCallId": "93178a14-6e1a-411f-bdfc-638289f20100",
+        "ontologyVersion": "1.0.0",
+        "generatedAt": "2026-11-16T06:50:11.434Z",
         "contentHashAlgo": "sha256",
-        "contentHash": "2ea813aaa23ea786cd7254c835095f99a197b29a29310c19f45d6513e5858de2"
+        "contentHash": "ef10d2859eceb92cfbe940e1481140408816cd01b944af3cb1b013f346ea709b"
       }
     }
   },
@@ -1827,6 +1880,11 @@
       "result": {
         "expertAssessment": {
           "observation": "코어 4개 평균 22MPa 최저 17MPa, fck 24MPa",
+          "resolvedTest": {
+            "id": "test.compressive_strength",
+            "name": "압축강도 시험",
+            "by": "testId"
+          },
           "applicableCriterion": "코어 압축강도 판정 (KCS 14 20 10 3.5.5.7) (KCS 14 20 10 3.5.5.7 (4))",
           "criterionId": "criteria.compressive_strength_core",
           "observedValue": 22,
@@ -1927,11 +1985,11 @@
       },
       "lineage": {
         "toolName": "evaluate_observation",
-        "toolCallId": "e77be9b0-c3c8-4424-bd1d-b45d8ad6f24b",
-        "ontologyVersion": "0.4.3",
-        "generatedAt": "2026-11-16T05:10:08.132Z",
+        "toolCallId": "c01d8c31-5748-4edc-98aa-0ffa62b6a022",
+        "ontologyVersion": "1.0.0",
+        "generatedAt": "2026-11-16T06:50:11.434Z",
         "contentHashAlgo": "sha256",
-        "contentHash": "c9278f733d20498f180dc624a2653ba659b1a7db0e9fcfd50e56cec98a07771f"
+        "contentHash": "61f8d82aaddf678546623d613fe1cc954a6d57dc961b5677ba4fcf3696c1f487"
       }
     }
   },
@@ -1947,7 +2005,7 @@
     },
     "expectedHitsMax": 3,
     "notes": "R7 강우 키워드 도입 후 expectedHitsMin: 1 + standard.kcs_14_20.10.3_3_2 매칭.",
-    "ms": 8,
+    "ms": 2,
     "response": {
       "result": {
         "situation": "타설 중 비. 표면 빗물 고임. 어떻게 처리하나요",
@@ -1959,7 +2017,12 @@
             {
               "id": "inspection.after_concrete_placement",
               "name": "콘크리트 타설 후 검측",
-              "score": 0.617
+              "score": 0.615
+            },
+            {
+              "id": "inspection.during_concrete_placement",
+              "name": "콘크리트 타설 중 검측",
+              "score": 0.547
             }
           ],
           "AcceptanceCriteria": [],
@@ -1968,7 +2031,7 @@
             {
               "id": "ncr.surface_crack",
               "name": "표면 균열",
-              "score": 0.419
+              "score": 0.413
             }
           ],
           "Standard": [
@@ -1980,12 +2043,12 @@
             {
               "id": "standard.kcs_14_20.10.3_3_2",
               "name": "KCS 14 20 10 §3.3.2 타설 (이어치기 시간)",
-              "score": 0.455
+              "score": 0.459
             },
             {
               "id": "standard.kcs_14_20.10.3_5_5_2",
               "name": "KCS 14 20 10 §3.5.5.2 표면상태의 검사",
-              "score": 0.394
+              "score": 0.389
             }
           ]
         },
@@ -2052,7 +2115,13 @@
           "type": "ontology",
           "id": "inspection.after_concrete_placement",
           "priority": 1,
-          "sourceStatus": "unknown"
+          "sourceStatus": "verified"
+        },
+        {
+          "type": "ontology",
+          "id": "inspection.during_concrete_placement",
+          "priority": 1,
+          "sourceStatus": "verified"
         },
         {
           "type": "ontology",
@@ -2106,20 +2175,20 @@
       "sourceStatusSummary": {
         "worst": "unknown",
         "counts": {
-          "verified": 4,
+          "verified": 6,
           "indirect_source": 0,
           "skeleton": 0,
-          "unknown": 2
+          "unknown": 1
         },
         "warnings": []
       },
       "lineage": {
         "toolName": "discover_relevant_domain",
-        "toolCallId": "99abb8b4-5b95-4119-8ce4-f85c939e928e",
-        "ontologyVersion": "0.4.3",
-        "generatedAt": "2026-11-16T05:10:08.140Z",
+        "toolCallId": "398c3f34-f321-4305-a12c-91ea7e797d46",
+        "ontologyVersion": "1.0.0",
+        "generatedAt": "2026-11-16T06:50:11.436Z",
         "contentHashAlgo": "sha256",
-        "contentHash": "12cb1805811a05372a4faae5f606a51c9c7c050ff804adb5cb03400c99b5fd3f"
+        "contentHash": "c54cb8713f06aedb4d8f0c5c19ed37ec567df8f5ee6c080a50dccf3e68982221"
       }
     }
   },
@@ -2174,9 +2243,9 @@
       },
       "lineage": {
         "toolName": "search_construction_standards",
-        "toolCallId": "ff959cbf-6690-44e6-92cb-972eca76eaa1",
-        "ontologyVersion": "0.4.3",
-        "generatedAt": "2026-11-16T05:10:08.141Z",
+        "toolCallId": "bc2443e2-286e-47cc-9a65-55dde67fe59f",
+        "ontologyVersion": "1.0.0",
+        "generatedAt": "2026-11-16T06:50:11.437Z",
         "contentHashAlgo": "sha256",
         "contentHash": "3a5e2f1a0b0c2ea43296fe2fad6ff49d75aa1ce5a9f05904f060a10cc2a1f4a9"
       }
@@ -2197,7 +2266,7 @@
       "standard.kcs_14_20.10.1_3"
     ],
     "notes": "R0-G1 인용 정정으로 §3.3.2 + §1.4 노드가 새로 ref됨. R0-G1 검증 시나리오.",
-    "ms": 1,
+    "ms": 0,
     "response": {
       "result": {
         "inputs": {
@@ -2348,7 +2417,7 @@
                   "name": "referenceCriterion",
                   "type": "string",
                   "required": true,
-                  "note": "예: criteria.slump_general_150"
+                  "note": "예: KCS 14 20 10 1.7.3 표 1.7-2 (슬럼프의 허용오차)"
                 },
                 {
                   "name": "observedValue",
@@ -2388,13 +2457,13 @@
               "fields": [
                 {
                   "name": "immediateActions",
-                  "type": "array<object>",
+                  "type": "array<string>",
                   "required": true,
                   "source": "ontology.ncr.immediateActions"
                 },
                 {
                   "name": "correctiveActions",
-                  "type": "array<object>",
+                  "type": "array<string>",
                   "required": true,
                   "source": "ontology.ncr.correctiveActions"
                 }
@@ -2409,13 +2478,21 @@
                   "name": "owner",
                   "type": "object",
                   "required": true,
-                  "source": "ontology.ncr.meta.owner"
+                  "source": "ontology.ncr.meta.owner",
+                  "fields": [
+                    "name",
+                    "role"
+                  ]
                 },
                 {
                   "name": "approver",
                   "type": "object",
                   "required": true,
-                  "source": "ontology.ncr.meta.approver"
+                  "source": "ontology.ncr.meta.approver",
+                  "fields": [
+                    "name",
+                    "role"
+                  ]
                 },
                 {
                   "name": "effectivenessCheck",
@@ -2444,7 +2521,7 @@
                 },
                 {
                   "name": "attachedEvidence",
-                  "type": "array<object>",
+                  "type": "array<string>",
                   "required": false
                 }
               ],
@@ -2571,11 +2648,11 @@
       },
       "lineage": {
         "toolName": "compile_ncr_references",
-        "toolCallId": "6ca75956-6dd5-4b7f-a1f6-ec16d9190b7e",
-        "ontologyVersion": "0.4.3",
-        "generatedAt": "2026-11-16T05:10:08.142Z",
+        "toolCallId": "b84ab9af-f877-4319-bdf2-7c00c4cf820a",
+        "ontologyVersion": "1.0.0",
+        "generatedAt": "2026-11-16T06:50:11.437Z",
         "contentHashAlgo": "sha256",
-        "contentHash": "5640f1b5f05547f472cf7132bed371a47d78adc07d27938ae6611fbbf633267d"
+        "contentHash": "8bbd12d70b30ec02065473133c5b8e8377b68dda6b442a4670f3a151ab084536"
       }
     }
   },
@@ -2593,25 +2670,98 @@
       "agency.metropolitan_city"
     ],
     "notes": "R0-G4 환각 차단 검증 시나리오. R1 Glossary 도입 후 expectedHitsMin: 4 (fck/fcn/fcr/fcm 4개 용어).",
-    "ms": 0,
+    "ms": 1,
     "response": {
       "result": {
         "query": "fck fcn fcr fcm 호칭강도 설계기준 배합강도",
         "entityType": null,
-        "matchCount": 0,
-        "matches": []
+        "matchCount": 6,
+        "matches": [
+          {
+            "id": "standard.kcs_14_20.10.2_2_2",
+            "type": "Standard",
+            "name": "KCS 14 20 10 2.2.2 배합강도 (품질기준강도·호칭강도)",
+            "matchedBy": "name_in_query",
+            "score": 0.82
+          },
+          {
+            "id": "criteria.compressive_strength_statistical_le35",
+            "type": "AcceptanceCriteria",
+            "name": "압축강도 품질 검사 — 레디믹스트 콘크리트, 호칭강도 35 MPa 이하 (KCS 14 20 10 표 3.5-3)",
+            "matchedBy": "sentence",
+            "score": 0.599
+          },
+          {
+            "id": "standard.kcs_14_20.10.1_3",
+            "type": "Standard",
+            "name": "KCS 14 20 10 1.3 용어의 정의",
+            "matchedBy": "sentence",
+            "score": 0.508
+          },
+          {
+            "id": "standard.kcs_14_20.10.3_5_3_2",
+            "type": "Standard",
+            "name": "KCS 14 20 10 §3.5.3.2 압축강도에 의한 콘크리트의 품질 검사",
+            "matchedBy": "sentence",
+            "score": 0.453
+          },
+          {
+            "id": "criteria.compressive_strength_statistical_gt35",
+            "type": "AcceptanceCriteria",
+            "name": "압축강도 품질 검사 — 레디믹스트 콘크리트, 호칭강도 35 MPa 초과 (KCS 14 20 10 표 3.5-3)",
+            "matchedBy": "sentence",
+            "score": 0.453
+          },
+          {
+            "id": "test.compressive_strength",
+            "type": "TestItem",
+            "name": "압축강도 시험",
+            "matchedBy": "sentence",
+            "score": 0.399
+          }
+        ]
       },
       "basis": [
         {
-          "type": "ontology_meta",
-          "id": "no_match",
-          "priority": 3,
-          "note": "매칭 0건 — 온톨로지 확장 필요 가능성"
+          "type": "ontology",
+          "id": "standard.kcs_14_20.10.2_2_2",
+          "priority": 1,
+          "sourceStatus": "verified"
+        },
+        {
+          "type": "ontology",
+          "id": "criteria.compressive_strength_statistical_le35",
+          "priority": 1,
+          "sourceStatus": "verified"
+        },
+        {
+          "type": "ontology",
+          "id": "standard.kcs_14_20.10.1_3",
+          "priority": 1,
+          "sourceStatus": "verified"
+        },
+        {
+          "type": "ontology",
+          "id": "standard.kcs_14_20.10.3_5_3_2",
+          "priority": 1,
+          "sourceStatus": "verified"
+        },
+        {
+          "type": "ontology",
+          "id": "criteria.compressive_strength_statistical_gt35",
+          "priority": 1,
+          "sourceStatus": "verified"
+        },
+        {
+          "type": "ontology",
+          "id": "test.compressive_strength",
+          "priority": 1,
+          "sourceStatus": "unknown"
         }
       ],
       "humanCheckpoint": {
-        "required": true,
-        "reason": "검색어 \"fck fcn fcr fcm 호칭강도 설계기준 배합강도\"에 매칭되는 온톨로지 노드 없음. 표현 변경 또는 신규 엔티티 등록 필요.",
+        "required": false,
+        "reason": null,
         "legalNote": "본 서버는 **근거 제공용**이며 최종 판정과 법적 책임은 품질관리자·감리원·발주자에게 있다. Tool 출력을 법적 조언·확정 결과로 취급하지 말 것."
       },
       "nextSteps": [
@@ -2623,7 +2773,7 @@
       "sourceStatusSummary": {
         "worst": "unknown",
         "counts": {
-          "verified": 0,
+          "verified": 5,
           "indirect_source": 0,
           "skeleton": 0,
           "unknown": 1
@@ -2632,11 +2782,11 @@
       },
       "lineage": {
         "toolName": "search_quality_ontology",
-        "toolCallId": "cbd241a2-b132-418f-ad6a-23db376f2687",
-        "ontologyVersion": "0.4.3",
-        "generatedAt": "2026-11-16T05:10:08.142Z",
+        "toolCallId": "0a99b063-0240-41ea-9da6-bae9ccc06c88",
+        "ontologyVersion": "1.0.0",
+        "generatedAt": "2026-11-16T06:50:11.438Z",
         "contentHashAlgo": "sha256",
-        "contentHash": "6dbfebe417786ec7e1ae16b3251032e48c73d241a4f4c14d38c32c568b690e45"
+        "contentHash": "2d00a72a84e8e61a3a1afa90e4e7e48c09f891bf7cfa8ad8d297a323081f7009"
       }
     }
   },
@@ -2652,7 +2802,7 @@
     },
     "expectedHitsMax": 4,
     "notes": "R6 work.cold_weather_concrete + Glossary 양생온도 도입 후 expectedHitsMin: 2.",
-    "ms": 7,
+    "ms": 4,
     "response": {
       "result": {
         "situation": "한중 시공인데 양생온도가 콘크리트 온도인지 외기온도인지 헷갈려요",
@@ -2705,18 +2855,18 @@
           ],
           "InspectionCheckpoint": [
             {
+              "id": "inspection.during_concrete_placement",
+              "name": "콘크리트 타설 중 검측",
+              "score": 0.491
+            },
+            {
               "id": "inspection.after_concrete_placement",
               "name": "콘크리트 타설 후 검측",
-              "score": 0.395
+              "score": 0.446
             },
             {
               "id": "inspection.before_concrete_placement",
               "name": "콘크리트 타설 전 검측",
-              "score": 0.5
-            },
-            {
-              "id": "inspection.during_concrete_placement",
-              "name": "콘크리트 타설 중 검측",
               "score": 0.5
             }
           ],
@@ -2724,26 +2874,26 @@
             {
               "id": "criteria.concrete_temperature_cold_weather",
               "name": "한중 콘크리트 타설 온도 5~20 ℃ (KCS 14 20 40 3.3)",
-              "score": 0.651
+              "score": 0.654
             },
             {
               "id": "criteria.concrete_temperature_general",
               "name": "콘크리트 온도 — 일반 콘크리트는 정해진 조건에 따름 (KCS 14 20 10 표 3.5-2)",
-              "score": 0.58
+              "score": 0.583
             },
             {
               "id": "criteria.concrete_temperature_hot_weather",
               "name": "서중 콘크리트 타설 온도 35 ℃ 이하 (KCS 14 20 41 3.3)",
-              "score": 0.428
+              "score": 0.43
             },
             {
               "id": "criteria.compressive_strength_field_cured",
               "name": "압축강도 품질 검사 — 현장양생공시체 (KCS 14 20 10 표 3.5-7)",
-              "score": 0.365
+              "score": 0.368
             },
             {
-              "id": "criteria.slump_general_150",
-              "name": "슬럼프 호칭값 150 → 허용오차 ±25mm",
+              "id": "criteria.slump_tolerance",
+              "name": "슬럼프 허용오차 (호칭 슬럼프 기준)",
               "score": 0.3
             },
             {
@@ -2756,7 +2906,7 @@
             {
               "id": "risk.concrete_temperature_deviation",
               "name": "콘크리트 온도 기준 이탈",
-              "score": 0.409
+              "score": 0.41
             },
             {
               "id": "risk.slump_out_of_range",
@@ -2808,19 +2958,19 @@
             {
               "id": "ncr.concrete_pavement_fail",
               "name": "콘크리트 포장 품질 부적합",
-              "score": 0.392
+              "score": 0.395
             }
           ],
           "Standard": [
             {
               "id": "standard.kcs_14_20.40",
               "name": "KCS 14 20 40 한중 콘크리트",
-              "score": 0.765
+              "score": 0.763
             },
             {
               "id": "standard.kcs_14_20.41",
               "name": "KCS 14 20 41 서중 콘크리트",
-              "score": 0.576
+              "score": 0.572
             },
             {
               "id": "standard.annex.guideline_t9",
@@ -2830,22 +2980,17 @@
             {
               "id": "standard.kcs_14_20.10.3_5_5_7",
               "name": "KCS 14 20 10 3.5.5.7 시험 결과 콘크리트의 강도가 작게 나오는 경우",
-              "score": 0.453
+              "score": 0.457
             },
             {
               "id": "standard.kci_ct118",
               "name": "KCI-CT 118 현장 콘크리트 공시체의 양생방법 (한국콘크리트학회 제규격)",
-              "score": 0.394
-            },
-            {
-              "id": "standard.kcs_14_20.10.3_2",
-              "name": "KCS 14 20 10 §3.2 운반",
-              "score": 0.384
+              "score": 0.397
             },
             {
               "id": "standard.kcs_14_20",
               "name": "KCS 14 20 콘크리트공사",
-              "score": 0.5
+              "score": 0.382
             },
             {
               "id": "standard.quality_management_guideline",
@@ -3063,9 +3208,15 @@
         },
         {
           "type": "ontology",
+          "id": "inspection.during_concrete_placement",
+          "priority": 1,
+          "sourceStatus": "verified"
+        },
+        {
+          "type": "ontology",
           "id": "inspection.after_concrete_placement",
           "priority": 1,
-          "sourceStatus": "unknown"
+          "sourceStatus": "verified"
         },
         {
           "type": "ontology",
@@ -3141,9 +3292,9 @@
         },
         {
           "type": "ontology",
-          "id": "standard.kcs_14_20.10.3_2",
+          "id": "standard.kcs_14_20",
           "priority": 1,
-          "sourceStatus": "verified"
+          "sourceStatus": "unknown"
         },
         {
           "type": "ontology",
@@ -3179,13 +3330,7 @@
           "type": "ontology",
           "id": "inspection.before_concrete_placement",
           "priority": 1,
-          "sourceStatus": "unknown"
-        },
-        {
-          "type": "ontology",
-          "id": "inspection.during_concrete_placement",
-          "priority": 1,
-          "sourceStatus": "unknown"
+          "sourceStatus": "verified"
         },
         {
           "type": "ontology",
@@ -3237,12 +3382,6 @@
         },
         {
           "type": "ontology",
-          "id": "standard.kcs_14_20",
-          "priority": 1,
-          "sourceStatus": "unknown"
-        },
-        {
-          "type": "ontology",
           "id": "standard.quality_management_guideline",
           "priority": 1,
           "sourceStatus": "unknown"
@@ -3279,7 +3418,7 @@
         },
         {
           "type": "ontology",
-          "id": "criteria.slump_general_150",
+          "id": "criteria.slump_tolerance",
           "priority": 1,
           "sourceStatus": "verified"
         },
@@ -3415,10 +3554,10 @@
       "sourceStatusSummary": {
         "worst": "indirect_source",
         "counts": {
-          "verified": 22,
+          "verified": 24,
           "indirect_source": 1,
           "skeleton": 0,
-          "unknown": 34
+          "unknown": 31
         },
         "warnings": [
           "indirect_source 근거: standard.kci_ct118 — 호수·발행기관 검증 미완. 인용 시 검증 필요."
@@ -3426,11 +3565,11 @@
       },
       "lineage": {
         "toolName": "discover_relevant_domain",
-        "toolCallId": "ead71c3a-d882-45b5-be66-ebf08a9a6e87",
-        "ontologyVersion": "0.4.3",
-        "generatedAt": "2026-11-16T05:10:08.149Z",
+        "toolCallId": "b898cd28-d4af-4d06-9d7c-2f0eb27fc148",
+        "ontologyVersion": "1.0.0",
+        "generatedAt": "2026-11-16T06:50:11.441Z",
         "contentHashAlgo": "sha256",
-        "contentHash": "08cb23b6ffa7e1510dd05580688f224b358fca31c8bc642a8a18eb80d6fdc4d2"
+        "contentHash": "737e0d84e9ddd0b6f50dd70ca6720db176f4f2ef53fa2dad221df6c6c157af79"
       }
     }
   }

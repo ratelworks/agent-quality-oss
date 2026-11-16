@@ -23,7 +23,7 @@ export const spec: ToolSpec = {
       entityId: {
         type: 'string',
         description:
-          '엔티티 id. 예: ncr.slump_too_high / risk.slump_out_of_range / test.slump / criteria.slump_general_150',
+          '엔티티 id. 예: ncr.slump_too_high / risk.slump_out_of_range / test.slump / criteria.slump_tolerance',
       },
     },
     required: ['entityId'],

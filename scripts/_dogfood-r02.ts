@@ -43,9 +43,9 @@ const SCENARIOS: Scenario[] = [
     intent: '슬럼프 경계값 (175mm = 150+25)',
     expect: 'PASS marginal (KCS 14 20 10 §1.7.3 표 1.7-2 허용오차 ±25)',
     tool: 'evaluate_observation',
-    args: { observation: '슬럼프 175mm', testId: 'test.slump' },
+    args: { observation: '슬럼프 175mm, 호칭 슬럼프 150mm', testId: 'test.slump' },
     expectedVerdict: 'PASS',
-    expectedBasisIds: ['criteria.slump_general_150'],
+    expectedBasisIds: ['criteria.slump_tolerance'],
     // expectedSourceStatus는 응답 신뢰도 KPI(measure.ts)로 별도 추적 — 시나리오 PASS 게이트에서 분리. R6 Glossary 마이그레이션 후 R6+ baseline에서 재도입.
   },
   {

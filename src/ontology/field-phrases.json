@@ -368,8 +368,7 @@
     "ncr.geotextile_fail": [
       "토목섬유 시험 불합격"
     ],
-    "criteria.slump_general_150": [
-      "슬럼프 허용오차",
+    "criteria.slump_tolerance": [
       "슬럼프가 얼마까지 괜찮은지"
     ],
     "criteria.air_content_general": [

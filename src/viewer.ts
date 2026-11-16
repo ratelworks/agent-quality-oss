@@ -10,6 +10,7 @@
 // 작성 컨텍스트는 compose_writing_context 가 만든다.
 // ─────────────────────────────────────────────────────────────────────────────
 
+import { getDraftsDir } from "./config/paths.js";
 import { createServer, type IncomingMessage, type ServerResponse } from "node:http";
 import { spawn } from "node:child_process";
 import {
@@ -18,7 +19,6 @@ import {
   existsSync,
   mkdirSync,
 } from "node:fs";
-import { homedir } from "node:os";
 import path from "node:path";
 import { SERVER_NAME, VERSION, PROVIDED_BY, DEVELOPED_BY } from "./version.js";
 import { loadOntologySync } from "./ontology/loader.js";
@@ -35,26 +35,26 @@ import {
 
 // 파일 최상단 상수
 const DEFAULT_PORT = 5273; // safety viewer(5174)와 구분
-const DRAFT_DIR = path.join(homedir(), ".agent-quality-oss", "drafts");
+/** 임시 저장 파일·폴더는 소유자만 읽고 쓴다 (입력한 현장 정보가 들어 있다) */
+const DRAFT_DIR_MODE = 0o700;
+const DRAFT_FILE_MODE = 0o600;
 
 // ───── draft 로컬 저장 (viewer 전용) ─────
 function safeId(id: string): string {
   return id.replace(/[^a-zA-Z0-9_]/g, "_");
 }
-function ensureDraftDir(): void {
-  if (!existsSync(DRAFT_DIR)) mkdirSync(DRAFT_DIR, { recursive: true });
-}
+// 저장 위치는 부를 때마다 읽는다 — QUALITY_LOCAL_DIR 로 바꾼 폴더를 한글 파일 저장과 똑같이 따른다
 function saveDraft(docId: string, formValues: Record<string, unknown>): void {
-  ensureDraftDir();
-  const file = path.join(DRAFT_DIR, `${safeId(docId)}.json`);
-  writeFileSync(
-    file,
-    JSON.stringify({ docId, formValues, savedAt: new Date().toISOString() }, null, 2),
-    "utf8",
-  );
+  const dir = getDraftsDir();
+  if (!existsSync(dir)) mkdirSync(dir, { recursive: true, mode: DRAFT_DIR_MODE });
+  const file = path.join(dir, `${safeId(docId)}.json`);
+  writeFileSync(file, JSON.stringify({ docId, formValues, savedAt: new Date().toISOString() }, null, 2), {
+    encoding: "utf8",
+    mode: DRAFT_FILE_MODE,
+  });
 }
 function loadDraft(docId: string): unknown {
-  const file = path.join(DRAFT_DIR, `${safeId(docId)}.json`);
+  const file = path.join(getDraftsDir(), `${safeId(docId)}.json`);
   return existsSync(file) ? JSON.parse(readFileSync(file, "utf8")) : null;
 }
 
@@ -106,6 +106,12 @@ async function handle(
   }
 
   try {
+    // 브라우저가 자동으로 찾는 아이콘 — 없다는 오류를 콘솔에 남기지 않게 빈 응답을 준다
+    if (pathname === "/favicon.ico") {
+      res.statusCode = 204;
+      res.end();
+      return;
+    }
     if (pathname === "/" && method === "GET") {
       res.statusCode = 200;
       res.setHeader("Content-Type", "text/html; charset=utf-8");

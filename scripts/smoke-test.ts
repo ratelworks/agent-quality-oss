@@ -61,7 +61,7 @@ const CASES: Case[] = [
   },
   {
     tool: 'infer_quality_risks',
-    args: { workType: '콘크리트 타설', observations: ['슬럼프 210mm'] },
+    args: { workType: '콘크리트 타설', observations: ['슬럼프 210mm, 호칭 슬럼프 150mm'] },
     assert: (r) => {
       if (r.result.inferredRisks.length !== 1) return false;
       const slumpRisk = r.result.inferredRisks[0];
@@ -80,7 +80,7 @@ const CASES: Case[] = [
   },
   {
     tool: 'infer_quality_risks',
-    args: { workType: '콘크리트 타설', observations: ['슬럼프 50mm'] },
+    args: { workType: '콘크리트 타설', observations: ['슬럼프 50mm, 호칭 슬럼프 150mm'] },
     assert: (r) => {
       const slumpRisk = r.result.inferredRisks.find(
         (x: { risk: { id: string } }) => x.risk.id === 'risk.slump_out_of_range',
@@ -95,7 +95,7 @@ const CASES: Case[] = [
   },
   {
     tool: 'infer_quality_risks',
-    args: { workType: '콘크리트 타설', observations: ['슬럼프 160mm'] },
+    args: { workType: '콘크리트 타설', observations: ['슬럼프 160mm, 호칭 슬럼프 150mm'] },
     assert: (r) =>
       r.result.summary.pass === 1 &&
       r.result.summary.fail === 0 &&
@@ -104,7 +104,7 @@ const CASES: Case[] = [
   },
   {
     tool: 'infer_quality_risks',
-    args: { workType: '콘크리트 타설', observations: ['슬럼프 174mm'] },
+    args: { workType: '콘크리트 타설', observations: ['슬럼프 174mm, 호칭 슬럼프 150mm'] },
     assert: (r) => r.result.summary.marginal === 1 && r.humanCheckpoint.required === true,
   },
   {
@@ -331,7 +331,7 @@ const CASES: Case[] = [
   // Step 5 — evaluate_observation (expertAssessment 형태로 출력)
   {
     tool: 'evaluate_observation',
-    args: { observation: '슬럼프 210mm', criterionId: 'criteria.slump_general_150' },
+    args: { observation: '슬럼프 210mm, 호칭 슬럼프 150mm', criterionId: 'criteria.slump_tolerance' },
     assert: (r) => {
       const ea = r.result.expertAssessment;
       return (
@@ -347,7 +347,7 @@ const CASES: Case[] = [
   },
   {
     tool: 'evaluate_observation',
-    args: { observation: '슬럼프 160mm', criterionId: 'criteria.slump_general_150' },
+    args: { observation: '슬럼프 160mm, 호칭 슬럼프 150mm', criterionId: 'criteria.slump_tolerance' },
     assert: (r) => {
       const ea = r.result.expertAssessment;
       return ea.verdict === 'PASS' && ea.marginalWarning === null && ea.candidateNonconformance.length === 0;
@@ -355,7 +355,7 @@ const CASES: Case[] = [
   },
   {
     tool: 'evaluate_observation',
-    args: { observation: '슬럼프 174mm', criterionId: 'criteria.slump_general_150' },
+    args: { observation: '슬럼프 174mm, 호칭 슬럼프 150mm', criterionId: 'criteria.slump_tolerance' },
     assert: (r) => {
       const ea = r.result.expertAssessment;
       return ea.verdict === 'PASS' && ea.marginalWarning?.flagged === true;
@@ -363,7 +363,7 @@ const CASES: Case[] = [
   },
   {
     tool: 'evaluate_observation',
-    args: { observation: '곰보 발견', criterionId: 'criteria.slump_general_150' },
+    args: { observation: '곰보 발견', criterionId: 'criteria.slump_tolerance' },
     assert: (r) =>
       r.result.expertAssessment.verdict === 'UNDETERMINED' && r.humanCheckpoint.required === true,
   },
@@ -717,7 +717,7 @@ const CASES: Case[] = [
   {
     // 체인: 성적서 검토 — 수치 판정 조합 (기준 초과 = FAIL)
     tool: 'chain_test_report_review',
-    args: { observations: ['슬럼프 205mm'], testItem: 'test.slump' },
+    args: { observations: ['슬럼프 205mm, 호칭 슬럼프 150mm'], testItem: 'test.slump' },
     assert: (r) =>
       r.result.verdicts.length === 1 &&
       r.result.verdicts[0].verdict === 'FAIL' &&
@@ -726,7 +726,7 @@ const CASES: Case[] = [
   {
     // 체인: 부적합 처리 — NCR 패키지 + verified 법령 근거 (§39·§41)
     tool: 'chain_nonconformance_report',
-    args: { testId: 'test.slump', observation: '슬럼프 205mm' },
+    args: { testId: 'test.slump', observation: '슬럼프 205mm, 호칭 슬럼프 150mm' },
     assert: (r) =>
       r.result.ncrPackage?.ncrs?.length >= 1 &&
       r.result.legalBasis.some(

@@ -105,7 +105,7 @@
               "name": "referenceCriterion",
               "type": "string",
               "required": true,
-              "note": "예: criteria.slump_general_150"
+              "note": "예: KCS 14 20 10 1.7.3 표 1.7-2 (슬럼프의 허용오차)"
             },
             {
               "name": "observedValue",
@@ -145,13 +145,13 @@
           "fields": [
             {
               "name": "immediateActions",
-              "type": "array<object>",
+              "type": "array<string>",
               "required": true,
               "source": "ontology.ncr.immediateActions"
             },
             {
               "name": "correctiveActions",
-              "type": "array<object>",
+              "type": "array<string>",
               "required": true,
               "source": "ontology.ncr.correctiveActions"
             }
@@ -166,13 +166,21 @@
               "name": "owner",
               "type": "object",
               "required": true,
-              "source": "ontology.ncr.meta.owner"
+              "source": "ontology.ncr.meta.owner",
+              "fields": [
+                "name",
+                "role"
+              ]
             },
             {
               "name": "approver",
               "type": "object",
               "required": true,
-              "source": "ontology.ncr.meta.approver"
+              "source": "ontology.ncr.meta.approver",
+              "fields": [
+                "name",
+                "role"
+              ]
             },
             {
               "name": "effectivenessCheck",
@@ -201,7 +209,7 @@
             },
             {
               "name": "attachedEvidence",
-              "type": "array<object>",
+              "type": "array<string>",
               "required": false
             }
           ],
@@ -347,7 +355,7 @@
               "name": "slumpMm",
               "type": "number",
               "required": true,
-              "criterion": "criteria.slump_general_150"
+              "criterion": "criteria.slump_tolerance"
             },
             {
               "name": "airPercent",
@@ -402,13 +410,21 @@
               "name": "witnessedBy",
               "type": "object",
               "required": true,
-              "note": "시험 입회자 — 현장 시험과정에는 공사감독자가 입회한다(제38조제5항)"
+              "note": "시험 입회자 — 현장 시험과정에는 공사감독자가 입회한다(제38조제5항)",
+              "fields": [
+                "name",
+                "role"
+              ]
             },
             {
               "name": "approvedBy",
               "type": "object",
               "required": false,
-              "note": "확인자"
+              "note": "확인자",
+              "fields": [
+                "name",
+                "role"
+              ]
             }
           ],
           "origin": "practice"
@@ -725,7 +741,11 @@
             {
               "name": "samplingBy",
               "type": "object",
-              "required": true
+              "required": true,
+              "fields": [
+                "name",
+                "role"
+              ]
             },
             {
               "name": "sealId",
@@ -753,7 +773,11 @@
             {
               "name": "reviewedBy",
               "type": "object",
-              "required": true
+              "required": true,
+              "fields": [
+                "name",
+                "role"
+              ]
             },
             {
               "name": "csiRegistered",

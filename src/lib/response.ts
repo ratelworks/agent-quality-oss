@@ -27,6 +27,18 @@ function readEntityStatus(meta: unknown): SourceStatus {
   return "unknown";
 }
 
+/**
+ * KS 표준 노드는 본문을 싣지 않는다 — 확인한 범위(번호·표준명·확인일)를 근거에 밝힌다.
+ * 등급은 그대로 두고(본문을 대조한 것이 아니다) 무엇을 확인했는지만 알린다.
+ */
+function readEntityNote(meta: unknown): string | undefined {
+  if (!meta || typeof meta !== "object") return undefined;
+  const m = meta as Record<string, unknown>;
+  if (typeof m["ksNumber"] !== "string" || typeof m["officialName"] !== "string") return undefined;
+  const confirmed = typeof m["confirmedOn"] === "string" ? ` (확인일 ${m["confirmedOn"]})` : "";
+  return `${m["ksNumber"]} ${m["officialName"]} — 표준 번호와 표준명을 국가기술표준원 표준 목록과 대조함${confirmed}. 본문은 수록하지 않음`;
+}
+
 // ───── basis[] → SourceStatusSummary ─────
 function summarizeStatus(basis: BasisRef[]): SourceStatusSummary {
   const counts: Record<SourceStatus, number> = {
@@ -107,11 +119,13 @@ export function entityBasisWithStatus(
 ): BasisRef[] {
   return entityIds.map((id) => {
     const e = graph.get(id);
+    const note = readEntityNote(e?.meta);
     return {
       type: "ontology",
       id,
       priority,
       sourceStatus: readEntityStatus(e?.meta),
+      ...(note ? { note } : {}),
     };
   });
 }
@@ -125,10 +139,10 @@ export function annotateBasisWithStatus(
   basis: BasisRef[],
 ): BasisRef[] {
   return basis.map((b) => {
-    if (b.sourceStatus) return b;
     const e = graph.get(b.id);
     if (!e) return b;
-    return { ...b, sourceStatus: readEntityStatus(e.meta) };
+    const note = b.note ? undefined : readEntityNote(e.meta);
+    return { ...b, ...(b.sourceStatus ? {} : { sourceStatus: readEntityStatus(e.meta) }), ...(note ? { note } : {}) };
   });
 }
 

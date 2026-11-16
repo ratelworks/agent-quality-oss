@@ -752,7 +752,7 @@ type: code
 tool: infer_quality_risks
 intent: 슬럼프 초과 관측값이 단일 FAIL 리스크로 판정되고 즉시조치·휴먼체크포인트가 연결되는가
 contract:
-  given: workType="콘크리트 타설", observations=["슬럼프 210mm"]
+  given: workType="콘크리트 타설", observations=["슬럼프 210mm, 호칭 슬럼프 150mm"]
   when: infer_quality_risks 호출
   then: inferredRisks.length == 1 이고 risk.id == 'risk.slump_out_of_range' 이고 summary.fail == 1
         이고 nonconformance 에 'ncr.slump_too_high' 포함 + 'ncr.slump_too_low' 미포함
@@ -775,7 +775,7 @@ type: code
 tool: infer_quality_risks
 intent: 슬럼프 미달 관측값이 too_low 방향 FAIL 로 정확히 판정되는가 (방향 구분)
 contract:
-  given: workType="콘크리트 타설", observations=["슬럼프 50mm"]
+  given: workType="콘크리트 타설", observations=["슬럼프 50mm, 호칭 슬럼프 150mm"]
   when: infer_quality_risks 호출
   then: summary.fail == 1 이고 nonconformance 에 'ncr.slump_too_low' 포함 + 'ncr.slump_too_high' 미포함
 severity: P0
@@ -795,7 +795,7 @@ type: code
 tool: infer_quality_risks
 intent: 기준 내 슬럼프(160mm)가 PASS 로 판정되고 리스크·휴먼체크포인트가 없는가
 contract:
-  given: workType="콘크리트 타설", observations=["슬럼프 160mm"]
+  given: workType="콘크리트 타설", observations=["슬럼프 160mm, 호칭 슬럼프 150mm"]
   when: infer_quality_risks 호출
   then: summary.pass == 1 이고 summary.fail == 0 이고 inferredRisks.length == 0 이고 humanCheckpoint.required == false
 severity: P0
@@ -815,7 +815,7 @@ type: code
 tool: infer_quality_risks
 intent: 경계값 근처 슬럼프(174mm)가 MARGINAL 로 분류되고 휴먼체크포인트가 발동되는가 (경계 처리)
 contract:
-  given: workType="콘크리트 타설", observations=["슬럼프 174mm"]
+  given: workType="콘크리트 타설", observations=["슬럼프 174mm, 호칭 슬럼프 150mm"]
   when: infer_quality_risks 호출
   then: summary.marginal == 1 이고 humanCheckpoint.required == true
 severity: P1
@@ -875,7 +875,7 @@ type: code
 tool: evaluate_observation
 intent: 슬럼프 초과 관측이 FAIL(too_high) expertAssessment 로 반환되고 적용기준·법적근거·다음단계가 포함되는가
 contract:
-  given: observation="슬럼프 210mm", criterionId="criteria.slump_general_150"
+  given: observation="슬럼프 210mm, 호칭 슬럼프 150mm", criterionId="criteria.slump_tolerance"
   when: evaluate_observation 호출
   then: expertAssessment.verdict == 'FAIL' 이고 direction == 'too_high'
         이고 applicableCriterion 에 "150 ± 25" 포함 이고 expertContext 에 "베테랑" 포함
@@ -898,7 +898,7 @@ type: code
 tool: evaluate_observation
 intent: 기준 내 슬럼프(160mm)가 PASS 로 평가되고 경계경고·후보NCR 가 없는가
 contract:
-  given: observation="슬럼프 160mm", criterionId="criteria.slump_general_150"
+  given: observation="슬럼프 160mm, 호칭 슬럼프 150mm", criterionId="criteria.slump_tolerance"
   when: evaluate_observation 호출
   then: expertAssessment.verdict == 'PASS' 이고 marginalWarning == null 이고 candidateNonconformance.length == 0
 severity: P1
@@ -918,7 +918,7 @@ type: code
 tool: evaluate_observation
 intent: 경계값 슬럼프(174mm)가 PASS 이면서 marginalWarning.flagged 가 켜지는가
 contract:
-  given: observation="슬럼프 174mm", criterionId="criteria.slump_general_150"
+  given: observation="슬럼프 174mm, 호칭 슬럼프 150mm", criterionId="criteria.slump_tolerance"
   when: evaluate_observation 호출
   then: expertAssessment.verdict == 'PASS' 이고 marginalWarning.flagged == true
 severity: P1
@@ -938,7 +938,7 @@ type: code
 tool: evaluate_observation
 intent: 수치로 환원 불가한 정성 관측(곰보)이 UNDETERMINED 로 반환되고 휴먼체크포인트가 발동되는가 (환각 방지)
 contract:
-  given: observation="곰보 발견", criterionId="criteria.slump_general_150"
+  given: observation="곰보 발견", criterionId="criteria.slump_tolerance"
   when: evaluate_observation 호출
   then: expertAssessment.verdict == 'UNDETERMINED' 이고 humanCheckpoint.required == true
 severity: P0
@@ -1908,7 +1908,7 @@ type: code
 tool: chain_test_report_review
 intent: 성적서 관측값이 기준 초과일 때 코드 판정(FAIL)이 체인 요약에 반영되는가
 contract:
-  given: observations=['슬럼프 205mm'], testItem=test.slump (일반 기준 150±25 초과)
+  given: observations=['슬럼프 205mm, 호칭 슬럼프 150mm'], testItem=test.slump (일반 기준 150±25 초과)
   when: chain_test_report_review 호출
   then: verdicts[0].verdict == 'FAIL', summary.fail == 1
 severity: P0
@@ -1928,7 +1928,7 @@ type: code
 tool: chain_nonconformance_report
 intent: 부적합 체인이 NCR 후보와 verified 지침 근거(§41 불량 자재 처리)를 함께 반환하는가
 contract:
-  given: testId=test.slump, observation='슬럼프 205mm'
+  given: testId=test.slump, observation='슬럼프 205mm, 호칭 슬럼프 150mm'
   when: chain_nonconformance_report 호출
   then: ncrPackage.ncrs.length >= 1, legalBasis 에 standard.guideline.art41(sourceStatus=='verified') 포함
 severity: P0

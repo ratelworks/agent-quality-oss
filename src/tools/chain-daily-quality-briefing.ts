@@ -7,7 +7,7 @@
 
 import { run as resolveWorktype } from "./resolve-worktype.js";
 import { buildResponse } from "./_response.js";
-import { mergeBasis } from "./_compile-common.js";
+import { mergeBasis, checkpointView, type CheckpointView } from "./_compile-common.js";
 import type { ToolSpec, BasisRef, ToolResponse } from "../lib/types.js";
 import type { OntologyGraph } from "../ontology/graph.js";
 
@@ -36,7 +36,8 @@ interface BriefingCard {
   input: string;
   workType: { id: string; name: string } | null;
   risks: { id: string; name: string; severity: string | null }[];
-  inspections: { id: string; name: string; timing: string | null }[];
+  /** 검측 지점 — 무엇을 확인하는지(checkItems)와 근거 조항을 함께 준다 */
+  inspections: (CheckpointView & { timing: string | null })[];
   tests: { id: string; name: string; frequency: string | null }[];
   requiredDocs: { id: string; name: string }[];
 }
@@ -64,8 +65,7 @@ export function run(args: ChainBriefingArgs, graph: OntologyGraph): ToolResponse
       severity: (r.meta?.["severity"] as string | undefined) ?? null,
     }));
     const inspections = (n["hasInspectionCheckpoint"] ?? []).map((i) => ({
-      id: i.id,
-      name: i.name,
+      ...checkpointView(i),
       timing: (i.meta?.["timing"] as string | undefined) ?? null,
     }));
 

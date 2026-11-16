@@ -20,6 +20,10 @@ import {
 
 // ───── 상수 ─────
 /** 표를 여러 줄 글자로 적을 때 한 건 안에서 열을 나누는 문자 */
+/** 목록 항목에 {…} 가 왔을 때의 안내 */
+const LIST_ITEM_NOT_RECORD = '목록의 항목은 글자로 적어야 합니다 — 묶음 값({…})이 아니라 ["첫째 항목", "둘째 항목"] 처럼 적으세요';
+/** 글자 칸에 {…} 가 왔을 때의 안내 */
+const TEXT_NOT_RECORD = '글자로 적어야 하는 칸에 묶음 값({…})이 왔습니다 — 글자 하나로 적으세요 (예: "홍길동")';
 export const COLUMN_SEPARATOR = "|";
 /** 묶음 필드를 항목 구분 없이 한 줄 글자로 받았을 때 그 글자를 담는 키 */
 export const FREE_TEXT_KEY = "";
@@ -109,7 +113,10 @@ function pickColumns(
   const known = new Set<string>();
   for (const col of columns) {
     known.add(col.key).add(col.label);
-    const text = toText(source[col.key] ?? source[col.label]);
+    const value = source[col.key] ?? source[col.label];
+    // 하위 항목의 값도 글자다 — 묶음 값이 오면 본문에 JSON 이 찍히므로 문제로 알린다
+    if (isRecord(value) || (Array.isArray(value) && value.some(isRecord))) problems.push(`${where}${col.label}: ${TEXT_NOT_RECORD}`);
+    const text = toText(value);
     if (text) out[col.key] = text;
   }
   const extra = Object.keys(source).filter((k) => !known.has(k) && toText(source[k]));
@@ -145,7 +152,12 @@ function normalizeValue(
       return code;
     }
     case "list": {
-      if (Array.isArray(raw)) return raw.map(toText).filter(Boolean);
+      if (Array.isArray(raw)) {
+        // 목록의 항목은 글자다 — 묶음 값({…})을 그대로 찍으면 본문에 JSON 이 나온다
+        if (raw.some(isRecord)) problems.push(LIST_ITEM_NOT_RECORD);
+        return raw.map(toText).filter(Boolean);
+      }
+      if (isRecord(raw)) problems.push(LIST_ITEM_NOT_RECORD);
       return lines(toText(raw));
     }
     case "group": {
@@ -181,13 +193,14 @@ function normalizeValue(
     }
     case "date":
     case "datetime": {
-      if (isRecord(raw)) problems.push("글자로 적어야 하는 칸에 묶음 값이 왔습니다");
+      if (isRecord(raw)) problems.push(TEXT_NOT_RECORD);
       const text = toText(raw);
       checkDate(text, kind === "datetime", problems);
-      return text;
+      // 브라우저의 날짜·시각 입력은 2026-11-16T09:30 모양으로 준다 — 문서에는 띄어 적는다
+      return text.replace(/^(\d{4}-\d{2}-\d{2})T(\d{2}:\d{2})/u, "$1 $2");
     }
     default: {
-      if (isRecord(raw)) problems.push("글자로 적어야 하는 칸에 묶음 값이 왔습니다");
+      if (isRecord(raw)) problems.push(TEXT_NOT_RECORD);
       return toText(raw);
     }
   }

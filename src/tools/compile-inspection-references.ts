@@ -1,7 +1,7 @@
 import { resolveWorkType } from '../ontology/resolver.js';
 import { getSchema } from '../schemas/loader.js';
 import { buildResponse } from './_response.js';
-import { mergeBasis, schemaLegalBasisRefs } from "./_compile-common.js";
+import { mergeBasis, schemaLegalBasisRefs, checkpointView } from "./_compile-common.js";
 import type { ToolSpec } from '../lib/types.js';
 import type { OntologyGraph } from '../ontology/graph.js';
 
@@ -86,11 +86,7 @@ export function run(args: CompileInspectionArgs, graph: OntologyGraph) {
   const result = {
     workType: { id: work.id, name: work.name },
     stage: stage ?? 'all',
-    checkpoints: checkpoints.map((c) => ({
-      id: c.id,
-      name: c.name,
-      stage: c.meta?.['stage'] as string | undefined,
-    })),
+    checkpoints: checkpoints.map((c) => checkpointView(c)),
     requiredEvidence: [...allEvidence.values()],
     legalReferences: [...allStandards.values()],
     forms: {

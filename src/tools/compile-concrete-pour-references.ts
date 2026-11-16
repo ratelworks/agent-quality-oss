@@ -1,7 +1,7 @@
 import { resolveWorkType } from '../ontology/resolver.js';
 import { getSchema } from '../schemas/loader.js';
 import { buildResponse } from './_response.js';
-import { mergeBasis, schemaLegalBasisRefs } from "./_compile-common.js";
+import { mergeBasis, schemaLegalBasisRefs, checkpointView } from "./_compile-common.js";
 import type { ToolSpec } from '../lib/types.js';
 import type { OntologyGraph } from '../ontology/graph.js';
 
@@ -40,11 +40,7 @@ export function run(args: CompilePourArgs, graph: OntologyGraph) {
 
   const n1 = graph.neighbors(workId);
   const materials = (n1['usesMaterial'] ?? []).map((m) => ({ id: m.id, name: m.name }));
-  const checkpoints = (n1['hasInspectionCheckpoint'] ?? []).map((c) => ({
-    id: c.id,
-    name: c.name,
-    stage: c.meta?.['stage'] as string | undefined,
-  }));
+  const checkpoints = (n1['hasInspectionCheckpoint'] ?? []).map((c) => checkpointView(c));
   const risks = (n1['hasQualityRisk'] ?? []).map((r) => ({
     id: r.id,
     name: r.name,
@@ -72,6 +68,9 @@ export function run(args: CompilePourArgs, graph: OntologyGraph) {
           operator: c.meta?.['operator'],
           target: c.meta?.['target'],
           plusMinus: c.meta?.['plusMinus'],
+          // 지정값(호칭값)에 따라 허용오차가 달라지는 기준 — 표와 조건을 함께 준다
+          toleranceTable: c.meta?.['toleranceTable'],
+          condition: c.meta?.['condition'],
           min: c.meta?.['min'],
           max: c.meta?.['max'],
           threshold: c.meta?.['threshold'],

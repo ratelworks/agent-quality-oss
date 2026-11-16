@@ -143,7 +143,7 @@ const defaultArgs: Record<string, Record<string, unknown>> = {
   resolve_worktype: { input: '콘크리트 타설' },
   get_work_quality_profile: { workType: 'work.concrete_placement' },
   get_material_quality_profile: { material: 'material.ready_mixed_concrete' },
-  infer_quality_risks: { workType: '콘크리트 타설', observations: ['슬럼프 210mm'] },
+  infer_quality_risks: { workType: '콘크리트 타설', observations: ['슬럼프 210mm, 호칭 슬럼프 150mm'] },
   map_quality_basis: { workType: '콘크리트 타설', material: '레미콘', testItem: '슬럼프' },
   list_core_quality_laws: {},
   get_quality_law_article: { articleId: 'standard.law.btia_55' },
@@ -159,7 +159,7 @@ const defaultArgs: Record<string, Record<string, unknown>> = {
   compile_concrete_pour_references: {},
   compile_inspection_references: { workType: '콘크리트 타설' },
   compile_ncr_references: { ncrId: 'ncr.slump_too_high' },
-  evaluate_observation: { observation: '슬럼프 210mm', criterionId: 'criteria.slump_general_150' },
+  evaluate_observation: { observation: '슬럼프 210mm, 호칭 슬럼프 150mm', criterionId: 'criteria.slump_tolerance' },
   verify_quality_basis: {
     statement: '슬럼프 기준은 150mm이다.',
     claimedBasisIds: ['standard.kcs_14_20'],
@@ -168,8 +168,8 @@ const defaultArgs: Record<string, Record<string, unknown>> = {
   compile_document_references: { docId: 'quality_plan' },
   chain_quality_inspection: { workType: '슬래브 타설' },
   chain_quality_test_plan: { workTypes: ['콘크리트 타설'] },
-  chain_test_report_review: { observations: ['슬럼프 180mm'], testItem: 'test.slump' },
-  chain_nonconformance_report: { testId: 'test.slump', observation: '슬럼프 205mm' },
+  chain_test_report_review: { observations: ['슬럼프 180mm, 호칭 슬럼프 150mm'], testItem: 'test.slump' },
+  chain_nonconformance_report: { testId: 'test.slump', observation: '슬럼프 205mm, 호칭 슬럼프 150mm' },
   chain_daily_quality_briefing: { workTypes: ['콘크리트 타설'] },
   discover_relevant_domain: { situation: '슬래브 콘크리트 타설' },
   explain_quality_decision_path: { entityId: 'ncr.slump_too_high' },
@@ -330,7 +330,7 @@ console.log('\n=== C. 효과(가치) 검증 — E2E 시나리오 ===\n');
 
 {
   const ev = TOOL_MAP.get('evaluate_observation')!.run(
-    { observation: '슬럼프 210mm', criterionId: 'criteria.slump_general_150' },
+    { observation: '슬럼프 210mm, 호칭 슬럼프 150mm', criterionId: 'criteria.slump_tolerance' },
     graph,
   ) as ToolResponse<any>;
   const ncrPkg = TOOL_MAP.get('compile_ncr_references')!.run(
@@ -442,7 +442,7 @@ console.log('\n=== C. 효과(가치) 검증 — E2E 시나리오 ===\n');
 
 {
   const r = TOOL_MAP.get('evaluate_observation')!.run(
-    { observation: '슬럼프 174mm', criterionId: 'criteria.slump_general_150' },
+    { observation: '슬럼프 174mm, 호칭 슬럼프 150mm', criterionId: 'criteria.slump_tolerance' },
     graph,
   ) as ToolResponse<any>;
   const ea = r.result.expertAssessment;

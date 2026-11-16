@@ -1,0 +1,71 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "criteria:slump_tolerance",
+  "@type": "AcceptanceCriteria",
+  "name": "슬럼프 허용오차 (호칭 슬럼프 기준)",
+  "aliases": [
+    "슬럼프 허용오차",
+    "슬럼프 판정기준"
+  ],
+  "_meta": {
+    "operator": "tolerance_by_target",
+    "unit": "mm",
+    "quantity": "슬럼프",
+    "targetLabel": "호칭 슬럼프",
+    "targetKeywords": [
+      "호칭",
+      "지정",
+      "배합",
+      "목표",
+      "설계",
+      "주문",
+      "규격",
+      "기준",
+      "소요"
+    ],
+    "toleranceTable": [
+      {
+        "targets": [
+          25
+        ],
+        "plusMinus": 10
+      },
+      {
+        "targets": [
+          50,
+          65
+        ],
+        "plusMinus": 15
+      },
+      {
+        "min": 80,
+        "plusMinus": 25
+      }
+    ],
+    "condition": "허용오차는 호칭 슬럼프에 따라 다르다 — 25 mm 는 ±10, 50 및 65 mm 는 ±15, 80 mm 이상은 ±25. 호칭 슬럼프는 납품서·배합설계서에 적힌 값이다. 공사시방서가 허용오차를 따로 정했으면 그 값이 우선한다",
+    "neededInputs": [
+      "호칭 슬럼프 (납품서·배합설계서에 적힌 값)"
+    ],
+    "fallbackToProject": true,
+    "reference": "KCS 14 20 10 1.7.3 표 1.7-2 (슬럼프의 허용오차)",
+    "sourceStatus": "verified",
+    "verifiedAgainst": {
+      "standard": "KCS 14 20 10",
+      "edition": "2024-12-30",
+      "clause": "1.7.3 표 1.7-2",
+      "quotes": [
+        "25 | ± 10",
+        "50 및 65 | ± 15",
+        "80 이상 | ± 25"
+      ]
+    }
+  },
+  "appliesTo": [
+    "test:slump"
+  ],
+  "derivedFrom": [
+    "standard:kcs_14_20.10.1_7_3",
+    "standard:kcs_14_20.10.2_2_7",
+    "standard:ks_f_2402"
+  ]
+}

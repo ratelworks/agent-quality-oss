@@ -263,12 +263,20 @@ const B_ROWS: CheckRow[] = [
   },
   {
     id: 'B6',
-    requirement: 'KCS §3.2: 슬럼프 (KS F 2402) 기준 ±25mm (일반)',
-    source: 'KCS 14 20 10 §3.2 + KS F 2402',
-    mcpTool: 'criteria.slump_general_150',
+    requirement: 'KCS 1.7.3 표 1.7-2: 슬럼프 허용오차 — 호칭 슬럼프 25 ±10 · 50 및 65 ±15 · 80 이상 ±25 mm',
+    source: 'KCS 14 20 10 1.7.3 표 1.7-2 + KS F 2402',
+    mcpTool: 'criteria.slump_tolerance',
     verification: () => {
-      const c = graph.get('criteria.slump_general_150');
-      return c?.meta?.['plusMinus'] === 25 && c?.meta?.['unit'] === 'mm' ? 'O' : '✗';
+      // 허용오차는 호칭 슬럼프에 따라 다르다 — 표 세 줄이 모두 있어야 한다
+      const c = graph.get('criteria.slump_tolerance');
+      const table = (c?.meta?.['toleranceTable'] ?? []) as Array<{ targets?: number[]; min?: number; plusMinus: number }>;
+      const has = (pm: number, match: (r: { targets?: number[]; min?: number }) => boolean): boolean => table.some((r) => r.plusMinus === pm && match(r));
+      const ok =
+        c?.meta?.['unit'] === 'mm' &&
+        has(10, (r) => r.targets?.includes(25) === true) &&
+        has(15, (r) => r.targets?.includes(50) === true && r.targets.includes(65)) &&
+        has(25, (r) => r.min === 80);
+      return ok ? 'O' : '✗';
     },
   },
   {

@@ -35,7 +35,7 @@ const SCENARIOS: Scenario[] = [
     context: '슬럼프 시험 결과 200mm 나옴 - 기준 초과로 의심',
     intent: '관측값 1건 즉시 평가',
     tool: 'evaluate_observation',
-    args: { observation: '슬럼프 200mm', testId: 'test.slump' },
+    args: { observation: '슬럼프 200mm, 호칭 슬럼프 150mm', testId: 'test.slump' },
   },
   {
     id: 'S03',

@@ -2,6 +2,7 @@
  * Tool: get_work_quality_profile
  */
 
+import { checkpointView } from './_compile-common.js';
 import { resolveWorkType } from '../ontology/resolver.js';
 import { buildResponse, entityBasis } from './_response.js';
 import type { ToolSpec } from '../lib/types.js';
@@ -74,11 +75,7 @@ export function run(args: WorkProfileArgs, graph: OntologyGraph) {
     }
   }
 
-  const checkpoints = (n1['hasInspectionCheckpoint'] ?? []).map((c) => ({
-    id: c.id,
-    name: c.name,
-    stage: (c.meta?.['stage'] as string | undefined) ?? null,
-  }));
+  const checkpoints = (n1['hasInspectionCheckpoint'] ?? []).map((c) => checkpointView(c));
 
   for (const c of n1['hasInspectionCheckpoint'] ?? []) {
     for (const d of graph.neighbors(c.id)['requiresEvidence'] ?? []) {

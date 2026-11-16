@@ -26,7 +26,8 @@
         "d≤200 mm인 경우 -10 mm",
         "하단 거푸집까지의 순거리에 대한 허용오차는 -7 mm"
       ]
-    }
+    },
+    "sourceStatus": "verified"
   },
   "verifies": [
     "risk:rebar_material_deficiency"

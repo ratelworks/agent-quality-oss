@@ -1,16 +1,16 @@
 {
   "label": "r2",
-  "generatedAt": "2026-11-16T05:10:08.746Z",
+  "generatedAt": "2026-11-16T06:50:12.180Z",
   "scenarios": 16,
   "passRate": 0.9375,
   "falsePassRate": 0,
   "basisMisuseRate": 0.0625,
   "errorRate": 0,
-  "nodeUtilizationRate": 0.759,
+  "nodeUtilizationRate": 0.761,
   "documentCoverageRate": 1,
   "trustWorstVerifiedRate": 0,
-  "trustAnyVerifiedRate": 0.875,
-  "trustVerifiedBasisRatio": 0.5127678571428572,
+  "trustAnyVerifiedRate": 0.9375,
+  "trustVerifiedBasisRatio": 0.5843696853741498,
   "documentCoverage": {
     "total": 19,
     "covered": 19,
@@ -57,14 +57,14 @@
       "WorkType": 19
     },
     "byStatus": {
-      "verified": 167,
+      "verified": 173,
       "indirect_source": 3,
       "skeleton": 23,
-      "unknown": 217
+      "unknown": 211
     },
-    "isolated": 95,
-    "referenced": 311,
-    "utilizationRate": 0.759
+    "isolated": 94,
+    "referenced": 312,
+    "utilizationRate": 0.761
   },
   "perScenario": [
     {

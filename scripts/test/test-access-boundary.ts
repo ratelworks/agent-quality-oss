@@ -12,8 +12,9 @@
 import { spawn, type ChildProcess } from "node:child_process";
 import { request } from "node:http";
 import { connect } from "node:net";
-import { networkInterfaces } from "node:os";
-import { resolve, dirname } from "node:path";
+import { networkInterfaces, tmpdir } from "node:os";
+import { existsSync, mkdtempSync, readFileSync, statSync } from "node:fs";
+import { resolve, dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { requestRejection } from "../../src/lib/request-guard.js";
 import { resolveHttpAccess } from "../../src/server/http.js";
@@ -126,7 +127,9 @@ function testDecision(): void {
 
 async function testViewer(): Promise<void> {
   const port = VIEWER_PORT;
-  const child = start(["viewer", "--port", String(port)], { QUALITY_VIEWER_NO_OPEN: "1" });
+  // 저장 폴더를 임시 폴더로 돌린다 — 임시 저장이 사용자 홈이 아니라 지정한 폴더에 가는지도 본다
+  const store = mkdtempSync(join(tmpdir(), "quality-viewer-test-"));
+  const child = start(["viewer", "--port", String(port)], { QUALITY_VIEWER_NO_OPEN: "1", QUALITY_LOCAL_DIR: store });
   try {
     await waitUntilUp(port);
     const home = await send(port, { headers: { Host: `localhost:${port}` } });
@@ -171,6 +174,22 @@ async function testViewer(): Promise<void> {
       body: JSON.stringify({ docId: "ncr", formValues: {} }),
     });
     check("폼: 다른 Origin 의 한글 저장 요청은 403", previewBadOrigin.status === 403, String(previewBadOrigin.status));
+    const saved = await send(port, {
+      method: "POST",
+      path: "/api/draft/save",
+      headers: { Host: `localhost:${port}`, Origin: `http://localhost:${port}`, "Content-Type": "application/json" },
+      body: JSON.stringify({ docId: "ncr", formValues: { projectName: "시험 현장" } }),
+    });
+    const draftFile = join(store, "drafts", "ncr.json");
+    check(
+      "폼: 임시 저장은 지정한 저장 폴더에, 소유자만 읽는 파일로",
+      saved.status === 200 && existsSync(draftFile) && (statSync(draftFile).mode & 0o777) === 0o600 && readFileSync(draftFile, "utf8").includes("시험 현장"),
+      `${saved.status} ${existsSync(draftFile)}`,
+    );
+    const loaded = await send(port, { path: "/api/draft/load?docId=ncr", headers: { Host: `localhost:${port}` } });
+    check("폼: 임시 저장한 값을 다시 불러옴", loaded.status === 200 && loaded.body.includes("시험 현장"), loaded.body.slice(0, 80));
+    const icon = await send(port, { path: "/favicon.ico", headers: { Host: `localhost:${port}` } });
+    check("폼: 아이콘 요청에 오류를 내지 않음", icon.status === 204, String(icon.status));
     const badHost = await send(port, { headers: { Host: `evil.example:${port}` } });
     check("폼: 다른 Host 는 403", badHost.status === 403, String(badHost.status));
     const badOrigin = await send(port, {

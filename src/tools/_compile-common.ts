@@ -50,6 +50,36 @@ export function schemaLegalBasisRefs(
 }
 
 /** 여러 도구 응답의 basis 를 id 기준 dedup 병합 (체인 도구용 — 우선순위 낮은 값 유지) */
+/** 검측 지점을 응답에 싣는 모양 — 이름만이 아니라 확인 기준(표준시방서와 대조한 내용)을 함께 준다 */
+export interface CheckpointView {
+  id: string;
+  name: string;
+  stage: string | null;
+  /** 무엇을 확인하는가 — 없으면 이 검측 지점의 확인 기준이 아직 수록되지 않은 것이다 */
+  checkItems: string | null;
+  /** 확인 기준의 근거 조항 */
+  reference: string | null;
+  /** 대조한 기준과 판 (예: "KCS 14 20 10 2024-12-30 판") */
+  checkedAgainst: string | null;
+}
+
+export function checkpointView(c: { id: string; name: string; meta?: Record<string, unknown> }): CheckpointView {
+  const meta = c.meta ?? {};
+  const raw = meta["verifiedAgainst"];
+  const anchors = (Array.isArray(raw) ? raw : [raw]).filter(
+    (a): a is { standard: string; edition: string } =>
+      typeof a === "object" && a !== null && typeof (a as { standard?: unknown }).standard === "string" && typeof (a as { edition?: unknown }).edition === "string",
+  );
+  return {
+    id: c.id,
+    name: c.name,
+    stage: typeof meta["stage"] === "string" ? meta["stage"] : null,
+    checkItems: typeof meta["rule"] === "string" ? meta["rule"] : null,
+    reference: typeof meta["reference"] === "string" ? meta["reference"] : null,
+    checkedAgainst: anchors.length > 0 ? anchors.map((a) => `${a.standard} ${a.edition} 판`).join(" · ") : null,
+  };
+}
+
 export function mergeBasis(...groups: BasisRef[][]): BasisRef[] {
   const seen = new Map<string, BasisRef>();
   for (const group of groups) {

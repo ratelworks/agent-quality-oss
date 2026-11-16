@@ -19,7 +19,8 @@
         "연속하여 시공하는 다층 구조의 경우 타설층을 포함하여 최소 3개 층에 걸쳐 동바리를 존치하거나 적절하게 재설치 한다",
         "구조계산으로 확인한 후 책임기술자의 승인을 받아 해체할 수 있다"
       ]
-    }
+    },
+    "sourceStatus": "verified"
   },
   "verifies": [
     "risk:formwork_premature_stripping"

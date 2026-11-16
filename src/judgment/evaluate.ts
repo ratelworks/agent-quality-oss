@@ -4,16 +4,18 @@
  *
  * 연산자(operator):
  *   tolerance · between · le · lt · ge · gt — 수치 하나를 기준값과 견준다
+ *   tolerance_by_target — 지정값(호칭값)에 따라 허용오차가 달라진다. 슬럼프 (target-tolerance.ts)
  *   statistical_threshold — 압축강도. 경우(레디믹스트·현장 배치플랜트·현장양생·코어)에 따라
  *     기준 강도와 규칙이 다르다 (strength.ts)
  *   strip_slab_bottom — 슬래브·보 밑면 거푸집 해체 강도 (단층·다층구조에 따라 다르다)
  *   condition_dependent — 조건(예: 한중·서중)을 알아야 기준이 정해진다. 수치 판정을 내지 않는다
  */
 
-import { parseObservation, unitsCompatible } from './parse-observation.js';
+import { parseObservation, unitsCompatible, parseValueList } from './parse-observation.js';
 import type { ObservationContext, ObservationToken } from './parse-observation.js';
 import { judgeSlabBottomStripping, judgeStrength } from './strength.js';
 import type { StrengthCase } from './strength.js';
+import { describeTable, isToleranceTable, readTargetAndMeasured, toleranceFor } from './target-tolerance.js';
 import type { BaseEntity } from '../ontology/schema.js';
 
 export type Verdict = 'PASS' | 'FAIL' | 'MARGINAL' | 'UNDETERMINED';
@@ -87,6 +89,11 @@ export function evaluate(
     strengthCase?: StrengthCase;
     condition?: string;
     neededInputs?: string[];
+    /** tolerance_by_target — 허용오차 표, 지정값의 이름·가리키는 말, 항목 이름 */
+    toleranceTable?: unknown;
+    targetLabel?: string;
+    targetKeywords?: string[];
+    quantity?: string;
   };
 
   const appliedCriterion: AppliedCriterion | null = criterionEntity
@@ -126,6 +133,19 @@ export function evaluate(
   if (meta.operator === 'condition_dependent') {
     base.reasoning = meta.condition ?? '조건에 따라 기준이 달라 수치만으로 판정하지 않습니다.';
     if (meta.neededInputs && meta.neededInputs.length > 0) base.neededInputs = meta.neededInputs;
+    return base;
+  }
+
+  // 지정값에 따라 허용오차가 달라지는 항목 (슬럼프)
+  if (meta.operator === 'tolerance_by_target') {
+    return evalByTarget(base, meta, observationText);
+  }
+
+  // 값이 여러 개면 하나를 골라 판정하지 않는다 — 고르지 않은 값이 기준을 벗어났을 수 있다
+  const listed = parseValueList(observationText);
+  if (listed) {
+    base.reasoning = `값이 여러 개로 읽힙니다(${listed.values.join(', ')} ${listed.unit}) — 어느 값을 판정할지 정할 수 없어 판정하지 않습니다. 값 하나에 문장 하나로 나눠 주세요.`;
+    base.neededInputs = ['값 하나씩 나눈 관측값 (문장 하나에 값 하나)'];
     return base;
   }
 
@@ -244,6 +264,73 @@ function evalThreshold(
   }
   const passSym = upper ? (inclusive ? '≤' : '<') : inclusive ? '≥' : '>';
   return mk(base, 'PASS', 'in_range', v, unit, `${v}${unit} ${passSym} ${threshold}${unit}`);
+}
+
+/** 지정값(호칭값)에 따라 허용오차가 달라지는 항목 — 지정값을 모르면 판정하지 않는다 */
+function evalByTarget(
+  base: Judgment,
+  meta: { unit?: string | null; toleranceTable?: unknown; targetLabel?: string; targetKeywords?: string[]; quantity?: string },
+  text: string,
+): Judgment {
+  const unit = meta.unit ?? '';
+  const table = meta.toleranceTable;
+  const label = meta.targetLabel ?? '지정값';
+  const quantity = meta.quantity ?? '';
+  if (!isToleranceTable(table) || !Array.isArray(meta.targetKeywords) || !quantity) {
+    base.reasoning = `판정기준에 허용오차 표나 지정값 표현이 없어 판정하지 못합니다. (criterion=${base.criterionId})`;
+    return base;
+  }
+  const reading = readTargetAndMeasured(text, meta.targetKeywords, quantity, unit);
+  const tableText = describeTable(table, unit);
+  if (reading.measured.length === 0) {
+    base.reasoning = `측정값을 읽지 못했습니다 — 예: "${quantity} 185${unit}, ${label} 150${unit}".`;
+    base.neededInputs = [`${quantity} 측정값`];
+    return base;
+  }
+  if (reading.measured.length > 1) {
+    base.reasoning = `측정값이 여러 개로 읽힙니다(${reading.measured.join(', ')} ${unit}) — 어느 값을 판정할지 정할 수 없어 판정하지 않습니다. 값 하나에 문장 하나로 나눠 주세요.`;
+    base.neededInputs = ['값 하나씩 나눈 관측값 (문장 하나에 값 하나)'];
+    return base;
+  }
+  const v = reading.measured[0] as number;
+  const seen: Judgment = { ...base, observedValue: v, observedUnit: unit };
+  if (reading.target === undefined) {
+    seen.reasoning = `${label} 값이 없어 판정하지 않습니다 — 허용오차가 ${label}에 따라 다릅니다(${tableText}). 납품서·배합설계서에 적힌 ${label} 값을 함께 적어 주세요 (예: "${quantity} ${v}${unit}, ${label} 150${unit}").`;
+    seen.neededInputs = [`${label} (납품서·배합설계서에 적힌 값)`];
+    return seen;
+  }
+  const target = reading.target;
+  const pm = toleranceFor(target, table);
+  if (pm === null) {
+    seen.reasoning = `${label} ${target}${unit} 은 허용오차 표에 없는 값입니다(${tableText}) — 공사시방서·배합설계서가 정한 허용오차로 판정하세요.`;
+    seen.neededInputs = [`${label} ${target}${unit} 에 적용할 허용오차 (공사시방서)`];
+    return seen;
+  }
+  const side = (tol: number): 'low' | 'high' | 'in' => (v < target - tol ? 'low' : v > target + tol ? 'high' : 'in');
+  const main = side(pm);
+  let note = '';
+  if (reading.statedPlusMinus !== undefined && reading.statedPlusMinus !== pm) {
+    if ((side(reading.statedPlusMinus) === 'in') !== (main === 'in')) {
+      seen.reasoning = `문장에 적힌 허용오차 ±${reading.statedPlusMinus}${unit} 와 표의 허용오차 ±${pm}${unit}(${label} ${target}${unit})가 달라 결과가 갈립니다 — 공사시방서가 허용오차를 따로 정했는지 확인하세요.`;
+      seen.neededInputs = ['적용할 허용오차의 근거 (공사시방서 또는 표준시방서)'];
+      return seen;
+    }
+    note = ` (문장에 적힌 허용오차 ±${reading.statedPlusMinus}${unit} 로도 결과가 같습니다)`;
+  }
+  const min = target - pm;
+  const max = target + pm;
+  const applied: Judgment = {
+    ...seen,
+    appliedCriterion: { ...(seen.appliedCriterion ?? { unit }), target, plusMinus: pm, min, max },
+  };
+  const head = `${label} ${target}${unit} → 허용오차 ±${pm}${unit} → 허용범위 ${min}~${max}${unit}.`;
+  if (main === 'low') return mk(applied, 'FAIL', 'too_low', v, unit, `${head} 측정 ${v}${unit} < 허용하한 ${min}${unit}${note}`);
+  if (main === 'high') return mk(applied, 'FAIL', 'too_high', v, unit, `${head} 측정 ${v}${unit} > 허용상한 ${max}${unit}${note}`);
+  const margin = pm * MARGINAL_RATIO;
+  if (v < min + margin || v > max - margin) {
+    return mk(applied, 'MARGINAL', 'in_range', v, unit, `${head} 측정 ${v}${unit} — 범위 안이지만 경계에서 ${margin}${unit} 이내${note}`);
+  }
+  return mk(applied, 'PASS', 'in_range', v, unit, `${head} 측정 ${v}${unit} — 범위 안${note}`);
 }
 
 function mk(

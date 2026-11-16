@@ -23,7 +23,7 @@ export const spec: ToolSpec = {
       workType: { type: "string", description: "공종 id 또는 자연어 (선택)" },
       testId: { type: "string", description: "시험 id (선택, 예: test.slump)" },
       ncrId: { type: "string", description: "NCR id를 이미 알면 직접 지정 (선택)" },
-      observation: { type: "string", description: "관측값 문장 (선택, 예: '슬럼프 205mm')" },
+      observation: { type: "string", description: "관측값 문장 (선택, 예: '슬럼프 205mm, 호칭 슬럼프 150mm' — 슬럼프는 호칭 슬럼프를 함께 적는다)" },
     },
   },
 };

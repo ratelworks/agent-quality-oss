@@ -21,7 +21,7 @@ export const spec: ToolSpec = {
       observations: {
         type: 'array',
         items: { type: 'string' },
-        description: '현장 관측값. 예: ["슬럼프 210mm", "염화물 0.45 kg/㎥"]',
+        description: '현장 관측값 — 시험 하나에 문장 하나. 슬럼프는 호칭 슬럼프를 함께 적는다. 예: ["슬럼프 210mm, 호칭 슬럼프 150mm", "염화물 0.45 kg/㎥"]',
       },
     },
     required: ['workType'],

@@ -26,7 +26,8 @@ export const spec: ToolSpec = {
       observations: {
         type: "array",
         items: { type: "string" },
-        description: "성적서에서 추출한 관측값 문장 배열 (예: ['슬럼프 180mm', '공기량 4.5%'])",
+        description:
+          "성적서에서 추출한 관측값 문장 배열 — 시험 하나에 문장 하나 (예: ['슬럼프 180mm, 호칭 슬럼프 180mm', '공기량 4.5%'] — 슬럼프는 호칭 슬럼프를 함께 적는다). 한 시험의 여러 값은 한 문장에 함께 적는다 (예: '압축강도 공시체 3개 25.1, 26.4, 27.8 MPa, 호칭강도 27MPa') — 낱개로 나누면 평균으로 보는 판정을 하지 못한다.",
       },
     },
     required: ["observations"],
@@ -89,7 +90,7 @@ export function run(args: ChainTestReportArgs, graph: OntologyGraph): ToolRespon
         failCount > 0
           ? "FAIL 항목 존재 — 부적합 처리 흐름(chain_nonconformance_report) 검토 필요."
           : undeterminedCount > 0
-            ? "UNDETERMINED 항목 존재 — 판정 수치 미확보(skeleton) 기준. 시방서·KCS 원문 확인 필요."
+            ? "UNDETERMINED 항목 존재 — 항목마다 detail 의 comparison(사유)과 neededInputs(더 필요한 입력)를 확인."
             : "관측값 전항 기준 내.",
     },
     reviewDocument: reviewPkg.result,

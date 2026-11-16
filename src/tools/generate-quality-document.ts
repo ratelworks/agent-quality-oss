@@ -26,7 +26,7 @@ export const spec: ToolSpec = {
   name: "generate_quality_document",
   description:
     `품질 문서 ${listSchemaIds().length}종의 본문을 만든다 — 입력값(formValues)을 양식 구조대로 옮긴다. 문장을 짓지 않으며, 입력하지 않은 칸은 비워 두고 무엇을 적어야 하는지 알린다. ` +
-    "형식: md(Markdown, 기본) · doclang(DocLang 0.9 XML) · hwpx(한글 파일로 저장하고 경로를 돌려줌 — 작성 안내 줄은 빼고 저장). " +
+    "형식: md(Markdown, 기본) · doclang(DocLang 0.9 XML) · hwpx(한글 파일로 저장하고 경로를 돌려줌 — 작성 안내 줄은 빼고 저장. 입력 형식에 고칠 점이 있으면 저장하지 않고 problems 를 돌려줌). " +
     "법령·고시 서식을 따르는 문서도 기재 항목만 옮기며 서식의 칸 배치는 재현하지 않는다. [초안 · 확인과 서명은 품질관리자·감리원·발주자]",
   inputSchema: {
     type: "object",
@@ -83,9 +83,17 @@ export function run(args: GenerateDocumentArgs, graph: OntologyGraph) {
   let output: Record<string, unknown>;
   if (format === "doclang") {
     output = { doclang: serializeToDoclang(body, schema.classification ?? null), doclangVersion: DOCLANG_VERSION };
+  } else if (format === "hwpx" && problems.length > 0) {
+    // 형식이 틀린 값은 칸에 그대로 찍힌다 — 고치기 전에는 파일을 만들지 않는다(쓸 수 없는 파일이 남는다)
+    output = {
+      hwpxSaved: false,
+      note: "입력에 고칠 점(problems)이 있어 한글 파일을 만들지 않았습니다. problems 를 고친 뒤 다시 부르세요. 본문은 markdown 으로 미리 볼 수 있습니다.",
+      markdown,
+    };
   } else if (format === "hwpx") {
     const file = saveHwpx(schema.id, markdown, body.title);
     output = {
+      hwpxSaved: true,
       hwpxPath: file.path,
       hwpxFileName: file.fileName,
       hwpxBytes: file.bytes,
