@@ -22,7 +22,7 @@
   },
   "scripts": {
     "build": "npm run clean && tsc && npm run copy:data && chmod +x build/cli.js build/index.js",
-    "copy:data": "node -e \"import('node:fs/promises').then(async fs => { await fs.cp('src/ontology/graph', 'build/ontology/graph', { recursive: true }); await fs.cp('src/ontology/laws', 'build/ontology/laws', { recursive: true }); await fs.cp('src/ontology/field-phrases.json', 'build/ontology/field-phrases.json'); await fs.cp('src/schemas/document-schemas.json', 'build/schemas/document-schemas.json'); await fs.cp('src/schemas/field-labels.json', 'build/schemas/field-labels.json'); })\"",
+    "copy:data": "node -e \"import('node:fs/promises').then(async fs => { await fs.cp('src/ontology/graph', 'build/ontology/graph', { recursive: true }); await fs.cp('src/ontology/laws', 'build/ontology/laws', { recursive: true }); await fs.cp('src/ontology/field-phrases.json', 'build/ontology/field-phrases.json'); await fs.cp('src/ontology/penalty-links.json', 'build/ontology/penalty-links.json'); await fs.cp('src/schemas/document-schemas.json', 'build/schemas/document-schemas.json'); await fs.cp('src/schemas/field-labels.json', 'build/schemas/field-labels.json'); })\"",
     "watch": "tsc --watch",
     "dev": "tsx src/index.ts",
     "dev:stdio": "tsx src/index.ts --stdio",
