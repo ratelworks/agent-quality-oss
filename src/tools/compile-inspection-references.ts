@@ -1,4 +1,4 @@
-import { penaltyBlock } from './_compile-common.js';
+import { obligationBlock } from './_compile-common.js';
 import { resolveWorkType } from '../ontology/resolver.js';
 import { getSchema } from '../schemas/loader.js';
 import { buildResponse } from './_response.js';
@@ -87,7 +87,7 @@ export function run(args: CompileInspectionArgs, graph: OntologyGraph) {
   const result = {
     workType: { id: work.id, name: work.name },
     stage: stage ?? 'all',
-    ...penaltyBlock(['tool:compile_inspection_references', `work:${work.id}`]),
+    ...obligationBlock(['tool:compile_inspection_references', `work:${work.id}`]),
     checkpoints: checkpoints.map((c) => checkpointView(c)),
     requiredEvidence: [...allEvidence.values()],
     legalReferences: [...allStandards.values()],

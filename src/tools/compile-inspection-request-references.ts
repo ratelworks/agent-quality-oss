@@ -3,7 +3,7 @@
  * workType + inspectionPoint → 적용 KCS·KS 표준 + 사전 자체 검측 체크포인트 + 감리 routing.
  */
 
-import { penaltyBlock } from './_compile-common.js';
+import { obligationBlock } from './_compile-common.js';
 import { getSchema } from '../schemas/loader.js';
 import { buildResponse } from './_response.js';
 import { mergeBasis, schemaLegalBasisRefs } from "./_compile-common.js";
@@ -99,7 +99,7 @@ export function run(args: CompileInspectionRequestArgs, graph: OntologyGraph) {
       workType: workType ?? null,
       inspectionPoint: inspectionPoint ?? null,
       stage: stage ?? null,
-      ...penaltyBlock(['tool:compile_inspection_request_references', ...(workType ? [`work:${workType}`] : [])]),
+      ...obligationBlock(['tool:compile_inspection_request_references', ...(workType ? [`work:${workType}`] : [])]),
       formSchema: schema,
       checkpoints,
       appliedStandards: appliedStandards.map((s) => ({ id: s.id, name: s.name })),

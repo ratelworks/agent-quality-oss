@@ -1,49 +1,222 @@
 {
-  "_readme": "일 · 도구가 다루는 상황과 그 상황을 어기면 받는 벌점 항목(건설기술 진흥법 시행령 별표 8 제5호)을 잇는 자료. 항목의 글과 점수는 수록 원문에서 읽는다(여기에는 항목 번호만 둔다). 근거 묶음 도구가 질문받은 일에 맞는 벌점을 함께 돌려줄 때 쓴다.",
+  "_readme": "일 · 도구가 다루는 상황과 그 상황을 어기면 받는 벌점 항목(건설기술 진흥법 시행령 별표 8 제5호), 형벌·과태료 호(건설기술 진흥법 제87조~제91조)를 잇는 자료. 항목·호의 글과 점수·처벌 내용은 수록 원문에서 읽는다(여기에는 번호만 둔다). 근거 묶음 도구가 질문받은 일에 맞는 벌점·벌칙을 함께 돌려줄 때 쓴다.",
   "asOf": "2026-11-17",
   "topics": {
-    "inspection": { "label": "검측·단계별 확인 없이 시공 / 확인검측 누락", "paths": ["제5호 가목 7)가)", "제5호 가목 7)나)", "제5호 가목 7)다)", "제5호 나목 1)가)", "제5호 나목 1)나)", "제5호 나목 1)다)", "제5호 나목 1)라)"] },
-    "design_deviation": { "label": "설계도서와 다른 시공", "paths": ["제5호 가목 18)가)", "제5호 가목 18)나)", "제5호 가목 18)다)"] },
-    "concrete_pour": { "label": "콘크리트 타설·양생 관리", "paths": ["제5호 가목 15)가)", "제5호 가목 15)나)"] },
-    "crack": { "label": "콘크리트 균열 관리", "paths": ["제5호 가목 2)가)", "제5호 가목 2)나)", "제5호 가목 2)다)", "제5호 가목 2)라)"] },
-    "segregation": { "label": "콘크리트 재료분리·철근 노출", "paths": ["제5호 가목 3)가)", "제5호 가목 3)나)", "제5호 가목 3)다)"] },
-    "rebar_steel": { "label": "철근 배근·강구조 조립·용접 불량", "paths": ["제5호 가목 4)가)", "제5호 가목 4)나)", "제5호 가목 4)다)"] },
-    "earthwork": { "label": "토공사 부실", "paths": ["제5호 가목 1)가)", "제5호 가목 1)나)", "제5호 가목 1)다)"] },
-    "asphalt": { "label": "아스콘 포설·다짐", "paths": ["제5호 가목 17)가)", "제5호 가목 17)나)", "제5호 가목 17)다)"] },
-    "waterproofing": { "label": "방수 불량·누수", "paths": ["제5호 가목 6)가)", "제5호 가목 6)나)", "제5호 가목 6)다)"] },
-    "drainage": { "label": "배수 불량", "paths": ["제5호 가목 5)가)", "제5호 가목 5)나)", "제5호 가목 5)다)"] },
-    "temporary": { "label": "가설구조물 설치·확인", "paths": ["제5호 가목 10)가)", "제5호 가목 10)나)", "제5호 나목 15)가)", "제5호 나목 15)나)"] },
-    "quality_plan_test": { "label": "품질관리계획·품질시험계획 이행, 시험실·장비·인력, 시험 성과 검토", "paths": ["제5호 가목 12)가)", "제5호 가목 12)나)", "제5호 가목 13)가)", "제5호 가목 13)나)", "제5호 가목 13)다)", "제5호 가목 13)라)", "제5호 나목 7)가)", "제5호 나목 7)나)", "제5호 나목 7)다)", "제5호 나목 7)라)"] },
-    "material": { "label": "자재 반입·품질확인", "paths": ["제5호 가목 14)가)", "제5호 가목 14)다)", "제5호 나목 8)가)", "제5호 나목 8)나)", "제5호 나목 8)다)"] }
+    "inspection": {
+      "label": "검측·단계별 확인 없이 시공 / 확인검측 누락",
+      "paths": [
+        "제5호 가목 7)가)",
+        "제5호 가목 7)나)",
+        "제5호 가목 7)다)",
+        "제5호 나목 1)가)",
+        "제5호 나목 1)나)",
+        "제5호 나목 1)다)",
+        "제5호 나목 1)라)"
+      ],
+      "sanctions": [
+        "제88조 제1호의4"
+      ]
+    },
+    "design_deviation": {
+      "label": "설계도서와 다른 시공",
+      "paths": [
+        "제5호 가목 18)가)",
+        "제5호 가목 18)나)",
+        "제5호 가목 18)다)"
+      ]
+    },
+    "concrete_pour": {
+      "label": "콘크리트 타설·양생 관리",
+      "paths": [
+        "제5호 가목 15)가)",
+        "제5호 가목 15)나)"
+      ],
+      "sanctions": [
+        "제88조 제4호",
+        "제88조 제6호"
+      ]
+    },
+    "crack": {
+      "label": "콘크리트 균열 관리",
+      "paths": [
+        "제5호 가목 2)가)",
+        "제5호 가목 2)나)",
+        "제5호 가목 2)다)",
+        "제5호 가목 2)라)"
+      ]
+    },
+    "segregation": {
+      "label": "콘크리트 재료분리·철근 노출",
+      "paths": [
+        "제5호 가목 3)가)",
+        "제5호 가목 3)나)",
+        "제5호 가목 3)다)"
+      ]
+    },
+    "rebar_steel": {
+      "label": "철근 배근·강구조 조립·용접 불량",
+      "paths": [
+        "제5호 가목 4)가)",
+        "제5호 가목 4)나)",
+        "제5호 가목 4)다)"
+      ]
+    },
+    "earthwork": {
+      "label": "토공사 부실",
+      "paths": [
+        "제5호 가목 1)가)",
+        "제5호 가목 1)나)",
+        "제5호 가목 1)다)"
+      ]
+    },
+    "asphalt": {
+      "label": "아스콘 포설·다짐",
+      "paths": [
+        "제5호 가목 17)가)",
+        "제5호 가목 17)나)",
+        "제5호 가목 17)다)"
+      ]
+    },
+    "waterproofing": {
+      "label": "방수 불량·누수",
+      "paths": [
+        "제5호 가목 6)가)",
+        "제5호 가목 6)나)",
+        "제5호 가목 6)다)"
+      ]
+    },
+    "drainage": {
+      "label": "배수 불량",
+      "paths": [
+        "제5호 가목 5)가)",
+        "제5호 가목 5)나)",
+        "제5호 가목 5)다)"
+      ]
+    },
+    "temporary": {
+      "label": "가설구조물 설치·확인",
+      "paths": [
+        "제5호 가목 10)가)",
+        "제5호 가목 10)나)",
+        "제5호 나목 15)가)",
+        "제5호 나목 15)나)"
+      ]
+    },
+    "quality_plan_test": {
+      "label": "품질관리계획·품질시험계획 이행, 시험실·장비·인력, 시험 성과 검토",
+      "paths": [
+        "제5호 가목 12)가)",
+        "제5호 가목 12)나)",
+        "제5호 가목 13)가)",
+        "제5호 가목 13)나)",
+        "제5호 가목 13)다)",
+        "제5호 가목 13)라)",
+        "제5호 나목 7)가)",
+        "제5호 나목 7)나)",
+        "제5호 나목 7)다)",
+        "제5호 나목 7)라)"
+      ],
+      "sanctions": [
+        "제88조 제4호",
+        "제91조 제3항 제12호의2"
+      ]
+    },
+    "material": {
+      "label": "자재 반입·품질확인",
+      "paths": [
+        "제5호 가목 14)가)",
+        "제5호 가목 14)다)",
+        "제5호 나목 8)가)",
+        "제5호 나목 8)나)",
+        "제5호 나목 8)다)"
+      ],
+      "sanctions": [
+        "제88조 제5호",
+        "제88조 제6호"
+      ]
+    }
   },
   "workTypes": {
-    "concrete_placement": ["concrete_pour", "crack", "segregation"],
-    "concrete_pavement": ["concrete_pour", "crack"],
-    "hydraulic_structure": ["concrete_pour", "crack"],
-    "rebar_placement": ["rebar_steel"],
-    "steel_fabrication": ["rebar_steel"],
-    "earthwork": ["earthwork"],
-    "pipe_laying": ["earthwork"],
-    "road_pavement": ["asphalt"],
-    "formwork_shoring": ["temporary"],
-    "temporary_equipment": ["temporary"],
-    "waterproofing": ["waterproofing"]
+    "concrete_placement": [
+      "concrete_pour",
+      "crack",
+      "segregation"
+    ],
+    "concrete_pavement": [
+      "concrete_pour",
+      "crack"
+    ],
+    "hydraulic_structure": [
+      "concrete_pour",
+      "crack"
+    ],
+    "rebar_placement": [
+      "rebar_steel"
+    ],
+    "steel_fabrication": [
+      "rebar_steel"
+    ],
+    "earthwork": [
+      "earthwork"
+    ],
+    "pipe_laying": [
+      "earthwork"
+    ],
+    "road_pavement": [
+      "asphalt"
+    ],
+    "formwork_shoring": [
+      "temporary"
+    ],
+    "temporary_equipment": [
+      "temporary"
+    ],
+    "waterproofing": [
+      "waterproofing"
+    ]
   },
   "tools": {
-    "compile_inspection_references": ["inspection", "design_deviation"],
-    "compile_inspection_request_references": ["inspection"],
-    "compile_concrete_pour_references": ["inspection"],
-    "compile_quality_test_plan_references": ["quality_plan_test"],
-    "compile_quality_inspection_register_references": ["quality_plan_test"]
+    "compile_inspection_references": [
+      "inspection",
+      "design_deviation"
+    ],
+    "compile_inspection_request_references": [
+      "inspection"
+    ],
+    "compile_concrete_pour_references": [
+      "inspection"
+    ],
+    "compile_quality_test_plan_references": [
+      "quality_plan_test"
+    ],
+    "compile_quality_inspection_register_references": [
+      "quality_plan_test"
+    ]
   },
   "documents": {
-    "material_source_approval": ["material"],
-    "material_inspection_record": ["material"],
-    "concrete_delivery_record": ["concrete_pour"],
-    "specimen_record": ["concrete_pour"],
-    "inspection_request": ["inspection"],
-    "inspection_checklist": ["inspection"],
-    "quality_test_plan": ["quality_plan_test"],
-    "quality_inspection_register": ["quality_plan_test"]
+    "material_source_approval": [
+      "material"
+    ],
+    "material_inspection_record": [
+      "material"
+    ],
+    "concrete_delivery_record": [
+      "concrete_pour"
+    ],
+    "specimen_record": [
+      "concrete_pour"
+    ],
+    "inspection_request": [
+      "inspection"
+    ],
+    "inspection_checklist": [
+      "inspection"
+    ],
+    "quality_test_plan": [
+      "quality_plan_test"
+    ],
+    "quality_inspection_register": [
+      "quality_plan_test"
+    ]
   }
 }

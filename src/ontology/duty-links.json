@@ -1,0 +1,34 @@
+{
+  "_readme": "일 · 도구가 다루는 상황과, 그 일에서 건설사업관리기술인(감리)이 해야 하는 일을 정한 「건설공사 사업관리방식 검토기준 및 업무수행지침」 조문을 잇는 자료. 조문 글은 수록 원문에서 읽는다(여기에는 조 번호만 둔다). 감독 권한대행을 포함하는 건설사업관리는 제3장 제8절, 포함하지 않으면 제3장 제7절의 같은 이름 조문을 적용한다(제3조제2항) — 두 절은 항 번호가 다를 수 있다.",
+  "asOf": "2026-11-17",
+  "law": "건설공사 사업관리방식 검토기준 및 업무수행지침",
+  "duties": {
+    "inspection": { "label": "시공성과 확인 및 검측", "withDelegation": "86", "withoutDelegation": "56" },
+    "material_review": { "label": "사용자재의 적정성 검토(공급원 승인)", "withDelegation": "87", "withoutDelegation": "57" },
+    "material_receiving": { "label": "사용자재의 검수ㆍ관리(반입 검수)", "withDelegation": "88", "withoutDelegation": "58" },
+    "quality_test": { "label": "품질시험 및 성과검토", "withDelegation": "90", "withoutDelegation": "60" },
+    "shop_drawing": { "label": "시공계획검토(시공상세도)", "withDelegation": "91", "withoutDelegation": "61" }
+  },
+  "workTypes": {
+    "rebar_placement": ["shop_drawing"],
+    "formwork_shoring": ["shop_drawing"],
+    "steel_fabrication": ["shop_drawing"]
+  },
+  "tools": {
+    "compile_inspection_references": ["inspection"],
+    "compile_inspection_request_references": ["inspection"],
+    "compile_concrete_pour_references": ["inspection"],
+    "compile_quality_test_plan_references": ["quality_test"],
+    "compile_quality_inspection_register_references": ["quality_test"],
+    "get_material_quality_profile": ["material_receiving"]
+  },
+  "documents": {
+    "material_source_approval": ["material_review"],
+    "material_inspection_record": ["material_receiving"],
+    "inspection_request": ["inspection"],
+    "inspection_checklist": ["inspection"],
+    "concrete_delivery_record": ["inspection"],
+    "quality_test_plan": ["quality_test"],
+    "quality_inspection_register": ["quality_test"]
+  }
+}

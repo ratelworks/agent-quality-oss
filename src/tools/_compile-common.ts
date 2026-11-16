@@ -9,7 +9,9 @@
 import { getSchema } from "../schemas/loader.js";
 import type { BasisRef } from "../lib/types.js";
 import type { OntologyGraph } from "../ontology/graph.js";
-import { PENALTY_SCORING_NOTE, relatedPenalties } from "../knowledge/penalty-points.js";
+import { PENALTY_SCORING_NOTE, relatedPenalties, relatedSanctions } from "../knowledge/penalty-points.js";
+import { CM_DUTY_NOTE, relatedCmDuties } from "../knowledge/cm-duties.js";
+import type { CmDuty } from "../knowledge/cm-duties.js";
 
 /** 법령 근거 요약 (도구 result 에 실어 LLM 이 바로 인용할 수 있는 형태) */
 export interface LegalBasisSummary {
@@ -125,11 +127,28 @@ export function schemaLegalBasisSummaries(
  * 이 일을 어기면 받는 벌점(시행령 별표 8) — 근거 묶음에 함께 싣는다.
  * @param keys "tool:…" · "work:…" · "document:…" (ontology/penalty-links.json)
  */
-export function penaltyBlock(keys: readonly string[]): { relatedPenalties?: ReturnType<typeof relatedPenalties>; penaltyNote?: string } {
+export function penaltyBlock(keys: readonly string[]): {
+  relatedPenalties?: ReturnType<typeof relatedPenalties>;
+  relatedSanctions?: ReturnType<typeof relatedSanctions>;
+  penaltyNote?: string;
+} {
   const items = relatedPenalties(keys);
-  if (items.length === 0) return {};
+  const sanctions = relatedSanctions(keys);
+  if (items.length === 0 && sanctions.length === 0) return {};
   return {
-    relatedPenalties: items,
-    penaltyNote: `이 일을 어기면 받을 수 있는 벌점 항목입니다 — 답에 해당하는 항목을 번호·점수와 함께 알린다. ${PENALTY_SCORING_NOTE}`,
+    ...(items.length > 0 ? { relatedPenalties: items } : {}),
+    ...(sanctions.length > 0 ? { relatedSanctions: sanctions } : {}),
+    penaltyNote: `이 일을 어기면 받을 수 있는 벌점 항목(relatedPenalties)과 형벌·과태료 호(relatedSanctions)입니다 — 답에 해당하는 것을 번호·점수·처벌 내용과 함께 알린다. ${PENALTY_SCORING_NOTE}`,
   };
+}
+
+/** 이 일에서 건설사업관리기술인(감리)이 해야 하는 일을 정한 사업관리지침 조문 — 근거 묶음에 함께 싣는다 */
+export function dutyBlock(keys: readonly string[]): { cmDuties?: CmDuty[]; cmDutyNote?: string } {
+  const duties = relatedCmDuties(keys);
+  return duties.length > 0 ? { cmDuties: duties, cmDutyNote: CM_DUTY_NOTE } : {};
+}
+
+/** 감리 의무 조문 + 벌점·형벌·과태료 — 근거 묶음 도구가 함께 싣는 "해야 할 일과 어기면 생기는 일" */
+export function obligationBlock(keys: readonly string[]): ReturnType<typeof dutyBlock> & ReturnType<typeof penaltyBlock> {
+  return { ...dutyBlock(keys), ...penaltyBlock(keys) };
 }

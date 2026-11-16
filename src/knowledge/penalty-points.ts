@@ -13,6 +13,8 @@ import { readFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { findLaw } from '../ontology/laws.js';
+import { sanctionByRef } from './sanctions.js';
+import type { SanctionItem } from './sanctions.js';
 
 // ───── 상수 ─────
 const DECREE_NAME = '건설기술 진흥법 시행령';
@@ -46,6 +48,16 @@ export interface PenaltyItem {
 }
 
 let cache: PenaltyItem[] | null = null;
+
+/**
+ * 누구에게 매기는 벌점인지 짧게 — 같은 일이라도 시공 쪽(가목)과 건설사업관리 쪽(나목)의 항목·점수가 다르다
+ * (시공 쪽 "검토·확인 없이 시공" 3점을 감리 쪽 벌점으로 옮겨 적은 답이 있었다)
+ */
+export function penaltyWho(part: string): string {
+  if (/건설사업관리/u.test(part)) return '건설사업관리 쪽(건설사업관리용역사업자·건설사업관리기술인)';
+  if (/건설엔지니어링/u.test(part)) return '설계 등 건설엔지니어링 쪽';
+  return '시공 쪽(건설사업자·주택건설등록업자·건설기술인)';
+}
 
 /** 표의 칸 글을 잇는다 — 줄 끝에서 끊긴 낱말은 붙이고, 그 밖에는 띄운다 */
 function joinCell(parts: string[]): string {
@@ -186,7 +198,7 @@ export function searchPenaltyItems(groups: readonly (readonly string[])[], limit
 
 // ───── 상황과 벌점 잇기 (ontology/penalty-links.json) ─────
 interface PenaltyLinks {
-  topics: Record<string, { label: string; paths: string[] }>;
+  topics: Record<string, { label: string; paths: string[]; sanctions?: string[] }>;
   workTypes: Record<string, string[]>;
   tools: Record<string, string[]>;
   documents: Record<string, string[]>;
@@ -208,6 +220,8 @@ export interface RelatedPenalty {
   points: number;
   /** 누구에게 매기는 벌점인지 (별표 8 제5호의 목 이름) */
   appliesTo: string;
+  /** 누구에게 매기는 벌점인지 짧게 — 시공 쪽 / 건설사업관리 쪽 / 설계 등 */
+  who: string;
   /** 이 항목이 걸리는 상황 */
   situation: string;
   item: string;
@@ -238,7 +252,43 @@ export function relatedPenalties(keys: readonly string[]): RelatedPenalty[] {
       const item = items.get(p);
       if (!item || seen.has(p)) continue;
       seen.add(p);
-      out.push({ law: DECREE_NAME, ref: `별표 8 ${item.path}`, points: item.points, appliesTo: item.part, situation: topic.label, item: item.itemTitle, text: item.text });
+      out.push({ law: DECREE_NAME, ref: `별표 8 ${item.path}`, points: item.points, appliesTo: item.part, who: penaltyWho(item.part), situation: topic.label, item: item.itemTitle, text: item.text });
+    }
+  }
+  return out;
+}
+
+/** 링크 열쇠에서 상황(topic)들 */
+function topicsOf(keys: readonly string[]): string[] {
+  const links = loadPenaltyLinks();
+  const topics = new Set<string>();
+  for (const key of keys) {
+    const [kind, raw] = key.split(':', 2) as [string, string];
+    const id = (raw ?? '').replace(/^work[.:]/u, '');
+    const found =
+      kind === 'tool' ? links.tools[id] : kind === 'work' ? links.workTypes[id] : kind === 'document' ? links.documents[id] : kind === 'topic' ? [id] : undefined;
+    for (const t of found ?? []) topics.add(t);
+  }
+  return [...topics];
+}
+
+export interface RelatedSanction extends SanctionItem {
+  law: string;
+  situation: string;
+}
+
+/** 도구·일·문서에 걸린 형벌·과태료 호 (건설기술 진흥법 제87조~제91조). 글과 처벌 내용은 수록 원문에서 읽는다 */
+export function relatedSanctions(keys: readonly string[]): RelatedSanction[] {
+  const links = loadPenaltyLinks();
+  const out: RelatedSanction[] = [];
+  const seen = new Set<string>();
+  for (const t of topicsOf(keys)) {
+    const topic = links.topics[t];
+    for (const ref of topic?.sanctions ?? []) {
+      const s = sanctionByRef(ref);
+      if (!s || seen.has(ref)) continue;
+      seen.add(ref);
+      out.push({ law: '건설기술 진흥법', ...s, situation: topic?.label ?? '' });
     }
   }
   return out;
@@ -246,4 +296,5 @@ export function relatedPenalties(keys: readonly string[]): RelatedPenalty[] {
 
 /** 벌점이 쌓이는 방식 — 반기벌점과 합산벌점(별표 8 제3호) */
 export const PENALTY_SCORING_NOTE =
+  '점수는 항목 글의 조건(예: "재시공이 필요한 경우", "보수ㆍ보강이 필요한 경우")과 함께 말한다 — 조건을 빼고 점수만 옮기지 않는다. 같은 일이라도 시공 쪽(가목)과 건설사업관리 쪽(나목)의 항목·점수가 다르므로 who 를 보고 고른다. 벌점과 형벌·과태료는 따로 매겨진다 — 형벌·과태료 호가 있으면 함께 알린다. ' +
   '벌점은 업체와 건설기술인등에 각각 매긴다(별표 8 제5호). 반기에 받은 벌점 합계에서 경감점수를 뺀 것이 반기벌점이고, 합산벌점은 최근 2년간의 반기벌점 합계를 2로 나눈 값이다(별표 8 제3호). 합산벌점에 따라 입찰 참가자격 사전심사에서 감점된다(별표 8 제4호). 어느 항목을 매길지는 측정기관(발주청·인허가기관 등)이 정한다.';

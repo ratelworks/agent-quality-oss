@@ -4,6 +4,7 @@
 
 import { searchEntities } from '../ontology/resolver.js';
 import { buildResponse, entityBasis } from './_response.js';
+import { dutyBlock } from './_compile-common.js';
 import type { ToolSpec } from '../lib/types.js';
 import type { OntologyGraph } from '../ontology/graph.js';
 
@@ -87,6 +88,8 @@ export function run(args: MaterialProfileArgs, graph: OntologyGraph) {
     standards,
     relatedWorks: incoming,
     possibleNonconformance: ncrs,
+    // 자재가 현장에 들어올 때 감리가 할 일(송장 확인·수량 검사·검수부 기록·공인계량소 계량 등) — 사업관리지침 검수ㆍ관리 조 전체
+    ...dutyBlock(['tool:get_material_quality_profile']),
   };
 
   const basisIds = [

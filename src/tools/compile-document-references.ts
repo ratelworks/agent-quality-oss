@@ -9,7 +9,7 @@
 // 도구 선택 정확도를 떨어뜨린다 (자매 safety-oss 의 assemble_doc_context 패턴과 정합).
 // ─────────────────────────────────────────────────────────────────────────────
 
-import { penaltyBlock } from './_compile-common.js';
+import { obligationBlock } from './_compile-common.js';
 import { getSchema, listSchemaIds } from "../schemas/loader.js";
 import { buildResponse } from "./_response.js";
 import { schemaLegalBasisRefs, schemaLegalBasisSummaries } from "./_compile-common.js";
@@ -116,7 +116,7 @@ export function run(args: CompileDocumentArgs, graph: OntologyGraph): ToolRespon
   }
 
   const result = {
-    ...penaltyBlock([`document:${schema.id}`, ...(workType ? [`work:${workType}`] : [])]),
+    ...obligationBlock([`document:${schema.id}`, ...(workType ? [`work:${workType}`] : [])]),
     document: {
       schemaId: schema.id,
       title: schema.title,

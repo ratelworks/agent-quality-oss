@@ -19,7 +19,9 @@ import { OntologyGraph } from "../../src/ontology/graph.js";
 import { findAnnex, findArticle, findLaw, loadLaws, normalizeLawText, searchLaws } from "../../src/ontology/laws.js";
 import { boxTableCells, parseBoxTables } from "../../src/lib/box-table.js";
 import { QualityMcpError } from "../../src/lib/errors.js";
-import { loadPenaltyItems, loadPenaltyLinks } from "../../src/knowledge/penalty-points.js";
+import { loadPenaltyItems, loadPenaltyLinks, penaltyWho } from "../../src/knowledge/penalty-points.js";
+import { loadSanctionItems, sanctionByRef } from "../../src/knowledge/sanctions.js";
+import { loadDutyLinks } from "../../src/knowledge/cm-duties.js";
 import { judgePlanTarget } from "../../src/knowledge/plan-rules.js";
 
 // ── 상수 ────────────────────────────────────────────────────────────
@@ -269,6 +271,48 @@ async function testPracticeAnswers(): Promise<void> {
   const unknownTopics = [...Object.values(links.workTypes), ...Object.values(links.tools), ...Object.values(links.documents)].flat().filter((t) => !links.topics[t]);
   check("벌점 연결 자료: 항목 번호가 모두 원문에 있음", missingPaths.length === 0, missingPaths.join(", "));
   check("벌점 연결 자료: 가리키는 상황이 모두 정의됨", unknownTopics.length === 0, unknownTopics.join(", "));
+  const badSanctionRefs = Object.values(links.topics).flatMap((t) => t.sanctions ?? []).filter((r) => !sanctionByRef(r));
+  check("벌점 연결 자료: 형벌·과태료 호 번호가 모두 원문에 있음", badSanctionRefs.length === 0, badSanctionRefs.join(", "));
+  // 누구에게 매기는 벌점인지 — 시공 쪽(가목)과 건설사업관리 쪽(나목)을 가린다
+  check(
+    "벌점 항목: 가목=시공 쪽, 나목=건설사업관리 쪽",
+    items.filter((i) => i.path.includes("가목")).every((i) => penaltyWho(i.part).startsWith("시공 쪽")) &&
+      items.filter((i) => i.path.includes("나목")).every((i) => penaltyWho(i.part).startsWith("건설사업관리 쪽")),
+  );
+
+  // 형벌·과태료 — 호마다 처벌 내용과 원문 글. 벌점만 알리면 "벌금이 아니라 벌점"이라는 틀린 답이 나온다
+  const sanctions = loadSanctionItems();
+  const actText = (findLaw("건설기술 진흥법")?.articles ?? []).map((a) => a.text).join("\n").replace(/<[^>]*>/gu, "").replace(/\s+/gu, "");
+  check("벌칙: 제88조 제4호 = 품질시험·검사 미실시, 2년 이하 징역 또는 2천만원 이하 벌금", sanctionByRef("제88조 제4호")?.punishment === "2년 이하의 징역 또는 2천만원 이하의 벌금" && (sanctionByRef("제88조 제4호")?.text ?? "").includes("품질시험 및 검사를 하지 아니한"));
+  check("과태료: 제91조 제3항 제12호의2 = 정보망 입력, 300만원 이하", sanctionByRef("제91조 제3항 제12호의2")?.punishment === "300만원 이하의 과태료" && sanctionByRef("제91조 제3항 제12호의2")?.kind === "과태료");
+  const notInSource = sanctions.filter((x) => !actText.includes(x.text.replace(/\s+/gu, "")));
+  check(`벌칙·과태료 호 ${sanctions.length}개의 글이 모두 원문 그대로`, sanctions.length >= 40 && notInSource.length === 0, notInSource.map((x) => x.ref).join(", "));
+  type SanctionOut = { sanctionItems?: Array<{ ref: string }>; penaltyItems?: Array<{ ref: string; who: string }> };
+  const asked = (await callTool("search_quality_law_text", { query: "품질시험 안 하면 처벌" }, { graph })).result as SanctionOut;
+  check("낱말 검색: '품질시험 안 하면 처벌' → 벌점과 함께 형벌(제88조 제4호)도 준다", (asked.sanctionItems ?? []).some((x) => x.ref === "제88조 제4호") && (asked.penaltyItems ?? []).every((p) => p.who.length > 0));
+  // 맞지 않는 형벌을 붙이면 그 자체가 틀린 사실이 된다 — "없이" 같은 말 하나만 맞은 호는 붙이지 않는다
+  const noCrime = (await callTool("search_quality_law_text", { query: "검측 없이 시공 벌점" }, { graph })).result as SanctionOut;
+  check("낱말 검색: '검측 없이 시공 벌점' → 무관한 형벌 호를 붙이지 않는다", (noCrime.sanctionItems ?? []).length === 0, JSON.stringify(noCrime.sanctionItems?.map((x) => x.ref)));
+  const planPkg = (await callTool("compile_quality_test_plan_references", { workTypes: ["work.earthwork"] }, { graph })).result as { relatedSanctions?: Array<{ ref: string }> };
+  check("시험계획 근거 묶음: 품질시험 미실시 형벌(제88조 제4호)을 함께 싣는다", (planPkg.relatedSanctions ?? []).some((x) => x.ref === "제88조 제4호"));
+
+  // 감리 의무 조문 — 감독 권한대행 포함(제8절)·미포함(제7절)의 같은 이름 조문을 잇는다. 이름이 다르면 연결이 틀린 것
+  const dutyLinks = loadDutyLinks();
+  const cmLaw = findLaw(dutyLinks.law);
+  const titleOf = (n: string): string | undefined => cmLaw?.articles.find((a) => String(a.number) === n && !a.branch && !a.deleted)?.title;
+  const badDuty = Object.entries(dutyLinks.duties).filter(([, d]) => !titleOf(d.withDelegation) || titleOf(d.withDelegation) !== titleOf(d.withoutDelegation));
+  check("감리 의무 연결: 두 절의 조문이 모두 있고 이름이 같다", Object.keys(dutyLinks.duties).length >= 5 && badDuty.length === 0, badDuty.map(([k]) => k).join(", "));
+  const unknownDuty = [...Object.values(dutyLinks.workTypes), ...Object.values(dutyLinks.tools), ...Object.values(dutyLinks.documents)].flat().filter((d) => !dutyLinks.duties[d]);
+  check("감리 의무 연결: 가리키는 의무가 모두 정의됨", unknownDuty.length === 0, unknownDuty.join(", "));
+  type DutyOut = { cmDuties?: Array<{ ref: string; text: string; otherCase: { ref: string } }> };
+  const rebarInsp = (await callTool("compile_inspection_references", { workType: "work.rebar_placement" }, { graph })).result as DutyOut;
+  const d86 = rebarInsp.cmDuties?.find((d) => d.ref === "제86조");
+  check(
+    "검측 근거 묶음: 검측 업무 조 전체(제86조 — 계속적인 입회·검측일 연기 시 비용 부담)와 철근이면 시공계획검토(제91조)를 싣는다",
+    d86 !== undefined && d86.text.includes("계속적인 입회") && d86.text.includes("건설사업관리용역사업자 부담") && d86.otherCase.ref === "제56조" && (rebarInsp.cmDuties ?? []).some((d) => d.ref === "제91조"),
+  );
+  const rebarMat = (await callTool("get_material_quality_profile", { material: "철근" }, { graph })).result as DutyOut;
+  check("자재 근거: 반입 검수 조(제88조 — 송장 확인·공인계량소 계량)를 싣는다", (rebarMat.cmDuties ?? []).some((d) => d.ref === "제88조" && d.text.includes("공인계량소") && d.text.includes("송장")));
   const insp = await callTool("compile_inspection_references", { workType: "work.rebar_placement" }, { graph });
   const inspPen = (insp.result as { relatedPenalties?: Array<{ ref: string; points: number }> }).relatedPenalties ?? [];
   check("검측 근거 묶음: 검토·확인 없이 시공(가목 7)가) 3점)과 철근 배근 불량 벌점을 함께 줌", inspPen.some((p) => p.ref === "별표 8 제5호 가목 7)가)" && p.points === 3) && inspPen.some((p) => p.ref === "별표 8 제5호 가목 4)가)"));
