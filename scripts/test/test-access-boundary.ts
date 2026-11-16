@@ -131,6 +131,46 @@ async function testViewer(): Promise<void> {
     await waitUntilUp(port);
     const home = await send(port, { headers: { Host: `localhost:${port}` } });
     check("폼: 정상 요청은 화면을 돌려줌", home.status === 200 && home.body.includes("<!doctype html>"), String(home.status));
+    // 화면 코드는 서버 코드 안의 글자열이라 형식 검사를 거치지 않는다 — 내보낸 그대로 문법을 본다
+    const pageScript = /<script>([\s\S]*)<\/script>/.exec(home.body)?.[1] ?? "";
+    let scriptProblem = pageScript === "" ? "화면 코드 없음" : "";
+    try {
+      new Function(pageScript);
+    } catch (err) {
+      scriptProblem = err instanceof Error ? err.message : String(err);
+    }
+    check("폼: 화면 코드에 문법 오류가 없음", scriptProblem === "", scriptProblem);
+    const previewed = await send(port, {
+      method: "POST",
+      path: "/api/preview",
+      headers: { Host: `localhost:${port}`, Origin: `http://localhost:${port}`, "Content-Type": "application/json" },
+      body: JSON.stringify({ docId: "ncr", formValues: { projectName: "시험 현장", reportDate: "2026-02-30" } }),
+    });
+    const previewBody = JSON.parse(previewed.body) as { document?: { markdown?: string; requiredFilled?: number }; review?: { verdict?: string; findings?: Array<{ code: string }> } };
+    check(
+      "폼: 본문 미리보기 — 입력값을 옮긴 본문과 자동 검토",
+      previewed.status === 200 && (previewBody.document?.markdown ?? "").includes("| 공사명 | 시험 현장 |") && previewBody.review?.verdict === "needs_revision" && (previewBody.review.findings ?? []).some((f) => f.code === "format"),
+      previewed.body.slice(0, 160),
+    );
+    const exported = await send(port, {
+      method: "POST",
+      path: "/api/export-hwpx",
+      headers: { Host: `localhost:${port}`, Origin: `http://localhost:${port}`, "Content-Type": "application/json" },
+      body: JSON.stringify({ docId: "ncr", formValues: { projectName: "시험 현장" } }),
+    });
+    const exportedFile = (JSON.parse(exported.body) as { file?: { fileName?: string; contentBase64?: string; hwpxPath?: string } }).file;
+    check(
+      "폼: 한글 저장 — 파일 내용을 돌려주고 서버에 따로 저장하지 않음",
+      exported.status === 200 && exportedFile?.fileName === "ncr.hwpx" && Buffer.from(exportedFile.contentBase64 ?? "", "base64").subarray(0, 2).toString() === "PK" && exportedFile.hwpxPath === undefined,
+      exported.body.slice(0, 160),
+    );
+    const previewBadOrigin = await send(port, {
+      method: "POST",
+      path: "/api/export-hwpx",
+      headers: { Host: `localhost:${port}`, Origin: "http://evil.example", "Content-Type": "application/json" },
+      body: JSON.stringify({ docId: "ncr", formValues: {} }),
+    });
+    check("폼: 다른 Origin 의 한글 저장 요청은 403", previewBadOrigin.status === 403, String(previewBadOrigin.status));
     const badHost = await send(port, { headers: { Host: `evil.example:${port}` } });
     check("폼: 다른 Host 는 403", badHost.status === 403, String(badHost.status));
     const badOrigin = await send(port, {

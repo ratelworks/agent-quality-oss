@@ -24,6 +24,12 @@ export const COLUMN_SEPARATOR = "|";
 /** 묶음 필드를 항목 구분 없이 한 줄 글자로 받았을 때 그 글자를 담는 키 */
 export const FREE_TEXT_KEY = "";
 const NUMERIC = /^-?\d+(\.\d+)?$/;
+/** 날짜 — 2026-03-15 (구분은 - . / 를 받는다) */
+const DATE_TEXT = /^(\d{4})[-./](\d{1,2})[-./](\d{1,2})$/;
+/** 날짜와 시각 — 2026-03-15T09:30, 2026-03-15 09:30:00 */
+const DATETIME_TEXT = /^(\d{4})[-./](\d{1,2})[-./](\d{1,2})[T ](\d{1,2}):(\d{2})(?::(\d{2}))?(?:\.\d+)?(?:Z|[+-]\d{2}:?\d{2})?$/;
+const DATE_EXAMPLE = "2026-03-15";
+const DATETIME_EXAMPLE = "2026-03-15 09:30";
 
 export type DraftValue = string | string[] | Record<string, string> | Array<Record<string, string>>;
 
@@ -62,6 +68,27 @@ function toText(v: unknown): string {
   if (typeof v === "number" || typeof v === "boolean") return String(v);
   if (Array.isArray(v)) return v.map(toText).filter(Boolean).join(", ");
   return JSON.stringify(v);
+}
+
+/** 달력에 있는 날짜인가 */
+export function isCalendarDate(year: number, month: number, day: number): boolean {
+  if (month < 1 || month > 12 || day < 1) return false;
+  return day <= new Date(Date.UTC(year, month, 0)).getUTCDate();
+}
+
+/** 날짜(·시각) 글자의 문제를 problems 에 쌓는다 — 형식이 다르거나 달력에 없는 날짜 */
+function checkDate(text: string, withTime: boolean, problems: string[]): void {
+  if (!text) return;
+  const m = (withTime ? DATETIME_TEXT : DATE_TEXT).exec(text) ?? (withTime ? DATE_TEXT.exec(text) : null);
+  if (!m) {
+    problems.push(`${withTime ? "날짜·시각" : "날짜"} 형식이 아닙니다 — 예: ${withTime ? DATETIME_EXAMPLE : DATE_EXAMPLE}`);
+    return;
+  }
+  if (!isCalendarDate(Number(m[1]), Number(m[2]), Number(m[3]))) {
+    problems.push("달력에 없는 날짜입니다");
+    return;
+  }
+  if (m[4] !== undefined && (Number(m[4]) > 23 || Number(m[5]) > 59 || Number(m[6] ?? "0") > 59)) problems.push("없는 시각입니다");
 }
 
 function lines(v: string): string[] {
@@ -151,6 +178,13 @@ function normalizeValue(
         rows.push(row);
       });
       return rows;
+    }
+    case "date":
+    case "datetime": {
+      if (isRecord(raw)) problems.push("글자로 적어야 하는 칸에 묶음 값이 왔습니다");
+      const text = toText(raw);
+      checkDate(text, kind === "datetime", problems);
+      return text;
     }
     default: {
       if (isRecord(raw)) problems.push("글자로 적어야 하는 칸에 묶음 값이 왔습니다");

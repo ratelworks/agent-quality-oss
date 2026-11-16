@@ -143,6 +143,31 @@ async function handle(
       return;
     }
 
+    // 문서 본문 — 입력값을 양식 구조대로 옮긴 본문과 자동 검토 결과
+    if (pathname === "/api/preview" && method === "POST") {
+      const body = await readBody(req);
+      const docId = String(body["docId"] ?? "");
+      const formValues = (body["formValues"] as Record<string, unknown>) ?? {};
+      const generated = await callTool("generate_quality_document", { docId, formValues, format: "md" }, { graph });
+      const markdown = String((generated.result as { markdown?: string }).markdown ?? "");
+      // 입력값의 형식 문제(숫자·선택지·날짜)와 본문의 인용 조문·날짜를 함께 본다
+      const review = await callTool("review_quality_document", { docId, formValues, markdown }, { graph });
+      sendJson(res, 200, { document: generated.result, review: review.result });
+      return;
+    }
+
+    // 한글 파일 — 브라우저가 내려받도록 내용을 돌려준다(이 컴퓨터에 따로 저장하지 않는다)
+    if (pathname === "/api/export-hwpx" && method === "POST") {
+      const body = await readBody(req);
+      const docId = String(body["docId"] ?? "");
+      const formValues = (body["formValues"] as Record<string, unknown>) ?? {};
+      const generated = await callTool("generate_quality_document", { docId, formValues, format: "md" }, { graph });
+      const markdown = String((generated.result as { markdown?: string }).markdown ?? "");
+      const exported = await callTool("export_quality_document", { docId, markdown, returnContent: true }, { graph });
+      sendJson(res, 200, { file: exported.result });
+      return;
+    }
+
     if (pathname === "/api/draft/save" && method === "POST") {
       const body = await readBody(req);
       const docId = String(body["docId"] ?? "");
@@ -224,7 +249,7 @@ const HTML = `<!doctype html>
   .field { margin-bottom:12px; }
   .field label { display:block; font-size:12px; font-weight:600; margin-bottom:4px; }
   .field label .req { color:#d92d20; margin-left:3px; }
-  .field .hint { font-size:11px; color:var(--muted); margin-top:3px; }
+  .hint { font-size:11px; color:var(--muted); margin:3px 0 6px; }
   input, select, textarea { width:100%; padding:8px 10px; border:1px solid var(--line); border-radius:8px; font-size:13px; font-family:inherit; }
   textarea { min-height:60px; resize:vertical; }
   .basis-item { font-size:12px; padding:6px 0; border-bottom:1px dashed var(--line); }
@@ -249,6 +274,20 @@ const HTML = `<!doctype html>
   .rows input { min-width:90px; }
   .btn.small { padding:5px 10px; font-size:12px; }
   .legal { font-size:11px; color:var(--muted); margin-top:14px; line-height:1.5; }
+  .preview { border:1px solid var(--line); border-radius:10px; padding:16px 18px; background:#fff; font-size:13px; line-height:1.6; max-height:560px; overflow:auto; }
+  .preview h3 { font-size:17px; text-align:center; margin:4px 0 12px; }
+  .preview h4 { font-size:14px; margin:16px 0 6px; }
+  .preview h5 { font-size:13px; margin:12px 0 4px; }
+  .preview table { width:100%; border-collapse:collapse; margin:6px 0 10px; }
+  .preview th, .preview td { border:1px solid #c9ced6; padding:5px 8px; font-size:12px; text-align:left; vertical-align:top; }
+  .preview th { background:#f3f5f8; font-weight:600; }
+  .preview td.blank { background:#fffbe6; }
+  .preview .guide { font-size:11px; color:var(--warn); background:var(--warn-soft); border-radius:6px; padding:4px 8px; margin:3px 0; }
+  .preview ul { margin:4px 0 8px 18px; padding:0; }
+  .finding { font-size:12px; padding:5px 0; border-bottom:1px dashed var(--line); }
+  .finding .sev-error { color:#d92d20; font-weight:700; }
+  .finding .sev-warning { color:var(--warn); font-weight:700; }
+  .finding .sev-info { color:var(--muted); font-weight:700; }
 </style>
 </head>
 <body>
@@ -270,9 +309,11 @@ const HTML = `<!doctype html>
   <section class="card">
     <h2>적용 근거 · 작성 컨텍스트</h2>
     <div id="metaArea"><div class="empty">문서를 선택하면 참조 표준·보존기간·근거가 표시됩니다.</div></div>
+    <div id="previewArea"></div>
     <div id="contextArea"></div>
     <div class="legal">
-      본 도구는 양식 구조와 적용 근거만 제공합니다. 생성된 작성 컨텍스트를 AI 비서에게 전달해 초안을 받으십시오.
+      본문 미리보기와 한글 저장은 입력한 값을 양식 구조대로 옮길 뿐 문장을 짓지 않습니다 — 입력하지 않은 칸은 비어 있습니다.
+      작성 컨텍스트는 AI 비서에게 전달해 초안을 받을 때 씁니다.
       최종 판정·승인·서명은 품질관리자·감리원·발주자의 책임입니다.
     </div>
   </section>
@@ -451,6 +492,13 @@ function renderButtons(byId) {
     });
     bar.insertBefore(btn, status);
   });
+  // 문서 본문 단추 — 이 화면이 직접 붙인다
+  var previewBtn = el("button", {"class":"btn ghost","type":"button","text":"본문 미리보기"});
+  previewBtn.addEventListener("click", preview);
+  var hwpxBtn = el("button", {"class":"btn ghost","type":"button","text":"한글 저장"});
+  hwpxBtn.addEventListener("click", function(){ exportHwpx(hwpxBtn); });
+  bar.insertBefore(previewBtn, status);
+  bar.insertBefore(hwpxBtn, status);
 }
 
 function renderForm(resp) {
@@ -557,6 +605,106 @@ function compose() {
       pre.textContent = r.markdown;
       area.appendChild(pre);
     });
+}
+
+// 본문(Markdown)을 화면에 그린다 — 이 도구가 만드는 본문의 범위(제목·표·목록·문단·작성 안내)만 다룬다.
+// 글자는 모두 textContent 로 넣는다(입력값이 화면 코드로 해석되지 않게).
+function renderBody(markdown, box) {
+  var lines = markdown.split("\\n");
+  var table = null, list = null;
+  function closeBlocks() { table = null; list = null; }
+  function cells(line) {
+    var inner = line.trim();
+    if (inner.charAt(0) === "|") inner = inner.slice(1);
+    if (inner.charAt(inner.length - 1) === "|") inner = inner.slice(0, -1);
+    return inner.split(" | ").map(function(c){ return c.trim().split("\\\\|").join("|").split("<br>").join(" "); });
+  }
+  lines.forEach(function(raw){
+    var line = raw.trim();
+    if (line === "") { closeBlocks(); return; }
+    if (line.indexOf("> ") === 0) { closeBlocks(); box.appendChild(el("div", {"class":"guide","text": line.slice(2)})); return; }
+    if (line.indexOf("### ") === 0) { closeBlocks(); box.appendChild(el("h5", {"text": line.slice(4)})); return; }
+    if (line.indexOf("## ") === 0) { closeBlocks(); box.appendChild(el("h4", {"text": line.slice(3)})); return; }
+    if (line.indexOf("# ") === 0) { closeBlocks(); box.appendChild(el("h3", {"text": line.slice(2)})); return; }
+    if (line.charAt(0) === "|") {
+      list = null;
+      if (line.replace(/[|: -]/g, "") === "") return; // 머리 줄 아래 구분선
+      var first = !table;
+      if (first) { table = el("table"); box.appendChild(table); }
+      var tr = el("tr");
+      cells(line).forEach(function(text){
+        var td = el(first ? "th" : "td", {"text": text});
+        if (!first && text === "") td.className = "blank";
+        tr.appendChild(td);
+      });
+      table.appendChild(tr);
+      return;
+    }
+    table = null;
+    if (line.indexOf("- ") === 0) {
+      if (!list) { list = el("ul"); box.appendChild(list); }
+      list.appendChild(el("li", {"text": line.slice(2)}));
+      return;
+    }
+    list = null;
+    var bold = line.length > 4 && line.indexOf("**") === 0 && line.lastIndexOf("**") === line.length - 2;
+    box.appendChild(el(bold ? "h5" : "p", {"text": bold ? line.slice(2, -2) : line}));
+  });
+}
+
+function preview() {
+  if (!currentDoc) return;
+  fetch("/api/preview", {method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({docId:currentDoc,formValues:collectValues()})})
+    .then(function(r){return r.json();})
+    .then(function(resp){
+      if (resp.error) { alert(resp.error); return; }
+      var area = document.getElementById("previewArea");
+      area.innerHTML = "";
+      var doc = resp.document, review = resp.review;
+      area.appendChild(el("div", {"class":"group-label","text":"문서 본문 미리보기 — 필수 항목 " + doc.requiredFilled + "/" + doc.requiredTotal + " 입력"}));
+      // 빈 필수 항목은 본문의 빈칸으로도 보이므로, 형식·날짜·인용 문제를 앞에 둔다
+      var isBlank = function(f){ return f.code === "missing_required" || f.code === "empty_in_body"; };
+      var findings = (review.findings || []).filter(function(f){ return f.code !== "guide_left"; });
+      findings = findings.filter(function(f){ return !isBlank(f); }).concat(findings.filter(isBlank));
+      if (findings.length) {
+        var box = el("div", {"class":"warn"});
+        box.appendChild(el("div", {"text":"자동 검토 — 고칠 점 " + review.summary.errors + "건 · 확인할 점 " + review.summary.warnings + "건"}));
+        findings.slice(0, 12).forEach(function(f){
+          var row = el("div", {"class":"finding"});
+          row.appendChild(el("span", {"class":"sev-" + f.severity, "text": f.severity === "error" ? "고칠 점 " : f.severity === "warning" ? "확인 " : "참고 "}));
+          row.appendChild(el("span", {"text": f.where + " — " + f.message}));
+          box.appendChild(row);
+        });
+        if (findings.length > 12) box.appendChild(el("div", {"class":"finding","text":"외 " + (findings.length - 12) + "건"}));
+        area.appendChild(box);
+      }
+      var body = el("div", {"class":"preview"});
+      renderBody(doc.markdown, body);
+      area.appendChild(body);
+      area.appendChild(el("div", {"class":"legal","text": review.remaining}));
+    });
+}
+
+function exportHwpx(button) {
+  if (!currentDoc) return;
+  button.disabled = true;
+  fetch("/api/export-hwpx", {method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({docId:currentDoc,formValues:collectValues()})})
+    .then(function(r){return r.json();})
+    .then(function(resp){
+      button.disabled = false;
+      if (resp.error) { alert(resp.error); return; }
+      var file = resp.file;
+      var bytes = atob(file.contentBase64);
+      var data = new Uint8Array(bytes.length);
+      for (var i = 0; i < bytes.length; i++) data[i] = bytes.charCodeAt(i);
+      var a = document.createElement("a");
+      a.href = URL.createObjectURL(new Blob([data], {type: file.mimeType}));
+      a.download = file.fileName;
+      a.click();
+      URL.revokeObjectURL(a.href);
+      document.getElementById("draftStatus").textContent = "한글 파일을 내려받았습니다 — 작성 안내 줄은 파일에 넣지 않았습니다.";
+    })
+    .catch(function(){ button.disabled = false; });
 }
 
 function downloadMd(docId, text) {

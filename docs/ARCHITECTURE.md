@@ -7,7 +7,7 @@
 ```
 Human    결재·서명·법적 책임 (humanCheckpoint 로 항상 명시)
 Dynamic  LLM·MCP 호스트 — 상황 해석·도구 조합·본문 작성 (Claude Desktop · Codex CLI)
-Kinetic  MCP 도구 53종 — 그래프 탐색·수치 판정·근거 조립·검수 (코드 = 재현성)
+Kinetic  MCP 도구 56종 — 그래프 탐색·수치 판정·근거 조립·검수 (코드 = 재현성)
 Semantic 온톨로지 그래프 — 공종·자재·시험·기준·리스크·부적합·법령을 관계로 연결
 ```
 
@@ -73,7 +73,7 @@ stdio 서버는 MCP 2026-07-28 규격과 그 이전 규격 클라이언트를 �
 ```
 src/
   index.ts / cli.ts / viewer.ts   진입점 (stdio MCP · CLI · 브라우저 폼)
-  tool-registry.ts                도구 단일 등록 지점 (53종)
+  tool-registry.ts                도구 단일 등록 지점 (56종)
   tools/                          도구 1종 = 1파일 (+_compile-common 등 공용 헬퍼)
   ontology/                       schema(zod SSoT) · loader · graph · resolver · validator
   ontology/graph/nodes/           런타임 그래프 SSoT (JSON-LD)

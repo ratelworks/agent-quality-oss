@@ -67,6 +67,9 @@ import * as explainQualityDecisionPath from "./tools/explain-quality-decision-pa
 import * as verifyFormReference from "./tools/verify-form-reference.js";
 import * as renderQualityForm from "./tools/render-quality-form.js";
 import * as composeWritingContext from "./tools/compose-writing-context.js";
+import * as generateQualityDocument from "./tools/generate-quality-document.js";
+import * as reviewQualityDocument from "./tools/review-quality-document.js";
+import * as exportQualityDocument from "./tools/export-quality-document.js";
 import * as compileDocumentReferences from "./tools/compile-document-references.js";
 import * as chainQualityInspection from "./tools/chain-quality-inspection.js";
 import * as chainQualityTestPlan from "./tools/chain-quality-test-plan.js";
@@ -142,6 +145,9 @@ export const TOOL_MODULES: ToolModule[] = [
   verifyFormReference,
   renderQualityForm,
   composeWritingContext,
+  generateQualityDocument,
+  reviewQualityDocument,
+  exportQualityDocument,
 ];
 
 function toDefinition(mod: ToolModule): ToolDefinition {
