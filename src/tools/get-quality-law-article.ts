@@ -194,7 +194,7 @@ function annexView(found: { kind: string; key: string; title: string; text: stri
       note:
         ex.matches === 0
           ? "이 별표에 그 낱말이 든 항목이 없습니다 — 낱말을 줄이거나 다른 말로 찾으세요(띄어쓰기는 무시합니다)."
-          : `낱말이 든 항목 ${ex.matches}개입니다(표의 종별 칸 전체 · 머리 줄 · 절 제목). ${ex.allTermsMatched ? "" : "낱말을 모두 가진 항목이 없어 가장 많이 가진 항목을 보였습니다. "}${ex.omitted > 0 ? `길이 한도로 ${ex.omitted}개는 빼고 보였습니다 — 낱말을 더 좁히세요.` : ""}`.trim(),
+          : `낱말이 든 항목 ${ex.matches}개입니다(표의 종별 칸 전체 · 머리 줄 · 절 제목). ${ex.allTermsMatched ? "" : "낱말을 모두 가진 항목이 없어 가장 많이 가진 항목을 보였습니다. "}${ex.omitted > 0 ? `길이 한도로 ${ex.omitted}개는 빼고 보였습니다 — 낱말을 더 좁히세요. ` : ""}${ex.excerpts.some((e) => e.sectionKinds) ? "절 제목에서 찾은 결과는 그 절 표의 종별 이름(sectionKinds)만 줍니다 — 하나를 find 로 다시 찾으면 그 칸 전체를 줍니다." : ""}`.trim(),
     };
   }
   if (found.text.length <= ANNEX_FULL_MAX) return { ...base, text: found.text };

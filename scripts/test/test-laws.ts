@@ -214,6 +214,14 @@ async function testLookup(): Promise<void> {
   );
   const pileDyn = (await callTool("get_quality_law_article", { law: "품질관리 업무지침", annex: "별표 2", find: "정재하 동재하" }, { graph })).result as AnnexOut;
   check("도구: 큰 별표 낱말 찾기 — 비고 칸까지(정재하 행의 '동재하시험을 선택적으로 적용')", (pileDyn.annex.excerpts ?? []).some((e) => e.text.includes("선택적으로")));
+  // 절 제목에서 찾으면 그 절이 출처이고(앞 절로 잘못 붙지 않음) 그 절 표의 종별 이름을 준다
+  const rcSection = (await callTool("get_quality_law_article", { law: "품질관리 업무지침", annex: "별표 2", find: "철근콘크리트공사" }, { graph })).result as { annex: { excerpts?: Array<{ section: string | null; sectionKinds?: string[] }> } };
+  const rcFirst = rcSection.annex.excerpts?.[0];
+  check(
+    "도구: 큰 별표에서 절 제목으로 찾으면 그 절과 종별 이름(철근콘크리트공사 → 포틀랜드 시멘트 …)",
+    rcFirst?.section === "나. 철근콘크리트공사" && (rcFirst.sectionKinds ?? []).includes("포틀랜드 시멘트 (KS L 5201)"),
+    JSON.stringify(rcFirst).slice(0, 200),
+  );
   const smallAnnex = (await callTool("get_quality_law_article", { law: "시행규칙", annex: "별표 5" }, { graph })).result as AnnexOut;
   check("도구: 작은 별표는 전문 그대로", typeof smallAnnex.annex.text === "string" && smallAnnex.annex.text.length === smallAnnex.annex.length);
   // 공종 — 앞 도구가 돌려준 id 를 그대로 넘겨도, 현장 말("아스콘 표층 포설")로 넣어도 알아본다
