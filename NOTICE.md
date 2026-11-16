@@ -25,6 +25,11 @@ This MCP server reasons over Korean construction **quality** standards.
 | KCS / KDS (국가건설기준, 표준시방서·설계기준) | 국토교통부 / 국가건설기준센터 | Clause numbers and titles, plus **short quoted phrases** used to verify acceptance criteria against the current edition. The full clause text is **not** shipped. |
 | KS 표준 (KS F 2402, KS F 2405 등) | 한국표준협회(KSA) / 국가기술표준원 | **Numbers and titles only.** Full text requires a KSA license. |
 
+> The Git repository (not the npm package) also keeps reference copies under
+> `evaluation/sources/` that were used for early cross-checking: an older edition
+> of KCS 14 20 and two guidance documents. They are not the current editions and
+> remain the property of their issuers.
+>
 > The bundled law and notice text is the edition fetched at sync time. Check the
 > current edition before relying on it (`npm run check:law-editions`).
 > When a user needs the **full clause text** of KCS/KDS/KS, it must be obtained

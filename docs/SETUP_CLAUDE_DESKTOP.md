@@ -11,7 +11,7 @@
 
 ## 1. 소스 빌드
 
-> npm 에 게시돼 있어 이 단계 없이 `npx -y agent-quality-oss serve` 로 바로 쓸 수 있습니다. 아래는 소스를 받아 빌드해 쓰는 경우입니다.
+> npm 에 게시된 판은 이 단계 없이 `npx -y agent-quality-oss serve` 로 바로 쓸 수 있습니다(게시된 버전은 `npm view agent-quality-oss version` 으로 확인). 아래는 소스를 받아 빌드해 쓰는 경우입니다.
 
 ```bash
 git clone https://github.com/ratelworks/agent-quality-oss.git
