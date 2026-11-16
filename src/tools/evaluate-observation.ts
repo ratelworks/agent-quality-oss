@@ -16,12 +16,42 @@ import { searchEntities } from '../ontology/resolver.js';
 import { spotNodes } from '../knowledge/field-search.js';
 import { expandFieldTerms } from '../knowledge/field-phrases.js';
 import { buildResponse, entityBasis } from './_response.js';
+import { cite } from '../knowledge/cite.js';
+import { relatedPenalties, relatedSanctions } from '../knowledge/penalty-points.js';
 import type { ToolSpec, BasisRef } from '../lib/types.js';
 import type { OntologyGraph } from '../ontology/graph.js';
 import type { BaseEntity } from '../ontology/schema.js';
 
 /** 콘크리트공사 표준시방서 노드 id 의 앞부분 */
 const CONCRETE_STANDARD_PREFIX = 'standard.kcs_14_20';
+const QUALITY_GUIDELINE = '건설공사 품질관리 업무지침';
+/**
+ * 불합격이면 즉시 반품하는 시험 — 업무지침 제41조제1항의 호와 그 호의 원문 구절.
+ * 판정만 주고 그다음 처리(반품·확약서·재시공)를 주지 않아 AI 비서가 반품을 빠뜨린 답이 있었다.
+ */
+const REJECT_ITEM_BY_TEST: Record<string, { item: string; quote: string }> = {
+  'test.slump': { item: '1', quote: '슬럼프(Slump) 측정결과 해당공사 시방기준에 벗어나는 경우' },
+  'test.air_content': { item: '2', quote: '공기량 측정결과 해당공사 시방기준에 벗어나는 경우' },
+  'test.chloride': { item: '3', quote: '염화물이온량(Cl-) 측정결과 해당공사 시방기준에 벗어나는 경우' },
+  'test.asphalt_marshall': { item: '6', quote: '마샬 안정도 측정결과 해당공사 시방기준에 벗어나는 경우' },
+  'test.asphalt_content': { item: '7', quote: '역청함유량 및 추출입도 측정결과 해당공사 시방기준에 벗어나는 경우' },
+};
+
+/** 불합격 뒤의 처리 — 즉시 반품·확약서·재시공 원칙(업무지침 제41조)과 자재 벌점·벌칙. 원문 구절 그대로 */
+function rejectionHandling(testId: string | undefined): Record<string, unknown> | null {
+  const rule = testId ? REJECT_ITEM_BY_TEST[testId] : undefined;
+  if (!rule) return null;
+  return {
+    ref: `${QUALITY_GUIDELINE} 제41조제1항제${rule.item}호`,
+    returnImmediately: cite({ law: QUALITY_GUIDELINE, article: '41', quote: '불량자재가 발생한 경우 즉시 반품하여야 한다' }),
+    item: cite({ law: QUALITY_GUIDELINE, article: '41', quote: rule.quote }),
+    disposalPledge: cite({ law: QUALITY_GUIDELINE, article: '41', quote: '불량자재폐기 확약서를 생산자에게 징구하여 준공시까지 보관하여야 한다' }),
+    ifAlreadyPlaced: cite({ law: QUALITY_GUIDELINE, article: '41', quote: '불량자재가 사용되어 시공된 부위는 재시공함을 원칙으로 한다' }),
+    relatedPenalties: relatedPenalties(['topic:material']),
+    relatedSanctions: relatedSanctions(['topic:material']),
+    note: '시방기준을 벗어난 자재는 즉시 반품하고(제1항), 생산자에게 불량자재폐기 확약서(별지 제13호)를 받아 준공 때까지 보관합니다(제2항). 이미 시공했으면 재시공이 원칙이고, 발주청 승인을 받아 안전진단 등으로 안전에 이상이 없다고 판명된 경우만 그 결과를 따를 수 있습니다(제5항). 벌점·벌칙은 who·조건과 함께 알립니다. 반품·재시공 결정은 공사감독자·감리원이 합니다.',
+  };
+}
 
 export const spec: ToolSpec = {
   name: 'evaluate_observation',
@@ -223,6 +253,8 @@ export function run(args: EvaluateArgs, graph: OntologyGraph) {
     /** 가정을 둔 결과 — 확정이 아니다. 가정이 맞는지 확인한 뒤에만 쓴다 */
     provisionalResult: j.provisional ?? null,
     candidateNonconformance: candidateNcrs,
+    /** 불합격이면 그다음 처리 — 즉시 반품·확약서·재시공(업무지침 제41조), 자재 벌점·벌칙. 반품 대상 시험이 아니거나 불합격이 아니면 null */
+    ifRejected: legalVerdict === 'FAIL' ? rejectionHandling(resolvedTest?.id ?? (criterion?.relations?.['appliesTo'] ?? [])[0]) : null,
     suggestedNextSteps,
     legalBasis,
     judgmentEngineNote:

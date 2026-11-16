@@ -233,6 +233,15 @@ async function testLookup(): Promise<void> {
   check("공종: 검측 연결 도구가 공종 id 를 받는다", chainById.resolvedWorkType?.id === "work.road_pavement");
   // 하나도 알아보지 못해도 오류로 끝나지 않고 고를 수 있는 공종을 알린다(근거가 비어 내부 오류가 나던 일)
   const unknownBrief = (await callTool("chain_daily_quality_briefing", { workTypes: ["양자역학"] }, { graph })).result as { unresolvedWorkTypes: string[]; availableWorkTypes?: Array<{ id: string }> };
+  // 불합격 뒤의 처리 — 레미콘 슬럼프·공기량·염화물 등은 즉시 반품(업무지침 제41조제1항), 확약서, 재시공 원칙을 원문으로 함께 준다
+  type RejOut = { expertAssessment: { legalVerdict: string; ifRejected: null | { ref: string; item: { text: string }; ifAlreadyPlaced: { text: string }; relatedSanctions: Array<{ ref: string }> } } };
+  const failSlump = ((await callTool("evaluate_observation", { observation: "슬럼프 230mm, 호칭 슬럼프 150mm" }, { graph })).result as RejOut).expertAssessment;
+  check(
+    "판정: 레미콘 슬럼프 불합격이면 즉시 반품(제41조제1항제1호)·재시공 원칙·자재 벌칙을 함께 준다",
+    failSlump.legalVerdict === "FAIL" && failSlump.ifRejected?.ref.endsWith("제41조제1항제1호") === true && failSlump.ifRejected.item.text.includes("슬럼프") && failSlump.ifRejected.ifAlreadyPlaced.text.includes("재시공") && failSlump.ifRejected.relatedSanctions.some((x) => x.ref === "제88조 제6호"),
+  );
+  const passSlump = ((await callTool("evaluate_observation", { observation: "슬럼프 160mm, 호칭 슬럼프 150mm" }, { graph })).result as RejOut).expertAssessment;
+  check("판정: 합격이면 반품 처리를 붙이지 않는다", passSlump.legalVerdict === "PASS" && passSlump.ifRejected === null);
   check("일일 브리핑: 알 수 없는 공종만 주면 고를 수 있는 공종 목록을 준다", unknownBrief.unresolvedWorkTypes.includes("양자역학") && (unknownBrief.availableWorkTypes ?? []).some((w) => w.id === "work.road_pavement"));
   const byId = await callTool("get_quality_law_article", { articleId: "standard.law.btia_decree_89" }, { graph });
   const r3 = byId.result as { article: { bodyText: string; edition: string; scope: string } };
