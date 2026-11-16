@@ -2,15 +2,15 @@
   "@context": "../../context.jsonld",
   "@id": "standard:form.test_plan_template",
   "@type": "Standard",
-  "name": "품질시험계획서 표준 양식 (시행령 별표9 + 업무지침 별지)",
+  "name": "품질시험계획의 내용 (건설기술 진흥법 시행령 별표 9)",
   "_meta": {
     "category": "form",
     "basisType": "standard_form",
-    "issuer": "국토교통부 고시 2025-311호",
-    "referenceDoc": "건설공사 품질관리 업무지침 + 건설기술 진흥법 시행령 별표9",
+    "issuer": "대통령령 (건설기술 진흥법 시행령)",
+    "referenceDoc": "건설기술 진흥법 시행령",
     "relatedArticle": "standard.law.btia_decree_89",
     "sourceHash": null,
-    "license": "Korea Open Government License Type 4",
+    "license": "저작권법 제7조 — 법령·고시의 별표·서식은 보호 대상 아님",
     "legalWeight": "mandatory",
     "sourceStatus": "verified",
     "bodyText": "■ 건설기술 진흥법 시행령 [별표 9] <개정 2018. 12. 11.>\n\n\n                                              \n\n\n  품질시험계획의 내용(제89조제2항 관련)       \n\n\n                                              \n\n\n  1. 개요                                     \n\n\n    가. 공사명                                \n\n\n    나. 시공자                                \n\n\n    다. 현장 대리인                           \n\n\n                                              \n\n\n  2. 시험계획                                 \n\n\n    가. 공종                                  \n\n\n    나. 시험 종목                             \n\n\n    다. 시험 계획물량                         \n\n\n    라. 시험 빈도                             \n\n\n    마. 시험 횟수                             \n\n\n    바. 그 밖의 사항                          \n\n\n                                              \n\n\n  3. 시험시설                                 \n\n\n    가. 장비명                                \n\n\n    나. 규격                                  \n\n\n    다. 단위                                  \n\n\n    라. 수량                                  \n\n\n    마. 시험실 배치 평면도                    \n\n\n    바. 그 밖의 사항                          \n\n\n                                              \n\n\n  4. 품질관리를 수행하는 건설기술인 배치계획  \n\n\n    가. 성명                                  \n\n\n    나. 등급                                  \n\n\n    다. 품질관리 업무 수행기간                \n\n\n    라. 건설기술인 자격 및 학력ㆍ경력 사항    \n\n\n    마. 그 밖의 사항",
@@ -20,6 +20,13 @@
     "verifiedAt": "2026-09-28",
     "verifiedBy": "법제처 lawService.do <별표단위> 자동 sync",
     "hwpDownloadUrl": "https://www.law.go.kr/LSW/flDownload.do?flSeq=164831349",
-    "pdfDownloadUrl": "https://www.law.go.kr/LSW/flDownload.do?flSeq=164831351"
-  }
+    "pdfDownloadUrl": "https://www.law.go.kr/LSW/flDownload.do?flSeq=164831351",
+    "section": "별표9",
+    "scope": "품질시험계획에 넣어야 하는 내용 — 개요, 시험계획(공종·시험 종목·시험 계획물량·시험 빈도·시험 횟수), 시험시설(장비명·규격·단위·수량·시험실 배치 평면도), 품질관리를 수행하는 건설기술인 배치계획. 서식은 사업관리방식 지침 별지 제16호·제55호"
+  },
+  "aliases": [
+    "시행령 별표 9",
+    "품질시험계획의 내용",
+    "품질시험계획서 양식"
+  ]
 }

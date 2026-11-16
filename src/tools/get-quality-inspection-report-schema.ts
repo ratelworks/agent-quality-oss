@@ -3,7 +3,7 @@ import { createSchemaTool } from './_schema-factory.js';
 const tool = createSchemaTool({
   toolName: 'get_quality_inspection_report_schema',
   schemaId: 'quality_inspection_report',
-  description: '품질관리 점검 결과 보고서 (업무지침 §10 적절성 확인 · 시행규칙 §52)',
+  description: '자체 품질점검 결과 보고서 (실무 서식 · 시행령 제91조제3항제5호 — 발주청 등의 적절성 확인과 다름)',
 });
 
 export const spec = tool.spec;

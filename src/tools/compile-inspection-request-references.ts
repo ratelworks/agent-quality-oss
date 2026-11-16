@@ -6,6 +6,9 @@
 import { getSchema } from '../schemas/loader.js';
 import { buildResponse } from './_response.js';
 import { mergeBasis, schemaLegalBasisRefs } from "./_compile-common.js";
+import { cite } from '../knowledge/cite.js';
+
+const CM_GUIDELINE = '건설공사 사업관리방식 검토기준 및 업무수행지침';
 import type { BasisRef, ToolSpec } from '../lib/types.js';
 import type { OntologyGraph } from '../ontology/graph.js';
 import type { BaseEntity } from '../ontology/schema.js';
@@ -13,7 +16,7 @@ import type { BaseEntity } from '../ontology/schema.js';
 export const spec: ToolSpec = {
   name: 'compile_inspection_request_references',
   description:
-    '검측 신청서 작성 1건에 필요한 재료 패키지를 반환한다 (양식 스키마 + workType별 적용 표준 자동 추출 + 사전 자체검측 체크포인트 + leadTime 가이드). [근거 제공용 · 최종 판정은 품질관리자·감리원·발주청]',
+    '검측요청서(사업관리방식 지침 별지 제36호) 작성 1건에 필요한 재료 패키지를 반환한다 (양식 스키마 + 공종별 적용 표준 + 사전 자체 점검 항목 + 검측 절차의 근거 문장). [근거 제공용 · 최종 판정은 품질관리자·감리원·발주자]',
   inputSchema: {
     type: 'object',
     properties: {
@@ -67,7 +70,7 @@ export function run(args: CompileInspectionRequestArgs, graph: OntologyGraph) {
     .map((id) => graph.get(id))
     .filter((e): e is BaseEntity => e != null);
 
-  const basisIds = ['standard.law.btia_55', 'standard.kcs_14_20.10', ...appliedStandardIds];
+  const basisIds = ['standard.form.cm_a36', ...appliedStandardIds];
   const basis: BasisRef[] = [...new Set(basisIds)]
     .filter((id) => graph.get(id))
     .map((id) => ({ type: 'ontology', id, priority: 1 }));
@@ -99,16 +102,16 @@ export function run(args: CompileInspectionRequestArgs, graph: OntologyGraph) {
       checkpoints,
       appliedStandards: appliedStandards.map((s) => ({ id: s.id, name: s.name })),
       selfInspectionChecklist: selfChecklist,
-      leadTimeGuide: {
-        recommended: '24~48시간 전 제출',
-        minimum: '8시간 (발주청·감리 별도 약정 우선)',
-        rationale:
-          '감리원 일정 조율 + 자체 사전 검측 + 도면·서류 준비 + 후속 공정 영향 평가에 필요한 시간. 미달 시 감리 거절 또는 검측 지연 사유.',
+      requestTiming: {
+        note: '검측을 몇 시간·며칠 전에 요청해야 하는지는 사업관리방식 지침과 별지 제36호 서식에 정해져 있지 않습니다. 현장별 검측업무지침(검측절차·검측시기·검측빈도)과 계약에서 정한 대로 요청합니다.',
+        basis: cite({ law: CM_GUIDELINE, article: '86', quote: '「검측업무지침」을 현장별로 작성ㆍ수립하여 발주청의 승인을 득한 후' }),
       },
-      consequenceOfSkip: {
-        legal: '감리 미입회 검측은 인정되지 않음 (감리계약 기준 — 구조물 안전에 중요한 시험은 시행규칙 §50② 발주자 확인 대상)',
-        practical: '재시공·인증 누락·후속 검측 거절 위험',
-      },
+      procedure: [
+        cite({ law: CM_GUIDELINE, article: '86', quote: '검측요청서(별지 제36호 서식)를 제출받아' }),
+        cite({ law: CM_GUIDELINE, article: '86', quote: '1차적으로 시공자의 담당기술인이 검측체크리스트를 첨부하여' }),
+        cite({ law: CM_GUIDELINE, article: '86', quote: '공사참여자 실명부가 첨부 되었는지를 확인' }),
+        cite({ law: '건설기술 진흥법 시행규칙', article: '50', quote: '구조물의 안전에 중요한 영향을 미치는 시험종목의 품질시험을 할 때에는 발주자가 확인하여야 한다' }),
+      ],
       usage:
         '본 패키지를 LLM에 입력 → 양식 sections 채움. 적용 표준은 그래프에서 자동 추출, 추가 시방서 강화분은 수동 보완.',
     },

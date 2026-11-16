@@ -2,7 +2,7 @@
 // chain_nonconformance_report — 부적합 처리 체인 (plan.md §7.4 Tool 19).
 //
 // 흐름: (관측값 있으면) 수치 판정 → 공종/시험 기반 NCR 후보·조치·증빙 조립
-//       (compile_ncr_references) → NCR 양식 + verified 법령 근거 (§39·§41).
+//       (compile_ncr_references) → NCR 양식 + 법령 근거(업무지침 별표 1 의 부적합 공사 관리, 레미콘·아스콘은 제41조).
 // ─────────────────────────────────────────────────────────────────────────────
 
 import { run as resolveWorktype } from "./resolve-worktype.js";
@@ -16,7 +16,7 @@ import type { OntologyGraph } from "../ontology/graph.js";
 export const spec: ToolSpec = {
   name: "chain_nonconformance_report",
   description:
-    "부적합 처리 체인 — 부적합 상황(관측값·공종·시험 중 아는 것)을 받아 수치 판정(있으면) → NCR 후보·원인·즉시/시정 조치·필요 증빙 → NCR 양식·법령 근거(verified: 업무지침 §39·§41)까지 한 번에 조립한다. [근거 제공용 · 최종 판정은 품질관리자·감리원·발주자]",
+    "부적합 처리 체인 — 부적합 상황(관측값·공종·시험 중 아는 것)을 받아 수치 판정(있으면) → NCR 후보·원인·즉시/시정 조치·필요 증빙 → NCR 양식·근거(업무지침 별표 1 의 부적합 공사 관리, 레미콘·아스콘 불량자재는 제41조)까지 한 번에 조립한다. [근거 제공용 · 최종 판정은 품질관리자·감리원·발주자]",
   inputSchema: {
     type: "object",
     properties: {
@@ -67,7 +67,7 @@ export function run(args: ChainNcrArgs, graph: OntologyGraph): ToolResponse {
   const ncrPkg = compileNcrReferences({ ncrId, workType: workId, testId }, graph);
   basisGroups.push(ncrPkg.basis as BasisRef[]);
 
-  // 4. verified 법령 근거 요약 (업무지침 §39·§41 등 — LLM이 바로 인용)
+  // 4. 법령 근거 요약 (양식에 건 근거 노드 — 바로 인용할 수 있는 형태)
   const legalBasis = schemaLegalBasisSummaries(graph, "ncr");
 
   const result = {

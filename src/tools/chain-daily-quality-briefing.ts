@@ -107,7 +107,7 @@ export function run(args: ChainBriefingArgs, graph: OntologyGraph): ToolResponse
     briefing: cards,
     unresolvedWorkTypes: unresolved,
     usage:
-      "공종 카드별로 ① risks 를 아침 회의에서 공유 ② inspections 의 timing 으로 검측 신청 시점 확인 (inspection_request 는 통상 24~48h 전) ③ tests·requiredDocs 로 오늘 챙길 시험·서류 준비. 시행은 현장 판단.",
+      "공종 카드별로 ① risks 를 아침 회의에서 공유 ② inspections 의 timing 으로 검측 신청 시점 확인 (요청 시점은 현장 검측업무지침·계약에 따름) ③ tests·requiredDocs 로 오늘 챙길 시험·서류 준비. 시행은 현장 판단.",
   };
 
   return buildResponse(

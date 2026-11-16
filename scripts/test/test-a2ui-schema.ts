@@ -35,8 +35,8 @@ import {
 // ── 상수 ────────────────────────────────────────────────────────────
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const OFFICIAL_EXAMPLE = resolve(__dirname, "fixtures/a2ui-1.0/contact_form_example.jsonl");
-/** 묶음·표·선택형·날짜가 모두 있는 문서 */
-const SAMPLE_DOC_ID = "inspection_request";
+/** 묶음·표·선택형·날짜·숫자가 모두 있는 문서 */
+const SAMPLE_DOC_ID = "qc_assignment_notice";
 const HANGUL = /[가-힣]/;
 
 const graph = new OntologyGraph(loadOntologySync());
@@ -283,65 +283,57 @@ async function testEventCarriesInput(): Promise<void> {
   const context = (submit?.action as { event: { context: Record<string, unknown> } } | undefined)?.event.context ?? {};
   check("이벤트 문맥이 입력값 묶음을 가리킴", (context.draft as { "@path"?: string } | undefined)?.["@path"] === "/draft");
 
-  // 사용자가 입력한 뒤 작성 완료를 누른 상황 — 렌더러가 하는 일을 대신한다(선택형은 목록, 표는 여러 줄 글자)
-  model.draft.workType = "철근콘크리트공사";
-  model.draft.stage = ["pre"];
-  model.draft.quantity = { value: "120", unit: "㎥" };
-  model.draft.appliedStandards = "KCS 14 20 10\nKCS 14 20 11";
+  // 사용자가 입력한 뒤 작성 완료를 누른 상황 — 렌더러가 하는 일을 대신한다(선택형은 목록, 목록은 여러 줄 글자)
+  model.draft.projectName = "○○ 신축공사";
+  model.draft.noticeType = ["change"];
+  model.draft.contractor = { companyName: "가나건설", businessNo: "", license: "" };
+  model.draft.workTypes = "토공\n철근콘크리트공사";
   const resolvedDraft = readPointer(model, "/draft");
   const composed = await callTool("compose_writing_context", { docId: context.docId, formValues: resolvedDraft }, { graph });
   const result = composed.result as { markdown: string; unknownKeys: string[]; problems: string[] };
-  check("입력한 글자가 작성 컨텍스트에 들어감", result.markdown.includes("철근콘크리트공사"));
-  check("선택형 값이 한글 이름으로 들어감", result.markdown.includes("**시공 단계** *(필수)*: 시공 전"), result.markdown.split("\n").find((l) => l.includes("시공 단계")) ?? "");
-  check("묶음 값이 항목 이름과 함께 들어감", result.markdown.includes("수량 120 · 단위 ㎥"));
-  check("목록 값이 줄마다 한 건으로 들어감", result.markdown.includes("KCS 14 20 10, KCS 14 20 11"));
+  check("입력한 글자가 작성 컨텍스트에 들어감", result.markdown.includes("○○ 신축공사"));
+  check("선택형 값이 한글 이름으로 들어감", result.markdown.includes("**구분** *(필수)*: 변경"), result.markdown.split("\n").find((l) => l.includes("**구분**")) ?? "");
+  check("묶음 값이 항목 이름과 함께 들어감", result.markdown.includes("상호 가나건설"));
+  check("목록 값이 줄마다 한 건으로 들어감", result.markdown.includes("토공, 철근콘크리트공사"));
   check("폼이 준 데이터 모델에는 양식에 없는 키가 없음", result.unknownKeys.length === 0, result.unknownKeys.join(","));
   check("빈 폼의 값은 형식 문제로 잡히지 않음", result.problems.length === 0, result.problems.join(" / "));
 }
 
 // ── 5. 입력값 정리 ──────────────────────────────────────────────────
 function testNormalizeDraft(): void {
-  const schema = getSchema("quality_test_plan");
-  if (!schema) throw new Error("quality_test_plan 양식 없음");
+  const plan = getSchema("quality_test_plan");
+  const staffing = getSchema(SAMPLE_DOC_ID);
+  if (!plan || !staffing) throw new Error("시험에 쓰는 양식이 없음");
   const field = (draft: ReturnType<typeof normalizeDraft>, name: string) => {
     const f = draft.fields.find((x) => x.name === name);
     if (!f) throw new Error(`필드 없음: ${name}`);
     return f;
   };
 
-  const fromText = normalizeDraft(schema, {
-    testItems: "콘크리트공사 | 레미콘 | 슬럼프 | KS F 2402 | 120㎥마다\n콘크리트공사 | 레미콘 | 공기량",
-    totalContractValue: "1,250,000,000",
-  });
+  const fromText = normalizeDraft(plan, { testItems: "콘크리트공사 | 슬럼프 | 1,200㎥ | 120㎥마다 | 10\n콘크리트공사 | 공기량" });
   const rows = field(fromText, "testItems").value as Array<Record<string, string>>;
-  check("표: 여러 줄 글자를 행으로", rows.length === 2 && rows[0]?.testMethod === "KS F 2402" && rows[1]?.testItem === "공기량");
-  check("숫자: 쉼표를 뺀 숫자로", field(fromText, "totalContractValue").value === "1250000000" && field(fromText, "totalContractValue").problems.length === 0);
+  check("표: 여러 줄 글자를 행으로", rows.length === 2 && rows[0]?.testFrequency === "120㎥마다" && rows[1]?.testItem === "공기량");
 
-  const fromObjects = normalizeDraft(schema, {
-    testItems: [{ workType: "콘크리트공사", 시험종목: "슬럼프", 없는열: "x" }],
-    "decree90Eligibility.targetCategory": "토목공사",
-    공사명: "○○ 신축공사",
-    없는키: "값",
-    totalContractValue: "약 12억",
-  });
+  const fromObjects = normalizeDraft(plan, { testItems: [{ workType: "콘크리트공사", 시험종목: "슬럼프", 없는열: "x" }], 공사명: "○○ 신축공사", 없는키: "값" });
   const objectRows = field(fromObjects, "testItems");
   check("표: 객체 목록(한글 키 포함)을 행으로", (objectRows.value as Array<Record<string, string>>)[0]?.testItem === "슬럼프");
   check("표: 양식에 없는 열을 알림", objectRows.problems.some((p) => p.includes("없는열")));
-  check("묶음: 점으로 이은 키를 받음", (field(fromObjects, "decree90Eligibility").value as Record<string, string>).targetCategory === "토목공사");
   check("한글 표시 이름을 키로 받음", field(fromObjects, "projectName").value === "○○ 신축공사");
   check("양식에 없는 키를 알림", fromObjects.unknownKeys.join(",") === "없는키", fromObjects.unknownKeys.join(","));
-  check("숫자 칸의 글자를 알림", field(fromObjects, "totalContractValue").problems.length === 1);
 
-  const empty = normalizeDraft(schema, {});
-  const requiredCount = schema.sections.flatMap((s) => s.fields).filter((f) => f.required).length;
+  const numbers = normalizeDraft(staffing, { totalContractValue: "1,250,000,000", requiredHeadcount: "약 3명", "contractor.companyName": "가나건설" });
+  check("숫자: 쉼표를 뺀 숫자로", field(numbers, "totalContractValue").value === "1250000000" && field(numbers, "totalContractValue").problems.length === 0);
+  check("숫자 칸의 글자를 알림", field(numbers, "requiredHeadcount").problems.length === 1);
+  check("묶음: 점으로 이은 키를 받음", (field(numbers, "contractor").value as Record<string, string>).companyName === "가나건설");
+
+  const empty = normalizeDraft(plan, {});
+  const requiredCount = plan.sections.flatMap((s) => s.fields).filter((f) => f.required).length;
   check("빈 입력: 필수 항목이 모두 비어 있다고 나옴", empty.missingRequired.length === requiredCount && requiredCount > 0);
 
-  const choiceSchema = getSchema("inspection_request");
-  if (!choiceSchema) throw new Error("inspection_request 양식 없음");
-  const byLabel = normalizeDraft(choiceSchema, { stage: "시공 중", decision: ["approved"], selfInspectionVerdict: "통과" });
-  check("선택형: 한글 이름을 코드로", field(byLabel, "stage").value === "during");
-  check("선택형: 한 원소 목록을 값으로", field(byLabel, "decision").value === "approved" && displayText(field(byLabel, "decision")) === "승인");
-  check("선택형: 선택지에 없는 값을 알림", field(byLabel, "selfInspectionVerdict").problems.length === 1);
+  const byLabel = normalizeDraft(staffing, { noticeType: "변경", complianceCheck: ["compliant"], targetGrade: "최고급" });
+  check("선택형: 한글 이름을 코드로", field(byLabel, "noticeType").value === "change");
+  check("선택형: 한 원소 목록을 값으로", field(byLabel, "complianceCheck").value === "compliant" && displayText(field(byLabel, "complianceCheck")) === "충족");
+  check("선택형: 선택지에 없는 값을 알림", field(byLabel, "targetGrade").problems.length === 1);
 }
 
 async function main(): Promise<void> {

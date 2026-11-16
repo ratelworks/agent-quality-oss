@@ -64,7 +64,7 @@ export const PROJECT_CREDITS = {
     },
     quality_management_guideline: {
       copyright: "국토교통부 고시",
-      note: "2026-360호 (2026.7.8 시행) 기준 식별자만 내장.",
+      note: "전 조문과 별표·서식 원문을 수록한다(판본은 수록본에 표기). 법령·고시는 저작권법 제7조에 따라 보호 대상이 아니다.",
     },
     KS: {
       copyright: "한국표준협회(KSA) / 국가기술표준원",
@@ -72,8 +72,8 @@ export const PROJECT_CREDITS = {
       note: "원문 미포함, 식별자·제목만.",
     },
     standardForms: {
-      license: "Korea Open Government License Type 4 (변경금지)",
-      note: "별지 서식 원본은 공식 출처에서 다운로드 필수.",
+      license: "저작권법 제7조 — 법령·고시의 별표·서식은 보호 대상 아님",
+      note: "서식의 글자 내용은 수록한다. 한글·PDF 원본 파일은 싣지 않으므로 공식 출처에서 받는다.",
     },
   },
 } as const;

@@ -13,10 +13,10 @@
     "issuer": "국토교통부",
     "referenceDoc": "건설기술 진흥법 시행규칙",
     "section": "별지 제42호 서식",
-    "scope": "시공자가 작성·비치하는 품질검사 실시 대장 (시험·검사 누적 기록)",
+    "scope": "품질검사를 하거나 대행하는 자가 검사 결과를 적는 대장 — 전자적 방법으로 작성·관리하고, 검사를 완료한 날부터 7일 이내 정보망에 입력",
     "sourceUrl": "https://www.law.go.kr/법령/%EA%B1%B4%EC%A7%84%EB%B2%95%EC%8B%9C%ED%96%89%EA%B7%9C%EC%B9%99/서식/42",
     "sourceHash": null,
-    "license": "Korea Open Government License Type 4",
+    "license": "저작권법 제7조 — 법령·고시의 별표·서식은 보호 대상 아님",
     "legalWeight": "mandatory",
     "incorrectAliases": [
       "점검결과 통보서"

@@ -77,7 +77,7 @@ export function run(args: ChainInspectionArgs, graph: OntologyGraph): ToolRespon
       legalBasis: requestResult.legalBasis ?? null,
     },
     usage:
-      "검측 입회 준비 순서: ① profile.inspections 로 체크포인트 확인 ② inspectionChecklist 로 부재별 체크리스트 작성 ③ inspectionRequest 로 검측 신청서 제출(통상 24~48h 전). 판정·입회 확인은 감리원.",
+      "검측 입회 준비 순서: ① profile.inspections 로 체크포인트 확인 ② inspectionChecklist 로 부재별 체크리스트 작성 ③ inspectionRequest 로 검측요청서 제출(요청 시점은 현장 검측업무지침·계약에 따름). 판정·입회 확인은 감리원.",
   };
 
   return buildResponse(

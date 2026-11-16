@@ -162,7 +162,7 @@ export function run(args: CompileNcrArgs, graph: OntologyGraph) {
     ),
     {
       required: true,
-      reason: 'NCR은 감리원·발주자 승인이 필요한 법정 기록물. 초안 작성 후 반드시 결재.',
+      reason: '부적합의 처리방안 결정과 종결은 권한을 가진 사람의 승인이 필요합니다(품질관리계획 대상 공사는 업무지침 별표 1 의 8.12). 초안 작성 후 결재를 받으십시오.',
       a2ui: { type: 'decision', options: ['감리 결재 요청', '재시험 지시', '초안 수정'] },
     },
   );

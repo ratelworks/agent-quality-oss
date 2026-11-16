@@ -13,10 +13,10 @@
     "issuer": "국토교통부",
     "referenceDoc": "건설기술 진흥법 시행규칙",
     "section": "별지 제43호 서식",
-    "scope": "월별·기간별 품질검사 실적 총괄 보고",
+    "scope": "품질검사를 완료하고 기성부분검사·예비준공검사 또는 준공검사를 신청할 때 발주자에게 내는 총괄표 — 공종, 시험·검사 종류(재료), 횟수(계획·실시·합격·불합격·재시험). 발주자(인계받은 관리주체)가 시설물 존속기간 동안 보존",
     "sourceUrl": "https://www.law.go.kr/법령/%EA%B1%B4%EC%A7%84%EB%B2%95%EC%8B%9C%ED%96%89%EA%B7%9C%EC%B9%99/서식/43",
     "sourceHash": null,
-    "license": "Korea Open Government License Type 4",
+    "license": "저작권법 제7조 — 법령·고시의 별표·서식은 보호 대상 아님",
     "legalWeight": "mandatory",
     "incorrectAliases": [
       "이행점검 결과 통보서"

@@ -2,6 +2,7 @@
  * Tool: map_quality_basis
  */
 
+import { cite } from '../knowledge/cite.js';
 import { resolveWorkType, searchEntities } from '../ontology/resolver.js';
 import { buildResponse, entityBasis } from './_response.js';
 import type { ToolSpec, HumanCheckpoint } from '../lib/types.js';
@@ -285,6 +286,9 @@ export function run(args: MapBasisArgs, graph: OntologyGraph) {
     factualBasis,
     applicableBasis,
     priorityRule: '발주처 지침 / 프로젝트 승인문서 > 공사시방서 > KCS/KDS > 품질관리 업무지침 > KS',
+    priorityNote:
+      '위 순서는 법령이 정한 서열이 아니라 이 도구가 근거를 늘어놓는 순서다. 한국산업표준, 설계 및 시공기준, 업무지침 별표 2 가 서로 다르면 발주자가 적합한 기준을 골라 설계도서에 반영한다 — 설계도서를 따른다.',
+    priorityBasis: cite({ law: '건설공사 품질관리 업무지침', article: '9', quote: '각기 다른 경우 공사의 종류, 구조물의 특성 등을 감안하여 적합한 기준을 선정하여 설계도서에 반영하여야 한다' }),
   };
 
   const basisRefIds = [...resolvedIds, ...factualBasis.map((b) => b.id), ...applicableBasis.map((b) => b.id)];

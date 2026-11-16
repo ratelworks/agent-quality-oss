@@ -8,7 +8,7 @@ import type { OntologyGraph } from '../ontology/graph.js';
 export const spec: ToolSpec = {
   name: 'compile_inspection_references',
   description:
-    '검측 1회 입회에 필요한 재료 패키지를 반환한다. 체크포인트 + 증빙 목록 + ITP 양식 + 감리 입회 근거 법령. [근거 제공용 · 최종 판정은 품질관리자·감리원·발주자]',
+    '검측 1회 입회에 필요한 재료 패키지를 반환한다. 체크포인트 + 증빙 목록 + ITP 양식 + 검측·입회의 근거(사업관리방식 지침 별지 제36호, 시행규칙 제50조제2항, 업무지침 제38조). [근거 제공용 · 최종 판정은 품질관리자·감리원·발주자]',
   inputSchema: {
     type: 'object',
     properties: {
@@ -69,7 +69,7 @@ export function run(args: CompileInspectionArgs, graph: OntologyGraph) {
     }
   }
 
-  for (const id of ['standard.law.btia_55', 'standard.guideline.art10']) {
+  for (const id of ['standard.form.cm_a36', 'standard.law.btia_rule_50', 'standard.guideline.art38']) {
     const e = graph.get(id);
     if (e && !allStandards.has(id)) {
       allStandards.set(id, {

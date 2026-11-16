@@ -125,7 +125,7 @@ export function run(args: ComposeWritingContextArgs, graph: OntologyGraph) {
       reason:
         missingRequired.length > 0
           ? `필수 항목 ${missingRequired.length}건 미입력 — 보강 후 작성 권장.`
-          : "법정 품질기록물 작성 컨텍스트 — 본문 작성 후 품질관리자·감리원 결재 필요.",
+          : "작성 컨텍스트 — 본문 작성 후 품질관리자·감리원 확인 필요.",
       a2ui: { type: "decision", options: ["작성 요청", "필수 항목 보강", "근거 추가 확인"] },
     },
     undefined,

@@ -1,91 +1,113 @@
 /**
- * 품질관리자 배치 신고서 작성 1건에 필요한 재료 패키지.
- * 시행규칙 §50④ 별표5 등급·인원 가이드 + 양식 스키마 + 법령 근거.
+ * 품질관리 건설기술인 배치 문서 작성 1건에 필요한 재료 패키지.
+ *
+ * 배치기준은 시행규칙 제50조제4항 · 별표 5 를 수록 원문에서 읽어 그대로 싣는다
+ * (대상공사 구분, 시험·검사장비, 시험실 규모, 건설기술인 구성, 비고).
+ * 대상공사 구분 판정은 knowledge/plan-rules.ts — 입력이 모자라면 판정하지 않는다.
  */
 
-import { getSchema } from '../schemas/loader.js';
-import { buildResponse } from './_response.js';
+import { getSchema } from "../schemas/loader.js";
+import { buildResponse } from "./_response.js";
 import { mergeBasis, schemaLegalBasisRefs } from "./_compile-common.js";
-import type { BasisRef, ToolSpec } from '../lib/types.js';
-import type { OntologyGraph } from '../ontology/graph.js';
+import { cite } from "../knowledge/cite.js";
+import { judgePlanTarget, judgeStaffingGrade, staffingStandard, type ProjectFacts } from "../knowledge/plan-rules.js";
+import type { BasisRef, ToolSpec } from "../lib/types.js";
+import type { OntologyGraph } from "../ontology/graph.js";
+
+// ───── 상수 ─────
+const WORK_KINDS = ["civil", "building", "specialty"];
+const EXEMPT_KINDS = ["nuclear", "landscaping", "demolition"];
+const CM_GUIDELINE = "건설공사 사업관리방식 검토기준 및 업무수행지침";
 
 export const spec: ToolSpec = {
-  name: 'compile_qc_assignment_notice_references',
+  name: "compile_qc_assignment_notice_references",
   description:
-    '품질관리자 배치 신고서 작성 1건에 필요한 재료 패키지를 반환한다 (양식 스키마 + 시행규칙 §50 등급·배치인원 가이드 + 법령 근거). [근거 제공용 · 최종 판정은 품질관리자·감리원·발주청]',
+    "품질관리 건설기술인 배치 문서 작성 1건에 필요한 재료 패키지를 반환한다 — 양식 스키마 + 시행규칙 별표 5 배치기준 원문(대상공사 구분·시험실 규모·건설기술인 구성) + 입력한 공사 조건에 대한 구분 판정 + 제출 경로 근거. " +
+    "입력이 모자라면 판정하지 않고 필요한 입력을 알려 준다. [근거 제공용 · 최종 판정은 품질관리자·감리원·발주자]",
   inputSchema: {
-    type: 'object',
+    type: "object",
     properties: {
-      noticeType: {
-        type: 'string',
-        description: '신고 유형: initial / change / replacement / withdrawal',
-      },
-      totalContractValue: {
-        type: 'number',
-        description: '총공사비(원). 시행규칙 §50④ 별표5 등급·인원 산정 기준',
-      },
+      noticeType: { type: "string", description: "문서 구분: initial(최초) / change(변경) / replacement(교체) / withdrawal(철수)" },
+      totalContractValue: { type: "number", description: "총공사비(원) — 관급자재비 포함, 보상비 제외" },
+      workKind: { type: "string", enum: WORK_KINDS, description: "공사 종류: civil(토목) / building(건축) / specialty(전문)" },
+      floorArea: { type: "number", description: "연면적(㎡)" },
+      multiUse: { type: "boolean", description: "건축법 시행령 제2조제17호의 다중이용 건축물인가" },
+      cmSupervised: { type: "boolean", description: "감독 권한대행 등 건설사업관리 대상 공사인가" },
+      contractRequiresQualityPlan: { type: "boolean", description: "계약에 품질관리계획을 수립하도록 되어 있는가" },
+      exempt: { type: "string", enum: EXEMPT_KINDS, description: "계획을 수립하지 않을 수 있는 공사: nuclear(원자력시설) / landscaping(조경식재) / demolition(철거)" },
     },
   },
 };
 
 export interface CompileQcAssignmentArgs {
-  noticeType?: 'initial' | 'change' | 'replacement' | 'withdrawal';
+  noticeType?: "initial" | "change" | "replacement" | "withdrawal";
   totalContractValue?: number;
+  workKind?: ProjectFacts["workKind"];
+  floorArea?: number;
+  multiUse?: boolean;
+  cmSupervised?: boolean;
+  contractRequiresQualityPlan?: boolean;
+  exempt?: ProjectFacts["exempt"];
 }
 
 export function run(args: CompileQcAssignmentArgs, graph: OntologyGraph) {
-  const { noticeType, totalContractValue } = args ?? {};
-  const schema = getSchema('qc_assignment_notice');
+  const { noticeType, totalContractValue, ...rest } = args ?? {};
+  const schema = getSchema("qc_assignment_notice");
+  const facts: ProjectFacts = { ...rest, ...(totalContractValue !== undefined ? { totalCost: totalContractValue } : {}) };
 
-  // 시행규칙 §50④ 별표5 가이드 (간략 — 정확한 임계값은 본문 대조 후 별도 데이터화 예정)
-  const sizeGuide = {
+  const standard = staffingStandard();
+  const target = judgePlanTarget(facts);
+  const grade = judgeStaffingGrade(facts);
+
+  // 제출 경로 — 법령에 "배치 신고서"라는 서식은 없다. 근거 문장은 원문에서 가져온다.
+  const submission = {
     note:
-      '시행규칙 §50④ 별표5의 정확한 임계값(공사비/공기/공종)은 본문 대조 필요. 아래는 통상 분류:',
-    grades: [
-      { grade: '특급', threshold: '총공사비 700억 이상 또는 다중이용시설 등', minHeadcount: '특급 1, 고급 1+' },
-      { grade: '고급', threshold: '500억~700억', minHeadcount: '고급 1, 중급 1+' },
-      { grade: '중급', threshold: '100억~500억', minHeadcount: '중급 1+' },
-      { grade: '초급', threshold: '5억~100억 (시행령 §89② 대상)', minHeadcount: '초급 1+' },
+      "건설기술 진흥법령에는 품질관리 건설기술인의 배치 신고 조항과 전용 서식이 없습니다. 배치 내용은 아래 문서로 발주자 쪽에 전달됩니다. 이 양식은 그 내용을 정리하는 실무 문서입니다.",
+    routes: [
+      { what: "착공신고서에 첨부하는 현장기술인 지정신고서", ...cite({ law: CM_GUIDELINE, article: "82", quote: "현장기술인 지정신고서(현장관리조직, 현장대리인, 품질관리자, 안전관리자, 보건관리자)" }) },
+      { what: "착공신고서 검토 때 품질관리자의 적격 여부를 보는 기준", ...cite({ law: CM_GUIDELINE, article: "82", quote: "품질관리자 : 규칙 제50조" }) },
+      { what: "품질시험계획에 넣는 건설기술인 배치계획", ...cite({ law: "건설기술 진흥법 시행령", annex: "별표 9", quote: "품질관리를 수행하는 건설기술인 배치계획" }) },
+      { what: "배치 내용이 바뀌면 — 계획 변경도 검토·확인과 승인을 받는다", ...cite({ law: "건설기술 진흥법 시행령", article: "90", quote: "품질관리계획 또는 품질시험계획의 내용을 변경하는 경우에도 또한 같다" }) },
     ],
-    referenceVerification:
-      '실제 적용 전 시행규칙 §50④ 별표5 본문 대조 필수. 발주청 추가 요건 가능.',
   };
 
-  // 입력값 기반 자동 추정 (참고용 hint)
-  let recommendation: string | null = null;
-  if (typeof totalContractValue === 'number') {
-    if (totalContractValue >= 70_000_000_000) recommendation = '특급 권장 (700억 이상)';
-    else if (totalContractValue >= 50_000_000_000) recommendation = '고급 권장 (500~700억)';
-    else if (totalContractValue >= 10_000_000_000) recommendation = '중급 권장 (100~500억)';
-    else if (totalContractValue >= 500_000_000) recommendation = '초급 권장 (5~100억)';
-    else recommendation = '시행령 §89② 대상 여부부터 확인 필요 (5억 미만)';
-  }
-
-  const basisIds = ['standard.law.btia_55', 'standard.law.btia_rule_50'];
-  const basis: BasisRef[] = basisIds
-    .filter((id) => graph.get(id))
-    .map((id) => ({ type: 'ontology', id, priority: 1 }));
+  const basisIds = ["standard.law.btia_rule_50", "standard.law.btia_decree_89", "standard.law.btia_decree_91"];
+  const basis: BasisRef[] = basisIds.filter((id) => graph.get(id)).map((id) => ({ type: "law", id, priority: 1 }));
 
   return buildResponse(
-    'compile_qc_assignment_notice_references',
+    "compile_qc_assignment_notice_references",
     graph.version,
     {
-      noticeType: noticeType ?? 'unspecified',
+      noticeType: noticeType ?? "unspecified",
       totalContractValue: totalContractValue ?? null,
       formSchema: schema,
-      sizeGuide,
-      recommendation,
+      staffingStandard: standard,
+      planTarget: {
+        qualityPlan: target.qualityPlan,
+        testPlan: target.testPlan,
+        conclusion: target.conclusion,
+        grounds: target.grounds,
+        caveats: target.caveats,
+      },
+      gradeJudgement: {
+        grade: grade.grade,
+        conclusion: grade.conclusion,
+        requirement: grade.row,
+        candidates: grade.candidates,
+        missingInputs: grade.missingInputs,
+      },
+      submission,
       complianceChecklist: [
-        '품질관리자 자격증·등록증 사본 첨부',
-        '경력증명서 첨부 (등급 산정 근거)',
-        '발주청 사업코드 정확 기재',
-        '상주/비상주 구분 명시',
-        '시행규칙 §50④ 별표5 등급·인원 자체 검증 결과 기재',
-        '변경 신고 시 기존 인원 대비 차이 명시',
+        "배치하는 건설기술인이 법 제21조제1항에 따른 신고를 마치고 품질관리 업무를 수행하는 사람인지 확인 (별표 5 비고 1)",
+        "건설기술인의 등급을 시행령 별표 1에 따라 산정된 등급으로 기재 (별표 5 비고 1)",
+        "대상공사 구분에 맞는 인원 구성과 품질관리 경력 연수 충족 여부 확인 (별표 5)",
+        "시험실 규모와 시험·검사장비가 대상공사 구분의 기준을 충족하는지 확인 (별표 5)",
+        "발주청 또는 인·허가기관의 장이 시험실 규모·인력을 조정한 경우 그 내용 기재 (별표 5 비고 2)",
+        "자격증·경력사항 확인서 사본 첨부 (사업관리지침 제82조제3항제6호)",
       ],
       usage:
-        '본 패키지를 LLM에 입력 → 양식 sections 채움. 등급·인원의 적합성은 별표7 본문 대조 후 발주청 승인 필요.',
+        "이 패키지로 양식의 각 항목을 채운다. 대상공사 구분은 gradeJudgement 를 따르되, missingInputs 가 있으면 그 입력을 확인한 뒤 다시 판정한다. 최종 확인은 공사감독자·건설사업관리기술인과 발주자.",
     },
-    mergeBasis(basis, schemaLegalBasisRefs(graph, 'qc_assignment_notice')),
+    mergeBasis(basis, schemaLegalBasisRefs(graph, "qc_assignment_notice")),
   );
 }

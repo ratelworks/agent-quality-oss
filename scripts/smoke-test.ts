@@ -207,9 +207,10 @@ const CASES: Case[] = [
     tool: 'get_standard_form_locator',
     args: { formId: 'standard.form.rule_no42_quality_inspection_register' },
     assert: (r) =>
-      r.result.form?.license?.includes('Type 4') &&
+      // 법령 서식은 저작권법 제7조에 따라 보호 대상이 아니다 — 원본 파일만 공식 링크에서 받게 한다
+      r.result.form?.license?.includes('저작권법 제7조') &&
       typeof r.result.form?.hwpDownloadUrl === 'string' &&
-      r.result.form?.redistributionNote?.includes('재배포하지 않는다'),
+      r.result.form?.redistributionNote?.includes('공식 다운로드 링크'),
   },
   {
     tool: 'get_standard_form_locator',
@@ -300,7 +301,10 @@ const CASES: Case[] = [
       r.result.checkpoints.length === 1 &&
       r.result.checkpoints[0].stage === 'during' &&
       r.result.forms.itp.schemaId === 'itp' &&
-      r.result.legalReferences.some((l: { id: string }) => l.id === 'standard.law.btia_55'),
+      // 검측·입회의 근거 — 사업관리방식 지침 별지 제36호와 시행규칙 제50조(법 제55조에는 검측 규정이 없다)
+      r.result.legalReferences.some((l: { id: string }) => l.id === 'standard.form.cm_a36') &&
+      r.result.legalReferences.some((l: { id: string }) => l.id === 'standard.law.btia_rule_50') &&
+      !r.result.legalReferences.some((l: { id: string }) => l.id === 'standard.guideline.art10'),
   },
   {
     tool: 'compile_ncr_references',

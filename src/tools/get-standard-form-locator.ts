@@ -115,7 +115,7 @@ function toLocator(e: BaseEntity) {
     legalWeight: (e.meta?.['legalWeight'] as string | undefined) ?? null,
     redistributionNote:
       hwpDownloadUrl || pdfDownloadUrl
-        ? '서식 원본은 재배포하지 않는다 (공공누리 4유형) — 위 공식 다운로드 링크(법제처)에서 직접 받아 사용할 것.'
-        : '본 서식의 원본은 공공누리 4유형(변경금지)이므로 npm/GitHub에 포함되지 않는다. 공식 출처에서 다운로드하여 사용할 것.',
+        ? '서식 원본 파일(한글·PDF)은 싣지 않는다 — 위 공식 다운로드 링크(법제처)에서 받는다. 서식의 글자 내용은 get_quality_law_article 로 볼 수 있다(법령·고시의 별표·서식은 저작권법 제7조에 따라 보호 대상이 아님).'
+        : '서식 원본 파일은 싣지 않는다 — 공식 출처에서 받는다. 수록한 법령·고시의 서식이면 글자 내용을 get_quality_law_article 로 볼 수 있다.',
   };
 }

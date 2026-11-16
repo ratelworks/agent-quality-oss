@@ -1,17 +1,41 @@
 {
-  "_note": "문서 양식 스키마 — 각 문서의 '필수 필드·구조'만 제공. 원본 서식은 standard-forms.json locator 참조. Tool이 이 스키마를 반환하고 LLM이 실제 문서를 조립.",
+  "_note": "문서 양식 정의. classification: statutory_form(법령 서식) · statutory_content(법령·고시가 내용을 정함) · notice_form(고시 서식) · practice(실무 문서 — 법정 서식 없음). 섹션의 origin: legal(서식·법령이 정한 항목) · practice(실무 항목). citations 의 구절은 수록 법령 원문에 있는지 시험이 확인한다.",
   "schemas": {
     "ncr": {
       "id": "ncr",
-      "title": "부적합 보고서(NCR) 양식",
+      "title": "부적합 보고서(NCR) (실무 서식 — 법정 전용 서식 없음)",
+      "classification": "practice",
       "basis": [
+        "standard.guideline.art7",
+        "standard.form.quality_plan_annex1",
         "standard.guideline.art41",
-        "standard.guideline.art39",
-        "standard.law.btia_55"
+        "standard.law.btia_decree_91"
       ],
-      "reference": "ISO 9001 §8.7(부적합 관리) + 건설공사 품질관리 업무지침 §41(불량 자재의 처리)·§39(점검결과에 대한 조치) + 건설기술 진흥법 §55",
-      "referenceStandard": "ISO 9001 §8.7",
-      "retention": "발주자가 정하는 기간(통상 시설물 존속 기간 또는 하자담보책임 종료 시까지). 검사 성과 총괄표에 포함되어 보존 시 시행령 §93에 따라 시설물 존속 기간.",
+      "reference": "법정 전용 서식 없음. 품질관리계획 대상 공사는 업무지침 제7조·별표 1 의 8.12(부적합 공사의 관리)·10.1(부적합 및 시정조치)에 따라 절차를 정한다. 레미콘·아스콘 불량자재는 업무지침 제41조(즉시 반품). 부적합한 제품 및 공정에 대한 지도·관리는 품질관리 건설기술인의 업무(시행령 제91조제3항제6호).",
+      "referenceStandard": "KS Q ISO 9001:2015 8.7 (부적합 출력의 관리)",
+      "retention": "법정 보존기간 없음 — 계약과 품질관리계획에서 정한 기간. (시행령 제93조제4항의 시설물 존속기간 보존은 품질시험 또는 검사 성과 총괄표에만 해당)",
+      "citations": [
+        {
+          "law": "건설공사 품질관리 업무지침",
+          "annex": "별표 1",
+          "quote": "8.12 부적합 공사의 관리"
+        },
+        {
+          "law": "건설공사 품질관리 업무지침",
+          "annex": "별표 1",
+          "quote": "10.1 부적합 및 시정조치"
+        },
+        {
+          "law": "건설공사 품질관리 업무지침",
+          "article": "41",
+          "quote": "불량자재가 발생한 경우 즉시 반품하여야 한다"
+        },
+        {
+          "law": "건설기술 진흥법 시행령",
+          "article": "91",
+          "quote": "부적합한 제품 및 공정에 대한 지도ㆍ관리"
+        }
+      ],
       "sections": [
         {
           "key": "header",
@@ -43,7 +67,8 @@
                 "licenseNo"
               ]
             }
-          ]
+          ],
+          "origin": "practice"
         },
         {
           "key": "nonconformance",
@@ -92,11 +117,12 @@
               "type": "string",
               "required": false
             }
-          ]
+          ],
+          "origin": "practice"
         },
         {
           "key": "cause_analysis",
-          "title": "원인 분석 (LLM 영역)",
+          "title": "원인 분석",
           "fields": [
             {
               "name": "possibleCauses",
@@ -110,7 +136,8 @@
               "required": false,
               "note": "5 Why / Fishbone / FTA"
             }
-          ]
+          ],
+          "origin": "practice"
         },
         {
           "key": "actions",
@@ -128,11 +155,12 @@
               "required": true,
               "source": "ontology.ncr.correctiveActions"
             }
-          ]
+          ],
+          "origin": "practice"
         },
         {
           "key": "approval",
-          "title": "책임·승인 (법적 효력)",
+          "title": "책임·승인",
           "fields": [
             {
               "name": "owner",
@@ -158,7 +186,8 @@
               "required": true,
               "source": "ontology.ncr.meta.closureCriteria"
             }
-          ]
+          ],
+          "origin": "practice"
         },
         {
           "key": "evidence",
@@ -175,19 +204,70 @@
               "type": "array<object>",
               "required": false
             }
-          ]
+          ],
+          "origin": "practice"
         }
       ]
     },
     "concrete_delivery_record": {
       "id": "concrete_delivery_record",
-      "title": "레미콘 차량별 입회시험 기록지",
+      "title": "레미콘 차량별 입회시험 기록지 (실무 서식)",
+      "classification": "practice",
       "basis": [
+        "standard.guideline.art38",
+        "standard.form.guideline_a11",
         "standard.kcs_14_20.10.3_2",
         "standard.ks_f_4009"
       ],
-      "reference": "건설공사 품질관리 업무지침 제3편 (레미콘 관리) + KCS 14 20 10 §3.2 + KS F 4009 (레디믹스트 콘크리트)",
-      "retention": "검사 성과 총괄표 통합 시 시설물 존속 기간(시행령 §93). 일반 차량별 기록은 발주자 보관 정책에 따름.",
+      "reference": "법정 전용 서식 없음. 업무지침 제38조제3항(납품서 확인·기재 사항)·제4항(별지 제11호 레미콘 시공품질관리 점검표 기록·비치)·제5항(현장 시험 입회와 증빙 기록) + KCS 14 20 10 + KS F 4009. 시험·검사 성과는 품질검사 대장(규칙 별지 제42호)에 적는다(제38조제6항).",
+      "retention": "업무지침 제40조 — 자재 시공품질관리 점검표와 품질시험·검사대장은 현장에 비치하고 준공한 때에는 보관한다(관계법령·계약에 정한 바가 있으면 그에 따름). 이 기록지 자체의 법정 보존기간은 없다.",
+      "citations": [
+        {
+          "law": "건설공사 품질관리 업무지침",
+          "article": "38",
+          "quote": "운반차 번호"
+        },
+        {
+          "law": "건설공사 품질관리 업무지침",
+          "article": "38",
+          "quote": "생산ㆍ도착시각 및 타설완료시각"
+        },
+        {
+          "law": "건설공사 품질관리 업무지침",
+          "article": "38",
+          "quote": "규격 및 용적"
+        },
+        {
+          "law": "건설공사 품질관리 업무지침",
+          "article": "38",
+          "quote": "인수자"
+        },
+        {
+          "law": "건설공사 품질관리 업무지침",
+          "article": "38",
+          "quote": "별지 제11호서식의 레미콘 시공품질관리 점검표"
+        },
+        {
+          "law": "건설공사 품질관리 업무지침",
+          "article": "38",
+          "quote": "현장 시험과정에는 공사감독자가 입회하여"
+        },
+        {
+          "law": "건설공사 품질관리 업무지침",
+          "article": "38",
+          "quote": "규칙 별지 제42호 서식에 따른 품질검사 대장에 기록 및 관리"
+        },
+        {
+          "law": "건설공사 품질관리 업무지침",
+          "article": "40",
+          "quote": "자재 시공품질관리 점검표"
+        },
+        {
+          "law": "건설공사 품질관리 업무지침",
+          "annex": "별표 2",
+          "quote": "120세제곱미터 이상인 경우 : 120세제곱미터마다"
+        }
+      ],
       "sections": [
         {
           "key": "delivery",
@@ -201,7 +281,8 @@
             {
               "name": "truckNo",
               "type": "string",
-              "required": true
+              "required": true,
+              "note": "운반차 번호 (업무지침 제38조제3항제1호)"
             },
             {
               "name": "supplier",
@@ -217,12 +298,13 @@
               "name": "batchTime",
               "type": "datetime",
               "required": true,
-              "note": "배합 시각 (운반시간 계산)"
+              "note": "생산 시각 (제38조제3항제2호)"
             },
             {
               "name": "arrivalTime",
               "type": "datetime",
-              "required": true
+              "required": true,
+              "note": "도착 시각 (제38조제3항제2호)"
             },
             {
               "name": "pourStartTime",
@@ -230,17 +312,31 @@
               "required": true
             },
             {
+              "name": "pourEndTime",
+              "type": "datetime",
+              "required": true,
+              "note": "타설완료 시각 (제38조제3항제2호)"
+            },
+            {
               "name": "volume_m3",
               "type": "number",
-              "required": true
+              "required": true,
+              "note": "용적 (제38조제3항제3호)"
             },
             {
               "name": "strengthGrade",
               "type": "string",
               "required": true,
-              "note": "예: 24-21-150"
+              "note": "규격 — 예: 25-24-150 (제38조제3항제3호)"
+            },
+            {
+              "name": "receivedBy",
+              "type": "string",
+              "required": true,
+              "note": "인수자 (제38조제3항제4호)"
             }
-          ]
+          ],
+          "origin": "practice"
         },
         {
           "key": "tests",
@@ -270,7 +366,8 @@
               "required": true,
               "criterion": "criteria.concrete_temperature_general"
             }
-          ]
+          ],
+          "origin": "practice"
         },
         {
           "key": "specimen",
@@ -280,14 +377,15 @@
               "name": "specimensMade",
               "type": "number",
               "required": false,
-              "note": "150㎥마다 3×재령"
+              "note": "압축강도 시험 빈도는 업무지침 별표 2 — 배합이 다를 때마다, 1일 타설량 120㎥ 미만이면 1일 타설량마다, 120㎥ 이상이면 120㎥마다"
             },
             {
               "name": "specimenIds",
               "type": "array<string>",
               "required": false
             }
-          ]
+          ],
+          "origin": "practice"
         },
         {
           "key": "verdict",
@@ -303,28 +401,37 @@
               "name": "witnessedBy",
               "type": "object",
               "required": true,
-              "note": "시공자 품질관리자"
+              "note": "시험 입회자 — 현장 시험과정에는 공사감독자가 입회한다(제38조제5항)"
             },
             {
               "name": "approvedBy",
               "type": "object",
               "required": false,
-              "note": "감리원"
+              "note": "확인자"
             }
-          ]
+          ],
+          "origin": "practice"
         }
       ]
     },
     "specimen_record": {
       "id": "specimen_record",
-      "title": "공시체 제작·관리 기록지",
+      "title": "공시체 제작·관리 기록지 (실무 서식)",
+      "classification": "practice",
       "basis": [
         "standard.ks_f_2403",
         "standard.ks_f_2405",
         "standard.kcs_14_20.10.3_3"
       ],
-      "reference": "KS F 2403 (공시체 제작 방법) + KS F 2405 (압축강도 시험방법) + KCS 14 20 10 §3.3 (콘크리트 시험)",
-      "retention": "압축강도 시험 결과는 검사 성과 총괄표에 포함되어 시설물 존속 기간 보존(시행령 §93). 공시체 자체는 시험 종료 후 폐기 가능.",
+      "reference": "법정 전용 서식 없음. KS F 2403 (공시체 제작 방법) + KS F 2405 (압축강도 시험방법) + KCS 14 20 10. 압축강도 시험 결과는 품질검사 대장(규칙 별지 제42호)에 적는다(업무지침 제38조제6항).",
+      "retention": "법정 보존기간 없음 — 계약과 품질관리계획에서 정한 기간. (시행령 제93조제4항의 시설물 존속기간 보존은 품질시험 또는 검사 성과 총괄표에만 해당)",
+      "citations": [
+        {
+          "law": "건설공사 품질관리 업무지침",
+          "article": "38",
+          "quote": "규칙 별지 제42호 서식에 따른 품질검사 대장에 기록 및 관리"
+        }
+      ],
       "sections": [
         {
           "key": "header",
@@ -350,7 +457,8 @@
               "type": "string",
               "required": false
             }
-          ]
+          ],
+          "origin": "practice"
         },
         {
           "key": "specimens",
@@ -383,7 +491,8 @@
               "required": true,
               "note": "타설일 + 재령일 자동"
             }
-          ]
+          ],
+          "origin": "practice"
         },
         {
           "key": "results",
@@ -404,22 +513,41 @@
               "name": "testLab",
               "type": "string",
               "required": false,
-              "note": "KOLAS 인정 시험실"
+              "note": "시험을 한 기관 — 대행 기관이면 법 제60조제1항의 국립·공립 시험기관 또는 건설엔지니어링사업자"
             }
-          ]
+          ],
+          "origin": "practice"
         }
       ]
     },
     "itp": {
       "id": "itp",
-      "title": "Inspection Test Plan (ITP) / 검측시험계획",
+      "title": "검사 및 시험 계획(ITP) (실무 서식)",
+      "classification": "practice",
       "basis": [
         "standard.guideline.art7",
         "standard.law.btia_rule_50"
       ],
-      "reference": "건설공사 품질관리 업무지침 §7(품질관리계획서의 작성기준 — 별표1의 검사·검측 계획 포함) + 건설기술 진흥법 시행규칙 §50②(현장 품질검사, 구조물 안전에 중요한 시험의 발주자 확인)",
-      "referenceStandard": "국제 표준 ITP (Hold/Witness/Surveillance/Review/Execution 5 point)",
-      "retention": "품질시험계획서는 공사 완료 후 검사 성과 총괄표에 통합되어 시설물 존속 기간 보존(시행령 §93).",
+      "reference": "법정 전용 서식 없음. 업무지침 제7조·별표 1 의 8.11(검사 및 시험, 모니터링 — 적절한 공정단계에서 검사 및 시험 계획(ITP)의 수립) + 시행규칙 제50조제2항(구조물 안전에 중요한 시험종목은 발주자가 확인).",
+      "referenceStandard": "H(정지)·W(입회)·S(감시)·R(검토)·E(실시) 검사점 구분은 국제 관행이며 법령에 없다",
+      "retention": "법정 보존기간 없음 — 계약과 품질관리계획에서 정한 기간. (시행령 제93조제4항의 시설물 존속기간 보존은 품질시험 또는 검사 성과 총괄표에만 해당)",
+      "citations": [
+        {
+          "law": "건설공사 품질관리 업무지침",
+          "annex": "별표 1",
+          "quote": "8.11 검사 및 시험, 모니터링"
+        },
+        {
+          "law": "건설공사 품질관리 업무지침",
+          "annex": "별표 1",
+          "quote": "검사 및 시험 계획(ITP)"
+        },
+        {
+          "law": "건설기술 진흥법 시행규칙",
+          "article": "50",
+          "quote": "구조물의 안전에 중요한 영향을 미치는 시험종목의 품질시험을 할 때에는 발주자가 확인하여야 한다"
+        }
+      ],
       "sections": [
         {
           "key": "header",
@@ -440,7 +568,8 @@
               "type": "string",
               "required": true
             }
-          ]
+          ],
+          "origin": "practice"
         },
         {
           "key": "activities",
@@ -489,19 +618,44 @@
               "required": true,
               "note": "생성 기록물 id"
             }
-          ]
+          ],
+          "origin": "practice"
         }
       ]
     },
     "test_report_review": {
       "id": "test_report_review",
-      "title": "시험성적서(TR) 검토 보고서",
+      "title": "시험성적서 검토 보고서 (실무 서식)",
+      "classification": "practice",
       "basis": [
         "standard.guideline.art8",
-        "standard.law.btia_60"
+        "standard.law.btia_60",
+        "standard.guideline.art5"
       ],
-      "reference": "건설공사 품질관리 업무지침 §8(품질시험기준, 별표2) + 건설기술 진흥법 §60(품질검사의 대행 등 — 봉인·확인 재료로 시험)",
-      "retention": "시험성적서 자체와 검토 결과는 검사 성과 총괄표에 포함되어 시설물 존속 기간 보존(시행령 §93). KOLAS 인정 시험기관은 신청·평가 기록 4년 이상 보관(국가표준기본법 §23⑤).",
+      "reference": "법정 전용 서식 없음. 업무지침 제8조(품질시험기준, 별표 2) + 건설기술 진흥법 제60조(품질검사의 대행 — 봉인 또는 확인을 거친 재료로 검사, 완료일부터 7일 이내 성적서를 정보망에 입력) + 업무지침 제5조제6항제7호(성적서의 정보망 입력 여부 확인).",
+      "retention": "법정 보존기간 없음 — 계약과 품질관리계획에서 정한 기간. (시행령 제93조제4항의 시설물 존속기간 보존은 품질시험 또는 검사 성과 총괄표에만 해당)",
+      "citations": [
+        {
+          "law": "건설공사 품질관리 업무지침",
+          "article": "8",
+          "quote": "건설공사 품질시험기준은 별표 2와 같다"
+        },
+        {
+          "law": "건설기술 진흥법",
+          "article": "60",
+          "quote": "봉인 또는 확인을 거친 재료로 품질검사를 하여야 한다"
+        },
+        {
+          "law": "건설기술 진흥법",
+          "article": "60",
+          "quote": "품질검사를 완료한 날부터 7일 이내에 품질검사 성적서 및 품질검사 내용을"
+        },
+        {
+          "law": "건설공사 품질관리 업무지침",
+          "article": "5",
+          "quote": "건설공사 안전관리 종합정보망(CSI)에 입력되었는지 여부"
+        }
+      ],
       "sections": [
         {
           "key": "source",
@@ -516,7 +670,7 @@
               "name": "testedBy",
               "type": "string",
               "required": true,
-              "note": "시험기관명 · KOLAS 인정번호"
+              "note": "시험기관명 — 품질검사 대행 기관은 법 제60조제1항의 국립·공립 시험기관 또는 건설엔지니어링사업자"
             },
             {
               "name": "reportNo",
@@ -528,7 +682,8 @@
               "type": "date",
               "required": true
             }
-          ]
+          ],
+          "origin": "practice"
         },
         {
           "key": "items",
@@ -559,11 +714,12 @@
               "type": "enum<PASS,FAIL,MARGINAL,UNDETERMINED>",
               "required": true
             }
-          ]
+          ],
+          "origin": "practice"
         },
         {
           "key": "custody",
-          "title": "Chain of Custody (대행 시)",
+          "title": "시료 채취·봉인·운반 (대행 시)",
           "fields": [
             {
               "name": "samplingBy",
@@ -574,7 +730,7 @@
               "name": "sealId",
               "type": "string",
               "required": false,
-              "note": "봉인번호 (§60 대행 확인)"
+              "note": "봉인 번호 — 대행 기관은 봉인 또는 확인을 거친 재료로 검사한다(법 제60조제2항)"
             },
             {
               "name": "transportedBy",
@@ -586,7 +742,8 @@
               "type": "datetime",
               "required": false
             }
-          ]
+          ],
+          "origin": "practice"
         },
         {
           "key": "reviewer",
@@ -598,6 +755,12 @@
               "required": true
             },
             {
+              "name": "csiRegistered",
+              "type": "enum<입력됨,입력 안 됨,확인 못함>",
+              "required": false,
+              "note": "성적서가 건설공사 안전관리 종합정보망에 입력됐는지 (업무지침 제5조제6항제7호)"
+            },
+            {
               "name": "conclusion",
               "type": "string",
               "required": true
@@ -607,30 +770,66 @@
               "type": "array<string>",
               "required": false
             }
-          ]
+          ],
+          "origin": "practice"
         }
       ]
     },
     "qc_assignment_notice": {
       "id": "qc_assignment_notice",
-      "title": "품질관리자 배치 신고서",
+      "title": "품질관리 건설기술인 배치 내역서 (실무 서식 — 법정 전용 서식 없음)",
+      "classification": "practice",
       "basis": [
-        "standard.law.btia_55",
-        "standard.law.btia_rule_50"
+        "standard.law.btia_rule_50",
+        "standard.law.btia_decree_91",
+        "standard.law.btia_decree_90"
       ],
-      "reference": "건설기술 진흥법 §55 + 시행규칙 §50④(품질관리 시설 및 건설기술인 배치기준, 별표5)",
-      "retention": "발주청·계약에서 정한 기간 (법정 보존기간은 내장 법령에서 확인되지 않음 — 시행령 §93④의 시설물 존속기간 보존은 성과 총괄표 대상). 발주청 보고 사본은 발주청 정책 준수.",
-      "_note": "변경 시(증원·감원·자격등급 변경·인적사항 변경) 즉시 발주청에 신고. 시행규칙 §50의 등급(특·고·중·초급)·배치인원·자격은 공사규모(공사비·공기·공종)에 따라 정해짐.",
+      "reference": "법정 전용 서식과 배치 신고 조항은 없다. 배치기준: 시행규칙 제50조제4항·별표 5. 전달 경로: 착공신고서에 첨부하는 현장기술인 지정신고서(사업관리방식 지침 제82조제3항), 품질시험계획의 건설기술인 배치계획(시행령 별표 9 제4호). 배치 내용이 바뀌면 계획 변경으로 검토·확인과 승인을 받는다(시행령 제90조제1항).",
+      "retention": "법정 보존기간 없음 — 계약에서 정한 기간.",
+      "citations": [
+        {
+          "law": "건설기술 진흥법 시행규칙",
+          "article": "50",
+          "quote": "건설공사 품질관리를 위한 시설 및 건설기술인 배치기준은 별표 5와 같다"
+        },
+        {
+          "law": "건설기술 진흥법 시행규칙",
+          "annex": "별표 5",
+          "quote": "품질관리 경력 3년 이상인 특급기술인 1명 이상"
+        },
+        {
+          "law": "건설기술 진흥법 시행규칙",
+          "annex": "별표 5",
+          "quote": "신고를 마치고 품질관리 업무를 수행하는 사람으로 한정"
+        },
+        {
+          "law": "건설공사 사업관리방식 검토기준 및 업무수행지침",
+          "article": "82",
+          "quote": "현장기술인 지정신고서(현장관리조직, 현장대리인, 품질관리자, 안전관리자, 보건관리자)"
+        },
+        {
+          "law": "건설기술 진흥법 시행령",
+          "annex": "별표 9",
+          "quote": "품질관리를 수행하는 건설기술인 배치계획"
+        },
+        {
+          "law": "건설기술 진흥법 시행령",
+          "article": "90",
+          "quote": "품질관리계획 또는 품질시험계획의 내용을 변경하는 경우에도 또한 같다"
+        }
+      ],
+      "_note": "대상공사 구분(특급·고급·중급·초급)은 총공사비, 다중이용 건축물의 연면적, 품질관리계획·품질시험계획 수립 대상 여부로 정해진다(시행규칙 별표 5). 구분 판정과 기준 원문은 compile_qc_assignment_notice_references 도구가 준다.",
       "sections": [
         {
           "key": "header",
-          "title": "신고 기본정보",
+          "title": "문서 기본정보",
+          "origin": "practice",
           "fields": [
             {
               "name": "documentId",
               "type": "string",
               "required": true,
-              "note": "예: QCAN-{projectCode}-{YYYYMMDD}-{seq}"
+              "note": "예: QCAN-{현장 코드}-{YYYYMMDD}-{일련번호}"
             },
             {
               "name": "noticeDate",
@@ -641,7 +840,7 @@
               "name": "noticeType",
               "type": "enum<initial,change,replacement,withdrawal>",
               "required": true,
-              "note": "최초/변경/교체/철회"
+              "note": "최초/변경/교체/철수"
             },
             {
               "name": "effectiveFrom",
@@ -652,13 +851,14 @@
               "name": "submittedTo",
               "type": "string",
               "required": true,
-              "note": "발주청·감독관청"
+              "note": "공사감독자 또는 건설사업관리기술인, 발주자"
             }
           ]
         },
         {
           "key": "project",
           "title": "공사 개요",
+          "origin": "practice",
           "fields": [
             {
               "name": "projectName",
@@ -668,8 +868,7 @@
             {
               "name": "projectCode",
               "type": "string",
-              "required": true,
-              "note": "발주청 사업코드"
+              "required": false
             },
             {
               "name": "contractor",
@@ -685,7 +884,13 @@
               "name": "totalContractValue",
               "type": "number",
               "required": true,
-              "note": "총공사비(원). 시행령 §89①(품질관리계획)·②(품질시험계획) 대상 판정 기준"
+              "note": "총공사비(원) — 관급자재비 포함, 보상비 제외(시행령 제89조제1항제1호)"
+            },
+            {
+              "name": "floorArea",
+              "type": "number",
+              "required": false,
+              "note": "연면적(㎡) — 건축공사·다중이용 건축물일 때"
             },
             {
               "name": "constructionPeriod",
@@ -699,48 +904,38 @@
             {
               "name": "workTypes",
               "type": "array<string>",
-              "required": true,
-              "note": "공종 코드(예: 토공·콘크리트·철근)"
+              "required": true
             }
           ]
         },
         {
-          "key": "qc_personnel",
-          "title": "품질관리자 인적사항 (시행규칙 §50)",
+          "key": "staffing_standard",
+          "title": "배치기준 (시행규칙 별표 5)",
+          "origin": "legal",
           "fields": [
             {
-              "name": "personnel",
-              "type": "array<object>",
+              "name": "targetGrade",
+              "type": "enum<특급,고급,중급,초급>",
               "required": true,
-              "fields": [
-                "name",
-                "birthDate",
-                "grade",
-                "licenseType",
-                "licenseNo",
-                "licenseIssueDate",
-                "experienceYears",
-                "assignedRole",
-                "fullTimeFlag"
-              ],
-              "note": "grade: 특급/고급/중급/초급. fullTimeFlag: 상주 여부 (시행규칙 §50④ 별표5)"
-            }
-          ]
-        },
-        {
-          "key": "regulation_compliance",
-          "title": "시행규칙 §50 적합성 자체 검증",
-          "fields": [
+              "note": "대상공사 구분 — 시행규칙 별표 5"
+            },
             {
-              "name": "requiredGradeBySize",
+              "name": "labSize",
               "type": "string",
               "required": true,
-              "note": "공사규모별 의무 등급 (시행규칙 §50④ 별표5)"
+              "note": "시험실 규모 — 특급·고급 50㎡ 이상, 중급·초급 18㎡ 이상"
+            },
+            {
+              "name": "testEquipment",
+              "type": "array<string>",
+              "required": true,
+              "note": "시행령 제91조제1항에 따른 품질검사를 실시하는 데 필요한 시험·검사장비"
             },
             {
               "name": "requiredHeadcount",
               "type": "number",
-              "required": true
+              "required": true,
+              "note": "기준 인원 — 특급·고급 3명, 중급 2명, 초급 1명"
             },
             {
               "name": "actualHeadcount",
@@ -753,39 +948,74 @@
               "required": true
             },
             {
+              "name": "agencyAdjustment",
+              "type": "string",
+              "required": false,
+              "note": "발주청 또는 인·허가기관의 장이 시험실 규모·인력을 조정한 경우 그 내용 (별표 5 비고 2)"
+            },
+            {
               "name": "remediationPlan",
               "type": "string",
               "required": false,
-              "note": "under인 경우 보완 계획"
+              "note": "기준에 못 미칠 때의 보완 계획"
+            }
+          ]
+        },
+        {
+          "key": "qc_personnel",
+          "title": "품질관리 건설기술인",
+          "origin": "legal",
+          "fields": [
+            {
+              "name": "personnel",
+              "type": "array<object>",
+              "required": true,
+              "note": "등급은 시행령 별표 1 에 따라 산정된 등급. 법 제21조제1항에 따른 신고를 마치고 품질관리 업무를 수행하는 사람으로 한정(별표 5 비고 1). 품질관리 경력: 특급 3년·고급 2년·중급 1년 이상인 사람 1명 이상",
+              "fields": [
+                "name",
+                "birthDate",
+                "grade",
+                "qcCareerYears",
+                "licenseType",
+                "licenseNo",
+                "assignedRole"
+              ]
             }
           ]
         },
         {
           "key": "approval",
-          "title": "결재·접수",
+          "title": "작성·확인",
+          "origin": "practice",
           "fields": [
             {
               "name": "preparedBy",
               "type": "object",
-              "required": true
+              "required": true,
+              "fields": [
+                "name",
+                "role"
+              ]
             },
             {
               "name": "siteRepresentative",
               "type": "object",
               "required": true,
-              "note": "현장대리인"
+              "note": "현장대리인",
+              "fields": [
+                "name",
+                "role"
+              ]
             },
             {
               "name": "supervisorAck",
               "type": "object",
               "required": false,
-              "note": "감리원 확인"
-            },
-            {
-              "name": "agencyReceiptNo",
-              "type": "string",
-              "required": false,
-              "note": "발주청 접수번호"
+              "note": "공사감독자 또는 건설사업관리기술인 확인",
+              "fields": [
+                "name",
+                "role"
+              ]
             }
           ]
         }
@@ -793,220 +1023,231 @@
     },
     "quality_test_plan": {
       "id": "quality_test_plan",
-      "title": "품질시험계획서",
+      "title": "품질시험계획서 (시행령 별표 9)",
+      "classification": "statutory_content",
+      "officialForm": {
+        "law": "건설공사 사업관리방식 검토기준 및 업무수행지침",
+        "annex": "별지 제16호",
+        "title": "품질시험계획",
+        "note": "공사감독자 업무에는 같은 지침 별지 제55호"
+      },
       "basis": [
         "standard.law.btia_55",
-        "standard.law.btia_decree_90",
         "standard.law.btia_decree_89",
+        "standard.law.btia_decree_90",
         "standard.form.test_plan_template",
+        "standard.form.cm_a16",
         "standard.form.guideline_annex2"
       ],
-      "reference": "건설기술 진흥법 §55 + 시행령 §89②(품질시험계획 수립 대상·내용 별표9) + 시행령 §90(수립절차) + 업무지침 별표2(시험기준표) + 별지 양식",
-      "retention": "발주청·계약에서 정한 기간 (법정 보존기간은 내장 법령에서 확인되지 않음 — 시행령 §93④의 시설물 존속기간 보존은 성과 총괄표 대상). 변경 시 변경분 즉시 보존.",
-      "_note": "시행령 §89①(품질관리계획) 비대상 중 §89② 대상 현장(일반 현장)이 작성. §89① 대상은 품질관리계획서가 상위. 별표2의 공종·자재별 시험종목·방법·빈도가 baseline.",
-      "sections": [
+      "reference": "건설기술 진흥법 제55조 + 시행령 제89조제2항(품질시험계획 수립 대상, 내용은 별표 9) + 시행령 제90조(수립절차 — 공사감독자 또는 건설사업관리기술인의 검토·확인, 착공 전 발주자 승인) + 업무지침 제8조·별표 2(품질시험기준). 서식은 사업관리방식 지침 별지 제16호(품질시험계획).",
+      "retention": "법정 보존기간 없음 — 계약에서 정한 기간. 내용을 바꾸면 다시 검토·확인과 승인을 받는다(시행령 제90조제1항).",
+      "citations": [
         {
-          "key": "header",
-          "title": "계획서 기본정보",
-          "fields": [
-            {
-              "name": "documentId",
-              "type": "string",
-              "required": true,
-              "note": "예: QTP-{projectCode}-{rev}"
-            },
-            {
-              "name": "issueDate",
-              "type": "date",
-              "required": true
-            },
-            {
-              "name": "revision",
-              "type": "string",
-              "required": true,
-              "note": "Rev.A/B/C 또는 0/1/2"
-            },
-            {
-              "name": "scopeOfApplication",
-              "type": "string",
-              "required": true,
-              "note": "전체 공사 또는 특정 공구·공종"
-            }
-          ]
+          "law": "건설기술 진흥법 시행령",
+          "article": "89",
+          "quote": "품질시험계획에 포함하여야 하는 내용은 별표 9와 같다"
         },
         {
-          "key": "project",
-          "title": "공사 개요 및 §89② 대상 판정",
+          "law": "건설기술 진흥법 시행령",
+          "annex": "별표 9",
+          "quote": "시험 계획물량"
+        },
+        {
+          "law": "건설기술 진흥법 시행령",
+          "annex": "별표 9",
+          "quote": "시험 횟수"
+        },
+        {
+          "law": "건설기술 진흥법 시행령",
+          "annex": "별표 9",
+          "quote": "시험실 배치 평면도"
+        },
+        {
+          "law": "건설기술 진흥법 시행령",
+          "annex": "별표 9",
+          "quote": "품질관리 업무 수행기간"
+        },
+        {
+          "law": "건설기술 진흥법 시행령",
+          "annex": "별표 9",
+          "quote": "건설기술인 자격 및 학력ㆍ경력 사항"
+        },
+        {
+          "law": "건설기술 진흥법 시행령",
+          "article": "90",
+          "quote": "건설공사를 착공"
+        },
+        {
+          "law": "건설공사 사업관리방식 검토기준 및 업무수행지침",
+          "annex": "별지 제16호",
+          "quote": "시험계획물량"
+        },
+        {
+          "law": "건설공사 품질관리 업무지침",
+          "article": "8",
+          "quote": "건설공사 품질시험기준은 별표 2와 같다"
+        }
+      ],
+      "_note": "별표 9 의 네 항목(개요·시험계획·시험시설·건설기술인 배치계획)은 법정 내용이라 빠지면 안 된다. 품질관리비는 발주자가 산출해 설계도서에 밝히는 항목이라(시행규칙 별표 6 제1호가목) 계획서의 법정 내용이 아니다.",
+      "sections": [
+        {
+          "key": "overview",
+          "title": "1. 개요",
+          "origin": "legal",
           "fields": [
             {
               "name": "projectName",
               "type": "string",
-              "required": true
-            },
-            {
-              "name": "projectCode",
-              "type": "string",
-              "required": true
-            },
-            {
-              "name": "totalContractValue",
-              "type": "number",
-              "required": true
-            },
-            {
-              "name": "constructionType",
-              "type": "string",
-              "required": true
-            },
-            {
-              "name": "decree90Eligibility",
-              "type": "object",
               "required": true,
-              "fields": [
-                "targetCategory",
-                "thresholdCriterion",
-                "evaluationResult"
-              ],
-              "note": "시행령 §89② 대상 사유 (예: 토목 총공사비 5억↑ 등)"
+              "note": "공사명 (별표 9 제1호가목)"
+            },
+            {
+              "name": "contractorName",
+              "type": "string",
+              "required": true,
+              "note": "시공자 (별표 9 제1호나목)"
+            },
+            {
+              "name": "siteRepresentativeName",
+              "type": "string",
+              "required": true,
+              "note": "현장 대리인 (별표 9 제1호다목)"
+            },
+            {
+              "name": "preparedDate",
+              "type": "date",
+              "required": true,
+              "note": "작성일 (서식)"
             }
           ]
         },
         {
-          "key": "test_items",
-          "title": "공종·자재별 시험 항목 (업무지침 별표2 기반)",
+          "key": "test_plan",
+          "title": "2. 시험계획",
+          "origin": "legal",
           "fields": [
             {
               "name": "testItems",
               "type": "array<object>",
               "required": true,
+              "note": "공종별 시험 종목·시험 계획물량·시험 빈도·시험 횟수 (별표 9 제2호). 시험 빈도는 업무지침 별표 2 와 설계도서를 따른다",
               "fields": [
                 "workType",
-                "material",
                 "testItem",
-                "testMethod",
-                "frequency",
-                "acceptanceCriterion",
-                "responsibleParty",
-                "labType"
-              ],
-              "note": "labType: 자체시험/외부 KOLAS 의뢰. testMethod·frequency는 별표2 표준 + 시방서 강화분 통합"
+                "plannedQuantity",
+                "testFrequency",
+                "testCount",
+                "remarks"
+              ]
+            }
+          ]
+        },
+        {
+          "key": "facilities",
+          "title": "3. 시험시설",
+          "origin": "legal",
+          "fields": [
+            {
+              "name": "labEquipment",
+              "type": "array<object>",
+              "required": true,
+              "note": "장비명·규격·단위·수량 (별표 9 제3호)",
+              "fields": [
+                "equipmentName",
+                "spec",
+                "unit",
+                "quantity",
+                "remarks"
+              ]
+            },
+            {
+              "name": "labLayout",
+              "type": "string",
+              "required": true,
+              "note": "시험실 배치 평면도 — 첨부 도면의 이름·번호 (별표 9 제3호마목)"
             }
           ]
         },
         {
           "key": "personnel",
-          "title": "품질관리자 배치 (시행규칙 §50 연동)",
+          "title": "4. 품질관리를 수행하는 건설기술인 배치계획",
+          "origin": "legal",
           "fields": [
             {
-              "name": "qcPersonnelRef",
-              "type": "string",
-              "required": true,
-              "note": "QCAN 신고서 documentId 참조"
-            },
-            {
-              "name": "qcOrganizationChart",
-              "type": "string",
-              "required": true,
-              "note": "조직도 첨부"
-            },
-            {
-              "name": "qcResponsibilities",
+              "name": "qcPersonnel",
               "type": "array<object>",
               "required": true,
+              "note": "성명·등급·품질관리 업무 수행기간·자격 및 학력·경력 (별표 9 제4호). 배치기준은 시행규칙 별표 5",
               "fields": [
-                "role",
-                "responsibility",
-                "authority"
+                "name",
+                "grade",
+                "qcServicePeriod",
+                "qualification"
               ]
             }
           ]
         },
         {
-          "key": "lab_facility",
-          "title": "시험실 운영",
+          "key": "management",
+          "title": "문서 관리 (서식 밖 실무 항목)",
+          "origin": "practice",
           "fields": [
             {
-              "name": "labLocation",
+              "name": "documentId",
               "type": "string",
-              "required": true,
-              "note": "현장 시험실 위치 또는 외부 시험소 주소"
+              "required": false
             },
             {
-              "name": "labEquipment",
-              "type": "array<object>",
-              "required": true,
-              "fields": [
-                "equipmentName",
-                "modelNo",
-                "calibrationDate",
-                "calibrationDueDate"
-              ]
+              "name": "revision",
+              "type": "string",
+              "required": false
             },
             {
-              "name": "externalLabContracts",
-              "type": "array<object>",
+              "name": "planTargetBasis",
+              "type": "string",
               "required": false,
-              "fields": [
-                "labName",
-                "kolasNo",
-                "scope",
-                "contractPeriod"
-              ]
-            }
-          ]
-        },
-        {
-          "key": "quality_cost",
-          "title": "품질관리비 (시행규칙 §53·별표6)",
-          "fields": [
-            {
-              "name": "qualityCostBudget",
-              "type": "number",
-              "required": true
+              "note": "수립 대상 근거 — 예: 시행령 제89조제2항제1호(총공사비 5억원 이상 토목공사)"
             },
             {
-              "name": "qualityCostBreakdown",
-              "type": "array<object>",
-              "required": true,
-              "fields": [
-                "category",
-                "amount",
-                "calculationBasis"
-              ]
-            },
-            {
-              "name": "calculationStandard",
+              "name": "delegatedLab",
               "type": "string",
-              "required": true,
-              "note": "시행규칙 §53·별표6 + 발주청 기준"
+              "required": false,
+              "note": "품질검사를 대행시킬 기관 (법 제60조제1항의 국립·공립 시험기관 또는 건설엔지니어링사업자)"
+            },
+            {
+              "name": "qualityCostNote",
+              "type": "string",
+              "required": false,
+              "note": "품질관리비 참고 — 발주자가 설계도서에 밝힌 금액 (법정 내용 아님)"
             }
           ]
         },
         {
           "key": "approval",
-          "title": "승인",
+          "title": "검토·확인과 승인 (시행령 제90조)",
+          "origin": "legal",
           "fields": [
-            {
-              "name": "preparedBy",
-              "type": "object",
-              "required": true
-            },
-            {
-              "name": "siteRepresentative",
-              "type": "object",
-              "required": true
-            },
             {
               "name": "supervisorReview",
               "type": "object",
-              "required": true,
-              "note": "감리원 검토"
+              "required": false,
+              "note": "공사감독자 또는 건설사업관리기술인의 검토·확인",
+              "fields": [
+                "name",
+                "role",
+                "reviewDate"
+              ]
             },
             {
-              "name": "agencyApproval",
+              "name": "ownerApproval",
               "type": "object",
-              "required": true,
-              "note": "발주청 승인 (시행령 §90①)"
+              "required": false,
+              "note": "발주자 승인 — 착공 전. 심사 결과: 적정·조건부 적정·부적정",
+              "fields": [
+                "name",
+                "verdict",
+                "approvalDate"
+              ]
             }
           ]
         }
@@ -1014,178 +1255,187 @@
     },
     "inspection_request": {
       "id": "inspection_request",
-      "title": "검측 신청서",
+      "title": "검측요청서 (사업관리방식 지침 별지 제36호)",
+      "classification": "notice_form",
+      "officialForm": {
+        "law": "건설공사 사업관리방식 검토기준 및 업무수행지침",
+        "annex": "별지 제36호",
+        "title": "검측요청ㆍ결과 통보내용"
+      },
       "basis": [
-        "standard.law.btia_55",
-        "standard.kcs_14_20.10"
+        "standard.form.cm_a36"
       ],
-      "reference": "건설기술 진흥법 §55 + 감리계약 + 업무지침 + KCS 시공 단계별 검측 요청",
-      "retention": "발주청·계약에서 정한 기간 (법정 보존기간은 내장 법령에서 확인되지 않음 — 시행령 §93④의 시설물 존속기간 보존은 성과 총괄표 대상). 일일 검측 신청서는 품질검사 실시대장(별지 제42호)과 연결.",
-      "_note": "감리원 입회 검측 요청 양식. 통상 검측 24~48h 전 제출. 감리 결재(승인/반려/조건부) 후 검측 진행. 검측 결과는 별지 제42호 entry로 연결.",
+      "reference": "사업관리방식 지침 제86조제9항(검측요청서를 제출받아 시공상태 확인)·제12항(검측절차) + 별지 제36호 서식(검측요청서·검측결과 통보·공사 참여자 실명부·검측 체크리스트). 건설기술 진흥법령에는 검측 신청 조항이 없다.",
+      "retention": "법정 보존기간 없음. 서식 작성요령: 2부 작성하여 시공자, 건설사업관리기술인 각 1부 보관.",
+      "citations": [
+        {
+          "law": "건설공사 사업관리방식 검토기준 및 업무수행지침",
+          "article": "86",
+          "quote": "검측요청서(별지 제36호 서식)를 제출받아"
+        },
+        {
+          "law": "건설공사 사업관리방식 검토기준 및 업무수행지침",
+          "article": "86",
+          "quote": "공사참여자 실명부가 첨부 되었는지를 확인"
+        },
+        {
+          "law": "건설공사 사업관리방식 검토기준 및 업무수행지침",
+          "annex": "별지 제36호",
+          "quote": "검측 요구일시"
+        },
+        {
+          "law": "건설공사 사업관리방식 검토기준 및 업무수행지침",
+          "annex": "별지 제36호",
+          "quote": "붙임 : 시공자의 검측 체크리스트, 시험성과, 시공자의 야장 및 도면"
+        },
+        {
+          "law": "건설공사 사업관리방식 검토기준 및 업무수행지침",
+          "annex": "별지 제36호",
+          "quote": "재검측시에는 붉은 글씨로"
+        },
+        {
+          "law": "건설공사 사업관리방식 검토기준 및 업무수행지침",
+          "annex": "별지 제36호",
+          "quote": "2부 작성하여 시공자, 건설사업관리기술인 각 1부를 보관"
+        }
+      ],
+      "_note": "검측 요청 기한(몇 시간·며칠 전)은 지침과 서식에 없다 — 현장별 검측업무지침과 계약으로 정한다(제86조제11항제1호).",
       "sections": [
         {
-          "key": "header",
-          "title": "신청 기본정보",
+          "key": "request",
+          "title": "검측요청서 (시공자 작성)",
+          "origin": "legal",
           "fields": [
             {
-              "name": "documentId",
+              "name": "documentNo",
               "type": "string",
               "required": true,
-              "note": "예: INS-{projectCode}-{YYYYMMDD}-{seq}"
+              "note": "번호"
             },
             {
               "name": "requestDate",
               "type": "date",
-              "required": true
+              "required": true,
+              "note": "요청일"
             },
             {
-              "name": "scheduledInspectionAt",
+              "name": "addressee",
+              "type": "string",
+              "required": true,
+              "note": "받음 — 책임건설사업관리기술인"
+            },
+            {
+              "name": "locationAndWork",
+              "type": "string",
+              "required": true,
+              "note": "위치 및 공종"
+            },
+            {
+              "name": "inspectionPart",
+              "type": "string",
+              "required": true,
+              "note": "검측부위"
+            },
+            {
+              "name": "requestedAt",
               "type": "datetime",
               "required": true,
-              "note": "검측 예정 일시"
+              "note": "검측 요구일시"
             },
             {
-              "name": "leadTimeHours",
-              "type": "number",
+              "name": "inspectionItems",
+              "type": "string",
               "required": true,
-              "note": "신청-검측 간격 (h). 통상 24~48h"
+              "note": "검측사항"
             },
             {
-              "name": "submittedTo",
-              "type": "object",
+              "name": "attachments",
+              "type": "array<string>",
               "required": true,
-              "fields": [
-                "supervisorName",
-                "supervisorRole",
-                "agency"
-              ]
+              "note": "붙임 — 시공자의 검측 체크리스트, 시험성과, 시공자의 야장 및 도면, 공사 참여자(기능공 포함) 실명부"
+            },
+            {
+              "name": "reinspection",
+              "type": "enum<최초,재검측>",
+              "required": false,
+              "note": "재검측이면 서식 우측 상단에 (재) 표시, 잘못 시공한 기능공 명단 첨부"
+            },
+            {
+              "name": "inspector",
+              "type": "string",
+              "required": true,
+              "note": "시공자 점검직원"
+            },
+            {
+              "name": "siteRepresentative",
+              "type": "string",
+              "required": true,
+              "note": "현장대리인"
             }
           ]
         },
         {
-          "key": "scope",
-          "title": "검측 대상",
+          "key": "result",
+          "title": "검측결과 통보 (건설사업관리기술인 작성)",
+          "origin": "legal",
           "fields": [
             {
-              "name": "workType",
-              "type": "string",
-              "required": true,
-              "note": "예: work.concrete_placement"
-            },
-            {
-              "name": "inspectionPoint",
-              "type": "string",
-              "required": true,
-              "note": "예: inspection.rebar_placement_slab"
-            },
-            {
-              "name": "location",
-              "type": "string",
-              "required": true,
-              "note": "예: B동 3층 슬래브 C4구역"
-            },
-            {
-              "name": "stage",
-              "type": "enum<pre,during,post>",
-              "required": true,
-              "note": "타설 전/중/후 등 시공 단계"
-            },
-            {
-              "name": "quantity",
-              "type": "object",
-              "required": false,
-              "fields": [
-                "value",
-                "unit"
-              ],
-              "note": "예: 슬래브 250㎡ / 콘크리트 50㎥"
-            },
-            {
-              "name": "scheduleImpact",
+              "name": "resultNo",
               "type": "string",
               "required": false,
-              "note": "검측 지연 시 후속 공정 영향"
-            }
-          ]
-        },
-        {
-          "key": "preparation",
-          "title": "사전 준비 확인 (시공자 자체 검측)",
-          "fields": [
-            {
-              "name": "selfInspectionVerdict",
-              "type": "enum<ready,partial,not_ready>",
-              "required": true,
-              "note": "시공자 자체 검측 결과. ready만 검측 신청 권장."
+              "note": "번호"
             },
             {
-              "name": "selfInspectionRecord",
-              "type": "string",
-              "required": true,
-              "note": "자체 검측 체크리스트 documentId"
-            },
-            {
-              "name": "appliedStandards",
-              "type": "array<string>",
-              "required": true,
-              "note": "이 검측에 적용되는 KCS·KS·시방서 항목. 예: standard.kcs_14_20.10.3_3_2"
-            },
-            {
-              "name": "preparedDocuments",
-              "type": "array<string>",
-              "required": true,
-              "note": "현장 준비 문서 (배합설계서/구조도면/이전 검측 합격기록 등)"
-            }
-          ]
-        },
-        {
-          "key": "supervisor_response",
-          "title": "감리 결재 (감리원 영역)",
-          "fields": [
-            {
-              "name": "decision",
-              "type": "enum<approved,conditional,rejected,rescheduled>",
-              "required": false
-            },
-            {
-              "name": "decisionAt",
-              "type": "datetime",
-              "required": false
-            },
-            {
-              "name": "conditions",
-              "type": "array<string>",
+              "name": "inspectedDate",
+              "type": "date",
               "required": false,
-              "note": "조건부 승인 시 보완 사항"
+              "note": "검측한 날"
             },
             {
-              "name": "supervisorSignature",
-              "type": "object",
-              "required": false
+              "name": "inspectionResult",
+              "type": "string",
+              "required": false,
+              "note": "1. 검측결과"
+            },
+            {
+              "name": "instructions",
+              "type": "string",
+              "required": false,
+              "note": "2. 지시사항"
+            },
+            {
+              "name": "inspectingEngineer",
+              "type": "string",
+              "required": false,
+              "note": "검측건설사업관리기술인"
+            },
+            {
+              "name": "chiefEngineer",
+              "type": "string",
+              "required": false,
+              "note": "책임건설사업관리기술인"
             }
           ]
         },
         {
           "key": "linkage",
-          "title": "후속 연결",
+          "title": "관련 문서 (서식 밖 실무 항목)",
+          "origin": "practice",
           "fields": [
             {
               "name": "relatedChecklist",
               "type": "string",
-              "required": false,
-              "note": "검측체크리스트 documentId (R3 도입 후)"
+              "required": false
             },
             {
               "name": "registerEntrySeq",
               "type": "string",
-              "required": false,
-              "note": "별지 제42호 entry seq (검측 완료 후)"
+              "required": false
             },
             {
               "name": "ncrIfFail",
               "type": "string",
-              "required": false,
-              "note": "FAIL 시 NCR documentId"
+              "required": false
             }
           ]
         }
@@ -1193,25 +1443,96 @@
     },
     "quality_inspection_register": {
       "id": "quality_inspection_register",
-      "title": "품질검사 실시대장 (별지 제42호)",
+      "title": "품질검사 실시대장 (시행규칙 별지 제42호)",
+      "classification": "statutory_form",
+      "officialForm": {
+        "law": "건설기술 진흥법 시행규칙",
+        "annex": "별지 제42호",
+        "title": "품질검사 실시대장"
+      },
       "basis": [
         "standard.law.btia_55",
         "standard.law.btia_rule_50",
         "standard.form.rule_no42_quality_inspection_register"
       ],
-      "reference": "건설기술 진흥법 §55 + 시행규칙 §50①(품질검사 대장 작성) + 별지 제42호 서식",
-      "retention": "성과 총괄표(별지 제43호)의 집계 원자료. 총괄표는 시행령 §93④에 따라 시설물 존속기간 보존 — 대장 자체의 법정 보존기간은 내장 법령에서 확인되지 않음. 시공자 작성·비치 의무.",
-      "_note": "★ 시공자 매일/매회 누적 작성 의무. 검사·시험 1건마다 1행 추가. 별지 제43호(품질검사 성과 총괄표)의 원천 데이터. 발주청 점검 시 즉시 제시 가능해야 함.",
+      "reference": "건설기술 진흥법 제55조제3항(완료한 날부터 7일 이내 결과와 실시대장 등 증빙자료를 정보망에 입력) + 시행규칙 제50조제1항(품질검사를 하거나 대행하는 자는 별지 제42호서식의 품질검사 대장에 결과를 적고 전자적 방법으로 작성·관리) + 시행령 제91조제4항(정보망 입력 내용).",
+      "retention": "대장의 법정 보존기간은 없다(성과 총괄표만 시행령 제93조제4항에 따라 시설물 존속기간 보존). 레미콘·아스콘 등 자재 품질시험·검사대장은 현장 비치·준공 뒤 보관(업무지침 제40조).",
+      "citations": [
+        {
+          "law": "건설기술 진흥법 시행규칙",
+          "article": "50",
+          "quote": "별지 제42호서식의 품질검사 대장에 품질검사의 결과를 적되"
+        },
+        {
+          "law": "건설기술 진흥법 시행규칙",
+          "article": "50",
+          "quote": "전자적 처리가 가능한 방법으로 작성ㆍ관리하여야 한다"
+        },
+        {
+          "law": "건설기술 진흥법",
+          "article": "55",
+          "quote": "품질시험 및 검사를 완료한 날부터 7일 이내에 그 결과 및 실시대장 등 증빙자료를"
+        },
+        {
+          "law": "건설기술 진흥법 시행령",
+          "article": "91",
+          "quote": "품질검사 실시대장에 기재해야 하는 내용"
+        },
+        {
+          "law": "건설기술 진흥법 시행규칙",
+          "annex": "별지 제42호",
+          "quote": "건설자재ㆍ부재를 공급받은 공장"
+        },
+        {
+          "law": "건설기술 진흥법 시행규칙",
+          "annex": "별지 제42호",
+          "quote": "시험ㆍ검사 구분"
+        },
+        {
+          "law": "건설기술 진흥법 시행규칙",
+          "annex": "별지 제42호",
+          "quote": "건설사업관리기술인 확인"
+        }
+      ],
+      "_note": "검사할 때마다 한 줄씩 적는다. 서식의 서명 칸은 문서를 출력하거나 전자 서명할 때 채운다.",
       "sections": [
         {
-          "key": "header",
-          "title": "대장 기본정보",
+          "key": "entries",
+          "title": "품질검사 실시대장",
+          "origin": "legal",
+          "fields": [
+            {
+              "name": "entries",
+              "type": "array<object>",
+              "required": true,
+              "note": "별지 제42호의 열 순서 — 일련번호, 연월일, 시험·검사 구분, 품질검사 대상 재료, 건설자재·부재를 공급받은 공장, 시험·검사 장소, 시험·검사 종목, 시험 기준, 시험 결과, 시험 결과 판정, 품질관리기술인(성명·서명), 건설사업관리기술인 확인(성명·서명), 비고",
+              "fields": [
+                "seq",
+                "inspectionDate",
+                "inspectionKind",
+                "material",
+                "supplyPlant",
+                "inspectionPlace",
+                "inspectionItem",
+                "criterion",
+                "testResult",
+                "resultVerdict",
+                "qcEngineerName",
+                "cmEngineerName",
+                "remarks"
+              ]
+            }
+          ]
+        },
+        {
+          "key": "management",
+          "title": "대장 관리 (서식 밖 실무 항목)",
+          "origin": "practice",
           "fields": [
             {
               "name": "documentId",
               "type": "string",
-              "required": true,
-              "note": "예: QIR-{projectCode}-{period}"
+              "required": false
             },
             {
               "name": "projectName",
@@ -1219,133 +1540,19 @@
               "required": true
             },
             {
-              "name": "projectCode",
-              "type": "string",
-              "required": true
-            },
-            {
               "name": "registerPeriod",
               "type": "object",
-              "required": true,
+              "required": false,
               "fields": [
                 "startDate",
                 "endDate"
-              ],
-              "note": "통상 월별 또는 분기별 권 분리"
-            },
-            {
-              "name": "registerVolume",
-              "type": "string",
-              "required": true,
-              "note": "권 번호 (Vol. 1, 2, ...)"
-            }
-          ]
-        },
-        {
-          "key": "entries",
-          "title": "검사·시험 기록 (행 단위 누적)",
-          "fields": [
-            {
-              "name": "entries",
-              "type": "array<object>",
-              "required": true,
-              "fields": [
-                "seq",
-                "inspectionDate",
-                "workType",
-                "location",
-                "material",
-                "testItem",
-                "testMethod",
-                "criterionRef",
-                "criterionThreshold",
-                "observedValue",
-                "verdict",
-                "samplingBy",
-                "testedBy",
-                "testReportNo",
-                "ncrLinked",
-                "remarks"
-              ],
-              "note": "verdict: PASS/FAIL/MARGINAL/UNDETERMINED. ncrLinked: FAIL 시 NCR documentId. testReportNo: 외부 KOLAS 성적서 번호."
-            }
-          ]
-        },
-        {
-          "key": "summary",
-          "title": "기간별 집계 (별지 제43호 산출용)",
-          "fields": [
-            {
-              "name": "totalEntries",
-              "type": "number",
-              "required": true
-            },
-            {
-              "name": "passCount",
-              "type": "number",
-              "required": true
-            },
-            {
-              "name": "failCount",
-              "type": "number",
-              "required": true
-            },
-            {
-              "name": "marginalCount",
-              "type": "number",
-              "required": true
-            },
-            {
-              "name": "undeterminedCount",
-              "type": "number",
-              "required": true
-            },
-            {
-              "name": "ncrCount",
-              "type": "number",
-              "required": true
-            },
-            {
-              "name": "byTestItem",
-              "type": "array<object>",
-              "required": true,
-              "fields": [
-                "testItem",
-                "totalCount",
-                "failCount",
-                "failRate"
               ]
-            }
-          ]
-        },
-        {
-          "key": "custody",
-          "title": "보관·점검 이력",
-          "fields": [
+            },
             {
-              "name": "storageLocation",
+              "name": "csiEntryNote",
               "type": "string",
-              "required": true,
-              "note": "현장 사무실 또는 본사"
-            },
-            {
-              "name": "responsibleQc",
-              "type": "object",
-              "required": true,
-              "note": "기록 책임자 (품질관리자)"
-            },
-            {
-              "name": "agencyInspections",
-              "type": "array<object>",
               "required": false,
-              "fields": [
-                "inspectionDate",
-                "inspector",
-                "agency",
-                "findings",
-                "actionRequired"
-              ],
-              "note": "발주청·감독관청 점검 이력"
+              "note": "정보망 입력 내역 — 검사 완료일부터 7일 이내 (법 제55조제3항)"
             }
           ]
         }
@@ -1353,24 +1560,67 @@
     },
     "quality_plan": {
       "id": "quality_plan",
-      "title": "품질관리 계획서",
+      "title": "품질관리계획서 (업무지침 별표 1 작성기준)",
+      "classification": "statutory_content",
+      "officialForm": {
+        "law": "건설공사 품질관리 업무지침",
+        "annex": "별표 1",
+        "title": "품질관리계획서 작성기준",
+        "note": "검토·승인은 같은 지침 별지 제1호(품질관리계획서 검토ㆍ승인서)"
+      },
       "basis": [
         "standard.law.btia_55",
         "standard.law.btia_decree_89",
         "standard.law.btia_decree_90",
-        "standard.guideline.art7"
+        "standard.guideline.art7",
+        "standard.form.quality_plan_annex1",
+        "standard.form.guideline_a1"
       ],
-      "reference": "건설기술 진흥법 §55 + 시행령 §89(수립 대상, ④작성 기준) + 시행령 §90(수립절차) + 업무지침 §7(품질관리계획서의 작성기준, 별표1)",
-      "retention": "발주청·계약에서 정한 기간 (법정 보존기간은 내장 법령에서 확인되지 않음 — 시행령 §93④의 시설물 존속기간 보존은 성과 총괄표 대상). 발주청 승인 후 내용 변경 시 재제출.",
+      "reference": "건설기술 진흥법 제55조 + 시행령 제89조(수립 대상, 제4항 작성 기준) + 시행령 제90조(공사감독자 또는 건설사업관리기술인의 검토·확인, 착공 전 발주자 승인) + 업무지침 제7조·별표 1(작성기준 — 10개 장) + 업무지침 제4조제4항·제5조제1항(별지 제1호 검토·승인서).",
+      "retention": "법정 보존기간 없음 — 계약에서 정한 기간. 내용을 바꾸면 다시 검토·확인과 승인을 받는다(시행령 제90조제1항).",
+      "citations": [
+        {
+          "law": "건설기술 진흥법 시행령",
+          "article": "89",
+          "quote": "국토교통부장관이 정하여 고시하는 기준에 적합하여야 한다"
+        },
+        {
+          "law": "건설공사 품질관리 업무지침",
+          "article": "7",
+          "quote": "품질관리계획서 작성기준은 별표 1과 같다"
+        },
+        {
+          "law": "건설공사 품질관리 업무지침",
+          "annex": "별표 1",
+          "quote": "이 작성기준의 일부를 적용할 수 없는 경우에는 상세한 사유를 명시하여야 한다"
+        },
+        {
+          "law": "건설공사 품질관리 업무지침",
+          "annex": "별표 1",
+          "quote": "년 1회 이상 건설공사 수행에 대한 내부심사를 현장 자체적으로 수행하여야 한다"
+        },
+        {
+          "law": "건설공사 품질관리 업무지침",
+          "article": "4",
+          "quote": "별지 제1호 서식의 품질관리계획서 검토ㆍ승인서에 따라 승인한다"
+        },
+        {
+          "law": "건설공사 품질관리 업무지침",
+          "article": "5",
+          "quote": "별지 제1호 서식의 품질관리계획서 검토ㆍ승인서에 따라 검토ㆍ확인하여야 한다"
+        }
+      ],
+      "_note": "별표 1 의 모든 항목을 적는다. 현장 특성 때문에 적용할 수 없는 항목은 '2. 적용범위 및 인용표준'에 사유를 밝힌다. 항목별 요구사항 원문은 get_quality_law_article(law: 품질관리 업무지침, annex: 별표 1) 로 본다.",
       "sections": [
         {
           "key": "header",
-          "title": "계획서 기본정보",
+          "title": "계획서 기본정보 (서식 밖 실무 항목)",
+          "origin": "practice",
           "fields": [
             {
               "name": "documentId",
               "type": "string",
-              "required": true
+              "required": false
             },
             {
               "name": "projectName",
@@ -1378,15 +1628,9 @@
               "required": true
             },
             {
-              "name": "projectCode",
-              "type": "string",
-              "required": false
-            },
-            {
               "name": "planVersion",
               "type": "string",
-              "required": true,
-              "note": "개정 차수"
+              "required": true
             },
             {
               "name": "planDate",
@@ -1396,132 +1640,327 @@
           ]
         },
         {
+          "key": "general",
+          "title": "1. 일반사항",
+          "origin": "legal",
+          "fields": [
+            {
+              "name": "c1",
+              "type": "string",
+              "required": true,
+              "note": "별표 1 — 작성 근거(영 제89조제1항의 각 호 등), 제정 및 개정현황"
+            }
+          ]
+        },
+        {
           "key": "scope",
-          "title": "공사 개요·품질방침",
+          "title": "2. 적용범위 및 인용표준",
+          "origin": "legal",
           "fields": [
             {
-              "name": "constructionType",
-              "type": "string",
-              "required": true
-            },
-            {
-              "name": "totalContractValue",
-              "type": "number",
-              "required": false
-            },
-            {
-              "name": "qualityPolicy",
+              "name": "c2",
               "type": "string",
               "required": true,
-              "note": "품질목표·방침"
+              "note": "별표 1 — 작성기준의 일부를 적용할 수 없으면 상세한 사유를 밝힌다. KS Q ISO 9001:2015 참조"
             }
           ]
         },
         {
-          "key": "organization",
-          "title": "품질관리 조직",
+          "key": "terms",
+          "title": "3. 용어 정의",
+          "origin": "legal",
           "fields": [
             {
-              "name": "qualityManager",
-              "type": "object",
+              "name": "c3",
+              "type": "string",
               "required": true,
-              "fields": [
-                "name",
-                "grade",
-                "licenseNo"
-              ],
-              "note": "시행규칙 §50④ 별표5 등급 기준"
-            },
-            {
-              "name": "organizationChart",
-              "type": "string",
-              "required": true
-            },
-            {
-              "name": "responsibilities",
-              "type": "string",
-              "required": true
+              "note": "별표 1 — 업무지침 제2조, KS Q ISO 9000:2015 참조"
             }
           ]
         },
         {
-          "key": "procedures",
-          "title": "품질관리 절차",
+          "key": "context",
+          "title": "4. 조직 상황",
+          "origin": "legal",
           "fields": [
             {
-              "name": "materialControl",
+              "name": "c4_1",
               "type": "string",
               "required": true,
-              "note": "자재 품질관리 절차"
+              "note": "별표 1"
             },
             {
-              "name": "processControl",
+              "name": "c4_2",
               "type": "string",
               "required": true,
-              "note": "시공 품질관리 절차"
+              "note": "별표 1"
             },
             {
-              "name": "inspectionTestPlan",
+              "name": "c4_3",
               "type": "string",
               "required": true,
-              "note": "검사·시험 계획(ITP 연계)"
-            },
-            {
-              "name": "nonconformanceControl",
-              "type": "string",
-              "required": true,
-              "note": "부적합 관리 절차"
+              "note": "별표 1"
             }
           ]
         },
         {
-          "key": "resources",
-          "title": "자원·설비",
+          "key": "leadership",
+          "title": "5. 리더십",
+          "origin": "legal",
           "fields": [
             {
-              "name": "testEquipment",
-              "type": "array<object>",
+              "name": "c5_1",
+              "type": "string",
+              "required": true,
+              "note": "별표 1"
+            },
+            {
+              "name": "c5_2",
+              "type": "string",
+              "required": true,
+              "note": "별표 1"
+            }
+          ]
+        },
+        {
+          "key": "planning",
+          "title": "6. 기획",
+          "origin": "legal",
+          "fields": [
+            {
+              "name": "c6_1",
+              "type": "string",
+              "required": true,
+              "note": "별표 1"
+            },
+            {
+              "name": "c6_2",
+              "type": "string",
+              "required": true,
+              "note": "별표 1"
+            },
+            {
+              "name": "c6_3",
+              "type": "string",
+              "required": true,
+              "note": "별표 1"
+            }
+          ]
+        },
+        {
+          "key": "support",
+          "title": "7. 지원",
+          "origin": "legal",
+          "fields": [
+            {
+              "name": "c7_1",
+              "type": "string",
+              "required": true,
+              "note": "별표 1"
+            },
+            {
+              "name": "c7_2",
+              "type": "string",
+              "required": true,
+              "note": "별표 1"
+            },
+            {
+              "name": "c7_3",
+              "type": "string",
+              "required": true,
+              "note": "별표 1"
+            },
+            {
+              "name": "c7_4",
+              "type": "string",
+              "required": true,
+              "note": "별표 1"
+            },
+            {
+              "name": "c7_5",
+              "type": "string",
+              "required": true,
+              "note": "별표 1"
+            },
+            {
+              "name": "c7_6",
+              "type": "string",
+              "required": true,
+              "note": "별표 1"
+            }
+          ]
+        },
+        {
+          "key": "operation",
+          "title": "8. 운용",
+          "origin": "legal",
+          "fields": [
+            {
+              "name": "c8_1",
+              "type": "string",
+              "required": true,
+              "note": "별표 1"
+            },
+            {
+              "name": "c8_2",
+              "type": "string",
+              "required": true,
+              "note": "별표 1"
+            },
+            {
+              "name": "c8_3",
+              "type": "string",
               "required": false,
-              "fields": [
-                "equipment",
-                "calibrationStatus"
-              ]
+              "note": "별표 1 — 설계책임이 있는 경우에 한정"
             },
             {
-              "name": "externalLabs",
-              "type": "array<string>",
+              "name": "c8_4",
+              "type": "string",
+              "required": true,
+              "note": "별표 1"
+            },
+            {
+              "name": "c8_5",
+              "type": "string",
+              "required": true,
+              "note": "별표 1 — 하도급 공종의 품질 관리"
+            },
+            {
+              "name": "c8_6",
+              "type": "string",
+              "required": true,
+              "note": "별표 1"
+            },
+            {
+              "name": "c8_7",
+              "type": "string",
+              "required": true,
+              "note": "별표 1"
+            },
+            {
+              "name": "c8_8",
+              "type": "string",
+              "required": true,
+              "note": "별표 1"
+            },
+            {
+              "name": "c8_9",
+              "type": "string",
               "required": false,
-              "note": "외부 시험기관(KOLAS)"
+              "note": "별표 1 — 해당 재산이 있는 경우"
+            },
+            {
+              "name": "c8_10",
+              "type": "string",
+              "required": true,
+              "note": "별표 1"
+            },
+            {
+              "name": "c8_11",
+              "type": "string",
+              "required": true,
+              "note": "별표 1 — 검사 및 시험 계획(ITP)의 수립 포함"
+            },
+            {
+              "name": "c8_12",
+              "type": "string",
+              "required": true,
+              "note": "별표 1"
+            },
+            {
+              "name": "c8_13",
+              "type": "string",
+              "required": true,
+              "note": "별표 1"
+            }
+          ]
+        },
+        {
+          "key": "performance",
+          "title": "9. 성과관리",
+          "origin": "legal",
+          "fields": [
+            {
+              "name": "c9_1",
+              "type": "string",
+              "required": true,
+              "note": "별표 1"
+            },
+            {
+              "name": "c9_2",
+              "type": "string",
+              "required": true,
+              "note": "별표 1"
+            },
+            {
+              "name": "c9_3",
+              "type": "string",
+              "required": true,
+              "note": "별표 1 — 년 1회 이상 현장 자체 내부심사"
+            },
+            {
+              "name": "c9_4",
+              "type": "string",
+              "required": true,
+              "note": "별표 1 — 년 1회 이상 건설공사 운영성과 검토"
+            }
+          ]
+        },
+        {
+          "key": "improvement",
+          "title": "10. 개선",
+          "origin": "legal",
+          "fields": [
+            {
+              "name": "c10_1",
+              "type": "string",
+              "required": true,
+              "note": "별표 1"
+            },
+            {
+              "name": "c10_2",
+              "type": "string",
+              "required": true,
+              "note": "별표 1"
             }
           ]
         },
         {
           "key": "approval",
-          "title": "결재",
+          "title": "검토·확인과 승인 (시행령 제90조 · 업무지침 별지 제1호)",
+          "origin": "legal",
           "fields": [
             {
               "name": "preparedBy",
               "type": "object",
               "required": true,
+              "note": "작성자",
               "fields": [
                 "name",
                 "role"
               ]
             },
             {
-              "name": "approvedBy",
+              "name": "supervisorReview",
               "type": "object",
-              "required": true,
+              "required": false,
+              "note": "공사감독자 또는 건설사업관리기술인의 검토·확인",
               "fields": [
                 "name",
-                "role"
+                "role",
+                "reviewDate"
               ]
             },
             {
-              "name": "submittedTo",
-              "type": "string",
-              "required": true,
-              "note": "발주청"
+              "name": "ownerApproval",
+              "type": "object",
+              "required": false,
+              "note": "발주자 승인 — 착공 전. 심사 결과: 적정·조건부 적정·부적정. 발주청이 아닌 발주자는 인·허가기관의 검토를 받는다(업무지침 제4조제3항)",
+              "fields": [
+                "name",
+                "verdict",
+                "approvalDate"
+              ]
             }
           ]
         }
@@ -1529,112 +1968,145 @@
     },
     "quality_inspection_summary": {
       "id": "quality_inspection_summary",
-      "title": "품질검사 성과 총괄표 (별지 제43호)",
+      "title": "품질검사 성과 총괄표 (시행규칙 별지 제43호)",
+      "classification": "statutory_form",
+      "officialForm": {
+        "law": "건설기술 진흥법 시행규칙",
+        "annex": "별지 제43호",
+        "title": "품질검사 성과 총괄표"
+      },
       "basis": [
         "standard.law.btia_55",
         "standard.law.btia_rule_51",
         "standard.law.btia_decree_93",
         "standard.form.rule_no43_quality_inspection_summary"
       ],
-      "reference": "건설기술 진흥법 §55 + 시행규칙 §51(별지 제43호 서식 근거) + 시행령 §93(성과 총괄표 작성·제출·검토·보존)",
-      "retention": "시설물 존속기간 (시행령 §93④ — 발주자 또는 인계받은 관리주체가 보존). 별지 제42호 실시대장에서 집계.",
+      "reference": "시행령 제93조제1항(품질검사를 완료하면 총괄표를 작성하고 기성부분검사·예비준공검사 또는 준공검사를 신청할 때 발주자에게 제출) + 시행규칙 제51조(별지 제43호서식). 제출 주기를 정한 조항은 없다 — 매월 실적은 사업관리방식 지침 별지 제18호(시험·검사실적보고서)로 낸다(제90조제15항).",
+      "retention": "시설물 존속기간 (시행령 제93조제4항 — 발주자 또는 인계받은 관리주체가 보존). 1종·2종 시설물은 완공 때 발주자가 관리주체에게 인계(제93조제3항).",
+      "citations": [
+        {
+          "law": "건설기술 진흥법 시행령",
+          "article": "93",
+          "quote": "기성부분검사ㆍ예비준공검사 또는 준공검사를 신청할 때 발주자에게 이를 제출해야 한다"
+        },
+        {
+          "law": "건설기술 진흥법 시행령",
+          "article": "93",
+          "quote": "해당 시설물이 존속하는 기간 동안 보존하여야 한다"
+        },
+        {
+          "law": "건설기술 진흥법 시행규칙",
+          "article": "51",
+          "quote": "별지 제43호서식"
+        },
+        {
+          "law": "건설기술 진흥법 시행규칙",
+          "annex": "별지 제43호",
+          "quote": "시험ㆍ검사 종류(재료)"
+        },
+        {
+          "law": "건설기술 진흥법 시행규칙",
+          "annex": "별지 제43호",
+          "quote": "재시험"
+        },
+        {
+          "law": "건설공사 사업관리방식 검토기준 및 업무수행지침",
+          "article": "90",
+          "quote": "매월 품질시험ㆍ검사실적을 종합한 시험ㆍ검사실적보고서(별지 제18호 서식)"
+        }
+      ],
       "sections": [
         {
           "key": "header",
-          "title": "총괄표 기본정보",
+          "title": "공사",
+          "origin": "legal",
           "fields": [
-            {
-              "name": "documentId",
-              "type": "string",
-              "required": true
-            },
             {
               "name": "projectName",
               "type": "string",
-              "required": true
-            },
-            {
-              "name": "reportingPeriod",
-              "type": "string",
               "required": true,
-              "note": "월/분기/연"
+              "note": "공사명"
             },
             {
-              "name": "reportDate",
-              "type": "date",
-              "required": true
+              "name": "constructionPeriod",
+              "type": "object",
+              "required": true,
+              "note": "공사기간",
+              "fields": [
+                "startDate",
+                "endDate"
+              ]
+            },
+            {
+              "name": "progressPercent",
+              "type": "number",
+              "required": true,
+              "note": "공정(%)"
             }
           ]
         },
         {
-          "key": "summary_by_item",
-          "title": "시험종목별 집계",
+          "key": "summary",
+          "title": "시험·검사 횟수",
+          "origin": "legal",
           "fields": [
             {
               "name": "items",
               "type": "array<object>",
               "required": true,
+              "note": "별지 제43호의 열 순서 — 공종, 시험·검사 종류(재료), 계획, 실시, 합격, 불합격, 재시험, 비고",
               "fields": [
-                "testItem",
-                "plannedCount",
-                "executedCount",
-                "passCount",
-                "failCount",
-                "passRate"
-              ],
-              "note": "별지 제42호 실시대장에서 산출"
+                "workType",
+                "testKind",
+                "planned",
+                "executed",
+                "passed",
+                "failed",
+                "retest",
+                "remarks"
+              ]
             }
           ]
         },
         {
-          "key": "totals",
-          "title": "종합",
+          "key": "preparer",
+          "title": "작성",
+          "origin": "legal",
           "fields": [
             {
-              "name": "totalPlanned",
-              "type": "number",
-              "required": true
+              "name": "preparedAt",
+              "type": "date",
+              "required": true,
+              "note": "작성일시"
             },
-            {
-              "name": "totalExecuted",
-              "type": "number",
-              "required": true
-            },
-            {
-              "name": "totalPass",
-              "type": "number",
-              "required": true
-            },
-            {
-              "name": "totalFail",
-              "type": "number",
-              "required": true
-            },
-            {
-              "name": "ncrCount",
-              "type": "number",
-              "required": false
-            }
-          ]
-        },
-        {
-          "key": "approval",
-          "title": "결재",
-          "fields": [
             {
               "name": "preparedBy",
               "type": "object",
               "required": true,
+              "note": "작성자 — 소속·직위·성명 (서명 또는 인)",
               "fields": [
-                "name",
-                "role"
+                "affiliation",
+                "position",
+                "name"
               ]
+            }
+          ]
+        },
+        {
+          "key": "management",
+          "title": "문서 관리 (서식 밖 실무 항목)",
+          "origin": "practice",
+          "fields": [
+            {
+              "name": "documentId",
+              "type": "string",
+              "required": false
             },
             {
-              "name": "submittedTo",
-              "type": "string",
-              "required": true,
-              "note": "발주청·감리"
+              "name": "submissionOccasion",
+              "type": "enum<기성부분검사,예비준공검사,준공검사>",
+              "required": false,
+              "note": "제출하는 검사 신청의 종류 (시행령 제93조제1항)"
             }
           ]
         }
@@ -1643,11 +2115,26 @@
     "nc_corrective_result": {
       "id": "nc_corrective_result",
       "title": "부적합 조치결과 확인서 (실무 서식 — 법정 전용 서식 없음)",
+      "classification": "practice",
       "basis": [
-        "standard.guideline.art39"
+        "standard.guideline.art7",
+        "standard.form.quality_plan_annex1"
       ],
-      "reference": "ISO 9001 §8.7 시정조치 종결 확인 관행 (법정 전용 서식 없음) + 업무지침 §39(점검결과에 대한 조치) 연계",
-      "retention": "원 NCR·검사 성과 총괄표와 함께 시설물 존속기간 보존(시행령 §93).",
+      "reference": "법정 전용 서식 없음. 품질관리계획 대상 공사는 업무지침 제7조·별표 1 의 8.12(부적합 공사의 관리 — 조치 뒤 재검사·재시험)·10.1(부적합 및 시정조치 — 조치의 효과성 검토)에 따라 절차를 정한다.",
+      "referenceStandard": "KS Q ISO 9001:2015 10.2 (부적합 및 시정조치)",
+      "retention": "법정 보존기간 없음 — 계약과 품질관리계획에서 정한 기간. (시행령 제93조제4항의 시설물 존속기간 보존은 품질시험 또는 검사 성과 총괄표에만 해당)",
+      "citations": [
+        {
+          "law": "건설공사 품질관리 업무지침",
+          "annex": "별표 1",
+          "quote": "8.12 부적합 공사의 관리"
+        },
+        {
+          "law": "건설공사 품질관리 업무지침",
+          "annex": "별표 1",
+          "quote": "10.1 부적합 및 시정조치"
+        }
+      ],
       "sections": [
         {
           "key": "header",
@@ -1674,7 +2161,8 @@
               "type": "date",
               "required": true
             }
-          ]
+          ],
+          "origin": "practice"
         },
         {
           "key": "nonconformance",
@@ -1690,7 +2178,8 @@
               "type": "string",
               "required": true
             }
-          ]
+          ],
+          "origin": "practice"
         },
         {
           "key": "corrective_action",
@@ -1720,7 +2209,8 @@
               "required": false,
               "note": "재시험 성적서 번호"
             }
-          ]
+          ],
+          "origin": "practice"
         },
         {
           "key": "confirmation",
@@ -1750,19 +2240,37 @@
               "type": "enum<closed,reopened>",
               "required": true
             }
-          ]
+          ],
+          "origin": "practice"
         }
       ]
     },
     "quality_inspection_report": {
       "id": "quality_inspection_report",
-      "title": "품질관리 점검 결과 보고서",
+      "title": "자체 품질점검 결과 보고서 (실무 서식)",
+      "classification": "practice",
       "basis": [
-        "standard.guideline.art10",
-        "standard.law.btia_rule_52"
+        "standard.law.btia_decree_91"
       ],
-      "reference": "건설공사 품질관리 업무지침 §10(품질관리의 적절성 확인기준, 별표3) + 시행규칙 §52(품질관리의 적절성 확인)",
-      "retention": "발주청·계약에서 정한 기간 (법정 보존기간은 내장 법령에서 확인되지 않음 — 시행령 §93④의 시설물 존속기간 보존은 성과 총괄표 대상).",
+      "reference": "법정 전용 서식 없음. 공사현장에 대한 자체 품질점검 및 조치는 품질관리 건설기술인의 업무다(시행령 제91조제3항제5호). 발주청·인허가기관 등이 하는 품질관리 적절성 확인(법 제55조제4항, 시행규칙 제52조 — 해마다 한 번 이상, 준공 2개월 전까지)은 업무지침 별지 제2호(품질관리 적절성 확인점검표)로 하며 이 문서와 다르다.",
+      "retention": "법정 보존기간 없음 — 계약과 품질관리계획에서 정한 기간.",
+      "citations": [
+        {
+          "law": "건설기술 진흥법 시행령",
+          "article": "91",
+          "quote": "공사현장에 대한 자체 품질점검 및 조치"
+        },
+        {
+          "law": "건설기술 진흥법 시행규칙",
+          "article": "52",
+          "quote": "해마다 한 번 이상 실시하되, 해당 건설공사의 준공 2개월 전까지 하여야 한다"
+        },
+        {
+          "law": "건설공사 품질관리 업무지침",
+          "annex": "별지 제2호",
+          "quote": "품질관리계획에 대한 점검사항"
+        }
+      ],
       "sections": [
         {
           "key": "header",
@@ -1789,7 +2297,8 @@
               "required": true,
               "note": "정기/특별"
             }
-          ]
+          ],
+          "origin": "practice"
         },
         {
           "key": "findings",
@@ -1807,7 +2316,8 @@
               ],
               "note": "품질관리계획 이행 점검 항목"
             }
-          ]
+          ],
+          "origin": "practice"
         },
         {
           "key": "corrective",
@@ -1824,7 +2334,8 @@
               "required": false,
               "note": "시정 요구 사항"
             }
-          ]
+          ],
+          "origin": "practice"
         },
         {
           "key": "approval",
@@ -1844,19 +2355,47 @@
               "type": "string",
               "required": true
             }
-          ]
+          ],
+          "origin": "practice"
         }
       ]
     },
     "test_request": {
       "id": "test_request",
-      "title": "시험 의뢰서 (KOLAS 외부 시험)",
+      "title": "품질검사 대행 의뢰서 (실무 서식 — 법정 경로는 정보망 입력)",
+      "classification": "practice",
       "basis": [
-        "standard.law.btia_60",
-        "standard.law.btia_decree_91"
+        "standard.law.btia_60"
       ],
-      "reference": "건설기술 진흥법 §60(품질검사의 대행 등) + 시행령 §91(품질시험 및 검사 기준). KOLAS 공인 시험기관 의뢰.",
-      "retention": "시험성적서와 함께 검사 성과 총괄표에 포함되어 보존.",
+      "reference": "건설기술 진흥법 제60조제1항(국립·공립 시험기관 또는 건설엔지니어링사업자에게 대행, 정보망을 통하여 의뢰) + 시행규칙 제56조(의뢰할 때 정보망에 입력할 사항, 의뢰 내용에 대한 발주자 또는 건설사업관리 사업자의 사전 확인, 시료의 봉인 또는 확인). 종이 의뢰서의 법정 서식은 없다 — 이 문서는 정보망에 입력할 내용을 정리하는 용도다.",
+      "retention": "법정 보존기간 없음. 대행 기관은 검사를 완료한 날부터 7일 이내에 성적서와 내용을 정보망에 입력한다(법 제60조제3항).",
+      "citations": [
+        {
+          "law": "건설기술 진흥법",
+          "article": "60",
+          "quote": "국립ㆍ공립 시험기관 또는 건설엔지니어링사업자로 하여금"
+        },
+        {
+          "law": "건설기술 진흥법",
+          "article": "60",
+          "quote": "건설공사 안전관리 종합정보망을 통하여 품질검사의 대행을 의뢰하여야 한다"
+        },
+        {
+          "law": "건설기술 진흥법 시행규칙",
+          "article": "56",
+          "quote": "품질검사의 종목ㆍ기준, 목적 등 품질검사의 대행에 관한 사항"
+        },
+        {
+          "law": "건설기술 진흥법 시행규칙",
+          "article": "56",
+          "quote": "미리 해당 건설공사 발주자 또는 건설사업관리를 수행하는 건설엔지니어링사업자의 확인을 받아야 하며"
+        },
+        {
+          "law": "건설기술 진흥법 시행규칙",
+          "article": "56",
+          "quote": "봉인 또는 확인을 받아야 한다"
+        }
+      ],
       "sections": [
         {
           "key": "header",
@@ -1881,9 +2420,16 @@
               "name": "testLab",
               "type": "string",
               "required": true,
-              "note": "의뢰 시험기관(KOLAS 공인)"
+              "note": "대행 기관 — 법 제60조제1항의 국립·공립 시험기관 또는 건설엔지니어링사업자"
+            },
+            {
+              "name": "purpose",
+              "type": "string",
+              "required": true,
+              "note": "품질검사의 목적 (시행규칙 제56조제1항제1호)"
             }
-          ]
+          ],
+          "origin": "practice"
         },
         {
           "key": "sample",
@@ -1913,8 +2459,19 @@
               "name": "quantity",
               "type": "string",
               "required": false
+            },
+            {
+              "name": "sealedBy",
+              "type": "object",
+              "required": true,
+              "note": "시료의 봉인 또는 확인 — 발주자 또는 건설사업관리 사업자 (시행규칙 제56조제2항)",
+              "fields": [
+                "name",
+                "organization"
+              ]
             }
-          ]
+          ],
+          "origin": "practice"
         },
         {
           "key": "test_items",
@@ -1929,9 +2486,10 @@
                 "method",
                 "standard"
               ],
-              "note": "시험방법(KS) 명시"
+              "note": "품질검사의 종목·방법·기준 (시행규칙 제56조제1항제1호)"
             }
-          ]
+          ],
+          "origin": "practice"
         },
         {
           "key": "requester",
@@ -1950,98 +2508,162 @@
               "name": "resultDueDate",
               "type": "date",
               "required": false
+            },
+            {
+              "name": "confirmedBy",
+              "type": "object",
+              "required": true,
+              "note": "의뢰 내용에 대한 발주자 또는 건설사업관리 사업자의 사전 확인 (시행규칙 제56조제2항)",
+              "fields": [
+                "name",
+                "organization"
+              ]
+            },
+            {
+              "name": "csiRequestNo",
+              "type": "string",
+              "required": false,
+              "note": "정보망 의뢰 번호"
             }
-          ]
+          ],
+          "origin": "practice"
         }
       ]
     },
     "inspection_checklist": {
       "id": "inspection_checklist",
-      "title": "검측 체크리스트",
+      "title": "검측 체크리스트 (사업관리방식 지침 별지 제36호)",
+      "classification": "notice_form",
+      "officialForm": {
+        "law": "건설공사 사업관리방식 검토기준 및 업무수행지침",
+        "annex": "별지 제36호",
+        "title": "검측요청ㆍ결과 통보내용 — 3. 검측 체크리스트"
+      },
       "basis": [
-        "standard.guideline.art6",
-        "standard.law.btia_rule_50"
+        "standard.form.cm_a36"
       ],
-      "reference": "건설공사 품질관리 업무지침 + 감리계약 + 시행규칙 §50②(현장 품질검사·발주자 확인). 검측 신청서와 함께 부재별 작성.",
-      "retention": "검측 신청서·품질검사 실시대장과 함께 보존.",
+      "reference": "사업관리방식 지침 제86조제10항~제13항(검측체크리스트 작성·검측절차·검사항목 결정) + 별지 제36호 서식 제3쪽(검측 체크리스트).",
+      "retention": "법정 보존기간 없음. 검측요청서와 함께 2부 작성하여 시공자, 건설사업관리기술인 각 1부 보관(서식 작성요령).",
+      "citations": [
+        {
+          "law": "건설공사 사업관리방식 검토기준 및 업무수행지침",
+          "article": "86",
+          "quote": "검측체크리스트에는 검사항목에 대한 시공기준 또는 합격기준을 기재하여"
+        },
+        {
+          "law": "건설공사 사업관리방식 검토기준 및 업무수행지침",
+          "annex": "별지 제36호",
+          "quote": "공종 CODE"
+        },
+        {
+          "law": "건설공사 사업관리방식 검토기준 및 업무수행지침",
+          "annex": "별지 제36호",
+          "quote": "매몰부분은 사진을 첨부한다"
+        },
+        {
+          "law": "건설공사 사업관리방식 검토기준 및 업무수행지침",
+          "annex": "별지 제36호",
+          "quote": "검사결과 상단은 시공자 점검직원이, 하단은 검측건설사업관리기술인이 검사"
+        }
+      ],
       "sections": [
         {
           "key": "header",
-          "title": "체크리스트 기본정보",
+          "title": "검측 대상",
+          "origin": "legal",
           "fields": [
             {
-              "name": "documentId",
+              "name": "workCode",
               "type": "string",
-              "required": true
+              "required": false,
+              "note": "공종 CODE №"
             },
             {
-              "name": "projectName",
+              "name": "locationAndPart",
               "type": "string",
-              "required": true
+              "required": true,
+              "note": "위치 및 부위"
             },
             {
               "name": "workType",
               "type": "string",
-              "required": true
-            },
-            {
-              "name": "inspectionStage",
-              "type": "enum<before,during,after>",
               "required": true,
-              "note": "검측 단계"
+              "note": "공종(세부공종)"
             },
             {
-              "name": "inspectionDate",
-              "type": "date",
-              "required": true
+              "name": "workQuantity",
+              "type": "string",
+              "required": true,
+              "note": "공사량"
             }
           ]
         },
         {
           "key": "checkpoints",
-          "title": "검측 항목",
+          "title": "검사항목",
+          "origin": "legal",
           "fields": [
             {
               "name": "items",
               "type": "array<object>",
               "required": true,
+              "note": "검사항목, 검사 기준(시방서 또는 도면 등), 검사 결과(시공자·건설사업관리기술인 — 수치로 기록), 합격·불합격, 조치사항. 매몰부분은 사진 첨부",
               "fields": [
                 "checkItem",
                 "criterion",
-                "result",
-                "remark"
-              ],
-              "note": "InspectionCheckpoint 기반. result: PASS/FAIL"
+                "contractorResult",
+                "engineerResult",
+                "verdict",
+                "action"
+              ]
             }
           ]
         },
         {
-          "key": "result",
-          "title": "판정",
+          "key": "signoff",
+          "title": "점검·검측",
+          "origin": "legal",
           "fields": [
             {
-              "name": "overallResult",
-              "type": "enum<pass,fail,conditional>",
-              "required": true
-            },
-            {
-              "name": "inspectedBy",
-              "type": "object",
+              "name": "contractorCheckDate",
+              "type": "date",
               "required": true,
-              "fields": [
-                "name",
-                "role"
-              ]
+              "note": "시공자 점검일자"
             },
             {
-              "name": "witnessedBy",
-              "type": "object",
+              "name": "inspector",
+              "type": "string",
+              "required": true,
+              "note": "점검직원"
+            },
+            {
+              "name": "engineerCheckDate",
+              "type": "date",
               "required": false,
-              "fields": [
-                "name",
-                "role"
-              ],
-              "note": "감리원 입회"
+              "note": "건설사업관리기술인 검측일자"
+            },
+            {
+              "name": "inspectingEngineer",
+              "type": "string",
+              "required": false,
+              "note": "검측건설사업관리기술인"
+            }
+          ]
+        },
+        {
+          "key": "management",
+          "title": "문서 관리 (서식 밖 실무 항목)",
+          "origin": "practice",
+          "fields": [
+            {
+              "name": "documentId",
+              "type": "string",
+              "required": false
+            },
+            {
+              "name": "projectName",
+              "type": "string",
+              "required": false
             }
           ]
         }
@@ -2050,90 +2672,197 @@
     "material_source_approval": {
       "id": "material_source_approval",
       "title": "자재 공급원 승인 요청서 (사업관리방식 지침 별지 제37호)",
+      "classification": "notice_form",
+      "officialForm": {
+        "law": "건설공사 사업관리방식 검토기준 및 업무수행지침",
+        "annex": "별지 제37호",
+        "title": "자재 공급원 승인 요청ㆍ결과통보 내용"
+      },
       "basis": [
         "standard.law.btia_57",
         "standard.form.cm_guideline_no37_material_source_approval"
       ],
-      "reference": "건설기술 진흥법 §57①(자재공급원 승인) + 사업관리방식(감리) 지침 별지 제37호 (시행규칙 별지 제37호 아님).",
-      "retention": "공사 완료 후 보존. 자재 변경 시 재요청.",
+      "reference": "건설기술 진흥법 제57조제1항(자재공급원 승인) + 사업관리방식 지침 제87조(공급원 승인요청서는 자재반입 10일 전까지 제출, 7일 이내 검토·승인, 2개 이상의 공급원) + 별지 제37호 서식 + 업무지침 제32조제3항(레미콘·아스콘 — 10일 이내 승인 여부 회신). 시행규칙 별지 제37호는 다른 서식이다.",
+      "retention": "법정 보존기간 없음. 레미콘·아스콘의 자재공급원 승인 관련 서류는 현장에 비치하고 준공한 때에는 보관한다(업무지침 제40조).",
+      "citations": [
+        {
+          "law": "건설기술 진흥법",
+          "article": "57",
+          "quote": "자재공급원"
+        },
+        {
+          "law": "건설공사 사업관리방식 검토기준 및 업무수행지침",
+          "article": "87",
+          "quote": "공급원 승인요청서를 자재반입 10일 전까지 제출토록 하여야 하며"
+        },
+        {
+          "law": "건설공사 사업관리방식 검토기준 및 업무수행지침",
+          "article": "87",
+          "quote": "제출받은 지 7일 이내에 검토하여 이를 승인하여야 한다"
+        },
+        {
+          "law": "건설공사 사업관리방식 검토기준 및 업무수행지침",
+          "article": "87",
+          "quote": "2개 이상의 공급원을 제출 받아"
+        },
+        {
+          "law": "건설공사 사업관리방식 검토기준 및 업무수행지침",
+          "annex": "별지 제37호",
+          "quote": "제조회사명"
+        },
+        {
+          "law": "건설공사 사업관리방식 검토기준 및 업무수행지침",
+          "annex": "별지 제37호",
+          "quote": "시공자의견"
+        },
+        {
+          "law": "건설공사 사업관리방식 검토기준 및 업무수행지침",
+          "annex": "별지 제37호",
+          "quote": "적합□ 조건부적합□ 부적합□"
+        },
+        {
+          "law": "건설공사 품질관리 업무지침",
+          "article": "32",
+          "quote": "10일 이내에 승인 여부를 회신"
+        },
+        {
+          "law": "건설공사 품질관리 업무지침",
+          "article": "40",
+          "quote": "자재공급원 승인 관련 서류"
+        }
+      ],
       "sections": [
         {
-          "key": "header",
-          "title": "요청서 기본정보",
+          "key": "request",
+          "title": "자재 공급원 승인 요청 (시공자 작성)",
+          "origin": "legal",
           "fields": [
             {
-              "name": "documentId",
+              "name": "documentNo",
               "type": "string",
-              "required": true
+              "required": true,
+              "note": "문서번호"
+            },
+            {
+              "name": "addressee",
+              "type": "string",
+              "required": true,
+              "note": "수신 — 책임건설사업관리기술인"
             },
             {
               "name": "projectName",
               "type": "string",
-              "required": true
+              "required": true,
+              "note": "공사명"
             },
             {
-              "name": "requestDate",
-              "type": "date",
-              "required": true
-            }
-          ]
-        },
-        {
-          "key": "material",
-          "title": "자재 정보",
-          "fields": [
+              "name": "workCategory",
+              "type": "enum<건축,기계,토목,기타>",
+              "required": true,
+              "note": "공종"
+            },
             {
-              "name": "materialName",
+              "name": "productName",
               "type": "string",
-              "required": true
+              "required": true,
+              "note": "품명"
             },
             {
               "name": "specification",
               "type": "string",
               "required": true,
-              "note": "규격·표준(KS)"
+              "note": "규격"
             },
             {
-              "name": "supplier",
+              "name": "manufacturer",
               "type": "string",
               "required": true,
-              "note": "공급원(제조원)"
+              "note": "제조회사명"
             },
             {
-              "name": "qualityCertificate",
+              "name": "ksGreen",
+              "type": "enum<KS,비KS,환경표지,GR>",
+              "required": true,
+              "note": "KS·녹색제품 유무"
+            },
+            {
+              "name": "contractorOpinion",
+              "type": "string",
+              "required": true,
+              "note": "시공자의견"
+            },
+            {
+              "name": "attachments",
+              "type": "array<string>",
+              "required": true,
+              "note": "첨부 — 인증서, 사업자등록증, CATALOG, 공장등록증, 시험성적서, 납품실적, 견본, 기타"
+            },
+            {
+              "name": "remarks",
               "type": "string",
               "required": false,
-              "note": "품질 인증·시험성적서"
+              "note": "특기사항"
+            },
+            {
+              "name": "requestDate",
+              "type": "date",
+              "required": true,
+              "note": "요청일"
+            },
+            {
+              "name": "personInCharge",
+              "type": "string",
+              "required": true,
+              "note": "담당자"
+            },
+            {
+              "name": "siteRepresentative",
+              "type": "string",
+              "required": true,
+              "note": "현장대리인"
             }
           ]
         },
         {
-          "key": "approval",
-          "title": "검토·승인",
+          "key": "result",
+          "title": "자재승인 검토결과 통보서 (건설사업관리기술인 작성)",
+          "origin": "legal",
           "fields": [
             {
-              "name": "requestedBy",
-              "type": "object",
-              "required": true,
-              "fields": [
-                "name",
-                "role"
-              ]
-            },
-            {
-              "name": "reviewedBy",
-              "type": "object",
+              "name": "reviewOpinion",
+              "type": "string",
               "required": false,
-              "fields": [
-                "name",
-                "role"
-              ],
-              "note": "감리원"
+              "note": "검토의견"
             },
             {
-              "name": "approvalStatus",
-              "type": "enum<approved,rejected,conditional>",
-              "required": false
+              "name": "verdict",
+              "type": "enum<적합,조건부적합,부적합>",
+              "required": false,
+              "note": "판정"
+            },
+            {
+              "name": "resultRemarks",
+              "type": "string",
+              "required": false,
+              "note": "특기사항 — 공장방문 검사 Check List, 시험 결과치 또는 시험성적서 첨부"
+            },
+            {
+              "name": "resultDate",
+              "type": "date",
+              "required": false,
+              "note": "통보일"
+            },
+            {
+              "name": "assignedEngineer",
+              "type": "string",
+              "required": false,
+              "note": "담당 건설사업관리기술인"
+            },
+            {
+              "name": "chiefEngineer",
+              "type": "string",
+              "required": false,
+              "note": "책임건설사업관리기술인"
             }
           ]
         }
@@ -2141,13 +2870,20 @@
     },
     "quality_daily_log": {
       "id": "quality_daily_log",
-      "title": "시방서(품질관리) 일지",
+      "title": "품질관리 일지 (실무 서식)",
+      "classification": "practice",
       "basis": [
-        "standard.guideline.art15",
-        "standard.guideline.art10"
+        "standard.law.btia_decree_91"
       ],
-      "reference": "실무 표준 문서 (법정 의무 아님). 건설공사 품질관리 업무지침 §15(기록유지)·§10(품질관리의 적절성 확인기준) 활동 기록 관행.",
-      "retention": "공사 기간 중 현장 비치, 준공 후 내부 절차에 따라 보존.",
+      "reference": "법정 의무·서식 없음. 품질관리 건설기술인의 업무(시행령 제91조제3항 — 계획의 수립 및 시행, 적격품 사용 여부 확인, 시험실·장비 관리, 품질교육, 자체 품질점검 및 조치, 부적합 지도·관리)를 날마다 기록하는 실무 문서다.",
+      "retention": "법정 보존기간 없음 — 계약과 품질관리계획에서 정한 기간.",
+      "citations": [
+        {
+          "law": "건설기술 진흥법 시행령",
+          "article": "91",
+          "quote": "품질관리 업무를 수행하는 건설기술인은 품질관리계획 또는 품질시험계획에 따라 다음 각 호의 업무를 수행해야 한다"
+        }
+      ],
       "sections": [
         {
           "key": "header",
@@ -2173,7 +2909,8 @@
               "type": "string",
               "required": false
             }
-          ]
+          ],
+          "origin": "practice"
         },
         {
           "key": "activities",
@@ -2200,7 +2937,8 @@
               ],
               "note": "검측·확인 항목"
             }
-          ]
+          ],
+          "origin": "practice"
         },
         {
           "key": "materials_tests",
@@ -2222,7 +2960,8 @@
               "required": false,
               "note": "당일 채취·의뢰 시험"
             }
-          ]
+          ],
+          "origin": "practice"
         },
         {
           "key": "issues",
@@ -2244,7 +2983,8 @@
               "type": "string",
               "required": false
             }
-          ]
+          ],
+          "origin": "practice"
         },
         {
           "key": "signoff",
@@ -2268,18 +3008,40 @@
                 "role"
               ]
             }
-          ]
+          ],
+          "origin": "practice"
         }
       ]
     },
     "corrective_action_request": {
       "id": "corrective_action_request",
-      "title": "시정조치 요구서 (CAR)",
+      "title": "시정조치 요구서(CAR) (실무 서식 — 법정 전용 서식 없음)",
+      "classification": "practice",
       "basis": [
-        "standard.guideline.art39"
+        "standard.guideline.art7",
+        "standard.form.quality_plan_annex1",
+        "standard.guideline.art5"
       ],
-      "reference": "ISO 9001 §8.7(부적합 및 시정조치) + 건설공사 품질관리 업무지침 §39(점검결과에 대한 조치) (법정 서식 아닌 QMS 관행). 부적합보고서(NCR) 후속 시정 요구.",
-      "retention": "원 NCR·부적합 조치결과 확인서와 함께 보존.",
+      "reference": "법정 전용 서식 없음. 품질관리계획 대상 공사는 업무지침 제7조·별표 1 의 10.1(부적합 및 시정조치)에 따라 절차를 정한다. 공사감독자 또는 건설사업관리기술인은 검토·확인 결과에 따라 시정 및 시정조치를 요구할 수 있고(업무지침 제5조제3항), 발주자도 확인 결과 시정을 요구할 수 있다(시행령 제92조제4항).",
+      "referenceStandard": "KS Q ISO 9001:2015 10.2 (부적합 및 시정조치)",
+      "retention": "법정 보존기간 없음 — 계약과 품질관리계획에서 정한 기간. (시행령 제93조제4항의 시설물 존속기간 보존은 품질시험 또는 검사 성과 총괄표에만 해당)",
+      "citations": [
+        {
+          "law": "건설공사 품질관리 업무지침",
+          "annex": "별표 1",
+          "quote": "10.1 부적합 및 시정조치"
+        },
+        {
+          "law": "건설공사 품질관리 업무지침",
+          "article": "5",
+          "quote": "시공자에게 시정 및 시정조치를 요구할 수 있으며"
+        },
+        {
+          "law": "건설기술 진흥법 시행령",
+          "article": "92",
+          "quote": "시정을 요구할 수 있다"
+        }
+      ],
       "sections": [
         {
           "key": "header",
@@ -2306,7 +3068,8 @@
               "type": "date",
               "required": true
             }
-          ]
+          ],
+          "origin": "practice"
         },
         {
           "key": "nonconformance",
@@ -2323,7 +3086,8 @@
               "required": false,
               "note": "근본 원인 분석"
             }
-          ]
+          ],
+          "origin": "practice"
         },
         {
           "key": "request",
@@ -2345,7 +3109,8 @@
               "type": "string",
               "required": true
             }
-          ]
+          ],
+          "origin": "practice"
         },
         {
           "key": "verification",
@@ -2366,7 +3131,8 @@
               "type": "date",
               "required": false
             }
-          ]
+          ],
+          "origin": "practice"
         },
         {
           "key": "signoff",
@@ -2391,18 +3157,34 @@
                 "role"
               ]
             }
-          ]
+          ],
+          "origin": "practice"
         }
       ]
     },
     "quality_audit_report": {
       "id": "quality_audit_report",
-      "title": "품질감사 보고서",
+      "title": "내부심사(품질감사) 보고서 (실무 서식)",
+      "classification": "practice",
       "basis": [
-        "standard.guideline.art10"
+        "standard.guideline.art7",
+        "standard.form.quality_plan_annex1"
       ],
-      "reference": "자체 품질경영시스템(ISO 9001) 내부감사 절차 (법정 의무 아님). 업무지침 §10(품질관리의 적절성 확인기준)과 연계.",
-      "retention": "내부 QMS 절차에 따라 보존.",
+      "reference": "서식은 정해져 있지 않다. 품질관리계획 대상 공사는 업무지침 제7조·별표 1 의 9.3(내부심사)에 따라 년 1회 이상 현장 자체 내부심사를 하고, 9.4(경영검토)에 따라 년 1회 이상 운영성과를 검토한다.",
+      "referenceStandard": "KS Q ISO 9001:2015 9.2 (내부심사)",
+      "retention": "법정 보존기간 없음 — 품질관리계획에서 정한 기간.",
+      "citations": [
+        {
+          "law": "건설공사 품질관리 업무지침",
+          "annex": "별표 1",
+          "quote": "년 1회 이상 건설공사 수행에 대한 내부심사를 현장 자체적으로 수행하여야 한다"
+        },
+        {
+          "law": "건설공사 품질관리 업무지침",
+          "annex": "별표 1",
+          "quote": "9.4 경영검토"
+        }
+      ],
       "sections": [
         {
           "key": "header",
@@ -2433,7 +3215,8 @@
               "type": "string",
               "required": true
             }
-          ]
+          ],
+          "origin": "practice"
         },
         {
           "key": "findings",
@@ -2451,7 +3234,8 @@
               ],
               "note": "ISO 9001 조항별 발견"
             }
-          ]
+          ],
+          "origin": "practice"
         },
         {
           "key": "nonconformances",
@@ -2472,7 +3256,8 @@
               "type": "array<string>",
               "required": false
             }
-          ]
+          ],
+          "origin": "practice"
         },
         {
           "key": "conclusion",
@@ -2494,7 +3279,8 @@
               "type": "date",
               "required": false
             }
-          ]
+          ],
+          "origin": "practice"
         },
         {
           "key": "signoff",
@@ -2518,7 +3304,8 @@
                 "role"
               ]
             }
-          ]
+          ],
+          "origin": "practice"
         }
       ]
     }
