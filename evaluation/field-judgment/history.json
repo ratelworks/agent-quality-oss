@@ -347,5 +347,102 @@
         "wrongFail": 16
       }
     }
+  },
+  {
+    "set": "L (id l001~l120)",
+    "sentences": 120,
+    "date": "2026-11-17",
+    "note": "J·K 에서 드러난 요청·주문한 값을 고친 뒤 처음 돌림. L·M 은 같은 빌드",
+    "direct": {
+      "correct": 109,
+      "wrongPass": 0,
+      "wrongFail": 0,
+      "askedThoughDecidable": 11
+    },
+    "published": {
+      "npm-0.4.0": {
+        "correct": 53,
+        "wrongPass": 18,
+        "wrongFail": 22
+      },
+      "main-5c5e467": {
+        "correct": 83,
+        "wrongPass": 10,
+        "wrongFail": 17
+      }
+    }
+  },
+  {
+    "set": "M (id w001~w120)",
+    "sentences": 120,
+    "date": "2026-11-17",
+    "note": "J·K 에서 드러난 요청·주문한 값을 고친 뒤 처음 돌림. L·M 은 같은 빌드",
+    "direct": {
+      "correct": 108,
+      "wrongPass": 0,
+      "wrongFail": 2,
+      "askedThoughDecidable": 10
+    },
+    "published": {
+      "npm-0.4.0": {
+        "correct": 54,
+        "wrongPass": 17,
+        "wrongFail": 20
+      },
+      "main-5c5e467": {
+        "correct": 81,
+        "wrongPass": 8,
+        "wrongFail": 21
+      }
+    }
+  },
+  {
+    "set": "N (id n001~n120)",
+    "sentences": 120,
+    "date": "2026-11-17",
+    "note": "M 에서 드러난 지정값 변경·값에 붙은 가정('…면')을 고친 뒤 처음 돌림. N·O 는 같은 빌드",
+    "direct": {
+      "correct": 111,
+      "wrongPass": 0,
+      "wrongFail": 0,
+      "askedThoughDecidable": 9
+    },
+    "published": {
+      "npm-0.4.0": {
+        "correct": 60,
+        "wrongPass": 19,
+        "wrongFail": 19
+      },
+      "main-5c5e467": {
+        "correct": 91,
+        "wrongPass": 8,
+        "wrongFail": 12
+      }
+    }
+  },
+  {
+    "set": "O (id o001~o120)",
+    "sentences": 120,
+    "date": "2026-11-17",
+    "note": "M 에서 드러난 지정값 변경·값에 붙은 가정('…면')을 고친 뒤 처음 돌림. N·O 는 같은 빌드",
+    "direct": {
+      "correct": 112,
+      "wrongPass": 2,
+      "wrongFail": 0,
+      "askedThoughDecidable": 6,
+      "detail": "o021 예상치('5% 정도 나올 겁니다')를 측정값으로 읽음 — 실제 오류. o082 강도 단위 N/mm² — N/mm² 는 MPa 와 같아 판정은 맞으나 작성 규칙(기준과 다른 단위 표기는 되묻기)으로는 틀린 합격"
+    },
+    "published": {
+      "npm-0.4.0": {
+        "correct": 53,
+        "wrongPass": 24,
+        "wrongFail": 20
+      },
+      "main-5c5e467": {
+        "correct": 85,
+        "wrongPass": 13,
+        "wrongFail": 13
+      }
+    }
   }
 ]

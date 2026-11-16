@@ -1347,7 +1347,7 @@
               "name": "addressee",
               "type": "string",
               "required": true,
-              "note": "받음 — 책임건설사업관리기술인"
+              "note": "받음 — 서식대로 \"○○공사 책임건설사업관리기술인 ○○○\" 꼴로 공사명과 함께 적는다"
             },
             {
               "name": "locationAndWork",
@@ -1389,7 +1389,7 @@
               "name": "inspector",
               "type": "string",
               "required": true,
-              "note": "시공자 점검직원"
+              "note": "시공자 점검직원 — 1차 점검을 마치고 검측을 요청하는 시공자 쪽 담당자. 요청자(예: 공사과장 ○○○)를 여기에 적는다"
             },
             {
               "name": "siteRepresentative",

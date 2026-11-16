@@ -2,6 +2,7 @@
 // field-phrases.ts — 현장에서 쓰는 말과 표준 용어를 잇는 자료(ontology/field-phrases.json)를 읽는다.
 //   terms    현장 말 → 표준 말 ("들밀도" → "현장밀도")
 //   rowTerms 품질시험기준(업무지침 별표 2)에서만 쓰는 표기 ("철근" → "철근콘크리트용봉강")
+//   lawTerms 현장 말 → 법령·고시 본문에 쓰이는 말 ("KS" → "한국산업표준", "겸직" → "각 호 외의 업무") — 법령 원문을 찾을 때만
 //   phrases 노드·조문이 걸리는 상황을 현장 말로 적은 글 — 찾는 데만 쓰고 답에는 내보내지 않는다
 // ─────────────────────────────────────────────────────────────────────────────
 
@@ -17,6 +18,8 @@ export interface FieldPhrases {
   terms: Record<string, string[]>;
   /** 품질시험기준 표에서만 쓰는 표기 — 그 표의 행을 찾을 때만 덧붙인다(다른 곳에 덧붙이면 엉뚱한 글이 걸린다) */
   rowTerms: Record<string, string[]>;
+  /** 현장 말 → 법령·고시 본문의 말 — 법령 원문을 찾을 때 같은 말로 친다 */
+  lawTerms: Record<string, string[]>;
   /** 대상(노드 id · "법령 id:조문") → 현장 표현 */
   phrases: Record<string, string[]>;
 }
@@ -30,9 +33,9 @@ export function loadFieldPhrases(): FieldPhrases {
   if (cache) return cache;
   try {
     const data = JSON.parse(readFileSync(FIELD_PHRASES_PATH, "utf8")) as Partial<FieldPhrases>;
-    cache = { terms: data.terms ?? {}, rowTerms: data.rowTerms ?? {}, phrases: data.phrases ?? {} };
+    cache = { terms: data.terms ?? {}, rowTerms: data.rowTerms ?? {}, lawTerms: data.lawTerms ?? {}, phrases: data.phrases ?? {} };
   } catch {
-    cache = { terms: {}, rowTerms: {}, phrases: {} };
+    cache = { terms: {}, rowTerms: {}, lawTerms: {}, phrases: {} };
   }
   return cache;
 }

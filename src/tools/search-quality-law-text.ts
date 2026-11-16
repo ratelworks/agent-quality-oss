@@ -11,13 +11,18 @@
 import { buildResponse } from "./_response.js";
 import { ERROR_CODES, QualityMcpError } from "../lib/errors.js";
 import { editionLabel, findLaw, loadLaws } from "../ontology/laws.js";
-import { searchLawText } from "../knowledge/law-text-search.js";
+import { lawSearchTerms, lawTermAlternatives, searchLawText } from "../knowledge/law-text-search.js";
+import { searchPenaltyItems } from "../knowledge/penalty-points.js";
 import type { ToolSpec, BasisRef } from "../lib/types.js";
 import type { OntologyGraph } from "../ontology/graph.js";
 
 // ───── 상수 ─────
 const DEFAULT_LIMIT = 8;
 const MAX_LIMIT = 20;
+/** 함께 돌려줄 벌점 항목 수 */
+const PENALTY_ITEM_LIMIT = 4;
+/** 제재를 묻는 말 — 벌점 항목을 찾을 때는 빼고(항목 글에 없는 말이다), 이런 말이 있으면 낱말 하나만 맞아도 벌점 항목을 붙인다 */
+const SANCTION_WORD_RE = /^(?:벌점|부실벌점|처벌|형사처벌|벌칙|벌금|징역|과태료|제재|불이익|위반|어기면|걸리면|점검|몇점|몇)$/u;
 
 export const spec: ToolSpec = {
   name: "search_quality_law_text",
@@ -25,7 +30,9 @@ export const spec: ToolSpec = {
     "법령·고시의 조문·별표 본문에서 낱말로 찾는다 — 어느 조문에 있는지 모를 때 쓴다. " +
     "수록 범위: 건설기술 진흥법·시행령·시행규칙, 건설공사 품질관리 업무지침, 건설공사 사업관리방식 검토기준 및 업무수행지침의 전 조문과 별표. " +
     '낱말은 조문에 적혀 있을 말로 2~3개만 넣는다(예: "겸직", "즉시 반품", "사전점검 레미콘", "벌점 품질관리"). 문장으로 넣지 않는다. ' +
-    "찾은 조문의 전문은 get_quality_law_article 로 본다. 결과가 없으면 낱말을 줄이거나 조문에 쓰일 다른 말로 바꾼다. [근거 제공용 · 최종 판정은 품질관리자·감리원·발주자]",
+    "찾은 조문의 전문은 get_quality_law_article 로 본다. 긴 조문은 낱말이 가장 많이 든 항(paragraph)을 snippet 으로 준다. 결과가 없으면 낱말을 줄이거나 조문에 쓰일 다른 말로 바꾼다. " +
+    "그 상황을 어기면 받는 벌점(시행령 별표 8)의 항목을 penaltyItems 로 함께 준다 — 항목 번호(제5호 가목 15)나) 등)와 점수는 이 값을 그대로 쓴다. 어기면 어떻게 되는지 물으면 상황 낱말에 \"벌점\" 또는 \"처벌\"을 붙여 찾는다(형벌·과태료는 건설기술 진흥법 제88조~제91조). " +
+    "[근거 제공용 · 최종 판정은 품질관리자·감리원·발주자]",
   inputSchema: {
     type: "object",
     properties: {
@@ -55,15 +62,34 @@ export function run(args: SearchLawTextArgs, graph: OntologyGraph) {
   const count = Math.min(Math.max(1, Math.floor(limit ?? DEFAULT_LIMIT)), MAX_LIMIT);
   const hits = searchLawText(query, lawName, count);
   const laws = new Map(loadLaws().map((l) => [l.id, l]));
+  // 그 상황의 벌점 항목 — 낱말 둘 이상이 맞거나, 제재를 물었고 낱말 하나 이상이 맞을 때
+  const allTerms = lawSearchTerms(query);
+  const situationTerms = allTerms.filter((t) => !SANCTION_WORD_RE.test(t));
+  const sanctionAsked = situationTerms.length < allTerms.length;
+  const penaltyItems = (!lawName || /시행령/u.test(lawName) ? searchPenaltyItems(situationTerms.map((t) => lawTermAlternatives(t)), PENALTY_ITEM_LIMIT) : [])
+    .filter((r) => r.matched.length >= 2 || (sanctionAsked && r.matched.length >= 1))
+    .map((r) => ({
+      law: "건설기술 진흥법 시행령",
+      ref: `별표 8 ${r.item.path}`,
+      points: r.item.points,
+      appliesTo: r.item.part,
+      item: r.item.itemTitle,
+      text: r.item.text,
+      matchedTerms: r.matched,
+    }));
   const items = hits.map((h) => ({
     law: h.lawName,
     ref: h.ref,
     kind: h.kind,
     title: h.title,
     snippet: h.snippet,
+    /** 낱말이 가장 많이 든 항 — snippet 은 그 항이다 */
+    ...(h.paragraph ? { paragraph: h.paragraph } : {}),
     matchedTerms: h.matchedTerms,
     /** 조문에는 이 낱말이 없다 — 현장에서 이 조문을 두고 쓰는 말로 찾았다. 조문의 표현은 전문에서 확인한다 */
     matchedByFieldPhrase: h.matchedByFieldPhrase,
+    /** 낱말 그대로는 조문에 없고, 조문이 쓰는 말로 찾았다 ("겸직" → "각 호 외의 업무") */
+    ...(h.matchedAsLawWord.length > 0 ? { matchedAsLawWord: h.matchedAsLawWord } : {}),
     missingTerms: h.missingTerms,
     /** 전문을 볼 때 get_quality_law_article 에 넣을 값 */
     lookup: h.kind === "article" ? { law: h.lawName, article: h.ref } : { law: h.lawName, annex: h.ref },
@@ -75,6 +101,9 @@ export function run(args: SearchLawTextArgs, graph: OntologyGraph) {
           return { type: "law_text", id: `${h.lawId}:${h.ref}`, priority: 1, sourceStatus: "verified", note: `${h.lawName} ${h.ref}${law ? ` — ${editionLabel(law)}` : ""}` } as BasisRef;
         })
       : [{ type: "ontology_meta", id: "no_match", priority: 3, note: "검색 결과 없음" }];
+  for (const p of penaltyItems) {
+    basis.push({ type: "law_text", id: `btia_decree:${p.ref}`, priority: 1, sourceStatus: "verified", note: `건설기술 진흥법 시행령 ${p.ref} — 벌점 ${p.points}점` } as BasisRef);
+  }
   return buildResponse(
     "search_quality_law_text",
     graph.version,
@@ -83,6 +112,13 @@ export function run(args: SearchLawTextArgs, graph: OntologyGraph) {
       law: lawName ?? null,
       count: items.length,
       items,
+      ...(penaltyItems.length > 0
+        ? {
+            penaltyItems,
+            penaltyNote:
+              "시행령 별표 8 제5호의 벌점 측정기준에서 이 낱말이 든 항목입니다. 벌점은 측정기관(발주청·인허가기관 등)이 부실 내용을 확인해 업체와 건설기술인등에 각각 매깁니다. 항목이 상황에 맞는지는 text 로 확인하세요(표의 줄바꿈 자리 띄어쓰기는 원문과 다를 수 있습니다).",
+          }
+        : {}),
       note:
         items.length === 0
           ? "수록 원문에 이 낱말이 없습니다 — 낱말을 줄이거나 조문에 쓰일 다른 말로 바꿔 찾으세요. 없다는 것이 규정이 없다는 뜻은 아닙니다(수록 범위 밖의 법령일 수 있습니다)."

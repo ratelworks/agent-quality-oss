@@ -19,6 +19,8 @@ import { OntologyGraph } from "../../src/ontology/graph.js";
 import { findAnnex, findArticle, findLaw, loadLaws, normalizeLawText, searchLaws } from "../../src/ontology/laws.js";
 import { boxTableCells, parseBoxTables } from "../../src/lib/box-table.js";
 import { QualityMcpError } from "../../src/lib/errors.js";
+import { loadPenaltyItems } from "../../src/knowledge/penalty-points.js";
+import { judgePlanTarget } from "../../src/knowledge/plan-rules.js";
 
 // ── 상수 ────────────────────────────────────────────────────────────
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..", "..");
@@ -155,8 +157,15 @@ async function testLookup(): Promise<void> {
   // 조문에는 "겸직"이라는 말이 없다("각 호 외의 업무") — 현장 표현으로 찾는다
   check("낱말 검색: 겸직 → 시행령 제91조", (await topOf("겸직")) === "건설기술 진흥법 시행령 제91조");
   const byPhrase = await callTool("search_quality_law_text", { query: "겸직" }, { graph });
-  const phraseHit = (byPhrase.result as { items: Array<{ matchedByFieldPhrase: string[]; lookup: { law: string; article?: string } }> }).items[0];
-  check("낱말 검색: 현장 표현으로 찾은 낱말을 따로 알린다", phraseHit?.matchedByFieldPhrase.includes("겸직") === true && phraseHit.lookup.article === "제91조");
+  const phraseHit = (byPhrase.result as { items: Array<{ matchedTerms: string[]; matchedByFieldPhrase: string[]; matchedAsLawWord?: Array<{ term: string; lawWord: string }>; lookup: { law: string; article?: string } }> }).items[0];
+  // "겸직"은 조문 본문에 없다 — 현장 표현이나 조문이 쓰는 말("각 호 외의 업무")로 찾았다고 따로 알리고, 본문에서 찾은 낱말로 적지 않는다
+  check(
+    "낱말 검색: 본문에 없는 현장 말로 찾았음을 따로 알린다",
+    phraseHit !== undefined &&
+      !phraseHit.matchedTerms.includes("겸직") &&
+      (phraseHit.matchedByFieldPhrase.includes("겸직") || phraseHit.matchedAsLawWord?.some((x) => x.term === "겸직" && x.lawWord === "각 호 외의 업무") === true) &&
+      phraseHit.lookup.article === "제91조",
+  );
   const nothing = await callTool("search_quality_law_text", { query: "양자컴퓨터" }, { graph });
   check("낱말 검색: 없는 낱말은 0건이고 없다고 알린다", (nothing.result as { count: number; note: string }).count === 0 && (nothing.result as { note: string }).note.includes("없습니다"));
   const viaGuideline = await callTool("search_quality_management_guideline", { query: "겸직" }, { graph });
@@ -198,10 +207,50 @@ function testBoxTable(): void {
   check("별표 5 중급: 100억원·5,000㎡·시험실 18㎡", normalizeLawText(rows[3]?.join("|") ?? "").includes("총공사비가100억원이상인건설공사또는연면적5,000㎡이상") && rows[3]?.[3] === "18㎡이상");
 }
 
+// ── 6. 실무에서 자주 묻는 것 — 벌점 항목·긴 조문의 항·계획 대상·레미콘 규격 ─────────
+async function testPracticeAnswers(): Promise<void> {
+  // 벌점 항목: 별표 8 제5호 표의 점수 칸 수와 읽어 낸 항목 수가 같아야 한다(빠진 항목이 없다)
+  const decree = must(findLaw("시행령"), "시행령");
+  const annex8 = decree.annexes.find((a) => /벌점관리기준/u.test(a.title ?? ""));
+  const table = (annex8?.text ?? "").slice((annex8?.text ?? "").indexOf("5. 벌점 측정기준"));
+  const body = table.slice(0, Math.max(0, table.search(/\n\s*라\.\s*측정기관/u)));
+  const pointCells = body.split("\n").filter((l) => { const c = l.split("│"); return c.length >= 4 && /^\s*\d+(?:\.\d+)?\s*$/u.test(c[3] ?? ""); }).length;
+  const items = loadPenaltyItems();
+  check("벌점 항목: 표의 점수 칸 수만큼 읽음", items.length > 100 && items.length === pointCells, `${items.length} / ${pointCells}`);
+  check("벌점 항목: 가목·나목·다목 모두", ["가목", "나목", "다목"].every((p) => items.some((i) => i.path.includes(` ${p} `))));
+  const at = (path: string) => items.find((i) => i.path === path);
+  check("벌점 항목: 가목 2)가) 균열관리 3점", at("제5호 가목 2)가)")?.points === 3 && normalizeLawText(at("제5호 가목 2)가)")?.text ?? "").includes("균열관리를하지"));
+  check("벌점 항목: 가목 7)가) 주요 구조부 검토·확인 없이 시공 3점", at("제5호 가목 7)가)")?.points === 3 && normalizeLawText(at("제5호 가목 7)가)")?.text ?? "").includes("주요구조부"));
+  check("벌점 항목: 가목 15)나) 슬럼프시험 미실시·타설완료시간 1점", at("제5호 가목 15)나)")?.points === 1 && normalizeLawText(at("제5호 가목 15)나)")?.text ?? "").includes("타설완료시간"));
+  // 어기면 어떻게 되는지 — 검색 결과에 벌점 항목이 번호·점수와 함께 붙는다
+  const pen = await callTool("search_quality_law_text", { query: "균열 벌점" }, { graph });
+  const penItems = (pen.result as { penaltyItems?: Array<{ ref: string; points: number }> }).penaltyItems ?? [];
+  check("낱말 검색: '균열 벌점' → 벌점 항목 가목 2)가) 3점", penItems[0]?.ref === "별표 8 제5호 가목 2)가)" && penItems[0]?.points === 3, JSON.stringify(penItems[0]));
+  const noPen = await callTool("search_quality_law_text", { query: "즉시 반품" }, { graph });
+  check("낱말 검색: 제재와 무관한 낱말 하나에는 벌점 항목을 붙이지 않음", (noPen.result as { penaltyItems?: unknown[] }).penaltyItems === undefined);
+  // 긴 조문 — 낱말이 든 항을 짚는다
+  const pour = await callTool("search_quality_law_text", { query: "타설 입회", law: "사업관리지침" }, { graph });
+  const pourHit = (pour.result as { items: Array<{ ref: string; paragraph?: string; snippet: string }> }).items.find((i) => i.ref === "제56조");
+  check("낱말 검색: '타설 입회' → 사업관리지침 제56조 제5항을 snippet 으로", pourHit?.paragraph === "제5항" && pourHit.snippet.includes("반드시 입회"), JSON.stringify(pourHit?.paragraph));
+  const ks = await callTool("search_quality_law_text", { query: "KS 인증 시험 면제" }, { graph });
+  const ksTop = (ks.result as { items: Array<{ law: string; ref: string; paragraph?: string }> }).items[0];
+  check("낱말 검색: 'KS 인증 시험 면제' → 시행령 제91조 제2항", ksTop?.law === "건설기술 진흥법 시행령" && ksTop.ref === "제91조" && ksTop.paragraph === "제2항", JSON.stringify(ksTop));
+  // 계획 대상 — 16층 이상은 다중이용 건축물(입력한 multiUse 와 다르면 층수를 따른다)
+  const tall = judgePlanTarget({ workKind: "building", floorArea: 35_000, totalCost: 90_000_000_000, floors: 20, multiUse: false });
+  check("계획 대상: 20층·연면적 3만5천㎡ → 품질관리계획(다중이용 아님 입력은 층수로 바로잡음)", tall.qualityPlan === "applies" && tall.caveats.some((c) => c.includes("16층 이상")));
+  const low = judgePlanTarget({ workKind: "building", floorArea: 35_000, totalCost: 90_000_000_000, floors: 12 });
+  check("계획 대상: 12층·용도 모름 → 판정 보류(용도 기준을 알려 줌)", low.qualityPlan === "undetermined" && low.missingInputs.some((m) => m.includes("5천㎡")));
+  // 레미콘 규격 — 둘째 수가 호칭강도
+  const mix = await callTool("compile_concrete_pour_references", { mixCode: "25-24-150" }, { graph });
+  const reading = (mix.result as { mixCodeReading?: { nominalStrengthMPa?: number; nominalSlumpMm?: number; slump?: { range: number[] }; strength?: { singleAtLeast: number } } }).mixCodeReading;
+  check("레미콘 규격 25-24-150: 호칭강도 24·슬럼프 125~175·1회 하한 20.5", reading?.nominalStrengthMPa === 24 && reading.slump?.range.join("~") === "125~175" && reading.strength?.singleAtLeast === 20.5, JSON.stringify(reading));
+}
+
 testBundles();
 testAnchors();
 testNodesMatchBundle();
 await testLookup();
 testBoxTable();
+await testPracticeAnswers();
 console.log(`[laws] ${pass} 통과 / ${fail} 실패`);
 process.exit(fail > 0 ? 1 : 0);

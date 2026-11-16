@@ -33,7 +33,8 @@ export const spec: ToolSpec = {
       totalContractValue: { type: 'number', description: '총공사비(원) — 관급자재비 포함, 보상비 제외' },
       workKind: { type: 'string', enum: ['civil', 'building', 'specialty'], description: '공사 종류: civil(토목) / building(건축) / specialty(전문)' },
       floorArea: { type: 'number', description: '연면적(㎡)' },
-      multiUse: { type: 'boolean', description: '건축법 시행령 제2조제17호의 다중이용 건축물인가' },
+      multiUse: { type: 'boolean', description: '건축법 시행령 제2조제17호의 다중이용 건축물인가 — 층수를 알면 floors 를 넣는다(16층 이상이면 용도와 관계없이 다중이용 건축물이라 이 값을 짐작해 넣지 않는다)' },
+      floors: { type: 'number', description: '건축물의 층수 — 16층 이상이면 다중이용 건축물(건축법 시행령 제2조제17호나목)' },
       cmSupervised: { type: 'boolean', description: '감독 권한대행 등 건설사업관리 대상 공사인가' },
       contractRequiresQualityPlan: { type: 'boolean', description: '계약에 품질관리계획을 수립하도록 되어 있는가' },
       exempt: { type: 'string', enum: ['nuclear', 'landscaping', 'demolition'], description: '계획을 수립하지 않을 수 있는 공사: nuclear(원자력시설) / landscaping(조경식재) / demolition(철거)' },
@@ -47,6 +48,7 @@ export interface CompileQtpArgs {
   workKind?: ProjectFacts['workKind'];
   floorArea?: number;
   multiUse?: boolean;
+  floors?: number;
   cmSupervised?: boolean;
   contractRequiresQualityPlan?: boolean;
   exempt?: ProjectFacts['exempt'];
@@ -223,6 +225,7 @@ export function run(args: CompileQtpArgs, graph: OntologyGraph) {
         ],
       },
       procedure: [
+        cite({ law: '건설기술 진흥법', article: '55', quote: '발주청이 아닌 발주자는 미리 품질관리계획 또는 품질시험계획의 사본을 인ㆍ허가기관의 장에게 제출하여야 한다' }),
         cite({ law: DECREE, article: '90', quote: '미리 공사감독자 또는 건설사업관리기술인' }),
         cite({ law: DECREE, article: '90', quote: '적정: 품질관리에 필요한 조치가 구체적이고 명료하게 계획되어' }),
         cite({ law: DECREE, article: '90', quote: '조건부 적정:' }),

@@ -32,6 +32,14 @@ export const GRADE_SPECIAL_MULTIUSE_AREA = 50_000;
 /** 규칙 별표 5 중급 — 총공사비 100억원 이상 또는 연면적 5,000㎡ 이상 다중이용 건축물 */
 export const GRADE_MID_COST = 100 * EOK;
 export const GRADE_MID_MULTIUSE_AREA = 5_000;
+/**
+ * 건축법 시행령 제2조제17호나목 — 16층 이상인 건축물은 용도와 관계없이 다중이용 건축물.
+ * 건축법 시행령은 수록하지 않은 법령이다 — 법제처 현행본(시행 2026-11-12) 대조 2026-11-17.
+ */
+export const MULTIUSE_FLOORS = 16;
+const MULTIUSE_FLOORS_GROUND = "건축법 시행령 제2조제17호나목 — 16층 이상인 건축물은 다중이용 건축물(시행 2026-11-12 현행본 기준, 이 도구가 수록하지 않은 법령)";
+const MULTIUSE_USE_HINT =
+  "16층 미만이면 문화 및 집회시설(동물원·식물원 제외)·종교시설·판매시설·운수시설 중 여객용 시설·의료시설 중 종합병원·숙박시설 중 관광숙박시설로 쓰는 바닥면적 합계가 5천㎡ 이상인지로 가린다(건축법 시행령 제2조제17호가목)";
 
 const DECREE = "건설기술 진흥법 시행령";
 const RULE = "건설기술 진흥법 시행규칙";
@@ -51,6 +59,8 @@ export interface ProjectFacts {
   floorArea?: number;
   /** 건축법 시행령 제2조제17호의 다중이용 건축물인가 */
   multiUse?: boolean;
+  /** 건축물의 층수 — 16층 이상이면 다중이용 건축물 */
+  floors?: number;
   /** 감독 권한대행 등 건설사업관리 대상 공사인가 */
   cmSupervised?: boolean;
   /** 계약에 품질관리계획을 수립하도록 되어 있는가 */
@@ -133,9 +143,13 @@ export function judgePlanTarget(f: ProjectFacts): PlanTargetJudgement {
     };
   }
 
+  // 다중이용 건축물 — 층수로 정해지면 그 값을 쓴다(입력한 multiUse 와 다르면 층수를 따른다)
+  const multiUse = resolveMultiUse(f);
+  if (multiUse.byFloors) grounds.push(MULTIUSE_FLOORS_GROUND);
+  if (multiUse.note) caveats.push(multiUse.note);
   // 제1항 — 품질관리계획
   const item1 = and3(flag(f.cmSupervised), atLeast(f.totalCost, QUALITY_PLAN_COST));
-  const item2 = and3(flag(f.multiUse), atLeast(f.floorArea, QUALITY_PLAN_MULTIUSE_AREA));
+  const item2 = and3(flag(multiUse.value), atLeast(f.floorArea, QUALITY_PLAN_MULTIUSE_AREA));
   const item3 = flag(f.contractRequiresQualityPlan);
   if (item1 === true) grounds.push(`시행령 제89조제1항 ${p1.items[0] ?? ""}`);
   if (item2 === true) grounds.push(`시행령 제89조제1항 ${p1.items[1] ?? ""}`);
@@ -145,7 +159,7 @@ export function judgePlanTarget(f: ProjectFacts): PlanTargetJudgement {
     else missing.add("건설사업관리(감독 권한대행 등) 대상 여부");
   }
   if (item2 === null) {
-    if (f.multiUse === undefined) missing.add("다중이용 건축물 여부");
+    if (multiUse.value === undefined) missing.add(`다중이용 건축물 여부 — 16층 이상이면 해당(층수를 주면 판정한다). ${MULTIUSE_USE_HINT}`);
     else missing.add("연면적");
   }
   const items12 = or3(item1, item2);
@@ -181,9 +195,26 @@ export function judgePlanTarget(f: ProjectFacts): PlanTargetJudgement {
   else if (qualityPlan === "undetermined" && sizeTri === true) conclusion = "품질관리계획 또는 품질시험계획 가운데 하나의 수립 대상입니다. 어느 쪽인지는 아래 입력이 있어야 가릴 수 있습니다.";
   else conclusion = "받은 입력만으로는 대상 여부를 가릴 수 없습니다. 아래 입력을 주십시오.";
 
+  // 품질관리계획 대상으로 정해지면 품질시험계획(제2항)의 근거와, 판정에 더는 필요 없는 입력은 내보내지 않는다
+  const shownGrounds = qualityPlan === "applies" ? grounds.filter((g) => !g.startsWith("시행령 제89조제2항")) : grounds;
+  const shownMissing = qualityPlan === "applies" ? [] : [...missing];
   // 수립 의무 자체의 근거는 법이다 — 시행령은 대상 공사를 정한다
-  if (qualityPlan === "applies" || testPlan === "applies") grounds.unshift(PLAN_DUTY_GROUND);
-  return { qualityPlan, testPlan, conclusion, grounds, missingInputs: [...missing], caveats, byQualityPlanItems12: items12 };
+  if (qualityPlan === "applies" || testPlan === "applies") shownGrounds.unshift(PLAN_DUTY_GROUND);
+  return { qualityPlan, testPlan, conclusion, grounds: shownGrounds, missingInputs: shownMissing, caveats, byQualityPlanItems12: items12 };
+}
+
+/** 다중이용 건축물 여부 — 16층 이상이면 해당. 그 밖에는 입력한 값(없으면 모름) */
+export function resolveMultiUse(f: ProjectFacts): { value: boolean | undefined; byFloors: boolean; note?: string } {
+  if (f.floors !== undefined && f.floors >= MULTIUSE_FLOORS) {
+    return {
+      value: true,
+      byFloors: true,
+      ...(f.multiUse === false
+        ? { note: `다중이용 건축물이 아니라고 입력했지만 ${f.floors}층은 16층 이상이라 다중이용 건축물입니다(건축법 시행령 제2조제17호나목, 용도와 관계없음).` }
+        : {}),
+    };
+  }
+  return { value: f.multiUse, byFloors: false };
 }
 
 export interface StaffingRow {
@@ -279,15 +310,17 @@ export function judgeStaffingGrade(f: ProjectFacts): GradeJudgement {
   }
   const items12 = target.byQualityPlanItems12;
   if (items12 === true) {
-    const special = or3(atLeast(f.totalCost, GRADE_SPECIAL_COST), and3(flag(f.multiUse), atLeast(f.floorArea, GRADE_SPECIAL_MULTIUSE_AREA)));
+    const mu = resolveMultiUse(f).value;
+    const special = or3(atLeast(f.totalCost, GRADE_SPECIAL_COST), and3(flag(mu), atLeast(f.floorArea, GRADE_SPECIAL_MULTIUSE_AREA)));
     if (special === true) return done("special");
     if (special === false) return done("high");
-    return open(["special", "high"], [f.totalCost === undefined ? "총공사비" : "", f.multiUse === undefined ? "다중이용 건축물 여부" : f.floorArea === undefined ? "연면적" : ""].filter(Boolean));
+    return open(["special", "high"], [f.totalCost === undefined ? "총공사비" : "", mu === undefined ? "다중이용 건축물 여부(16층 이상이면 해당)" : f.floorArea === undefined ? "연면적" : ""].filter(Boolean));
   }
   if (items12 === null) return open(["special", "high", "mid", "entry"], target.missingInputs);
-  const mid = or3(atLeast(f.totalCost, GRADE_MID_COST), and3(flag(f.multiUse), atLeast(f.floorArea, GRADE_MID_MULTIUSE_AREA)));
+  const muMid = resolveMultiUse(f).value;
+  const mid = or3(atLeast(f.totalCost, GRADE_MID_COST), and3(flag(muMid), atLeast(f.floorArea, GRADE_MID_MULTIUSE_AREA)));
   if (mid === true) return done("mid");
-  if (mid === null) return open(["mid", "entry"], [f.totalCost === undefined ? "총공사비" : "", f.multiUse === undefined ? "다중이용 건축물 여부" : f.floorArea === undefined ? "연면적" : ""].filter(Boolean));
+  if (mid === null) return open(["mid", "entry"], [f.totalCost === undefined ? "총공사비" : "", muMid === undefined ? "다중이용 건축물 여부(16층 이상이면 해당)" : f.floorArea === undefined ? "연면적" : ""].filter(Boolean));
   if (target.testPlan === "applies") return done("entry");
   if (target.testPlan === "not_applies") {
     return { grade: null, candidates: [], conclusion: "품질시험계획 수립 대상이 아니어서 배치기준의 대상공사 구분에 들지 않습니다.", row: null, missingInputs: [] };

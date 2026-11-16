@@ -4,25 +4,30 @@ import { buildResponse } from './_response.js';
 import { mergeBasis, schemaLegalBasisRefs, checkpointView } from "./_compile-common.js";
 import type { ToolSpec } from '../lib/types.js';
 import type { OntologyGraph } from '../ontology/graph.js';
+import { decodeMixCode } from '../knowledge/mix-code.js';
 
 export const spec: ToolSpec = {
   name: 'compile_concrete_pour_references',
   description:
-    '콘크리트 타설 1회에 필요한 모든 근거 재료를 한 패키지로 반환한다. 공종 프로파일 · 기준(criteria) · 관련 KCS·지침 · 레미콘 기록지·공시체 기록지 양식 스키마 포함. [근거 제공용 · 최종 판정은 품질관리자·감리원·발주자]',
+    '콘크리트 타설 1회에 필요한 모든 근거 재료를 한 패키지로 반환한다. 공종 프로파일 · 기준(criteria) · 관련 KCS·지침 · 레미콘 기록지·공시체 기록지 양식 스키마 포함. ' +
+    '레미콘 규격(예: 25-24-150)을 알면 mixCode 로 그대로 넘긴다 — 규격의 세 수(굵은골재 최대치수·호칭강도·슬럼프)와 그 규격의 슬럼프 허용범위·압축강도 판정 조건을 계산해 준다(둘째 수는 호칭강도이며 설계기준강도가 아니다). 규격을 스스로 풀어 쓰지 말 것. ' +
+    '[근거 제공용 · 최종 판정은 품질관리자·감리원·발주자]',
   inputSchema: {
     type: 'object',
     properties: {
       workType: { type: 'string', description: '공종 (기본 work.concrete_placement)' },
+      mixCode: { type: 'string', description: '레미콘 규격 — 납품서에 적힌 그대로 (예: 25-24-150)' },
     },
   },
 };
 
 export interface CompilePourArgs {
   workType?: string;
+  mixCode?: string;
 }
 
 export function run(args: CompilePourArgs, graph: OntologyGraph) {
-  const { workType = 'work.concrete_placement' } = args ?? {};
+  const { workType = 'work.concrete_placement', mixCode } = args ?? {};
   const workId = graph.get(workType)
     ? workType
     : resolveWorkType(graph, workType)?.id ?? 'work.concrete_placement';
@@ -109,8 +114,11 @@ export function run(args: CompilePourArgs, graph: OntologyGraph) {
   const deliverySchema = getSchema('concrete_delivery_record');
   const specimenSchema = getSchema('specimen_record');
 
+  const mixCodeReading = typeof mixCode === 'string' && mixCode.trim() ? decodeMixCode(mixCode, graph) : null;
+
   const result = {
     workType: { id: work.id, name: work.name },
+    ...(mixCodeReading ? { mixCodeReading } : {}),
     materials,
     tests: [...tests.values()],
     acceptanceCriteria: [...criteria.values()],

@@ -15,7 +15,7 @@ import { TOOL_DEFS, callTool } from "../tool-registry.js";
 import { toMcpErrorContent } from "../lib/errors.js";
 import { registerResources } from "./resources.js";
 import type { OntologyGraph } from "../ontology/graph.js";
-import { SERVER_DESCRIPTION, SERVER_NAME, VERSION } from "../version.js";
+import { SERVER_INSTRUCTIONS, SERVER_NAME, VERSION } from "../version.js";
 
 // ───── 상수 ─────
 /**
@@ -32,7 +32,7 @@ const PASS_THROUGH: jsonSchemaValidator = {
 export function buildMcpServer(graph: OntologyGraph): McpServer {
   const server = new McpServer(
     { name: SERVER_NAME, version: VERSION },
-    { instructions: SERVER_DESCRIPTION, capabilities: { tools: {}, resources: {} } },
+    { instructions: SERVER_INSTRUCTIONS, capabilities: { tools: {}, resources: {} } },
   );
 
   for (const tool of TOOL_DEFS) {
