@@ -18,7 +18,7 @@ import { coerceCliArgs } from "./lib/input-schema.js";
 import { loadOntologySync } from "./ontology/loader.js";
 import { OntologyGraph } from "./ontology/graph.js";
 import { validateOntology } from "./ontology/validator.js";
-import { createHttpHandler } from "./server/http.js";
+import { createHttpHandler, describeHttpAccess, resolveHttpAccess } from "./server/http.js";
 import { listSchemaIds } from "./schemas/loader.js";
 
 // ───── 상수 ─────
@@ -58,9 +58,10 @@ program
     const graph = loadAndValidateGraph();
     if (opts.http) {
       const port = Number(opts.port ?? process.env["PORT"] ?? 8080);
-      createServer(createHttpHandler(graph)).listen(port, () => {
+      const access = resolveHttpAccess();
+      createServer(createHttpHandler(graph, access)).listen(port, access.host, () => {
         process.stdout.write(
-          `[${SERVER_NAME}] HTTP 서버 기동 http://localhost:${port} ` +
+          `[${SERVER_NAME}] HTTP 서버 기동 http://localhost:${port} — ${describeHttpAccess(access)} ` +
             `(ontology v${graph.version}, ${graph.entities.size} entities)\n`,
         );
       });

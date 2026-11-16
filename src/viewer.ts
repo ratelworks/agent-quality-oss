@@ -26,6 +26,12 @@ import { OntologyGraph } from "./ontology/graph.js";
 import { validateOntology } from "./ontology/validator.js";
 import { callTool } from "./tool-registry.js";
 import { listSchemaIds, getSchema } from "./schemas/loader.js";
+import {
+  BodyTooLargeError,
+  LOOPBACK_ADDRESS,
+  readBodyText,
+  requestRejection,
+} from "./lib/request-guard.js";
 
 // 파일 최상단 상수
 const DEFAULT_PORT = 5273; // safety viewer(5174)와 구분
@@ -69,24 +75,16 @@ function sendJson(res: ServerResponse, status: number, payload: unknown): void {
   res.setHeader("Content-Type", "application/json; charset=utf-8");
   res.end(JSON.stringify(payload));
 }
-function readBody(req: IncomingMessage): Promise<Record<string, unknown>> {
-  return new Promise((resolve) => {
-    const chunks: Buffer[] = [];
-    req.on("data", (c: Buffer) => chunks.push(c));
-    req.on("end", () => {
-      const raw = Buffer.concat(chunks).toString("utf8");
-      if (!raw) {
-        resolve({});
-        return;
-      }
-      try {
-        resolve(JSON.parse(raw) as Record<string, unknown>);
-      } catch {
-        resolve({});
-      }
-    });
-    req.on("error", () => resolve({}));
-  });
+/** 본문(JSON)을 상한까지만 읽는다. JSON 이 아니면 빈 객체로 본다. */
+async function readBody(req: IncomingMessage): Promise<Record<string, unknown>> {
+  const raw = await readBodyText(req);
+  if (!raw) return {};
+  try {
+    const parsed: unknown = JSON.parse(raw);
+    return typeof parsed === "object" && parsed !== null ? (parsed as Record<string, unknown>) : {};
+  } catch {
+    return {};
+  }
 }
 
 // ───── 요청 핸들러 ─────
@@ -99,6 +97,13 @@ async function handle(
   const url = new URL(req.url ?? "/", `http://${host}`);
   const pathname = url.pathname.replace(/\/+$/, "") || "/";
   const method = (req.method ?? "GET").toUpperCase();
+
+  // 이 컴퓨터의 주소로 온 같은 출처 요청만 받는다 — 다른 웹 페이지가 저장·조회를 시키지 못하게
+  const rejection = requestRejection(req.headers, req.socket.localPort ?? 0);
+  if (rejection) {
+    sendJson(res, 403, { error: rejection });
+    return;
+  }
 
   try {
     if (pathname === "/" && method === "GET") {
@@ -155,6 +160,10 @@ async function handle(
 
     sendJson(res, 404, { error: `not found: ${method} ${pathname}` });
   } catch (err: unknown) {
+    if (err instanceof BodyTooLargeError) {
+      sendJson(res, 413, { error: err.message });
+      return;
+    }
     const msg = err instanceof Error ? err.message : String(err);
     sendJson(res, 500, { error: msg });
   }
@@ -179,7 +188,8 @@ export async function startViewer(opts: { port?: number } = {}): Promise<void> {
   const server = createServer((req, res) => {
     void handle(req, res, graph);
   });
-  server.listen(port, () => {
+  // 실행한 컴퓨터에서만 열린다 — 같은 네트워크의 다른 기기에서는 접속할 수 없다
+  server.listen(port, LOOPBACK_ADDRESS, () => {
     const targetUrl = `http://localhost:${port}`;
     process.stdout.write(
       `[${SERVER_NAME} v${VERSION}] 입력 폼 ${targetUrl}\n` +

@@ -2,7 +2,7 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // index.ts — 라이브러리 진입점 + 직접 실행 시 stdio MCP 또는 HTTP 기동.
 //
-//   node build/index.js          → HTTP 서버 (PORT env, 기본 8080)
+//   node build/index.js          → HTTP 서버 (PORT env, 기본 8080 — 기본은 이 컴퓨터에서만 접속)
 //   node build/index.js --stdio  → stdio MCP 서버 (Claude Desktop 호환)
 //
 // 별도 명령줄 인터페이스는 build/cli.js (commander 기반)을 사용.
@@ -13,7 +13,7 @@ import { createServer } from "node:http";
 import { loadOntologySync } from "./ontology/loader.js";
 import { OntologyGraph } from "./ontology/graph.js";
 import { validateOntology } from "./ontology/validator.js";
-import { createHttpHandler } from "./server/http.js";
+import { createHttpHandler, describeHttpAccess, resolveHttpAccess } from "./server/http.js";
 import { SERVER_NAME, VERSION } from "./version.js";
 
 const ontologyData = loadOntologySync();
@@ -31,8 +31,11 @@ if (!report.ok) {
   process.exit(1);
 }
 
+/** 접근 경계 — 기본은 이 컴퓨터 전용. 밖에서 받으려면 HOST 등 환경 변수로 명시한다(server/http.ts) */
+const httpAccess = resolveHttpAccess();
+
 /** HTTP handler — Cloud Run/custom server에서 재사용 가능 */
-export const app = createHttpHandler(graph);
+export const app = createHttpHandler(graph, httpAccess);
 
 // 라이브러리 사용자에게 graph·tool registry도 노출
 export { graph };
@@ -48,9 +51,9 @@ if (isDirect) {
     startStdioServer(graph);
   } else {
     const port = Number(process.env["PORT"] ?? 8080);
-    createServer(app).listen(port, () => {
+    createServer(app).listen(port, httpAccess.host, () => {
       process.stdout.write(
-        `[${SERVER_NAME} v${VERSION}] HTTP 서버 기동 http://localhost:${port} ` +
+        `[${SERVER_NAME} v${VERSION}] HTTP 서버 기동 http://localhost:${port} — ${describeHttpAccess(httpAccess)} ` +
           `(ontology v${graph.version}, ${graph.entities.size} entities)\n`,
       );
     });
