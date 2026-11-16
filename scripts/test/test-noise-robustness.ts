@@ -105,11 +105,13 @@ async function main(): Promise<void> {
       }
       const got = await judge(graph, item, sentence);
       variants += 1;
-      // 틀린 판정 = 정답이 아닌 합격·불합격. 원래 되묻던 문장이 정답으로 바뀌는 것은 틀린 것이 아니다
-      if (got === original) same += 1;
+      // 틀린 판정 = 정답이 아닌 합격·불합격 — 원래 결과와 같아도(원문부터 틀렸어도) 틀린 판정이다.
+      // 원래 되묻던 문장이 정답으로 바뀌는 것은 틀린 것이 아니다
+      if (got !== "ASK" && got !== item.expected) {
+        flipped.push(`${item.id} [${item.test}] ${original} → ${got} · 끼워 넣은 것: ${used.join(" + ")}\n      ${JSON.stringify(sentence).slice(0, 260)}`);
+      } else if (got === original) same += 1;
       else if (got === "ASK") asked += 1;
-      else if (got === item.expected) corrected += 1;
-      else flipped.push(`${item.id} [${item.test}] ${original} → ${got} · 끼워 넣은 것: ${used.join(" + ")}\n      ${JSON.stringify(sentence).slice(0, 260)}`);
+      else corrected += 1;
     }
   }
   console.log(
