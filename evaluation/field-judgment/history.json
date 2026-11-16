@@ -444,5 +444,53 @@
         "wrongFail": 13
       }
     }
+  },
+  {
+    "set": "P (id p001~p120)",
+    "sentences": 120,
+    "date": "2026-11-17",
+    "note": "O 에서 드러난 앞으로 나올 값을 고친 뒤 처음 돌림. P·Q 는 같은 빌드",
+    "direct": {
+      "correct": 112,
+      "wrongPass": 0,
+      "wrongFail": 3,
+      "askedThoughDecidable": 5
+    },
+    "published": {
+      "npm-0.4.0": {
+        "correct": 58,
+        "wrongPass": 19,
+        "wrongFail": 19
+      },
+      "main-5c5e467": {
+        "correct": 88,
+        "wrongPass": 8,
+        "wrongFail": 17
+      }
+    }
+  },
+  {
+    "set": "Q (id r001~r120)",
+    "sentences": 120,
+    "date": "2026-11-17",
+    "note": "O 에서 드러난 앞으로 나올 값을 고친 뒤 처음 돌림. P·Q 는 같은 빌드",
+    "direct": {
+      "correct": 111,
+      "wrongPass": 0,
+      "wrongFail": 1,
+      "askedThoughDecidable": 8
+    },
+    "published": {
+      "npm-0.4.0": {
+        "correct": 57,
+        "wrongPass": 22,
+        "wrongFail": 14
+      },
+      "main-5c5e467": {
+        "correct": 86,
+        "wrongPass": 12,
+        "wrongFail": 15
+      }
+    }
   }
 ]

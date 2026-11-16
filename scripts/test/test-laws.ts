@@ -216,8 +216,30 @@ async function testPracticeAnswers(): Promise<void> {
   const body = table.slice(0, Math.max(0, table.search(/\n\s*라\.\s*측정기관/u)));
   const pointCells = body.split("\n").filter((l) => { const c = l.split("│"); return c.length >= 4 && /^\s*\d+(?:\.\d+)?\s*$/u.test(c[3] ?? ""); }).length;
   const items = loadPenaltyItems();
+  const at0 = (path: string): string => items.find((i) => i.path === path)?.text ?? "";
   check("벌점 항목: 표의 점수 칸 수만큼 읽음", items.length > 100 && items.length === pointCells, `${items.length} / ${pointCells}`);
   check("벌점 항목: 가목·나목·다목 모두", ["가목", "나목", "다목"].every((p) => items.some((i) => i.path.includes(` ${p} `))));
+  // 글이 빠지지 않았는가 — 표의 내용 칸 글을 모두 이은 것과, 읽어 낸 항목(큰 항목 이름 + 작은 항목 글)을 차례로 이은 것이 같아야 한다.
+  // 항목 수만 세면 줄바꿈 자리를 새 항목으로 잘못 읽어 글이 잘려도 모른다("…라 한 / 다)을 설계도서…")
+  const squash = (t: string): string => t.replace(/\s+/gu, "");
+  const stream = body
+    .split("\n")
+    .map((l) => l.split("│"))
+    .filter((c) => c.length >= 4 && !/번호/u.test(c[1] ?? ""))
+    .map((c) => (c[2] ?? "").replace(/^\s+[가-하]\)\s+/u, ""))
+    .join("")
+    // 삭제된 항목("삭제 <2024.3.5.>")은 점수가 없어 항목이 아니다
+    .replace(/삭제\s*<[\d.\s]+>/gu, "");
+  let rebuilt = "";
+  let group = "";
+  for (const i of items) {
+    const head = i.path.match(/^(제5호 [가-하]목 \d+\))(.*)$/u);
+    if (!head) continue;
+    if (head[1] !== group) { group = head[1] as string; rebuilt += i.itemTitle; }
+    if (head[2]) rebuilt += i.text;
+  }
+  check("벌점 항목: 표의 글이 항목에 빠짐없이 들어감", squash(stream) === squash(rebuilt), `표 ${squash(stream).length}자 / 항목 ${squash(rebuilt).length}자`);
+  check("벌점 항목: 가목 1)가) 토사붕괴 조건까지", normalizeLawText(at0("제5호 가목 1)가)")).endsWith("토사붕괴가발생한경우"));
   const at = (path: string) => items.find((i) => i.path === path);
   check("벌점 항목: 가목 2)가) 균열관리 3점", at("제5호 가목 2)가)")?.points === 3 && normalizeLawText(at("제5호 가목 2)가)")?.text ?? "").includes("균열관리를하지"));
   check("벌점 항목: 가목 7)가) 주요 구조부 검토·확인 없이 시공 3점", at("제5호 가목 7)가)")?.points === 3 && normalizeLawText(at("제5호 가목 7)가)")?.text ?? "").includes("주요구조부"));

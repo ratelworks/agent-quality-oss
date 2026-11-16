@@ -143,6 +143,8 @@ const REFERENCE_RE =
 const IDENTIFIER_RE = new RegExp(
   [
     '(?<![\\d.])0\\d{1,2}[-.\\s]?(?:\\d{3,4}|[*xX○●]{3,4})[-.\\s]\\d{4}',
+    // 층 표기 — "7F" · "B2F" · "B1" (위치이지 값이 아니다)
+    '(?<![\\d.A-Za-z])B?\\d{1,3}F(?![A-Za-z\\d])|(?<![\\d.A-Za-z])B\\d{1,2}(?![A-Za-z\\d.])',
     // 파일 이름 — "노상_다짐도_95.pdf"
     '[^\\s,，、()（）]*\\.(?:pdf|hwpx?|xlsx?|xls|docx?|jpe?g|png|zip|csv)(?![A-Za-z])',
     '#\\s?\\d+',
@@ -496,7 +498,8 @@ const CRITERION_STATEMENT_RES: readonly RegExp[] = [
   new RegExp(`-?\\d+(?:\\.\\d+)?\\s*(?:${UNIT_INLINE})?\\s*(?:으로|로)\\s*(?:볼|보면|봐도|보아도|쳐도|치면|칠|인정|간주|처리)`, 'giu'),
   // 무엇과 견준 차이 — "기준보다 0.02 높다" · "전 차보다 10mm 낮게"
   new RegExp(
-    `(?:보다|대비|비해|비하여|비교해|비교하여)\\s*(?:약\\s*)?-?\\d+(?:\\.\\d+)?\\s*(?:${UNIT_INLINE})?\\s*(?:정도|가량|쯤)?\\s*(?:더\\s*)?(?:높|낮|많|적|크|작|올라|내려|떨어|초과|미달|모자|부족|빠|못\\s*미)`,
+    // 견준 말과 수 사이에 낱말이 끼어도("호칭 180 대비 슬럼프가 30mm 높게") 그 수는 차이다
+    `(?:보다|대비|비해|비하여|비교해|비교하여)\\s*(?:[^\\d\\n.,]{1,10}?\\s*)?(?:약\\s*)?-?\\d+(?:\\.\\d+)?\\s*(?:${UNIT_INLINE})?\\s*(?:정도|가량|쯤)?\\s*(?:더\\s*)?(?:높|낮|많|적|크|작|올라|내려|떨어|초과|미달|모자|부족|빠|못\\s*미)`,
     'giu',
   ),
   // 가정한 차이 — "10mm만 낮았어도" · "0.3만 낮았어도" · "2만 더 높았으면" · "0.5 더 나왔으면"
@@ -608,7 +611,29 @@ export interface MeasuredCandidates {
   unsupported: boolean;
   /** 바로 앞에 다른 양의 이름이 붙은 후보가 있다("오차 0.1%") — 판정하지 않는다 */
   otherMeasureLabelled: boolean;
+  /** 이 항목의 값일 수 있는 수 목록이 다른 단위로 끝나 후보에서 빠졌다("0.26, 0.33, 7F") — 판정하지 않는다 */
+  foreignUnitList: boolean;
 }
+
+/**
+ * 다른 단위가 마지막 값에만 붙은 목록이 있는가 — "0.26, 0.33, 7F".
+ * 이어 적은 값은 마지막 값의 단위를 함께 쓰는 것으로 읽는데, 그 단위가 이 항목의 단위가 아니면 목록 전체가 후보에서 빠진다.
+ * 앞의 값들이 이 항목의 측정값이었다면 남은 값 하나로 판정하게 되므로, 다른 항목의 이름이 붙지 않은 그런 목록이 있으면 판정하지 않는다.
+ */
+export function hasForeignUnitList(runs: readonly ValueRun[], wantedUnit: string | null, ownQuantities: readonly string[]): boolean {
+  return runs.some(
+    (run) =>
+      run.values.length >= 2 &&
+      run.unit !== null &&
+      wantedUnit !== null &&
+      run.unit !== wantedUnit &&
+      // 이 항목의 이름이 붙었거나 재서 나온 값이라는 말 바로 뒤의 목록만 — "염화물 3회 측정 0.26, 0.33, 7F".
+      // 이름 없는 다른 양의 목록("펌프카 2대(52m, 43m)" · "타설량 18/45㎥")은 이 항목의 값이 아니다
+      ((run.label !== null && ownQuantities.includes(run.label)) || MEASURED_CUE_WORD_RE.test(run.nearWord ?? '')),
+  );
+}
+/** 재서 나온 값이라는 말 — 이 말 바로 뒤의 수는 측정값이다 */
+const MEASURED_CUE_WORD_RE = /측정|결과|시험|실측|나온/u;
 
 /** 이 묶음이 측정값이라는 근거가 있는가 — 단위, 이 항목의 이름, 재서 나온 값이라는 말 */
 export function isSupported(run: ValueRun, ownQuantities: readonly string[]): boolean {
@@ -637,7 +662,8 @@ export function readMeasuredCandidates(
 ): MeasuredCandidates {
   const wanted = normalizeUnit(unit ?? undefined);
   const clean = stripNonMeasurements(stripContextStatements(text));
-  const runs = readValueRuns(clean).filter((run) => isCandidateRun(run, wanted, ownQuantities, unitless));
+  const allRuns = readValueRuns(clean);
+  const runs = allRuns.filter((run) => isCandidateRun(run, wanted, ownQuantities, unitless));
   const values = [...new Set(runs.flatMap((run) => run.values))];
   return {
     values,
@@ -645,6 +671,7 @@ export function readMeasuredCandidates(
     unitless: runs.length > 0 && runs.every((run) => run.unit === null),
     unsupported: runs.length > 0 && !runs.some((run) => isSupported(run, ownQuantities)),
     otherMeasureLabelled: runs.some((run) => labelledByOtherMeasure(run.nearWord ?? null)),
+    foreignUnitList: hasForeignUnitList(allRuns, wanted, ownQuantities),
   };
 }
 

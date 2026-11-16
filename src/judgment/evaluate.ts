@@ -198,6 +198,12 @@ export function evaluate(
     base.observedValue = null;
     return base;
   }
+  if (candidates.foreignUnitList) {
+    base.reasoning = `이어 적은 값의 끝에 이 시험의 단위(${meta.unit ?? ''})가 아닌 표기가 붙어 있어 판정하지 않습니다 — 앞의 값들이 이 시험의 측정값인지 정할 수 없습니다. 측정값마다 단위를 붙이거나 값 하나에 문장 하나로 나눠 주세요.`;
+    base.neededInputs = ['단위를 붙인 측정값 하나'];
+    base.observedValue = null;
+    return base;
+  }
   if (candidates.values.length > 1) {
     base.reasoning = `값이 여러 개로 읽힙니다(${candidates.values.join(', ')}${candidates.unit ? ` ${candidates.unit}` : ''}) — 어느 값을 판정할지 정할 수 없어 판정하지 않습니다. 값 하나에 문장 하나로 나눠 주세요.`;
     base.neededInputs = ['값 하나씩 나눈 관측값 (문장 하나에 값 하나)'];
@@ -382,6 +388,11 @@ function evalByTarget(
   if (reading.otherMeasureLabelled) {
     base.reasoning = `문장의 수 가운데 바로 앞에 다른 양의 이름(골재 치수·두께·오차 등)이 붙은 것이 있어 판정하지 않습니다 — 그 수는 그 양의 값일 수 있습니다. 측정값을 항목 이름과 함께 적어 주세요(예: "${quantity} 165${unit}, ${label} 150${unit}").`;
     base.neededInputs = ['항목 이름을 붙인 측정값 하나'];
+    return base;
+  }
+  if (reading.foreignUnitList) {
+    base.reasoning = `이어 적은 값의 끝에 ${unit} 이 아닌 표기가 붙어 있어 판정하지 않습니다 — 앞의 값들이 ${quantity} 측정값인지 정할 수 없습니다. 측정값마다 ${unit} 를 붙이거나 값 하나에 문장 하나로 나눠 주세요.`;
+    base.neededInputs = [`${unit} 를 붙인 ${quantity} 측정값 하나`];
     return base;
   }
   if (reading.measured.length > 1) {

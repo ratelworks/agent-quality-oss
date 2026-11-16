@@ -13648,5 +13648,1685 @@
   "sentence": "호칭강도 24MPa, 1회 공시체 26.1·25.4·25.9, 2회 19.8·20.6·20.2, 3회 27.3·26.8·27.5MPa.",
   "expected": "FAIL",
   "why": "회별 평균 25.8·20.2·27.2, 3회 평균 24.4 ≥ 24이나 2회 20.2 < 20.5 → FAIL"
+ },
+ {
+  "id": "p001",
+  "test": "chloride",
+  "sentence": "염화물 함유량 측정 결과 0.08kg/㎥입니다.",
+  "expected": "PASS",
+  "why": "0.08 ≤ 0.30 → PASS"
+ },
+ {
+  "id": "p002",
+  "test": "slump",
+  "sentence": "지하1층 벽체 지정 슬럼프 180, 측정 240 나와서 반송했습니다.",
+  "expected": "FAIL",
+  "why": "지정 180 → ±25 → 155~205, 측정 240 → FAIL"
+ },
+ {
+  "id": "p003",
+  "test": "compaction",
+  "sentence": "노상 STA. 2+340 지점 다짐도 98.1%, 시험일 11/12.",
+  "expected": "PASS",
+  "why": "98.1 ≥ 95 → PASS (측점·날짜는 측정값 아님)"
+ },
+ {
+  "id": "p004",
+  "test": "slump",
+  "sentence": "지하 2층 벽체 슬럼프 시험 결과 120mm입니다. 지정 슬럼프는 180mm로 주문했었어요.",
+  "expected": "FAIL",
+  "why": "지정 180 → ±25 → 155~205, 측정 120 → FAIL"
+ },
+ {
+  "id": "p005",
+  "test": "strength",
+  "sentence": "호칭강도 24MPa, 지금까지 1회 25.3MPa, 2회 23.8MPa 나왔고 3회는 다음 주입니다.",
+  "expected": "ASK",
+  "why": "시험값 2회분뿐(둘 다 20.5 이상), 연속 3회 미충족 → ASK"
+ },
+ {
+  "id": "p006",
+  "test": "compaction",
+  "sentence": "노상 평판재하시험 K30=196MN/㎥ 나왔고 들밀도 다짐도는 93.9%입니다.",
+  "expected": "FAIL",
+  "why": "다짐도 93.9 < 95 → FAIL (K30 196은 다른 시험 값)"
+ },
+ {
+  "id": "p007",
+  "test": "air",
+  "sentence": "처음엔 공기량 2.6%라 AE제 보정 후 재시험, 4.4% 나왔습니다.",
+  "expected": "ASK",
+  "why": "보정 전후 측정값 2개(2.6·4.4) → ASK"
+ },
+ {
+  "id": "p008",
+  "test": "compaction",
+  "sentence": "노상 3구간 들밀도 시험 다짐도 92.8%, 재다짐 필요할 것 같습니다.",
+  "expected": "FAIL",
+  "why": "92.8 < 95 → FAIL (3구간은 구간 번호)"
+ },
+ {
+  "id": "p009",
+  "test": "chloride",
+  "sentence": "타설 전 염분측정기로 재보니 0.19kg/㎥ 나왔어요.",
+  "expected": "PASS",
+  "why": "0.19 ≤ 0.30 → PASS"
+ },
+ {
+  "id": "p010",
+  "test": "compaction",
+  "sentence": "노상 다짐도는 95 넘으면 되죠? 내일 들밀도 시험 잡혀 있습니다.",
+  "expected": "ASK",
+  "why": "95는 기준, 시험은 내일 → 측정값 없음 → ASK"
+ },
+ {
+  "id": "p011",
+  "test": "chloride",
+  "sentence": "염화물이온량 0.02%(시멘트 질량 대비)로 시험성적서에 적혀 있습니다.",
+  "expected": "ASK",
+  "why": "단위가 %(시멘트 질량 대비) → kg/㎥와 다름 → ASK"
+ },
+ {
+  "id": "p012",
+  "test": "chloride",
+  "sentence": "염화물 3회 측정 0.26, 0.33, 0.29kg/㎥, 평균 0.29kg/㎥.",
+  "expected": "ASK",
+  "why": "같은 시험 측정값 여러 개(0.26·0.33·0.29·평균 0.29) → ASK"
+ },
+ {
+  "id": "p013",
+  "test": "strength",
+  "sentence": "1회~3회 시험값이 26.1 / 27.4 / 26.5MPa로 나왔습니다. 호칭강도는 27MPa입니다.",
+  "expected": "FAIL",
+  "why": "평균 26.67 < 27 → ①불만족 → FAIL"
+ },
+ {
+  "id": "p014",
+  "test": "chloride",
+  "sentence": "염화물 시험은 출하 공장에서 1일 2회, 현장에서는 기준 0.3kg/㎥ 이하 확인만 하기로 했습니다.",
+  "expected": "ASK",
+  "why": "시험 계획·기준만 있음, 측정값 없음 → ASK"
+ },
+ {
+  "id": "p015",
+  "test": "slump",
+  "sentence": "슬럼프 쟀더니 175 나왔는데 송장이 안 보여서 호칭을 모르겠네요.",
+  "expected": "ASK",
+  "why": "측정 175는 있으나 호칭 슬럼프를 알 수 없음 → ASK"
+ },
+ {
+  "id": "p016",
+  "test": "chloride",
+  "sentence": "공문 제2026-331호 관련, 금일 B블록 타설분 염화물 0.12kg/㎥ 측정 결과 송부합니다.",
+  "expected": "PASS",
+  "why": "0.12 ≤ 0.30 → PASS (공문 번호는 측정값 아님)"
+ },
+ {
+  "id": "p017",
+  "test": "slump",
+  "sentence": "교량 하부 기초 배합 호칭 슬럼프 65mm, 시험 결과 50mm로 기록했습니다.",
+  "expected": "PASS",
+  "why": "호칭 65 → ±15 → 50~80, 측정 50(하한 포함, 경계) → PASS"
+ },
+ {
+  "id": "p018",
+  "test": "air",
+  "sentence": "공기량 측정기 압력계가 고장 나서 오늘은 공기량을 못 쟀습니다. 슬럼프는 170mm였습니다.",
+  "expected": "ASK",
+  "why": "공기량 미측정, 170은 슬럼프 값 → 공기량 측정값 없음 → ASK"
+ },
+ {
+  "id": "p019",
+  "test": "slump",
+  "sentence": "2호차 슬럼프 175mm, 4호차 슬럼프 210mm 나왔습니다. 배합은 25-24-180입니다.",
+  "expected": "ASK",
+  "why": "같은 시험 측정값 2개(175·210) → ASK (호칭 180 기준이면 175 PASS·210 FAIL로 갈림)"
+ },
+ {
+  "id": "p020",
+  "test": "strength",
+  "sentence": "구조물 품질 회의 메모: 호칭강도 21MPa 배합, 금번 1회 시험값 16.9MPa.",
+  "expected": "FAIL",
+  "why": "1회 시험값 16.9 < 21−3.5=17.5 → FAIL"
+ },
+ {
+  "id": "p021",
+  "test": "air",
+  "sentence": "레미콘사 박과장님(010-4821-3307)께 전달 부탁드립니다. 금일 3호차 공기량 2.7%였습니다.",
+  "expected": "FAIL",
+  "why": "2.7 < 3.0 → FAIL (전화번호·3호차는 측정값 아님)"
+ },
+ {
+  "id": "p022",
+  "test": "air",
+  "sentence": "통화 메모) 시험실 김주임: 오전 타설분 공기량 6.9%로 측정됨, 오후 출하 전 배합 조정 요청.",
+  "expected": "FAIL",
+  "why": "기준 3.0~6.0, 6.9 → FAIL"
+ },
+ {
+  "id": "p023",
+  "test": "air",
+  "sentence": "오후 두 번째 차 공기량 7.2% 나와서 반송 처리 예정입니다.",
+  "expected": "FAIL",
+  "why": "기준 3.0~6.0, 7.2 → FAIL"
+ },
+ {
+  "id": "p024",
+  "test": "strength",
+  "sentence": "25-24-150 레미콘 연속 3회 시험값 26.2, 25.5, 27.0MPa 정리했습니다.",
+  "expected": "ASK",
+  "why": "레미콘 규격만 있고 \"호칭강도\"라는 말 없음 → ASK"
+ },
+ {
+  "id": "p025",
+  "test": "strength",
+  "sentence": "연속 3회 시험값이 각각 33.2, 32.8, 25.9MPa이고 호칭강도는 30MPa예요.",
+  "expected": "FAIL",
+  "why": "평균 30.63 ≥ 30이나 25.9 < 26.5 → ②불만족 → FAIL"
+ },
+ {
+  "id": "p026",
+  "test": "strength",
+  "sentence": "호칭강도 18MPa, 연속 3회 시험값 19.2 / 16.9 / 21.0MPa (시험 시각 10:30).",
+  "expected": "PASS",
+  "why": "평균 19.03 ≥ 18, 최소 16.9 ≥ 14.5 → PASS"
+ },
+ {
+  "id": "p027",
+  "test": "air",
+  "sentence": "공기량이 2.4%로 낮게 나왔어요. 기온은 영하 2도입니다.",
+  "expected": "FAIL",
+  "why": "2.4 < 3.0 → FAIL (영하 2도는 기온)"
+ },
+ {
+  "id": "p028",
+  "test": "slump",
+  "sentence": "호칭 슬럼프 150mm 배합, 세 번째 차량 측정 슬럼프 110mm.",
+  "expected": "FAIL",
+  "why": "호칭 150 → ±25 → 125~175, 측정 110 → FAIL"
+ },
+ {
+  "id": "p029",
+  "test": "air",
+  "sentence": "펌프 압송 전 공기량 6.2%, 압송 후 배관 끝에서 4.8% 측정.",
+  "expected": "ASK",
+  "why": "압송 전후 측정값 2개(6.2·4.8) → ASK"
+ },
+ {
+  "id": "p030",
+  "test": "chloride",
+  "sentence": "염화물이 기준보다 0.02 높게 나왔다고 하는데 재측정해야 하나요?",
+  "expected": "ASK",
+  "why": "0.02는 기준 대비 차이, 측정값 미기재 → ASK"
+ },
+ {
+  "id": "p031",
+  "test": "slump",
+  "sentence": "레미콘 차량 번호 서울 82바 1093, 도착 09:12, 슬럼프 155mm, 공기량 4.7%.",
+  "expected": "ASK",
+  "why": "슬럼프 155는 있으나 호칭 슬럼프 없음(차량번호·시각은 무관) → ASK"
+ },
+ {
+  "id": "p032",
+  "test": "air",
+  "sentence": "지난번엔 공기량 6.4%였는데 이번 차는 5.1%네요.",
+  "expected": "ASK",
+  "why": "지난번·이번 측정값 2개(6.4·5.1) → ASK"
+ },
+ {
+  "id": "p033",
+  "test": "slump",
+  "sentence": "방금 들어온 차, 지정 슬럼프 120mm에 측정 슬럼프 135mm입니다.",
+  "expected": "PASS",
+  "why": "지정 120 → ±25 → 95~145, 측정 135 → PASS"
+ },
+ {
+  "id": "p034",
+  "test": "slump",
+  "sentence": "지금 막 쟀는데 슬럼프 백육십 미리 나왔어요, 배합은 호칭 백팔십이고요.",
+  "expected": "PASS",
+  "why": "한글 수사: 호칭 180 → ±25 → 155~205, 측정 160mm → PASS"
+ },
+ {
+  "id": "p035",
+  "test": "chloride",
+  "sentence": "염화물 측정기 표시값 450ppm 나왔어요.",
+  "expected": "ASK",
+  "why": "단위가 ppm → 기준 단위 kg/㎥와 다름, 환산 안 함 → ASK"
+ },
+ {
+  "id": "p036",
+  "test": "strength",
+  "sentence": "시험소 회신 — 압축강도 평균 31.5MPa, 호칭강도 30MPa.",
+  "expected": "ASK",
+  "why": "\"평균 31.5\"가 공시체 평균인지 연속 3회 평균인지 불명 → ASK"
+ },
+ {
+  "id": "p037",
+  "test": "compaction",
+  "sentence": "노상 다짐도 측점별: No.5 96.2%, No.6 94.1%, No.7 97.0%",
+  "expected": "ASK",
+  "why": "측정값 3개(96.2·94.1·97.0) → ASK"
+ },
+ {
+  "id": "p038",
+  "test": "slump",
+  "sentence": "오전 타설분은 슬럼프 160mm, 오후분은 210mm로 기록했습니다(배합 슬럼프 180mm).",
+  "expected": "ASK",
+  "why": "오전·오후 측정값 2개(160·210) → ASK"
+ },
+ {
+  "id": "p039",
+  "test": "compaction",
+  "sentence": "노상 다짐도 시험 결과 97.4%로 나왔습니다.",
+  "expected": "PASS",
+  "why": "97.4 ≥ 95 → PASS"
+ },
+ {
+  "id": "p040",
+  "test": "air",
+  "sentence": "공기량 4.8% 나왔다고 무전 왔습니다.",
+  "expected": "PASS",
+  "why": "기준 3.0~6.0, 4.8 → PASS"
+ },
+ {
+  "id": "p041",
+  "test": "strength",
+  "sentence": "호칭강도 24MPa 레미콘, 연속 3회 압축강도 시험값 25.8, 26.4, 24.9MPa입니다.",
+  "expected": "PASS",
+  "why": "평균 25.70 ≥ 24, 최소 24.9 ≥ 20.5 → PASS"
+ },
+ {
+  "id": "p042",
+  "test": "air",
+  "sentence": "09:30 기온 4℃, 공기량 5.9%, 타설 개시 09:45.",
+  "expected": "PASS",
+  "why": "공기량 5.9 → 3.0~6.0 → PASS (시각·기온은 측정값 아님)"
+ },
+ {
+  "id": "p043",
+  "test": "slump",
+  "sentence": "레미콘 회사 품질과와 통화했습니다. 금일 출하분 지정 슬럼프 210mm, 현장 측정 220mm로 기록 요청함.",
+  "expected": "PASS",
+  "why": "지정 210 → ±25 → 185~235, 측정 220 → PASS"
+ },
+ {
+  "id": "p044",
+  "test": "air",
+  "sentence": "공기량 시험 결과 6.0%로 기록, 타설 진행 여부 확인 바랍니다.",
+  "expected": "PASS",
+  "why": "기준 3.0~6.0, 6.0(상한 포함, 경계) → PASS"
+ },
+ {
+  "id": "p045",
+  "test": "strength",
+  "sentence": "성적서 No.QT-26-0981 (시험일 2026.11.10, 재령 28일) — 호칭강도 30MPa, 1회 31.2, 2회 30.8, 3회 32.5MPa.",
+  "expected": "PASS",
+  "why": "평균 31.5 ≥ 30, 최소 30.8 ≥ 26.5 → PASS (성적서 번호·날짜·재령은 측정값 아님)"
+ },
+ {
+  "id": "p046",
+  "test": "chloride",
+  "sentence": "염화물 0.31kg/㎥, 기준 0.30 이하인데 조금 넘었네요.",
+  "expected": "FAIL",
+  "why": "측정 0.31 > 0.30 → FAIL (0.30은 기준)"
+ },
+ {
+  "id": "p047",
+  "test": "compaction",
+  "sentence": "노체 다짐도는 92.0%로 받았고, 노상은 내일 시험합니다.",
+  "expected": "ASK",
+  "why": "92.0은 노체 값, 노상 측정값 없음 → ASK"
+ },
+ {
+  "id": "p048",
+  "test": "chloride",
+  "sentence": "출하 공장 시험은 염화물 0.22kg/㎥, 현장 도착 후 측정은 0.34kg/㎥였습니다.",
+  "expected": "ASK",
+  "why": "공장·현장 측정값 2개(0.22·0.34) → ASK"
+ },
+ {
+  "id": "p049",
+  "test": "chloride",
+  "sentence": "[통화] 시험실 → 공무: 3블록 염화물 0.38kg/㎥, 오후에 재측정 예정.",
+  "expected": "FAIL",
+  "why": "0.38 > 0.30 → FAIL (재측정은 아직 안 함)"
+ },
+ {
+  "id": "p050",
+  "test": "slump",
+  "sentence": "현장 기사가 괜찮다고 해서 받았는데, 호칭 슬럼프 120mm에 측정값이 155mm였습니다.",
+  "expected": "FAIL",
+  "why": "호칭 120 → ±25 → 95~145, 측정 155 → FAIL (문장 속 \"괜찮다\"는 판정 근거 아님)"
+ },
+ {
+  "id": "p051",
+  "test": "compaction",
+  "sentence": "[들밀도 시험 성적]\n층 구분: 노상\n시험 번호: CP-07\n최대건조밀도(g/㎤): 1.98\n현장건조밀도(g/㎤): 1.92\n다짐도(%): 97.0",
+  "expected": "PASS",
+  "why": "다짐도 칸 값 97.0 하나 ≥ 95 → PASS (밀도·시험 번호는 다짐도 아님)"
+ },
+ {
+  "id": "p052",
+  "test": "slump",
+  "sentence": "슬럼프 기준 120±25mm, 오늘 측정치 70mm로 많이 낮게 나왔습니다.",
+  "expected": "FAIL",
+  "why": "120±25 → 호칭 120 → 95~145, 측정 70 → FAIL"
+ },
+ {
+  "id": "p053",
+  "test": "chloride",
+  "sentence": "레미콘 염화물 함유량 0.33kg/㎥ 측정, 공급원 변경 검토 중.",
+  "expected": "FAIL",
+  "why": "0.33 > 0.30 → FAIL"
+ },
+ {
+  "id": "p054",
+  "test": "slump",
+  "sentence": "고유동 콘크리트라 슬럼프 플로로 관리합니다. 플로 측정값 620mm, 지정 플로 600mm.",
+  "expected": "ASK",
+  "why": "슬럼프 플로는 슬럼프가 아님 → 슬럼프 측정값·호칭 슬럼프 없음 → ASK"
+ },
+ {
+  "id": "p055",
+  "test": "compaction",
+  "sentence": "노상 1차 다짐도 91.5%라 재다짐 후 재시험해서 96.3% 나왔습니다.",
+  "expected": "ASK",
+  "why": "재다짐 전후 측정값 2개(91.5·96.3) → ASK"
+ },
+ {
+  "id": "p056",
+  "test": "compaction",
+  "sentence": "노상 현장 건조밀도 1.84g/㎤, 최대 건조밀도 1.93g/㎤ 측정했습니다.",
+  "expected": "ASK",
+  "why": "다짐도(%) 값이 없고 밀도(g/㎤)만 있음, 도구는 환산하지 않음 → ASK"
+ },
+ {
+  "id": "p057",
+  "test": "compaction",
+  "sentence": "특기시방서 제12조에 따른 노상 다짐도 시험 결과 96.5%, 내일 보조기층 포설 들어갑니다.",
+  "expected": "PASS",
+  "why": "96.5 ≥ 95 → PASS (제12조는 조문 번호)"
+ },
+ {
+  "id": "p058",
+  "test": "chloride",
+  "sentence": "QC LOG (Cl 단위 kg/㎥) | SL 170 | Air 4.9 | Cl 0.36 | Temp 18℃",
+  "expected": "FAIL",
+  "why": "Cl 칸 0.36kg/㎥ > 0.30 → FAIL (SL·Air·Temp는 다른 항목)"
+ },
+ {
+  "id": "p059",
+  "test": "slump",
+  "sentence": "날이 더워서 그런지 호칭 슬럼프 180mm 배합이 145mm로 떨어졌습니다.",
+  "expected": "FAIL",
+  "why": "호칭 180 → ±25 → 155~205, 측정 145 → FAIL"
+ },
+ {
+  "id": "p060",
+  "test": "strength",
+  "sentence": "강도 나왔어요! 22.4, 23.1, 21.8MPa이고 호칭강도는 21MPa입니다.",
+  "expected": "ASK",
+  "why": "세 값이 공시체 값인지 3회 시험값인지 알 수 없음 → ASK"
+ },
+ {
+  "id": "p061",
+  "test": "slump",
+  "sentence": "타설 부위별 슬럼프(mm) — 기둥 165 / 보 180 / 슬래브 215, 규격 25-24-180",
+  "expected": "ASK",
+  "why": "측정값 3개(165·180·215) → ASK"
+ },
+ {
+  "id": "p062",
+  "test": "air",
+  "sentence": "지하주차장 벽체 공기량 3.0% 측정.",
+  "expected": "PASS",
+  "why": "기준 3.0~6.0, 3.0(하한 포함, 경계) → PASS"
+ },
+ {
+  "id": "p063",
+  "test": "strength",
+  "sentence": "호칭강도 24MPa 압축강도 시험 (MPa)\n회차 | 공시체1 | 공시체2 | 공시체3\n1 | 26.0 | 25.4 | 26.3\n2 | 20.1 | 19.8 | 20.4\n3 | 27.5 | 26.9 | 27.8",
+  "expected": "FAIL",
+  "why": "회별 평균 25.9·20.1·27.4, 3회 평균 24.47 ≥ 24이나 2회 20.1 < 20.5 → FAIL"
+ },
+ {
+  "id": "p064",
+  "test": "slump",
+  "sentence": "규격 25-18-80 버림 콘크리트, 슬럼프 95mm.",
+  "expected": "PASS",
+  "why": "규격 셋째 수 80 → 호칭 80 → ±25 → 55~105, 측정 95 → PASS"
+ },
+ {
+  "id": "p065",
+  "test": "air",
+  "sentence": "배합표 물결합재비 45%, 잔골재율 48%인데 오늘 공기량이 6.8%로 나왔습니다.",
+  "expected": "FAIL",
+  "why": "45%·48%는 배합 비율, 공기량 6.8 > 6.0 → FAIL"
+ },
+ {
+  "id": "p066",
+  "test": "slump",
+  "sentence": "호칭 180 대비 슬럼프가 30mm 높게 나왔다고 시험실에서 연락 왔어요.",
+  "expected": "ASK",
+  "why": "30mm는 호칭 대비 차이일 뿐 측정값이 문장에 없음 → ASK"
+ },
+ {
+  "id": "p067",
+  "test": "compaction",
+  "sentence": "노상 최종 다짐도 95.0% 확인했습니다.",
+  "expected": "PASS",
+  "why": "95.0 ≥ 95(경계 포함) → PASS"
+ },
+ {
+  "id": "p068",
+  "test": "slump",
+  "sentence": "옹벽 기초 된비빔 배합(호칭 슬럼프 25mm), 측정 슬럼프 32mm 확인.",
+  "expected": "PASS",
+  "why": "호칭 25 → ±10 → 15~35, 측정 32 → PASS"
+ },
+ {
+  "id": "p069",
+  "test": "slump",
+  "sentence": "1차 측정 230mm로 반려했고 다음 차량 재시험에서 190mm, 호칭 슬럼프 180mm입니다.",
+  "expected": "ASK",
+  "why": "반려 전후 측정값 2개(230·190) → ASK"
+ },
+ {
+  "id": "p070",
+  "test": "strength",
+  "sentence": "호칭강도 27MPa 슬래브, 연속 3회 시험값 26.4·27.9·26.7MPa.",
+  "expected": "PASS",
+  "why": "평균 27.0 ≥ 27(경계 포함), 최소 26.4 ≥ 23.5 → PASS"
+ },
+ {
+  "id": "p071",
+  "test": "air",
+  "sentence": "같은 차에서 두 번 쟀는데 공기량이 5.7%, 6.3%로 다르게 나왔습니다.",
+  "expected": "ASK",
+  "why": "측정값 2개(5.7·6.3) → ASK"
+ },
+ {
+  "id": "p072",
+  "test": "air",
+  "sentence": "공기량이 기준 상한보다 0.4 높게 나왔다고 합니다.",
+  "expected": "ASK",
+  "why": "0.4는 기준 대비 차이, 측정값 미기재 → ASK"
+ },
+ {
+  "id": "p073",
+  "test": "strength",
+  "sentence": "28일 압축강도 결과 공유합니다. 호칭강도 24MPa 배합 공시체 3개가 19.8, 20.3, 19.5MPa입니다.",
+  "expected": "FAIL",
+  "why": "1회 시험값 = 공시체 평균 19.87 < 24−3.5=20.5 → FAIL"
+ },
+ {
+  "id": "p074",
+  "test": "chloride",
+  "sentence": "굳지 않은 콘크리트 염화물량 0.30kg/㎥로 측정되었습니다.",
+  "expected": "PASS",
+  "why": "0.30 ≤ 0.30(경계 포함) → PASS"
+ },
+ {
+  "id": "p075",
+  "test": "compaction",
+  "sentence": "시험실 회신: 노상 B구간 다짐도 89.6%.",
+  "expected": "FAIL",
+  "why": "89.6 < 95 → FAIL"
+ },
+ {
+  "id": "p076",
+  "test": "slump",
+  "sentence": "11시 타설분 슬럼프 140mm입니다(호칭 150mm). 일보에도 슬럼프 140mm로 적어 두었습니다.",
+  "expected": "PASS",
+  "why": "같은 값 140을 반복 기재 → 값 하나, 호칭 150 → ±25 → 125~175, 140 → PASS"
+ },
+ {
+  "id": "p077",
+  "test": "strength",
+  "sentence": "호칭강도 24MPa라고 들었는데 납품서에는 호칭강도 27MPa로 되어 있네요. 연속 3회 시험값 25.4, 26.1, 25.8MPa.",
+  "expected": "ASK",
+  "why": "호칭강도가 24·27로 엇갈림(평균 25.77 → 24면 PASS, 27이면 FAIL) → ASK"
+ },
+ {
+  "id": "p078",
+  "test": "air",
+  "sentence": "1층 기둥 타설분 공기량 3.8%, 슬럼프는 아직 기록 전입니다.",
+  "expected": "PASS",
+  "why": "기준 3.0~6.0, 3.8 → PASS"
+ },
+ {
+  "id": "p079",
+  "test": "slump",
+  "sentence": "규격은 25-27-180으로 들어왔는데 배합표에는 호칭 슬럼프 150으로 적혀 있네요. 측정은 200mm 나왔습니다.",
+  "expected": "ASK",
+  "why": "호칭 슬럼프가 180(규격)과 150(배합표)으로 다르게 두 번 적힘 → ASK (180이면 PASS, 150이면 FAIL로 갈림)"
+ },
+ {
+  "id": "p080",
+  "test": "strength",
+  "sentence": "B동 4층 슬래브(호칭강도 21MPa) 연속 3회 시험값은 22.6MPa, 21.9MPa, 23.4MPa로 집계되었습니다.",
+  "expected": "PASS",
+  "why": "평균 22.63 ≥ 21, 최소 21.9 ≥ 17.5 → PASS"
+ },
+ {
+  "id": "p081",
+  "test": "air",
+  "sentence": "2층 슬래브 공기량 4.6%, 3층은 6.3% 측정했습니다.",
+  "expected": "ASK",
+  "why": "측정값 2개(4.6·6.3) → ASK"
+ },
+ {
+  "id": "p082",
+  "test": "strength",
+  "sentence": "ㅠㅠ 호칭강도 30MPa 배합 공시체 3개가 24.8, 25.6, 25.0MPa 나왔어요",
+  "expected": "FAIL",
+  "why": "1회 시험값 = 공시체 평균 25.13 < 30−3.5=26.5 → FAIL"
+ },
+ {
+  "id": "p083",
+  "test": "strength",
+  "sentence": "[압축강도 대장] 호칭강도 24MPa · 회차별 공시체 3개 · 단위 MPa\n1회: 24.8 / 25.6 / 25.1\n2회: 23.9 / 24.4 / 25.0\n3회: 26.2 / 25.7 / 26.9",
+  "expected": "PASS",
+  "why": "회별 평균 25.17·24.43·26.27, 3회 평균 25.29 ≥ 24, 최소 24.43 ≥ 20.5 → PASS"
+ },
+ {
+  "id": "p084",
+  "test": "compaction",
+  "sentence": "노상 롤러 8회 다짐 완료, 다짐도 시험은 감리 입회하에 오후 실시 예정.",
+  "expected": "ASK",
+  "why": "8회는 다짐 횟수, 다짐도 시험 전 → 측정값 없음 → ASK"
+ },
+ {
+  "id": "p085",
+  "test": "strength",
+  "sentence": "호칭강도 240kgf/㎠ 배합인데 압축강도 255kgf/㎠ 나왔다고 합니다.",
+  "expected": "ASK",
+  "why": "단위가 kgf/㎠ → MPa와 다름, 환산 안 함 → ASK"
+ },
+ {
+  "id": "p086",
+  "test": "strength",
+  "sentence": "이번 1회 시험값(공시체 3개 평균)은 25.2MPa, 호칭강도 27MPa 배합입니다.",
+  "expected": "ASK",
+  "why": "1회 시험값 25.2 ≥ 27−3.5=23.5, 1회만으로는 합격 판정 불가 → ASK"
+ },
+ {
+  "id": "p087",
+  "test": "air",
+  "sentence": "성적서상 공기량은 6.3%입니다. 오늘 타설 물량 전부 같은 배합이에요.",
+  "expected": "FAIL",
+  "why": "기준 3.0~6.0, 6.3 → FAIL"
+ },
+ {
+  "id": "p088",
+  "test": "strength",
+  "sentence": "호칭강도 24MPa인데 강도가 2만 더 높았으면 걱정 안 했을 텐데요. 성적서는 내일 나옵니다.",
+  "expected": "ASK",
+  "why": "2는 가정의 차이, 시험값이 문장에 없음 → ASK"
+ },
+ {
+  "id": "p089",
+  "test": "slump",
+  "sentence": "된반죽 지정 슬럼프 25mm 배합인데 측정해보니 40mm입니다.",
+  "expected": "FAIL",
+  "why": "지정 25 → ±10 → 15~35, 측정 40 → FAIL"
+ },
+ {
+  "id": "p090",
+  "test": "slump",
+  "sentence": "옆 공구는 오늘 슬럼프 200 나와서 반품했다는데, 우리 공구(호칭 180)는 오후 타설이라 아직 측정 전입니다.",
+  "expected": "ASK",
+  "why": "200은 다른 공구 값(그쪽 호칭 불명), 우리 공구는 미측정 → ASK"
+ },
+ {
+  "id": "p091",
+  "test": "strength",
+  "sentence": "호칭강도 35MPa 이하면 각 회 시험값이 호칭강도에서 3.5 뺀 값 이상이어야 하는 거 맞나요? 우리는 호칭 27입니다.",
+  "expected": "ASK",
+  "why": "기준 질문뿐, 시험값 없음 → ASK"
+ },
+ {
+  "id": "p092",
+  "test": "air",
+  "sentence": "오늘 세 대 공기량 4.1, 4.9, 6.2% 순서로 나왔어요.",
+  "expected": "ASK",
+  "why": "측정값 3개(4.1·4.9·6.2) → ASK"
+ },
+ {
+  "id": "p093",
+  "test": "slump",
+  "sentence": "오전 첫 차 슬럼프 170mm 나왔어요. 타설 시작해도 될까요?",
+  "expected": "ASK",
+  "why": "측정 170은 있으나 호칭 슬럼프(호칭·지정·배합, ±표기, 규격 셋째 수)가 없음 → ASK"
+ },
+ {
+  "id": "p094",
+  "test": "compaction",
+  "sentence": "노상 다짐도가 기준에 1.5% 모자라다고 하네요.",
+  "expected": "ASK",
+  "why": "1.5%는 기준 대비 차이, 측정값 미기재 → ASK"
+ },
+ {
+  "id": "p095",
+  "test": "air",
+  "sentence": "슬럼프 165mm, 공기량 4.2%, 염화물 0.05kg/㎥, 콘크리트 온도 22℃ 모두 기록했습니다.",
+  "expected": "PASS",
+  "why": "공기량 값은 4.2 하나(나머지는 다른 시험·온도) → 3.0~6.0 → PASS"
+ },
+ {
+  "id": "p096",
+  "test": "strength",
+  "sentence": "타설량 186㎥ 구간, 호칭강도 24MPa, 이번 회차 공시체 강도 23.1·22.7·23.6MPa.",
+  "expected": "ASK",
+  "why": "1회 시험값 = 공시체 평균 23.13 ≥ 20.5, 1회만으로는 판정 불가 → ASK"
+ },
+ {
+  "id": "p097",
+  "test": "slump",
+  "sentence": "슬럼프 150±25면 몇까지 받아도 되는 거죠? 아직 차는 안 들어왔습니다.",
+  "expected": "ASK",
+  "why": "150±25는 기준 표기, 차량 미도착으로 측정값 없음 → ASK"
+ },
+ {
+  "id": "p098",
+  "test": "strength",
+  "sentence": "설계기준강도 24MPa 구조물, 연속 3회 시험값 25.1, 26.0, 24.6MPa 확보했습니다.",
+  "expected": "ASK",
+  "why": "설계기준강도만 있고 호칭강도 없음 → ASK"
+ },
+ {
+  "id": "p099",
+  "test": "air",
+  "sentence": "시험항목 | 슬럼프 | 공기량 | 염화물\n결과 | 175 | 6.6 | 0.07",
+  "expected": "FAIL",
+  "why": "표의 공기량 칸 값 6.6 > 6.0 → FAIL (175·0.07은 다른 시험)"
+ },
+ {
+  "id": "p100",
+  "test": "chloride",
+  "sentence": "해사 사용분 염화물 0.42kg/㎥ 나왔습니다. 출하 중지 요청할까요?",
+  "expected": "FAIL",
+  "why": "0.42 > 0.30 → FAIL"
+ },
+ {
+  "id": "p101",
+  "test": "strength",
+  "sentence": "KS F 2405로 시험한 옹벽 구간 연속 3회 시험값 20.4, 21.2, 20.6MPa(호칭강도 21MPa)입니다.",
+  "expected": "FAIL",
+  "why": "평균 20.73 < 21 → ①불만족 → FAIL (2405는 규격 번호)"
+ },
+ {
+  "id": "p102",
+  "test": "slump",
+  "sentence": "단가 협의(㎥당 89,000원)는 내일 하기로 하고, 오늘 들어온 25-30-210 물량 슬럼프는 230mm로 확인했습니다.",
+  "expected": "PASS",
+  "why": "규격 셋째 수 210 → ±25 → 185~235, 측정 230 → PASS (89,000원은 단가)"
+ },
+ {
+  "id": "p103",
+  "test": "air",
+  "sentence": "본사에서 다른 현장 공기량 5.2% 사례를 보내줬는데, 우리 현장 오늘 결과는 아직 시험실 입력 전입니다.",
+  "expected": "ASK",
+  "why": "5.2는 다른 현장 값, 우리 현장 측정값 없음 → ASK"
+ },
+ {
+  "id": "p104",
+  "test": "slump",
+  "sentence": "B동 기초 매트 타설, 배합 슬럼프 180mm에 실측 205mm. 타설 계속 진행합니다.",
+  "expected": "PASS",
+  "why": "배합 슬럼프 180 → ±25 → 155~205, 실측 205(상한 포함, 경계) → PASS"
+ },
+ {
+  "id": "p105",
+  "test": "chloride",
+  "sentence": "염화물 측정값 0.031kg/㎥ (기준 0.3kg/㎥ 이하).",
+  "expected": "PASS",
+  "why": "측정 0.031 ≤ 0.30 → PASS (0.3은 기준, 자릿수 주의)"
+ },
+ {
+  "id": "p106",
+  "test": "air",
+  "sentence": "보통 콘크리트 공기량은 4.5±1.5 범위면 합격 맞죠?",
+  "expected": "ASK",
+  "why": "기준 질문뿐, 측정값 없음 → ASK"
+ },
+ {
+  "id": "p107",
+  "test": "slump",
+  "sentence": "배합 슬럼프 50mm 기준 받았는데 실측 70mm라 타설 보류 중입니다.",
+  "expected": "FAIL",
+  "why": "배합 50 → ±15 → 35~65, 실측 70 → FAIL"
+ },
+ {
+  "id": "p108",
+  "test": "slump",
+  "sentence": "호칭 슬럼프 150mm인데 현장 측정은 16cm 나왔습니다.",
+  "expected": "ASK",
+  "why": "측정값이 cm(16cm)로 적힘 → 기준 단위 mm와 다름, 도구는 환산하지 않음 → ASK"
+ },
+ {
+  "id": "p109",
+  "test": "slump",
+  "sentence": "내일 07시 타설 예정, 규격 25-27-180, 슬럼프 시험은 120㎥마다 1회 실시 예정입니다.",
+  "expected": "ASK",
+  "why": "계획·빈도만 있음(07시·120㎥·규격 수치는 측정값 아님) → 측정값 없음 → ASK"
+ },
+ {
+  "id": "p110",
+  "test": "air",
+  "sentence": "공기량 5.3% 나왔습니다, 오늘 마지막 차입니다.",
+  "expected": "PASS",
+  "why": "기준 3.0~6.0, 5.3 → PASS"
+ },
+ {
+  "id": "p111",
+  "test": "compaction",
+  "sentence": "노상 다짐 93프로밖에 안 나왔어요, 롤러 더 돌려야겠어요.",
+  "expected": "FAIL",
+  "why": "93% < 95 → FAIL"
+ },
+ {
+  "id": "p112",
+  "test": "slump",
+  "sentence": "슬럼프 시험 기록\n구분 | 호칭(mm) | 측정(cm)\n3층 기둥 | 150 | 17",
+  "expected": "ASK",
+  "why": "표 머리의 측정 단위가 cm → 측정 17cm, 단위 다름 → ASK"
+ },
+ {
+  "id": "p113",
+  "test": "compaction",
+  "sentence": "감독관님이 육안으로 괜찮다고 하셨는데, 노상 다짐도 시험값은 94.2%였습니다.",
+  "expected": "FAIL",
+  "why": "94.2 < 95 → FAIL (육안 의견은 판정 근거 아님)"
+ },
+ {
+  "id": "p114",
+  "test": "compaction",
+  "sentence": "우측 차로 끝단 노상 다짐도 99.2% 나왔습니다.",
+  "expected": "PASS",
+  "why": "99.2 ≥ 95 → PASS"
+ },
+ {
+  "id": "p115",
+  "test": "slump",
+  "sentence": "[슬럼프 대장]\n타설부위: 5층 슬래브\n규격: 25-24-150\n시험시각: 10:20\n슬럼프(mm): 160\n판정:",
+  "expected": "PASS",
+  "why": "규격 25-24-150 → 호칭 150 → ±25 → 125~175, 슬럼프 160 → PASS (5층·10:20·25·24는 측정값 아님)"
+ },
+ {
+  "id": "p116",
+  "test": "slump",
+  "sentence": "지난주엔 슬럼프 150mm였는데 이번엔 185mm 나왔어요. 둘 다 25-24-150 배합이고요.",
+  "expected": "ASK",
+  "why": "지난주·이번 측정값 2개(150·185) → ASK"
+ },
+ {
+  "id": "p117",
+  "test": "slump",
+  "sentence": "레미콘 25-24-150 도착분 슬럼프 측정 결과 185mm, 반장님께 보고드립니다.",
+  "expected": "FAIL",
+  "why": "규격 셋째 수 150 → 호칭 150 → ±25 → 125~175, 측정 185 → FAIL"
+ },
+ {
+  "id": "p118",
+  "test": "strength",
+  "sentence": "안녕하세요, 품질팀입니다. 101동 지하층 벽체 호칭강도 24MPa 콘크리트의 연속 3회 압축강도 시험값을 공유드립니다: 23.6MPa, 25.9MPa, 24.8MPa.",
+  "expected": "PASS",
+  "why": "평균 24.77 ≥ 24, 최소 23.6 ≥ 20.5 → PASS"
+ },
+ {
+  "id": "p119",
+  "test": "slump",
+  "sentence": "도착 차량 슬럼프 95mm, 배합표상 호칭 슬럼프는 150mm입니다.",
+  "expected": "FAIL",
+  "why": "호칭 150 → ±25 → 125~175, 측정 95 → FAIL"
+ },
+ {
+  "id": "p120",
+  "test": "strength",
+  "sentence": "호칭강도 35MPa / 1회 공시체 34.1, 33.6, 34.5 / 2회 공시체 36.0, 35.2, 35.8 / 3회 공시체 34.9, 33.8, 35.0 (MPa)",
+  "expected": "FAIL",
+  "why": "회별 평균 34.07·35.67·34.57, 3회 평균 34.77 < 35 → ①불만족 → FAIL"
+ },
+ {
+  "id": "r001",
+  "test": "slump",
+  "sentence": "3호차 레미콘 25-24-150, 슬럼프 140mm 확인하고 받았습니다.",
+  "expected": "PASS",
+  "why": "규격 셋째 수 150 → 호칭 150 → ±25 → 125~175, 측정 140 → PASS"
+ },
+ {
+  "id": "r002",
+  "test": "slump",
+  "sentence": "[현장 단톡] 기둥 타설 중입니다. 25-27-180 레미콘 슬럼프 190mm 나와서 계속 칩니다.",
+  "expected": "PASS",
+  "why": "규격 25-27-180 → 호칭 180 → ±25 → 155~205, 측정 190 → PASS"
+ },
+ {
+  "id": "r003",
+  "test": "slump",
+  "sentence": "호칭 슬럼프 65mm 배합인데 측정해 보니 75mm 나왔어요.",
+  "expected": "PASS",
+  "why": "호칭 65 → ±15 → 50~80, 측정 75 → PASS"
+ },
+ {
+  "id": "r004",
+  "test": "slump",
+  "sentence": "배합 슬럼프 150mm 차량, 현장 도착 후 측정 슬럼프 165mm로 이상 없습니다.",
+  "expected": "PASS",
+  "why": "배합 슬럼프 150 → ±25 → 125~175, 측정 165 → PASS"
+ },
+ {
+  "id": "r005",
+  "test": "slump",
+  "sentence": "25-30-210 레미콘 슬럼프 225mm 확인, 타설 진행합니다.",
+  "expected": "PASS",
+  "why": "규격 25-30-210 → 호칭 210 → ±25 → 185~235, 측정 225 → PASS"
+ },
+ {
+  "id": "r006",
+  "test": "slump",
+  "sentence": "오전 10시 40분 시험 결과 – 호칭 슬럼프 120mm, 측정 슬럼프 130mm, 공기량 4.9%, 콘크리트 온도 21℃.",
+  "expected": "PASS",
+  "why": "호칭 120 → ±25 → 95~145, 슬럼프 측정 130 → PASS (시각·공기량·온도는 다른 수)"
+ },
+ {
+  "id": "r007",
+  "test": "slump",
+  "sentence": "지정 슬럼프 180mm 기준인데 측정값이 205mm라 상한에 딱 걸렸네요.",
+  "expected": "PASS",
+  "why": "지정 180 → ±25 → 155~205, 측정 205 = 상한 포함 → PASS (경계값)"
+ },
+ {
+  "id": "r008",
+  "test": "slump",
+  "sentence": "슬럼프 기준 150±25mm, 이번 차 160mm 나왔습니다.",
+  "expected": "PASS",
+  "why": "150±25 표기 → 호칭 150 → 125~175, 측정 160 → PASS"
+ },
+ {
+  "id": "r009",
+  "test": "slump",
+  "sentence": "STA.3+250 옹벽 저판 타설, 25-24-120 레미콘 슬럼프 110mm.",
+  "expected": "PASS",
+  "why": "규격 25-24-120 → 호칭 120 → ±25 → 95~145, 측정 110 → PASS (STA.3+250 은 측점)"
+ },
+ {
+  "id": "r010",
+  "test": "slump",
+  "sentence": "통화 메모: 레미콘 25-24-150, 슬럼프 170mm라고 해서 '170mm 맞죠?' 되물어 확인함.",
+  "expected": "PASS",
+  "why": "같은 값 170 을 되물어 반복한 것 → 값 하나. 호칭 150 → 125~175, 170 → PASS"
+ },
+ {
+  "id": "r011",
+  "test": "slump",
+  "sentence": "25-24-150 레미콘 슬럼프 185mm 나와서 돌려보냈습니다.",
+  "expected": "FAIL",
+  "why": "규격 셋째 수 150 → ±25 → 125~175, 측정 185 → FAIL"
+ },
+ {
+  "id": "r012",
+  "test": "slump",
+  "sentence": "지정 슬럼프 180mm인데 이번 차량은 150mm밖에 안 나옵니다.",
+  "expected": "FAIL",
+  "why": "지정 180 → ±25 → 155~205, 측정 150 → FAIL"
+ },
+ {
+  "id": "r013",
+  "test": "slump",
+  "sentence": "호칭 슬럼프 25mm 된비빔 배합인데 측정 40mm 나왔어요.",
+  "expected": "FAIL",
+  "why": "호칭 25 → ±10 → 15~35, 측정 40 → FAIL"
+ },
+ {
+  "id": "r014",
+  "test": "slump",
+  "sentence": "규격 25-27-180, 슬럼프 215mm라 반려했습니다. 10mm만 낮았어도 받았을 텐데요.",
+  "expected": "FAIL",
+  "why": "규격 25-27-180 → 155~205, 측정 215 → FAIL (10mm 는 가정한 차이)"
+ },
+ {
+  "id": "r015",
+  "test": "slump",
+  "sentence": "시험 기록\nNo. | 규격 | 슬럼프(mm) | 공기량(%)\n7 | 25-24-120 | 150 | 4.8",
+  "expected": "FAIL",
+  "why": "표: 규격 25-24-120 → 95~145, 슬럼프(mm) 칸 150 → FAIL (7 은 번호, 4.8 은 공기량)"
+ },
+ {
+  "id": "r016",
+  "test": "slump",
+  "sentence": "배합 슬럼프 150mm 레미콘이 도착 후 측정 100mm로 너무 되게 왔습니다.",
+  "expected": "FAIL",
+  "why": "배합 150 → ±25 → 125~175, 측정 100 → FAIL"
+ },
+ {
+  "id": "r017",
+  "test": "slump",
+  "sentence": "호칭 슬럼프 50mm, 측정 슬럼프 70mm입니다.",
+  "expected": "FAIL",
+  "why": "호칭 50 → ±15 → 35~65, 측정 70 → FAIL"
+ },
+ {
+  "id": "r018",
+  "test": "slump",
+  "sentence": "벽체용 25-21-120 레미콘, 슬럼프 측정 85mm.",
+  "expected": "FAIL",
+  "why": "규격 25-21-120 → 호칭 120 → 95~145, 측정 85 → FAIL"
+ },
+ {
+  "id": "r019",
+  "test": "slump",
+  "sentence": "레미콘 25-24-80 받았는데 슬럼프 110mm, 공기량 5.0%, 콘크리트 온도 15℃.",
+  "expected": "FAIL",
+  "why": "규격 25-24-80 → 호칭 80 → ±25 → 55~105, 슬럼프 110 → FAIL"
+ },
+ {
+  "id": "r020",
+  "test": "slump",
+  "sentence": "배합 슬럼프 180mm(허용 하한 155mm)인데 측정은 145mm였습니다.",
+  "expected": "FAIL",
+  "why": "배합 180 → ±25 → 155~205, 측정 145 → FAIL (155 는 허용 하한)"
+ },
+ {
+  "id": "r021",
+  "test": "slump",
+  "sentence": "25-24-150 레미콘인데 슬럼프 16cm 나왔어요. 괜찮은 거죠?",
+  "expected": "ASK",
+  "why": "슬럼프를 cm(16cm)로 적음 → 기준 단위 mm 와 다름 → ASK"
+ },
+ {
+  "id": "r022",
+  "test": "slump",
+  "sentence": "슬럼프 170mm 나왔습니다. 받을까요?",
+  "expected": "ASK",
+  "why": "호칭 슬럼프(규격·지정값) 없음 → 허용범위를 정할 수 없음 → ASK"
+ },
+ {
+  "id": "r023",
+  "test": "slump",
+  "sentence": "내일 2층 슬래브 타설 예정, 배합 슬럼프 150mm, 슬럼프 시험은 50㎥마다 실시합니다.",
+  "expected": "ASK",
+  "why": "배합 슬럼프·시험 빈도만 있고 측정값 없음 → ASK"
+ },
+ {
+  "id": "r024",
+  "test": "slump",
+  "sentence": "규격 25-24-150, 1호차 슬럼프 150mm, 2호차 190mm.",
+  "expected": "ASK",
+  "why": "같은 시험 측정값 둘(150, 190) → ASK"
+ },
+ {
+  "id": "r025",
+  "test": "slump",
+  "sentence": "지정 슬럼프 150mm. 처음 쟀을 때 200mm라 10분 뒤 다시 쟀더니 170mm.",
+  "expected": "ASK",
+  "why": "재측정 전후 측정값 둘(200, 170) → ASK"
+ },
+ {
+  "id": "r026",
+  "test": "slump",
+  "sentence": "지난주 같은 배합(25-24-150)은 슬럼프 140mm였는데, 오늘 차량은 아직 안 쟀어요.",
+  "expected": "ASK",
+  "why": "140 은 지난주 값, 오늘 측정값 없음 → ASK"
+ },
+ {
+  "id": "r027",
+  "test": "slump",
+  "sentence": "배합 슬럼프 150mm로 알고 있었는데 송장에는 25-24-180으로 찍혀 있네요. 측정은 200mm.",
+  "expected": "ASK",
+  "why": "호칭 슬럼프가 150 과 180(송장 규격)으로 다르게 두 번 → ASK"
+ },
+ {
+  "id": "r028",
+  "test": "slump",
+  "sentence": "오늘 슬럼프 기록 165, 170, 158mm (25-24-150, 차량 3대).",
+  "expected": "ASK",
+  "why": "측정값 셋(165, 170, 158) → ASK"
+ },
+ {
+  "id": "r029",
+  "test": "slump",
+  "sentence": "호칭 슬럼프 180이면 허용 범위가 155에서 205 맞죠?",
+  "expected": "ASK",
+  "why": "허용범위 질문만, 측정값 없음 → ASK"
+ },
+ {
+  "id": "r030",
+  "test": "slump",
+  "sentence": "납품서 No. 2611-0347 / 25-24-150 / 출하 09:12 / 도착 09:58 / 6㎥",
+  "expected": "ASK",
+  "why": "납품서 번호·시각·수량만 있고 슬럼프 측정값 없음 → ASK"
+ },
+ {
+  "id": "r031",
+  "test": "slump",
+  "sentence": "기초 버림 콘크리트 슬럼프 측정 95mm, 레미콘 규격은 송장 사진으로 따로 보내드릴게요.",
+  "expected": "ASK",
+  "why": "측정 95 는 있으나 호칭 슬럼프(규격) 없음 → ASK"
+ },
+ {
+  "id": "r032",
+  "test": "slump",
+  "sentence": "25-24 레미콘 들어왔고 슬럼프 150mm 나왔습니다.",
+  "expected": "ASK",
+  "why": "규격이 25-24 두 수뿐이라 호칭 슬럼프 없음 → ASK"
+ },
+ {
+  "id": "r033",
+  "test": "slump",
+  "sentence": "슬럼프가 160~170mm 정도 나오는 것 같아요. 규격 25-24-150.",
+  "expected": "ASK",
+  "why": "160~170 범위 추정이라 측정값이 하나로 정해지지 않음 → ASK"
+ },
+ {
+  "id": "r034",
+  "test": "slump",
+  "sentence": "규격 25-24-150\n슬럼프(cm) | 공기량(%)\n17.5 | 4.6",
+  "expected": "ASK",
+  "why": "표 머리 단위가 cm → 슬럼프 17.5cm 는 mm 아님 → ASK"
+ },
+ {
+  "id": "r035",
+  "test": "slump",
+  "sentence": "25-24-150 레미콘, 공기량 4.8%, 온도 17℃ 측정 완료.",
+  "expected": "ASK",
+  "why": "공기량·온도만 있고 슬럼프 측정값 없음 → ASK"
+ },
+ {
+  "id": "r036",
+  "test": "slump",
+  "sentence": "지정 슬럼프 150mm인데 20mm만 더 묽었으면 좋았겠다고 펌프 기사님이 그러네요.",
+  "expected": "ASK",
+  "why": "20mm 는 바라는 차이일 뿐 측정값 없음 → ASK"
+ },
+ {
+  "id": "r037",
+  "test": "air",
+  "sentence": "기온 -2℃ 아침, 2호차 공기량 4.6% 나왔습니다.",
+  "expected": "PASS",
+  "why": "공기량 4.6 → 3.0~6.0 안 → PASS (-2℃ 는 기온)"
+ },
+ {
+  "id": "r038",
+  "test": "air",
+  "sentence": "공기량은 5.2%로 괜찮고 슬럼프는 좀 높게 나와서 다시 볼게요.",
+  "expected": "PASS",
+  "why": "공기량 5.2 → 3.0~6.0 안 → PASS"
+ },
+ {
+  "id": "r039",
+  "test": "air",
+  "sentence": "공기량 6.0% 나왔네요, 상한에 딱 맞습니다.",
+  "expected": "PASS",
+  "why": "공기량 6.0 = 상한 포함 → PASS (경계값)"
+ },
+ {
+  "id": "r040",
+  "test": "air",
+  "sentence": "14시 20분 도착한 차량 공기량 3.8% 확인.",
+  "expected": "PASS",
+  "why": "공기량 3.8 → 3.0~6.0 안 → PASS (14시 20분은 시각)"
+ },
+ {
+  "id": "r041",
+  "test": "air",
+  "sentence": "오늘 첫 차 공기량 3.0%, 하한이지만 들어옵니다.",
+  "expected": "PASS",
+  "why": "공기량 3.0 = 하한 포함 → PASS (경계값)"
+ },
+ {
+  "id": "r042",
+  "test": "air",
+  "sentence": "AE제 사용량을 시멘트 대비 0.03%로 맞춘 배합이고, 측정 공기량은 4.1%입니다.",
+  "expected": "PASS",
+  "why": "0.03% 는 AE제 사용량, 공기량 4.1 → 3.0~6.0 안 → PASS"
+ },
+ {
+  "id": "r043",
+  "test": "air",
+  "sentence": "물-시멘트비 48% 배합, 공기량 4.4% 측정.",
+  "expected": "PASS",
+  "why": "48% 는 물-시멘트비, 공기량 4.4 → 3.0~6.0 안 → PASS"
+ },
+ {
+  "id": "r044",
+  "test": "air",
+  "sentence": "공기량 6.8%라서 반려했어요.",
+  "expected": "FAIL",
+  "why": "공기량 6.8 > 6.0 → FAIL"
+ },
+ {
+  "id": "r045",
+  "test": "air",
+  "sentence": "공기량이 2.4%밖에 안 나왔습니다.",
+  "expected": "FAIL",
+  "why": "공기량 2.4 < 3.0 → FAIL"
+ },
+ {
+  "id": "r046",
+  "test": "air",
+  "sentence": "배합 공기량 4.5% 목표였는데 측정은 7.1%.",
+  "expected": "FAIL",
+  "why": "4.5 는 목표값, 측정 7.1 > 6.0 → FAIL"
+ },
+ {
+  "id": "r047",
+  "test": "air",
+  "sentence": "슬럼프(mm) | 공기량(%) | 염화물(kg/㎥)\n165 | 2.7 | 0.12",
+  "expected": "FAIL",
+  "why": "표 공기량(%) 칸 2.7 < 3.0 → FAIL (165·0.12 는 다른 시험)"
+ },
+ {
+  "id": "r048",
+  "test": "air",
+  "sentence": "공기량 6.3%, 허용 범위(4.5±1.5%) 넘었습니다.",
+  "expected": "FAIL",
+  "why": "공기량 6.3 > 6.0 → FAIL"
+ },
+ {
+  "id": "r049",
+  "test": "air",
+  "sentence": "서울92바5531 차량 공기량 2.6%.",
+  "expected": "FAIL",
+  "why": "공기량 2.6 < 3.0 → FAIL (서울92바5531 은 차량 번호)"
+ },
+ {
+  "id": "r050",
+  "test": "air",
+  "sentence": "공기량 7.4% 나왔어요. 1.5만 낮았어도 기준 안이었을 텐데.",
+  "expected": "FAIL",
+  "why": "공기량 7.4 > 6.0 → FAIL (1.5 는 가정한 차이)"
+ },
+ {
+  "id": "r051",
+  "test": "air",
+  "sentence": "3호차 공기량 6.4%, 4호차는 5.6%예요.",
+  "expected": "ASK",
+  "why": "측정값 둘(6.4, 5.6) → ASK"
+ },
+ {
+  "id": "r052",
+  "test": "air",
+  "sentence": "지난번엔 공기량 5.9였는데 이번엔 그보다 좀 높게 나왔대요.",
+  "expected": "ASK",
+  "why": "5.9 는 지난번 값, 이번 측정값 없음 → ASK"
+ },
+ {
+  "id": "r053",
+  "test": "air",
+  "sentence": "공기량 시험은 120㎥마다 1회, 내일 오전 9시부터 합니다.",
+  "expected": "ASK",
+  "why": "시험 빈도·일정만, 측정값 없음 → ASK"
+ },
+ {
+  "id": "r054",
+  "test": "air",
+  "sentence": "공기량 6 넘으면 불합격 맞죠?",
+  "expected": "ASK",
+  "why": "기준 질문만, 측정값 없음 → ASK"
+ },
+ {
+  "id": "r055",
+  "test": "air",
+  "sentence": "우리 현장 공기량 4.2%, 옆 현장은 6.9% 나왔다던데요.",
+  "expected": "ASK",
+  "why": "다른 현장 값까지 측정값 둘(4.2, 6.9) → ASK"
+ },
+ {
+  "id": "r056",
+  "test": "air",
+  "sentence": "공기량 측정은 끝났고 결과는 품질팀이 오후에 보내준대요.",
+  "expected": "ASK",
+  "why": "결과 미수령, 측정값 없음 → ASK"
+ },
+ {
+  "id": "r057",
+  "test": "air",
+  "sentence": "공기량 측정기 교정성적서 번호 AQ-2025-118, 유효기간 2026.12.31까지입니다.",
+  "expected": "ASK",
+  "why": "교정성적서 번호·유효기간만, 측정값 없음 → ASK"
+ },
+ {
+  "id": "r058",
+  "test": "air",
+  "sentence": "같은 차에서 공기량을 세 번 쟀는데 4.8%, 5.1%, 4.9% 나왔어요.",
+  "expected": "ASK",
+  "why": "측정값 셋(4.8, 5.1, 4.9) → ASK"
+ },
+ {
+  "id": "r059",
+  "test": "air",
+  "sentence": "AE제 추가 전 공기량 2.5%, 추가 후 4.0%.",
+  "expected": "ASK",
+  "why": "AE제 추가 전후 측정값 둘(2.5, 4.0) → ASK"
+ },
+ {
+  "id": "r060",
+  "test": "air",
+  "sentence": "배합설계 공기량 4.5%, 허용 ±1.5%로 관리합니다.",
+  "expected": "ASK",
+  "why": "배합설계 목표·허용차만, 측정값 없음 → ASK"
+ },
+ {
+  "id": "r061",
+  "test": "compaction",
+  "sentence": "KS F 2311 모래치환법으로 시험한 노상 다짐도 97.2% 나왔습니다.",
+  "expected": "PASS",
+  "why": "노상 다짐도 97.2 ≥ 95 → PASS (2311 은 KS 규격 번호)"
+ },
+ {
+  "id": "r062",
+  "test": "compaction",
+  "sentence": "STA.1+120 노상 들밀도 시험 결과 다짐도 96.0%, 함수비 12.4%.",
+  "expected": "PASS",
+  "why": "노상 다짐도 96.0 ≥ 95 → PASS (12.4% 는 함수비)"
+ },
+ {
+  "id": "r063",
+  "test": "compaction",
+  "sentence": "노상 3구간 다짐도 95.0%로 겨우 맞췄네요.",
+  "expected": "PASS",
+  "why": "노상 다짐도 95.0 = 기준 포함 → PASS (경계값)"
+ },
+ {
+  "id": "r064",
+  "test": "compaction",
+  "sentence": "측점 | 층 | 다짐도(%)\nNo.15+10 | 노상 | 98.1",
+  "expected": "PASS",
+  "why": "표 노상 다짐도(%) 98.1 ≥ 95 → PASS"
+ },
+ {
+  "id": "r065",
+  "test": "compaction",
+  "sentence": "노상 들밀도 결과 최대건조밀도 1.92g/㎤ 기준으로 다짐도 99%.",
+  "expected": "PASS",
+  "why": "노상 다짐도 99 ≥ 95 → PASS (1.92 는 최대건조밀도)"
+ },
+ {
+  "id": "r066",
+  "test": "compaction",
+  "sentence": "노상 다짐도 93.5% 나와서 재다짐 지시했습니다.",
+  "expected": "FAIL",
+  "why": "노상 다짐도 93.5 < 95 → FAIL (재다짐 후 값은 아직 없음)"
+ },
+ {
+  "id": "r067",
+  "test": "compaction",
+  "sentence": "노상 2층째 다짐도 91.8%.",
+  "expected": "FAIL",
+  "why": "노상 다짐도 91.8 < 95 → FAIL"
+ },
+ {
+  "id": "r068",
+  "test": "compaction",
+  "sentence": "노상 다짐도가 기준 95%에 못 미치는 94.2%로 나왔어요.",
+  "expected": "FAIL",
+  "why": "95 는 기준, 측정 94.2 < 95 → FAIL"
+ },
+ {
+  "id": "r069",
+  "test": "compaction",
+  "sentence": "시험번호 | 위치 | 건조밀도(g/㎤) | 다짐도(%)\nD-07 | 노상 좌측 | 1.78 | 89.6",
+  "expected": "FAIL",
+  "why": "표 노상 다짐도(%) 89.6 < 95 → FAIL (1.78 은 건조밀도)"
+ },
+ {
+  "id": "r070",
+  "test": "compaction",
+  "sentence": "11월 12일 오후 노상 들밀도 시험, 다짐도 90.4% 나왔습니다.",
+  "expected": "FAIL",
+  "why": "노상 다짐도 90.4 < 95 → FAIL"
+ },
+ {
+  "id": "r071",
+  "test": "compaction",
+  "sentence": "노상은 다짐도 95 넘으면 합격이죠? 내일 시험합니다.",
+  "expected": "ASK",
+  "why": "기준 질문·시험 예정만, 측정값 없음 → ASK"
+ },
+ {
+  "id": "r072",
+  "test": "compaction",
+  "sentence": "노상 1차 다짐도 92.1%, 재다짐 후 96.4%.",
+  "expected": "ASK",
+  "why": "재다짐 전후 측정값 둘(92.1, 96.4) → ASK"
+ },
+ {
+  "id": "r073",
+  "test": "compaction",
+  "sentence": "노상 3개소 다짐도 96.2%, 95.8%, 97.0%.",
+  "expected": "ASK",
+  "why": "측정값 셋(96.2, 95.8, 97.0) → ASK"
+ },
+ {
+  "id": "r074",
+  "test": "compaction",
+  "sentence": "보조기층 다짐도 96% 나왔고 노상은 다음 주에 시험해요.",
+  "expected": "ASK",
+  "why": "96 은 보조기층 값, 노상 측정값 없음 → ASK"
+ },
+ {
+  "id": "r075",
+  "test": "compaction",
+  "sentence": "노상 들밀도 시험 빈도 500㎡당 1회, 이번 구간 면적 2,400㎡.",
+  "expected": "ASK",
+  "why": "시험 빈도·면적만, 측정값 없음 → ASK"
+ },
+ {
+  "id": "r076",
+  "test": "compaction",
+  "sentence": "노상 다짐도가 지난 구간보다 2% 높게 나왔답니다.",
+  "expected": "ASK",
+  "why": "지난 구간과의 차이(2%)만 있고 다짐도 값 없음 → ASK"
+ },
+ {
+  "id": "r077",
+  "test": "compaction",
+  "sentence": "노상 평판재하시험 지지력계수 K30 = 196MN/㎥ 나왔습니다.",
+  "expected": "ASK",
+  "why": "평판재하 K30 값일 뿐 다짐도(%) 측정값 없음 → ASK"
+ },
+ {
+  "id": "r078",
+  "test": "compaction",
+  "sentence": "STA.2+340 노상 다짐도 시험은 했는데 결과를 아직 못 받았어요.",
+  "expected": "ASK",
+  "why": "결과 미수령, 측정값 없음 → ASK"
+ },
+ {
+  "id": "r079",
+  "test": "chloride",
+  "sentence": "염화물 함유량 0.08kg/㎥ 나왔습니다.",
+  "expected": "PASS",
+  "why": "염화물 0.08 ≤ 0.30 → PASS"
+ },
+ {
+  "id": "r080",
+  "test": "chloride",
+  "sentence": "해사 쓰는 현장이라 신경 썼는데 염화물량 0.21kg/㎥입니다.",
+  "expected": "PASS",
+  "why": "염화물 0.21 ≤ 0.30 → PASS"
+ },
+ {
+  "id": "r081",
+  "test": "chloride",
+  "sentence": "염화물 0.30kg/㎥, 기준선에 딱 걸쳤어요.",
+  "expected": "PASS",
+  "why": "염화물 0.30 = 기준 포함 → PASS (경계값)"
+ },
+ {
+  "id": "r082",
+  "test": "chloride",
+  "sentence": "염화물 함유량 시험 결과 0.15kg/㎥로 통보받았습니다.",
+  "expected": "PASS",
+  "why": "염화물 0.15 ≤ 0.30 → PASS"
+ },
+ {
+  "id": "r083",
+  "test": "chloride",
+  "sentence": "반품하면 차당 70만 원 손해라 조마조마했는데 염화물 0.04kg/㎥로 문제없습니다.",
+  "expected": "PASS",
+  "why": "염화물 0.04 ≤ 0.30 → PASS (70만 원은 금액)"
+ },
+ {
+  "id": "r084",
+  "test": "chloride",
+  "sentence": "염화물 함유량 0.34kg/㎥ 나와서 출하 중지 요청했습니다.",
+  "expected": "FAIL",
+  "why": "염화물 0.34 > 0.30 → FAIL"
+ },
+ {
+  "id": "r085",
+  "test": "chloride",
+  "sentence": "염화물 0.45kg/㎥, 기준 0.3 초과입니다.",
+  "expected": "FAIL",
+  "why": "염화물 0.45 > 0.30 → FAIL (0.3 은 기준)"
+ },
+ {
+  "id": "r086",
+  "test": "chloride",
+  "sentence": "염화물 0.32kg/㎥, 기준보다 0.02 높음.",
+  "expected": "FAIL",
+  "why": "염화물 0.32 > 0.30 → FAIL (0.02 는 기준과의 차이)"
+ },
+ {
+  "id": "r087",
+  "test": "chloride",
+  "sentence": "슬럼프 | 공기량 | 염화물\n150mm | 4.5% | 0.38kg/㎥",
+  "expected": "FAIL",
+  "why": "표 염화물 0.38kg/㎥ > 0.30 → FAIL (150mm·4.5% 는 다른 시험)"
+ },
+ {
+  "id": "r088",
+  "test": "chloride",
+  "sentence": "11시 30분에 측정한 염화물 0.31kg/㎥입니다.",
+  "expected": "FAIL",
+  "why": "염화물 0.31 > 0.30 → FAIL (11시 30분은 시각)"
+ },
+ {
+  "id": "r089",
+  "test": "chloride",
+  "sentence": "염화물 이온 농도 600ppm 나왔습니다.",
+  "expected": "ASK",
+  "why": "ppm 단위로 적음 → kg/㎥ 아님 → ASK"
+ },
+ {
+  "id": "r090",
+  "test": "chloride",
+  "sentence": "염화물 0.02% 나왔다는데요(시멘트 질량 대비).",
+  "expected": "ASK",
+  "why": "% 단위(시멘트 질량 대비)로 적음 → kg/㎥ 아님 → ASK"
+ },
+ {
+  "id": "r091",
+  "test": "chloride",
+  "sentence": "1호차 염화물 0.12kg/㎥, 5호차 0.28kg/㎥.",
+  "expected": "ASK",
+  "why": "측정값 둘(0.12, 0.28) → ASK"
+ },
+ {
+  "id": "r092",
+  "test": "chloride",
+  "sentence": "염화물 기준 0.30kg/㎥ 이하, 오후 타설 전에 측정 예정.",
+  "expected": "ASK",
+  "why": "기준·측정 예정만, 측정값 없음 → ASK"
+ },
+ {
+  "id": "r093",
+  "test": "chloride",
+  "sentence": "잔골재(해사) 염분 0.03% 성적서 받았어요.",
+  "expected": "ASK",
+  "why": "잔골재 염분 %(재료 시험값), 굳지 않은 콘크리트 염화물 kg/㎥ 값 없음 → ASK"
+ },
+ {
+  "id": "r094",
+  "test": "chloride",
+  "sentence": "지난주엔 염화물 0.18이었는데 이번엔 조금 올랐다고만 들었어요.",
+  "expected": "ASK",
+  "why": "0.18 은 지난주 값, 이번 측정값 없음 → ASK"
+ },
+ {
+  "id": "r095",
+  "test": "strength",
+  "sentence": "연속 3회 시험값 25.1, 26.3, 24.8MPa 나왔습니다. 호칭강도 24MPa 기준입니다.",
+  "expected": "PASS",
+  "why": "호칭 24, 평균 (25.1+26.3+24.8)/3=25.40 ≥ 24, 최소 24.8 ≥ 20.5 → PASS"
+ },
+ {
+  "id": "r096",
+  "test": "strength",
+  "sentence": "호칭강도 27MPa 기준 1회 28.4MPa, 2회 26.0MPa, 3회 29.1MPa 나왔습니다.",
+  "expected": "PASS",
+  "why": "호칭 27, 평균 (28.4+26.0+29.1)/3=27.83 ≥ 27, 최소 26.0 ≥ 23.5 → PASS"
+ },
+ {
+  "id": "r097",
+  "test": "strength",
+  "sentence": "호칭강도 30MPa\n회차 | 재령 | 시험값(MPa)\n1 | 28일 | 31.2\n2 | 28일 | 29.8\n3 | 28일 | 30.5",
+  "expected": "PASS",
+  "why": "호칭 30, 평균 (31.2+29.8+30.5)/3=30.50 ≥ 30, 최소 29.8 ≥ 26.5 → PASS"
+ },
+ {
+  "id": "r098",
+  "test": "strength",
+  "sentence": "호칭강도 21MPa. 1회차 공시체 22.1/23.0/21.8, 2회차 20.9/22.4/21.7, 3회차 23.3/22.6/21.9MPa.",
+  "expected": "PASS",
+  "why": "호칭 21, 회별 평균 22.30·21.67·22.60, 3회 평균 22.19 ≥ 21, 최소 21.67 ≥ 17.5 → PASS"
+ },
+ {
+  "id": "r099",
+  "test": "strength",
+  "sentence": "호칭강도 24MPa, 연속 3회 시험값 23.0, 25.5, 24.6MPa인데 1회차가 호칭강도보다 낮아서 걱정이네요.",
+  "expected": "PASS",
+  "why": "호칭 24, 평균 (23.0+25.5+24.6)/3=24.37 ≥ 24, 최소 23.0 ≥ 20.5 → PASS (1회가 호칭보다 낮아도 조건 ② 충족)"
+ },
+ {
+  "id": "r100",
+  "test": "strength",
+  "sentence": "3회 연속 시험값 24.0 / 25.0 / 26.0MPa, 호칭강도는 25MPa입니다.",
+  "expected": "PASS",
+  "why": "호칭 25, 평균 (24.0+25.0+26.0)/3=25.00 = 25 포함, 최소 24.0 ≥ 21.5 → PASS (경계값)"
+ },
+ {
+  "id": "r101",
+  "test": "strength",
+  "sentence": "11/03, 11/07, 11/10 타설분 연속 3회 시험값이 각각 36.2, 34.9, 37.0MPa(재령 28일). 호칭강도 35MPa.",
+  "expected": "PASS",
+  "why": "호칭 35, 평균 (36.2+34.9+37.0)/3=36.03 ≥ 35, 최소 34.9 ≥ 31.5 → PASS (날짜·재령은 다른 수)"
+ },
+ {
+  "id": "r102",
+  "test": "strength",
+  "sentence": "레미콘 25-24-150(호칭강도 24MPa), 1·2·3회 시험값 24.9, 23.7, 25.2MPa.",
+  "expected": "PASS",
+  "why": "호칭강도 24 명시, 평균 (24.9+23.7+25.2)/3=24.60 ≥ 24, 최소 23.7 ≥ 20.5 → PASS"
+ },
+ {
+  "id": "r103",
+  "test": "strength",
+  "sentence": "호칭강도 24MPa 배합, 최근 연속 3회 시험값 23.1·23.8·24.2MPa.",
+  "expected": "FAIL",
+  "why": "호칭 24, 평균 (23.1+23.8+24.2)/3=23.70 < 24 → FAIL"
+ },
+ {
+  "id": "r104",
+  "test": "strength",
+  "sentence": "호칭강도 27MPa, 시험값 1회 30.1, 2회 22.8, 3회 30.4MPa로 평균은 넘었습니다.",
+  "expected": "FAIL",
+  "why": "호칭 27, 평균 27.77 ≥ 27 이나 2회 22.8 < 23.5 → FAIL"
+ },
+ {
+  "id": "r105",
+  "test": "strength",
+  "sentence": "호칭강도 24MPa, 이번 1회 시험값 19.8MPa 나왔습니다.",
+  "expected": "FAIL",
+  "why": "호칭 24, 1회 시험값 19.8 < 20.5 → FAIL"
+ },
+ {
+  "id": "r106",
+  "test": "strength",
+  "sentence": "호칭강도 30MPa, 이번 회 공시체 3개 25.1, 26.0, 26.3MPa.",
+  "expected": "FAIL",
+  "why": "호칭 30, 한 회 공시체 평균 (25.1+26.0+26.3)/3=25.80 < 26.5 → FAIL"
+ },
+ {
+  "id": "r107",
+  "test": "strength",
+  "sentence": "Φ150 공시체 압축시험 (호칭강도 24MPa, 이번 회차)\n번호 | 최대하중(kN) | 강도(MPa)\n1 | 352 | 19.9\n2 | 361 | 20.4\n3 | 340 | 19.2",
+  "expected": "FAIL",
+  "why": "호칭 24, 한 회 공시체 평균 (19.9+20.4+19.2)/3=19.83 < 20.5 → FAIL (kN 은 하중)"
+ },
+ {
+  "id": "r108",
+  "test": "strength",
+  "sentence": "호칭강도 21MPa 압축강도 대장\n1회차: 20.1, 19.8, 20.5\n2회차: 21.0, 20.2, 20.6\n3회차: 21.4, 20.9, 21.2\n(단위 MPa, 회차마다 공시체 3개)",
+  "expected": "FAIL",
+  "why": "호칭 21, 회별 평균 20.13·20.60·21.17, 3회 평균 20.63 < 21 → FAIL"
+ },
+ {
+  "id": "r109",
+  "test": "strength",
+  "sentence": "품질실(031-8042-1137) 통보: 호칭강도 27MPa, 이번 회 공시체 평균 22.9MPa.",
+  "expected": "FAIL",
+  "why": "호칭 27, 한 회 공시체 평균 22.9 < 23.5 → FAIL (전화번호는 다른 수)"
+ },
+ {
+  "id": "r110",
+  "test": "strength",
+  "sentence": "호칭강도 24MPa, 연속 3회 22.0, 24.5, 23.9MPa. 한 회만 1.6 더 나왔어도 평균 24였을 텐데요.",
+  "expected": "FAIL",
+  "why": "호칭 24, 평균 (22.0+24.5+23.9)/3=23.47 < 24 → FAIL (1.6 은 가정)"
+ },
+ {
+  "id": "r111",
+  "test": "strength",
+  "sentence": "설계기준강도 24MPa, 3회 시험값 25.0, 26.1, 24.4MPa.",
+  "expected": "ASK",
+  "why": "설계기준강도만 있고 호칭강도 없음 → ASK"
+ },
+ {
+  "id": "r112",
+  "test": "strength",
+  "sentence": "레미콘 25-27-150 납품분, 시험값 1회 28.1 / 2회 27.5 / 3회 29.0MPa.",
+  "expected": "ASK",
+  "why": "레미콘 규격만 있고 '호칭강도' 말 없음 → ASK"
+ },
+ {
+  "id": "r113",
+  "test": "strength",
+  "sentence": "오늘 깬 공시체 3개 평균이 22.0MPa, 호칭강도는 24MPa예요.",
+  "expected": "ASK",
+  "why": "호칭 24, 한 회 공시체 평균 22.0 ≥ 20.5 → 1회값만으로는 ASK"
+ },
+ {
+  "id": "r114",
+  "test": "strength",
+  "sentence": "호칭강도 24MPa인데 성적서엔 압축강도 265kgf/㎠로 적혀 있어요.",
+  "expected": "ASK",
+  "why": "강도를 kgf/㎠ 로 적음 → MPa 아님 → ASK"
+ },
+ {
+  "id": "r115",
+  "test": "strength",
+  "sentence": "호칭강도 24MPa, 강도 결과 23.5, 25.2, 24.8MPa.",
+  "expected": "ASK",
+  "why": "세 값이 한 회 공시체 값인지 3회 시험값인지 알 수 없음 → ASK"
+ },
+ {
+  "id": "r116",
+  "test": "strength",
+  "sentence": "호칭강도 27MPa, 평균 28.3MPa 나왔습니다.",
+  "expected": "ASK",
+  "why": "'평균 28.3' 이 공시체 평균인지 연속 3회 평균인지 알 수 없음 → ASK"
+ },
+ {
+  "id": "r117",
+  "test": "strength",
+  "sentence": "호칭강도 30MPa, 공시체 6개 만들었고 28일 강도시험은 12월 1일 예정입니다.",
+  "expected": "ASK",
+  "why": "공시체 제작·시험 예정만, 강도 측정값 없음 → ASK"
+ },
+ {
+  "id": "r118",
+  "test": "strength",
+  "sentence": "호칭강도 24MPa면 1회 시험값이 19 나와도 불합격인 거죠?",
+  "expected": "ASK",
+  "why": "19 는 가정한 질문의 수, 측정값 없음 → ASK"
+ },
+ {
+  "id": "r119",
+  "test": "strength",
+  "sentence": "슬래브(호칭강도 24MPa) 1회 시험값 22.4MPa, 기둥(호칭강도 30MPa)은 31.0MPa.",
+  "expected": "ASK",
+  "why": "호칭강도가 다른 두 부위의 1회값(22.4 ≥ 20.5, 31.0 ≥ 26.5), 연속 3회 없음 → ASK"
+ },
+ {
+  "id": "r120",
+  "test": "strength",
+  "sentence": "호칭강도 24MPa, 이번 1회 시험값 21.0MPa, 지난달 연속 3회 평균은 25.3MPa였어요.",
+  "expected": "ASK",
+  "why": "이번 1회값 21.0 ≥ 20.5 → ASK (25.3 은 지난달 평균)"
  }
 ]

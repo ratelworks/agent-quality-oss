@@ -35,7 +35,7 @@ const TEST_ID: Record<string, string> = {
 };
 /** 묶음별 정답 수 바닥값 — 처음 잰 값. 올라가면 함께 올린다 */
 const SETS: Array<{ file: string; label: string; floor: number }> = [
-  { file: "seen.json", label: "맞춰 본 묶음", floor: 1849 },
+  { file: "seen.json", label: "맞춰 본 묶음", floor: 2076 },
 ];
 
 type Expected = "PASS" | "FAIL" | "ASK";
