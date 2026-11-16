@@ -59,7 +59,8 @@ export interface DocumentSchema {
   officialForm?: { law: string; annex: string; title: string; note?: string };
   /** 근거 구절 — 수록 원문에서 확인할 수 있는 것만 */
   citations?: SchemaCitation[];
-  _note?: string;
+  /** 작성할 때 알아야 할 것 — 법령 조건에 따라 덧붙는 절차·주의(예: 사전점검 대상) */
+  guidance?: string;
   basis?: string[];
   reference?: string;
   referenceStandard?: string;

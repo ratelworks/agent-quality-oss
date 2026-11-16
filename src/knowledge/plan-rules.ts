@@ -73,6 +73,9 @@ function law(name: string): LawBundle {
 }
 
 /** 조문에서 한 항의 본문과 그 아래 호를 뽑는다 (paragraph: 1 = ①) */
+/** 품질관리계획·품질시험계획 수립 의무의 근거 */
+const PLAN_DUTY_GROUND = "건설기술 진흥법 제55조제1항 — 품질관리계획 또는 품질시험계획의 수립 의무(대상 공사는 시행령 제89조가 정한다)";
+
 export function paragraphOf(lawName: string, articleNo: string, paragraph: number): { text: string; items: string[] } {
   const article = findArticle(law(lawName), articleNo);
   if (!article) throw new Error(`${lawName} 제${articleNo}조가 수록본에 없습니다`);
@@ -178,6 +181,8 @@ export function judgePlanTarget(f: ProjectFacts): PlanTargetJudgement {
   else if (qualityPlan === "undetermined" && sizeTri === true) conclusion = "품질관리계획 또는 품질시험계획 가운데 하나의 수립 대상입니다. 어느 쪽인지는 아래 입력이 있어야 가릴 수 있습니다.";
   else conclusion = "받은 입력만으로는 대상 여부를 가릴 수 없습니다. 아래 입력을 주십시오.";
 
+  // 수립 의무 자체의 근거는 법이다 — 시행령은 대상 공사를 정한다
+  if (qualityPlan === "applies" || testPlan === "applies") grounds.unshift(PLAN_DUTY_GROUND);
   return { qualityPlan, testPlan, conclusion, grounds, missingInputs: [...missing], caveats, byQualityPlanItems12: items12 };
 }
 

@@ -24,7 +24,27 @@
         "KS F 2312의 C, D 또는 E 방법에 의하여 정하여진 최대건조밀도의 95% 이상"
       ]
     },
-    "referenceVerified": true
+    "referenceVerified": true,
+    "inScopeKeywords": [
+      "노상",
+      "노체",
+      "흙쌓기",
+      "성토"
+    ],
+    "outOfScopeKeywords": [
+      "보조기층",
+      "기층",
+      "표층",
+      "동상방지층",
+      "뒤채움",
+      "되메우기",
+      "되메움",
+      "선택층",
+      "필터층",
+      "차수층",
+      "포장층"
+    ],
+    "outOfScopeNote": "KCS 11 20 20 3.2.16 의 다짐도 기준은 흙쌓기의 노상·노체만 정한다. 보조기층·기층(KCS 44 50)·뒤채움·되메우기 등은 다른 기준이므로, 측정값이 그 대상의 값으로 적혀 있으면 이 기준으로 판정하지 않는다."
   },
   "appliesTo": [
     "test:soil_compaction"

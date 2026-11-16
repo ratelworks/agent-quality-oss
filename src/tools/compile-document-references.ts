@@ -120,6 +120,7 @@ export function run(args: CompileDocumentArgs, graph: OntologyGraph): ToolRespon
       title: schema.title,
       reference: schema.reference ?? null,
       retention: schema.retention ?? null,
+      guidance: schema.guidance ?? null,
     },
     formSchema: { sections: schema.sections },
     legalBasis,

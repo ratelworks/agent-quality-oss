@@ -19,6 +19,10 @@ const WORK_KINDS = ["civil", "building", "specialty"];
 const EXEMPT_KINDS = ["nuclear", "landscaping", "demolition"];
 const CM_GUIDELINE = "건설공사 사업관리방식 검토기준 및 업무수행지침";
 
+/** 구분을 잘못 읽기 쉬운 곳 — 별표 5 의 특급·고급 요건은 제1호·제2호 공사로 한정된다 */
+const GRADE_SCOPE_NOTE =
+  "특급·고급 구분은 시행령 제89조제1항제1호·제2호에 따라 품질관리계획을 수립해야 하는 공사만 해당합니다(시행규칙 별표 5). 계약에 따라 품질관리계획을 수립하는 공사(같은 항 제3호)는 이 두 구분의 요건에 들어 있지 않습니다 — 계약에 품질관리계획이 있다는 이유만으로 고급이 되지 않습니다.";
+
 export const spec: ToolSpec = {
   name: "compile_qc_assignment_notice_references",
   description:
@@ -92,6 +96,7 @@ export function run(args: CompileQcAssignmentArgs, graph: OntologyGraph) {
       gradeJudgement: {
         grade: grade.grade,
         conclusion: grade.conclusion,
+        scopeNote: GRADE_SCOPE_NOTE,
         requirement: grade.row,
         candidates: grade.candidates,
         missingInputs: grade.missingInputs,

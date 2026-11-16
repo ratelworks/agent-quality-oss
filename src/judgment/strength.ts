@@ -187,7 +187,9 @@ function readObservation(
 ): ObservedStrength | null {
   if (series && series.kind === "series") {
     // "공시체 3개 평균"은 시험 3회가 아니라 1회의 시험값이다 (표 3.5-3 주 1)
-    if (ctx.specimenAverage && series.mean !== undefined) return { single: series.mean };
+    // 회마다 적은 기록(perTest)은 값마다가 이미 1회 시험값이다. 한 회의 공시체 값(specimens)은 평균이 1회 시험값이다.
+    if (series.specimens && series.mean !== undefined) return { single: series.mean };
+    if (ctx.specimenAverage && !series.perTest && series.mean !== undefined) return { single: series.mean };
     const min = series.min ?? (series.values ? Math.min(...series.values) : undefined);
     return {
       ...(series.values ? { values: series.values } : {}),
@@ -230,6 +232,15 @@ export function judgeStrength(
       verdict: "UNDETERMINED",
       reasoning: `값 ${count}개가 공시체 ${count}개의 값(1회 시험)인지 ${count}회의 시험값인지 문장에 없어 판정하지 않습니다 — 공시체 3개의 평균이 1회 시험값이고(표 3.5-3 주 1), 어느 쪽이냐에 따라 결과가 달라집니다. '공시체 ${count}개' 또는 '${count}회 시험값'이라고 함께 적어 주세요.`,
       neededInputs: [`값 ${count}개가 공시체 ${count}개(1회 시험)인지 ${count}회 시험값인지`],
+    };
+  }
+  // 현장 배치플랜트·코어는 평균으로 판정하는 기준이라 되묻지 않는다
+  if (series?.meanUnclear && kind !== "site_batch" && kind !== "core" && !ctx.specimenAverage && series.mean !== undefined) {
+    return {
+      ...base,
+      verdict: "UNDETERMINED",
+      reasoning: `평균 ${fmt(series.mean)} 이 공시체 평균(1회 시험값)인지 연속 3회 시험값의 평균인지 문장에 없어 판정하지 않습니다 — 어느 쪽이냐에 따라 견주는 기준이 다릅니다(표 3.5-3). '공시체 3개 평균' 또는 '연속 3회 평균'이라고 함께 적어 주세요.`,
+      neededInputs: ["평균이 공시체 평균(1회 시험값)인지 연속 3회 시험값의 평균인지"],
     };
   }
   const observed = readObservation(series, scalar, ctx);
@@ -334,6 +345,14 @@ export function judgeStrength(
       if (record) needed.push("시험값을 차례대로 (연속 3회씩 평균을 봄)");
     } else {
       say("① 연속 3회 평균을 확인할 값이 없음 (1회 시험값만 있음)");
+      // 1회 시험값이 기준 강도보다 낮다는 것만으로는 ①의 미달이 아니다 — 남은 두 회가 얼마면 되는지를 계산해 알린다
+      if (observed.single !== undefined && isExact(b) && b.lo > 0) {
+        const restMean = (CONSECUTIVE_TESTS * b.lo - observed.single) / (CONSECUTIVE_TESTS - 1);
+        say(
+          `①은 1회 시험값 하나가 아니라 연속 3회의 평균으로 봅니다 — 1회 시험값이 ${refText}보다 낮은 것만으로는 미달이 아닙니다. ` +
+            `이 값(${fmt(observed.single)})을 포함한 연속 3회라면 나머지 두 회 시험값의 평균이 ${fmt(restMean)} MPa 이상일 때 ①을 충족합니다`,
+        );
+      }
       if (record) needed.push("연속 3회 시험값의 평균");
     }
 

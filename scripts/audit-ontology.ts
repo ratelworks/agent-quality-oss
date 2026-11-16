@@ -147,6 +147,7 @@ const defaultArgs: Record<string, Record<string, unknown>> = {
   map_quality_basis: { workType: '콘크리트 타설', material: '레미콘', testItem: '슬럼프' },
   list_core_quality_laws: {},
   get_quality_law_article: { articleId: 'standard.law.btia_55' },
+  search_quality_law_text: { query: '즉시 반품' },
   search_quality_management_guideline: {},
   get_quality_guideline_article: { articleId: 'standard.guideline.art39' },
   search_construction_standards: {},

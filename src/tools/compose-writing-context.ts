@@ -62,6 +62,7 @@ export function run(args: ComposeWritingContextArgs, graph: OntologyGraph) {
   if (schema.reference) lines.push(`**참조**: ${schema.reference}`, "");
   if (schema.referenceStandard) lines.push(`**참조 표준**: ${schema.referenceStandard}`, "");
   if (schema.retention) lines.push(`**보존기간**: ${schema.retention}`, "");
+  if (schema.guidance) lines.push(`**작성할 때 알 것**: ${schema.guidance}`, "");
   lines.push("", "## 입력값", "");
 
   for (const section of schema.sections) {

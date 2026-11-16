@@ -11,11 +11,19 @@
  *   condition_dependent — 조건(예: 한중·서중)을 알아야 기준이 정해진다. 수치 판정을 내지 않는다
  */
 
-import { parseObservation, quantityWordsIn, unitsCompatible, readMeasuredCandidates } from './parse-observation.js';
+import {
+  normalizeNotation,
+  parseObservation,
+  quantityWordsIn,
+  unitsCompatible,
+  readMeasuredCandidates,
+  readStrengthScalar,
+} from './parse-observation.js';
 import type { ObservationContext, ObservationToken } from './parse-observation.js';
 import { judgeSlabBottomStripping, judgeStrength } from './strength.js';
 import type { StrengthCase } from './strength.js';
 import { describeTable, isToleranceTable, readTargetAndMeasured, toleranceFor } from './target-tolerance.js';
+import { findVeto } from './veto.js';
 import type { BaseEntity } from '../ontology/schema.js';
 
 export type Verdict = 'PASS' | 'FAIL' | 'MARGINAL' | 'UNDETERMINED';
@@ -68,11 +76,33 @@ export interface Judgment {
 
 /** 허용치 경계 margin 비율 (경험 규칙, 합부 판정에 쓰지 않음) */
 const MARGINAL_RATIO = 0.1;
+/** 수만 적힌 값(단위·항목 이름 없음)을 측정값으로 보지 않는 경계 — 기준 하한의 이 배수보다 작거나 상한의 이 배수보다 크면 되묻는다 */
+const BARE_VALUE_LOW_RATIO = 0.5;
+const BARE_VALUE_HIGH_RATIO = 3;
+
+/**
+ * 단위 없이 적힌 값이 기준과 동떨어져 있는가.
+ * 그런 수는 측정값이 아니거나(횟수·번호) 단위가 다를 수 있다("슬럼프 12.5" 는 cm 일 수 있다).
+ * 기준 하한의 절반보다 작거나 상한의 세 배보다 크면 판정하지 않고 되묻는다.
+ */
+/** 노드 자료의 글자 목록 — 목록이 아니면 빈 목록 */
+function stringList(v: unknown): string[] {
+  return Array.isArray(v) ? v.filter((x): x is string => typeof x === 'string') : [];
+}
+
+function farFromCriterion(value: number, lo: number | null, hi: number | null): boolean {
+  if (value < 0) return true;
+  if (lo !== null && lo > 0 && value < lo * BARE_VALUE_LOW_RATIO) return true;
+  const top = hi ?? lo;
+  return top !== null && top > 0 && value > top * BARE_VALUE_HIGH_RATIO;
+}
 
 export function evaluate(
-  observationText: string,
+  rawObservationText: string,
   criterionEntity: BaseEntity | null | undefined,
 ): Judgment {
+  // 표기를 먼저 고른다("1,000㎡" · "①회" · "180미리") — 뜻은 바꾸지 않는다
+  const observationText = typeof rawObservationText === 'string' ? normalizeNotation(rawObservationText) : rawObservationText;
   const { tokens, context } = parseObservation(observationText);
   const seriesToken = tokens.find((t) => t.kind === 'series');
   const obsToken: ObservationToken | undefined =
@@ -124,9 +154,24 @@ export function evaluate(
     return base;
   }
 
+  // 문장이 판정하면 안 되는 상태를 말하면(어림한 수·다른 단위계·판정 재령 밖·기준 밖 대상) 값을 읽기 전에 멈춘다
+  const veto = findVeto(observationText, {
+    operator: meta.operator,
+    unit: meta.unit ?? null,
+    outOfScopeKeywords: stringList((meta as { outOfScopeKeywords?: unknown }).outOfScopeKeywords),
+    inScopeKeywords: stringList((meta as { inScopeKeywords?: unknown }).inScopeKeywords),
+  });
+  if (veto) {
+    base.observedValue = null;
+    base.reasoning = veto.reason;
+    base.neededInputs = [veto.neededInput];
+    return base;
+  }
+
   // 압축강도 — 여러 번의 시험값(series)과 값 하나(scalar) 모두 다룬다
   if (meta.operator === 'statistical_threshold') {
-    return evalStrength(base, meta, seriesToken ?? null, obsToken ?? null, context);
+    // 값 하나는 MPa 가 붙었거나 강도라고 적힌 수에서만 읽는다 — 재령("28일")이나 공시체 수를 시험값으로 읽지 않는다
+    return evalStrength(base, meta, seriesToken ?? null, seriesToken ? null : readStrengthScalar(observationText), context);
   }
 
   // 조건을 알아야 기준이 정해지는 항목 — 수치를 견주지 않는다
@@ -167,6 +212,39 @@ export function evaluate(
   }
   const v = candidates.values[0] as number;
   const unit = meta.unit ?? '';
+
+  // 단위도, 이 항목의 이름도, 재서 나온 값이라는 말도 없는 수는 측정값이라는 근거가 없다 — 판정하지 않는다
+  if (candidates.unsupported) {
+    base.observedValue = null;
+    base.reasoning = `문장의 수(${v})가 이 시험의 측정값인지 알 수 없어 판정하지 않습니다 — 단위나 항목 이름이 붙어 있지 않습니다. 측정값을 단위${meta.unit ? `(${meta.unit})` : ''}와 함께 적어 주세요.`;
+    base.neededInputs = ['측정값 (단위와 함께)'];
+    return base;
+  }
+  // 단위 없이 적힌 값이 기준과 동떨어져 있으면 측정값이 아니거나 단위가 다를 수 있다 — 판정하지 않는다
+  if (candidates.unitless) {
+    const lo =
+      meta.operator === 'tolerance' && typeof meta.target === 'number' && typeof meta.plusMinus === 'number'
+        ? meta.target - meta.plusMinus
+        : meta.operator === 'between' && typeof meta.min === 'number'
+          ? meta.min
+          : (meta.operator === 'ge' || meta.operator === 'gt') && typeof meta.threshold === 'number'
+            ? meta.threshold
+            : null;
+    const hi =
+      meta.operator === 'tolerance' && typeof meta.target === 'number' && typeof meta.plusMinus === 'number'
+        ? meta.target + meta.plusMinus
+        : meta.operator === 'between' && typeof meta.max === 'number'
+          ? meta.max
+          : (meta.operator === 'le' || meta.operator === 'lt') && typeof meta.threshold === 'number'
+            ? meta.threshold
+            : null;
+    if (farFromCriterion(v, lo, hi)) {
+      base.observedValue = null;
+      base.reasoning = `단위 없이 적힌 수(${v})가 기준과 크게 달라 판정하지 않습니다 — 측정값이 아니거나 단위가 다를 수 있습니다. 측정값을 단위${meta.unit ? `(${meta.unit})` : ''}와 함께 적어 주세요.`;
+      base.neededInputs = ['측정값 (단위와 함께)'];
+      return base;
+    }
+  }
 
   switch (meta.operator) {
     case 'tolerance': {
@@ -302,6 +380,11 @@ function evalByTarget(
   }
   const v = reading.measured[0] as number;
   const seen: Judgment = { ...base, observedValue: v, observedUnit: unit };
+  if (reading.conflict) {
+    seen.reasoning = `${label} 값이 문장에 두 가지로 적혀 있습니다(${reading.conflict[0]}${unit} · ${reading.conflict[1]}${unit}) — 어느 값이 맞는지 정할 수 없어 판정하지 않습니다. 납품서에 적힌 ${label} 값 하나만 적어 주세요.`;
+    seen.neededInputs = [`${label} (납품서·배합설계서에 적힌 값 하나)`];
+    return seen;
+  }
   if (reading.target === undefined) {
     seen.reasoning = `${label} 값이 없어 판정하지 않습니다 — 허용오차가 ${label}에 따라 다릅니다(${tableText}). 납품서·배합설계서에 적힌 ${label} 값을 함께 적어 주세요 (예: "${quantity} ${v}${unit}, ${label} 150${unit}").`;
     seen.neededInputs = [`${label} (납품서·배합설계서에 적힌 값)`];
@@ -309,6 +392,18 @@ function evalByTarget(
   }
   const target = reading.target;
   const pm = toleranceFor(target, table);
+  // 단위도, 이 항목의 이름도, 재서 나온 값이라는 말도 없는 수는 측정값이라는 근거가 없다 — 판정하지 않는다
+  if (reading.unsupported) {
+    base.reasoning = `문장의 수(${v})가 ${quantity} 측정값인지 알 수 없어 판정하지 않습니다 — 단위나 항목 이름이 붙어 있지 않습니다. "${quantity} ${v}${unit}" 처럼 적어 주세요.`;
+    base.neededInputs = [`${quantity} 측정값 (단위와 함께)`];
+    return base;
+  }
+  // 단위 없이 적힌 값이 허용범위와 동떨어져 있으면 측정값이 아니거나 단위가 다를 수 있다 — 판정하지 않는다
+  if (reading.unitless && farFromCriterion(v, target - (pm ?? 0), target + (pm ?? 0))) {
+    base.reasoning = `단위 없이 적힌 수(${v})가 ${label} ${target}${unit} 과 크게 달라 판정하지 않습니다 — 측정값이 아니거나 단위가 다를 수 있습니다(cm 로 적었다면 mm 로 바꿔 적어 주세요). "${quantity} ${v}${unit}" 처럼 단위를 붙여 적어 주세요.`;
+    base.neededInputs = [`${quantity} 측정값 (단위와 함께)`];
+    return base;
+  }
   if (pm === null) {
     seen.reasoning = `${label} ${target}${unit} 은 허용오차 표에 없는 값입니다(${tableText}) — 공사시방서·배합설계서가 정한 허용오차로 판정하세요.`;
     seen.neededInputs = [`${label} ${target}${unit} 에 적용할 허용오차 (공사시방서)`];
@@ -331,7 +426,8 @@ function evalByTarget(
     ...seen,
     appliedCriterion: { ...(seen.appliedCriterion ?? { unit }), target, plusMinus: pm, min, max },
   };
-  const head = `${label} ${target}${unit} → 허용오차 ±${pm}${unit} → 허용범위 ${min}~${max}${unit}.`;
+  const from = reading.targetSource === 'mix_code' ? '(레미콘 규격의 셋째 수)' : '';
+  const head = `${label} ${target}${unit}${from} → 허용오차 ±${pm}${unit} → 허용범위 ${min}~${max}${unit}.`;
   if (main === 'low') return mk(applied, 'FAIL', 'too_low', v, unit, `${head} 측정 ${v}${unit} < 허용하한 ${min}${unit}${note}`);
   if (main === 'high') return mk(applied, 'FAIL', 'too_high', v, unit, `${head} 측정 ${v}${unit} > 허용상한 ${max}${unit}${note}`);
   const margin = pm * MARGINAL_RATIO;

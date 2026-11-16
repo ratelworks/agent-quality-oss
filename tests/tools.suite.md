@@ -10,7 +10,7 @@
 ```yaml
 meta:
   suite: tools
-  purpose: 56개 MCP 도구가 한국 건설 품질관리 도메인 지식을 올바르게 공급하는가 (입력→기대 출력의 행동 계약)
+  purpose: 57개 MCP 도구가 한국 건설 품질관리 도메인 지식을 올바르게 공급하는가 (입력→기대 출력의 행동 계약)
   module: src/tools/* (TOOL_MODULES, src/tool-registry.ts 등록)
   runner_impl: scripts/smoke-test.ts   # CASES 배열 = 실행체. 이 suite 는 정의-자산
   total_cases: 94
@@ -1963,7 +1963,7 @@ created_at: 2026-07-02T00:00:00+09:00
 
 ## 미커버 도구 (점진 확장 대상)
 
-> 아래 16개 도구는 현재 smoke-test.ts(이 suite)에 회귀 케이스가 없다. silent 누락 방지를 위해 명시한다.
+> 아래 17개 도구는 현재 smoke-test.ts(이 suite)에 회귀 케이스가 없다. silent 누락 방지를 위해 명시한다.
 > `tests/suite-coverage.test.mjs` 가 이 목록을 자동 집계·출력한다 (커버리지 부재 자체는 fail 아님 — 확장 대상).
 > 신규 케이스 추가 시 위 그룹 D(스키마·컴파일)에 TC-tools-{nnn} 으로 등록하고 smoke-test.ts 에도 실행체를 추가한다.
 
@@ -1975,6 +1975,8 @@ uncovered_tools:
   - export_quality_document
   # 품질시험기준 조회 (1) — 전용 시험 scripts/test/test-test-standards.ts 가 다룬다
   - search_quality_test_standards
+  # 조문 낱말 검색 (1) — 전용 시험 scripts/test/test-laws.ts 가 다룬다
+  - search_quality_law_text
   # 양식 스키마 (12)
   - get_qc_assignment_notice_schema
   - get_quality_test_plan_schema

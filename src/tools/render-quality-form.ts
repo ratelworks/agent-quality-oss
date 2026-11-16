@@ -212,6 +212,7 @@ export function run(args: RenderQualityFormArgs, graph: OntologyGraph) {
     reference: schema.reference ?? null,
     referenceStandard: schema.referenceStandard ?? null,
     retention: schema.retention ?? null,
+    guidance: schema.guidance ?? null,
     a2uiVersion: A2UI_VERSION,
     surfaceId,
     root: ROOT_ID,

@@ -33,7 +33,10 @@ export const spec: ToolSpec = {
       observation: {
         type: 'string',
         description:
-          '관측값 문장 (예: "슬럼프 210mm, 호칭 슬럼프 150mm" — 슬럼프는 납품서의 호칭 슬럼프를 함께 적는다). 한 시험의 여러 값은 한 문장에 함께 적는다 (예: "압축강도 공시체 3개 25.1, 26.4, 27.8 MPa, 호칭강도 27MPa"). 사용자가 말한 기준 강도의 이름을 그대로 적는다 — 설계기준강도라고 했으면 "설계기준강도 27MPa" 로 적고 호칭강도로 바꿔 적지 않는다(둘은 다른 값이다). 부위·조건(노상·한중 등)도 함께 적는다.',
+          '관측값 문장. 값 하나에 한 번 부른다 — 같은 시험의 측정값이 여러 개면(여러 차량·측점·재시험) 값마다 따로 부르고, 하나만 골라 넣지 않는다. ' +
+          '슬럼프는 호칭 슬럼프를 함께 적는다 (예: "슬럼프 210mm, 호칭 슬럼프 150mm"). 레미콘 규격은 풀어 쓰지 말고 그대로 적는다 (예: "슬럼프 195mm, 규격 25-27-180" — 굵은골재 최대치수-호칭강도-슬럼프 순서라 셋째 수 180 을 호칭 슬럼프로 읽는다). ' +
+          '압축강도는 회마다의 기록을 한 문장에 함께 적는다 (예: "압축강도 1회 25.1 24.6 25.9 / 2회 23.8 24.4 23.6 / 3회 26.2 25.5 25.7 MPa, 호칭강도 24MPa" — 공시체 3개의 평균이 1회 시험값이고 합격은 연속 3회로 본다. 1회만 있으면 "압축강도 공시체 3개 25.1, 26.4, 27.8 MPa, 호칭강도 27MPa"). ' +
+          '사용자가 말한 기준 강도의 이름을 그대로 적는다 — 설계기준강도라고 했으면 "설계기준강도 27MPa" 로 적고 호칭강도로 바꿔 적지 않는다(둘은 다른 값이다). 콘크리트 종류(경량골재·포장·고강도)와 부위·조건(노상·한중 등)도 함께 적는다.',
       },
       criterionId: {
         type: 'string',
@@ -165,12 +168,39 @@ export function run(args: EvaluateArgs, graph: OntologyGraph) {
       qualitySignal = 'undetermined';
   }
 
+  // 같은 시험에 조건별 기준이 여럿이면(공기량: 보통·경량골재·포장·고강도) 어느 조건의 기준으로 판정했는지 밝힌다
+  const siblingCriteria = resolvedTest ? (graph.get(resolvedTest.id)?.relations?.['hasAcceptanceCriteria'] ?? []) : [];
+  const condition = typeof criterion?.meta?.['condition'] === 'string' ? (criterion.meta['condition'] as string) : null;
+  const appliedCondition =
+    criterion && condition && siblingCriteria.length > 1 && (legalVerdict === 'PASS' || legalVerdict === 'FAIL')
+      ? {
+          condition,
+          note: `'${condition}' 조건의 기준으로 판정했습니다. 문장에 다른 조건이 적혀 있지 않으면 이 결과를 그대로 씁니다. 조건이 다르면(${siblingCriteria
+            .filter((id) => id !== criterion?.id)
+            .map((id) => graph.get(id)?.name)
+            .filter((name): name is string => !!name)
+            .join(' · ')}) 그 조건을 문장에 적어 다시 판정하세요.`,
+        }
+      : null;
+  // 판정에 쓴 기준의 근거 상태를 한 문장으로 — basis 목록의 다른 항목(시험 항목·시험방법 표준) 상태와 섞어 읽지 않게 한다
+  const criterionStatus = typeof criterion?.meta?.['sourceStatus'] === 'string' ? (criterion.meta['sourceStatus'] as string) : null;
+  const reference = typeof criterion?.meta?.['reference'] === 'string' ? (criterion.meta['reference'] as string) : null;
+  const criterionSource = criterion
+    ? criterionStatus === 'verified'
+      ? `판정에 쓴 기준${reference ? `(${reference})` : ''}은 기준 원문과 대조했습니다. basis 의 시험 항목·시험방법 표준(KS)에 붙은 상태 표시는 판정 수치와 무관합니다 — KS 는 표준 번호와 이름만 대조했고 본문은 싣지 않습니다.`
+      : `판정에 쓴 기준의 근거 상태는 '${criterionStatus ?? 'unknown'}' 입니다 — 기준 원문을 확인하기 전에는 이 결과를 확정으로 쓰지 마세요.`
+    : null;
+
   const expertAssessment = {
     observation,
     /** 판정에 쓴 시험 — by: 'testId'(받은 id) | 'observation'(문장에 적힌 이름으로 찾음) */
     resolvedTest,
     applicableCriterion: criterionExpr,
     criterionId: j.criterionId,
+    /** 판정에 쓴 기준이 적용되는 조건 — 같은 시험에 조건별 기준이 여럿일 때만 (없으면 null) */
+    appliedCondition,
+    /** 판정에 쓴 기준의 근거 상태 */
+    criterionSource,
     observedValue: j.observedValue,
     observedUnit: j.observedUnit,
     comparison: j.reasoning,
@@ -370,6 +400,11 @@ function buildNextSteps(
   } else if (verdict === 'UNDETERMINED') {
     if (neededInputs.length > 0) {
       steps.push(`다음을 확인해 observation 에 함께 적어 다시 판정: ${neededInputs.join(' / ')}`);
+      if (neededInputs.some((n) => n.includes('연속 3회'))) {
+        steps.push(
+          '다른 회의 시험값이 있으면 따로 부르지 말고 한 문장에 함께 적어 다시 판정 — 예: "압축강도 1회 25.1 24.6 25.9 / 2회 23.8 24.4 23.6 / 3회 26.2 25.5 25.7 MPa, 호칭강도 24MPa"',
+        );
+      }
     } else if (criterion) {
       steps.push('단위·기준값 주입 또는 수동 판정 검토');
     }

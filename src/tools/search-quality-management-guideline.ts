@@ -1,4 +1,5 @@
 import { searchEntities } from '../ontology/resolver.js';
+import { searchLawText } from '../knowledge/law-text-search.js';
 import { buildResponse, entityBasis } from './_response.js';
 import type { ToolSpec } from '../lib/types.js';
 import type { OntologyGraph } from '../ontology/graph.js';
@@ -6,7 +7,7 @@ import type { OntologyGraph } from '../ontology/graph.js';
 export const spec: ToolSpec = {
   name: 'search_quality_management_guideline',
   description:
-    '건설공사 품질관리 업무지침(국토교통부 고시 2026-360호) 조항을 검색한다. 키워드 또는 편(part) 번호로 조회. [근거 제공용 · 최종 판정은 품질관리자·감리원·발주자]',
+    '건설공사 품질관리 업무지침(국토교통부 고시 2026-360호) 조항을 검색한다. 키워드 또는 편(part) 번호로 조회. 조항 요약에서 찾지 못하면 조문 본문에서 낱말로 찾은 결과(lawTextHits — 법·시행령·시행규칙 포함)를 함께 돌려준다. 조문 본문을 바로 찾으려면 search_quality_law_text 를 쓴다. [근거 제공용 · 최종 판정은 품질관리자·감리원·발주자]',
   inputSchema: {
     type: 'object',
     properties: {
@@ -15,6 +16,9 @@ export const spec: ToolSpec = {
     },
   },
 };
+
+/** 조항 요약에서 찾지 못했을 때 조문 본문에서 찾아 함께 돌려주는 수 */
+const LAW_TEXT_FALLBACK_LIMIT = 5;
 
 export interface SearchGuidelineArgs {
   query?: string;
@@ -68,6 +72,18 @@ export function run(args: SearchGuidelineArgs, graph: OntologyGraph) {
       scope: s.meta?.['scope'] as string | undefined,
       skeleton: Boolean(s.meta?.['skeleton']),
     })),
+    // 조항 요약에서 찾지 못하면 조문 본문에서 낱말로 찾는다 — 지침에 없으면 법·시행령·시행규칙에서 찾은 것도 함께 알린다
+    lawTextHits:
+      query && filtered.length === 0
+        ? searchLawText(query, undefined, LAW_TEXT_FALLBACK_LIMIT).map((h) => ({
+            law: h.lawName,
+            ref: h.ref,
+            title: h.title,
+            snippet: h.snippet,
+            matchedByFieldPhrase: h.matchedByFieldPhrase,
+            missingTerms: h.missingTerms,
+          }))
+        : [],
     sourceNote: '국토교통부 고시 2026-360호 (2026.7.8 시행). 원문은 국가법령정보센터 참조.',
   };
 

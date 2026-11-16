@@ -144,6 +144,24 @@ async function testLookup(): Promise<void> {
   check("없는 조문은 null", findArticle(rule, "999") === null);
   check("낱말 찾기", searchLaws("품질검사 실시대장").some((h) => h.lawId === "btia_rule"));
 
+  // 낱말로 조문 찾기 — 어느 조문인지 모르는 질문에서 비서가 조문에 닿는 길
+  const topOf = async (query: string): Promise<string> => {
+    const r = await callTool("search_quality_law_text", { query, limit: 3 }, { graph });
+    const first = (r.result as { items: Array<{ law: string; ref: string }> }).items[0];
+    return first ? `${first.law} ${first.ref}` : "(없음)";
+  };
+  check("낱말 검색: 즉시 반품 → 업무지침 제41조", (await topOf("즉시 반품")) === "건설공사 품질관리 업무지침 제41조");
+  check("낱말 검색: 사전점검 레미콘 → 업무지침 제33조", (await topOf("사전점검 레미콘")) === "건설공사 품질관리 업무지침 제33조");
+  // 조문에는 "겸직"이라는 말이 없다("각 호 외의 업무") — 현장 표현으로 찾는다
+  check("낱말 검색: 겸직 → 시행령 제91조", (await topOf("겸직")) === "건설기술 진흥법 시행령 제91조");
+  const byPhrase = await callTool("search_quality_law_text", { query: "겸직" }, { graph });
+  const phraseHit = (byPhrase.result as { items: Array<{ matchedByFieldPhrase: string[]; lookup: { law: string; article?: string } }> }).items[0];
+  check("낱말 검색: 현장 표현으로 찾은 낱말을 따로 알린다", phraseHit?.matchedByFieldPhrase.includes("겸직") === true && phraseHit.lookup.article === "제91조");
+  const nothing = await callTool("search_quality_law_text", { query: "양자컴퓨터" }, { graph });
+  check("낱말 검색: 없는 낱말은 0건이고 없다고 알린다", (nothing.result as { count: number; note: string }).count === 0 && (nothing.result as { note: string }).note.includes("없습니다"));
+  const viaGuideline = await callTool("search_quality_management_guideline", { query: "겸직" }, { graph });
+  check("지침 검색: 조항 요약에 없으면 조문 본문 결과를 함께 준다", (viaGuideline.result as { lawTextHits: Array<{ ref: string }> }).lawTextHits.some((h) => h.ref === "제91조"));
+
   const byLaw = await callTool("get_quality_law_article", { law: "건설기술 진흥법 시행령", article: "제89조" }, { graph });
   const r1 = byLaw.result as { law: { edition: string }; article: { text: string; title: string } };
   check("도구: 법령+조문으로 원문", r1.article.title === "품질관리계획 등의 수립대상 공사" && r1.article.text.includes("660제곱미터") && /제\d+호/.test(r1.law.edition));

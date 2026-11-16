@@ -79,6 +79,7 @@ export function createSchemaTool(def: SchemaToolDef): SchemaToolResult {
         reference: schema.reference ?? null,
         referenceStandard: schema.referenceStandard ?? null,
         retention: schema.retention ?? null,
+        guidance: schema.guidance ?? null,
         sections,
         usage:
           "이 스키마를 LLM이 받아 실제 문서를 작성. 본 서버는 구조·필드만 제공.",

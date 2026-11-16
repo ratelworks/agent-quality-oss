@@ -1,0 +1,237 @@
+[
+  {
+    "set": "1 (id c01~c70)",
+    "sentences": 70,
+    "date": "2026-11-16",
+    "note": "첫 묶음 — 이 묶음을 보며 고쳤다. 아래는 고치기 전(공개 main 5c5e467)의 결과",
+    "direct": {
+      "correct": 58,
+      "wrongPass": 0,
+      "wrongFail": 2,
+      "askedThoughDecidable": 10
+    }
+  },
+  {
+    "set": "2 (id h01~h80)",
+    "sentences": 80,
+    "date": "2026-11-16",
+    "note": "묶음 1 을 보고 고친 뒤 처음 돌림",
+    "direct": {
+      "correct": 64,
+      "wrongPass": 0,
+      "wrongFail": 0,
+      "askedThoughDecidable": 16
+    },
+    "published": {
+      "npm-0.4.0": {
+        "correct": 27,
+        "wrongPass": 13,
+        "wrongFail": 5
+      },
+      "main-5c5e467": {
+        "correct": 57,
+        "wrongPass": 5,
+        "wrongFail": 3
+      }
+    }
+  },
+  {
+    "set": "A (id a001~a120)",
+    "sentences": 120,
+    "date": "2026-11-16",
+    "note": "묶음 2 에서 드러난 갈래를 고친 뒤 처음 돌림",
+    "direct": {
+      "correct": 94,
+      "wrongPass": 0,
+      "wrongFail": 2,
+      "askedThoughDecidable": 24
+    },
+    "published": {
+      "npm-0.4.0": {
+        "correct": 51,
+        "wrongPass": 15,
+        "wrongFail": 8
+      },
+      "main-5c5e467": {
+        "correct": 86,
+        "wrongPass": 4,
+        "wrongFail": 9
+      }
+    }
+  },
+  {
+    "set": "B (id b001~b120)",
+    "sentences": 120,
+    "date": "2026-11-16",
+    "note": "묶음 A 에서 드러난 갈래를 고친 뒤 처음 돌림. assistant 는 그 시점의 도구를 가장 작은 모델의 AI 비서에 붙여 문장을 그대로 준 결과",
+    "direct": {
+      "correct": 94,
+      "wrongPass": 0,
+      "wrongFail": 1,
+      "askedThoughDecidable": 25
+    },
+    "published": {
+      "npm-0.4.0": {
+        "correct": 50,
+        "wrongPass": 17,
+        "wrongFail": 11
+      },
+      "main-5c5e467": {
+        "correct": 78,
+        "wrongPass": 8,
+        "wrongFail": 9
+      }
+    },
+    "assistant": {
+      "model": "가장 작은 모델",
+      "byAnswerKey": {
+        "correct": 98,
+        "note": "정답 표는 값이 여러 개면 '되물어야 함'으로 적혀 있다 — 비서는 값마다 따로 판정했다"
+      },
+      "substantive": {
+        "correct": 114,
+        "wrongPass": 0,
+        "wrongFail": 0,
+        "heldThoughDecidable": 6,
+        "note": "정답 표와 어긋난 22문장을 값마다 계산해 다시 본 결과(저장소 작업자가 계산)"
+      }
+    }
+  },
+  {
+    "set": "C (id c001~c120)",
+    "sentences": 120,
+    "date": "2026-11-16",
+    "note": "묶음 B 를 보고 고치고 AI 비서용 설명·응답을 보강한 뒤 처음 돌림. assistant 는 같은 시점의 도구를 가장 작은 모델의 AI 비서에 붙여 문장을 그대로 준 결과(정답 표 기준 — 값마다 따로 판정한 답의 실질 채점은 아래 substantive)",
+    "direct": {
+      "correct": 94,
+      "wrongPass": 0,
+      "wrongFail": 2,
+      "askedThoughDecidable": 24
+    },
+    "published": {
+      "npm-0.4.0": {
+        "correct": 47,
+        "wrongPass": 5,
+        "wrongFail": 2
+      },
+      "main-5c5e467": {
+        "correct": 67,
+        "wrongPass": 4,
+        "wrongFail": 12
+      }
+    },
+    "assistant": {
+      "model": "가장 작은 모델",
+      "byAnswerKey": {
+        "correct": 108,
+        "wrongPass": 10,
+        "wrongFail": 0,
+        "heldThoughDecidable": 2,
+        "noToolCall": 7
+      },
+      "substantive": {
+        "correct": 119,
+        "wrongPass": 0,
+        "wrongFail": 0,
+        "heldThoughDecidable": 1,
+        "note": "정답 표와 어긋난 12문장을 값마다 계산해 다시 본 결과(저장소 작업자가 계산). 정답 표의 '되물음' 10건은 값마다 따로 판정해 모두 맞음, 1건(c058)은 본문에서 불합격을 바르게 밝히고 마지막 줄만 '여러 값', 1건(c028)은 경계값에서 보류"
+      }
+    }
+  },
+  {
+    "set": "D (id d001~d120)",
+    "sentences": 120,
+    "date": "2026-11-17",
+    "note": "묶음 C 를 보고 고친 뒤 처음 돌림. 작성자에게 도구를 속이기 쉬운 글을 3분의 1쯤 넣게 함",
+    "direct": {
+      "correct": 107,
+      "wrongPass": 4,
+      "wrongFail": 1,
+      "askedThoughDecidable": 8
+    },
+    "published": {
+      "npm-0.4.0": {
+        "correct": 47,
+        "wrongPass": 27,
+        "wrongFail": 16
+      },
+      "main-5c5e467": {
+        "correct": 85,
+        "wrongPass": 8,
+        "wrongFail": 15
+      }
+    }
+  },
+  {
+    "set": "E (id e001~e120)",
+    "sentences": 120,
+    "date": "2026-11-17",
+    "note": "묶음 D 에서 드러난 갈래(어림한 수·다른 단위계·판정 재령 밖 강도·기준 밖 대상·차이로 적은 수)를 고친 뒤 처음 돌림",
+    "direct": {
+      "correct": 103,
+      "wrongPass": 2,
+      "wrongFail": 0,
+      "askedThoughDecidable": 15
+    },
+    "published": {
+      "npm-0.4.0": {
+        "correct": 55,
+        "wrongPass": 21,
+        "wrongFail": 15
+      },
+      "main-5c5e467": {
+        "correct": 83,
+        "wrongPass": 8,
+        "wrongFail": 8
+      }
+    }
+  },
+  {
+    "set": "F (id f001~f120)",
+    "sentences": 120,
+    "date": "2026-11-17",
+    "note": "묶음 D·E 에서 드러난 갈래(표·번호에 먹힌 값·목표값 등)를 고친 뒤 처음 돌림. F·G 는 같은 빌드로 돌림. 작성자에게 목록에 없는 방식으로 헷갈리게 할 글도 넣게 함",
+    "direct": {
+      "correct": 114,
+      "wrongPass": 2,
+      "wrongFail": 4,
+      "askedThoughDecidable": 0
+    },
+    "published": {
+      "npm-0.4.0": {
+        "correct": 56,
+        "wrongPass": 23,
+        "wrongFail": 13
+      },
+      "main-5c5e467": {
+        "correct": 81,
+        "wrongPass": 14,
+        "wrongFail": 17
+      }
+    }
+  },
+  {
+    "set": "G (id g001~g120)",
+    "sentences": 120,
+    "date": "2026-11-17",
+    "note": "묶음 D·E 에서 드러난 갈래(표·번호에 먹힌 값·목표값 등)를 고친 뒤 처음 돌림. F·G 는 같은 빌드로 돌림. 작성자에게 목록에 없는 방식으로 헷갈리게 할 글도 넣게 함",
+    "direct": {
+      "correct": 113,
+      "wrongPass": 1,
+      "wrongFail": 0,
+      "askedThoughDecidable": 6
+    },
+    "published": {
+      "npm-0.4.0": {
+        "correct": 54,
+        "wrongPass": 19,
+        "wrongFail": 20
+      },
+      "main-5c5e467": {
+        "correct": 83,
+        "wrongPass": 9,
+        "wrongFail": 17
+      }
+    }
+  }
+]
