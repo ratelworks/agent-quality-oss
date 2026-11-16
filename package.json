@@ -66,8 +66,8 @@
     "export:rdf": "tsx scripts/ontology/export-rdf.ts",
     "test:ontology-standard": "tsx scripts/test/test-ontology-standard.ts",
     "test:field-questions": "tsx scripts/test/test-field-search.ts && tsx scripts/test/test-field-questions.ts --min 93 && tsx scripts/test/test-field-questions.ts --holdout --min 90 && tsx scripts/test/test-field-questions.ts --set-c --min 70",
-    "docs:sync": "tsx scripts/build/sync-docs.ts",
-    "docs:check": "tsx scripts/build/sync-docs.ts --check"
+    "docs:sync": "tsx scripts/docs/sync-docs.ts",
+    "docs:check": "tsx scripts/docs/sync-docs.ts --check"
   },
   "keywords": [
     "mcp",
