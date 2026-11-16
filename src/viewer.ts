@@ -3,11 +3,11 @@
 //
 // `npx agent-quality-oss viewer` 한 줄로 뜨는 로컬 웹 폼. 품질 문서 19종을 선택하면
 // 적용 근거·보존기간·참조 표준이 자동 표시되고, 필드를 채운 뒤 "작성 컨텍스트"를
-// 생성해 LLM 에게 그대로 넘길 수 있다. (본문 작성은 LLM, 결재는 품질관리자·감리원)
+// 생성해 AI 비서에게 그대로 넘길 수 있다. (결재는 품질관리자·감리원)
 //
 // 의존성 0 — node:http + 인라인 HTML. 그래프를 1회 로드해 in-process 로 도구를 호출한다.
-// A2UI 폼은 render_quality_form, 작성 컨텍스트는 compose_writing_context 가 생성한다.
-// agent-safety-oss viewer 와 통일한 구조 (A2UI 기반).
+// 폼은 render_quality_form 이 주는 A2UI 1.0 메시지를 화면 스크립트가 그린다.
+// 작성 컨텍스트는 compose_writing_context 가 만든다.
 // ─────────────────────────────────────────────────────────────────────────────
 
 import { createServer, type IncomingMessage, type ServerResponse } from "node:http";
@@ -239,6 +239,15 @@ const HTML = `<!doctype html>
   .warn { background:var(--warn-soft); color:var(--warn); border-radius:8px; padding:8px 10px; font-size:12px; margin-bottom:10px; }
   pre.context { background:#0d1117; color:#e6edf3; border-radius:10px; padding:14px; font-size:12px; line-height:1.5; overflow:auto; max-height:440px; white-space:pre-wrap; word-break:break-word; }
   .empty { color:var(--muted); font-size:13px; padding:24px 0; text-align:center; }
+  .doc-title { font-size:15px; font-weight:700; margin-bottom:4px; }
+  .group { margin-top:14px; }
+  .group-label { font-size:12px; font-weight:700; margin:10px 0 6px; }
+  .rows table { width:100%; border-collapse:collapse; margin-bottom:6px; }
+  .rows th { font-size:11px; font-weight:600; color:var(--muted); text-align:left; padding:2px 4px; white-space:nowrap; }
+  .rows td { padding:2px; }
+  .rows { overflow-x:auto; }
+  .rows input { min-width:90px; }
+  .btn.small { padding:5px 10px; font-size:12px; }
   .legal { font-size:11px; color:var(--muted); margin-top:14px; line-height:1.5; }
 </style>
 </head>
@@ -246,7 +255,7 @@ const HTML = `<!doctype html>
 <header>
   <div>
     <h1>agent-quality-oss · 품질문서 작성 보조</h1>
-    <div class="sub">양식 구조·근거는 도구가 공급 · 본문 작성은 LLM · 결재는 품질관리자·감리원</div>
+    <div class="sub">양식 구조·근거는 도구가 공급 · 초안 작성은 AI 비서 · 결재는 품질관리자·감리원</div>
   </div>
   <select id="docSelect"><option value="">문서 양식을 선택하세요…</option></select>
 </header>
@@ -255,7 +264,6 @@ const HTML = `<!doctype html>
     <h2>입력 폼</h2>
     <div id="formArea"><div class="empty">상단에서 문서 양식을 선택하면 필드가 표시됩니다.</div></div>
     <div class="toolbar" id="formToolbar" style="display:none">
-      <button class="btn" id="composeBtn">작성 컨텍스트 생성</button>
       <span class="status" id="draftStatus"></span>
     </div>
   </section>
@@ -264,14 +272,18 @@ const HTML = `<!doctype html>
     <div id="metaArea"><div class="empty">문서를 선택하면 참조 표준·보존기간·근거가 표시됩니다.</div></div>
     <div id="contextArea"></div>
     <div class="legal">
-      본 도구는 양식 구조와 적용 근거만 제공합니다. 생성된 작성 컨텍스트를 LLM 에게 전달해 초안을 받으십시오.
+      본 도구는 양식 구조와 적용 근거만 제공합니다. 생성된 작성 컨텍스트를 AI 비서에게 전달해 초안을 받으십시오.
       최종 판정·승인·서명은 품질관리자·감리원·발주자의 책임입니다.
     </div>
   </section>
 </main>
 <script>
+// A2UI 1.0 메시지(render_quality_form 결과)를 그리는 작은 렌더러.
+// 입력 컴포넌트의 값은 데이터 모델 경로(/draft/...)에 묶인다 — bindings 가 경로와 화면 입력을 잇는다.
 var currentDoc = "";
 var draftTimer = null;
+var bindings = [];
+var buttons = [];
 
 function el(tag, attrs, children) {
   var e = document.createElement(tag);
@@ -291,51 +303,167 @@ function loadDocs() {
   });
 }
 
-function buildField(comp) {
-  var wrap = el("div", { "class":"field" });
-  var label = el("label", {});
-  label.appendChild(document.createTextNode(comp.label));
-  if (comp.required) { var r = el("span", {"class":"req","text":"*"}); label.appendChild(r); }
-  wrap.appendChild(label);
-
-  var input;
-  if (comp.fieldType === "select" && comp.options) {
-    input = el("select", {});
-    input.appendChild(el("option", {"value":"","text":"선택…"}));
-    comp.options.forEach(function(op){ input.appendChild(el("option", {"value":op,"text":op})); });
-  } else if (comp.fieldType === "longText") {
-    input = el("textarea", {});
-  } else if (comp.fieldType === "date") {
-    input = el("input", {"type":"date"});
-  } else if (comp.fieldType === "number") {
-    input = el("input", {"type":"number"});
-  } else {
-    input = el("input", {"type":"text"});
+// "/draft/a/b" → ["a","b"] (JSON Pointer 이스케이프 해제)
+function pathSegments(pointer) {
+  return pointer.split("/").slice(2).map(function(s){ return s.replace(/~1/g, "/").replace(/~0/g, "~"); });
+}
+function readPath(obj, segs) {
+  var cur = obj;
+  for (var i = 0; i < segs.length; i++) {
+    if (cur === null || typeof cur !== "object") return undefined;
+    cur = cur[segs[i]];
   }
-  input.setAttribute("data-field", comp.label);
-  input.addEventListener("input", scheduleDraft);
-  wrap.appendChild(input);
+  return cur;
+}
+function writePath(obj, segs, value) {
+  var cur = obj;
+  for (var i = 0; i < segs.length - 1; i++) {
+    if (typeof cur[segs[i]] !== "object" || cur[segs[i]] === null) cur[segs[i]] = {};
+    cur = cur[segs[i]];
+  }
+  cur[segs[segs.length - 1]] = value;
+}
+function extensionsOf(comp) { var m = comp["@metadata"]; return (m && m.extensions) || {}; }
+function isRequired(comp) {
+  return (comp["@checks"] || []).some(function(c){ return c.condition && c.condition["@call"] === "required"; });
+}
+function bind(comp, get, set) {
+  bindings.push({ segs: pathSegments(comp.value["@path"]), get: get, set: set });
+}
 
-  if (comp.hint) wrap.appendChild(el("div", {"class":"hint","text":comp.hint}));
+// 표 입력 — 열은 @metadata.extensions.columns, 값은 행 객체의 목록
+function buildRowsEditor(comp, columns) {
+  var wrap = el("div", {"class":"rows"});
+  var table = el("table", {});
+  var head = el("tr", {});
+  columns.forEach(function(c){ head.appendChild(el("th", {"text": c.label})); });
+  head.appendChild(el("th", {}));
+  table.appendChild(head);
+  function addRow(values) {
+    var tr = el("tr", {"class":"row"});
+    columns.forEach(function(c){
+      var inp = el("input", {"type":"text","data-col":c.key,"aria-label":c.label});
+      if (values && values[c.key] !== undefined) inp.value = values[c.key];
+      inp.addEventListener("input", scheduleDraft);
+      tr.appendChild(el("td", {}, [inp]));
+    });
+    var del = el("button", {"class":"btn ghost small","type":"button","text":"삭제"});
+    del.addEventListener("click", function(){ tr.remove(); scheduleDraft(); });
+    tr.appendChild(el("td", {}, [del]));
+    table.appendChild(tr);
+  }
+  var add = el("button", {"class":"btn ghost small","type":"button","text":"행 추가"});
+  add.addEventListener("click", function(){ addRow(null); });
+  wrap.appendChild(table);
+  wrap.appendChild(add);
+  addRow(null);
+  bind(comp, function(){
+    var rows = [];
+    table.querySelectorAll("tr.row").forEach(function(tr){
+      var row = {}; var any = false;
+      tr.querySelectorAll("input").forEach(function(inp){
+        if (inp.value !== "") { row[inp.getAttribute("data-col")] = inp.value; any = true; }
+      });
+      if (any) rows.push(row);
+    });
+    return rows;
+  }, function(value){
+    if (!Array.isArray(value) || value.length === 0) return;
+    table.querySelectorAll("tr.row").forEach(function(tr){ tr.remove(); });
+    value.forEach(function(row){ addRow(row !== null && typeof row === "object" ? row : null); });
+  });
   return wrap;
+}
+
+function buildInput(comp) {
+  var ext = extensionsOf(comp);
+  var inputId = "in_" + comp.id;
+  var wrap = el("div", {"class":"field"});
+  var label = el("label", {"for": inputId});
+  label.appendChild(document.createTextNode(comp.label || ""));
+  if (isRequired(comp)) label.appendChild(el("span", {"class":"req","text":"*"}));
+  wrap.appendChild(label);
+  if (ext.inputKind === "rows" && ext.columns) {
+    wrap.appendChild(buildRowsEditor(comp, ext.columns));
+    return wrap;
+  }
+  var input;
+  if (comp.component === "ChoicePicker") {
+    input = el("select", {"id": inputId});
+    input.appendChild(el("option", {"value":"","text":"선택…"}));
+    (comp.options || []).forEach(function(op){ input.appendChild(el("option", {"value":op.value,"text":op.label})); });
+    bind(comp, function(){ return input.value === "" ? [] : [input.value]; }, function(v){
+      var x = Array.isArray(v) ? v[0] : v;
+      if (x !== undefined) input.value = x;
+    });
+  } else {
+    if (comp.component === "DateTimeInput") input = el("input", {"type": comp.enableTime ? "datetime-local" : "date"});
+    else if (comp.variant === "longText") input = el("textarea", {});
+    else if (comp.variant === "number") input = el("input", {"type":"number","step":"any"});
+    else input = el("input", {"type":"text"});
+    input.setAttribute("id", inputId);
+    if (comp.placeholder) input.setAttribute("placeholder", comp.placeholder);
+    bind(comp, function(){ return input.value; }, function(v){
+      if (typeof v === "string" || typeof v === "number") input.value = v;
+      else if (Array.isArray(v)) input.value = v.join("\\n");
+    });
+  }
+  input.addEventListener("input", scheduleDraft);
+  input.addEventListener("change", scheduleDraft);
+  wrap.appendChild(input);
+  return wrap;
+}
+
+function renderNode(id, byId, parent) {
+  var c = byId[id];
+  if (!c) return;
+  if (c.component === "Column") {
+    (c.children || []).forEach(function(ch){ renderNode(ch, byId, parent); });
+  } else if (c.component === "Card") {
+    var card = el("div", {"class":"group"});
+    parent.appendChild(card);
+    renderNode(c.child, byId, card);
+  } else if (c.component === "Text") {
+    var t = c.text || "";
+    if (t.indexOf("## ") === 0) parent.appendChild(el("div", {"class":"section-title","text":t.slice(3)}));
+    else if (t.indexOf("# ") === 0) parent.appendChild(el("div", {"class":"doc-title","text":t.slice(2)}));
+    else if (c.variant === "caption") parent.appendChild(el("div", {"class":"hint","text":t}));
+    else parent.appendChild(el("div", {"class":"group-label","text":t}));
+  } else if (c.component === "Button") {
+    buttons.push(c);
+  } else if (c.value && c.value["@path"]) {
+    parent.appendChild(buildInput(c));
+  }
+}
+
+// 폼의 버튼은 이름 붙은 이벤트를 낸다 — 이 화면은 그 이름에 맞는 동작을 한다
+function renderButtons(byId) {
+  var bar = document.getElementById("formToolbar");
+  bar.querySelectorAll("button").forEach(function(b){ b.remove(); });
+  var status = document.getElementById("draftStatus");
+  buttons.forEach(function(b){
+    var text = (byId[b.child] || {}).text || "";
+    var btn = el("button", {"class": b.variant === "primary" ? "btn" : "btn ghost", "type":"button", "text": text});
+    var name = b.action && b.action.event && b.action.event.name;
+    btn.addEventListener("click", function(){
+      if (name === "submit_document") compose();
+      else if (name === "save_draft") saveDraft();
+    });
+    bar.insertBefore(btn, status);
+  });
 }
 
 function renderForm(resp) {
   var area = document.getElementById("formArea");
   area.innerHTML = "";
+  bindings = [];
+  buttons = [];
   var msg = (resp.result.messages || []).filter(function(m){return m.updateComponents;})[0];
   if (!msg) { area.innerHTML = "<div class='empty'>폼을 불러오지 못했습니다.</div>"; return; }
-  var comps = msg.updateComponents.components;
-  var byId = {}; comps.forEach(function(c){ byId[c.id] = c; });
-  var root = byId["form_root"];
-  (root.children || []).forEach(function(secId){
-    var sec = byId[secId];
-    area.appendChild(el("div", {"class":"section-title","text":sec.title || secId}));
-    (sec.children || []).forEach(function(fid){
-      var f = byId[fid];
-      if (f) area.appendChild(buildField(f));
-    });
-  });
+  var byId = {};
+  msg.updateComponents.components.forEach(function(c){ byId[c.id] = c; });
+  renderNode("root", byId, area);
+  renderButtons(byId);
   document.getElementById("formToolbar").style.display = "flex";
   loadDraftValues();
 }
@@ -370,13 +498,11 @@ function selectDoc(docId) {
     .then(function(resp){ if(resp.error){alert(resp.error);return;} renderForm(resp); renderMeta(resp); });
 }
 
+// 화면의 입력값을 데이터 모델의 draft 가지와 같은 모양으로 모은다
 function collectValues() {
-  var vals = {};
-  document.querySelectorAll("[data-field]").forEach(function(inp){
-    var k = inp.getAttribute("data-field");
-    if (inp.value !== "") vals[k] = inp.value;
-  });
-  return vals;
+  var draft = {};
+  bindings.forEach(function(b){ writePath(draft, b.segs, b.get()); });
+  return draft;
 }
 
 function scheduleDraft() {
@@ -387,19 +513,26 @@ function scheduleDraft() {
 function saveDraft() {
   if (!currentDoc) return;
   fetch("/api/draft/save", {method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({docId:currentDoc,formValues:collectValues()})})
-    .then(function(){ document.getElementById("draftStatus").textContent = "임시 저장됨 ✓"; });
+    .then(function(r){ document.getElementById("draftStatus").textContent = r.ok ? "임시 저장됨 ✓" : "임시 저장 실패"; });
 }
 function loadDraftValues() {
   if (!currentDoc) return;
   fetch("/api/draft/load?docId="+encodeURIComponent(currentDoc)).then(function(r){return r.json();}).then(function(d){
     if (!d.draft || !d.draft.formValues) return;
     var fv = d.draft.formValues;
-    document.querySelectorAll("[data-field]").forEach(function(inp){
-      var k = inp.getAttribute("data-field");
-      if (fv[k] !== undefined) inp.value = fv[k];
+    bindings.forEach(function(b){
+      var v = readPath(fv, b.segs);
+      if (v !== undefined) b.set(v);
     });
     document.getElementById("draftStatus").textContent = "이전 입력 복원됨";
   });
+}
+
+function warnBox(area, title, items) {
+  if (!items || !items.length) return;
+  var w = el("div", {"class":"warn"});
+  w.textContent = title + " " + items.length + "건: " + items.slice(0,5).join(", ") + (items.length>5?" 외":"");
+  area.appendChild(w);
 }
 
 function compose() {
@@ -411,11 +544,8 @@ function compose() {
       var area = document.getElementById("contextArea");
       area.innerHTML = "";
       var r = resp.result;
-      if (r.missingRequired && r.missingRequired.length) {
-        var w = el("div", {"class":"warn"});
-        w.textContent = "미입력 필수 항목 " + r.missingRequired.length + "건: " + r.missingRequired.slice(0,5).join(", ") + (r.missingRequired.length>5?" 외":"");
-        area.appendChild(w);
-      }
+      warnBox(area, "미입력 필수 항목", r.missingRequired);
+      warnBox(area, "확인이 필요한 값", r.problems);
       var bar = el("div", {"class":"toolbar"});
       var copyBtn = el("button", {"class":"btn ghost","text":"클립보드 복사"});
       copyBtn.addEventListener("click", function(){ navigator.clipboard.writeText(r.markdown); copyBtn.textContent="복사됨 ✓"; setTimeout(function(){copyBtn.textContent="클립보드 복사";},1500); });
@@ -441,7 +571,6 @@ function downloadMd(docId, text) {
 function escapeHtml(s) { return String(s).replace(/[&<>"]/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;","\\"":"&quot;"}[c]; }); }
 
 document.getElementById("docSelect").addEventListener("change", function(e){ selectDoc(e.target.value); });
-document.getElementById("composeBtn").addEventListener("click", compose);
 loadDocs();
 </script>
 </body>
