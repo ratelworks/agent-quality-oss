@@ -60,6 +60,15 @@ const MULTI_VALUE_SENTENCES = [
   "노상 다짐도 96이고 92%",
   "노상 다짐도 96 92%",
   "염화물 0.25, 0.35",
+  // 이어 적지 않고 떨어져 적은 값 — 사이에 호차·시험 이름·다른 말이 있어도 같다
+  "1호차 공기량 4.5%, 2호차 공기량 6.5%",
+  "공기량 오전 4.5% 오후 6.5%",
+  "공기량 4.5% 나왔고 재시험은 6.5%",
+  "노상 다짐도 A구간 96%, B구간 92%",
+  "염화물 1차 0.25kg/m3 2차 0.35kg/m3",
+  "콘크리트 온도 1호차 30℃ 2호차 36℃ 서중",
+  "1호차 슬럼프 160mm 2호차 슬럼프 190mm 호칭 슬럼프 150mm",
+  "공기량 4.5%\n공기량 6.5%",
 ];
 /** 값은 하나이고 다른 수가 섞인 문장 — [문장, 판정, 읽어야 하는 값] */
 const SINGLE_VALUE_SENTENCES: Array<[string, string, number]> = [
@@ -73,6 +82,18 @@ const SINGLE_VALUE_SENTENCES: Array<[string, string, number]> = [
   ["공기량 4.5%, 기온 25℃", "PASS", 4.5],
   ["노상 들밀도 시험 다짐도 92% 3회차", "FAIL", 92],
   ["염화물 0.25 kg/m3 운반 90분", "PASS", 0.25],
+  // 기준을 함께 적은 문장 — 기준의 수는 측정값 후보가 아니다
+  ["노상 다짐도 92%, 기준 95% 이상", "FAIL", 92],
+  ["노상 다짐도 96% (기준 95%)", "PASS", 96],
+  ["공기량 6.2%, 허용 3~6%", "FAIL", 6.2],
+  ["염화물 0.25kg/m3, 0.30 이하", "PASS", 0.25],
+  ["슬럼프 185mm (허용 125~175mm), 호칭 슬럼프 150mm", "FAIL", 185],
+  ["슬럼프 170mm, 상한 175mm, 호칭 슬럼프 150mm", "PASS", 170],
+  // 같은 값을 두 번 적은 문장, 식별자에 붙은 수, 조건으로 읽는 수
+  ["공기량 4.5%, 4.5%", "PASS", 4.5],
+  ["지하 B3 공기량 4.5", "PASS", 4.5],
+  ["D25 철근 구간 공기량 5.0%", "PASS", 5],
+  ["콘크리트 온도 32℃ 서중 외기온도 33℃", "PASS", 32],
 ];
 
 const { loadOntologySync } = await import("../../src/ontology/loader.js");
@@ -176,6 +197,11 @@ async function testValues(): Promise<void> {
       `${a.verdict} | observed=${a.observedValue} | ${a.comparison.slice(0, 60)}`,
     );
   }
+  // 측정값을 범위로 적거나 다른 단위로 적은 슬럼프 — 한쪽 끝만 읽어 판정하지 않는다
+  for (const sentence of ["슬럼프 190~170mm, 호칭 슬럼프 150mm", "슬럼프 18cm, 호칭 슬럼프 150mm"]) {
+    const { a } = await evaluate({ observation: sentence });
+    check(`읽을 수 없는 측정값: ${sentence} → 판정하지 않고 값도 싣지 않음`, a.verdict === "UNDETERMINED" && a.observedValue === null, `${a.verdict} | observed=${a.observedValue}`);
+  }
   // 값은 하나인데 다른 수(호차·기온·기준 번호·회차·시간)가 섞인 문장 — 되묻지 않고 그 값으로 판정한다
   for (const [sentence, verdict, value] of SINGLE_VALUE_SENTENCES) {
     const { a } = await evaluate({ observation: sentence });
@@ -205,6 +231,14 @@ async function testStrength(): Promise<void> {
     unclearSpaced.verdict === "UNDETERMINED" && unclearSpaced.comparison.includes("공시체 3개의 값(1회 시험)인지") && unclearSpaced.observedValue === null,
     `observed=${unclearSpaced.observedValue} | ${unclearSpaced.comparison.slice(0, 80)}`,
   );
+  const scattered = (await evaluate({ observation: "1호차 압축강도 26MPa, 2호차 압축강도 20MPa, 호칭강도 27MPa" })).a;
+  check(
+    "떨어져 적은 강도 값 2개: 하나만 보지 않고 되물음",
+    scattered.verdict === "UNDETERMINED" && scattered.comparison.includes("값 2개가") && scattered.observedValue === null,
+    `observed=${scattered.observedValue} | ${scattered.comparison.slice(0, 80)}`,
+  );
+  const withContext = (await evaluate({ observation: "품질기준강도 27MPa, 기온보정강도 3MPa, 압축강도 31MPa" })).a;
+  check("기준 강도·보정값을 함께 적은 문장: 시험값 하나로 읽음", withContext.observedValue === 31 && !withContext.comparison.includes("값 2개가"), `observed=${withContext.observedValue} | ${withContext.comparison.slice(0, 80)}`);
   const unclear = (await evaluate({ observation: "압축강도 25.1, 26.4, 27.8 MPa, 호칭강도 27MPa" })).a;
   check("무엇인지 모르는 값 3개: 공시체인지 3회인지 되물음", unclear.verdict === "UNDETERMINED" && unclear.comparison.includes("공시체 3개의 값(1회 시험)인지"), unclear.comparison);
   const threeTests = (await evaluate({ observation: "압축강도 3회 시험값 25.1MPa, 26.4MPa, 27.8MPa, 호칭강도 24MPa" })).a;

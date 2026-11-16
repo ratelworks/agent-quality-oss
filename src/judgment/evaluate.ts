@@ -11,7 +11,7 @@
  *   condition_dependent — 조건(예: 한중·서중)을 알아야 기준이 정해진다. 수치 판정을 내지 않는다
  */
 
-import { parseObservation, unitsCompatible, parseValueList } from './parse-observation.js';
+import { parseObservation, unitsCompatible, readMeasuredCandidates } from './parse-observation.js';
 import type { ObservationContext, ObservationToken } from './parse-observation.js';
 import { judgeSlabBottomStripping, judgeStrength } from './strength.js';
 import type { StrengthCase } from './strength.js';
@@ -141,27 +141,33 @@ export function evaluate(
     return evalByTarget(base, meta, observationText);
   }
 
-  // 값이 여러 개면 하나를 골라 판정하지 않는다 — 고르지 않은 값이 기준을 벗어났을 수 있다
-  const listed = parseValueList(observationText);
-  if (listed) {
-    base.reasoning = `값이 여러 개로 읽힙니다(${listed.values.join(', ')}${listed.unit ? ` ${listed.unit}` : ''}) — 어느 값을 판정할지 정할 수 없어 판정하지 않습니다. 값 하나에 문장 하나로 나눠 주세요.`;
+  // 판정은 측정값 후보가 정확히 하나일 때만 한다. 후보가 둘 이상이면 하나를 고르지 않는다 —
+  // 고르지 않은 값이 기준을 벗어났을 수 있다. (값 하나를 먼저 고르고 목록 모양일 때만 막던 방식은
+  // 예상하지 못한 문장에서 하나만 판정했다.)
+  const candidates = readMeasuredCandidates(observationText, context, meta.unit);
+  if (candidates.values.length > 1) {
+    base.reasoning = `값이 여러 개로 읽힙니다(${candidates.values.join(', ')}${candidates.unit ? ` ${candidates.unit}` : ''}) — 어느 값을 판정할지 정할 수 없어 판정하지 않습니다. 값 하나에 문장 하나로 나눠 주세요.`;
     base.neededInputs = ['값 하나씩 나눈 관측값 (문장 하나에 값 하나)'];
     // 고르지 않았으므로 관측값 칸에 값 하나를 싣지 않는다
     base.observedValue = null;
     return base;
   }
 
-  if (!obsToken || obsToken.kind !== 'scalar' || typeof obsToken.value !== 'number') {
-    base.reasoning = `관측값에서 수치를 추출할 수 없음 (kind=${obsToken?.kind ?? 'none'}).`;
-    return base;
+  let v: number;
+  if (candidates.values.length === 1) {
+    v = candidates.values[0] as number;
+  } else {
+    // 후보가 없다 — 단위가 맞지 않거나 수치가 없는 경우를 알린다
+    if (!obsToken || obsToken.kind !== 'scalar' || typeof obsToken.value !== 'number') {
+      base.reasoning = `관측값에서 수치를 추출할 수 없음 (kind=${obsToken?.kind ?? 'none'}).`;
+      return base;
+    }
+    if (!unitsCompatible(obsToken.unit ?? null, meta.unit ?? null)) {
+      base.reasoning = `단위 불일치: 관측 ${obsToken.unit} vs 기준 ${meta.unit}.`;
+      return base;
+    }
+    v = obsToken.value;
   }
-
-  if (!unitsCompatible(obsToken.unit ?? null, meta.unit ?? null)) {
-    base.reasoning = `단위 불일치: 관측 ${obsToken.unit} vs 기준 ${meta.unit}.`;
-    return base;
-  }
-
-  const v = obsToken.value;
   const unit = meta.unit ?? '';
 
   switch (meta.operator) {
@@ -282,6 +288,8 @@ function evalByTarget(
     base.reasoning = `판정기준에 허용오차 표나 지정값 표현이 없어 판정하지 못합니다. (criterion=${base.criterionId})`;
     return base;
   }
+  // 관측값 칸은 이 함수가 읽은 측정값으로만 채운다 — 읽지 못했거나 고르지 않았으면 비워 둔다
+  base.observedValue = null;
   const reading = readTargetAndMeasured(text, meta.targetKeywords, quantity, unit);
   const tableText = describeTable(table, unit);
   if (reading.measured.length === 0) {
@@ -290,8 +298,6 @@ function evalByTarget(
     return base;
   }
   if (reading.measured.length > 1) {
-    // 고르지 않았으므로 관측값 칸에 값 하나를 싣지 않는다
-    base.observedValue = null;
     base.reasoning = `측정값이 여러 개로 읽힙니다(${reading.measured.join(', ')} ${unit}) — 어느 값을 판정할지 정할 수 없어 판정하지 않습니다. 값 하나에 문장 하나로 나눠 주세요.`;
     base.neededInputs = ['값 하나씩 나눈 관측값 (문장 하나에 값 하나)'];
     return base;

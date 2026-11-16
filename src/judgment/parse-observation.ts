@@ -87,7 +87,7 @@ const SCALAR_WITH_UNIT_RE = new RegExp(
 );
 const SCALAR_GLOBAL_RE = new RegExp(SCALAR_WITH_UNIT_RE.source, 'giu');
 /** 수 하나와 그 뒤의 단위 */
-const VALUE_TOKEN_RE = new RegExp(`(?<![\\d.])(-?\\d+(?:\\.\\d+)?)(?:\\s*(${UNIT_INLINE})(?![A-Za-z]))?`, 'giu');
+const VALUE_TOKEN_RE = new RegExp(`(?<![\\d.A-Za-z])(-?\\d+(?:\\.\\d+)?)(?:\\s*(${UNIT_INLINE})(?![A-Za-z]))?`, 'giu');
 /** 값과 값 사이에 올 수 있는 것 — 공백, 구분 기호 하나, 잇는 말 하나 ("190, 150" · "190·150" · "190 및 150" · "190이고 150") */
 const LIST_JOIN_RE = /^\s*(?:(?:이고|이며|이랑|랑|와|과|하고|및|그리고)\s*|[,，、·ㆍ/]\s*)?$/u;
 /**
@@ -145,14 +145,59 @@ export function readValueRuns(text: string): ValueRun[] {
   return runs;
 }
 
+/** 기준을 적은 표현 — 측정값이 아니다 ("150±25" · "3~6%" · "95% 이상" · "≥ 95%" · "기준 95%") */
+const CRITERION_STATEMENT_RES: readonly RegExp[] = [
+  new RegExp(TOLERANCE_RE.source, 'giu'),
+  new RegExp(RANGE_RE.source, 'giu'),
+  new RegExp(`-?\\d+(?:\\.\\d+)?\\s*(?:${UNIT_INLINE})?\\s*(?:이상|이하|초과|미만)`, 'giu'),
+  new RegExp(`(?:≤|≥|<=|>=|<|>)\\s*-?\\d+(?:\\.\\d+)?\\s*(?:${UNIT_INLINE})?`, 'giu'),
+  new RegExp(
+    `(?:관리\\s*)?(?:기준|허용|상한|하한|규정|시방)(?:값|치|범위|기준)?\\s*(?:은|는|이|가|:|=)?\\s*-?\\d+(?:\\.\\d+)?\\s*(?:${UNIT_INLINE})?`,
+    'giu',
+  ),
+];
+
+/** 기준을 적은 표현을 걷어 낸다 — 남는 수만 측정값 후보다 */
+export function stripCriterionStatements(text: string): string {
+  let clean = text;
+  for (const re of CRITERION_STATEMENT_RES) clean = clean.replace(re, ' ');
+  return clean;
+}
+
+/** 조건으로 읽은 수(기준 강도·기온 등) — 측정값 후보에서 뺀다 */
+function contextValues(context: ObservationContext): Set<number> {
+  const values = new Set<number>();
+  for (const v of [context.fcn, context.fcq, context.fck, context.durabilityFc, context.tempCorrection, context.ambientTemperature]) {
+    if (v !== undefined) values.add(v);
+  }
+  return values;
+}
+
+export interface MeasuredCandidates {
+  /** 서로 다른 후보 값 — 적힌 순서 */
+  values: number[];
+  /** 후보를 고른 단위. 단위가 붙은 수가 없어 단위 없는 수를 후보로 삼았으면 null */
+  unit: string | null;
+}
+
 /**
- * 한 문장에 값을 여럿 이어 적었는지 본다 — 쉼표·가운뎃점·빗금·공백·"및" 으로 이은 것, 단위를 마지막 값에만 붙인 것,
- * 단위 없이 적은 것 모두. 기준을 적은 표현(150±25 · 3~6)은 값 목록이 아니므로 먼저 걷어 낸다.
+ * 판정할 항목의 측정값 후보를 모두 모은다. 판정은 후보가 정확히 하나일 때만 한다 —
+ * 문장 어디에 어떤 모양으로 적었든(이어 적든, "1호차 4.5%, 2호차 6.5%" 처럼 떨어져 있든) 후보가 둘 이상이면 고르지 않는다.
+ *
+ *   1. 측정값이 아닌 수를 걷어 낸다: 날짜·시각·레미콘 규격·기준 번호·세는 말이 붙은 수·기준을 적은 표현·조건으로 읽은 수
+ *   2. 판정기준의 단위가 붙은 수가 있으면 그것이 후보다. 하나도 없으면 단위 없이 적은 수가 후보다.
+ *      다른 단위가 붙은 수("슬럼프 160mm" 를 공기량 판정에서)는 후보가 아니다.
  */
-export function parseValueList(text: string): { values: number[]; unit: string | null } | null {
-  const clean = stripNonValues(text).replace(TOLERANCE_RE, ' ').replace(RANGE_RE, ' ');
-  const run = readValueRuns(clean).find((r) => r.values.length >= 2);
-  return run ? { values: run.values, unit: run.unit } : null;
+export function readMeasuredCandidates(text: string, context: ObservationContext, unit: string | null | undefined): MeasuredCandidates {
+  const clean = stripCriterionStatements(stripNonValues(text));
+  const exclude = contextValues(context);
+  const wanted = normalizeUnit(unit ?? undefined);
+  const found = readValueRuns(clean)
+    .flatMap((run) => run.values.map((value) => ({ value, unit: run.unit })))
+    .filter((t) => !exclude.has(t.value));
+  const withUnit = wanted === null ? found : found.filter((t) => t.unit === wanted);
+  const pool = withUnit.length > 0 ? withUnit : found.filter((t) => t.unit === null);
+  return { values: [...new Set(pool.map((t) => t.value))], unit: withUnit.length > 0 ? wanted : null };
 }
 
 const OP_MAP: Readonly<Record<string, string>> = {
@@ -237,7 +282,7 @@ const STRENGTH_LABEL_RE =
  * R1: 시리즈 (n회 평균/최저/최고/values) 인식.
  * "연속 3회 평균 25 최저 21" / "3회 시험값 23 24 22" / "코어 4개 평균 22 최저 17"
  */
-function detectSeries(text: string): ObservationToken | null {
+function detectSeries(text: string, context: ObservationContext): ObservationToken | null {
   const meanRe = /평균\s*(-?\d+(?:\.\d+)?)\s*(MPa|mpa|mm|kg\/㎥|kg\/m3|kg\/m³|%|℃)?/iu;
   const minRe = /최저\s*(-?\d+(?:\.\d+)?)\s*(MPa|mpa|mm|kg\/㎥|kg\/m3|kg\/m³|%|℃)?/iu;
   const maxRe = /최고\s*(-?\d+(?:\.\d+)?)\s*(MPa|mpa|mm|kg\/㎥|kg\/m3|kg\/m³|%|℃)?/iu;
@@ -256,7 +301,10 @@ function detectSeries(text: string): ObservationToken | null {
     meanM || minM || maxM || valuesM
       ? undefined
       : readValueRuns(text.replace(STRENGTH_LABEL_RE, ' ')).find((r) => r.unit === 'MPa' && r.values.length >= 2);
-  const listValues = listRun ? listRun.values : null;
+  // 이어 적지 않고 떨어져 적은 강도 값("1호차 26MPa, 2호차 20MPa")도 하나만 고르지 않는다 — 모두 모아 무엇인지 되묻게 한다
+  const scattered =
+    listRun || meanM || minM || maxM || valuesM ? null : readMeasuredCandidates(text.replace(STRENGTH_LABEL_RE, ' '), context, 'MPa');
+  const listValues = listRun ? listRun.values : scattered && scattered.unit === 'MPa' && scattered.values.length >= 2 ? scattered.values : null;
 
   // series로 분류할 신호: 평균·최저·최고 중 하나라도 있거나 명시 values 배열이 있을 때.
   if (!meanM && !minM && !maxM && !valuesM && !listValues) return null;
@@ -298,13 +346,7 @@ function detectSeries(text: string): ObservationToken | null {
  * @param unitOnly 단위가 붙은 수만 받는다 (기준 표현 옆의 측정값을 찾을 때)
  */
 function pickScalar(clean: string, original: string, context: ObservationContext, unitOnly: boolean): ObservationToken | null {
-  const exclude = new Set<number>();
-  if (context.fcn !== undefined) exclude.add(context.fcn);
-  if (context.fcq !== undefined) exclude.add(context.fcq);
-  if (context.fck !== undefined) exclude.add(context.fck);
-  if (context.durabilityFc !== undefined) exclude.add(context.durabilityFc);
-  if (context.tempCorrection !== undefined) exclude.add(context.tempCorrection);
-  if (context.ambientTemperature !== undefined) exclude.add(context.ambientTemperature);
+  const exclude = contextValues(context);
 
   const all = Array.from(clean.matchAll(SCALAR_GLOBAL_RE));
   const candidates = all.filter((m) => !exclude.has(Number(m[1])));
@@ -331,7 +373,7 @@ export function parseObservation(text: string): { tokens: ObservationToken[]; co
   };
 
   // R1: series 우선 검사 (평균·최저 등 키워드 존재 시)
-  const series = detectSeries(norm);
+  const series = detectSeries(norm, context);
   if (series) {
     tokens.push(series);
     return { tokens, context };
