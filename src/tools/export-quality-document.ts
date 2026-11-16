@@ -25,7 +25,7 @@ export const spec: ToolSpec = {
   description:
     "이미 쓴 문서 본문(Markdown — 직접 쓴 것, AI 가 쓴 것, generate_quality_document 가 만든 것)을 한글(HWPX) 파일로 저장하고 경로를 돌려준다. " +
     "한글 프로그램 없이 만든다. 작성 안내 줄은 빼고 저장하며, 공식 서식의 칸 배치는 재현하지 않는다. " +
-    `지원하는 Markdown: ${SUPPORTED_MARKDOWN}. returnContent 를 켜면 저장하지 않고 파일 내용(base64)을 돌려준다.`,
+    `지원하는 Markdown: ${SUPPORTED_MARKDOWN}. returnContent 를 켜면 저장하지 않고 파일 내용(base64)을 돌려준다. [근거 제공용 · 내용 확인과 서명은 품질관리자·감리원·발주자]`,
   inputSchema: {
     type: "object",
     properties: {

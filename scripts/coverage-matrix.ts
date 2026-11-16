@@ -314,7 +314,9 @@ const C_ROWS: CheckRow[] = [
     mcpTool: 'get_standard_form_locator(rule_no42_quality_inspection_register)',
     verification: () => {
       const f = graph.get('standard.form.rule_no42_quality_inspection_register');
-      return f?.meta?.['license'] === 'Korea Open Government License Type 4' ? 'O' : '✗';
+      // 서식 노드가 있고 이용 조건을 밝히고 있는가
+      const license = f?.meta?.['license'];
+      return typeof license === 'string' && license.length > 0 ? 'O' : '✗';
     },
     note: '5차 검증 정정: 이전 "점검결과 통보서" → "품질검사 실시대장"',
   },

@@ -19,6 +19,8 @@ export const SOURCE_STATUS_RANK: Record<SourceStatus, number> = {
 export const BASIS_TYPES = [
   "ontology",
   "law",
+  // 수록 법령 원문 — id 는 "법령 id:조문·별표"
+  "law_text",
   "guideline",
   "kcs_section",
   "kds_section",

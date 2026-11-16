@@ -11,6 +11,7 @@ import { OntologyGraph } from '../src/ontology/graph.js';
 import { STANDARD_RELATIONS, ID_PREFIX, isStandardRelation } from '../src/ontology/schema.js';
 import { TOOL_MODULES as TOOLS, TOOL_MODULE_MAP as TOOL_MAP } from '../src/tool-registry.js';
 import type { ToolResponse } from '../src/lib/types.js';
+import { findAnnex, findArticle, findLaw } from '../src/ontology/laws.js';
 
 const DIR = path.join(
   path.dirname(fileURLToPath(import.meta.url)),
@@ -128,6 +129,15 @@ check('A6. 관계명 표준 집합 준수', nonStd.size === 0, `비표준 관계
 
 console.log('\n=== B. Tool 응답 공통 규약 ===\n');
 
+/** "법령 id:조문·별표" 가 수록 원문에 있는가 */
+function lawTextExists(id: string): boolean {
+  const colon = id.indexOf(':');
+  const law = colon > 0 ? findLaw(id.slice(0, colon)) : null;
+  if (!law) return false;
+  const ref = id.slice(colon + 1);
+  return Boolean(findArticle(law, ref) ?? findAnnex(law, ref));
+}
+
 const defaultArgs: Record<string, Record<string, unknown>> = {
   search_quality_ontology: { query: '콘크리트' },
   resolve_worktype: { input: '콘크리트 타설' },
@@ -192,6 +202,12 @@ const defaultArgs: Record<string, Record<string, unknown>> = {
   // A2UI 입력 폼·작성 컨텍스트 (viewer)
   render_quality_form: { docId: 'itp' },
   compose_writing_context: { docId: 'ncr', formValues: { documentId: 'NCR-1' } },
+  // 품질시험기준(업무지침 별표 2)
+  search_quality_test_standards: { query: '슬럼프' },
+  // 문서 본문 — 감사 중에는 파일을 저장하지 않는다(md · 내용 돌려받기)
+  generate_quality_document: { docId: 'ncr', formValues: { documentId: 'NCR-1' } },
+  review_quality_document: { docId: 'ncr', formValues: { documentId: 'NCR-1' } },
+  export_quality_document: { markdown: '# 부적합 보고서\n\n본문', returnContent: true },
 };
 
 const allowedSyntheticBasisTypes = new Set<string>([
@@ -202,6 +218,8 @@ const allowedSyntheticBasisTypes = new Set<string>([
   'judgment_meta',
   'project_meta',
   'audit_export',
+  // 수록 법령 원문 — id 는 "법령 id:조문·별표" (그래프 노드가 아니라 수록 원문에 있는지 본다)
+  'law_text',
   // 표준 BASIS_TYPES (config/constants.ts) — 법령·지침·서식 근거 (그래프 노드 id, 실존 검사 대상)
   'law',
   'guideline',
@@ -256,6 +274,10 @@ for (const t of TOOLS) {
       if (nodeBackedBasisTypes.has(b.type) && !graph.get(b.id)) {
         basisOk = false;
         allBasisIssues.push(`${t.spec.name}.basis ${b.id} 미존재`);
+      }
+      if (b.type === 'law_text' && !lawTextExists(b.id)) {
+        basisOk = false;
+        allBasisIssues.push(`${t.spec.name}.basis ${b.id} — 수록 원문에 없음`);
       }
     } else {
       basisOk = false;
@@ -348,8 +370,10 @@ console.log('\n=== C. 효과(가치) 검증 — E2E 시나리오 ===\n');
     r.result.checkpoints.length === 1 &&
     r.result.checkpoints[0].stage === 'before' &&
     r.result.forms.itp.schemaId === 'itp' &&
-    r.result.legalReferences.some((l: { id: string }) => l.id === 'standard.law.btia_55');
-  check('C4. 검측 전단계 재료 패키지 (ITP + 감리 법령)', ok);
+    // 검측·입회의 근거 — 시행규칙 제50조(발주자 확인)와 사업관리지침 별지 제36호(검측요청·결과 통보)
+    r.result.legalReferences.some((l: { id: string }) => l.id === 'standard.law.btia_rule_50') &&
+    r.result.legalReferences.some((l: { id: string }) => l.id === 'standard.form.cm_a36');
+  check('C4. 검측 전단계 재료 패키지 (ITP + 검측 근거)', ok);
 }
 
 {
