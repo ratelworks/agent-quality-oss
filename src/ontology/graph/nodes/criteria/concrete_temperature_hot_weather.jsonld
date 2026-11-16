@@ -1,0 +1,39 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "criteria:concrete_temperature_hot_weather",
+  "@type": "AcceptanceCriteria",
+  "name": "서중 콘크리트 타설 온도 35 ℃ 이하 (KCS 14 20 41 3.3)",
+  "aliases": [
+    "서중 콘크리트 온도",
+    "하절기 타설 온도"
+  ],
+  "_meta": {
+    "operator": "le",
+    "threshold": 35,
+    "unit": "℃",
+    "condition": "서중 콘크리트: 콘크리트를 타설할 때 콘크리트 온도는 35 ℃ 이하.",
+    "selectKeywords": [
+      "서중",
+      "하절기",
+      "여름철",
+      "혹서기"
+    ],
+    "reference": "KCS 14 20 41 3.3 (3)",
+    "sourceStatus": "verified",
+    "verifiedAgainst": {
+      "standard": "KCS 14 20 41",
+      "edition": "2025-12-24",
+      "clause": "3.3 (3)",
+      "quotes": [
+        "콘크리트를 타설할 때 콘크리트 온도는 35 ℃ 이하이어야 한다"
+      ]
+    },
+    "referenceVerified": true
+  },
+  "appliesTo": [
+    "test:concrete_temperature"
+  ],
+  "derivedFrom": [
+    "standard:kcs_14_20.41"
+  ]
+}

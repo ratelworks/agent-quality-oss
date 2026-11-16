@@ -1,0 +1,27 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "standard:kcs_14_20.41",
+  "@type": "Standard",
+  "name": "KCS 14 20 41 서중 콘크리트",
+  "aliases": [
+    "KCS 14 20 41",
+    "서중 콘크리트",
+    "하절기 콘크리트"
+  ],
+  "_meta": {
+    "parent": "standard.kcs_14_20",
+    "sectionRef": "14 20 41",
+    "granularity": "document",
+    "scope": "타설일의 일평균기온이 25 ℃를 초과하거나 타설 완료 후 24시간 이내에 일최고기온이 30 ℃를 초과할 것으로 예상되면 서중 콘크리트로 시공한다. 타설할 때 콘크리트 온도는 35 ℃ 이하.",
+    "sourceStatus": "verified",
+    "verifiedAgainst": {
+      "standard": "KCS 14 20 41",
+      "edition": "2025-12-24",
+      "clause": "1.1 (2) · 3.3 (3)",
+      "quotes": [
+        "타설일의 일 평균기온이 25℃를 초과하거나, 콘크리트 타설 완료 후 24시간 이내에 일 최고기온이 30℃를 초과할 것이",
+        "콘크리트를 타설할 때 콘크리트 온도는 35 ℃ 이하이어야 한다"
+      ]
+    }
+  }
+}

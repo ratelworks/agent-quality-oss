@@ -35,7 +35,7 @@
   ],
   "basisPriority": [
     "doc:mix_design",
-    "standard:kcs_14_20.10.3_2",
+    "standard:kcs_14_20.10.3_5_3_1",
     "standard:ks_f_2421"
   ]
 }

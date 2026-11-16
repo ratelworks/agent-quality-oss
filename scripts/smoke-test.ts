@@ -156,7 +156,8 @@ const CASES: Case[] = [
     args: { nonconformance: 'ncr.low_compressive_strength' },
     assert: (r) => {
       const ids = r.result.factualBasis.map((b: { id: string }) => b.id);
-      return ids.includes('standard.kcs_14_20.10.3_3') && ids.includes('standard.ks_f_2405');
+      // 압축강도 부족의 근거는 품질 검사 조항(3.5.3.2)과 강도가 작게 나온 경우의 조치(3.5.5.7)다 — 3.3 은 타설 조항
+      return ids.includes('standard.kcs_14_20.10.3_5_3_2') && ids.includes('standard.kcs_14_20.10.3_5_5_7') && ids.includes('standard.ks_f_2405');
     },
   },
   {
@@ -467,7 +468,9 @@ const CASES: Case[] = [
   {
     tool: 'infer_quality_risks',
     args: { workType: '거푸집 및 동바리', observations: ['거푸집 해체강도 6MPa'] },
-    assert: (r) => r.result.summary.pass === 1 && r.result.summary.fail === 0,
+    // 부재를 말하지 않으면 측면 기준(5 MPa)으로 합격을 내지 않는다 — 밑면·내구성 기준으로는 미달이다
+    assert: (r) => r.result.summary.pass === 0 && r.result.summary.fail === 0 && r.result.summary.undetermined === 1,
+
   },
   {
     tool: 'evaluate_observation',

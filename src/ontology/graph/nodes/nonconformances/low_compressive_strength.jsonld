@@ -42,7 +42,8 @@
   "basisPriority": [
     "doc:mix_design",
     "doc:structural_drawing",
-    "standard:kcs_14_20.10.3_3",
+    "standard:kcs_14_20.10.3_5_3_2",
+    "standard:kcs_14_20.10.3_5_5_7",
     "standard:ks_f_2405"
   ]
 }

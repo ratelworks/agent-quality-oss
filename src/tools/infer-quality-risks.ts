@@ -3,7 +3,7 @@
  */
 
 import { resolveWorkType, searchEntities } from '../ontology/resolver.js';
-import { evaluate } from '../judgment/evaluate.js';
+import { judgeBestCriterion } from '../judgment/select-criterion.js';
 import { buildResponse, entityBasis } from './_response.js';
 import type { ToolSpec } from '../lib/types.js';
 import type { OntologyGraph } from '../ontology/graph.js';
@@ -104,10 +104,11 @@ export function run(args: InferArgs, graph: OntologyGraph) {
       continue;
     }
 
+    // 기준이 여럿인 시험은 관측값 문장의 조건(부재·공시체 종류 등)에 맞는 기준으로 판정한다
     const testE = graph.get(testHit.id)!;
-    const criterionId = (testE.relations?.['hasAcceptanceCriteria'] ?? [])[0];
-    const criterion = criterionId ? graph.get(criterionId) : null;
-    const j = evaluate(obs, criterion);
+    const selected = judgeBestCriterion(graph, testE.relations?.['hasAcceptanceCriteria'] ?? [], obs);
+    const j = selected.judgment;
+    const criterionId = selected.criterion?.id;
 
     allBasisIds.add(testHit.id);
     if (criterionId) allBasisIds.add(criterionId);
@@ -122,7 +123,8 @@ export function run(args: InferArgs, graph: OntologyGraph) {
       direction: j.direction,
       observedValue: j.observedValue,
       observedUnit: j.observedUnit,
-      reasoning: j.reasoning,
+      reasoning: selected.selectionNote ? `${j.reasoning} [주의] ${selected.selectionNote}` : j.reasoning,
+      ...(j.neededInputs && j.neededInputs.length > 0 ? { neededInputs: j.neededInputs } : {}),
     });
 
     if (j.verdict === 'PASS') continue;

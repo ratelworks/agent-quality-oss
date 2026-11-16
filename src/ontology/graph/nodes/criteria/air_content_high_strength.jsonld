@@ -8,11 +8,18 @@
     "target": 3.5,
     "plusMinus": 1.5,
     "unit": "%",
-    "condition": "고강도 콘크리트 — 목표 3.5% 이하에서 허용오차 적용",
+    "condition": "고강도 콘크리트 — 공기량 3.5 % 이하, 허용오차 ±1.5 %. 이 기준은 지정 공기량을 3.5 %로 보고 판정한다. 지정 공기량이 3.5 %보다 낮으면 그 값 ±1.5 %로 판정해야 한다.",
     "fallbackToProject": true,
     "reference": "KCS 14 20 10 §1.7.4 (1)",
     "sourceStatus": "verified",
-    "verifiedAgainst": "evaluation/sources/kcs_14_20_01.txt L1610"
+    "verifiedAgainst": {
+      "standard": "KCS 14 20 10",
+      "edition": "2024-12-30",
+      "clause": "1.7.4 (1)",
+      "quotes": [
+        "고강도콘크리트 3.5% 이하로 하되, 그 허용오차는 ±1.5%로 한다"
+      ]
+    }
   },
   "appliesTo": [
     "test:air_content"

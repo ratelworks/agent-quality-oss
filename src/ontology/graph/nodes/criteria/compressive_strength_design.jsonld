@@ -2,7 +2,7 @@
   "@context": "../../context.jsonld",
   "@id": "criteria:compressive_strength_design",
   "@type": "AcceptanceCriteria",
-  "name": "압축강도 호칭강도품질기준강도 이상 (단순 ge — deprecated v0.2)",
+  "name": "압축강도 단순 비교 (쓰지 않음 — 표 3.5-3 기준으로 대체)",
   "aliases": [
     "fck 이상 단순"
   ],
@@ -10,17 +10,27 @@
     "operator": "ge",
     "threshold": null,
     "unit": "MPa",
-    "condition": "DEPRECATED — R1 통계 모드 도입 후 criteria.compressive_strength_statistical_le35 / _gt35 우선 적용. 본 criterion은 backward-compat용. fcn 주입 시 단순 1회 비교만 수행.",
+    "condition": "쓰지 않는다. 압축강도는 공시체·생산 방식에 따라 criteria.compressive_strength_statistical_le35·_gt35(레디믹스트), _site_batch, _field_cured, _core 로 판정한다.",
     "fallbackToProject": true,
-    "note": "R1 (2026-04-28) 이후 evaluator는 statistical criterion을 우선 선택. 본 criterion은 forbiddenBasisIds로 audit 시나리오에서 사용.",
-    "reference": "KCS 14 20 10 §1.8.2 (재령 28일 기준 — 통계 판정은 §3.5.3.2 statistical criterion 사용)",
+    "note": "이전 판과의 호환을 위해 남겨 둔 노드.",
+    "reference": "KCS 14 20 10 1.8.2 (재령 28일 표준양생 공시체)",
     "sourceStatus": "verified",
-    "verifiedAgainst": "evaluation/sources/kcs_14_20_01.txt L1634-1652",
+    "verifiedAgainst": {
+      "standard": "KCS 14 20 10",
+      "edition": "2024-12-30",
+      "clause": "1.8.2",
+      "quotes": [
+        "표준양생을 실시한 콘크리트 공시체의 재령 28일일 때 시험값을 기준으로 한다"
+      ]
+    },
     "referenceVerified": true,
     "deprecated": true,
     "supersededBy": [
       "criteria.compressive_strength_statistical_le35",
-      "criteria.compressive_strength_statistical_gt35"
+      "criteria.compressive_strength_statistical_gt35",
+      "criteria.compressive_strength_site_batch",
+      "criteria.compressive_strength_field_cured",
+      "criteria.compressive_strength_core"
     ]
   },
   "appliesTo": [

@@ -11,8 +11,8 @@
   "_meta": {
     "method": "현장 온도계 측정",
     "timing": "콘크리트 반입 시 · 타설 중",
-    "frequency": "120㎥마다 1회 (업무지침 2024-638호 개정 반영)",
-    "typicalAcceptance": "일반 5℃~35℃ — 실판정은 criteria.concrete_temperature_general"
+    "frequency": "120 ㎥마다 (업무지침 별표 2). KCS 14 20 10 표 3.5-2 는 슬럼프 검사 때 함께 측정",
+    "typicalAcceptance": "일반 콘크리트는 정해진 조건(공사시방서)에 적합할 것 — 수치 범위 없음. 한중 콘크리트 5~20 ℃, 서중 콘크리트 35 ℃ 이하"
   },
   "targetMaterial": [
     "material:ready_mixed_concrete"
@@ -21,6 +21,8 @@
     "work:concrete_placement"
   ],
   "hasAcceptanceCriteria": [
+    "criteria:concrete_temperature_cold_weather",
+    "criteria:concrete_temperature_hot_weather",
     "criteria:concrete_temperature_general"
   ],
   "possibleNonconformance": [
@@ -34,6 +36,8 @@
     "doc:site_test_record"
   ],
   "requiresStandard": [
-    "standard:kcs_14_20.10"
+    "standard:kcs_14_20.10.3_5_3_1",
+    "standard:kcs_14_20.40",
+    "standard:kcs_14_20.41"
   ]
 }

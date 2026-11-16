@@ -2,10 +2,10 @@
  * 현장 관측값 문자열 파서.
  * "슬럼프 210mm", "기준 150±25mm", "염화물 ≤ 0.30 kg/㎥" 등.
  *
- * R1 (2026-04-28): series + fcn/fck 컨텍스트 추출 추가.
+ * 여러 번의 시험값과, 판정에 필요한 조건(강도의 종류·공시체의 종류·시공 조건)도 함께 읽는다.
  *   "연속 3회 평균 25 최저 21" → series { mean, min, n }
  *   "압축강도 1회 시험값 21MPa, 호칭강도 24MPa" → scalar 21 + context.fcn=24
- *   "코어 4개 평균 22MPa 최저 17MPa, fck 24MPa" → series + context.fck=24
+ *   "코어 4개 평균 22MPa 최저 17MPa, 품질기준강도 24MPa" → series + context.fcq=24 + strengthCase=core
  */
 
 export type ObservationKind = 'tolerance' | 'range' | 'compare' | 'scalar' | 'series' | 'qualitative';
@@ -26,16 +26,30 @@ export interface ObservationToken {
 }
 
 /**
- * R1: 통계 판정 + 거푸집 분기 등에 사용되는 컨텍스트 수치.
- * observation 문자열에서 fcn/fck/내구성기준강도 등을 추출.
+ * 판정에 쓰는 조건. 관측값 문장에서 읽는다.
+ * 강도의 이름은 KCS 14 20 10 의 뜻을 따른다(2.2.2).
  */
 export interface ObservationContext {
-  /** 호칭강도품질기준강도 fcn (= max(fck, durability)) */
+  /** 호칭강도 — 레디믹스트 콘크리트를 주문할 때의 강도 (품질기준강도 + 기온보정강도) */
   fcn?: number;
-  /** 설계기준강도 fck */
+  /** 품질기준강도 — 설계기준압축강도와 내구성기준압축강도 중 큰 값 */
+  fcq?: number;
+  /** 설계기준압축강도 */
   fck?: number;
-  /** 내구성기준강도 */
+  /** 내구성기준압축강도 */
   durabilityFc?: number;
+  /** 기온보정강도 */
+  tempCorrection?: number;
+  /** 어떤 공시체·생산 방식인지 (말하지 않으면 레디믹스트 콘크리트의 표준양생 공시체로 본다) */
+  strengthCase?: 'site_batch' | 'field_cured' | 'core';
+  /** "공시체 3개 평균"처럼 공시체 여러 개의 평균(= 1회 시험값)을 말했는지 */
+  specimenAverage?: boolean;
+  /** 단층구조·다층구조 — 슬래브·보 밑면 거푸집 해체 강도가 달라진다 */
+  storyType?: 'single' | 'multi';
+  /** 필러 동바리 구조 */
+  fillerShoring?: boolean;
+  /** 한중·서중 콘크리트 — 타설할 때의 콘크리트 온도 기준이 달라진다 */
+  weather?: 'cold' | 'hot';
   /** 외기온도 (℃) — 운반시간/한중 분기 */
   ambientTemperature?: number;
   /** 부재 종류 키워드 (slab/beam/column/wall/footing) — R5 거푸집 라우팅 */
@@ -92,20 +106,43 @@ export function parseContext(text: string): ObservationContext {
   if (typeof text !== 'string' || !text.trim()) return {};
   const ctx: ObservationContext = {};
 
-  // fcn / 호칭강도품질기준강도 / 호칭강도
-  const fcnRe = /(?:fcn|호칭강도품질기준강도|호칭강도|호칭)\s*[:=]?\s*(-?\d+(?:\.\d+)?)/iu;
-  const fcnM = text.match(fcnRe);
+  // 강도의 이름 뒤에 조사·기호가 올 수 있다 ("호칭강도는 27", "fck=24")
+  const NUM = '\\s*(?:은|는|이|가)?\\s*[:=]?\\s*(-?\\d+(?:\\.\\d+)?)';
+
+  // 호칭강도
+  const fcnM = text.match(new RegExp(`(?:fcn|호칭\\s*강도|호칭)${NUM}`, 'iu'));
   if (fcnM) ctx.fcn = Number(fcnM[1]);
 
-  // fck / 설계기준강도 / 설계기준압축강도
-  const fckRe = /(?:fck|설계기준강도|설계기준압축강도)\s*[:=]?\s*(-?\d+(?:\.\d+)?)/iu;
-  const fckM = text.match(fckRe);
+  // 품질기준강도
+  const fcqM = text.match(new RegExp(`(?:fcq|품질\\s*기준\\s*강도)${NUM}`, 'iu'));
+  if (fcqM) ctx.fcq = Number(fcqM[1]);
+
+  // 설계기준압축강도
+  const fckM = text.match(new RegExp(`(?:fck|설계\\s*기준\\s*(?:압축)?\\s*강도|설계\\s*강도)${NUM}`, 'iu'));
   if (fckM) ctx.fck = Number(fckM[1]);
 
-  // 내구성기준강도
-  const durRe = /내구성기준강도\s*[:=]?\s*(-?\d+(?:\.\d+)?)/u;
-  const durM = text.match(durRe);
+  // 내구성기준압축강도
+  const durM = text.match(new RegExp(`(?:fcd|내구성\\s*기준\\s*(?:압축)?\\s*강도)${NUM}`, 'iu'));
   if (durM) ctx.durabilityFc = Number(durM[1]);
+
+  // 기온보정강도
+  const tnM = text.match(new RegExp(`(?:Tn|기온\\s*보정\\s*(?:강도|값)?)${NUM}`, 'u'));
+  if (tnM) ctx.tempCorrection = Number(tnM[1]);
+
+  // 공시체·생산 방식
+  if (/코어/u.test(text)) ctx.strengthCase = 'core';
+  else if (/현장\s*양생/u.test(text)) ctx.strengthCase = 'field_cured';
+  else if (/배치\s*플랜트|현장\s*배합/u.test(text)) ctx.strengthCase = 'site_batch';
+
+  // "공시체 3개 평균"은 1회의 시험값이다. "3회"를 함께 말했으면 여러 번의 시험으로 본다.
+  if (/공시체\s*\d+\s*개/u.test(text) && !/\d+\s*회/u.test(text)) ctx.specimenAverage = true;
+
+  // 구조·시공 조건
+  if (/단층/u.test(text)) ctx.storyType = 'single';
+  else if (/다층|고층/u.test(text)) ctx.storyType = 'multi';
+  if (/필러/u.test(text)) ctx.fillerShoring = true;
+  if (/한중|동절기|겨울철/u.test(text)) ctx.weather = 'cold';
+  else if (/서중|하절기|여름철|혹서기/u.test(text)) ctx.weather = 'hot';
 
   // 외기온도 / 외기 N℃ / 기온 N℃
   const tempRe = /(?:외기(?:온도)?|기온|대기온도)\s*[:=]?\s*(-?\d+(?:\.\d+)?)\s*(?:℃|°C|degC|degc)?/iu;
@@ -117,15 +154,8 @@ export function parseContext(text: string): ObservationContext {
   const memberM = text.match(memberRe);
   if (memberM) ctx.memberKeyword = (memberM[1] ?? '').trim();
 
-  // R1: fcn 미지정 + fck만 있으면 fcn = fck (간이 추론, 내구성기준강도 미지정 시)
-  if (ctx.fcn === undefined && ctx.fck !== undefined && ctx.durabilityFc === undefined) {
-    ctx.fcn = ctx.fck;
-  }
-  // 둘 다 있으면 fcn = max
-  if (ctx.fcn === undefined && ctx.fck !== undefined && ctx.durabilityFc !== undefined) {
-    ctx.fcn = Math.max(ctx.fck, ctx.durabilityFc);
-  }
-
+  // 설계기준압축강도를 호칭강도로 바꿔 쓰지 않는다 — 호칭강도는 품질기준강도에 기온보정강도를 더한
+  // 값이라 더 클 수 있다. 어느 강도를 기준으로 삼을지는 판정 단계(strength.ts)가 정한다.
   return ctx;
 }
 
@@ -230,8 +260,10 @@ export function parseObservation(text: string): { tokens: ObservationToken[]; co
   // 여기서는 그 수치들을 scalar 후보에서 제외 → 진짜 관측값만 매칭.
   const exclude = new Set<number>();
   if (context.fcn !== undefined) exclude.add(context.fcn);
+  if (context.fcq !== undefined) exclude.add(context.fcq);
   if (context.fck !== undefined) exclude.add(context.fck);
   if (context.durabilityFc !== undefined) exclude.add(context.durabilityFc);
+  if (context.tempCorrection !== undefined) exclude.add(context.tempCorrection);
   if (context.ambientTemperature !== undefined) exclude.add(context.ambientTemperature);
 
   const all = Array.from(norm.matchAll(SCALAR_GLOBAL_RE));

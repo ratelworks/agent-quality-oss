@@ -2,7 +2,7 @@
   "@context": "../../context.jsonld",
   "@id": "ncr:compressive_strength_statistical_fail",
   "@type": "Nonconformance",
-  "name": "압축강도 통계 판정 불합격 (표 3.5-3)",
+  "name": "압축강도 품질 검사 불합격 (KCS 14 20 10 표 3.5-3)",
   "aliases": [
     "통계 강도 불합격",
     "표 3.5-3 불합격"
@@ -11,21 +11,29 @@
     "direction": "too_low",
     "severity": "high",
     "possibleCauses": [
-      "배합강도(fcr) 부족 — §2.2.2 식 2.2-2/2.2-3 분기 점검",
-      "공시체 양생 불량 (KS F 2403)",
-      "현장 양생 < 표준양생 × 85% (§3.5.5.6(4))",
+      "배합강도 부족 — 2.2.2 식 (2.2-3)·(2.2-4) 점검",
+      "공시체 제작·양생 불량 (KS F 2403)",
+      "현장양생공시체 품질검사(표 3.5-7) 미달 — 구조물의 보호·양생 부적절",
       "한중·서중 시기 양생 대책 미흡",
       "운반·타설 중 가수 의심",
-      "단위수량 과다 (§1.9.1(4) 185 kg/m³ 상한 초과)",
+      "단위수량 과다 (시방배합 단위수량 ±20 kg/㎥ 초과)",
       "시멘트 종류 변경에 따른 강도 발현 차이"
     ],
     "owner": "현장 품질관리자 + 구조기술자",
     "approver": "감리단장 / 구조기술사",
-    "effectivenessCheck": "§3.5.5.7 후속 절차 — 코어 채취·재령 연장·비파괴 시험·재하시험 단계별 검증",
+    "effectivenessCheck": "KCS 14 20 10 3.5.5.7 — 구조물의 하중지지 내력 검토 → 관리재령 연장 → 비파괴 시험 → 코어 채취(KS F 2422, 평균 > 품질기준강도의 85 %·각각 > 75 %) → 그래도 부족하면 3.5.5.8",
     "closureCriteria": "구조 안전성 확정 또는 보강·재시공 완료 + NCR 보고서 감리단장 승인",
     "sourceStatus": "verified",
-    "verifiedAgainst": "evaluation/sources/kcs_14_20_01.txt L3274-3294, L3448-3466",
-    "evaluatorRule": "criteria.compressive_strength_statistical_le35 또는 _gt35의 평균/1회 검사 둘 중 하나 미달 시 발생. 단일값 입력은 partial로 MARGINAL → 본 NCR은 series 입력 + FAIL일 때만 발화."
+    "verifiedAgainst": {
+      "standard": "KCS 14 20 10",
+      "edition": "2024-12-30",
+      "clause": "3.5.3.2 · 3.5.5.7",
+      "quotes": [
+        "②1회 시험값이 (호칭강도-3.5MPa) 이상",
+        "구조물의 하중지지 내력을 충분히 검토하여야 하며, 적절한 조치를 취하여야 한다"
+      ]
+    },
+    "evaluatorRule": "연속 3회 평균 또는 1회 시험값 가운데 하나라도 기준에 못 미치면 발생한다. 시험값이 하나뿐이면 1회 시험값 기준 미달일 때만 불합격으로 본다."
   },
   "relatedTest": [
     "test:compressive_strength"
@@ -53,7 +61,7 @@
     "doc:mix_design",
     "doc:structural_drawing",
     "standard:kcs_14_20.10.3_5_3_2",
-    "standard:kcs_14_20.10.1_8_2",
+    "standard:kcs_14_20.10.3_5_5_7",
     "standard:ks_f_2405"
   ]
 }

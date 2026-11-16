@@ -33,7 +33,8 @@
   ],
   "basisPriority": [
     "doc:mix_design",
-    "standard:kcs_14_20.10.3_2",
-    "standard:quality_management_guideline"
+    "standard:kcs_14_20.10.3_5_3_1",
+    "standard:kcs_14_20.40",
+    "standard:kcs_14_20.41"
   ]
 }

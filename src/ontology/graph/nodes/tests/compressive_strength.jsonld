@@ -9,10 +9,10 @@
     "compressive strength"
   ],
   "_meta": {
-    "method": "KS F 2403/2405 공시체 제작 및 압축강도 시험 (표준 양생). 레미콘은 KS F 4009, 비레미콘은 KCS 14 20 10 기준",
-    "timing": "타설 시 공시체 제작 → 재령 7일·28일 시험",
-    "frequency": "1회/일 및 120㎥마다 1회 이상 (재령별 3개씩, 업무지침 2024-638호 개정 반영)",
-    "typicalAcceptance": "표 3.5-3 통계 판정. ≤35MPa: 평균≥fcn AND 1회≥fcn-3.5MPa. >35MPa: 평균≥fcn AND 1회≥fcn×0.9. (R1 2026-04-28 통계 모드 도입)"
+    "method": "KS F 2403 으로 공시체를 만들고 KS F 2405 로 시험한다. 품질 검사는 재령 28일의 표준양생 공시체로 하며, 1회의 시험값은 공시체 3개의 평균값이다(KCS 14 20 10 표 3.5-3). 구조물 중의 콘크리트 품질은 현장양생공시체로 검사한다(3.5.5.5).",
+    "timing": "타설할 때 공시체 제작 → 재령 28일 시험. 품질관리는 일반적으로 조기재령의 압축강도로 한다(3.5.3.2 (2))",
+    "frequency": "KCS 14 20 10 표 3.5-3: 1회/일, 구조물의 중요도와 공사의 규모에 따라 120 ㎥마다 1회, 또는 배합이 변경될 때마다. 업무지침 별표 2: 배합이 다를 때마다, 1일 타설량 120 ㎥ 미만이면 1일 타설량마다, 120 ㎥ 이상이면 120 ㎥마다.",
+    "typicalAcceptance": "레디믹스트 콘크리트: 연속 3회 시험값의 평균 ≥ 호칭강도, 1회 시험값 ≥ 호칭강도 − 3.5 MPa(호칭강도 35 MPa 초과는 90 %). 현장 배치플랜트: 평균 ≥ 품질기준강도. 현장양생공시체: 표 3.5-7. 코어: 평균 > 품질기준강도의 85 %, 각각 > 75 %."
   },
   "targetMaterial": [
     "material:ready_mixed_concrete"
@@ -23,6 +23,9 @@
   "hasAcceptanceCriteria": [
     "criteria:compressive_strength_statistical_le35",
     "criteria:compressive_strength_statistical_gt35",
+    "criteria:compressive_strength_site_batch",
+    "criteria:compressive_strength_field_cured",
+    "criteria:compressive_strength_core",
     "criteria:compressive_strength_design"
   ],
   "possibleNonconformance": [
@@ -44,7 +47,8 @@
   "requiresStandard": [
     "standard:ks_f_2403",
     "standard:ks_f_2405",
-    "standard:kcs_14_20.10.3_3",
+    "standard:kcs_14_20.10.3_5_3_2",
+    "standard:kcs_14_20.10.3_5_5_6",
     "standard:ks_f_4009"
   ]
 }

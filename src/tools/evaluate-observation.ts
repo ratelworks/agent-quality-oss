@@ -9,7 +9,8 @@
  */
 
 import { evaluate } from '../judgment/evaluate.js';
-import { parseContext } from '../judgment/parse-observation.js';
+import type { Judgment } from '../judgment/evaluate.js';
+import { judgeBestCriterion } from '../judgment/select-criterion.js';
 import { searchEntities } from '../ontology/resolver.js';
 import { buildResponse, entityBasis } from './_response.js';
 import type { ToolSpec, BasisRef } from '../lib/types.js';
@@ -44,32 +45,30 @@ export function run(args: EvaluateArgs, graph: OntologyGraph) {
   const { observation, criterionId, testId } = args ?? ({ observation: '' } as EvaluateArgs);
   if (!observation) throw new Error('observation은 필수입니다.');
 
+  // 기준을 직접 지정하면 그 기준으로, 아니면 시험의 기준 후보 가운데 문장에 맞는 것으로 판정한다
   let criterion: BaseEntity | null | undefined = null;
+  let j: Judgment;
+  let selectionNote: string | null = null;
   if (criterionId) {
     criterion = graph.get(criterionId);
-  } else if (testId) {
-    const testE = graph.get(testId);
-    const cids = testE?.relations?.['hasAcceptanceCriteria'] ?? [];
-    criterion = pickBestCriterion(graph, cids, observation);
+    j = evaluate(observation, criterion ?? null);
   } else {
-    const testHit = searchEntities(graph, observation, 'TestItem', 1)[0];
-    if (testHit) {
-      const testE = graph.get(testHit.id);
-      const cids = testE?.relations?.['hasAcceptanceCriteria'] ?? [];
-      criterion = pickBestCriterion(graph, cids, observation);
-    }
+    const resolvedTestId = testId ?? searchEntities(graph, observation, 'TestItem', 1)[0]?.id;
+    const cids = (resolvedTestId ? graph.get(resolvedTestId)?.relations?.['hasAcceptanceCriteria'] : undefined) ?? [];
+    const selected = judgeBestCriterion(graph, cids, observation);
+    criterion = selected.criterion;
+    j = selected.judgment;
+    selectionNote = selected.selectionNote;
   }
-
-  const j = evaluate(observation, criterion ?? null);
 
   const criterionExpr = criterion ? formatCriterion(criterion) : null;
   const baseContext = inferExpertContext(j.verdict, j.direction, criterion ?? null);
   // 입력 자연어 단서와 testId 의미가 어긋나면(예: "외기온도 33℃" + testId=test.concrete_temperature)
   // 베테랑이 옆에서 환기시킬 만한 한 줄을 prepend.
   const semanticHint = detectSemanticMismatch(observation, criterion ?? null);
-  const expertContext = semanticHint
-    ? `[주의] ${semanticHint}${baseContext ? ' / ' + baseContext : ''}`
-    : baseContext;
+  const hints = [semanticHint, selectionNote].filter((h): h is string => !!h);
+  const expertContext =
+    hints.length > 0 ? `[주의] ${hints.join(' / ')}${baseContext ? ' / ' + baseContext : ''}` : baseContext;
 
   const candidateNcrs: Array<{ id: string; name: string; direction?: string }> = [];
   if (j.verdict === 'FAIL' && criterion) {
@@ -87,7 +86,7 @@ export function run(args: EvaluateArgs, graph: OntologyGraph) {
     }
   }
 
-  const suggestedNextSteps = buildNextSteps(j.verdict, candidateNcrs, criterion ?? null);
+  const suggestedNextSteps = buildNextSteps(j.verdict, candidateNcrs, criterion ?? null, j.neededInputs ?? []);
 
   const legalBasis: string[] = [];
   if (criterion) {
@@ -140,6 +139,10 @@ export function run(args: EvaluateArgs, graph: OntologyGraph) {
               '허용치 경계 근접 — 재시험 또는 품질관리자 확인 권고. 본 경계치는 업무지침 명시 기준이 아닌 경험적 보조 지표.',
           }
         : null,
+    /** 합격·불합격을 확정하려면 더 알려 줘야 하는 것 (없으면 빈 목록) */
+    neededInputs: j.neededInputs ?? [],
+    /** 가정을 둔 결과 — 확정이 아니다. 가정이 맞는지 확인한 뒤에만 쓴다 */
+    provisionalResult: j.provisional ?? null,
     candidateNonconformance: candidateNcrs,
     suggestedNextSteps,
     legalBasis,
@@ -171,7 +174,9 @@ export function run(args: EvaluateArgs, graph: OntologyGraph) {
               ? '부적합 판정 후보 — NCR 작성 + 감리 결재 필요'
               : qualitySignal === 'marginal'
                 ? '경계 근접 (qualitySignal=marginal) — 재시험 또는 품질관리자 확인 권고'
-                : '판정 불가 (legalVerdict=UNDETERMINED) — 수동 처리 필요',
+                : (j.neededInputs ?? []).length > 0
+                  ? `판정하지 못함 — 더 필요한 입력: ${(j.neededInputs ?? []).join(' / ')}`
+                  : '판정 불가 (legalVerdict=UNDETERMINED) — 수동 처리 필요',
         }
       : { required: false, reason: null },
   );
@@ -227,10 +232,13 @@ function detectSemanticMismatch(
 ): string | null {
   if (!criterion) return null;
   const obs = observation.toLowerCase();
-  if (criterion.id === 'criteria.concrete_temperature_general') {
+  if (criterion.id.startsWith('criteria.concrete_temperature_')) {
     if (/외기|기온|대기|기상|날씨/.test(obs) && !/콘크리트\s*온도|배합\s*온도|타설\s*직후/.test(obs)) {
-      return '입력에 "외기/기온"이 포함됨 — 본 기준은 콘크리트 자체 온도(KCS 14 20 10). 외기온도 한도는 한중(<4℃)·서중(>30℃) 별도 규정. 측정 대상 재확인 필요.';
+      return '입력에 "외기/기온"이 포함됨 — 이 기준은 타설할 때의 콘크리트 자체 온도입니다. 기온은 한중·서중 콘크리트로 시공할지 정하는 조건입니다(한중: 타설일의 일평균기온 4℃ 이하 또는 타설 후 24시간 동안 일최저기온 0℃ 이하 예상 — KCS 14 20 40 1.1. 서중: 일평균기온 25℃ 초과 또는 타설 후 24시간 이내 일최고기온 30℃ 초과 예상 — KCS 14 20 41 1.1). 측정 대상을 다시 확인하세요.';
     }
+  }
+  if (criterion.id.startsWith('criteria.compressive_strength_') && /거푸집|해체|탈형|존치/.test(obs)) {
+    return '입력에 거푸집 해체가 나옵니다 — 이 기준은 재령 28일 품질 검사입니다. 거푸집 해체 시기는 testId=test.formwork_stripping_strength 로 판정하세요(KCS 14 20 12 표 3.3-1).';
   }
   return null;
 }
@@ -243,7 +251,7 @@ function inferExpertContext(
   if (!criterion) return null;
   if (verdict === 'PASS') return '관측값이 허용범위 내. 베테랑 시각: 일상 합격.';
   if (verdict === 'UNDETERMINED') {
-    return '베테랑 시각: 자동 비교 불가 — 단위·기준 주입 또는 수동 검토 필요.';
+    return '합격·불합격을 정하지 못함 — comparison 의 사유와 neededInputs 를 확인하세요.';
   }
   if (verdict === 'MARGINAL') {
     return '베테랑 시각: 경계 근접 — 다음 반입차·동일 위치 후속 시험에서 흐름 추적 권고.';
@@ -263,65 +271,20 @@ function inferExpertContext(
   if (id === 'criteria.compressive_strength_design') {
     return '베테랑 시각: 양생 불량·배합수 과다·공시체 관리 의심 — 코어·비파괴로 후속 검증.';
   }
-  if (id === 'criteria.concrete_temperature_general') {
+  if (id.startsWith('criteria.concrete_temperature_')) {
     return '베테랑 시각: 한중·서중 대책 적용 여부 확인. 배합·운반·양생 단계 점검.';
   }
-  return '베테랑 시각: 부적합 추정 — 후속 NCR 재료 수집 후 감리 협의.';
-}
-
-/**
- * R1: testItem.hasAcceptanceCriteria 후보 중 observation에 가장 적합한 것을 선택.
- *
- * 우선순위:
- *  1. statistical_threshold criterion 중 fcn(또는 fck)에 맞는 분기 (le35/gt35) 선택
- *  2. deprecated criterion은 항상 후순위
- *  3. 그 외에는 첫 번째
- */
-function pickBestCriterion(
-  graph: OntologyGraph,
-  cids: string[],
-  observation: string,
-): BaseEntity | null {
-  if (cids.length === 0) return null;
-  const ctx = parseContext(observation);
-  const candidates = cids.map((id) => graph.get(id)).filter((e): e is BaseEntity => e != null);
-
-  // statistical 모드 분기 선택
-  const statCandidates = candidates.filter(
-    (c) => (c.meta as Record<string, unknown>)?.['operator'] === 'statistical_threshold',
-  );
-  if (statCandidates.length > 0 && (ctx.fcn !== undefined || ctx.fck !== undefined)) {
-    const fcn = ctx.fcn ?? ctx.fck!;
-    const wanted = fcn <= 35 ? 'le35' : 'gt35';
-    const match = statCandidates.find(
-      (c) => (c.meta as Record<string, unknown>)?.['statisticalRule'] === wanted,
-    );
-    if (match) return match;
-    // fallback: statistical 첫 번째
-    return statCandidates[0]!;
+  if (id.startsWith('criteria.compressive_strength_')) {
+    return '베테랑 시각: 양생·배합·공시체 관리 확인. 후속 절차는 KCS 14 20 10 3.5.5.7 — 구조 검토, 관리재령 연장, 비파괴 시험, 코어 채취 순.';
   }
-
-  // deprecated 후순위 정렬
-  const sorted = [...candidates].sort((a, b) => {
-    const ad = (a.meta as Record<string, unknown>)?.['deprecated'] === true ? 1 : 0;
-    const bd = (b.meta as Record<string, unknown>)?.['deprecated'] === true ? 1 : 0;
-    return ad - bd;
-  });
-
-  // statistical criterion이 있으면 (fcn 미주입 상태) 그것을 우선 — UNDETERMINED라도
-  // deprecated design보다 정확한 메시지("fcn 미주입")를 준다.
-  const statFirst = sorted.find(
-    (c) => (c.meta as Record<string, unknown>)?.['operator'] === 'statistical_threshold',
-  );
-  if (statFirst) return statFirst;
-
-  return sorted[0] ?? null;
+  return '베테랑 시각: 부적합 추정 — 후속 NCR 재료 수집 후 감리 협의.';
 }
 
 function buildNextSteps(
   verdict: string,
   candidateNcrs: Array<{ id: string }>,
   criterion: { id: string } | null,
+  neededInputs: string[],
 ): string[] {
   const steps: string[] = [];
   if (verdict === 'FAIL' && candidateNcrs.length > 0) {
@@ -331,7 +294,11 @@ function buildNextSteps(
     steps.push('현장 증빙(납품서·배합설계서·시험기록·사진) 확보');
     steps.push('감리원 결재 요청');
   } else if (verdict === 'UNDETERMINED') {
-    if (criterion) steps.push('단위·기준값 주입 또는 수동 판정 검토');
+    if (neededInputs.length > 0) {
+      steps.push(`다음을 확인해 observation 에 함께 적어 다시 판정: ${neededInputs.join(' / ')}`);
+    } else if (criterion) {
+      steps.push('단위·기준값 주입 또는 수동 판정 검토');
+    }
     steps.push('compile_concrete_pour_references 호출로 도메인 재료 종합 수집');
   } else if (verdict === 'PASS') {
     steps.push('해당 시험 통과 — 다음 검측·시험 항목으로 이동');

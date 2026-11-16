@@ -1,0 +1,38 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "criteria:compressive_strength_site_batch",
+  "@type": "AcceptanceCriteria",
+  "name": "압축강도 품질 검사 — 현장 배치플랜트 (KCS 14 20 10 표 3.5-3 그 밖의 경우)",
+  "aliases": [
+    "현장 배치플랜트 압축강도",
+    "현장 배합 압축강도"
+  ],
+  "_meta": {
+    "operator": "statistical_threshold",
+    "strengthCase": "site_batch",
+    "threshold": null,
+    "unit": "MPa",
+    "condition": "그 밖의 경우(현장 배치플랜트를 구비하여 생산·시공하는 경우): 압축강도의 평균값이 품질기준강도 이상. 품질기준강도는 설계기준압축강도와 내구성기준압축강도 중 큰 값.",
+    "fallbackToProject": true,
+    "reference": "KCS 14 20 10 3.5.3.2 표 3.5-3 (그 밖의 경우, 주 2)",
+    "sourceStatus": "verified",
+    "verifiedAgainst": {
+      "standard": "KCS 14 20 10",
+      "edition": "2024-12-30",
+      "clause": "3.5.3.2 표 3.5-3",
+      "quotes": [
+        "압축강도의 평균값이 품질기준강도2) 이상일 것",
+        "현장 배치플랜트를 구비하여 생산·시공하는 경우에는 설계기준압축강도와 내구성 설계에 따른 내구성기준압축강도 중에서 큰 값으로 결정된 품질기준강도를 기준으로 검사"
+      ]
+    },
+    "referenceVerified": true
+  },
+  "appliesTo": [
+    "test:compressive_strength"
+  ],
+  "derivedFrom": [
+    "standard:kcs_14_20.10.3_5_3_2",
+    "standard:kcs_14_20.10.2_2_2",
+    "standard:ks_f_2405"
+  ]
+}

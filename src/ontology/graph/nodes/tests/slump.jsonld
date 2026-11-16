@@ -9,10 +9,10 @@
     "굳지 않은 콘크리트 슬럼프 시험"
   ],
   "_meta": {
-    "method": "KS F 2402 슬럼프 시험 (슬럼프 콘 300mm). 슬럼프 플로 지정 시 KS F 2594",
-    "timing": "콘크리트 반입 시 · 타설 개시 직전",
-    "frequency": "120㎥마다 1회 또는 타설일 1회 이상 (업무지침 2024-638호 개정 반영)",
-    "typicalAcceptance": "배합설계서 기준값 ±25mm (일반 150±25mm) — 실판정은 criteria.slump_general_150"
+    "method": "KS F 2402 (슬럼프 플로는 KS F 2594)",
+    "timing": "타설하기 전 — 최초 1회, 이후 압축강도 시험용 공시체를 채취할 때와 타설 중 품질 변화가 인정될 때 (KCS 14 20 10 표 3.5-2)",
+    "frequency": "업무지침 별표 2: 배합이 다를 때마다, 1일 타설량 120 ㎥ 미만이면 1일 타설량마다, 120 ㎥ 이상이면 120 ㎥마다.",
+    "typicalAcceptance": "KS F 4009 의 슬럼프 허용오차 이내 — 호칭 슬럼프 25 mm ±10, 50·65 mm ±15, 80 mm 이상 ±25 (KCS 14 20 10 표 1.7-2). 실판정은 criteria.slump_general_150"
   },
   "targetMaterial": [
     "material:ready_mixed_concrete"
@@ -39,6 +39,7 @@
   ],
   "requiresStandard": [
     "standard:ks_f_2402",
-    "standard:kcs_14_20.10.3_2"
+    "standard:kcs_14_20.10.3_5_3_1",
+    "standard:kcs_14_20.10.1_7_3"
   ]
 }

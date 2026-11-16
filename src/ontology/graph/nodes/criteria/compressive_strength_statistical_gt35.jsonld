@@ -2,31 +2,39 @@
   "@context": "../../context.jsonld",
   "@id": "criteria:compressive_strength_statistical_gt35",
   "@type": "AcceptanceCriteria",
-  "name": "압축강도 통계 판정 — 호칭강도 > 35MPa (표 3.5-3)",
+  "name": "압축강도 품질 검사 — 레디믹스트 콘크리트, 호칭강도 35 MPa 초과 (KCS 14 20 10 표 3.5-3)",
   "aliases": [
-    "압축강도 35초과 통계",
-    "통계 gt35",
-    "고강도 통계"
+    "압축강도 35 초과",
+    "표 3.5-3 35 초과"
   ],
   "_meta": {
     "operator": "statistical_threshold",
     "statisticalRule": "gt35",
     "threshold": null,
     "unit": "MPa",
-    "condition": "호칭강도품질기준강도 fcn > 35MPa: ① 연속 3회 시험값의 평균 ≥ fcn AND ② 1회 시험값 ≥ fcn × 90%. 단일 시험값 입력 시 ② 기준만 적용 (partial verdict).",
+    "condition": "호칭강도로부터 배합을 정한 경우(레디믹스트 콘크리트), 호칭강도 35 MPa 초과: ① 연속 3회 시험값의 평균이 호칭강도 이상 ② 1회 시험값이 호칭강도의 90 % 이상. 1회의 시험값은 공시체 3개의 압축강도 시험값의 평균값이다.",
     "fallbackToProject": true,
-    "note": "고강도 콘크리트 fcn ≥ 40MPa 통상 적용. KCS 14 20 42(고강도) 별도 작업 R7에서.",
-    "reference": "KCS 14 20 10 §3.5.3.2 표 3.5-3 (>35MPa 판정기준)",
+    "note": "기준 강도는 호칭강도다(KCS 14 20 10 2.2.2). 고강도 콘크리트의 그 밖의 사항은 KCS 14 20 33.",
+    "reference": "KCS 14 20 10 3.5.3.2 표 3.5-3",
     "sourceStatus": "verified",
-    "verifiedAgainst": "evaluation/sources/kcs_14_20_01.txt L3274-3294",
-    "referenceVerified": true
+    "verifiedAgainst": {
+      "standard": "KCS 14 20 10",
+      "edition": "2024-12-30",
+      "clause": "3.5.3.2 표 3.5-3",
+      "quotes": [
+        "①연속 3회 시험값의 평균이 호칭강도 이상",
+        "②1회 시험값이 호칭강도의 90 % 이상"
+      ]
+    },
+    "referenceVerified": true,
+    "strengthCase": "ready_mixed"
   },
   "appliesTo": [
     "test:compressive_strength"
   ],
   "derivedFrom": [
     "standard:kcs_14_20.10.3_5_3_2",
-    "standard:kcs_14_20.10.1_8_2",
+    "standard:kcs_14_20.10.2_2_2",
     "standard:ks_f_2405"
   ]
 }

@@ -2,22 +2,41 @@
   "@context": "../../context.jsonld",
   "@id": "criteria:formwork_strip_slab_bottom",
   "@type": "AcceptanceCriteria",
-  "name": "슬래브·보 밑면 해체강도 fck의 2/3배 또한 최소 14MPa",
+  "name": "슬래브·보 밑면 거푸집 해체 강도 — 단층구조 2/3배·최소 14 MPa, 다층구조 설계기준압축강도 이상",
   "aliases": [
     "슬래브 밑면 해체강도",
-    "보 밑면 해체강도"
+    "보 밑면 해체강도",
+    "아치 내면 해체강도"
   ],
   "_meta": {
-    "operator": "ge",
+    "operator": "strip_slab_bottom",
     "threshold": null,
     "unit": "MPa",
-    "condition": "슬래브 및 보의 밑면·아치 내면 — 설계기준압축강도(fck)의 2/3배 이상 또한 최소 14MPa 이상. fck 의존 복합기준이라 fck 미주입 시 UNDETERMINED 반환(환각 방지). 다층 연속 시공 시 필러동바리 사용 가능, 그 경우라도 최소 14MPa.",
+    "condition": "슬래브 및 보의 밑면, 아치 내면 — 단층구조: 설계기준압축강도의 2/3배 이상 또한 최소 14 MPa 이상. 다층구조: 설계기준압축강도 이상(필러 동바리 구조는 구조계산으로 기간을 단축할 수 있으나 그 경우에도 최소 14 MPa). 압축강도는 KCI-CT 118 에 따라 양생한 현장양생공시체로 확인한다.",
     "fallbackToProject": true,
-    "reference": "KCS 14 20 12 §3.3 표(콘크리트의 압축강도를 시험할 경우 거푸집널의 해체 시기)",
+    "reference": "KCS 14 20 12 3.3.1 표 3.3-1",
     "sourceStatus": "verified",
-    "verifiedAgainst": "evaluation/sources/kcs_14_20_01.txt L5183-5189",
+    "verifiedAgainst": {
+      "standard": "KCS 14 20 12",
+      "edition": "2024-12-30",
+      "clause": "3.3.1 표 3.3-1",
+      "quotes": [
+        "단층구조인 경우 | 설계기준압축강도의 2/3배 이상",
+        "최소강도 14MPa 이상",
+        "다층구조인 경우 | 설계기준 압축강도 이상",
+        "단, 이 경우라도 최소강도는 14 MPa 이상으로 함",
+        "KCI-CT 118에 따라 양생한 현장양생공시체를 사용하여야 한다"
+      ]
+    },
     "referenceVerified": true,
-    "note": "수치는 원문 verified. 단 'fck×2/3 AND ≥14MPa' 복합조건은 현 evaluate ge operator(단일 threshold)로 자동판정 불가 → threshold=null로 UNDETERMINED. fck 주입 + min(14) 동시판정 operator는 후속 작업."
+    "selectKeywords": [
+      "밑면",
+      "슬래브",
+      "아치",
+      "하부"
+    ],
+    "selectDefault": true,
+    "selectDefaultNote": "부재를 알려 주지 않아 가장 엄격한 슬래브·보 밑면 기준으로 보았습니다. 기초·보·기둥·벽의 측면이면 5 MPa 이상(내구성이 중요한 구조물은 10 MPa 이상)입니다 — 부재를 함께 적어 주세요."
   },
   "appliesTo": [
     "test:formwork_stripping_strength"

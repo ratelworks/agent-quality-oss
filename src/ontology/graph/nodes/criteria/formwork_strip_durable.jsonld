@@ -10,12 +10,22 @@
     "operator": "ge",
     "threshold": 10,
     "unit": "MPa",
-    "condition": "내구성이 중요한 구조물의 거푸집널 해체",
+    "condition": "내구성이 중요한 구조물의 측면 거푸집널 — 압축강도 10 MPa 이상",
     "fallbackToProject": true,
-    "reference": "KCS 14 20 12 §3.3 (내구성이 중요한 구조물)",
+    "reference": "KCS 14 20 12 3.3.1 (3) · 표 3.3-1 주 1)",
     "sourceStatus": "verified",
-    "verifiedAgainst": "evaluation/sources/kcs_14_20_01.txt L5159-5165",
-    "referenceVerified": true
+    "verifiedAgainst": {
+      "standard": "KCS 14 20 12",
+      "edition": "2024-12-30",
+      "clause": "3.3.1 표 3.3-1 주 1)",
+      "quotes": [
+        "내구성이 중요한 구조물의 경우 10MPa 이상"
+      ]
+    },
+    "referenceVerified": true,
+    "selectKeywords": [
+      "내구성"
+    ]
   },
   "appliesTo": [
     "test:formwork_stripping_strength"

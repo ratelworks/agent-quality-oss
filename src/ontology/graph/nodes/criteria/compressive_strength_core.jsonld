@@ -1,0 +1,37 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "criteria:compressive_strength_core",
+  "@type": "AcceptanceCriteria",
+  "name": "코어 압축강도 판정 (KCS 14 20 10 3.5.5.7)",
+  "aliases": [
+    "코어 강도",
+    "코어 압축강도",
+    "코어 판정"
+  ],
+  "_meta": {
+    "operator": "statistical_threshold",
+    "strengthCase": "core",
+    "threshold": null,
+    "unit": "MPa",
+    "condition": "코어 강도의 시험 결과는 평균값이 품질기준강도의 85 %를 초과하고 각각의 값이 75 %를 초과하면 적합. 표준양생·현장양생 공시체 결과가 미달이고 비파괴 시험에서도 불합격일 때 문제된 부분에서 코어를 채취해 KS F 2422 로 시험한다.",
+    "fallbackToProject": true,
+    "reference": "KCS 14 20 10 3.5.5.7 (4)",
+    "sourceStatus": "verified",
+    "verifiedAgainst": {
+      "standard": "KCS 14 20 10",
+      "edition": "2024-12-30",
+      "clause": "3.5.5.7 (4)",
+      "quotes": [
+        "코어 강도의 시험 결과는 평균값이 품질기준강도의 85 %를 초과하고 각각의 값이 75 %를 초과하면 적합한 것으로 판정한다"
+      ]
+    },
+    "referenceVerified": true
+  },
+  "appliesTo": [
+    "test:compressive_strength"
+  ],
+  "derivedFrom": [
+    "standard:kcs_14_20.10.3_5_5_7",
+    "standard:kcs_14_20.10.2_2_2"
+  ]
+}

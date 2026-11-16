@@ -11,18 +11,18 @@
     "탈형강도"
   ],
   "_meta": {
-    "method": "현장양생 공시체 압축강도(KS F 2405) 또는 비파괴 시험. 거푸집널 해체 가부 판정용",
+    "method": "KCI-CT 118 에 따라 양생한 현장양생공시체의 압축강도(KS F 2405)로 확인한다(KCS 14 20 12 3.3.1 (3)(4)). 측면 거푸집은 존치기간 중 평균기온이 10 ℃ 이상이면 표 3.3-2 의 재령이 지난 뒤 시험 없이 해체할 수 있다.",
     "timing": "거푸집 해체 직전",
     "frequency": "부재·구획별 해체 시점마다",
-    "typicalAcceptance": "부재별 — 측면 5MPa 이상 / 슬래브·보 밑면 설계기준압축강도(fck)의 2/3배 또한 최소 14MPa / 내구성 중요 구조물 10MPa (KCS 14 20 12 §3.3)"
+    "typicalAcceptance": "측면(기초·보·기둥·벽) 5 MPa 이상, 내구성이 중요한 구조물 10 MPa 이상 / 슬래브·보 밑면·아치 내면: 단층구조는 설계기준압축강도의 2/3배 이상 또한 최소 14 MPa, 다층구조는 설계기준압축강도 이상 (KCS 14 20 12 표 3.3-1)"
   },
   "relatedWork": [
     "work:formwork_shoring"
   ],
   "hasAcceptanceCriteria": [
-    "criteria:formwork_strip_side",
     "criteria:formwork_strip_durable",
-    "criteria:formwork_strip_slab_bottom"
+    "criteria:formwork_strip_slab_bottom",
+    "criteria:formwork_strip_side"
   ],
   "possibleNonconformance": [
     "ncr:formwork_premature_stripping"

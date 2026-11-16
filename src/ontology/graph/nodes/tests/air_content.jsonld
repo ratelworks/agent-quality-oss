@@ -8,9 +8,9 @@
     "air content test"
   ],
   "_meta": {
-    "method": "KS F 2421 압력법 공기량 시험",
-    "timing": "콘크리트 반입 시",
-    "frequency": "120㎥마다 1회 (업무지침 2024-638호 개정 반영)",
+    "method": "KS F 2421(압력법) 또는 KS F 2409(질량 방법) 또는 KS F 2449(용적 방법)",
+    "timing": "타설하기 전 — 슬럼프 검사와 같은 때 (KCS 14 20 10 표 3.5-2)",
+    "frequency": "업무지침 별표 2: 배합이 다를 때마다, 1일 타설량 120 ㎥ 미만이면 1일 타설량마다, 120 ㎥ 이상이면 120 ㎥마다.",
     "typicalAcceptance": "보통 4.5%, 경량 5.5%, 포장 4.5%, 고강도 3.5% 이하 · 허용오차 ±1.5% (KCS 14 20 10)"
   },
   "targetMaterial": [
@@ -38,6 +38,7 @@
   ],
   "requiresStandard": [
     "standard:ks_f_2421",
-    "standard:kcs_14_20.10.3_2"
+    "standard:kcs_14_20.10.3_5_3_1",
+    "standard:kcs_14_20.10.1_7_4"
   ]
 }

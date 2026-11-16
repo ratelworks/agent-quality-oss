@@ -2,13 +2,18 @@
  * AcceptanceCriteria 엔티티 + 관측 토큰 → 판정 결과.
  * MARGINAL은 주의 플래그 — 합부(PASS/FAIL) 판정과 분리.
  *
- * R1 (2026-04-28): statistical_threshold operator 추가.
- *   표 3.5-3 압축강도 통계 판정 (≤35MPa: 평균≥fcn AND 1회≥fcn-3.5 / >35MPa: 평균≥fcn AND 1회≥fcn×0.9).
- *   parseObservation의 ObservationContext.fcn/fck를 threshold로 자동 주입.
+ * 연산자(operator):
+ *   tolerance · between · le · lt · ge · gt — 수치 하나를 기준값과 견준다
+ *   statistical_threshold — 압축강도. 경우(레디믹스트·현장 배치플랜트·현장양생·코어)에 따라
+ *     기준 강도와 규칙이 다르다 (strength.ts)
+ *   strip_slab_bottom — 슬래브·보 밑면 거푸집 해체 강도 (단층·다층구조에 따라 다르다)
+ *   condition_dependent — 조건(예: 한중·서중)을 알아야 기준이 정해진다. 수치 판정을 내지 않는다
  */
 
 import { parseObservation, unitsCompatible } from './parse-observation.js';
 import type { ObservationContext, ObservationToken } from './parse-observation.js';
+import { judgeSlabBottomStripping, judgeStrength } from './strength.js';
+import type { StrengthCase } from './strength.js';
 import type { BaseEntity } from '../ontology/schema.js';
 
 export type Verdict = 'PASS' | 'FAIL' | 'MARGINAL' | 'UNDETERMINED';
@@ -22,10 +27,10 @@ export interface AppliedCriterion {
   max?: number;
   threshold?: number | null;
   unit: string | null;
-  /** R1: statistical_threshold 모드 분기 ('le35' | 'gt35') */
+  /** 압축강도 기준이 다루는 기준 강도의 범위 ('le35' | 'gt35') */
   statisticalRule?: string;
-  /** R1: 통계 판정 시 사용된 fcn 출처 ('criterion.threshold' | 'observation.context.fcn' | 'observation.context.fck') */
-  fcnSource?: string;
+  /** 압축강도 판정에서 기준 강도를 어떻게 정했는지 */
+  referenceSource?: string;
 }
 
 export interface Judgment {
@@ -36,16 +41,27 @@ export interface Judgment {
   appliedCriterion: AppliedCriterion | null;
   reasoning: string;
   criterionId: string | null;
-  /** R1: 통계 판정 산출 메타 (시리즈 입력 시) */
+  /** 압축강도 판정의 세부 */
   statistical?: {
+    case: StrengthCase;
     n?: number;
     mean?: number;
     min?: number;
-    fcn: number;
-    meanCheck?: boolean;
-    singleCheck?: boolean;
+    /** 기준 강도의 이름 (호칭강도 · 품질기준강도) */
+    referenceLabel: string;
+    /** 기준 강도. referenceExact 가 false 면 하한값 */
+    reference: number;
+    referenceExact: boolean;
+    /** null = 확인하지 못함 */
+    meanCheck: boolean | null;
+    singleCheck: boolean | null;
+    /** 확인하지 못한 기준이 있는지 */
     partial: boolean;
   };
+  /** 합격·불합격을 확정하려면 필요한 입력 */
+  neededInputs?: string[];
+  /** 가정을 둔 결과 — 확정이 아니다 */
+  provisional?: { assumption: string; verdict: 'PASS' };
 }
 
 /** 허용치 경계 margin 비율 (경험 규칙, 합부 판정에 쓰지 않음) */
@@ -68,6 +84,9 @@ export function evaluate(
     threshold?: number | null;
     unit?: string | null;
     statisticalRule?: string;
+    strengthCase?: StrengthCase;
+    condition?: string;
+    neededInputs?: string[];
   };
 
   const appliedCriterion: AppliedCriterion | null = criterionEntity
@@ -98,9 +117,16 @@ export function evaluate(
     return base;
   }
 
-  // R1: statistical_threshold 모드 — series 또는 scalar 모두 처리
+  // 압축강도 — 여러 번의 시험값(series)과 값 하나(scalar) 모두 다룬다
   if (meta.operator === 'statistical_threshold') {
-    return evalStatistical(base, meta, seriesToken ?? null, obsToken ?? null, context);
+    return evalStrength(base, meta, seriesToken ?? null, obsToken ?? null, context);
+  }
+
+  // 조건을 알아야 기준이 정해지는 항목 — 수치를 견주지 않는다
+  if (meta.operator === 'condition_dependent') {
+    base.reasoning = meta.condition ?? '조건에 따라 기준이 달라 수치만으로 판정하지 않습니다.';
+    if (meta.neededInputs && meta.neededInputs.length > 0) base.neededInputs = meta.neededInputs;
+    return base;
   }
 
   if (!obsToken || obsToken.kind !== 'scalar' || typeof obsToken.value !== 'number') {
@@ -163,6 +189,13 @@ export function evaluate(
         return mk(base, 'MARGINAL', 'in_range', v, unit, `${v}${unit} 허용범위 경계 ${margin.toFixed(1)}${unit} 이내`);
       }
       return mk(base, 'PASS', 'in_range', v, unit, `${v}${unit} ∈ [${min}, ${max}]${unit}`);
+    }
+    case 'strip_slab_bottom': {
+      const j = judgeSlabBottomStripping(v, context);
+      if (base.appliedCriterion && j.threshold !== undefined) base.appliedCriterion.threshold = j.threshold;
+      if (j.neededInputs.length > 0) base.neededInputs = j.neededInputs;
+      const direction: FailDirection = j.verdict === 'FAIL' ? 'too_low' : j.verdict === 'PASS' ? 'in_range' : 'n/a';
+      return mk(base, j.verdict, direction, v, unit, j.reasoning);
     }
     case 'le':
     case 'lt':
@@ -231,113 +264,79 @@ function mk(
   };
 }
 
+const STRENGTH_CASE_LABEL: Record<StrengthCase, string> = {
+  ready_mixed: '레디믹스트 콘크리트의 표준양생 공시체',
+  site_batch: '현장 배치플랜트 콘크리트',
+  field_cured: '현장양생공시체',
+  core: '코어',
+};
+const STRENGTH_CASE_CRITERION: Record<StrengthCase, string> = {
+  ready_mixed: 'criteria.compressive_strength_statistical_le35 (호칭강도 35 MPa 초과는 _gt35)',
+  site_batch: 'criteria.compressive_strength_site_batch',
+  field_cured: 'criteria.compressive_strength_field_cured',
+  core: 'criteria.compressive_strength_core',
+};
+/** 기준 강도 범위를 나누는 경계 (표 3.5-3) */
+const RANGE_SPLIT_MPA = 35;
+
 /**
- * R1: 표 3.5-3 통계 판정.
- *  - le35: 평균 ≥ fcn AND 1회 ≥ fcn - 3.5MPa
- *  - gt35: 평균 ≥ fcn AND 1회 ≥ fcn × 0.9
- *
- * 입력 모드:
- *  - series (n≥1, mean+min): 평균·1회 두 기준 모두 평가
- *  - scalar (단일값): 1회 기준만 평가, partial=true (평균 검증 불가)
- *
- * fcn 출처 우선순위: criterion.threshold > observation.context.fcn > observation.context.fck
+ * 압축강도 판정 — 규칙과 기준 강도는 strength.ts 가 정한다.
+ * 입력이 말하는 공시체 종류와 기준 노드가 다루는 종류가 다르면 판정하지 않고 맞는 기준을 알려 준다.
  */
-function evalStatistical(
+function evalStrength(
   base: Judgment,
-  meta: { threshold?: number | null; unit?: string | null; statisticalRule?: string },
+  meta: { unit?: string | null; statisticalRule?: string; strengthCase?: StrengthCase },
   series: ObservationToken | null,
   scalar: ObservationToken | null,
   context: ObservationContext,
 ): Judgment {
   const unit = meta.unit ?? 'MPa';
-  const rule = meta.statisticalRule;
-  if (rule !== 'le35' && rule !== 'gt35') {
+  const kind: StrengthCase = meta.strengthCase ?? 'ready_mixed';
+
+  if (context.strengthCase !== undefined && context.strengthCase !== kind) {
     return mk(base, 'UNDETERMINED', 'n/a', 0, unit,
-      `statistical_threshold criterion에 statisticalRule(le35|gt35) 누락 — 판정 불가.`);
+      `입력은 ${STRENGTH_CASE_LABEL[context.strengthCase]}의 시험값인데 이 기준은 ${STRENGTH_CASE_LABEL[kind]}용입니다. ${STRENGTH_CASE_CRITERION[context.strengthCase]} 로 판정하세요.`);
+  }
+  const token = series ?? scalar;
+  if (token && !unitsCompatible(token.unit ?? null, meta.unit ?? null)) {
+    return mk(base, 'UNDETERMINED', 'n/a', token.value ?? token.mean ?? 0, unit,
+      `단위 불일치: 관측 ${token.unit} vs 기준 ${meta.unit}.`);
   }
 
-  // fcn 우선순위 결정
-  let fcn: number | null = null;
-  let fcnSource = '';
-  if (typeof meta.threshold === 'number') {
-    fcn = meta.threshold;
-    fcnSource = 'criterion.threshold';
-  } else if (context.fcn !== undefined) {
-    fcn = context.fcn;
-    fcnSource = context.fck !== undefined && context.fcn === context.fck
-      ? 'observation.context.fck (fcn=fck 추론)'
-      : 'observation.context.fcn';
-  } else if (context.fck !== undefined) {
-    fcn = context.fck;
-    fcnSource = 'observation.context.fck';
-  }
+  const j = judgeStrength(kind, series, scalar, context);
+  const observed = j.observedMean ?? j.observedMin ?? 0;
 
-  if (fcn === null) {
-    return mk(base, 'UNDETERMINED', 'n/a', 0, unit,
-      `통계 판정 불가 — fcn(호칭강도품질기준강도) 미주입. observation 텍스트에 'fcn N' / 'fck N' / '호칭강도 N' 명시 또는 criterion threshold 주입 필요.`);
-  }
-
-  if (base.appliedCriterion) {
-    base.appliedCriterion.threshold = fcn;
-    base.appliedCriterion.fcnSource = fcnSource;
-  }
-
-  const minBound = rule === 'le35' ? fcn - 3.5 : fcn * 0.9;
-  const ruleLabel = rule === 'le35' ? '≤35MPa (1회 ≥ fcn-3.5)' : '>35MPa (1회 ≥ fcn×0.9)';
-
-  // series 입력 — 양쪽 기준 평가
-  if (series && series.kind === 'series') {
-    const mean = series.mean;
-    const seriesMin = series.min ?? (series.values ? Math.min(...series.values) : undefined);
-    if (mean === undefined || seriesMin === undefined) {
-      return mk(base, 'UNDETERMINED', 'n/a', mean ?? 0, unit,
-        `series 입력에 평균·최저 모두 필요 — 누락. (현재: mean=${mean}, min=${seriesMin})`);
+  // 기준 강도가 정해졌는데 이 기준 노드가 다루는 범위 밖이면 다른 쪽 기준으로 보낸다
+  const exact = j.bounds !== null && j.bounds.lo === j.bounds.hi;
+  if (kind === 'ready_mixed' && exact && j.bounds && (meta.statisticalRule === 'le35' || meta.statisticalRule === 'gt35')) {
+    const over = j.bounds.lo > RANGE_SPLIT_MPA;
+    if (over !== (meta.statisticalRule === 'gt35')) {
+      return mk(base, 'UNDETERMINED', 'n/a', observed, unit,
+        `호칭강도 ${j.bounds.lo} MPa 는 이 기준이 다루는 범위(${meta.statisticalRule === 'gt35' ? '35 MPa 초과' : '35 MPa 이하'})가 아닙니다. criteria.compressive_strength_statistical_${over ? 'gt35' : 'le35'} 로 판정하세요.`);
     }
-    const meanCheck = mean >= fcn;
-    const singleCheck = seriesMin >= minBound;
+  }
+
+  if (j.bounds) {
+    if (base.appliedCriterion) {
+      base.appliedCriterion.threshold = exact ? j.bounds.lo : null;
+      base.appliedCriterion.referenceSource = j.bounds.basis;
+    }
     base.statistical = {
-      ...(series.n !== undefined ? { n: series.n } : {}),
-      mean,
-      min: seriesMin,
-      fcn,
-      meanCheck,
-      singleCheck,
-      partial: false,
+      case: kind,
+      ...(j.n !== undefined ? { n: j.n } : {}),
+      ...(j.observedMean !== undefined ? { mean: j.observedMean } : {}),
+      ...(j.observedMin !== undefined ? { min: j.observedMin } : {}),
+      referenceLabel: j.bounds.label,
+      reference: j.bounds.lo,
+      referenceExact: exact,
+      meanCheck: j.meanCheck,
+      singleCheck: j.singleCheck,
+      partial: j.verdict === 'UNDETERMINED',
     };
-    if (meanCheck && singleCheck) {
-      return mk(base, 'PASS', 'in_range', mean, unit,
-        `[${ruleLabel}] 평균 ${mean}≥fcn ${fcn} AND 최저 ${seriesMin}≥${minBound.toFixed(2)} → 통과`);
-    }
-    const failReasons: string[] = [];
-    if (!meanCheck) failReasons.push(`평균 ${mean}<fcn ${fcn}`);
-    if (!singleCheck) failReasons.push(`최저 ${seriesMin}<${minBound.toFixed(2)} (fcn ${fcn} ${rule === 'le35' ? '-3.5' : '×0.9'})`);
-    return mk(base, 'FAIL', 'too_low', mean, unit,
-      `[${ruleLabel}] ${failReasons.join(' / ')}`);
   }
+  if (j.neededInputs.length > 0) base.neededInputs = j.neededInputs;
+  if (j.provisional) base.provisional = j.provisional;
 
-  // scalar 입력 — 1회 기준만 (partial)
-  if (scalar && scalar.kind === 'scalar' && typeof scalar.value === 'number') {
-    if (!unitsCompatible(scalar.unit ?? null, meta.unit ?? null)) {
-      return mk(base, 'UNDETERMINED', 'n/a', scalar.value, unit,
-        `단위 불일치: 관측 ${scalar.unit} vs 기준 ${meta.unit}.`);
-    }
-    const v = scalar.value;
-    const singleCheck = v >= minBound;
-    base.statistical = {
-      mean: v,
-      min: v,
-      fcn,
-      singleCheck,
-      partial: true,
-    };
-    if (singleCheck) {
-      return mk(base, 'MARGINAL', 'in_range', v, unit,
-        `[${ruleLabel}, 1회 단독] ${v}≥${minBound.toFixed(2)} 통과 — 단 평균(연속 3회) 검증 부재. 추가 시험값 확보 시 재판정 필요. (PASS 단언 불가)`);
-    }
-    return mk(base, 'FAIL', 'too_low', v, unit,
-      `[${ruleLabel}, 1회 단독] ${v}<${minBound.toFixed(2)} (fcn ${fcn} ${rule === 'le35' ? '-3.5' : '×0.9'})`);
-  }
-
-  return mk(base, 'UNDETERMINED', 'n/a', 0, unit,
-    `통계 판정 입력 부적절 — series 또는 scalar 필요.`);
+  const direction: FailDirection = j.verdict === 'FAIL' ? 'too_low' : j.verdict === 'PASS' ? 'in_range' : 'n/a';
+  return mk(base, j.verdict, direction, observed, unit, j.reasoning);
 }
