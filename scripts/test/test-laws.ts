@@ -166,6 +166,25 @@ async function testLookup(): Promise<void> {
       (phraseHit.matchedByFieldPhrase.includes("겸직") || phraseHit.matchedAsLawWord?.some((x) => x.term === "겸직" && x.lawWord === "각 호 외의 업무") === true) &&
       phraseHit.lookup.article === "제91조",
   );
+  // 같은 조에 같은 일을 정한 항이 여럿이면 모두 보인다 — 사업관리지침 제56조 제5항("입회ㆍ확인")만 보고
+  // 제11항 제5호("계속적인 입회 확인하에 시행")를 놓치면 "상시 입회 규정은 없다"는 틀린 답이 된다
+  type ParaHit = { ref: string; law: string; paragraph?: string; snippet: string; alsoParagraphs?: Array<{ paragraph: string; snippet: string }> };
+  const pour = (await callTool("search_quality_law_text", { query: "레미콘 타설 감리 입회" }, { graph })).result as { items: ParaHit[] };
+  const art56 = pour.items.find((h) => h.ref === "제56조" && h.law.includes("사업관리방식"));
+  const shown56 = art56 ? [{ paragraph: art56.paragraph ?? "", snippet: art56.snippet }, ...(art56.alsoParagraphs ?? [])] : [];
+  check(
+    "낱말 검색: 같은 조에서 똑같이 맞는 다른 항도 함께 준다(제56조 제11항 제5호 계속적인 입회)",
+    shown56.some((p) => p.paragraph === "제11항 제5호" && p.snippet.includes("계속적인 입회")),
+    JSON.stringify(shown56.map((p) => p.paragraph)),
+  );
+  // 긴 항(420자 넘음)은 앞에서 자르지 않고 머리글과 맞는 호를 보인다 — 제11항 제5호는 항의 뒤쪽에 있다
+  const cont = (await callTool("search_quality_law_text", { query: "타설 계속 입회" }, { graph })).result as { items: ParaHit[] };
+  const cont56 = cont.items.find((h) => h.ref === "제56조" && h.law.includes("사업관리방식"));
+  check(
+    "낱말 검색: 긴 항은 맞는 호를 보인다(제11항 제5호)",
+    cont56?.paragraph === "제11항 제5호" && cont56.snippet.includes("계속적인 입회") && cont56.snippet.startsWith("⑪"),
+    `${cont56?.paragraph} ${cont56?.snippet.slice(0, 80)}`,
+  );
   const nothing = await callTool("search_quality_law_text", { query: "양자컴퓨터" }, { graph });
   check("낱말 검색: 없는 낱말은 0건이고 없다고 알린다", (nothing.result as { count: number; note: string }).count === 0 && (nothing.result as { note: string }).note.includes("없습니다"));
   const viaGuideline = await callTool("search_quality_management_guideline", { query: "겸직" }, { graph });
@@ -264,8 +283,13 @@ async function testPracticeAnswers(): Promise<void> {
   const pourHit = (pour.result as { items: Array<{ ref: string; paragraph?: string; snippet: string }> }).items.find((i) => i.ref === "제56조");
   check("낱말 검색: '타설 입회' → 사업관리지침 제56조 제5항을 snippet 으로", pourHit?.paragraph === "제5항" && pourHit.snippet.includes("반드시 입회"), JSON.stringify(pourHit?.paragraph));
   const ks = await callTool("search_quality_law_text", { query: "KS 인증 시험 면제" }, { graph });
-  const ksTop = (ks.result as { items: Array<{ law: string; ref: string; paragraph?: string }> }).items[0];
-  check("낱말 검색: 'KS 인증 시험 면제' → 시행령 제91조 제2항", ksTop?.law === "건설기술 진흥법 시행령" && ksTop.ref === "제91조" && ksTop.paragraph === "제2항", JSON.stringify(ksTop));
+  const ksTop = (ks.result as { items: Array<{ law: string; ref: string; paragraph?: string; snippet: string }> }).items[0];
+  // 긴 항은 맞는 호(제2호 한국산업표준 인증제품)를 보이되, 머리글의 단서(발주자가 필요하다고 인정하면 검사)는 자르지 않는다
+  check(
+    "낱말 검색: 'KS 인증 시험 면제' → 시행령 제91조 제2항 제2호, 단서 포함",
+    ksTop?.law === "건설기술 진흥법 시행령" && ksTop.ref === "제91조" && ksTop.paragraph === "제2항 제2호" && ksTop.snippet.includes("필요하다고 인정") && ksTop.snippet.includes("한국산업표준 인증제품"),
+    JSON.stringify(ksTop),
+  );
   // 계획 대상 — 16층 이상은 다중이용 건축물(입력한 multiUse 와 다르면 층수를 따른다)
   const tall = judgePlanTarget({ workKind: "building", floorArea: 35_000, totalCost: 90_000_000_000, floors: 20, multiUse: false });
   check("계획 대상: 20층·연면적 3만5천㎡ → 품질관리계획(다중이용 아님 입력은 층수로 바로잡음)", tall.qualityPlan === "applies" && tall.caveats.some((c) => c.includes("16층 이상")));

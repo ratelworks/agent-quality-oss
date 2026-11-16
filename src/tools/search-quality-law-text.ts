@@ -30,7 +30,7 @@ export const spec: ToolSpec = {
     "법령·고시의 조문·별표 본문에서 낱말로 찾는다 — 어느 조문에 있는지 모를 때 쓴다. " +
     "수록 범위: 건설기술 진흥법·시행령·시행규칙, 건설공사 품질관리 업무지침, 건설공사 사업관리방식 검토기준 및 업무수행지침의 전 조문과 별표. " +
     '낱말은 조문에 적혀 있을 말로 2~3개만 넣는다(예: "겸직", "즉시 반품", "사전점검 레미콘", "벌점 품질관리"). 문장으로 넣지 않는다. ' +
-    "찾은 조문의 전문은 get_quality_law_article 로 본다. 긴 조문은 낱말이 가장 많이 든 항(paragraph)을 snippet 으로 준다. 결과가 없으면 낱말을 줄이거나 조문에 쓰일 다른 말로 바꾼다. " +
+    "찾은 조문의 전문은 get_quality_law_article 로 본다. 긴 조문은 낱말이 가장 많이 든 항(paragraph)을 snippet 으로 주고, 긴 항은 머리글과 맞는 호(예: 제11항 제5호)를 준다. 같은 조에서 똑같이 맞는 다른 항이 있으면 alsoParagraphs 로 함께 준다 — 한 항만 보고 '규정이 없다'고 답하지 않는다.결과가 없으면 낱말을 줄이거나 조문에 쓰일 다른 말로 바꾼다. " +
     "그 상황을 어기면 받는 벌점(시행령 별표 8)의 항목을 penaltyItems 로 함께 준다 — 항목 번호(제5호 가목 15)나) 등)와 점수는 이 값을 그대로 쓴다. 어기면 어떻게 되는지 물으면 상황 낱말에 \"벌점\" 또는 \"처벌\"을 붙여 찾는다(형벌·과태료는 건설기술 진흥법 제88조~제91조). " +
     "[근거 제공용 · 최종 판정은 품질관리자·감리원·발주자]",
   inputSchema: {
@@ -85,6 +85,8 @@ export function run(args: SearchLawTextArgs, graph: OntologyGraph) {
     snippet: h.snippet,
     /** 낱말이 가장 많이 든 항 — snippet 은 그 항이다 */
     ...(h.paragraph ? { paragraph: h.paragraph } : {}),
+    /** 같은 조에서 낱말이 똑같이 많이 든 다른 항 — 같은 일을 정한 항이 여럿이면 모두 본다 */
+    ...(h.alsoParagraphs ? { alsoParagraphs: h.alsoParagraphs } : {}),
     matchedTerms: h.matchedTerms,
     /** 조문에는 이 낱말이 없다 — 현장에서 이 조문을 두고 쓰는 말로 찾았다. 조문의 표현은 전문에서 확인한다 */
     matchedByFieldPhrase: h.matchedByFieldPhrase,
