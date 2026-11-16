@@ -22,7 +22,7 @@
   },
   "scripts": {
     "build": "npm run clean && tsc && npm run copy:data && chmod +x build/cli.js build/index.js",
-    "copy:data": "node -e \"import('node:fs/promises').then(async fs => { await fs.cp('src/ontology/graph', 'build/ontology/graph', { recursive: true }); await fs.cp('src/schemas/document-schemas.json', 'build/schemas/document-schemas.json'); await fs.cp('src/schemas/field-labels.json', 'build/schemas/field-labels.json'); })\"",
+    "copy:data": "node -e \"import('node:fs/promises').then(async fs => { await fs.cp('src/ontology/graph', 'build/ontology/graph', { recursive: true }); await fs.cp('src/ontology/laws', 'build/ontology/laws', { recursive: true }); await fs.cp('src/schemas/document-schemas.json', 'build/schemas/document-schemas.json'); await fs.cp('src/schemas/field-labels.json', 'build/schemas/field-labels.json'); })\"",
     "watch": "tsc --watch",
     "dev": "tsx src/index.ts",
     "dev:stdio": "tsx src/index.ts --stdio",
@@ -35,7 +35,7 @@
     "typecheck": "tsc --noEmit && tsc --noEmit -p tsconfig.scripts.json",
     "validate:ontology": "tsx scripts/validate-ontology.ts",
     "smoke": "tsx scripts/smoke-test.ts",
-    "test": "node --test tests/*.test.mjs && npm run validate:ontology && npm run smoke && npm run mcp:test:input && npm run mcp:test:a2ui && npm run mcp:test:eras && npm run mcp:test:access",
+    "test": "node --test tests/*.test.mjs && npm run validate:ontology && npm run smoke && npm run test:laws && npm run mcp:test:input && npm run mcp:test:a2ui && npm run mcp:test:eras && npm run mcp:test:access",
     "audit": "tsx scripts/audit-ontology.ts",
     "coverage": "tsx scripts/coverage-matrix.ts",
     "check:oss-hygiene": "tsx scripts/verify/check-oss-hygiene.ts",
@@ -49,7 +49,10 @@
     "mcp:test:eras": "tsx scripts/test/test-mcp-protocol-eras.ts",
     "mcp:test:input": "tsx scripts/test/test-input-schema.ts",
     "mcp:test:access": "tsx scripts/test/test-access-boundary.ts",
-    "mcp:test:a2ui": "tsx scripts/test/test-a2ui-schema.ts"
+    "mcp:test:a2ui": "tsx scripts/test/test-a2ui-schema.ts",
+    "sync:laws": "tsx scripts/sync/sync-laws.ts && tsx scripts/sync-law-articles.ts && tsx scripts/promote-taxonomy.ts",
+    "check:law-editions": "tsx scripts/sync/sync-laws.ts --check",
+    "test:laws": "tsx scripts/test/test-laws.ts"
   },
   "keywords": [
     "mcp",

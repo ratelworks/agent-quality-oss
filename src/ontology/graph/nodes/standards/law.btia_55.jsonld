@@ -24,13 +24,13 @@
     "sourceUrl": "https://www.law.go.kr/법령/%EA%B1%B4%EC%84%A4%EA%B8%B0%EC%88%A0%20%EC%A7%84%ED%9D%A5%EB%B2%95/제55조",
     "fetchedAt": "2026-09-28",
     "verifiedAt": "2026-09-28",
-    "verifiedBy": "법제처 lawService.do (자동 sync)",
+    "verifiedBy": "수록 원문(src/ontology/laws)에서 옮김",
     "amendmentHistory": [
-      "2018-8-14",
-      "2019-4-30",
-      "2024-1-9"
+      "2018-08-14",
+      "2019-04-30",
+      "2024-01-09"
     ],
-    "latestAmendment": "2024-1-9",
+    "latestAmendment": "2024-01-09",
     "effectiveFrom": "2025-10-01"
   }
 }

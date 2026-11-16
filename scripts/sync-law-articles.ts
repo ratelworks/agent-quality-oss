@@ -1,257 +1,143 @@
 /**
- * 법제처 lawService.do 에서 건설기술 진흥법 / 시행령 / 시행규칙 / 품질관리 업무지침의
- * 핵심 조문을 fetch 하여 nodes/articles/*.jsonld 와 quality-laws/*.md 를 생성한다.
+ * sync-law-articles.ts — 수록한 법령 원문(src/ontology/laws)에서 품질관리 핵심 조문을 골라
+ * taxonomy 조문 노드(src/taxonomy/graph/nodes/articles)를 만든다.
  *
- * agent-safety-oss-mcp 의 sync-annexes.ts 패턴 차용.
+ * 원문을 받는 일은 scripts/sync/sync-laws.ts 가 한다(전 조문·별표·서식). 이 스크립트는 그
+ * 수록본에서 아래 TARGETS 의 조문만 노드로 옮긴다 — 항·호·목을 모두 싣는다.
+ * 뒤이어 scripts/promote-taxonomy.ts 가 런타임 온톨로지 노드에 반영한다.
  *
- * 환경변수:
- *   LAW_OC=YOUR_LAW_OC  (법제처 OpenAPI 등록 ID)
- *
- * 사용:
- *   tsx scripts/sync-law-articles.ts
+ * 사용: tsx scripts/sync-law-articles.ts
  */
 
-import { writeFile, mkdir } from "node:fs/promises";
+import { readFile, writeFile, mkdir } from "node:fs/promises";
 import { join } from "node:path";
 
-const OC = process.env.LAW_OC || "YOUR_LAW_OC";
+// ── 상수 ────────────────────────────────────────────────────────────
 const ROOT = join(import.meta.dirname, "..");
 const NODES_DIR = join(ROOT, "src/taxonomy/graph/nodes/articles");
-const LAWS_DIR = join(ROOT, "src/taxonomy/quality-laws");
+const LAWS_DIR = join(ROOT, "src/ontology/laws");
+const AMENDMENT_TAG = /<(?:개정|신설|전문개정|본조신설)\s+([^>]+)>/g;
+const DATE = /(\d{4})\.\s*(\d{1,2})\.\s*(\d{1,2})/g;
 
 interface LawTarget {
-  iriKey: string;        // art:건진법:55 의 "건진법"
-  actId: string;         // act:건설기술진흥법
-  mst: string;
-  lawId: string;
-  lawName: string;
-  lawSlug: string;       // 건설기술진흥법 (md 파일명용)
-  effectiveDate: string;
-  articles: string[];    // ["55", "56", "57", "60"]
+  /** art:건진법:55 의 "건진법" */
+  iriKey: string;
+  actId: string;
+  /** 수록본 id (src/ontology/laws/<id>.json) */
+  bundleId: string;
+  legislationType: "Act" | "Decree" | "Rule";
+  articles: string[];
 }
 
 const TARGETS: LawTarget[] = [
-  {
-    iriKey: "건진법",
-    actId: "act:건설기술진흥법",
-    mst: "276921",
-    lawId: "001807",
-    lawName: "건설기술 진흥법",
-    lawSlug: "건설기술진흥법",
-    effectiveDate: "2025-10-01",
-    articles: ["55", "56", "57", "60"],
-  },
+  { iriKey: "건진법", actId: "act:건설기술진흥법", bundleId: "btia", legislationType: "Act", articles: ["55", "56", "57", "60"] },
   {
     iriKey: "건진법시행령",
     actId: "act:건설기술진흥법시행령",
-    mst: "286847",
-    lawId: "002111",
-    lawName: "건설기술 진흥법 시행령",
-    lawSlug: "건설기술진흥법시행령",
-    effectiveDate: "2026-06-09",
+    bundleId: "btia_decree",
+    legislationType: "Decree",
     articles: ["89", "90", "91", "92", "93"],
   },
   {
     iriKey: "건진법시행규칙",
     actId: "act:건설기술진흥법시행규칙",
-    mst: "286885",
-    lawId: "006175",
-    lawName: "건설기술 진흥법 시행규칙",
-    lawSlug: "건설기술진흥법시행규칙",
-    effectiveDate: "2026-06-11",
+    bundleId: "btia_rule",
+    legislationType: "Rule",
     articles: ["50", "51", "52", "53"],
   },
 ];
 
-/** XML CDATA·태그 파싱 helper */
-function unwrapCdata(s: string | undefined): string {
-  if (!s) return "";
-  return s
-    .replace(/<!\[CDATA\[/g, "")
-    .replace(/\]\]>/g, "")
-    .trim();
-}
-
-function extractTag(xml: string, tag: string): string {
-  const re = new RegExp(`<${tag}[^>]*>([\\s\\S]*?)</${tag}>`);
-  const m = xml.match(re);
-  return m ? unwrapCdata(m[1]) : "";
-}
-
-function extractAllTags(xml: string, tag: string): string[] {
-  const re = new RegExp(`<${tag}[^>]*>([\\s\\S]*?)</${tag}>`, "g");
-  const out: string[] = [];
-  let m: RegExpExecArray | null;
-  while ((m = re.exec(xml)) !== null) {
-    out.push(unwrapCdata(m[1]));
-  }
-  return out;
-}
-
-/** 조문단위 XML 블록을 파싱 → article body Markdown 생성 */
-function parseArticle(xmlBlock: string): {
-  articleNumber: string;
-  title: string;
+interface Bundle {
+  name: string;
+  promulgationNumber: string;
   effectiveDate: string;
-  amendmentHistory: string[];
-  body: string;
-} {
-  const articleNumber = extractTag(xmlBlock, "조문번호");
-  const title = extractTag(xmlBlock, "조문제목");
-  const effectiveDate = extractTag(xmlBlock, "조문시행일자");
-  const headLine = extractTag(xmlBlock, "조문내용");
-
-  // 항 단위 파싱
-  const hangs: string[] = [];
-  const hangRe = /<항>([\s\S]*?)<\/항>/g;
-  let hm: RegExpExecArray | null;
-  while ((hm = hangRe.exec(xmlBlock)) !== null) {
-    const hangBlock = hm[1] ?? "";
-    const hangContent = extractTag(hangBlock, "항내용");
-    if (hangContent) hangs.push(hangContent);
-  }
-
-  // 개정 이력 추출 (본문의 <개정 YYYY.M.D> 패턴)
-  const amendmentSet = new Set<string>();
-  const amendRe = /<개정\s+([^>]+)>/g;
-  let am: RegExpExecArray | null;
-  const fullText = headLine + "\n" + hangs.join("\n");
-  while ((am = amendRe.exec(fullText)) !== null) {
-    const raw = am[1] ?? "";
-    const dates = raw.split(",").map((d) => d.trim().replace(/\./g, "-"));
-    for (const d of dates) amendmentSet.add(d);
-  }
-
-  // body Markdown
-  const lines: string[] = [];
-  lines.push(`**제${articleNumber}조 (${title})**`);
-  lines.push("");
-  lines.push(headLine);
-  for (const hang of hangs) {
-    lines.push("");
-    lines.push(hang);
-  }
-
-  return {
-    articleNumber,
-    title,
-    effectiveDate: effectiveDate
-      ? `${effectiveDate.slice(0, 4)}-${effectiveDate.slice(4, 6)}-${effectiveDate.slice(6, 8)}`
-      : "",
-    amendmentHistory: Array.from(amendmentSet).sort(),
-    body: lines.join("\n"),
-  };
+  articles: Array<{ key: string; title: string; text: string }>;
 }
 
-/** 한 조문 fetch → article jsonld 작성 */
-async function fetchArticle(target: LawTarget, joNo: string): Promise<{
-  jsonld: object;
-  bodyMd: string;
-  parsed: ReturnType<typeof parseArticle>;
-}> {
-  const joPadded = joNo.padStart(4, "0");
-  const url = `https://www.law.go.kr/DRF/lawService.do?OC=${OC}&target=law&type=XML&MST=${target.mst}&JO=${joPadded}`;
-  const res = await fetch(url);
-  if (!res.ok) throw new Error(`fetch failed ${target.iriKey} §${joNo}: ${res.status}`);
-  const xml = await res.text();
-
-  const blockMatch = xml.match(/<조문단위[^>]*>([\s\S]*?)<\/조문단위>/);
-  if (!blockMatch) throw new Error(`조문단위 not found ${target.iriKey} §${joNo}`);
-  const block = blockMatch[0];
-  const parsed = parseArticle(block);
-
-  const articleIri = `art:${target.iriKey}:${parsed.articleNumber}`;
-  const sourceUrl = `https://www.law.go.kr/법령/${encodeURIComponent(target.lawName)}/제${parsed.articleNumber}조`;
-
-  const jsonld = {
-    "@context": "../../context.jsonld",
-    "@id": articleIri,
-    "@type": ["Article", "Legislation"],
-    articleNumber: parsed.articleNumber,
-    title: parsed.title,
-    partOf: target.actId,
-    verificationStatus: "verified",
-    legislationIdentifier: target.lawName,
-    legislationDate: parsed.effectiveDate || target.effectiveDate,
-    legislationType: target.actId.endsWith("시행령")
-      ? "Decree"
-      : target.actId.endsWith("시행규칙")
-      ? "Rule"
-      : "Act",
-    legislationLegalForce: "InForce",
-    jurisdiction: "KR",
-    temporalCoverage: `${parsed.effectiveDate || target.effectiveDate}/..`,
-    description: parsed.body,
-    amendmentHistory: parsed.amendmentHistory,
-    latestAmendment: parsed.amendmentHistory[parsed.amendmentHistory.length - 1] || null,
-    constructionRelevance: "high",
-    userPersona: ["quality_manager", "supervisor", "site_manager"],
-    userVisible: true,
-    isAppendix: false,
-    _meta: {
-      publishedBy: "법제처 국가법령정보센터 (자동 sync)",
-      sourceUrl,
-      fetchedAt: new Date().toISOString().slice(0, 10),
-      licenseHint: "저작권법 §7 비보호 (자유 인용)",
-      verifiedAt: new Date().toISOString().slice(0, 10),
-      verifiedBy: "법제처 lawService.do (자동 sync)",
-      lawServiceMST: target.mst,
-      lawServiceLawId: target.lawId,
-      lawServiceJO: joPadded,
-      bodyLength: parsed.body.length,
-    },
-  };
-
-  return { jsonld, bodyMd: parsed.body, parsed };
+/** 조문 전문 → 노드 본문. 항은 빈 줄로 나누고, 호·목(들여쓴 줄)은 앞 항에 붙인다. */
+function bodyOf(title: string, key: string, text: string): string {
+  const paragraphs: string[] = [];
+  for (const line of text.split("\n")) {
+    if (/^\s/.test(line) && paragraphs.length > 0) paragraphs[paragraphs.length - 1] += `\n${line}`;
+    else paragraphs.push(line);
+  }
+  return [`**제${key.replace("의", "조의")}${key.includes("의") ? "" : "조"} (${title})**`, ...paragraphs].join("\n\n");
 }
 
-/** quality-laws/{slug}.md 생성 */
-async function writeLawMd(target: LawTarget, articles: { parsed: ReturnType<typeof parseArticle> }[]): Promise<void> {
-  const lines: string[] = [];
-  lines.push(`# ${target.lawName}`);
-  lines.push("");
-  lines.push(`> 시행일: ${target.effectiveDate}`);
-  lines.push(`> 출처: 법제처 국가법령정보센터 (MST=${target.mst}, lawId=${target.lawId})`);
-  lines.push(`> 라이선스: 저작권법 §7 비보호 (자유 인용)`);
-  lines.push(`> 본 파일은 자동 sync — 직접 편집 금지. \`tsx scripts/sync-law-articles.ts\` 로 갱신.`);
-  lines.push("");
-  lines.push("---");
-  lines.push("");
-  for (const a of articles) {
-    lines.push(a.parsed.body);
-    lines.push("");
-    lines.push("---");
-    lines.push("");
+/** 본문의 개정·신설 표시에서 날짜를 모은다 (YYYY-MM-DD, 오름차순) */
+function amendmentDates(text: string): string[] {
+  const dates = new Set<string>();
+  for (const tag of text.matchAll(AMENDMENT_TAG)) {
+    for (const d of (tag[1] ?? "").matchAll(DATE)) {
+      dates.add(`${d[1]}-${String(d[2]).padStart(2, "0")}-${String(d[3]).padStart(2, "0")}`);
+    }
   }
-  const mdPath = join(LAWS_DIR, `${target.lawSlug}.md`);
-  await writeFile(mdPath, lines.join("\n"), "utf-8");
-  console.log(`[md] ${mdPath}`);
+  return [...dates].sort();
+}
+
+async function readPrevious(
+  filePath: string,
+): Promise<{ description?: string; _meta?: { fetchedAt?: string; verifiedAt?: string } } | null> {
+  try {
+    return JSON.parse(await readFile(filePath, "utf8")) as { description?: string; _meta?: { fetchedAt?: string; verifiedAt?: string } };
+  } catch {
+    return null;
+  }
 }
 
 async function main(): Promise<void> {
   await mkdir(NODES_DIR, { recursive: true });
-  await mkdir(LAWS_DIR, { recursive: true });
-
   for (const target of TARGETS) {
-    console.log(`\n=== ${target.lawName} ===`);
-    const articleResults: { parsed: ReturnType<typeof parseArticle> }[] = [];
-    for (const joNo of target.articles) {
-      try {
-        const { jsonld, parsed } = await fetchArticle(target, joNo);
-        const filePath = join(NODES_DIR, `${target.iriKey}-§${joNo}.jsonld`);
-        await writeFile(filePath, JSON.stringify(jsonld, null, 2), "utf-8");
-        console.log(`[article] ${filePath}`);
-        articleResults.push({ parsed });
-        await new Promise((r) => setTimeout(r, 250)); // rate limit
-      } catch (e) {
-        console.error(`[error] ${target.iriKey} §${joNo}: ${(e as Error).message}`);
-      }
-    }
-    if (articleResults.length > 0) {
-      await writeLawMd(target, articleResults);
+    const bundle = JSON.parse(await readFile(join(LAWS_DIR, `${target.bundleId}.json`), "utf8")) as Bundle;
+    console.log(`\n=== ${bundle.name} — ${bundle.promulgationNumber} (시행 ${bundle.effectiveDate}) ===`);
+    for (const no of target.articles) {
+      const article = bundle.articles.find((a) => a.key === no);
+      if (!article) throw new Error(`${bundle.name} 수록본에 제${no}조가 없습니다`);
+      const body = bodyOf(article.title, article.key, article.text);
+      const history = amendmentDates(article.text);
+      const filePath = join(NODES_DIR, `${target.iriKey}-§${no}.jsonld`);
+      // 본문이 그대로면 확인 날짜도 그대로 둔다 — 다시 돌려도 같은 결과가 나오게
+      const previous = await readPrevious(filePath);
+      const unchanged = previous?.description === body;
+      const today = new Date().toISOString().slice(0, 10);
+      const fetchedAt = (unchanged && previous?._meta?.fetchedAt) || today;
+      const verifiedAt = (unchanged && previous?._meta?.verifiedAt) || today;
+      const jsonld = {
+        "@context": "../../context.jsonld",
+        "@id": `art:${target.iriKey}:${article.key}`,
+        "@type": ["Article", "Legislation"],
+        articleNumber: article.key,
+        title: article.title,
+        partOf: target.actId,
+        verificationStatus: "verified",
+        legislationIdentifier: bundle.name,
+        legislationDate: bundle.effectiveDate,
+        legislationType: target.legislationType,
+        legislationLegalForce: "InForce",
+        jurisdiction: "KR",
+        temporalCoverage: `${bundle.effectiveDate}/..`,
+        description: body,
+        amendmentHistory: history,
+        latestAmendment: history[history.length - 1] ?? null,
+        constructionRelevance: "high",
+        userPersona: ["quality_manager", "supervisor", "site_manager"],
+        userVisible: true,
+        isAppendix: false,
+        _meta: {
+          publishedBy: "법제처 국가법령정보센터",
+          sourceUrl: `https://www.law.go.kr/법령/${encodeURIComponent(bundle.name)}/제${article.key.replace("의", "조의")}${article.key.includes("의") ? "" : "조"}`,
+          edition: bundle.promulgationNumber,
+          fetchedAt,
+          verifiedAt,
+          licenseHint: "저작권법 §7 비보호 (자유 인용)",
+          verifiedBy: "수록 원문(src/ontology/laws)에서 옮김",
+          bodyLength: body.length,
+        },
+      };
+      await writeFile(filePath, `${JSON.stringify(jsonld, null, 2)}\n`, "utf-8");
+      console.log(`[article] 제${article.key}조 ${article.title} — ${body.length}자, 개정 ${history.length}회`);
     }
   }
-  console.log("\n[done] sync-law-articles.ts");
 }
 
 main().catch((e) => {

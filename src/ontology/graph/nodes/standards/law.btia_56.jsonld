@@ -16,7 +16,7 @@
     "sourceUrl": "https://www.law.go.kr/법령/%EA%B1%B4%EC%84%A4%EA%B8%B0%EC%88%A0%20%EC%A7%84%ED%9D%A5%EB%B2%95/제56조",
     "fetchedAt": "2026-09-28",
     "verifiedAt": "2026-09-28",
-    "verifiedBy": "법제처 lawService.do (자동 sync)",
+    "verifiedBy": "수록 원문(src/ontology/laws)에서 옮김",
     "amendmentHistory": [],
     "effectiveFrom": "2025-10-01"
   },

@@ -22,12 +22,12 @@
     "sourceUrl": "https://www.law.go.kr/법령/%EA%B1%B4%EC%84%A4%EA%B8%B0%EC%88%A0%20%EC%A7%84%ED%9D%A5%EB%B2%95%20%EC%8B%9C%ED%96%89%EA%B7%9C%EC%B9%99/제50조",
     "fetchedAt": "2026-09-28",
     "verifiedAt": "2026-09-28",
-    "verifiedBy": "법제처 lawService.do (자동 sync)",
+    "verifiedBy": "수록 원문(src/ontology/laws)에서 옮김",
     "amendmentHistory": [
-      "2019-2-25",
-      "2020-3-18"
+      "2019-02-25",
+      "2020-03-18"
     ],
-    "latestAmendment": "2020-3-18",
+    "latestAmendment": "2020-03-18",
     "effectiveFrom": "2026-06-11"
   }
 }
