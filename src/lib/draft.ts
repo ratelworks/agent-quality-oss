@@ -54,6 +54,8 @@ export interface DraftField {
   problems: string[];
   /** 작성 안내로 덧붙일 말 — 원문에서 찾은 후보 등 (형식 문제가 아니라 파일 만들기를 막지 않는다) */
   hints?: string[];
+  /** 값끼리 맞지 않는 점 (합격 + 불합격이 실시보다 많다 등) — 파일 만들기는 막지 않고 검토에서 경고로 알린다 */
+  checks?: string[];
 }
 
 export interface NormalizedDraft {
@@ -238,7 +240,7 @@ export function normalizeDraft(schema: DocumentSchema, input: unknown): Normaliz
       const label = fieldLabel(schema.id, field.name);
       const columns =
         kind === "group" || kind === "rows"
-          ? (field.fields ?? []).map((key) => ({ key, label: subFieldLabel(key) }))
+          ? (field.fields ?? []).map((key) => ({ key, label: subFieldLabel(key, schema.id) }))
           : [];
       let value: unknown;
       if (field.name in raw) {

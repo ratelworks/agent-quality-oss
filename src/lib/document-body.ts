@@ -21,6 +21,9 @@ const PAIR_HEADER = ["항목", "내용"];
 const ROW_NUMBER_HEADER = "번호";
 /** 첫 열이 이미 번호인 표 — 번호 열을 따로 붙이지 않는다 */
 const NUMBER_COLUMN = /번호|순번/;
+/** 양식 정의의 절 제목 끝에 붙은 "서식 밖" 표시 — 쓰는 사람에게 주는 안내라 제출 문서의 제목에는 넣지 않는다 */
+const OUTSIDE_FORM_MARK = /\s*\(서식 밖 실무 항목\)\s*$/u;
+const OUTSIDE_FORM_GUIDE = "이 절은 법정 서식에 없는 실무 항목입니다 — 제출하는 서식에는 칸이 없으니 내부 관리용으로 씁니다.";
 const CLOSING_GUIDE = "결재·제출 전에 담당자가 내용을 확인하고 서명합니다. 판정·승인은 품질관리자·감리원·발주자가 합니다.";
 
 export interface BodySection {
@@ -29,6 +32,8 @@ export interface BodySection {
   heading: string;
   title: string;
   origin: "legal" | "practice" | null;
+  /** 법정 서식에 없는 실무 항목의 절인가 (제목의 "서식 밖" 표시는 떼고 작성 안내로 알린다) */
+  outsideForm: boolean;
   fields: DraftField[];
 }
 
@@ -57,18 +62,53 @@ export function documentTitle(schema: DocumentSchema): string {
   }
 }
 
+/** 숫자 칸 — 쉼표·단위를 빼고 읽는다. 숫자가 아니면 null */
+function countOf(value: string | undefined): number | null {
+  const m = /^\s*(\d+(?:\.\d+)?)/.exec((value ?? "").replace(/,/g, ""));
+  return m ? Number(m[1]) : null;
+}
+
+/**
+ * 값끼리 맞지 않는 점을 찾는다 — 지금은 품질검사 성과 총괄표(별지 제43호)의 합격 + 불합격 > 실시.
+ * 합이 실시보다 작은 것은 결과가 아직 나오지 않은 시험일 수 있어 알리지 않는다.
+ */
+function addConsistencyChecks(docId: string, draft: NormalizedDraft): void {
+  if (docId !== "quality_inspection_summary") return;
+  const field = draft.fields.find((f) => f.name === "items");
+  if (!field || !Array.isArray(field.value)) return;
+  const checks: string[] = [];
+  field.value.forEach((entry, i) => {
+    if (typeof entry !== "object" || entry === null) return;
+    const row = entry as Record<string, string>;
+    const executed = countOf(row["executed"]);
+    const passed = countOf(row["passed"]);
+    const failed = countOf(row["failed"]);
+    if (executed === null || passed === null || failed === null) return;
+    if (passed + failed > executed) {
+      checks.push(`${i + 1}번 줄 — 합격 ${passed} + 불합격 ${failed} = ${passed + failed} 이 실시 ${executed} 보다 많습니다. 숫자를 확인하세요.`);
+    }
+  });
+  if (checks.length > 0) field.checks = [...(field.checks ?? []), ...checks];
+}
+
 /** 입력값을 정리해 본문의 뼈대를 만든다 */
 export function buildDocumentBody(schema: DocumentSchema, formValues: unknown): DocumentBody {
   const draft = normalizeDraft(schema, formValues);
+  addConsistencyChecks(schema.id, draft);
   // 법정 서식이 장 번호를 정한 문서(품질시험계획 별표 9 의 1~4호 등)는 제목의 번호를 그대로 쓴다 — 번호를 또 붙이면 "1. 1. 개요"가 되고, 서식 밖 절이 앞에 있으면 번호가 밀린다
   const officialNumbering = schema.sections.some((section) => /^\d+\.\s/.test(section.title));
-  const sections: BodySection[] = schema.sections.map((section, index) => ({
+  const sections: BodySection[] = schema.sections.map((section, index) => {
+    const outsideForm = OUTSIDE_FORM_MARK.test(section.title);
+    const title = section.title.replace(OUTSIDE_FORM_MARK, "");
+    return {
     key: section.key,
-    heading: officialNumbering ? section.title : `${index + 1}. ${section.title}`,
-    title: section.title,
+    heading: officialNumbering ? title : `${index + 1}. ${title}`,
+    title,
+    outsideForm,
     origin: section.origin ?? null,
     fields: draft.fields.filter((f) => f.sectionKey === section.key),
-  }));
+    };
+  });
   const form = schema.officialForm;
   const required = draft.fields.filter((f) => f.required);
   return {
@@ -147,6 +187,7 @@ export function fieldGuides(field: DraftField): string[] {
     guides.push(`${field.label}${field.required ? " (필수)" : ""} — 비어 있습니다.${what}`);
   }
   for (const problem of field.problems) guides.push(`${field.label} — 확인 필요: ${problem}`);
+  for (const check of field.checks ?? []) guides.push(`${field.label} — 확인 필요: ${check}`);
   for (const hint of field.hints ?? []) guides.push(`${field.label} — ${hint}`);
   return guides;
 }
@@ -192,6 +233,7 @@ export function renderMarkdown(body: DocumentBody): string {
 
   for (const section of body.sections) {
     out.push(`## ${section.heading}`, "");
+    if (section.outsideForm) out.push(`${GUIDE_LINE}${OUTSIDE_FORM_GUIDE}`, "");
     let pairs: string[][] = [];
     const flushPairs = (): void => {
       if (pairs.length === 0) return;

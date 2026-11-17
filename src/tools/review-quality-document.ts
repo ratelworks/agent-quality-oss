@@ -28,7 +28,7 @@ const REMAINING_WORK =
 
 interface Finding {
   severity: Severity;
-  /** missing_required · format · unknown_key · empty_in_body · not_in_body · invalid_date · citation_not_found · citation_unverifiable · guide_left */
+  /** missing_required · format · inconsistent · unknown_key · empty_in_body · not_in_body · invalid_date · citation_not_found · citation_unverifiable · guide_left */
   code: string;
   where: string;
   message: string;
@@ -99,6 +99,7 @@ export function run(args: ReviewDocumentArgs, graph: OntologyGraph) {
   if (hasValues) {
     for (const f of body.draft.missingRequired) add(SEVERITY.ERROR, "missing_required", `${f.sectionTitle} > ${f.label}`, `필수 항목이 비어 있습니다.${f.note ? ` ${f.note}` : ""}`);
     for (const f of body.draft.fields) for (const p of f.problems) add(SEVERITY.ERROR, "format", `${f.sectionTitle} > ${f.label}`, p);
+    for (const f of body.draft.fields) for (const c of f.checks ?? []) add(SEVERITY.WARNING, "inconsistent", `${f.sectionTitle} > ${f.label}`, c);
     if (body.draft.unknownKeys.length > 0) {
       add(SEVERITY.WARNING, "unknown_key", "입력값", `양식에 없는 키라 본문에 들어가지 않습니다: ${body.draft.unknownKeys.join(", ")}`);
     }

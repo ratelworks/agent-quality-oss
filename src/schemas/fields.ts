@@ -36,6 +36,8 @@ interface LabelBundle {
   fields: Record<string, string>;
   byDoc: Record<string, Record<string, string>>;
   subFields: Record<string, string>;
+  /** 문서마다 뜻이 다른 묶음 안 항목 이름 — 법정 서식의 칸 이름 (검측 체크리스트의 "검사 기준" 등) */
+  byDocSubFields?: Record<string, Record<string, string>>;
   enums: Record<string, string>;
 }
 
@@ -51,9 +53,10 @@ export function findFieldLabel(docId: string, name: string): string | null {
   return b.byDoc[docId]?.[name] ?? b.fields[name] ?? null;
 }
 
-/** 묶음 필드 안 항목의 한글 이름. 사전에 없으면 null. */
-export function findSubFieldLabel(name: string): string | null {
-  return labels().subFields[name] ?? null;
+/** 묶음 필드 안 항목의 한글 이름. 문서를 주면 그 문서의 이름을 먼저 본다. 사전에 없으면 null. */
+export function findSubFieldLabel(name: string, docId?: string): string | null {
+  const b = labels();
+  return (docId ? b.byDocSubFields?.[docId]?.[name] : undefined) ?? b.subFields[name] ?? null;
 }
 
 /** 선택지 값의 한글 이름. 사전에 없으면 null. */
@@ -64,8 +67,8 @@ export function findEnumLabel(value: string): string | null {
 export function fieldLabel(docId: string, name: string): string {
   return findFieldLabel(docId, name) ?? name;
 }
-export function subFieldLabel(name: string): string {
-  return findSubFieldLabel(name) ?? name;
+export function subFieldLabel(name: string, docId?: string): string {
+  return findSubFieldLabel(name, docId) ?? name;
 }
 export function enumLabel(value: string): string {
   return findEnumLabel(value) ?? value;

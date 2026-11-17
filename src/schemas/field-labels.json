@@ -1,5 +1,5 @@
 {
-  "_note": "문서 양식 필드의 한글 표시 이름. 양식 정의(document-schemas.json)의 필드 이름은 영문 식별자다 — 입력 폼과 문서 본문에는 이 이름을 쓴다. fields 는 여러 문서가 함께 쓰는 이름, byDoc 은 문서마다 뜻이 다른 이름, subFields 는 묶음 필드 안의 항목 이름, enums 는 선택지 값의 표시 이름이다. 법정 서식이 있는 문서는 서식의 항목 이름을 따른다.",
+  "_note": "문서 양식 필드의 한글 표시 이름. 양식 정의(document-schemas.json)의 필드 이름은 영문 식별자다 — 입력 폼과 문서 본문에는 이 이름을 쓴다. fields 는 여러 문서가 함께 쓰는 이름, byDoc 은 문서마다 뜻이 다른 이름, subFields 는 묶음 필드 안의 항목 이름, byDocSubFields 는 문서마다 뜻이 다른 묶음 안 항목 이름(법정 서식의 칸 이름), enums 는 선택지 값의 표시 이름이다. 법정 서식이 있는 문서는 서식의 항목 이름을 따른다.",
   "fields": {
     "documentId": "문서번호",
     "projectName": "공사명",
@@ -303,7 +303,8 @@
     },
     "concrete_delivery_record": {
       "supplier": "레미콘 공급업체",
-      "approvedBy": "확인자"
+      "approvedBy": "확인자",
+      "strengthGrade": "규격"
     },
     "quality_test_plan": {
       "testItems": "시험계획",
@@ -545,5 +546,14 @@
     "적합": "적합",
     "조건부적합": "조건부적합",
     "부적합": "부적합"
+  },
+  "byDocSubFields": {
+    "inspection_checklist": {
+      "checkItem": "검사항목",
+      "criterion": "검사 기준(시방서 또는 도면 등)",
+      "contractorResult": "검사 결과(시공자)",
+      "engineerResult": "검사 결과(건설사업관리기술인)",
+      "verdict": "합격·불합격"
+    }
   }
 }

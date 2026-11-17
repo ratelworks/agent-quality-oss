@@ -95,7 +95,7 @@ function addField(
       const id = `${idBase}_${sub}`;
       const segments = [field.name, sub];
       build.components.push(
-        fieldComponent({ id, path: segments, label: `${label} — ${subFieldLabel(sub)}`, inputKind: "shortText" }),
+        fieldComponent({ id, path: segments, label: `${label} — ${subFieldLabel(sub, docId)}`, inputKind: "shortText" }),
       );
       children.push(id);
       groupValue[sub] = "";
@@ -105,7 +105,7 @@ function addField(
     if (required) build.requiredPaths.push(draftPath([field.name]));
   } else {
     const columns =
-      kind === "rows" ? (field.fields ?? []).map((key) => ({ key, label: subFieldLabel(key) })) : undefined;
+      kind === "rows" ? (field.fields ?? []).map((key) => ({ key, label: subFieldLabel(key, docId) })) : undefined;
     const segments = [field.name];
     build.components.push(
       fieldComponent({

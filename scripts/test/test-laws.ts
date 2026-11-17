@@ -303,6 +303,26 @@ async function testLookup(): Promise<void> {
     }
     check("시험계획서 빈도: 별표 2 전 행을 종별·시험종목으로 넣어 원문과 다른 빈도를 채우는 일이 없다", fills > stdRows.length * 2 && wrongFills === 0, `채움 ${fills} · 틀린 채움 ${wrongFills}`);
   }
+  // 문서 점검(작성 에이전트 재점검)에서 드러난 표기·숫자 결함
+  const summaryItems = [{ workType: "철근콘크리트공", testKind: "슬럼프", planned: 20, executed: 9, passed: 9, failed: 1, retest: 0 }, { workType: "관로공", testKind: "현장밀도", planned: 36, executed: 12, passed: 11, failed: 0, retest: 0 }];
+  const summaryDoc = await genMd("quality_inspection_summary", { projectName: "산술", items: summaryItems });
+  const summaryReview = (await callTool("review_quality_document", { docId: "quality_inspection_summary", formValues: { projectName: "산술", items: summaryItems } }, { graph })).result as { findings: Array<{ code: string; message: string }> };
+  const inconsistent = summaryReview.findings.filter((f) => f.code === "inconsistent");
+  check(
+    "성과 총괄표: 합격 + 불합격이 실시보다 많으면 알린다(결과 대기일 수 있는 '적은' 경우는 알리지 않는다)",
+    summaryDoc.markdown.includes("합격 9 + 불합격 1 = 10 이 실시 9 보다 많습니다") && inconsistent.length === 1 && (inconsistent[0]?.message.startsWith("1번 줄") ?? false),
+  );
+  const registerPreview = await genMd("quality_inspection_register", { projectName: "x" });
+  check(
+    "서식 밖 실무 항목: 절 제목에서 떼고(제출 파일에 찍히지 않게) 미리보기 작성 안내로만 알린다",
+    registerPreview.markdown.includes("## 2. 대장 관리\n") && !registerPreview.markdown.split("\n").some((l) => l.startsWith("## ") && l.includes("서식 밖")) && registerPreview.markdown.includes("법정 서식에 없는 실무 항목"),
+  );
+  const checklistHead = (await genMd("inspection_checklist", { items: [{ checkItem: "피복두께", criterion: "40mm 이상", verdict: "합격" }] })).markdown.split("\n").find((l) => l.startsWith("|") && l.includes("검사항목")) ?? "";
+  check("검측 체크리스트: 열 이름이 별지 제36호(검사항목 · 검사 기준(시방서 또는 도면 등) · 합격·불합격)", checklistHead.includes("| 검사항목 |") && checklistHead.includes("검사 기준(시방서 또는 도면 등)") && checklistHead.includes("합격·불합격"));
+  const registerHead2 = (await genMd("quality_inspection_register", { projectName: "x", entries: [{ seq: 1, criterion: "150±25mm" }] })).markdown.split("\n").find((l) => l.startsWith("| 일련번호")) ?? "";
+  check("실시대장: 같은 키의 열 이름은 그대로 '시험 기준'(문서마다 따로 정한 이름이 다른 문서로 새지 않는다)", registerHead2.includes("| 시험 기준 |"));
+  const deliveryRow = (await genMd("concrete_delivery_record", { strengthGrade: "25-24-150" })).markdown.split("\n").find((l) => l.includes("25-24-150")) ?? "";
+  check("레미콘 기록지: '25-24-150' 은 규격 칸(업무지침 제38조제3항제3호 '규격 및 용적')", deliveryRow.startsWith("| 규격 |"));
   const approval = JSON.stringify((await callTool("get_material_source_approval_schema", {}, { graph })).result);
   check("공급원 승인 요청서: 첨부 안내에 시험성과 대비표(사업관리방식 지침 제87조제7항)", approval.includes("시험성과 대비표") && approval.includes("제87조제7항"));
   const register = await genMd("quality_inspection_register", { projectName: "OO", entries: [{ seq: 1, inspectionDate: "2026-11-10", material: "골재", qcEngineerName: "최유진" }] });
