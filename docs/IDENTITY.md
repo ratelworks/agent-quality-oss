@@ -99,7 +99,7 @@
 
 | 도구 | 역할 |
 |---|---|
-| `generate_quality_document` | 입력값을 양식 구조대로 옮긴 본문 — Markdown · 한글(HWPX) 파일 · DocLang 0.9. 문장을 짓지 않고, 빈칸은 비워 둔 채 무엇을 적을지 알린다 |
+| `generate_quality_document` | 입력값을 양식 구조대로 옮긴 본문 — 정본 .dclx(DocLang 0.9 아카이브, 기본) · 정본에서 만든 한글(HWPX) 파일 · Markdown · DocLang 글. 문장을 짓지 않고, 빈칸은 비워 둔 채 무엇을 적을지 알린다 |
 | `review_quality_document` | 본문·입력값 검토 — 빈 필수 항목, 숫자·선택지·날짜 형식, 인용한 조문의 실존. 통과해도 담당자 검토와 서명이 남는다 |
 | `export_quality_document` | 이미 쓴 본문(직접 쓴 것·AI 가 쓴 것)을 한글 파일로 저장 — 작성 안내 줄은 뺀다 |
 

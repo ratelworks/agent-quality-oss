@@ -12,7 +12,7 @@
 // MIT 라이선스의 kordoc(github.com/chrisryugj/kordoc)이 만든 HWPX 를 참고했다.
 // ─────────────────────────────────────────────────────────────────────────────
 
-import { deflateRawSync, crc32 } from "node:zlib";
+import { zip } from "./zip.js";
 
 // ── 상수 ────────────────────────────────────────────────────────────
 export const HWPX_MIME_TYPE = "application/hwp+zip";
@@ -32,13 +32,6 @@ const ROW_HEIGHT = 1500;
 const MIN_COLUMN_WEIGHT = 4;
 const MAX_COLUMN_WEIGHT = 40;
 const PREVIEW_TEXT_LIMIT = 1000;
-const ZIP_VERSION = 20;
-const ZIP_FLAG_UTF8 = 0x0800;
-const ZIP_METHOD_STORE = 0;
-const ZIP_METHOD_DEFLATE = 8;
-/** 1980-01-01 00:00 — 같은 입력이면 같은 파일이 나오도록 시각을 고정한다 */
-const ZIP_DOS_TIME = 0;
-const ZIP_DOS_DATE = 0x0021;
 
 /** 글자 모양 — id 는 배열 순서 */
 const CHAR = { body: 0, bold: 1, title: 2, h2: 3, h3: 4, h4: 5, small: 6, smallBold: 7 } as const;
@@ -361,62 +354,6 @@ function previewText(blocks: Block[]): string {
       : block.rows.map((row) => row.map((cell) => cell.map((r) => r.text).join("")).join(" ")).join("\n"),
   );
   return lines.join("\n").slice(0, PREVIEW_TEXT_LIMIT);
-}
-
-// ── ZIP 쓰기 ────────────────────────────────────────────────────────
-interface ZipEntry {
-  name: string;
-  data: Buffer;
-  /** mimetype 은 압축하지 않고 맨 앞에 둔다 (패키지 형식 규칙) */
-  store?: boolean;
-}
-
-function zip(entries: ZipEntry[]): Buffer {
-  const localParts: Buffer[] = [];
-  const centralParts: Buffer[] = [];
-  let offset = 0;
-  for (const entry of entries) {
-    const name = Buffer.from(entry.name, "utf8");
-    const method = entry.store ? ZIP_METHOD_STORE : ZIP_METHOD_DEFLATE;
-    const body = entry.store ? entry.data : deflateRawSync(entry.data);
-    const checksum = crc32(entry.data);
-    const local = Buffer.alloc(30);
-    local.writeUInt32LE(0x04034b50, 0);
-    local.writeUInt16LE(ZIP_VERSION, 4);
-    local.writeUInt16LE(ZIP_FLAG_UTF8, 6);
-    local.writeUInt16LE(method, 8);
-    local.writeUInt16LE(ZIP_DOS_TIME, 10);
-    local.writeUInt16LE(ZIP_DOS_DATE, 12);
-    local.writeUInt32LE(checksum, 14);
-    local.writeUInt32LE(body.length, 18);
-    local.writeUInt32LE(entry.data.length, 22);
-    local.writeUInt16LE(name.length, 26);
-    local.writeUInt16LE(0, 28);
-    const central = Buffer.alloc(46);
-    central.writeUInt32LE(0x02014b50, 0);
-    central.writeUInt16LE(ZIP_VERSION, 4);
-    central.writeUInt16LE(ZIP_VERSION, 6);
-    central.writeUInt16LE(ZIP_FLAG_UTF8, 8);
-    central.writeUInt16LE(method, 10);
-    central.writeUInt16LE(ZIP_DOS_TIME, 12);
-    central.writeUInt16LE(ZIP_DOS_DATE, 14);
-    central.writeUInt32LE(checksum, 16);
-    central.writeUInt32LE(body.length, 20);
-    central.writeUInt32LE(entry.data.length, 24);
-    central.writeUInt16LE(name.length, 28);
-    central.writeUInt32LE(offset, 42);
-    localParts.push(local, name, body);
-    centralParts.push(central, name);
-    offset += local.length + name.length + body.length;
-  }
-  const centralSize = centralParts.reduce((sum, part) => sum + part.length, 0);
-  const end = Buffer.alloc(22);
-  end.writeUInt32LE(0x06054b50, 0);
-  end.writeUInt16LE(entries.length, 8);
-  end.writeUInt16LE(entries.length, 10);
-  end.writeUInt32LE(centralSize, 12);
-  end.writeUInt32LE(offset, 16);
-  return Buffer.concat([...localParts, ...centralParts, end]);
 }
 
 // ── 공개 함수 ───────────────────────────────────────────────────────

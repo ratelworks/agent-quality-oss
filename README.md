@@ -188,7 +188,7 @@ Claude Desktop 이나 Codex 에서 자연어로 요청합니다.
 5. `compile_*_references` 로 적용 근거 패키지를 조립한다.
 6. `compose_writing_context` 가 입력값 + 구조 + 근거를 Markdown 작성 컨텍스트로 묶는다.
 7. LLM 이 그 컨텍스트로 본문을 작성하고, `verify_quality_basis` 로 인용을 검수한다.
-8. 입력값만으로 본문이 필요하면 `generate_quality_document` 가 양식 구조대로 옮기고, `review_quality_document` 로 빠진 항목·날짜·인용 조문을 검토한 뒤 `export_quality_document` 로 한글 파일을 받는다.
+8. 입력값만으로 본문이 필요하면 `generate_quality_document` 가 양식 구조대로 옮겨 정본(.dclx — DocLang 아카이브)으로 저장하고, `review_quality_document` 로 빠진 항목·날짜·인용 조문을 검토한 뒤 `export_quality_document` 로 그 정본에서 한글 파일을 받는다.
 
 `compose_writing_context` 는 본문을 쓰지 않습니다 — AI 비서가 초안을 쓸 때의 재료입니다. `generate_quality_document` 는 입력한 값을 그 자리에 옮길 뿐 문장을 짓지 않으며, 입력하지 않은 칸은 비워 두고 무엇을 적어야 하는지 알립니다. 어느 쪽이든 확인과 서명은 사람이 합니다.
 
@@ -202,7 +202,7 @@ Claude Desktop 이나 Codex 에서 자연어로 요청합니다.
 | **3+. 원스톱 체인** | 위 2~3단계를 한 번에 — 검측 준비·시험계획·성적서 검토·부적합 처리·일일 브리핑 | `chain_quality_inspection` · `chain_quality_test_plan` · `chain_test_report_review` · `chain_nonconformance_report` · `chain_daily_quality_briefing` |
 | **4. 정량 판정** | 시험 관측값 합격 여부 · 리스크·부적합 추론 (코드 계산) | `evaluate_observation` · `infer_quality_risks` · `explain_quality_decision_path` |
 | **5. 작성 컨텍스트** | 입력값 + 양식 구조 + 근거 → LLM 작성 컨텍스트 | `compose_writing_context` |
-| **5+. 문서 본문** | 입력값을 양식 구조대로 옮긴 본문(Markdown · 한글 파일 · DocLang) · 빠진 항목·날짜·인용 조문 검토 · 이미 쓴 본문을 한글 파일로 저장 | `generate_quality_document` · `review_quality_document` · `export_quality_document` |
+| **5+. 문서 본문** | 입력값을 양식 구조대로 옮긴 정본(.dclx — DocLang 아카이브) · 정본에서 만든 한글 파일 · 빠진 항목·날짜·인용 조문 검토 · 이미 쓴 본문을 한글 파일로 저장 | `generate_quality_document` · `review_quality_document` · `export_quality_document` |
 | **6. 검수** | 근거 우선순위 · 인용 실존 · 서식 명칭 검증 | `map_quality_basis` · `verify_quality_basis` · `verify_form_reference` |
 | **법령·기준 조회** | 법령·업무지침·사업관리지침의 조문·별표 본문과 판본, KCS/KDS 조항 위치(본문은 싣지 않음), 서식 위치 | `list_core_quality_laws` · `get_quality_law_article` · `search_quality_management_guideline` · `get_quality_guideline_article` · `search_construction_standards` · `get_standard_form_locator` |
 | **품질시험기준** | 업무지침 별표 2 전 항목(시험종목·시험방법·시험빈도)을 구분·종별·시험종목·KS 번호로 조회 | `search_quality_test_standards` |

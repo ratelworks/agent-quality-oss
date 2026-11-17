@@ -302,7 +302,9 @@ async function testDocument(): Promise<void> {
     owner: { name: "박현장", role: "품질관리자" },
     approver: { name: "이감리", role: "감리원" },
   });
-  check("고친 입력: 한글 파일을 저장", good.hwpxSaved === true && typeof good.hwpxPath === "string" && count() === 1 && good.problems.length === 0, `saved=${good.hwpxSaved} files=${count()} ${good.problems.join(" / ")}`);
+  // 한글 형식은 정본(.dclx)과 그 정본에서 만든 한글 파일을 함께 저장한다
+  const saved = existsSync(dir) ? readdirSync(dir).map((f) => f.slice(f.lastIndexOf(".") + 1)).sort().join(",") : "";
+  check("고친 입력: 정본(.dclx)과 한글 파일을 저장", good.hwpxSaved === true && typeof good.hwpxPath === "string" && saved === "dclx,hwpx" && good.problems.length === 0, `saved=${good.hwpxSaved} files=${saved} ${good.problems.join(" / ")}`);
   const body = (await generate({ ...base, immediateActions: ["해당 차량 반품"], owner: { name: "박현장", role: "품질관리자" }, approver: "이감리" }, "md")).markdown ?? "";
   check("본문: 사람 항목의 성명·직책이 글자로 들어감", body.includes("박현장") && body.includes("품질관리자") && body.includes("이감리"));
   check("본문: 묶음 값의 표기({\"…\"})가 없음", !body.includes('{"') && !body.includes("[object"), body.slice(0, 200));

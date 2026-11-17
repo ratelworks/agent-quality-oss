@@ -6,13 +6,14 @@
 //   3) 빈 입력 — 본문에 값이 아니라 빈칸과 안내만 나온다(지어낸 내용 없음)
 //   4) 검토 — 빈 필수 항목·형식·달력에 없는 날짜·없는 조문·직접 쓴 본문
 //   5) 내보내기 — 작성 안내 제외, 소유자만 읽는 파일, 같은 시각에 덮어쓰지 않음
+//   6) 정본(.dclx) — 기본 산출이 DocLang 아카이브(규격 부록 B 의 세 부분)이고, 한글 파일은 그 정본에서 내보낸다
 //
 // 한글 프로그램에서 실제로 열리는지는 이 시험이 확인하지 않는다(프로그램이 있어야 한다).
 // DocLang 은 구조만 본다 — 공식 검증 도구(doclang validate)는 따로 돌린다.
 // ─────────────────────────────────────────────────────────────────────────────
 
 import { crc32, inflateRawSync } from "node:zlib";
-import { mkdtempSync, readFileSync, statSync } from "node:fs";
+import { mkdtempSync, readFileSync, statSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 
@@ -22,6 +23,8 @@ process.env["QUALITY_LOCAL_DIR"] = mkdtempSync(join(tmpdir(), "quality-documents
 const EXPECTED_ENTRIES = ["mimetype", "version.xml", "META-INF/container.xml", "Contents/content.hpf", "Contents/header.xml", "Contents/section0.xml", "Preview/PrvText.txt"];
 const OWNER_ONLY_MODE = 0o600;
 const EXPECTED_DOCS = 19;
+/** DocLang 규격 부록 B 의 필수 세 부분 */
+const DCLX_ENTRIES = ["[Content_Types].xml", "_rels/.rels", "document.xml"];
 const GUIDE = "[작성 안내]";
 const XML_ENTITY = /&(?!(?:amp|lt|gt|quot|apos|#\d+|#x[0-9a-fA-F]+);)/;
 
@@ -138,6 +141,9 @@ function sampleValues(docId: string): Record<string, unknown> {
 interface Generated {
   docId: string;
   title: string;
+  format?: string;
+  dclxSaved?: boolean;
+  dclxPath?: string;
   markdown?: string;
   doclang?: string;
   hwpxPath?: string;
@@ -256,6 +262,9 @@ async function testAllDocuments(): Promise<void> {
     if (section.includes("작성 안내")) note(docId, "한글: 작성 안내가 들어감");
     if ((statSync(saved.hwpxPath).mode & 0o777) !== OWNER_ONLY_MODE) note(docId, "한글: 파일 권한");
     if (section.includes("세로줄") !== Object.values(values).some((v) => Array.isArray(v) && typeof v[0] === "object")) note(docId, "한글: 표 내용");
+    // 한글 파일은 정본(.dclx)과 함께 만든다
+    if (!saved.dclxPath || !saved.dclxPath.endsWith(".dclx")) note(docId, "한글: 정본(.dclx) 경로 없음");
+    else if (JSON.stringify(readZip(readFileSync(saved.dclxPath)).map((e) => e.name)) !== JSON.stringify(DCLX_ENTRIES)) note(docId, "정본: 아카이브 구성");
 
     // DocLang
     for (const [label, formValues] of [["빈 입력", {}], ["채운 입력", values]] as const) {
@@ -355,11 +364,104 @@ async function testExport(): Promise<void> {
   check("생성: 없는 문서 종류는 거절", unknownDoc);
 }
 
+async function testDclx(): Promise<void> {
+  const values = { projectName: "정본 시험 현장", entries: [{ seq: 1, inspectionDate: "2026-11-14", inspectionKind: "현장시험", material: "레미콘", inspectionItem: "슬럼프", testResult: "163mm", resultVerdict: "적합", qcEngineerName: "정본이름" }] };
+  const made = await call<Generated>("generate_quality_document", { docId: "quality_inspection_register", formValues: values });
+  check("정본: 형식을 정하지 않으면 .dclx 를 저장한다", made.format === "dclx" && made.dclxSaved === true && (made.dclxPath ?? "").endsWith(".dclx"));
+  const file = readFileSync(made.dclxPath ?? "");
+  const parts = readZip(file);
+  check("정본: 규격의 세 부분(콘텐츠 형식·관계·문서)과 CRC", JSON.stringify(parts.map((e) => e.name)) === JSON.stringify(DCLX_ENTRIES) && parts.every((e) => e.crcOk), parts.map((e) => e.name).join(","));
+  const part = (name: string): string => parts.find((e) => e.name === name)?.data.toString("utf8") ?? "";
+  check(
+    "정본: document.xml 의 내용 형식과 본문 관계가 규격대로",
+    part("[Content_Types].xml").includes('<Override PartName="/document.xml" ContentType="application/vnd.doclang.document+xml"/>') &&
+      (part("_rels/.rels").match(/Type="http:\/\/doclang\.ai\/ns\/package\/2026\/relationships\/document"/g) ?? []).length === 1,
+  );
+  const doclang = (await call<Generated>("generate_quality_document", { docId: "quality_inspection_register", formValues: values, format: "doclang" })).doclang ?? "";
+  check("정본: 아카이브의 문서가 DocLang 형식 출력과 같다", part("document.xml") === doclang && doclang.includes("정본이름") && !doclang.includes(GUIDE));
+  check("정본: 소유자만 읽는 파일", (statSync(made.dclxPath ?? "").mode & 0o777) === OWNER_ONLY_MODE);
+  check("정본: 미리보기 본문(작성 안내 포함)을 함께 준다", (made.markdown ?? "").includes(GUIDE) && (made.markdown ?? "").includes("정본이름"));
+
+  // 정본에서 한글 파일
+  const fromPath = await call<{ hwpxPath?: string; from?: string; title?: string }>("export_quality_document", { dclxPath: made.dclxPath });
+  const hwpxSection = sectionOf(readFileSync(fromPath.hwpxPath ?? ""));
+  check(
+    "내보내기: 정본 경로에서 한글 파일 — 값·제목은 들어가고 작성 안내는 없다",
+    fromPath.from === "dclxPath" && hwpxSection.includes("정본이름") && hwpxSection.includes("163mm") && hwpxSection.includes("<hp:t>품질검사 실시대장</hp:t>") && !hwpxSection.includes("작성 안내"),
+  );
+  const fromBase64 = await call<{ contentBase64?: string; from?: string }>("export_quality_document", { dclxBase64: file.toString("base64"), returnContent: true });
+  const fromXml = await call<{ contentBase64?: string; from?: string }>("export_quality_document", { doclang, returnContent: true });
+  check(
+    "내보내기: 정본 내용(base64)과 DocLang 글에서 같은 한글 파일",
+    fromBase64.from === "dclxBase64" && fromXml.from === "doclang" && fromBase64.contentBase64 === fromXml.contentBase64 && Buffer.from(fromBase64.contentBase64 ?? "", "base64").equals(readFileSync(fromPath.hwpxPath ?? "")),
+  );
+
+  // 받지 않는 정본
+  const outside = join(mkdtempSync(join(tmpdir(), "quality-dclx-outside-")), "밖.dclx");
+  writeFileSync(outside, file);
+  const notDclx = join(process.env["QUALITY_LOCAL_DIR"] ?? "", "documents", "quality_inspection_register", "본문.txt");
+  writeFileSync(notDclx, "글");
+  const broken = parts.filter((e) => e.name !== "_rels/.rels");
+  let refused = 0;
+  for (const input of [{ dclxPath: outside }, { dclxPath: notDclx }, { dclxBase64: Buffer.from("ZIP 아님").toString("base64") }, { dclxBase64: zipOf(broken).toString("base64") }, { doclang: "<html/>" }]) {
+    try {
+      await callTool("export_quality_document", input, { graph });
+    } catch {
+      refused += 1;
+    }
+  }
+  check("내보내기: 저장 폴더 밖 경로·.dclx 아닌 파일·ZIP 아님·관계 없는 아카이브·DocLang 아님은 거절", refused === 5, String(refused));
+
+  // 고칠 점이 있으면 정본도 만들지 않는다
+  const bad = await call<Generated>("generate_quality_document", { docId: "quality_inspection_register", formValues: { projectName: "현장", registerPeriod: { start: "2026-13-45" } } });
+  check("정본: 입력에 고칠 점이 있으면 파일을 만들지 않는다", bad.problems.length > 0 && bad.dclxSaved === false && !bad.dclxPath, `problems ${bad.problems.length}`);
+}
+
+/** 시험용 — 항목들을 저장 방식 ZIP 으로 (거절 시험에 쓸 망가진 아카이브) */
+function zipOf(entries: Entry[]): Buffer {
+  const locals: Buffer[] = [];
+  const centrals: Buffer[] = [];
+  let offset = 0;
+  for (const e of entries) {
+    const name = Buffer.from(e.name, "utf8");
+    const local = Buffer.alloc(30);
+    local.writeUInt32LE(0x04034b50, 0);
+    local.writeUInt16LE(20, 4);
+    local.writeUInt16LE(0x0800, 6);
+    local.writeUInt32LE(crc32(e.data), 14);
+    local.writeUInt32LE(e.data.length, 18);
+    local.writeUInt32LE(e.data.length, 22);
+    local.writeUInt16LE(name.length, 26);
+    const central = Buffer.alloc(46);
+    central.writeUInt32LE(0x02014b50, 0);
+    central.writeUInt16LE(20, 4);
+    central.writeUInt16LE(20, 6);
+    central.writeUInt16LE(0x0800, 8);
+    central.writeUInt32LE(crc32(e.data), 16);
+    central.writeUInt32LE(e.data.length, 20);
+    central.writeUInt32LE(e.data.length, 24);
+    central.writeUInt16LE(name.length, 28);
+    central.writeUInt32LE(offset, 42);
+    locals.push(local, name, e.data);
+    centrals.push(central, name);
+    offset += 30 + name.length + e.data.length;
+  }
+  const size = centrals.reduce((n, b) => n + b.length, 0);
+  const end = Buffer.alloc(22);
+  end.writeUInt32LE(0x06054b50, 0);
+  end.writeUInt16LE(entries.length, 8);
+  end.writeUInt16LE(entries.length, 10);
+  end.writeUInt32LE(size, 12);
+  end.writeUInt32LE(offset, 16);
+  return Buffer.concat([...locals, ...centrals, end]);
+}
+
 async function main(): Promise<void> {
   testPackage();
   await testAllDocuments();
   await testReview();
   await testExport();
+  await testDclx();
   console.log(`[documents] ${passed} 통과 / ${failed} 실패`);
   if (failed > 0) process.exit(1);
 }
