@@ -22,6 +22,8 @@ import { QualityMcpError } from "../../src/lib/errors.js";
 import { loadPenaltyItems, loadPenaltyLinks, penaltyWho } from "../../src/knowledge/penalty-points.js";
 import { loadSanctionItems, sanctionByRef } from "../../src/knowledge/sanctions.js";
 import { loadDutyLinks } from "../../src/knowledge/cm-duties.js";
+import { matchPlanRow } from "../../src/lib/test-plan-fill.js";
+import { loadTestStandards } from "../../src/knowledge/test-standards.js";
 import { judgePlanTarget } from "../../src/knowledge/plan-rules.js";
 
 // ── 상수 ────────────────────────────────────────────────────────────
@@ -261,6 +263,46 @@ async function testLookup(): Promise<void> {
       testPlanDoc.markdown.includes("50톤마다 (업무지침 별표 2)") &&
       (testPlanDoc.frequencyCandidates ?? []).some((c) => c.testItem.startsWith("레미콘") && c.candidates.some((x) => x.frequency.includes("120세제곱미터"))),
   );
+  // 시험 빈도 채움 — 현장 표현(자재 + 시험종목)으로도 그 행을 찾고, 별표 2 전 행에서 원문과 다른 빈도를 채우는 일이 없다
+  const tidyFreq = (s: string): string => s.replace(/\s+/g, " ").trim();
+  const oneFrequency = (work: string, item: string): string | null => {
+    const m = matchPlanRow(work, item);
+    const f = [...new Set(m.rows.map((r) => tidyFreq(r.frequency)).filter(Boolean))];
+    return f.length === 1 ? (f[0] as string) : null;
+  };
+  const fieldCases: Array<[string, string, string]> = [
+    ["철근콘크리트공", "레미콘 슬럼프", "슬럼프"],
+    ["철근콘크리트공사", "콘크리트 압축강도", "압축 강도"],
+    ["철근콘크리트공사", "공기량", "공기량"],
+    ["토공", "노상 현장밀도", "현장밀도"],
+    ["관로공", "되메우기 현장밀도", "현장밀도"],
+    ["철근콘크리트공", "철근 인장강도(KS D 3504)", "인장강도"],
+  ];
+  const fieldMisses = fieldCases.filter(([w, t, item]) => {
+    const m = matchPlanRow(w, t);
+    return oneFrequency(w, t) === null || !m.rows.every((r) => r.item.includes(item));
+  });
+  check("시험계획서 빈도: 현장 표현(레미콘 슬럼프·콘크리트 압축강도·노상 현장밀도 등)으로 별표 2 의 그 행을 찾는다", fieldMisses.length === 0, fieldMisses.map((c) => c[1]).join(", "));
+  check(
+    "시험계획서 빈도: 여러 자재·단계에 걸치는 말(염화물·아스콘 온도)과 공종 없는 '아스콘 온도'는 채우지 않는다",
+    oneFrequency("철근콘크리트공사", "염화물") === null && oneFrequency("아스팔트포장공", "아스콘 온도") === null && oneFrequency("", "아스콘 온도") === null,
+  );
+  {
+    const stdRows = loadTestStandards().rows;
+    let wrongFills = 0;
+    let fills = 0;
+    for (const r of stdRows) {
+      const work = (r.section.split(">").pop() ?? "").replace(/^[^.)]*[.)]\s*/, "").trim();
+      const cat = r.category.replace(/\([^)]*\)/g, " ").trim();
+      for (const [w, t] of [[work, `${cat} ${r.item}`], [work, r.item], ["", `${cat} ${r.item}`]] as const) {
+        const f = oneFrequency(w, t);
+        if (f === null) continue;
+        fills += 1;
+        if (f !== tidyFreq(r.frequency)) wrongFills += 1;
+      }
+    }
+    check("시험계획서 빈도: 별표 2 전 행을 종별·시험종목으로 넣어 원문과 다른 빈도를 채우는 일이 없다", fills > stdRows.length * 2 && wrongFills === 0, `채움 ${fills} · 틀린 채움 ${wrongFills}`);
+  }
   const approval = JSON.stringify((await callTool("get_material_source_approval_schema", {}, { graph })).result);
   check("공급원 승인 요청서: 첨부 안내에 시험성과 대비표(사업관리방식 지침 제87조제7항)", approval.includes("시험성과 대비표") && approval.includes("제87조제7항"));
   const register = await genMd("quality_inspection_register", { projectName: "OO", entries: [{ seq: 1, inspectionDate: "2026-11-10", material: "골재", qcEngineerName: "최유진" }] });
