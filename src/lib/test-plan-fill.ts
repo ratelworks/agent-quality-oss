@@ -55,6 +55,8 @@ export interface PlanRowMatch {
   rows: TestStandardRow[];
   /** 시험종목 칸에 걸린 낱말이 있었나 (없으면 자재 이름만으로 찾은 것) */
   byTestItem: boolean;
+  /** 적은 KS 번호와 시험방법이 맞는 행이 없었다 — 그 번호 (빈도를 채우지 않고 확인을 구한다) */
+  ksMismatch?: string;
 }
 
 /**
@@ -76,10 +78,13 @@ export function matchPlanRow(workType: string, testItem: string): PlanRowMatch {
     .filter(Boolean);
   const tokens = words.filter((t) => t.length >= TOKEN_MIN);
   const alts = tokens.map((t) => [...new Set([t, ...(rowTerms[t] ?? []), ...(terms[t] ?? [])].map(squash))]);
+  // 괄호 안 KS 번호는 그 번호가 시험방법·종별·비고에 적힌 행으로 좁힌다. 맞는 행이 없으면 행은 그대로 주되 어긋남을 알린다
+  let ksMismatch: string | undefined;
   const withKs = (list: TestStandardRow[]): TestStandardRow[] => {
-    if (!ks) return list;
+    if (!ks || list.length === 0) return list;
     const key = squash(ks);
     const hit = list.filter((r) => squash(`${r.method} ${r.category} ${r.remarks}`).includes(key));
+    if (hit.length === 0) ksMismatch = ks.replace(/\s+/g, " ").trim();
     return hit.length > 0 ? hit : list;
   };
   // 낱말마다 시험종목·종별·구분 가운데 어디에 걸리나
@@ -115,7 +120,8 @@ export function matchPlanRow(workType: string, testItem: string): PlanRowMatch {
       const best = Math.max(...pool.map((x) => x.categoryHits));
       pool = pool.filter((x) => x.categoryHits === best);
     }
-    return { rows: withKs(pool.map((x) => x.r)), byTestItem: true };
+    const rowsWithKs = withKs(pool.map((x) => x.r));
+    return { rows: rowsWithKs, byTestItem: true, ...(ksMismatch ? { ksMismatch } : {}) };
   }
   // 자재 이름만 있다 — 그 종별의 행 모두 (시험종목마다 빈도가 다를 수 있다).
   // 현장 말 자료에 표준 이름이 있으면 그 이름으로만 찾는다("철근" → "철근콘크리트용봉강" — "철근" 그대로면 "철근콘크리트용 방청제" 까지 걸린다)
@@ -123,7 +129,10 @@ export function matchPlanRow(workType: string, testItem: string): PlanRowMatch {
     const names = [...(rowTerms[token] ?? []), ...(terms[token] ?? [])];
     const keys = (names.length > 0 ? names : [token]).map(squash);
     const hit = rows.filter((r) => keys.some((k) => squash(r.category).includes(k)));
-    if (hit.length > 0) return { rows: withKs(bySection(hit, workType)), byTestItem: false };
+    if (hit.length > 0) {
+      const rowsWithKs = withKs(bySection(hit, workType));
+      return { rows: rowsWithKs, byTestItem: false, ...(ksMismatch ? { ksMismatch } : {}) };
+    }
   }
   return { rows: [], byTestItem: false };
 }
@@ -148,10 +157,10 @@ export function fillTestPlanFrequencies(body: DocumentBody): { filled: Frequency
     const row = entry as Record<string, string>;
     const testItem = (row["testItem"] ?? "").trim();
     if (!testItem || (row["testFrequency"] ?? "").trim()) return;
-    const { rows: found, byTestItem } = matchPlanRow(row["workType"] ?? "", testItem);
+    const { rows: found, byTestItem, ksMismatch } = matchPlanRow(row["workType"] ?? "", testItem);
     if (found.length === 0) return;
     const frequencies = [...new Set(found.map((r) => tidy(r.frequency)).filter(Boolean))];
-    if (frequencies.length === 1) {
+    if (frequencies.length === 1 && !ksMismatch) {
       const frequency = frequencies[0] as string;
       row["testFrequency"] = `${frequency} (${SOURCE})`;
       filled.push({ row: index + 1, testItem, frequency, from: [...new Set(found.map((r) => `${r.section} · ${tidy(r.category)} · ${tidy(r.item)}`))] });
@@ -165,7 +174,9 @@ export function fillTestPlanFrequencies(body: DocumentBody): { filled: Frequency
       seen.add(key);
       list.push({ category: tidy(r.category), item: tidy(r.item), frequency: tidy(r.frequency) });
     }
-    const note = byTestItem
+    const note = ksMismatch
+      ? `적은 ${ksMismatch} 와 시험방법이 맞는 행이 ${SOURCE} 에 없어 칸을 비워 두었습니다 — 시험종목이나 KS 번호를 확인하세요.`
+      : byTestItem
       ? `같은 시험종목이 여러 자재·공종에 있고 빈도가 달라 칸을 비워 두었습니다 — 자재 이름(예: 레미콘·골재)이나 공종을 함께 적으면 ${SOURCE} 의 빈도를 채웁니다.`
       : `시험종목마다 빈도가 달라 칸을 비워 두었습니다 — 시험종목을 한 줄에 하나씩 나눠 적으면 ${SOURCE} 의 빈도를 채웁니다.`;
     candidates.push({ row: index + 1, testItem, candidates: list, note });

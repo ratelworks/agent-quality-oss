@@ -101,8 +101,19 @@ function stripPictographs(value: string): string {
 }
 
 // ── Markdown 읽기 ───────────────────────────────────────────────────
-/** 한 줄 안의 서식을 풀어 굵기 구간으로 나눈다 — 링크는 글자만, 기울임·코드 표시는 지운다 */
+/** 역슬래시로 감싼 기호(\\* 등 ASCII 구두점) — 서식으로 해석하지 않고 글자 그대로 둔다 */
+const ESCAPED_MARK = /\\([!-/:-@[-`{-~])/g;
+/** 감싼 기호를 서식 해석 동안 맡겨 두는 사용자 정의 영역 글자 (U+E000 + 원래 코드) */
+const PROTECT_BASE = 0xe000;
+const PROTECTED = /[\ue000-\ue07f]/g;
+const restoreMarks = (s: string): string => s.replace(PROTECTED, (c) => String.fromCharCode(c.charCodeAt(0) - PROTECT_BASE));
+
+/** 한 줄 안의 서식을 풀어 굵기 구간으로 나눈다 — 링크는 글자만, 기울임·코드 표시는 지운다. 역슬래시로 감싼 기호는 글자 그대로 */
 function parseInline(source: string): Run[] {
+  return parseMarks(source.replace(ESCAPED_MARK, (_, ch: string) => String.fromCharCode(PROTECT_BASE + ch.charCodeAt(0)))).map((run) => ({ ...run, text: restoreMarks(run.text) }));
+}
+
+function parseMarks(source: string): Run[] {
   const text = stripPictographs(source)
     .replace(/!\[([^\]]*)\]\([^)]*\)/g, "$1")
     .replace(/\[([^\]]+)\]\([^)]*\)/g, "$1")

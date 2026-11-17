@@ -283,6 +283,17 @@ async function testLookup(): Promise<void> {
     return oneFrequency(w, t) === null || !m.rows.every((r) => r.item.includes(item));
   });
   check("시험계획서 빈도: 현장 표현(레미콘 슬럼프·콘크리트 압축강도·노상 현장밀도 등)으로 별표 2 의 그 행을 찾는다", fieldMisses.length === 0, fieldMisses.map((c) => c[1]).join(", "));
+  {
+    // 적은 KS 번호와 시험방법이 맞지 않으면(슬럼프에 압축강도 시험방법 KS F 2405) 다른 행의 빈도를 채우지 않는다
+    const mismatch = matchPlanRow("", "레미콘 슬럼프 (KS F 2405)");
+    const plan = await genMd("quality_test_plan", { testItems: [{ workType: "철근콘크리트공", testItem: "레미콘 슬럼프 (KS F 2405)" }, { workType: "철근콘크리트공", testItem: "레미콘 슬럼프 (KS F 2402)" }] });
+    const planRows = plan.markdown.split("\n").filter((l) => /^\| [12] \|/.test(l));
+    check(
+      "시험계획서 빈도: 적은 KS 번호와 시험방법이 맞는 행이 없으면 칸을 비우고 확인을 구한다(맞으면 채운다)",
+      mismatch.ksMismatch === "KS F 2405" && !(planRows[0] ?? "").includes("업무지침 별표 2") && (planRows[1] ?? "").includes("업무지침 별표 2") && plan.markdown.includes("KS F 2405 와 시험방법이 맞는 행"),
+      planRows.join(" / "),
+    );
+  }
   check(
     "시험계획서 빈도: 여러 자재·단계에 걸치는 말(염화물·아스콘 온도)과 공종 없는 '아스콘 온도'는 채우지 않는다",
     oneFrequency("철근콘크리트공사", "염화물") === null && oneFrequency("아스팔트포장공", "아스콘 온도") === null && oneFrequency("", "아스콘 온도") === null,
@@ -331,6 +342,16 @@ async function testLookup(): Promise<void> {
       return unzip(markdownToHwpx(md, { title: docId })).get("Contents/section0.xml")?.toString("utf8") ?? "";
     };
     const wide = sectionOf("register", (await genMd("quality_inspection_register", { projectName: "x" })).markdown);
+    // 정본(DocLang)의 글은 Markdown 서식으로 다시 읽지 않는다 — "10*20*30" 이 기울임으로 읽혀 "102030" 이 되던 것
+    {
+      const { doclangToMarkdown } = await import("../../src/lib/doclang-reader.js");
+      const tricky = ["10*20*30", "**굵게**", "x `code` y", "[링크](u)", "a\\|b", "~~취소~~", "<br>"];
+      const lines = ["- 목록같은 줄", "# 제목같은 줄", "1. 번호같은 줄", "> 인용같은 줄", "| 표같은 줄 |", "---"];
+      const dl = (await callTool("generate_quality_document", { docId: "defective_material_disposal_pledge", format: "doclang", formValues: { materialAndSpec: tricky.join(" ~ "), returnCause: lines.join("\n"), confirmers: tricky.map((role) => ({ role })) } }, { graph })).result as { doclang: string };
+      const texts = [...sectionOf("pledge", doclangToMarkdown(dl.doclang).markdown).matchAll(/<hp:t>([^<]*)<\/hp:t>/g)].map((m) => (m[1] ?? "").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&"));
+      const changed = [...tricky, ...lines].filter((v) => !texts.includes(v));
+      check("한글 파일: 정본의 값에 있는 서식 기호(* ` [ ] ~ < | 와 줄 첫머리 # - 1. > | ---)를 글자 그대로 옮긴다", changed.length === 0 && texts.includes(tricky.join(" ~ ")), changed.join(" , "));
+    }
     const narrow = sectionOf("ncr", (await genMd("ncr", {})).markdown);
     check(
       "한글 파일: 10열 이상 표가 있으면 가로 용지(landscape NARROWLY, 표 너비 = 용지 높이 − 여백), 없으면 세로",

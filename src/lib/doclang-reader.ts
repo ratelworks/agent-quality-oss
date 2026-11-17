@@ -65,7 +65,18 @@ function textOf(node: XmlNode | string, keepLines = false): string {
 }
 
 const tidy = (s: string): string => s.replace(/[ \t]+/g, " ").replace(/ *\n */g, "\n").trim();
-const cellText = (s: string): string => tidy(s).replace(/\|/g, "\\|").replace(/\n/g, "<br>");
+/**
+ * 정본의 글은 Markdown 서식이 아니다 — 서식 기호를 역슬래시로 감싸 글자 그대로 남긴다.
+ * 감싸지 않으면 한글 파일로 옮길 때 "10*20*30" 이 기울임으로 읽혀 "102030" 이 되고, 백틱·링크 꼴도 지워진다.
+ */
+const INLINE_MARKS = /[\\`*_[\]~<>!]/g;
+const escapeInline = (s: string): string => s.replace(INLINE_MARKS, "\\$&");
+/** 한 줄 글 — 줄 첫머리의 블록 기호(제목 #·목록 - + 1.·표 |·인용 >·코드·구분선)도 감싼다 */
+const escapeLine = (s: string): string =>
+  escapeInline(s)
+    .replace(/^(\s*)([-+#|])/, "$1\\$2")
+    .replace(/^(\s*\d+)([.)])(\s)/, "$1\\$2$3");
+const cellText = (s: string): string => escapeInline(tidy(s)).replace(/\|/g, "\\|").replace(/\n/g, "<br>");
 
 function tableMarkdown(node: XmlNode): string[] {
   let caption = "";
@@ -132,7 +143,7 @@ function listMarkdown(node: XmlNode): string[] {
     } else current += text;
   }
   if (current !== null) items.push(current);
-  const lines = items.map((item) => tidy(item).replace(/\n/g, " ")).filter(Boolean);
+  const lines = items.map((item) => escapeInline(tidy(item).replace(/\n/g, " "))).filter(Boolean);
   return [...lines.map((item, i) => (ordered ? `${i + 1}. ${item}` : `- ${item}`)), ""];
 }
 
@@ -166,22 +177,22 @@ export function doclangToMarkdown(xml: string): { markdown: string; title: strin
   const walk = (node: XmlNode): void => {
     for (const child of node.children) {
       if (typeof child === "string") {
-        if (child.trim()) out.push(tidy(child), "");
+        if (child.trim()) out.push(escapeLine(tidy(child)), "");
         continue;
       }
       if (child.tag === "head" || SKIP.has(child.tag)) continue;
       if (child.tag === "heading") {
         const level = Math.min(Math.max(Number.parseInt(child.attrs["level"] ?? "1", 10) || 1, 1), MAX_HEADING_LEVEL);
         const text = tidy(textOf(child));
-        if (text) out.push(`${"#".repeat(level)} ${text}`, "");
+        if (text) out.push(`${"#".repeat(level)} ${escapeInline(text)}`, "");
       } else if (child.tag === "table") out.push(...tableMarkdown(child));
       else if (child.tag === "list") out.push(...listMarkdown(child));
       else if (child.tag === "text" || child.tag === "content" || child.tag === "caption") {
-        for (const line of tidy(textOf(child, true)).split("\n")) if (line) out.push(line, "");
+        for (const line of tidy(textOf(child, true)).split("\n")) if (line) out.push(escapeLine(line), "");
       } else if (child.children.some((c) => typeof c !== "string" && ["heading", "table", "list", "text"].includes(c.tag))) walk(child);
       else {
         const text = tidy(textOf(child, true));
-        if (text) out.push(text, "");
+        if (text) out.push(escapeLine(text), "");
       }
     }
   };
