@@ -4,7 +4,7 @@
 // 입력값을 양식 구조대로 옮길 뿐 문장을 짓지 않는다. 입력하지 않은 칸은 비워 두고 무엇을
 // 적어야 하는지 작성 안내 줄로 알린다. 판정 수치도 만들지 않는다.
 //   dclx     정본 — DocLang 아카이브(.dclx) 파일로 저장하고 경로를 돌려준다 (기본). 미리보기 Markdown 을 함께 준다
-//   hwpx     정본(.dclx)을 저장하고 그 정본에서 한글 파일을 만든다
+//   hwpx     정본(.dclx)을 저장하고 한글 파일을 만든다 — 법정 서식 원본이 있는 문서는 그 서식의 칸에 값을 채운다
 //   md       Markdown 본문만 (파일 없음)
 //   doclang  DocLang 0.9 XML 글자만 (파일 없음)
 // ─────────────────────────────────────────────────────────────────────────────
@@ -14,7 +14,8 @@ import { buildResponse, entityBasisWithStatus } from "../lib/response.js";
 import { ERROR_CODES, QualityMcpError } from "../lib/errors.js";
 import { buildDocumentBody, renderMarkdown } from "../lib/document-body.js";
 import { DOCLANG_VERSION, serializeToDoclang } from "../lib/doclang-serializer.js";
-import { saveDclx, saveHwpxFromDoclang } from "../lib/hwpx-export.js";
+import { saveDclx, saveDocumentBytes, saveHwpxFromDoclang } from "../lib/hwpx-export.js";
+import { fillOfficialForm } from "../lib/official-form.js";
 import { fillTestPlanFrequencies } from "../lib/test-plan-fill.js";
 import type { BasisRef, ToolSpec } from "../lib/types.js";
 import type { OntologyGraph } from "../ontology/graph.js";
@@ -30,7 +31,7 @@ export const spec: ToolSpec = {
     `품질 문서 ${listSchemaIds().length}종의 본문을 만든다 — 입력값(formValues)을 양식 구조대로 옮긴다. 문장을 짓지 않으며, 입력하지 않은 칸은 비워 두고 무엇을 적어야 하는지 알린다. ` +
     "형식: dclx(기본 — 정본인 DocLang 아카이브 .dclx 를 저장하고 경로와 미리보기 Markdown 을 돌려줌) · hwpx(정본 .dclx 를 저장하고 그 정본에서 한글 파일을 만듦) · md(Markdown 본문만) · doclang(DocLang 0.9 XML 글자만). 입력 형식에 고칠 점이 있으면 파일을 만들지 않고 problems 를 돌려준다. " +
     "사용자가 문서를 써 달라고 하면(\"써줘\" · \"만들어줘\" · \"정리해줘\") format: 'hwpx' 로 정본과 한글 파일까지 만든다 — 받은 값만으로 먼저 만들고 빠진 칸은 비워 둔 채 무엇이 빠졌는지 알린다. 빠진 값을 묻느라 파일 만들기를 미루지 않는다. 한글 파일은 나중에 export_quality_document 에 정본 경로(dclxPath)를 주어 만들 수도 있다. 본문만 보여 달라고 하면 md. " +
-    "법령·고시 서식을 따르는 문서도 기재 항목만 옮기며 서식의 칸 배치는 재현하지 않는다. [초안 · 확인과 서명은 품질관리자·감리원·발주자]",
+    "법정 서식 원본이 있는 문서(실시대장·성과 총괄표·시험계획·실적보고서·검측요청·검측 체크리스트·자재 공급원 승인·레미콘·아스콘 점검표·불량자재폐기 확약서)는 한글 파일을 그 서식의 칸 배치 그대로 채워 낸다 — 서식에 칸이 없는 입력은 notInForm 으로 알린다. 그 밖의 문서는 항목 구조로 낸다. [초안 · 확인과 서명은 품질관리자·감리원·발주자]",
   inputSchema: {
     type: "object",
     properties: {
@@ -107,14 +108,20 @@ export function run(args: GenerateDocumentArgs, graph: OntologyGraph) {
     const dclx = saveDclx(schema.id, documentXml);
     output = { dclxSaved: true, dclxPath: dclx.path, dclxFileName: dclx.fileName, dclxBytes: dclx.bytes, doclangVersion: DOCLANG_VERSION };
     if (format === "hwpx") {
-      const hwpx = saveHwpxFromDoclang(schema.id, documentXml, body.title);
+      // 법정 서식 원본이 있으면 그 서식의 칸에 값을 채운다 — 없으면 정본의 항목 구조 그대로
+      const form = fillOfficialForm(schema.id, body.draft);
+      const hwpx = form ? saveDocumentBytes(schema.id, "hwpx", form.data) : saveHwpxFromDoclang(schema.id, documentXml, body.title);
       output = {
         ...output,
         hwpxSaved: true,
         hwpxPath: hwpx.path,
         hwpxFileName: hwpx.fileName,
         hwpxBytes: hwpx.bytes,
-        note: "정본(.dclx)을 저장하고 그 정본에서 한글 파일을 만들었습니다. 한글에서 열어 내용을 확인한 뒤 사용합니다. 작성 안내 줄은 파일에 넣지 않았습니다 — 빈칸과 확인할 점은 missingRequired·problems 를 봅니다.",
+        hwpxLayout: form ? "official_form" : "item_structure",
+        ...(form ? { hwpxForm: form.form, hwpxFormSource: form.source.url, notInForm: form.notInForm } : {}),
+        note: form
+          ? `정본(.dclx)을 저장하고 법정 서식(${form.form}) 원본의 칸에 값을 채운 한글 파일을 만들었습니다. 입력하지 않은 칸과 서명 칸은 비어 있습니다. 서식에 칸이 없는 입력(notInForm)은 정본에만 있습니다. 한글에서 열어 확인한 뒤 사용합니다.`
+          : "정본(.dclx)을 저장하고 그 정본에서 한글 파일을 만들었습니다. 한글에서 열어 내용을 확인한 뒤 사용합니다. 작성 안내 줄은 파일에 넣지 않았습니다 — 빈칸과 확인할 점은 missingRequired·problems 를 봅니다.",
       };
     } else {
       output = {

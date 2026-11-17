@@ -1,0 +1,315 @@
+{
+  "_note": "법정 서식 원본(법제처 국가법령정보센터) 파일과 칸 지도. 표 순번은 본문의 표를 문서 순서대로(칸 안의 표 포함) 0 부터 센다. row·col 은 서식 표의 행·열 주소다. template 의 {필드}·{묶음.항목} 자리에 입력값이 들어가고, 모든 자리가 비면 칸을 건드리지 않는다(서식의 틀 글자가 남는다). {필드|Y}·{필드|M}·{필드|D}·{필드|date} 는 날짜의 연·월·일·'연. 월. 일.'. 구형 HWP 서식은 한 번 HWPX 로 바꿔 넣었다(converted). 법령·고시의 서식은 저작권법 제7조 제1·2호의 보호받지 못하는 저작물(법령·고시)에 딸린 것이다.",
+  "forms": {
+    "monthly_test_report": {
+      "file": "cm-18.hwpx",
+      "source": {
+        "law": "건설공사 사업관리방식 검토기준 및 업무수행지침",
+        "form": "별지 제18호 서식(품질시험·검사실적 보고서)",
+        "url": "https://www.law.go.kr/LSW/flDownload.do?flSeq=167081935",
+        "fetched": "2026-11-17",
+        "sha256": "7e40c88173cbf1caba7ecf000c68fd2123d5ba056586571b870cf9b56a9cf16d"
+      },
+      "rows": [
+        {
+          "field": "items", "table": 0, "firstRow": 2, "lastRow": 13,
+          "cells": [
+            { "col": 0, "template": "{workType}" }, { "col": 1, "template": "{testKind}" }, { "col": 2, "template": "{planned}" },
+            { "col": 3, "template": "{prevExecuted}" }, { "col": 4, "template": "{prevPassed}" }, { "col": 5, "template": "{prevFailed}" }, { "col": 6, "template": "{prevRetest}" },
+            { "col": 7, "template": "{monthExecuted}" }, { "col": 8, "template": "{monthPassed}" }, { "col": 9, "template": "{monthFailed}" }, { "col": 10, "template": "{monthRetest}" },
+            { "col": 11, "template": "{totalExecuted}" }, { "col": 12, "template": "{totalPassed}" }, { "col": 13, "template": "{totalFailed}" }, { "col": 14, "template": "{totalRetest}" }
+          ]
+        }
+      ]
+    },
+    "quality_inspection_register": {
+      "file": "rule-42.hwpx",
+      "source": {
+        "law": "건설기술 진흥법 시행규칙",
+        "form": "별지 제42호서식(품질검사 실시대장)",
+        "url": "https://www.law.go.kr/LSW/flDownload.do?flSeq=164863445",
+        "fetched": "2026-11-17",
+        "sha256": "8b04fd336867120e525da1d92d4223cdd6595bb6f850e16c0843c1666b439dec",
+        "converted": "원본 HWP 를 kordoc 4.24.82 convert_to_hwpx 로 서식 그대로 HWPX 로 바꿈 (2026-11-17)"
+      },
+      "rows": [
+        {
+          "field": "entries", "table": 0, "firstRow": 4, "lastRow": 12,
+          "cells": [
+            { "col": 0, "template": "{seq}" }, { "col": 1, "template": "{inspectionDate}" }, { "col": 2, "template": "{inspectionKind}" },
+            { "col": 3, "template": "{material}" }, { "col": 4, "template": "{supplyPlant}" }, { "col": 5, "template": "{inspectionPlace}" },
+            { "col": 7, "template": "{inspectionItem}" }, { "col": 8, "template": "{criterion}" }, { "col": 9, "template": "{testResult}" },
+            { "col": 10, "template": "{resultVerdict}" }, { "col": 11, "template": "{qcEngineerName}" }, { "col": 12, "template": "{qcEngineerSignature}" },
+            { "col": 13, "template": "{cmEngineerName}" }, { "col": 14, "template": "{cmEngineerSignature}" }, { "col": 15, "template": "{remarks}" }
+          ]
+        }
+      ]
+    },
+    "quality_inspection_summary": {
+      "file": "rule-43.hwpx",
+      "source": {
+        "law": "건설기술 진흥법 시행규칙",
+        "form": "별지 제43호서식(품질검사 성과 총괄표)",
+        "url": "https://www.law.go.kr/LSW/flDownload.do?flSeq=164863451",
+        "fetched": "2026-11-17",
+        "sha256": "388daf19227759565050444cee44d510a3a6c3a69d9a9242cfcaf32ec60eebc0",
+        "converted": "원본 HWP 를 kordoc 4.24.82 convert_to_hwpx 로 서식 그대로 HWPX 로 바꿈 (2026-11-17)"
+      },
+      "paragraphs": [
+        { "match": "^공사명:", "template": " 공사명: {projectName}   공사기간: {constructionPeriod.startDate|date} ~ {constructionPeriod.endDate|date}   공정 : {progressPercent} %" },
+        { "match": "^작성일시:", "template": "작성일시: {preparedAt|Y}년 {preparedAt|M}월 {preparedAt|D}일" },
+        { "match": "^작성자:", "template": "작성자: 소속: {preparedBy.affiliation}   직위: {preparedBy.position}" },
+        { "match": "^성명:", "template": "        성명: {preparedBy.name}   (서명 또는 인)" }
+      ],
+      "rows": [
+        {
+          "field": "items", "table": 0, "firstRow": 4, "lastRow": 13,
+          "cells": [
+            { "col": 0, "template": "{workType}" }, { "col": 1, "template": "{testKind}" }, { "col": 2, "template": "{planned}" },
+            { "col": 4, "template": "{executed}" }, { "col": 5, "template": "{passed}" }, { "col": 6, "template": "{failed}" },
+            { "col": 7, "template": "{retest}" }, { "col": 8, "template": "{remarks}" }
+          ]
+        }
+      ]
+    },
+    "quality_test_plan": {
+      "file": "cm-16.hwpx",
+      "source": {
+        "law": "건설공사 사업관리방식 검토기준 및 업무수행지침",
+        "form": "별지 제16호 서식(품질시험계획)",
+        "url": "https://www.law.go.kr/LSW/flDownload.do?flSeq=167081923",
+        "fetched": "2026-11-17",
+        "sha256": "de3d6476d9a3647111010e359d8c0662b597ee512e112be2c5c0333eb740d069"
+      },
+      "paragraphs": [
+        { "match": "^공사명 :", "template": "공사명 : {projectName}   작  성  일 : {preparedDate|Y}년 {preparedDate|M}월 {preparedDate|D}일" },
+        { "match": "^시공자 :", "template": "시공자 : {contractorName}   현장대리인 : {siteRepresentativeName}   (인 또는 서명)" }
+      ],
+      "rows": [
+        {
+          "field": "testItems", "table": 0, "firstRow": 1, "lastRow": 3,
+          "cells": [
+            { "col": 0, "template": "{workType}" }, { "col": 1, "template": "{testItem}" }, { "col": 2, "template": "{plannedQuantity}" },
+            { "col": 3, "template": "{testFrequency}" }, { "col": 4, "template": "{testCount}" }, { "col": 5, "template": "{remarks}" }
+          ]
+        },
+        {
+          "field": "labEquipment", "table": 1, "firstRow": 1, "lastRow": 3,
+          "cells": [
+            { "col": 0, "template": "{equipmentName}" }, { "col": 1, "template": "{spec}" }, { "col": 2, "template": "{unit}" },
+            { "col": 3, "template": "{quantity}" }, { "col": 4, "template": "{remarks}" }
+          ]
+        },
+        {
+          "field": "qcPersonnel", "table": 2, "firstRow": 1, "lastRow": 3,
+          "cells": [
+            { "col": 0, "template": "{grade}" }, { "col": 1, "template": "{qcServicePeriod}" }, { "col": 2, "template": "{name}" }, { "col": 3, "template": "{qualification}" }
+          ]
+        }
+      ]
+    },
+    "material_source_approval": {
+      "file": "cm-37.hwpx",
+      "source": {
+        "law": "건설공사 사업관리방식 검토기준 및 업무수행지침",
+        "form": "별지 제37호 서식(자재 공급원 승인 요청·결과통보 내용)",
+        "url": "https://www.law.go.kr/LSW/flDownload.do?flSeq=167082073",
+        "fetched": "2026-11-17",
+        "sha256": "09419593c9b8fbcce2136173533bf2e835dfb51a62800df5d0046288ce18ed78"
+      },
+      "cells": [
+        { "table": 0, "row": 0, "col": 1, "template": "{documentNo}" },
+        { "table": 0, "row": 0, "col": 3, "template": "{addressee}" },
+        { "table": 0, "row": 1, "col": 1, "template": "{projectName}" },
+        { "table": 0, "row": 2, "col": 1, "template": "{productName}" },
+        { "table": 0, "row": 2, "col": 3, "template": "{specification}" },
+        { "table": 0, "row": 3, "col": 1, "template": "{manufacturer}" },
+        { "table": 0, "row": 4, "col": 1, "template": "{contractorOpinion}" },
+        { "table": 0, "row": 6, "col": 1, "template": "{remarks}" },
+        { "table": 1, "row": 2, "col": 1, "template": "{reviewOpinion}" },
+        { "table": 1, "row": 4, "col": 1, "template": "{resultRemarks}" }
+      ],
+      "checks": [
+        { "table": 0, "row": 1, "col": 3, "field": "workCategory" },
+        { "table": 0, "row": 3, "col": 3, "field": "ksGreen" },
+        { "table": 0, "row": 5, "col": 1, "field": "attachments", "other": "기타" },
+        { "table": 1, "row": 3, "col": 1, "field": "verdict" }
+      ],
+      "paragraphs": [
+        { "match": "^20\\s+년\\s+월\\s+일", "nth": 0, "template": "{requestDate|Y}년 {requestDate|M}월 {requestDate|D}일" },
+        { "match": "^담\\s*당\\s*자\\s+\\(인\\)", "template": "담  당  자  {personInCharge}   (인)" },
+        { "match": "^현장대리인\\s+\\(인\\)", "template": "현장대리인  {siteRepresentative}   (인)" },
+        { "match": "^20\\s+년\\s+월\\s+일", "nth": 1, "template": "{resultDate|Y}년 {resultDate|M}월 {resultDate|D}일" },
+        { "match": "^담당 건설사업관리기술인\\s+\\(인\\)", "template": "담당 건설사업관리기술인  {assignedEngineer}   (인)" },
+        { "match": "^책임건설사업관리기술인\\s+\\(인\\)", "template": "책임건설사업관리기술인  {chiefEngineer}   (인)" }
+      ]
+    },
+    "ready_mixed_placement_check": {
+      "file": "qg-11.hwpx",
+      "source": {
+        "law": "건설공사 품질관리 업무지침",
+        "form": "별지 제11호서식(레미콘 시공품질관리 점검표)",
+        "url": "https://www.law.go.kr/LSW/flDownload.do?flSeq=167079995",
+        "fetched": "2026-11-17",
+        "sha256": "30222c6887dcff01ab0fdfa6a64f25929d458534d591bc1ff479b312c7841467",
+        "converted": "원본 HWP 를 kordoc 4.24.82 convert_to_hwpx 로 서식 그대로 HWPX 로 바꿈 (2026-11-17)"
+      },
+      "cells": [
+        { "table": 0, "row": 0, "col": 1, "template": "{projectName}" },
+        { "table": 0, "row": 0, "col": 3, "template": "{inspectionDate|Y}년 {inspectionDate|M}월 {inspectionDate|D}일" },
+        { "table": 0, "row": 1, "col": 1, "template": "{supplyPlant}" },
+        { "table": 0, "row": 1, "col": 3, "template": "{deliveredQuantity}" },
+        { "table": 0, "row": 2, "col": 1, "template": "소속 {supervisor.affiliation}   성명 {supervisor.name}   서명 {supervisor.signature}" },
+        { "table": 0, "row": 3, "col": 1, "template": "소속 {contractor.affiliation}   성명 {contractor.name}   서명 {contractor.signature}" },
+        { "table": 0, "row": 4, "col": 1, "template": "구조물명: {structureName}   부위: {part}" }
+      ],
+      "namedRows": [
+        {
+          "field": "equipment", "table": 1, "key": "equipmentName", "labelCol": 0, "firstRow": 2, "lastRow": 5, "other": "기타",
+          "cells": [ { "col": 1, "template": "{spec}" }, { "col": 3, "template": "{unitsUsed}" }, { "col": 5, "template": "{checkResult}" }, { "col": 8, "template": "{action}" } ]
+        },
+        {
+          "field": "materials", "table": 1, "key": "checkItem", "labelCol": 0, "firstRow": 8, "lastRow": 13, "other": "기타",
+          "cells": [ { "col": 2, "template": "{checkResult}" }, { "col": 9, "template": "{action}" } ]
+        },
+        {
+          "field": "tests", "table": 1, "key": "testKind", "labelCol": 0, "firstRow": 15, "lastRow": 19, "other": "기타",
+          "cells": [ { "col": 2, "template": "{specCriterion}" }, { "col": 4, "template": "{totalCount}" }, { "col": 6, "template": "{passCount}" }, { "col": 7, "template": "{failCount}" }, { "col": 9, "template": "{action}" } ]
+        }
+      ]
+    },
+    "asphalt_placement_check": {
+      "file": "qg-12.hwpx",
+      "source": {
+        "law": "건설공사 품질관리 업무지침",
+        "form": "별지 제12호서식(아스콘 시공품질관리 점검표)",
+        "url": "https://www.law.go.kr/LSW/flDownload.do?flSeq=167080001",
+        "fetched": "2026-11-17",
+        "sha256": "258cdf19a5e5e41dbd73eeb8909c4b1a0d01185dbb569fe8709a119cadacf7c3",
+        "converted": "원본 HWP 를 kordoc 4.24.82 convert_to_hwpx 로 서식 그대로 HWPX 로 바꿈 (2026-11-17)"
+      },
+      "cells": [
+        { "table": 0, "row": 0, "col": 1, "template": "{siteName}" },
+        { "table": 0, "row": 0, "col": 3, "template": "{inspectionDate|Y}년 {inspectionDate|M}월 {inspectionDate|D}일" },
+        { "table": 0, "row": 1, "col": 1, "template": "{supplyPlant}" },
+        { "table": 0, "row": 1, "col": 3, "template": "{deliveredQuantity}" },
+        { "table": 0, "row": 2, "col": 1, "template": "소속 {supervisor.affiliation}   성명 {supervisor.name}   서명 {supervisor.signature}" },
+        { "table": 0, "row": 3, "col": 1, "template": "소속 {contractor.affiliation}   성명 {contractor.name}   서명 {contractor.signature}" },
+        { "table": 0, "row": 4, "col": 1, "template": "{placementLocation}" }
+      ],
+      "namedRows": [
+        {
+          "field": "equipment", "table": 1, "key": "equipmentName", "labelCol": 0, "firstRow": 2, "lastRow": 6, "other": "기타",
+          "cells": [ { "col": 2, "template": "{spec}" }, { "col": 4, "template": "{unitsUsed}" }, { "col": 6, "template": "{checkResult}" }, { "col": 9, "template": "{action}" } ]
+        },
+        {
+          "field": "tests", "table": 1, "key": "testKind", "labelCol": 1, "firstRow": 9, "lastRow": 20, "other": "기타", "groupCol": 0, "groupKey": "stage",
+          "cells": [ { "col": 3, "template": "{specCriterion}" }, { "col": 5, "template": "{totalCount}" }, { "col": 7, "template": "{passCount}" }, { "col": 8, "template": "{failCount}" }, { "col": 10, "template": "{action}" } ]
+        }
+      ]
+    },
+    "defective_material_disposal_pledge": {
+      "file": "qg-13.hwpx",
+      "source": {
+        "law": "건설공사 품질관리 업무지침",
+        "form": "별지 제13호서식(불량자재폐기 확약서)",
+        "url": "https://www.law.go.kr/LSW/flDownload.do?flSeq=167080007",
+        "fetched": "2026-11-17",
+        "sha256": "292505905381b2bb1ba728bc82a32cc251f6303d548ba7b32f9ce25d6128256e",
+        "converted": "원본 HWP 를 kordoc 4.24.82 convert_to_hwpx 로 서식 그대로 HWPX 로 바꿈 (2026-11-17)"
+      },
+      "cells": [
+        { "table": 0, "row": 0, "col": 1, "template": "{truckNo}" },
+        { "table": 0, "row": 1, "col": 1, "template": "{materialAndSpec}" },
+        { "table": 0, "row": 2, "col": 1, "template": "{returnSite}" },
+        { "table": 0, "row": 3, "col": 1, "template": "{returnedAt}" },
+        { "table": 0, "row": 4, "col": 1, "template": " {returnOrderedBy.position}  {returnOrderedBy.name}   (서명 또는 인) {returnOrderedBy.signature}" },
+        { "table": 0, "row": 5, "col": 1, "template": "{returnCause}" }
+      ],
+      "paragraphs": [
+        { "match": "^년\\s+월\\s+일$", "template": "                                    {pledgeDate|Y}년   {pledgeDate|M}월   {pledgeDate|D}일" },
+        { "match": "^※ 첨부 :", "template": "  ※ 첨부 : {attachments}  첨부" }
+      ],
+      "namedRows": [
+        {
+          "field": "confirmers", "table": 1, "key": "role", "labelCol": 0, "firstRow": 1, "lastRow": 2,
+          "cells": [ { "col": 1, "template": "{name}" }, { "col": 2, "template": "{phone}" }, { "col": 3, "template": "{address}" }, { "col": 4, "template": "{signature}" } ]
+        }
+      ]
+    },
+    "inspection_request": {
+      "file": "cm-36.hwpx",
+      "source": {
+        "law": "건설공사 사업관리방식 검토기준 및 업무수행지침",
+        "form": "별지 제36호 서식(검측요청·결과 통보내용 — 제1·2쪽)",
+        "url": "https://www.law.go.kr/LSW/flDownload.do?flSeq=167082063",
+        "fetched": "2026-11-17",
+        "sha256": "abaea18eb9ee9c12470aef3645340b95b402abedb8cd204d3d366b1d0c4e2ad4"
+      },
+      "paragraphs": [
+        { "match": "^\\(제 1 쪽\\)$", "template": "(재)   (제 1 쪽)", "when": { "key": "reinspection", "in": ["재검측"] } },
+        { "match": "^번호:", "nth": 0, "template": "번호: {documentNo}   {requestDate|Y}.  {requestDate|M}.  {requestDate|D}." },
+        { "match": "^받음 : ○○공사 책임", "template": "받음 : {addressee}" },
+        { "match": "^붙임 : 시공자의", "template": "붙임 : {attachments}" },
+        { "match": "^시공자\\s+점\\s*검\\s*직\\s*원", "template": "시공자   점 검 직 원  {inspector}   (인)" },
+        { "match": "^현장대리인\\s+\\(인\\)", "template": "현장대리인  {siteRepresentative}   (인)" },
+        { "match": "^번호:", "nth": 1, "template": "번호: {resultNo}" },
+        { "match": "^받음 : ○○공사 현장대리인", "template": "받음 : 현장대리인  {siteRepresentative}" },
+        { "match": "^문서번호 ○○로", "template": "    문서번호 {documentNo}로 검측요청 한 건에 대하여 {inspectedDate|Y}.  {inspectedDate|M}.  {inspectedDate|D}. 검측한 결과를 다음과 같이 통보합니다." },
+        { "match": "^1\\. 검측결과", "template": "    1. 검측결과  {inspectionResult}" },
+        { "match": "^2\\. 지시사항", "template": "    2. 지시사항  {instructions}" },
+        { "match": "^검측건설사업관리기술인\\s+\\(인\\)", "template": "검측건설사업관리기술인  {inspectingEngineer}   (인)" },
+        { "match": "^책임건설사업관리기술인\\s+\\(인\\)", "template": "책임건설사업관리기술인  {chiefEngineer}   (인)" }
+      ],
+      "cells": [
+        { "table": 1, "row": 0, "col": 1, "template": "{locationAndWork}" },
+        { "table": 1, "row": 1, "col": 1, "template": "{inspectionPart}" },
+        { "table": 1, "row": 2, "col": 1, "template": "{requestedAt}" },
+        { "table": 1, "row": 3, "col": 1, "template": "{inspectionItems}" }
+      ],
+      "rows": [
+        {
+          "field": "participants", "table": 2, "firstRow": 1, "lastRow": 1, "divide": 8,
+          "cells": [
+            { "col": 0, "template": "{workDate}" }, { "col": 1, "template": "{workLocationAndType}" }, { "col": 2, "template": "{affiliation}" }, { "col": 3, "template": "{position}" },
+            { "col": 4, "template": "{name}" }, { "col": 5, "template": "{birthDateAndSex}" }, { "col": 6, "template": "{workDone}" }, { "col": 7, "template": "{signature}" }
+          ]
+        }
+      ]
+    },
+    "inspection_checklist": {
+      "file": "cm-36.hwpx",
+      "source": {
+        "law": "건설공사 사업관리방식 검토기준 및 업무수행지침",
+        "form": "별지 제36호 서식(검측요청·결과 통보내용 — 제3쪽 검측 체크리스트)",
+        "url": "https://www.law.go.kr/LSW/flDownload.do?flSeq=167082063",
+        "fetched": "2026-11-17",
+        "sha256": "abaea18eb9ee9c12470aef3645340b95b402abedb8cd204d3d366b1d0c4e2ad4"
+      },
+      "cells": [
+        { "table": 3, "row": 0, "col": 1, "template": "{workCode}" },
+        { "table": 3, "row": 0, "col": 3, "template": "{locationAndPart}" },
+        { "table": 3, "row": 1, "col": 1, "template": "{workType}" },
+        { "table": 3, "row": 1, "col": 3, "template": "{workQuantity}" },
+        { "table": 5, "row": 0, "col": 1, "template": "     {contractorCheckDate|Y}년   {contractorCheckDate|M}월   {contractorCheckDate|D}일" },
+        { "table": 5, "row": 0, "col": 3, "template": "{inspector}   (인)" },
+        { "table": 5, "row": 1, "col": 1, "template": "     {engineerCheckDate|Y}년   {engineerCheckDate|M}월   {engineerCheckDate|D}일" },
+        { "table": 5, "row": 1, "col": 3, "template": "{inspectingEngineer}   (인)" }
+      ],
+      "rows": [
+        {
+          "field": "items", "table": 4, "firstRow": 2, "lastRow": 13, "step": 2,
+          "cells": [
+            { "offset": 0, "col": 0, "template": "{checkItem}" },
+            { "offset": 0, "col": 1, "template": "{criterion}" },
+            { "offset": 0, "col": 4, "template": "{action}" },
+            { "offset": 0, "col": 2, "template": "{contractorResult}", "when": { "key": "verdict", "in": ["합격", "적합", "PASS"] } },
+            { "offset": 0, "col": 3, "template": "{contractorResult}", "when": { "key": "verdict", "in": ["불합격", "부적합", "FAIL"] } },
+            { "offset": 1, "col": 2, "template": "{engineerResult}", "when": { "key": "verdict", "in": ["합격", "적합", "PASS"] } },
+            { "offset": 1, "col": 3, "template": "{engineerResult}", "when": { "key": "verdict", "in": ["불합격", "부적합", "FAIL"] } }
+          ]
+        }
+      ]
+    }
+  }
+}

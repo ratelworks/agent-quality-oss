@@ -167,6 +167,14 @@ async function testViewer(): Promise<void> {
       exported.status === 200 && exportedFile?.fileName === "ncr.hwpx" && Buffer.from(exportedFile.contentBase64 ?? "", "base64").subarray(0, 2).toString() === "PK" && exportedFile.hwpxPath === undefined,
       exported.body.slice(0, 160),
     );
+    const formExported = await send(port, {
+      method: "POST",
+      path: "/api/export-hwpx",
+      headers: { Host: `localhost:${port}`, Origin: `http://localhost:${port}`, "Content-Type": "application/json" },
+      body: JSON.stringify({ docId: "monthly_test_report", formValues: { items: [{ workType: "토공", testKind: "들밀도" }] } }),
+    });
+    const formFile = (JSON.parse(formExported.body) as { file?: { fileName?: string; hwpxLayout?: string } }).file;
+    check("폼: 법정 서식 원본이 있는 문서는 서식의 칸에 채운 한글 파일", formExported.status === 200 && formFile?.hwpxLayout === "official_form" && formFile.fileName === "monthly_test_report.hwpx", formExported.body.slice(0, 160));
     const previewBadOrigin = await send(port, {
       method: "POST",
       path: "/api/export-hwpx",

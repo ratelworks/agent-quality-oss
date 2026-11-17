@@ -22,6 +22,7 @@ This MCP server reasons over Korean construction **quality** standards.
 |---|---|---|
 | 건설기술 진흥법·시행령·시행규칙 | 대한민국 | **Full text** of articles, annexes and forms, with promulgation number and effective date. Source: 법제처 국가법령정보 공동활용 (open.law.go.kr). Not protected by copyright — 저작권법 제7조 제1호. |
 | 건설공사 품질관리 업무지침 · 건설공사 사업관리방식 검토기준 및 업무수행지침 | 국토교통부 고시 | **Full text** of articles, annexes and forms. Same source. Not protected by copyright — 저작권법 제7조 제2호. |
+| 별지 서식 원본 10종 (시행규칙 별지 제42·43호, 업무지침 별지 제11·12·13호, 사업관리지침 별지 제16·18·36·37호) | 대한민국 / 국토교통부 고시 | The **form files** as downloaded from 법제처 국가법령정보센터 (law.go.kr), used as templates for filled HWPX output. Forms published in HWPX are shipped unchanged; older HWP forms were converted once to HWPX with the layout kept. Source URL, download date and SHA-256 of each downloaded file are recorded in `src/schemas/official-forms/forms.json`. Forms annexed to statutes and public notices — 저작권법 제7조 제1·2호. |
 | KCS / KDS (국가건설기준, 표준시방서·설계기준) | 국토교통부 / 국가건설기준센터 | Clause numbers and titles, plus **short quoted phrases** used to verify acceptance criteria against the current edition. The full clause text is **not** shipped. |
 | KS 표준 (KS F 2402, KS F 2405 등) | 한국표준협회(KSA) / 국가기술표준원 | **Numbers and titles only.** Full text requires a KSA license. |
 

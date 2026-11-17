@@ -202,7 +202,7 @@ Claude Desktop 이나 Codex 에서 자연어로 요청합니다.
 | **3+. 원스톱 체인** | 위 2~3단계를 한 번에 — 검측 준비·시험계획·성적서 검토·부적합 처리·일일 브리핑 | `chain_quality_inspection` · `chain_quality_test_plan` · `chain_test_report_review` · `chain_nonconformance_report` · `chain_daily_quality_briefing` |
 | **4. 정량 판정** | 시험 관측값 합격 여부 · 리스크·부적합 추론 (코드 계산) | `evaluate_observation` · `infer_quality_risks` · `explain_quality_decision_path` |
 | **5. 작성 컨텍스트** | 입력값 + 양식 구조 + 근거 → LLM 작성 컨텍스트 | `compose_writing_context` |
-| **5+. 문서 본문** | 입력값을 양식 구조대로 옮긴 정본(.dclx — DocLang 아카이브) · 정본에서 만든 한글 파일 · 빠진 항목·날짜·인용 조문 검토 · 이미 쓴 본문을 한글 파일로 저장 | `generate_quality_document` · `review_quality_document` · `export_quality_document` |
+| **5+. 문서 본문** | 입력값을 양식 구조대로 옮긴 정본(.dclx — DocLang 아카이브) · 정본에서 만든 한글 파일(서식 원본을 실은 법정 문서는 그 서식의 칸에 채움) · 빠진 항목·날짜·인용 조문 검토 · 이미 쓴 본문을 한글 파일로 저장 | `generate_quality_document` · `review_quality_document` · `export_quality_document` |
 | **6. 검수** | 근거 우선순위 · 인용 실존 · 서식 명칭 검증 | `map_quality_basis` · `verify_quality_basis` · `verify_form_reference` |
 | **법령·기준 조회** | 법령·업무지침·사업관리지침의 조문·별표 본문과 판본, KCS/KDS 조항 위치(본문은 싣지 않음), 서식 위치 | `list_core_quality_laws` · `get_quality_law_article` · `search_quality_management_guideline` · `get_quality_guideline_article` · `search_construction_standards` · `get_standard_form_locator` |
 | **품질시험기준** | 업무지침 별표 2 전 항목(시험종목·시험방법·시험빈도)을 구분·종별·시험종목·KS 번호로 조회 | `search_quality_test_standards` |
@@ -255,7 +255,7 @@ npm run check:oss-hygiene   # 공개 위생 (내부 용어·경로·PII 차단)
 - 문서 양식 구조는 현장에서 작성하거나 받아 보관하는 23종을 다룹니다. 발주처 커스텀 양식·공종별 세부 변형은 점진 확장 대상입니다.
 - 정량 판정은 **일반 기준 위주**입니다. 발주처 특기시방·프로젝트 시방서·승인 배합설계서가 일반 기준보다 우선하는 경우 해당 문서를 별도로 확인해야 합니다(프로젝트 문서 주입·버전관리는 로드맵).
 - HTTP 모드(`serve --http`)는 기본으로 **이 컴퓨터에서만** 접속할 수 있습니다. 다른 컴퓨터에 열려면 `HOST` 를 지정하고, 접근 토큰(`AGENT_QUALITY_HTTP_TOKEN`)과 허용할 브라우저 출처(`AGENT_QUALITY_HTTP_ORIGINS`)를 정합니다. 요청 크기는 제한하지만 사용량 제한·감사 로그는 없으므로, 공개망에 둘 때는 앞단에서 보강해야 합니다.
-- 문서 본문 생성은 입력한 값을 양식 구조대로 옮길 뿐 문장을 짓지 않습니다. 법령·고시의 공식 서식은 기재 항목만 옮기며 서식의 칸 배치를 재현하지 않습니다 — 제출용은 공식 서식에 옮겨 적어야 할 수 있습니다.
+- 문서 본문 생성은 입력한 값을 양식 구조대로 옮길 뿐 문장을 짓지 않습니다. 법령·고시가 서식을 정한 문서 가운데 서식 원본을 실은 문서(품질시험계획 · 검측요청·결과통보 · 검측 체크리스트 · 품질검사 실시대장 · 품질검사 성과 총괄표 · 품질시험·검사실적 보고서 · 자재 공급원 승인 요청 · 레미콘·아스콘 시공품질관리 점검표 · 불량자재폐기 확약서)은 한글 파일을 법제처에서 받은 **서식 원본의 칸에 값을 채워** 만듭니다. 서식에 칸이 없는 입력(문서번호 등)은 응답에 따로 알리고 정본에만 남깁니다. 품질관리계획서와 실무 서식은 기재 항목 구조로 만듭니다. 시험·검사 결과와 서명 칸은 사람이 채우며, 한글 프로그램에서 열어 확인한 뒤 써야 합니다.
 - 본 도구는 ITP·NCR·검사요청·시험성적서 검토의 **초안·근거 패키징·검수 보조**용입니다. 전자결재·문서번호·변경이력·보존기간·서명·제출 이력을 책임지는 공식 품질경영시스템(QMS)은 아닙니다.
 - 최종 품질 판정·승인·서명은 품질관리자·감리원·발주자에게 있습니다.
 

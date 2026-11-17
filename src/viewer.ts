@@ -162,14 +162,15 @@ async function handle(
       return;
     }
 
-    // 한글 파일 — 브라우저가 내려받도록 내용을 돌려준다(이 컴퓨터에 따로 저장하지 않는다)
+    // 한글 파일 — 브라우저가 내려받도록 내용을 돌려준다(이 컴퓨터에 따로 저장하지 않는다).
+    // 정본(DocLang)에서 만든다 — 법정 서식 원본이 있는 문서는 그 서식의 칸에 값을 채운 파일이 된다
     if (pathname === "/api/export-hwpx" && method === "POST") {
       const body = await readBody(req);
       const docId = String(body["docId"] ?? "");
       const formValues = (body["formValues"] as Record<string, unknown>) ?? {};
-      const generated = await callTool("generate_quality_document", { docId, formValues, format: "md" }, { graph });
-      const markdown = String((generated.result as { markdown?: string }).markdown ?? "");
-      const exported = await callTool("export_quality_document", { docId, markdown, returnContent: true }, { graph });
+      const generated = await callTool("generate_quality_document", { docId, formValues, format: "doclang" }, { graph });
+      const doclang = String((generated.result as { doclang?: string }).doclang ?? "");
+      const exported = await callTool("export_quality_document", { docId, doclang, returnContent: true }, { graph });
       sendJson(res, 200, { file: exported.result });
       return;
     }

@@ -3,13 +3,15 @@
 //
 // 문장을 짓지 않는다. 입력한 값은 그 자리에 그대로 넣고, 입력하지 않은 칸은 비워 둔 채
 // 무엇을 적어야 하는지 "작성 안내" 줄로 알린다. 작성 안내 줄은 결재·제출용 사본에서 빠진다.
-// 법령·고시 서식을 따르는 문서도 기재 항목만 옮기며, 서식의 칸 배치는 재현하지 않는다.
+// 법령·고시 서식을 따르는 문서도 본문(정본)은 기재 항목 구조다. 서식 원본이 있는 문서는 한글 파일을 만들 때
+// 그 서식의 칸에 값을 채운다(official-form.ts).
 // ─────────────────────────────────────────────────────────────────────────────
 
 import type { DocumentSchema } from "../schemas/loader.js";
 import { enumLabel } from "../schemas/fields.js";
 import { FREE_TEXT_KEY, normalizeDraft } from "./draft.js";
 import type { DraftField, NormalizedDraft } from "./draft.js";
+import { officialFormMap } from "./official-form-map.js";
 
 // ───── 상수 ─────
 /** 작성 안내 줄의 머리 — 이 표시로 시작하는 인용 줄은 결재·제출용 사본에서 뺀다 */
@@ -296,7 +298,11 @@ export function headGuides(body: DocumentBody): string[] {
   const missing = body.requiredTotal - body.requiredFilled;
   guides.push(missing > 0 ? `필수 항목 ${body.requiredTotal}개 중 ${missing}개가 비어 있습니다.` : `필수 항목 ${body.requiredTotal}개를 모두 채웠습니다.`);
   if (body.officialForm) {
-    guides.push(`따르는 서식: ${body.officialForm}. 기재 항목만 옮겼고 서식의 칸 배치는 재현하지 않았습니다 — 제출용 서식 파일은 법제처 국가법령정보센터에서 받습니다.`);
+    guides.push(
+      officialFormMap(body.docId)
+        ? `따르는 서식: ${body.officialForm}. 이 본문은 기재 항목 구조이고, 한글 파일(hwpx)은 이 서식 원본의 칸에 값을 채워 만듭니다.`
+        : `따르는 서식: ${body.officialForm}. 기재 항목만 옮겼고 서식의 칸 배치는 재현하지 않았습니다 — 제출용 서식 파일은 법제처 국가법령정보센터에서 받습니다.`,
+    );
   }
   if (body.guidance) guides.push(`작성 기준: ${body.guidance}`);
   if (body.draft.unknownKeys.length > 0) guides.push(`양식에 없는 입력 키는 본문에 넣지 않았습니다: ${body.draft.unknownKeys.join(", ")}`);

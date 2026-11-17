@@ -21,7 +21,7 @@ const BUILD_DIR = join(ROOT, "build");
 /** 실행 중에 자료를 읽는 폴더 (src 기준) */
 const DATA_ROOTS = ["ontology", "schemas"];
 /** 반드시 있어야 하는 자료 — 폴더 훑기가 비어도 시험이 통과하지 않게 */
-const REQUIRED = ["ontology/penalty-links.json", "ontology/field-phrases.json", "schemas/document-schemas.json", "schemas/field-labels.json"];
+const REQUIRED = ["ontology/penalty-links.json", "ontology/field-phrases.json", "schemas/document-schemas.json", "schemas/field-labels.json", "schemas/official-forms/forms.json", "schemas/official-forms/cm-18.hwpx"];
 
 function walk(dir) {
   return readdirSync(dir, { withFileTypes: true }).flatMap((e) =>

@@ -14,6 +14,9 @@ import { ERROR_CODES, QualityMcpError } from "../lib/errors.js";
 import { GUIDE_MARK, documentTitle } from "../lib/document-body.js";
 import { HWPX_MIME_TYPE, buildHwpx, buildHwpxFromDoclang, safeDocumentName, saveDocumentBytes, saveHwpx } from "../lib/hwpx-export.js";
 import { DCLX_EXTENSION, unpackDclx } from "../lib/dclx.js";
+import { fillOfficialForm, officialFormMap } from "../lib/official-form.js";
+import { formValuesFromDoclang } from "../lib/doclang-values.js";
+import { buildDocumentBody } from "../lib/document-body.js";
 import { getDocumentsDir } from "../config/paths.js";
 import { existsSync, readFileSync, realpathSync, statSync } from "node:fs";
 import { sep } from "node:path";
@@ -31,7 +34,7 @@ export const spec: ToolSpec = {
   name: "export_quality_document",
   description:
     "정본(.dclx — DocLang 아카이브)에서 한글(HWPX) 파일을 만들어 저장하고 경로를 돌려준다. 정본은 dclxPath(generate_quality_document 가 저장한 .dclx 경로) · dclxBase64(.dclx 내용) · doclang(DocLang 글) 가운데 하나로 준다. " +
-    "정본이 없으면 이미 쓴 본문(markdown — 직접 쓴 것, AI 가 쓴 것)을 받는다. 한글 프로그램 없이 만든다. 작성 안내 줄은 넣지 않으며, 공식 서식의 칸 배치는 재현하지 않는다. " +
+    "정본이 없으면 이미 쓴 본문(markdown — 직접 쓴 것, AI 가 쓴 것)을 받는다. 한글 프로그램 없이 만든다. 작성 안내 줄은 넣지 않는다. 법정 서식 원본이 있는 문서의 정본은 그 서식의 칸 배치 그대로 채운 한글 파일로 만들고, 그 밖(Markdown 본문 포함)은 항목 구조로 만든다. " +
     `지원하는 Markdown: ${SUPPORTED_MARKDOWN}. returnContent 를 켜면 저장하지 않고 파일 내용(base64)을 돌려준다. [근거 제공용 · 내용 확인과 서명은 품질관리자·감리원·발주자]`,
   inputSchema: {
     type: "object",
@@ -155,6 +158,12 @@ function runFromDoclang(args: ExportDocumentArgs, source: { xml: string; from: s
   if (args.docId && !schema) {
     throw new QualityMcpError(ERROR_CODES.SCHEMA_NOT_FOUND, `문서 종류를 찾을 수 없습니다: ${args.docId}. 사용할 수 있는 종류: ${listSchemaIds().join(" · ")}`);
   }
+  // 법정 서식 원본이 있는 문서는 정본의 값을 되읽어 그 서식의 칸에 채운다
+  let form: ReturnType<typeof fillOfficialForm> = null;
+  if (schema && officialFormMap(schema.id)) {
+    form = fillOfficialForm(schema.id, buildDocumentBody(schema, formValuesFromDoclang(schema, source.xml)).draft);
+    if (form) built = { ...built, data: form.data };
+  }
   const basisIds = (schema?.basis ?? []).filter((id) => graph.get(id));
   const basis: BasisRef[] =
     basisIds.length > 0
@@ -165,7 +174,11 @@ function runFromDoclang(args: ExportDocumentArgs, source: { xml: string; from: s
     format: "hwpx",
     mimeType: HWPX_MIME_TYPE,
     from: source.from,
-    note: "정본(DocLang)에서 만든 한글 파일입니다. 한글에서 열어 내용과 모양을 확인한 뒤 사용합니다. 받은 정본을 그대로 옮겼고 내용은 검토하지 않았습니다 — 검토는 review_quality_document.",
+    hwpxLayout: form ? "official_form" : "item_structure",
+    ...(form ? { hwpxForm: form.form, hwpxFormSource: form.source.url, notInForm: form.notInForm } : {}),
+    note: form
+      ? `정본(DocLang)의 값을 법정 서식(${form.form}) 원본의 칸에 채운 한글 파일입니다. 입력하지 않은 칸과 서명 칸은 비어 있습니다. 서식에 칸이 없는 값(notInForm)은 정본에만 있습니다. 한글에서 열어 확인한 뒤 사용합니다 — 검토는 review_quality_document.`
+      : "정본(DocLang)에서 만든 한글 파일입니다. 한글에서 열어 내용과 모양을 확인한 뒤 사용합니다. 받은 정본을 그대로 옮겼고 내용은 검토하지 않았습니다 — 검토는 review_quality_document.",
   };
   const name = schema?.id ?? (docId && /^[a-z][a-z0-9_]*$/.test(docId) ? docId : undefined);
   if (args.returnContent === true) {

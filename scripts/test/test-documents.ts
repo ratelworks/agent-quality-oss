@@ -7,6 +7,7 @@
 //   4) 검토 — 빈 필수 항목·형식·달력에 없는 날짜·없는 조문·직접 쓴 본문
 //   5) 내보내기 — 작성 안내 제외, 소유자만 읽는 파일, 같은 시각에 덮어쓰지 않음
 //   6) 정본(.dclx) — 기본 산출이 DocLang 아카이브(규격 부록 B 의 세 부분)이고, 한글 파일은 그 정본에서 내보낸다
+//   법정 서식 원본이 있는 문서의 한글 파일은 그 서식의 패키지 그대로다 — 서식 채움 자체는 test-official-forms.ts
 //
 // 한글 프로그램에서 실제로 열리는지는 이 시험이 확인하지 않는다(프로그램이 있어야 한다).
 // DocLang 은 구조만 본다 — 공식 검증 도구(doclang validate)는 따로 돌린다.
@@ -36,6 +37,8 @@ const { HWPX_MIME_TYPE, markdownToHwpx } = await import("../../src/lib/hwpx-writ
 const { toApprovalCopy } = await import("../../src/lib/document-body.js");
 const { DOCLANG_NAMESPACE, DOCLANG_VERSION } = await import("../../src/lib/doclang-serializer.js");
 const { callTool, findTool } = await import("../../src/tool-registry.js");
+const { officialFormMap } = await import("../../src/lib/official-form.js");
+const { officialFormPath } = await import("../../src/lib/official-form-map.js");
 
 const graph = new OntologyGraph(loadOntologySync());
 let passed = 0;
@@ -148,6 +151,7 @@ interface Generated {
   doclang?: string;
   hwpxPath?: string;
   hwpxBytes?: number;
+  hwpxLayout?: string;
   requiredTotal: number;
   requiredFilled: number;
   missingRequired: string[];
@@ -256,14 +260,21 @@ async function testAllDocuments(): Promise<void> {
     }
     const file = readFileSync(saved.hwpxPath);
     const entries = readZip(file);
-    if (JSON.stringify(entries.map((e) => e.name)) !== JSON.stringify(EXPECTED_ENTRIES) || !entries.every((e) => e.crcOk)) note(docId, "한글: 패키지 구성");
+    // 법정 서식 원본이 있으면 그 서식의 패키지 그대로, 없으면 항목 구조 패키지
+    const form = officialFormMap(docId);
+    if ((saved.hwpxLayout === "official_form") !== (form !== null)) note(docId, `한글: 짜임 표시 ${saved.hwpxLayout}`);
+    // 원본의 폴더 항목("Contents/" 등)은 내용이 없어 다시 묶을 때 넣지 않는다
+    const expectedEntries = form ? readZip(readFileSync(officialFormPath(form))).map((e) => e.name).filter((n) => !n.endsWith("/")) : EXPECTED_ENTRIES;
+    if (JSON.stringify(entries.map((e) => e.name)) !== JSON.stringify(expectedEntries) || !entries.every((e) => e.crcOk)) note(docId, "한글: 패키지 구성");
     const section = sectionOf(file);
     const problem = wellFormed(section);
     if (problem !== null) note(docId, `한글: 본문 XML — ${problem}`);
-    if (!section.includes(`<hp:t>${filled.title.replace(/&/g, "&amp;")}</hp:t>`)) note(docId, "한글: 제목 없음");
+    // 서식은 제목을 서식의 글자로 갖는다 — 제목 확인은 항목 구조만
+    if (!form && !section.includes(`<hp:t>${filled.title.replace(/&/g, "&amp;")}</hp:t>`)) note(docId, "한글: 제목 없음");
     if (section.includes("작성 안내")) note(docId, "한글: 작성 안내가 들어감");
     if ((statSync(saved.hwpxPath).mode & 0o777) !== OWNER_ONLY_MODE) note(docId, "한글: 파일 권한");
-    if (section.includes("세로줄") !== Object.values(values).some((v) => Array.isArray(v) && typeof v[0] === "object")) note(docId, "한글: 표 내용");
+    // 서식 채움의 표 내용(행 이름 표에 맞는 이름이 없으면 넣지 않고 알림)은 test-official-forms.ts 가 본다
+    if (!form && section.includes("세로줄") !== Object.values(values).some((v) => Array.isArray(v) && typeof v[0] === "object")) note(docId, "한글: 표 내용");
     // 한글 파일은 정본(.dclx)과 함께 만든다
     if (!saved.dclxPath || !saved.dclxPath.endsWith(".dclx")) note(docId, "한글: 정본(.dclx) 경로 없음");
     else if (JSON.stringify(readZip(readFileSync(saved.dclxPath)).map((e) => e.name)) !== JSON.stringify(DCLX_ENTRIES)) note(docId, "정본: 아카이브 구성");
