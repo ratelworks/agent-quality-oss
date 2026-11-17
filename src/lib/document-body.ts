@@ -45,6 +45,8 @@ export interface DocumentBody {
   title: string;
   /** 따르는 법령·고시 서식 (있을 때) */
   officialForm: string | null;
+  /** 이 문서의 작성 기준 — 서식 작성요령·대상 요건 등 (양식에 적혀 있을 때) */
+  guidance: string | null;
   sections: BodySection[];
   draft: NormalizedDraft;
   /** 필수 항목 수와 그중 채운 수 */
@@ -189,6 +191,7 @@ export function buildDocumentBody(schema: DocumentSchema, formValues: unknown): 
     docId: schema.id,
     title: documentTitle(schema),
     officialForm: form ? `${form.law} ${form.annex}${form.annex.startsWith("별지") ? "서식" : ""}(${form.title})` : null,
+    guidance: schema.guidance ?? null,
     sections,
     draft,
     requiredTotal: required.length,
@@ -280,6 +283,7 @@ export function headGuides(body: DocumentBody): string[] {
   if (body.officialForm) {
     guides.push(`따르는 서식: ${body.officialForm}. 기재 항목만 옮겼고 서식의 칸 배치는 재현하지 않았습니다 — 제출용 서식 파일은 법제처 국가법령정보센터에서 받습니다.`);
   }
+  if (body.guidance) guides.push(`작성 기준: ${body.guidance}`);
   if (body.draft.unknownKeys.length > 0) guides.push(`양식에 없는 입력 키는 본문에 넣지 않았습니다: ${body.draft.unknownKeys.join(", ")}`);
   guides.push(`${GUIDE_MARK} 로 시작하는 줄은 결재·제출용 파일(한글)에는 들어가지 않습니다.`);
   return guides;

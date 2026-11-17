@@ -20,7 +20,11 @@ const XML_DECL = '<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>';
 const GENERATOR = "agent-quality-oss";
 /** A4 세로 (HWPUNIT = 1/7200 인치) */
 const PAGE = { width: 59528, height: 84188, marginSide: 5670, marginTop: 5670, marginBottom: 4252, marginHeader: 2835 };
-const TEXT_WIDTH = PAGE.width - PAGE.marginSide * 2;
+/** 용지를 가로로 놓는 표의 열 수 — 실시대장(15열)·실적보고서(15열)처럼 세로 A4 에서 글자 단위로 줄이 바뀌는 표 */
+const WIDE_TABLE_COLUMNS = 10;
+/** 본문 너비 — 세로·가로 (가로여도 용지 치수 width/height 는 그대로 두고 landscape 속성만 바꾼다) */
+const TEXT_WIDTH_PORTRAIT = PAGE.width - PAGE.marginSide * 2;
+const TEXT_WIDTH_LANDSCAPE = PAGE.height - PAGE.marginSide * 2;
 const FONT_LANGS = ["HANGUL", "LATIN", "HANJA", "JAPANESE", "OTHER", "SYMBOL", "USER"];
 const FONTS = ["함초롬바탕", "함초롬돋움"];
 const FONT_BODY = 0;
@@ -29,8 +33,14 @@ const BORDER_NONE = 1;
 const BORDER_SOLID = 2;
 const CELL_MARGIN = 141;
 const ROW_HEIGHT = 1500;
-const MIN_COLUMN_WEIGHT = 4;
-const MAX_COLUMN_WEIGHT = 40;
+/** 본문 글자(10pt) 반각 한 자의 폭 — 한글 한 자 = 2 반각 ≈ 1,000 HWPUNIT. 숫자·영문이 조금 넓은 것을 감안해 넉넉히 */
+const HALF_CHAR_WIDTH = 600;
+/** 표 칸 안쪽 좌우 여백(1mm) */
+const TABLE_SIDE_MARGIN = 283;
+/** 열의 최소 폭(반각 글자 수) — 빈 열도 이만큼은 둔다 */
+const MIN_COLUMN_CHARS = 4;
+/** 머리 칸 낱말이 최소 폭을 늘리는 한도(반각 4자 = 한글 4자) — "건설사업관리기술인" 같은 긴 머리말은 낱말 안에서 줄이 바뀌어도 읽힌다 */
+const HEADER_MIN_CHARS = 8;
 const PREVIEW_TEXT_LIMIT = 1000;
 
 /** 글자 모양 — id 는 배열 순서 */
@@ -261,13 +271,13 @@ function headerXml(): string {
 }
 
 /** 구역 설정 — 첫 문단의 첫 글자 묶음 안에 들어간다 */
-function sectionSetupXml(): string {
+function sectionSetupXml(landscape: boolean): string {
   const noteNumbering = '<hp:autoNumFormat type="DIGIT" userChar="" prefixChar="" suffixChar=")" supscript="0"/>';
   return (
     `<hp:secPr textDirection="HORIZONTAL" spaceColumns="1134" tabStop="8000" outlineShapeIDRef="1" memoShapeIDRef="0" textVerticalWidthHead="0" masterPageCnt="0">` +
     `<hp:grid lineGrid="0" charGrid="0" wonggojiFormat="0"/><hp:startNum pageStartsOn="BOTH" page="0" pic="0" tbl="0" equation="0"/>` +
     `<hp:visibility hideFirstHeader="0" hideFirstFooter="0" hideFirstMasterPage="0" border="SHOW_ALL" fill="SHOW_ALL" hideFirstPageNum="0" hideFirstEmptyLine="0" showLineNumber="0"/>` +
-    `<hp:pagePr landscape="WIDELY" width="${PAGE.width}" height="${PAGE.height}" gutterType="LEFT_ONLY"><hp:margin header="${PAGE.marginHeader}" footer="${PAGE.marginHeader}" gutter="0" left="${PAGE.marginSide}" right="${PAGE.marginSide}" top="${PAGE.marginTop}" bottom="${PAGE.marginBottom}"/></hp:pagePr>` +
+    `<hp:pagePr landscape="${landscape ? "NARROWLY" : "WIDELY"}" width="${PAGE.width}" height="${PAGE.height}" gutterType="LEFT_ONLY"><hp:margin header="${PAGE.marginHeader}" footer="${PAGE.marginHeader}" gutter="0" left="${PAGE.marginSide}" right="${PAGE.marginSide}" top="${PAGE.marginTop}" bottom="${PAGE.marginBottom}"/></hp:pagePr>` +
     `<hp:footNotePr>${noteNumbering}<hp:noteLine length="-1" type="SOLID" width="0.12 mm" color="#000000"/><hp:noteSpacing betweenNotes="283" belowLine="567" aboveLine="850"/><hp:numbering type="CONTINUOUS" newNum="1"/><hp:placement place="EACH_COLUMN" beneathText="0"/></hp:footNotePr>` +
     `<hp:endNotePr>${noteNumbering}<hp:noteLine length="14692344" type="SOLID" width="0.12 mm" color="#000000"/><hp:noteSpacing betweenNotes="0" belowLine="567" aboveLine="850"/><hp:numbering type="CONTINUOUS" newNum="1"/><hp:placement place="END_OF_DOCUMENT" beneathText="0"/></hp:endNotePr>` +
     `</hp:secPr><hp:ctrl><hp:colPr id="" type="NEWSPAPER" layout="LEFT" colCount="1" sameSz="1" sameGap="0"/></hp:ctrl>`
@@ -285,26 +295,60 @@ function paragraphXml(para: number, char: number, boldChar: number, runs: Run[],
   return `<hp:p paraPrIDRef="${para}" styleIDRef="0">${runsXml(runs, char, boldChar, leading)}</hp:p>`;
 }
 
-function runsLength(runs: Run[]): number {
-  return runs.reduce((sum, run) => sum + [...run.text].length, 0);
+/** 열 너비 — 가장 긴 칸의 글자 수에 비례(너무 좁거나 넓지 않게 범위를 둔다) */
+/** 글자 폭(반각 단위) — 한글·한자 등 전각은 2, 숫자·영문·기호는 1.2 (m·w 처럼 넓은 글자가 단위에 흔하다 — "165mm" 의 끝 글자가 넘어가지 않게) */
+function visualWidth(text: string): number {
+  let width = 0;
+  for (const ch of text) width += /[\u1100-\u11FF\u3000-\u9FFF\uAC00-\uD7AF\uF900-\uFAFF\uFF00-\uFFEF]/u.test(ch) ? 2 : 1.2;
+  return width;
 }
 
-/** 열 너비 — 가장 긴 칸의 글자 수에 비례(너무 좁거나 넓지 않게 범위를 둔다) */
-function columnWidths(rows: Run[][][], columns: number): number[] {
-  const weights = Array.from({ length: columns }, (_, col) =>
-    Math.min(MAX_COLUMN_WEIGHT, Math.max(MIN_COLUMN_WEIGHT, ...rows.map((row) => runsLength(row[col] ?? [])))),
-  );
-  const total = weights.reduce((a, b) => a + b, 0);
-  const widths = weights.map((w) => Math.floor((TEXT_WIDTH * w) / total));
+/**
+ * 열 너비 — 표 배치의 최소 폭·최대 폭 방식.
+ *   최소 폭 = 값 칸에서 가장 긴 낱말(띄어쓰기에서는 줄이 바뀌어도 읽힌다) — "165mm"·"2026-11-14" 가 글자 단위로 깨지지 않게. 머리 칸 낱말은 한글 4자까지만 센다
+ *   최대 폭 = 줄을 바꾸지 않을 때의 길이(머리 칸은 가장 긴 낱말만 센다 — 머리말은 줄이 바뀌어도 된다)
+ * 모든 열에 최소 폭을 먼저 주고, 남는 폭은 (최대 폭 − 최소 폭)에 비례해 나눈다. 최소 폭의 합도 못 넣으면 최소 폭에 비례해 줄인다.
+ */
+function columnWidths(rows: Run[][][], columns: number, textWidth: number, hasHeader: boolean): number[] {
+  const cellText = (row: Run[][], col: number): string => (row[col] ?? []).map((r) => r.text).join("");
+  const longestWord = (text: string): number => Math.max(0, ...text.split(/\s+/).map(visualWidth));
+  const padding = TABLE_SIDE_MARGIN * 2;
+  const minW: number[] = [];
+  const maxW: number[] = [];
+  for (let col = 0; col < columns; col += 1) {
+    let lo = MIN_COLUMN_CHARS;
+    let hi = MIN_COLUMN_CHARS;
+    rows.forEach((row, i) => {
+      const text = cellText(row, col);
+      const word = longestWord(text);
+      lo = Math.max(lo, hasHeader && i === 0 ? Math.min(word, HEADER_MIN_CHARS) : word);
+      hi = Math.max(hi, hasHeader && i === 0 ? word : visualWidth(text));
+    });
+    minW.push(lo * HALF_CHAR_WIDTH + padding);
+    maxW.push(hi * HALF_CHAR_WIDTH + padding);
+  }
+  const sum = (xs: number[]): number => xs.reduce((x, y) => x + y, 0);
+  let widths: number[];
+  if (sum(minW) >= textWidth) {
+    const total = sum(minW);
+    widths = minW.map((w) => Math.floor((textWidth * w) / total));
+  } else {
+    const extra = textWidth - sum(minW);
+    const room = maxW.map((w, i) => w - (minW[i] ?? 0));
+    const roomTotal = sum(room);
+    widths = minW.map((w, i) => w + Math.floor(roomTotal > 0 ? (extra * (room[i] ?? 0)) / roomTotal : extra / columns));
+  }
   // 나눗셈에서 버린 나머지는 마지막 열에 더해 전체 너비를 맞춘다
   const lastIndex = columns - 1;
-  widths[lastIndex] = (widths[lastIndex] ?? 0) + TEXT_WIDTH - widths.reduce((a, b) => a + b, 0);
+  widths[lastIndex] = (widths[lastIndex] ?? 0) + textWidth - sum(widths);
   return widths;
 }
 
-function tableXml(block: Extract<Block, { kind: "table" }>, tableId: number): string {
-  const columns = Math.max(...block.rows.map((row) => row.length));
-  const widths = columnWidths(block.rows, columns);
+const columnsOf = (block: Extract<Block, { kind: "table" }>): number => Math.max(...block.rows.map((row) => row.length));
+
+function tableXml(block: Extract<Block, { kind: "table" }>, tableId: number, textWidth: number): string {
+  const columns = columnsOf(block);
+  const widths = columnWidths(block.rows, columns, textWidth, block.hasHeader);
   const rowsXml = block.rows
     .map((row, rowIndex) => {
       const header = block.hasHeader && rowIndex === 0;
@@ -325,14 +369,17 @@ function tableXml(block: Extract<Block, { kind: "table" }>, tableId: number): st
     .join("");
   return (
     `<hp:tbl id="${tableId}" zOrder="0" numberingType="TABLE" textWrap="TOP_AND_BOTTOM" textFlow="BOTH_SIDES" lock="0" dropcapstyle="None" pageBreak="CELL" repeatHeader="1" rowCnt="${block.rows.length}" colCnt="${columns}" cellSpacing="0" borderFillIDRef="${BORDER_SOLID}" noShading="0">` +
-    `<hp:sz width="${TEXT_WIDTH}" widthRelTo="ABSOLUTE" height="${ROW_HEIGHT * block.rows.length}" heightRelTo="ABSOLUTE" protect="0"/>` +
+    `<hp:sz width="${textWidth}" widthRelTo="ABSOLUTE" height="${ROW_HEIGHT * block.rows.length}" heightRelTo="ABSOLUTE" protect="0"/>` +
     `<hp:pos treatAsChar="0" affectLSpacing="0" flowWithText="1" allowOverlap="0" holdAnchorAndSO="0" vertRelTo="PARA" horzRelTo="COLUMN" vertAlign="TOP" horzAlign="LEFT" vertOffset="0" horzOffset="0"/>` +
-    `<hp:outMargin left="0" right="0" top="0" bottom="600"/><hp:inMargin left="510" right="510" top="${CELL_MARGIN}" bottom="${CELL_MARGIN}"/>${rowsXml}</hp:tbl>`
+    `<hp:outMargin left="0" right="0" top="0" bottom="600"/><hp:inMargin left="${TABLE_SIDE_MARGIN}" right="${TABLE_SIDE_MARGIN}" top="${CELL_MARGIN}" bottom="${CELL_MARGIN}"/>${rowsXml}</hp:tbl>`
   );
 }
 
 function sectionXml(blocks: Block[]): string {
-  const setup = sectionSetupXml();
+  // 열이 많은 표가 있으면 문서 전체를 가로 용지로 — 한 구역이라 쪽마다 방향을 바꾸지 않는다
+  const landscape = blocks.some((b) => b.kind === "table" && columnsOf(b) >= WIDE_TABLE_COLUMNS);
+  const textWidth = landscape ? TEXT_WIDTH_LANDSCAPE : TEXT_WIDTH_PORTRAIT;
+  const setup = sectionSetupXml(landscape);
   let tableId = 1000;
   // 구역 설정은 첫 문단에 실려야 한다 — 문서가 표로 시작하면 빈 문단을 앞에 둔다
   const list: Block[] = blocks[0]?.kind === "paragraph" ? blocks : [paragraph(PARA.body, CHAR.body, CHAR.bold, ""), ...blocks];
@@ -341,7 +388,7 @@ function sectionXml(blocks: Block[]): string {
       const leading = index === 0 ? setup : "";
       if (block.kind === "paragraph") return paragraphXml(block.para, block.char, block.boldChar, block.runs, leading);
       tableId += 1;
-      return `<hp:p paraPrIDRef="${PARA.body}" styleIDRef="0"><hp:run charPrIDRef="${CHAR.body}">${tableXml(block, tableId)}</hp:run></hp:p>`;
+      return `<hp:p paraPrIDRef="${PARA.body}" styleIDRef="0"><hp:run charPrIDRef="${CHAR.body}">${tableXml(block, tableId, textWidth)}</hp:run></hp:p>`;
     })
     .join("");
   return `${XML_DECL}\n<hs:sec xmlns:hs="http://www.hancom.co.kr/hwpml/2011/section" xmlns:hp="http://www.hancom.co.kr/hwpml/2011/paragraph">${body}</hs:sec>`;

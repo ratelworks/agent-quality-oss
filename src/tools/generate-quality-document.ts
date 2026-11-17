@@ -77,6 +77,8 @@ export function run(args: GenerateDocumentArgs, graph: OntologyGraph) {
     format,
     classification: schema.classification ?? null,
     officialForm: body.officialForm,
+    /** 이 문서의 작성 기준(서식 작성요령·대상 요건) — 파일만 받는 경우에도 보이게 */
+    guidance: body.guidance,
     requiredTotal: body.requiredTotal,
     requiredFilled: body.requiredFilled,
     missingRequired,

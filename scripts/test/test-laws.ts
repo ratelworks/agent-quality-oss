@@ -323,6 +323,28 @@ async function testLookup(): Promise<void> {
   check("실시대장: 같은 키의 열 이름은 그대로 '시험 기준'(문서마다 따로 정한 이름이 다른 문서로 새지 않는다)", registerHead2.includes("| 시험 기준 |"));
   const deliveryRow = (await genMd("concrete_delivery_record", { strengthGrade: "25-24-150" })).markdown.split("\n").find((l) => l.includes("25-24-150")) ?? "";
   check("레미콘 기록지: '25-24-150' 은 규격 칸(업무지침 제38조제3항제3호 '규격 및 용적')", deliveryRow.startsWith("| 규격 |"));
+  // 열이 많은 표(실시대장 15열 등)는 한글 파일을 가로 용지로 — 세로 A4 에서는 글자 단위로 줄이 바뀐다
+  {
+    const { markdownToHwpx } = await import("../../src/lib/hwpx-writer.js");
+    const { unzip } = await import("../../src/lib/zip.js");
+    const sectionOf = (docId: string, md: string): string => {
+      return unzip(markdownToHwpx(md, { title: docId })).get("Contents/section0.xml")?.toString("utf8") ?? "";
+    };
+    const wide = sectionOf("register", (await genMd("quality_inspection_register", { projectName: "x" })).markdown);
+    const narrow = sectionOf("ncr", (await genMd("ncr", {})).markdown);
+    check(
+      "한글 파일: 10열 이상 표가 있으면 가로 용지(landscape NARROWLY, 표 너비 = 용지 높이 − 여백), 없으면 세로",
+      wide.includes(`landscape="NARROWLY"`) && wide.includes(`<hp:sz width="72848"`) && narrow.includes(`landscape="WIDELY"`) && !narrow.includes(`landscape="NARROWLY"`),
+    );
+  }
+  // 서식별 작성 기준(작성요령·대상 요건)이 문서 생성 결과에도 나온다 — 근거 패키지 도구에만 있던 것
+  {
+    const approvalDoc = (await callTool("generate_quality_document", { docId: "material_source_approval", format: "md", formValues: { projectName: "가" } }, { graph })).result as GenOut & { guidance: string | null };
+    check(
+      "문서 생성: 작성 기준(레미콘 1천㎥ 이상이면 공급원 승인 전 공장 사전점검 — 업무지침 제33조제1항)을 미리보기와 응답에 준다",
+      approvalDoc.markdown.includes("작성 기준:") && approvalDoc.markdown.includes("사전점검") && (approvalDoc.guidance ?? "").includes("제33조제1항"),
+    );
+  }
   // 더한 법정 서식 4종 — 레미콘·아스콘 시공품질관리 점검표(별지 제11·12호), 실적보고서(별지 제18호), 불량자재폐기 확약서(별지 제13호)
   {
     const monthly = await genMd("monthly_test_report", {
