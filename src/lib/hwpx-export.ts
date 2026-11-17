@@ -10,9 +10,9 @@ import { mkdirSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { getDocumentsDir } from "../config/paths.js";
 import { toApprovalCopy } from "./document-body.js";
-import { HWPX_MIME_TYPE, markdownToHwpx } from "./hwpx-writer.js";
+import { HWPX_MIME_TYPE, docBlocksToHwpx, markdownToHwpx } from "./hwpx-writer.js";
 import { packDclx } from "./dclx.js";
-import { doclangToMarkdown } from "./doclang-reader.js";
+import { doclangToBlocks } from "./doclang-reader.js";
 
 // ───── 상수 ─────
 const SAFE_NAME = /^[a-z][a-z0-9_]*$/;
@@ -51,9 +51,10 @@ function stamp(now: Date): string {
 
 /** 정본(DocLang 문서)에서 한글 파일 내용을 만든다 — 정본에는 작성 안내 줄이 없다 */
 export function buildHwpxFromDoclang(documentXml: string, title?: string): { data: Buffer; title: string; docId: string | null } {
-  const read = doclangToMarkdown(documentXml);
+  // 정본의 글을 Markdown 으로 바꿨다가 다시 읽지 않는다 — 값의 기호("10*20*30")가 서식으로 읽혀 바뀌지 않게 블록을 바로 옮긴다
+  const read = doclangToBlocks(documentXml);
   const finalTitle = title?.trim() || read.title || "품질 문서";
-  return { data: markdownToHwpx(read.markdown, { title: finalTitle }), title: finalTitle, docId: read.docId };
+  return { data: docBlocksToHwpx(read.blocks, { title: finalTitle }), title: finalTitle, docId: read.docId };
 }
 
 /** 파일을 저장 폴더에 새로 쓴다. 같은 초에 다시 저장해도 앞 파일을 덮어쓰지 않는다. */

@@ -342,14 +342,18 @@ async function testLookup(): Promise<void> {
       return unzip(markdownToHwpx(md, { title: docId })).get("Contents/section0.xml")?.toString("utf8") ?? "";
     };
     const wide = sectionOf("register", (await genMd("quality_inspection_register", { projectName: "x" })).markdown);
-    // 정본(DocLang)의 글은 Markdown 서식으로 다시 읽지 않는다 — "10*20*30" 이 기울임으로 읽혀 "102030" 이 되던 것
+    // 정본(DocLang)의 글은 Markdown 서식으로 다시 읽지 않는다 — "10*20*30" 이 기울임으로 읽혀 "102030" 이 되던 것.
+    // 실제 경로(buildHwpxFromDoclang)로 본다 — 본문 칸·여러 줄 글·표 제목·제목·목록 모두
     {
-      const { doclangToMarkdown } = await import("../../src/lib/doclang-reader.js");
+      const { buildHwpxFromDoclang } = await import("../../src/lib/hwpx-export.js");
+      const hwpxTexts = (xml: string): string[] =>
+        [...(unzip(buildHwpxFromDoclang(xml).data).get("Contents/section0.xml")?.toString("utf8") ?? "").matchAll(/<hp:t>([^<]*)<\/hp:t>/g)].map((m) => (m[1] ?? "").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&"));
       const tricky = ["10*20*30", "**굵게**", "x `code` y", "[링크](u)", "a\\|b", "~~취소~~", "<br>"];
       const lines = ["- 목록같은 줄", "# 제목같은 줄", "1. 번호같은 줄", "> 인용같은 줄", "| 표같은 줄 |", "---"];
       const dl = (await callTool("generate_quality_document", { docId: "defective_material_disposal_pledge", format: "doclang", formValues: { materialAndSpec: tricky.join(" ~ "), returnCause: lines.join("\n"), confirmers: tricky.map((role) => ({ role })) } }, { graph })).result as { doclang: string };
-      const texts = [...sectionOf("pledge", doclangToMarkdown(dl.doclang).markdown).matchAll(/<hp:t>([^<]*)<\/hp:t>/g)].map((m) => (m[1] ?? "").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&"));
-      const changed = [...tricky, ...lines].filter((v) => !texts.includes(v));
+      const texts = hwpxTexts(dl.doclang);
+      const foreign = hwpxTexts('<doclang xmlns="https://www.doclang.ai/ns/v0" version="0.9"><heading level="1">제목 a*b*c</heading><table><caption>규격 10*20*30</caption><ched/>가<ched/>나<nl/><fcel/>1*2*3<fcel/>[x](y)<nl/></table><list class="unordered"><ldiv/>**목록** 값</list></doclang>');
+      const changed = [...tricky, ...lines].filter((v) => !texts.includes(v)).concat(["제목 a*b*c", "규격 10*20*30", "1*2*3", "[x](y)", "- **목록** 값"].filter((v) => !foreign.includes(v)));
       check("한글 파일: 정본의 값에 있는 서식 기호(* ` [ ] ~ < | 와 줄 첫머리 # - 1. > | ---)를 글자 그대로 옮긴다", changed.length === 0 && texts.includes(tricky.join(" ~ ")), changed.join(" , "));
     }
     const narrow = sectionOf("ncr", (await genMd("ncr", {})).markdown);

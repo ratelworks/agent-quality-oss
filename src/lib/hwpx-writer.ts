@@ -1,5 +1,9 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// hwpx-writer.ts — Markdown 문서를 HWPX(한글) 파일로 만든다. 외부 의존성 없음(Node 표준 zlib 만 사용).
+// hwpx-writer.ts — 본문을 HWPX(한글) 파일로 만든다. 외부 의존성 없음(Node 표준 zlib 만 사용).
+//
+// 입력은 두 가지다.
+//   정본(DocLang)에서 읽은 본문 블록 — docBlocksToHwpx. 글을 서식으로 해석하지 않고 적힌 글자 그대로 옮긴다(기본 경로).
+//   사람이 쓴 Markdown — markdownToHwpx. 아래 Markdown 서식을 풀어 옮긴다.
 //
 // HWPX 는 OWPML(KS X 6101) XML 을 ZIP 으로 묶은 형식이다.
 //   mimetype · version.xml · META-INF/container.xml · Contents/content.hpf ·
@@ -12,6 +16,7 @@
 // MIT 라이선스의 kordoc(github.com/chrisryugj/kordoc)이 만든 HWPX 를 참고했다.
 // ─────────────────────────────────────────────────────────────────────────────
 
+import type { DocBlock } from "./doclang-reader.js";
 import { zip } from "./zip.js";
 
 // ── 상수 ────────────────────────────────────────────────────────────
@@ -414,10 +419,42 @@ function previewText(blocks: Block[]): string {
   return lines.join("\n").slice(0, PREVIEW_TEXT_LIMIT);
 }
 
+// ── 본문 블록(정본)에서 ─────────────────────────────────────────────
+/** 적힌 글자 그대로의 글 — 서식 해석 없이 굵기 없는 한 구간 */
+const plainRuns = (text: string): Run[] => [{ text: stripPictographs(text), bold: false }];
+const plainParagraph = (para: number, char: number, text: string): Block => ({ kind: "paragraph", para, char, boldChar: char, runs: plainRuns(text) });
+
+/** 정본의 본문 블록을 한글 문단·표로 — Markdown 경로와 같은 모양(제목 크기·목록 기호·표 제목)으로 */
+function blocksFromDoc(docBlocks: DocBlock[]): Block[] {
+  const blocks: Block[] = [];
+  const heading = (level: number, text: string): Block => {
+    const char = HEADING_CHARS[Math.min(level, HEADING_CHARS.length) - 1] ?? CHAR.h4;
+    return plainParagraph(level === 1 ? PARA.title : PARA.heading, char, text);
+  };
+  for (const block of docBlocks) {
+    if (block.kind === "heading") blocks.push(heading(block.level, block.text));
+    else if (block.kind === "text") blocks.push(plainParagraph(PARA.body, CHAR.body, block.text));
+    else if (block.kind === "list") block.items.forEach((item, i) => blocks.push(plainParagraph(PARA.list, CHAR.body, `${block.ordered ? `${i + 1}.` : "-"} ${item}`)));
+    else {
+      if (block.caption && !block.pair) blocks.push(heading(3, block.caption));
+      blocks.push({ kind: "table", rows: block.rows.map((row) => row.map((cell) => plainRuns(cell.replace(/\n/g, " ")))), hasHeader: true });
+    }
+  }
+  return blocks;
+}
+
 // ── 공개 함수 ───────────────────────────────────────────────────────
+/** 정본(DocLang)에서 읽은 본문 블록을 HWPX 파일 내용으로 — 글은 적힌 그대로. 같은 입력이면 같은 바이트가 나온다 */
+export function docBlocksToHwpx(docBlocks: DocBlock[], options: HwpxOptions = {}): Buffer {
+  return packageHwpx(blocksFromDoc(docBlocks), options);
+}
+
 /** Markdown 문서를 HWPX 파일 내용으로 바꾼다. 같은 입력이면 같은 바이트가 나온다 */
 export function markdownToHwpx(markdown: string, options: HwpxOptions = {}): Buffer {
-  const blocks = parseMarkdownBlocks(markdown);
+  return packageHwpx(parseMarkdownBlocks(markdown), options);
+}
+
+function packageHwpx(blocks: Block[], options: HwpxOptions): Buffer {
   const title = xmlText(options.title ?? "");
   const text = (value: string): Buffer => Buffer.from(value, "utf8");
   return zip([
