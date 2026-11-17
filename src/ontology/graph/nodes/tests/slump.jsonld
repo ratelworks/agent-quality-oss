@@ -12,7 +12,14 @@
     "method": "KS F 2402 (슬럼프 플로는 KS F 2594)",
     "timing": "타설하기 전 — 최초 1회, 이후 압축강도 시험용 공시체를 채취할 때와 타설 중 품질 변화가 인정될 때 (KCS 14 20 10 표 3.5-2)",
     "frequency": "업무지침 별표 2: 배합이 다를 때마다, 1일 타설량 120 ㎥ 미만이면 1일 타설량마다, 120 ㎥ 이상이면 120 ㎥마다.",
-    "typicalAcceptance": "KS F 4009 의 슬럼프 허용오차 이내 — 호칭 슬럼프 25 mm ±10, 50·65 mm ±15, 80 mm 이상 ±25 (KCS 14 20 10 표 1.7-2). 실판정은 criteria.slump_tolerance"
+    "typicalAcceptance": "KS F 4009 의 슬럼프 허용오차 이내 — 호칭 슬럼프 25 mm ±10, 50·65 mm ±15, 80 mm 이상 ±25 (KCS 14 20 10 표 1.7-2). 실판정은 criteria.slump_tolerance",
+    "testStandardRows": [
+      {
+        "category": "굳지 아니한 콘크리트",
+        "item": "슬럼프",
+        "default": true
+      }
+    ]
   },
   "targetMaterial": [
     "material:ready_mixed_concrete"

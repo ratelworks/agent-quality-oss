@@ -12,7 +12,17 @@
     "method": "KS F 4009 부속서 A 의 방법 (KCS 14 20 10 표 3.5-2, 업무지침 별표 2). KS F 2515 는 골재의 염화물 시험방법이다",
     "timing": "타설하기 전",
     "frequency": "업무지침 별표 2: 배합이 다를 때마다, 1일 타설량 120 ㎥ 미만이면 1일 타설량마다, 120 ㎥ 이상이면 120 ㎥마다. KCS 14 20 10 표 3.5-2: 바닷모래를 사용한 경우 2회/일, 그 밖에 필요한 경우 별도로 정함.",
-    "typicalAcceptance": "염소이온량(Cl⁻) 0.30 kg/㎥ 이하 (KCS 14 20 10)"
+    "typicalAcceptance": "염소이온량(Cl⁻) 0.30 kg/㎥ 이하 (KCS 14 20 10)",
+    "testStandardRows": [
+      {
+        "category": "굳지 아니한 콘크리트",
+        "item": "염화물 함유량"
+      },
+      {
+        "category": "콘크리트용 골재",
+        "item": "염화물 함유량"
+      }
+    ]
   },
   "targetMaterial": [
     "material:ready_mixed_concrete"

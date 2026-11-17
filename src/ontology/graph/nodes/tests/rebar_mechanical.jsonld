@@ -14,7 +14,61 @@
     "method": "KS D 3504 — 항복점/항복강도·인장강도·연신율·굽힘성·겉모양·치수·무게",
     "timing": "반입 시",
     "frequency": "제조회사별·제품규격별 50톤마다 (별표2)",
-    "typicalAcceptance": "KS D 3504 등급(SD300/400/500/600)별 기준항복강도·인장강도·연신율 적합 — 합격 수치는 KS D 3504 원문(유료) 참조, 자동 판정 보류"
+    "typicalAcceptance": "KS D 3504 등급(SD300/400/500/600)별 기준항복강도·인장강도·연신율 적합 — 합격 수치는 KS D 3504 원문(유료) 참조, 자동 판정 보류",
+    "testStandardRows": [
+      {
+        "category": "철근콘크리트용봉강",
+        "item": "항복점 또는 항복강도",
+        "default": true
+      },
+      {
+        "category": "철근콘크리트용봉강",
+        "item": "인장강도",
+        "default": true
+      },
+      {
+        "category": "철근콘크리트용봉강",
+        "item": "연신율",
+        "default": true
+      },
+      {
+        "category": "철근콘크리트용봉강",
+        "item": "굽힘성",
+        "default": true
+      },
+      {
+        "category": "철근콘크리트용 재생봉강",
+        "item": "항복점 또는 항복강도"
+      },
+      {
+        "category": "철근콘크리트용 재생봉강",
+        "item": "인장강도"
+      },
+      {
+        "category": "철근콘크리트용 재생봉강",
+        "item": "연신율"
+      },
+      {
+        "category": "철근콘크리트용 재생봉강",
+        "item": "굽힘성"
+      },
+      {
+        "category": "철근콘크리트용 아연 도금봉강",
+        "item": "항복점 또는 항복강도"
+      },
+      {
+        "category": "철근콘크리트용 아연 도금봉강",
+        "item": "인장강도"
+      },
+      {
+        "category": "철근콘크리트용 아연 도금봉강",
+        "item": "연신율"
+      },
+      {
+        "category": "철근콘크리트용 아연 도금봉강",
+        "item": "굽힘성"
+      }
+    ]
   },
   "targetMaterial": [
     "material:rebar"

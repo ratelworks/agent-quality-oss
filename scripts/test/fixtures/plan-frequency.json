@@ -1,0 +1,623 @@
+{
+ "_note": "품질시험계획서 시험 빈도 채우기 평가 묶음. 실무자가 시험계획 표에 적는 말투로 쓴 (공종, 시험종목) 줄과 업무지침 별표 2 의 정답 행. fill = 그 행의 빈도를 채워야 한다(행은 종별·시험종목·구분의 글자 포함으로 찾는다), ask = 원문이 정말로 갈려 칸을 비우고 include 행을 후보로 보여야 한다. 정답은 별표 2 원문과 품질 실무의 쓰임으로 정했다 — 도구 결과를 보고 정하지 않았다.",
+ "cases": [
+  {
+   "workType": "철근콘크리트공",
+   "testItem": "슬럼프",
+   "expect": "fill",
+   "row": {
+    "category": "굳지 아니한 콘크리트",
+    "item": "슬럼프"
+   }
+  },
+  {
+   "workType": "철근콘크리트공",
+   "testItem": "공기량",
+   "expect": "fill",
+   "row": {
+    "category": "굳지 아니한 콘크리트",
+    "item": "공기량"
+   }
+  },
+  {
+   "workType": "철근콘크리트공",
+   "testItem": "염화물함유량",
+   "expect": "ask",
+   "include": [
+    {
+     "category": "굳지 아니한 콘크리트",
+     "item": "염화물 함유량"
+    },
+    {
+     "category": "콘크리트용 골재",
+     "item": "염화물 함유량"
+    }
+   ]
+  },
+  {
+   "workType": "철근콘크리트공",
+   "testItem": "압축강도",
+   "expect": "fill",
+   "row": {
+    "category": "굳은 콘크리트",
+    "item": "압축 강도"
+   }
+  },
+  {
+   "workType": "철근콘크리트공",
+   "testItem": "공시체 압축강도",
+   "expect": "fill",
+   "row": {
+    "category": "굳은 콘크리트",
+    "item": "압축 강도"
+   }
+  },
+  {
+   "workType": "철근콘크리트공",
+   "testItem": "레미콘 압축강도",
+   "expect": "fill",
+   "row": {
+    "category": "굳은 콘크리트",
+    "item": "압축 강도"
+   }
+  },
+  {
+   "workType": "콘크리트공",
+   "testItem": "콘크리트 온도",
+   "expect": "fill",
+   "row": {
+    "category": "굳지 아니한 콘크리트",
+    "item": "온도"
+   }
+  },
+  {
+   "workType": "철근콘크리트공",
+   "testItem": "단위수량",
+   "expect": "fill",
+   "row": {
+    "category": "굳지 아니한 콘크리트",
+    "item": "단위수량"
+   }
+  },
+  {
+   "workType": "철근콘크리트공",
+   "testItem": "배합설계",
+   "expect": "fill",
+   "row": {
+    "category": "굳지 아니한 콘크리트",
+    "item": "배합설계"
+   }
+  },
+  {
+   "workType": "철근콘크리트공",
+   "testItem": "휨강도",
+   "expect": "fill",
+   "row": {
+    "category": "굳은 콘크리트",
+    "item": "휨 강도"
+   }
+  },
+  {
+   "workType": "철근콘크리트공",
+   "testItem": "철근 인장강도",
+   "expect": "fill",
+   "row": {
+    "category": "철근콘크리트용봉강",
+    "item": "인장강도"
+   }
+  },
+  {
+   "workType": "철근콘크리트공",
+   "testItem": "철근 항복강도",
+   "expect": "fill",
+   "row": {
+    "category": "철근콘크리트용봉강",
+    "item": "항복점 또는 항복강도"
+   }
+  },
+  {
+   "workType": "철근콘크리트공",
+   "testItem": "이형철근(KS D 3504) 인장시험",
+   "expect": "fill",
+   "row": {
+    "category": "철근콘크리트용봉강",
+    "item": "인장강도"
+   }
+  },
+  {
+   "workType": "철근콘크리트공",
+   "testItem": "철근 굽힘시험",
+   "expect": "fill",
+   "row": {
+    "category": "철근콘크리트용봉강",
+    "item": "굽힘성"
+   }
+  },
+  {
+   "workType": "철근콘크리트공",
+   "testItem": "잔골재 염화물",
+   "expect": "fill",
+   "row": {
+    "category": "콘크리트용 골재",
+    "item": "염화물 함유량"
+   }
+  },
+  {
+   "workType": "철근콘크리트공",
+   "testItem": "골재 체가름",
+   "expect": "fill",
+   "row": {
+    "category": "콘크리트용 골재",
+    "item": "입도, 조립률"
+   }
+  },
+  {
+   "workType": "철근콘크리트공",
+   "testItem": "굵은골재 마모",
+   "expect": "fill",
+   "row": {
+    "category": "콘크리트용 골재",
+    "item": "굵은 골재의 마모율"
+   }
+  },
+  {
+   "workType": "철근콘크리트공",
+   "testItem": "골재 흡수율",
+   "expect": "fill",
+   "row": {
+    "category": "콘크리트용 골재",
+    "item": "절대 건조 밀도 및 흡수율"
+   }
+  },
+  {
+   "workType": "철근콘크리트공",
+   "testItem": "시멘트 압축강도",
+   "expect": "fill",
+   "row": {
+    "category": "포틀랜드 시멘트",
+    "item": "압축강도"
+   }
+  },
+  {
+   "workType": "철근콘크리트공",
+   "testItem": "가스압접 초음파탐사",
+   "expect": "fill",
+   "row": {
+    "category": "철근 이음",
+    "item": "가스압접 이음 > 초음파탐사검사"
+   }
+  },
+  {
+   "workType": "철근콘크리트공",
+   "testItem": "기계적이음 인장시험",
+   "expect": "fill",
+   "row": {
+    "category": "철근 이음",
+    "item": "기계적 이음 > 인장응력"
+   }
+  },
+  {
+   "workType": "철근콘크리트공",
+   "testItem": "철근 겹침이음 길이",
+   "expect": "fill",
+   "row": {
+    "category": "철근 이음",
+    "item": "겹침이음 > 이음길이"
+   }
+  },
+  {
+   "workType": "철근콘크리트공",
+   "testItem": "무수축 그라우트 압축강도",
+   "expect": "fill",
+   "row": {
+    "category": "수경성시멘트무수축 그라우트",
+    "item": "압축 강도"
+   }
+  },
+  {
+   "workType": "철근콘크리트공",
+   "testItem": "가스압접",
+   "expect": "ask",
+   "include": [
+    {
+     "category": "철근 이음",
+     "item": "가스압접 이음 > 외관검사"
+    },
+    {
+     "category": "철근 이음",
+     "item": "가스압접 이음 > 초음파탐사검사"
+    }
+   ]
+  },
+  {
+   "workType": "토공",
+   "testItem": "다짐도",
+   "expect": "ask",
+   "include": [
+    {
+     "category": "되메우기 및 구조물뒷채움",
+     "item": "현장밀도"
+    },
+    {
+     "category": "노체",
+     "item": "현장밀도"
+    },
+    {
+     "category": "노상",
+     "item": "현장밀도"
+    }
+   ]
+  },
+  {
+   "workType": "토공",
+   "testItem": "들밀도",
+   "expect": "ask",
+   "include": [
+    {
+     "category": "되메우기 및 구조물뒷채움",
+     "item": "현장밀도"
+    },
+    {
+     "category": "노체",
+     "item": "현장밀도"
+    },
+    {
+     "category": "노상",
+     "item": "현장밀도"
+    }
+   ]
+  },
+  {
+   "workType": "도로토공",
+   "testItem": "노체 다짐도",
+   "expect": "fill",
+   "row": {
+    "category": "노체",
+    "item": "현장밀도"
+   }
+  },
+  {
+   "workType": "도로토공",
+   "testItem": "노상 들밀도",
+   "expect": "fill",
+   "row": {
+    "category": "노상",
+    "item": "현장밀도"
+   }
+  },
+  {
+   "workType": "토공",
+   "testItem": "되메우기 현장밀도",
+   "expect": "fill",
+   "row": {
+    "category": "되메우기 및 구조물뒷채움",
+    "item": "현장밀도"
+   }
+  },
+  {
+   "workType": "토공",
+   "testItem": "뒷채움 다짐도",
+   "expect": "fill",
+   "row": {
+    "category": "되메우기 및 구조물뒷채움",
+    "item": "현장밀도"
+   }
+  },
+  {
+   "workType": "토공",
+   "testItem": "평판재하시험",
+   "expect": "ask",
+   "include": [
+    {
+     "category": "노상",
+     "item": "평판재하"
+    },
+    {
+     "category": "되메우기 및 구조물뒷채움",
+     "item": "평판재하"
+    }
+   ]
+  },
+  {
+   "workType": "도로토공",
+   "testItem": "노상 평판재하",
+   "expect": "fill",
+   "row": {
+    "category": "노상",
+    "item": "평판재하"
+   }
+  },
+  {
+   "workType": "토공",
+   "testItem": "성토재 CBR",
+   "expect": "fill",
+   "row": {
+    "category": "성토용 흙",
+    "item": "노상토지지력비(CBR)"
+   }
+  },
+  {
+   "workType": "토공",
+   "testItem": "성토용 흙 함수비",
+   "expect": "fill",
+   "row": {
+    "category": "성토용 흙",
+    "item": "함수비"
+   }
+  },
+  {
+   "workType": "토공",
+   "testItem": "함수비",
+   "expect": "ask",
+   "include": [
+    {
+     "category": "성토용 흙",
+     "item": "함수비"
+    },
+    {
+     "category": "노체",
+     "item": "함수비"
+    }
+   ]
+  },
+  {
+   "workType": "기초공",
+   "testItem": "말뚝 정재하시험",
+   "expect": "fill",
+   "row": {
+    "category": "터파기",
+    "item": "지지력 > 말뚝 기초 > 정재하"
+   }
+  },
+  {
+   "workType": "기초공",
+   "testItem": "동재하시험",
+   "expect": "fill",
+   "row": {
+    "category": "터파기",
+    "item": "지지력 > 말뚝 기초 > 동재하"
+   }
+  },
+  {
+   "workType": "기초공",
+   "testItem": "말뚝 재하시험",
+   "expect": "ask",
+   "include": [
+    {
+     "category": "터파기",
+     "item": "지지력 > 말뚝 기초 > 정재하"
+    },
+    {
+     "category": "터파기",
+     "item": "지지력 > 말뚝 기초 > 동재하"
+    }
+   ]
+  },
+  {
+   "workType": "기초공",
+   "testItem": "PHC파일 휨강도",
+   "expect": "fill",
+   "row": {
+    "category": "말뚝 > 프리텐션방식원심력고강도콘크리트말뚝",
+    "item": "몸체 및 이음부의 휨강도"
+   }
+  },
+  {
+   "workType": "도로토공",
+   "testItem": "보조기층 현장밀도",
+   "expect": "fill",
+   "row": {
+    "category": "동상방지층 및 보조기층",
+    "item": "현장밀도"
+   }
+  },
+  {
+   "workType": "도로토공",
+   "testItem": "보조기층 CBR",
+   "expect": "fill",
+   "row": {
+    "category": "동상방지층 및 보조기층",
+    "item": "노상토지지력비(CBR)"
+   }
+  },
+  {
+   "workType": "아스팔트포장공",
+   "testItem": "마샬안정도",
+   "expect": "fill",
+   "row": {
+    "category": "플랜트혼합물",
+    "item": "마샬안정도"
+   }
+  },
+  {
+   "workType": "아스팔트포장공",
+   "testItem": "아스콘 온도",
+   "expect": "fill",
+   "row": {
+    "category": "플랜트혼합물",
+    "item": "혼합물 온도"
+   }
+  },
+  {
+   "workType": "아스팔트포장공",
+   "testItem": "역청함유량",
+   "expect": "fill",
+   "row": {
+    "category": "플랜트혼합물",
+    "item": "역청함유량"
+   }
+  },
+  {
+   "workType": "아스팔트포장공",
+   "testItem": "아스팔트 함량",
+   "expect": "fill",
+   "row": {
+    "category": "플랜트혼합물",
+    "item": "역청함유량"
+   }
+  },
+  {
+   "workType": "아스팔트포장공",
+   "testItem": "포설 밀도",
+   "expect": "fill",
+   "row": {
+    "category": "혼합물의 포설",
+    "item": "밀도"
+   }
+  },
+  {
+   "workType": "아스팔트포장공",
+   "testItem": "다짐도",
+   "expect": "fill",
+   "row": {
+    "category": "혼합물의 포설",
+    "item": "밀도"
+   }
+  },
+  {
+   "workType": "아스팔트포장공",
+   "testItem": "포장 두께",
+   "expect": "fill",
+   "row": {
+    "category": "혼합물의 포설",
+    "item": "두께"
+   }
+  },
+  {
+   "workType": "아스팔트포장공",
+   "testItem": "골재 마모",
+   "expect": "fill",
+   "row": {
+    "category": "아스팔트혼합물용 골재",
+    "item": "부순굵은 골재 > 마모율"
+   }
+  },
+  {
+   "workType": "아스팔트포장공",
+   "testItem": "아스팔트 침입도",
+   "expect": "fill",
+   "row": {
+    "category": "도로포장용 아스팔트",
+    "item": "침입도"
+   }
+  },
+  {
+   "workType": "아스팔트포장공",
+   "testItem": "혼합물 체가름",
+   "expect": "fill",
+   "row": {
+    "category": "플랜트혼합물",
+    "item": "체가름"
+   }
+  },
+  {
+   "workType": "철골공",
+   "testItem": "일반구조용 압연강재 인장강도",
+   "expect": "fill",
+   "row": {
+    "category": "일반 구조용 압연 강재 (KS D 3503)",
+    "item": "인장강도",
+    "section": "다. 철강구조물공사"
+   }
+  },
+  {
+   "workType": "철골공",
+   "testItem": "스터드 용접 검사",
+   "expect": "fill",
+   "row": {
+    "category": "강재(용접부반입검사)",
+    "item": "스터드용접부의 검사"
+   }
+  },
+  {
+   "workType": "가설공",
+   "testItem": "파이프서포트 압축",
+   "expect": "fill",
+   "row": {
+    "category": "강재파이프서포트",
+    "item": "평누름에 의한 압축 하중"
+   }
+  },
+  {
+   "workType": "가설공",
+   "testItem": "비계용 강관 인장",
+   "expect": "fill",
+   "row": {
+    "category": "강관비계용 부재 > 비계용 강관",
+    "item": "인장 하중"
+   }
+  },
+  {
+   "workType": "가설공",
+   "testItem": "거푸집 합판 함수율",
+   "expect": "fill",
+   "row": {
+    "category": "콘크리트 거푸집용 합판",
+    "item": "함수율"
+   }
+  },
+  {
+   "workType": "조적공",
+   "testItem": "시멘트벽돌 압축강도",
+   "expect": "fill",
+   "row": {
+    "category": "콘크리트벽돌",
+    "item": "압축 강도"
+   }
+  },
+  {
+   "workType": "조적공",
+   "testItem": "점토벽돌 흡수율",
+   "expect": "fill",
+   "row": {
+    "category": "점토벽돌",
+    "item": "흡수율"
+   }
+  },
+  {
+   "workType": "방수공",
+   "testItem": "개량아스팔트시트 인장강도",
+   "expect": "fill",
+   "row": {
+    "category": "개량 아스팔트방수시트",
+    "item": "인장강도"
+   }
+  },
+  {
+   "workType": "단열공",
+   "testItem": "경질우레탄폼 열전도율",
+   "expect": "fill",
+   "row": {
+    "category": "경질폴리우레탄폼 단열재",
+    "item": "열전도율"
+   }
+  },
+  {
+   "workType": "유리공",
+   "testItem": "복층유리 이슬점",
+   "expect": "fill",
+   "row": {
+    "category": "복층유리",
+    "item": "이슬점"
+   }
+  },
+  {
+   "workType": "창호공",
+   "testItem": "창세트 기밀성",
+   "expect": "fill",
+   "row": {
+    "category": "창세트",
+    "item": "기밀성"
+   }
+  },
+  {
+   "workType": "창호공",
+   "testItem": "기밀성",
+   "expect": "fill",
+   "row": {
+    "category": "창세트",
+    "item": "기밀성"
+   }
+  }
+ ]
+}

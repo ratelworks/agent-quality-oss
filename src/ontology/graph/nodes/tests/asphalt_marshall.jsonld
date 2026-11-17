@@ -13,7 +13,14 @@
     "method": "KS F 2337 마샬 시험기를 사용한 역청 혼합물의 소성흐름 시험 (안정도·흐름값)",
     "timing": "혼합물 생산·포설 시",
     "frequency": "1일 1회 이상 (별표2)",
-    "typicalAcceptance": "마샬안정도·흐름값·공극률 기준은 KCS 44(도로포장) 확보 시 — 시험종목·방법·빈도 커버리지"
+    "typicalAcceptance": "마샬안정도·흐름값·공극률 기준은 KCS 44(도로포장) 확보 시 — 시험종목·방법·빈도 커버리지",
+    "testStandardRows": [
+      {
+        "category": "플랜트혼합물",
+        "item": "마샬안정도",
+        "default": true
+      }
+    ]
   },
   "targetMaterial": [
     "material:asphalt_mixture"

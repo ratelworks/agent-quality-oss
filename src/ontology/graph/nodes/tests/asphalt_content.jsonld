@@ -12,7 +12,14 @@
     "method": "KS F 2354 아스팔트 혼합물의 아스팔트 함량 추출 시험",
     "timing": "혼합물 생산 시",
     "frequency": "1일 1회 이상 (별표2)",
-    "typicalAcceptance": "배합설계 아스팔트 함량 ±허용차는 도로포장 시방 — 시험종목·방법 커버리지"
+    "typicalAcceptance": "배합설계 아스팔트 함량 ±허용차는 도로포장 시방 — 시험종목·방법 커버리지",
+    "testStandardRows": [
+      {
+        "category": "플랜트혼합물",
+        "item": "역청함유량",
+        "default": true
+      }
+    ]
   },
   "targetMaterial": [
     "material:asphalt_mixture"

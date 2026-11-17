@@ -1,0 +1,200 @@
+{
+ "_note": "품질시험계획서 시험 빈도 채우기 평가 묶음. 실무자가 시험계획 표에 적는 말투로 쓴 (공종, 시험종목) 줄과 업무지침 별표 2 의 정답 행. fill = 그 행의 빈도를 채워야 한다(행은 종별·시험종목·구분의 글자 포함으로 찾는다), ask = 원문이 정말로 갈려 칸을 비우고 include 행을 후보로 보여야 한다. 정답은 별표 2 원문과 품질 실무의 쓰임으로 정했다 — 도구 결과를 보고 정하지 않았다. 보지 않는 묶음 — 고칠 때 문항별 결과를 보지 않는다(전체 수치만).",
+ "cases": [
+  {
+   "workType": "철근콘크리트공사",
+   "testItem": "레미콘 슬럼프 시험",
+   "expect": "fill",
+   "row": {
+    "category": "굳지 아니한 콘크리트",
+    "item": "슬럼프"
+   }
+  },
+  {
+   "workType": "구조물공",
+   "testItem": "콘크리트 공기량",
+   "expect": "fill",
+   "row": {
+    "category": "굳지 아니한 콘크리트",
+    "item": "공기량"
+   }
+  },
+  {
+   "workType": "철근콘크리트공",
+   "testItem": "콘크리트 압축강도 시험",
+   "expect": "fill",
+   "row": {
+    "category": "굳은 콘크리트",
+    "item": "압축 강도"
+   }
+  },
+  {
+   "workType": "철근콘크리트공",
+   "testItem": "바다모래 염화물",
+   "expect": "fill",
+   "row": {
+    "category": "콘크리트용 골재",
+    "item": "염화물 함유량"
+   }
+  },
+  {
+   "workType": "철근콘크리트공",
+   "testItem": "철근 연신율",
+   "expect": "fill",
+   "row": {
+    "category": "철근콘크리트용봉강",
+    "item": "연신율"
+   }
+  },
+  {
+   "workType": "철근콘크리트공",
+   "testItem": "SD400 인장시험",
+   "expect": "fill",
+   "row": {
+    "category": "철근콘크리트용봉강",
+    "item": "인장강도"
+   }
+  },
+  {
+   "workType": "철근콘크리트공",
+   "testItem": "굵은골재 입도",
+   "expect": "fill",
+   "row": {
+    "category": "콘크리트용 골재",
+    "item": "입도, 조립률"
+   }
+  },
+  {
+   "workType": "콘크리트공",
+   "testItem": "단위수량 시험",
+   "expect": "fill",
+   "row": {
+    "category": "굳지 아니한 콘크리트",
+    "item": "단위수량"
+   }
+  },
+  {
+   "workType": "토공",
+   "testItem": "노체 현장밀도",
+   "expect": "fill",
+   "row": {
+    "category": "노체",
+    "item": "현장밀도"
+   }
+  },
+  {
+   "workType": "토공",
+   "testItem": "구조물 뒷채움 들밀도",
+   "expect": "fill",
+   "row": {
+    "category": "되메우기 및 구조물뒷채움",
+    "item": "현장밀도"
+   }
+  },
+  {
+   "workType": "토공",
+   "testItem": "현장밀도",
+   "expect": "ask",
+   "include": [
+    {
+     "category": "노체",
+     "item": "현장밀도"
+    },
+    {
+     "category": "되메우기 및 구조물뒷채움",
+     "item": "현장밀도"
+    }
+   ]
+  },
+  {
+   "workType": "기초공",
+   "testItem": "강관말뚝 비파괴검사",
+   "expect": "fill",
+   "row": {
+    "category": "말뚝 > 강관말뚝",
+    "item": "용접부의 비파괴검사"
+   }
+  },
+  {
+   "workType": "기초공",
+   "testItem": "정재하",
+   "expect": "fill",
+   "row": {
+    "category": "터파기",
+    "item": "지지력 > 말뚝 기초 > 정재하"
+   }
+  },
+  {
+   "workType": "아스팔트포장공",
+   "testItem": "아스콘 마샬",
+   "expect": "fill",
+   "row": {
+    "category": "플랜트혼합물",
+    "item": "마샬안정도"
+   }
+  },
+  {
+   "workType": "아스팔트포장공",
+   "testItem": "아스팔트 혼합물 온도",
+   "expect": "fill",
+   "row": {
+    "category": "플랜트혼합물",
+    "item": "혼합물 온도"
+   }
+  },
+  {
+   "workType": "아스팔트포장공",
+   "testItem": "아스팔트 포설 두께",
+   "expect": "fill",
+   "row": {
+    "category": "혼합물의 포설",
+    "item": "두께"
+   }
+  },
+  {
+   "workType": "아스팔트포장공",
+   "testItem": "아스콘 밀도",
+   "expect": "fill",
+   "row": {
+    "category": "혼합물의 포설",
+    "item": "밀도"
+   }
+  },
+  {
+   "workType": "조적공",
+   "testItem": "콘크리트벽돌 압축강도",
+   "expect": "fill",
+   "row": {
+    "category": "콘크리트벽돌",
+    "item": "압축 강도"
+   }
+  },
+  {
+   "workType": "창호공",
+   "testItem": "창세트 수밀성",
+   "expect": "fill",
+   "row": {
+    "category": "창세트",
+    "item": "수밀성"
+   }
+  },
+  {
+   "workType": "유리공",
+   "testItem": "강화유리 파쇄시험",
+   "expect": "fill",
+   "row": {
+    "category": "강화유리",
+    "item": "파쇄시험"
+   }
+  },
+  {
+   "workType": "단열공",
+   "testItem": "미네랄울 열전도율",
+   "expect": "fill",
+   "row": {
+    "category": "인조광섬유단열재",
+    "item": "열 전도율"
+   }
+  }
+ ]
+}

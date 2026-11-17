@@ -12,7 +12,21 @@
     "method": "KS F 2320 노상토 지지력비(CBR) 시험",
     "timing": "노상 완성 후",
     "frequency": "토취장마다·재질변화시마다 (별표2)",
-    "typicalAcceptance": "설계 CBR 기준은 설계도서/KCS 확보 시 — 시험종목·방법 커버리지"
+    "typicalAcceptance": "설계 CBR 기준은 설계도서/KCS 확보 시 — 시험종목·방법 커버리지",
+    "testStandardRows": [
+      {
+        "category": "성토용 흙",
+        "item": "노상토지지력비"
+      },
+      {
+        "category": "동상방지층 및 보조기층",
+        "item": "노상토지지력비"
+      },
+      {
+        "category": "입도조정기층",
+        "item": "노상토지지력비"
+      }
+    ]
   },
   "targetMaterial": [
     "material:soil"

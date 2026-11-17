@@ -11,7 +11,14 @@
     "method": "한국콘크리트학회 제규격 KCI-RM101 의 굳지 않은 콘크리트 단위수량 시험 — 정전용량법, 단위용적질량법, 고주파가열법, 마이크로파법 가운데 현장에서 한 가지를 정해 시행 (KCS 14 20 10 표 3.5-2, 업무지침 별표 2)",
     "timing": "타설하기 전",
     "frequency": "KCS 14 20 10 표 3.5-2: 1회/일, 120 ㎥마다 또는 배합이 변경될 때마다. 업무지침 별표 2: 배합이 다를 때마다, 1일 타설량 120 ㎥ 미만이면 1일 타설량마다, 120 ㎥ 이상이면 120 ㎥마다.",
-    "typicalAcceptance": "시방배합 단위수량 ±20 kg/㎥ 이내 (KCS 14 20 10 표 3.5-2)"
+    "typicalAcceptance": "시방배합 단위수량 ±20 kg/㎥ 이내 (KCS 14 20 10 표 3.5-2)",
+    "testStandardRows": [
+      {
+        "category": "굳지 아니한 콘크리트",
+        "item": "단위수량",
+        "default": true
+      }
+    ]
   },
   "targetMaterial": [
     "material:ready_mixed_concrete"

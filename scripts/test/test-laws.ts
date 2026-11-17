@@ -22,7 +22,7 @@ import { QualityMcpError } from "../../src/lib/errors.js";
 import { loadPenaltyItems, loadPenaltyLinks, penaltyWho } from "../../src/knowledge/penalty-points.js";
 import { loadSanctionItems, sanctionByRef } from "../../src/knowledge/sanctions.js";
 import { loadDutyLinks } from "../../src/knowledge/cm-duties.js";
-import { matchPlanRow } from "../../src/lib/test-plan-fill.js";
+import { linkedRows, matchPlanRow, testStandardLinks } from "../../src/lib/test-plan-fill.js";
 import { loadTestStandards } from "../../src/knowledge/test-standards.js";
 import { judgePlanTarget } from "../../src/knowledge/plan-rules.js";
 
@@ -294,25 +294,47 @@ async function testLookup(): Promise<void> {
       planRows.join(" / "),
     );
   }
+  // 염화물은 골재(바다모래)와 콘크리트 모두 계획서에 흔한 시험이라 자재를 적지 않으면 채우지 않는다.
+  // 아스콘 온도는 아스팔트 혼합물의 온도다 — 포장 공종이면 플랜트혼합물의 혼합물 온도(운반차량마다)로 채우고,
+  // 플랜트의 아스팔트·골재 온도(재료 온도)나 방수시트의 온도 의존성으로 채우지 않는다. 공종을 모르면 채우지 않는다.
+  const asconTemp = matchPlanRow("아스팔트포장공", "아스콘 온도").rows;
   check(
-    "시험계획서 빈도: 여러 자재·단계에 걸치는 말(염화물·아스콘 온도)과 공종 없는 '아스콘 온도'는 채우지 않는다",
-    oneFrequency("철근콘크리트공사", "염화물") === null && oneFrequency("아스팔트포장공", "아스콘 온도") === null && oneFrequency("", "아스콘 온도") === null,
+    "시험계획서 빈도: 염화물(자재 없음)·공종 없는 '아스콘 온도'는 채우지 않고, 포장 공종의 '아스콘 온도'는 혼합물 온도로 채운다",
+    oneFrequency("철근콘크리트공사", "염화물") === null &&
+      oneFrequency("", "아스콘 온도") === null &&
+      asconTemp.length > 0 &&
+      asconTemp.every((r) => r.category.includes("플랜트혼합물") && r.item.includes("혼합물 온도")),
   );
   {
+    // 시험종목 이름만 적은 줄(자재 없음)은 같은 이름이 여러 자재에 있으면 그 행의 것이라 단정할 수 없다 — 그런 줄은
+    // 온톨로지의 시험 노드가 기본으로 정한 행(예: "압축강도" → 굳은 콘크리트)으로만 채울 수 있다. 그 밖의 채움은 원문 그 행의 빈도여야 한다.
     const stdRows = loadTestStandards().rows;
+    const defaultRows = new Set(testStandardLinks().filter((x) => x.link.default).flatMap((x) => linkedRows(x.link)));
     let wrongFills = 0;
     let fills = 0;
+    let defaultFills = 0;
+    const wrongs: string[] = [];
     for (const r of stdRows) {
       const work = (r.section.split(">").pop() ?? "").replace(/^[^.)]*[.)]\s*/, "").trim();
       const cat = r.category.replace(/\([^)]*\)/g, " ").trim();
-      for (const [w, t] of [[work, `${cat} ${r.item}`], [work, r.item], ["", `${cat} ${r.item}`]] as const) {
+      for (const [w, t, itemOnly] of [[work, `${cat} ${r.item}`, false], [work, r.item, true], ["", `${cat} ${r.item}`, false]] as const) {
         const f = oneFrequency(w, t);
         if (f === null) continue;
         fills += 1;
-        if (f !== tidyFreq(r.frequency)) wrongFills += 1;
+        if (f === tidyFreq(r.frequency)) continue;
+        if (itemOnly && matchPlanRow(w, t).rows.every((x) => defaultRows.has(x))) {
+          defaultFills += 1;
+          continue;
+        }
+        wrongFills += 1;
+        wrongs.push(`${w}/${t}`);
       }
     }
-    check("시험계획서 빈도: 별표 2 전 행을 종별·시험종목으로 넣어 원문과 다른 빈도를 채우는 일이 없다", fills > stdRows.length * 2 && wrongFills === 0, `채움 ${fills} · 틀린 채움 ${wrongFills}`);
+    check(
+      "시험계획서 빈도: 별표 2 전 행을 종별·시험종목으로 넣어 원문과 다른 빈도를 채우는 일이 없다(시험종목만 적은 줄은 온톨로지 기본 행으로만)",
+      fills > stdRows.length * 2 && wrongFills === 0,
+      `채움 ${fills} · 기본 행 채움 ${defaultFills} · 틀린 채움 ${wrongFills} ${wrongs.slice(0, 3).join(", ")}`,
+    );
   }
   // 문서 점검(작성 에이전트 재점검)에서 드러난 표기·숫자 결함
   const summaryItems = [{ workType: "철근콘크리트공", testKind: "슬럼프", planned: 20, executed: 9, passed: 9, failed: 1, retest: 0 }, { workType: "관로공", testKind: "현장밀도", planned: 36, executed: 12, passed: 11, failed: 0, retest: 0 }];
