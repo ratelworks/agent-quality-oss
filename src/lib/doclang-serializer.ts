@@ -9,7 +9,7 @@
 // ─────────────────────────────────────────────────────────────────────────────
 
 import type { DocumentBody } from "./document-body.js";
-import { groupPairs, isBlockField, listItems, rowTable, scalarText, textLines } from "./document-body.js";
+import { groupPairs, isBlockField, listItems, rowTable, scalarText, textLines, sealRow } from "./document-body.js";
 import type { DraftField } from "./draft.js";
 
 // ───── 상수 ─────
@@ -108,6 +108,7 @@ export function serializeToDoclang(body: DocumentBody, classification: string | 
         if (field.kind === "group") for (const p of groupPairs(field)) pairs.push([p.label, p.value]);
         else if (field.kind === "list") pairs.push([field.label, listItems(field).join(", ")]);
         else pairs.push([field.label, scalarText(field)]);
+        if (field.seal) pairs.push(sealRow(field));
         continue;
       }
       flushPairs();

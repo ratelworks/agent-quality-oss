@@ -22,6 +22,8 @@ export interface SchemaField {
   source?: string;
   criterion?: string;
   fields?: string[];
+  /** 서식에서 이 사람 옆에 있는 날인 칸 — "(인)", "(인 또는 서명)" 등. 입력받지 않고 본문에 빈 칸으로 둔다 */
+  seal?: string;
 }
 
 export interface SchemaSection {

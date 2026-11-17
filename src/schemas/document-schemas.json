@@ -1136,7 +1136,8 @@
               "name": "siteRepresentativeName",
               "type": "string",
               "required": true,
-              "note": "현장 대리인 (별표 9 제1호다목)"
+              "note": "현장 대리인 (별표 9 제1호다목)",
+              "seal": "(인 또는 서명)"
             },
             {
               "name": "preparedDate",
@@ -1322,6 +1323,16 @@
           "law": "건설공사 사업관리방식 검토기준 및 업무수행지침",
           "annex": "별지 제36호",
           "quote": "2부 작성하여 시공자, 건설사업관리기술인 각 1부를 보관"
+        },
+        {
+          "law": "건설공사 사업관리방식 검토기준 및 업무수행지침",
+          "article": "86",
+          "quote": "공사참여자 실명부가 첨부 되었는지를 확인"
+        },
+        {
+          "law": "건설공사 사업관리방식 검토기준 및 업무수행지침",
+          "annex": "별지 제36호",
+          "quote": "공사 참여자(기능공 포함) 실명부"
         }
       ],
       "guidance": "검측 요청 기한(몇 시간·며칠 전)은 지침과 서식에 없다 — 현장별 검측업무지침과 계약으로 정한다(제86조제11항제1호).",
@@ -1396,6 +1407,29 @@
               "type": "string",
               "required": true,
               "note": "현장대리인"
+            }
+          ]
+        },
+        {
+          "key": "participants",
+          "title": "공사 참여자(기능공 포함) 실명부",
+          "origin": "legal",
+          "fields": [
+            {
+              "name": "participants",
+              "type": "array<object>",
+              "required": false,
+              "note": "별지 제36호 제2쪽 — 검측요청서에 첨부한다(건설사업관리기술인이 첨부를 확인 — 사업관리방식 지침 제86조). 따로 만든 실명부를 붙이면 붙임에 적고 이 표는 비워도 된다. 직위는 공사관리·작업반장·목수·철근공·콘크리트공·특별인부·보통인부 등, 공사한 내용은 무슨 일을 했는지 구분해 적는다(작성요령). 서명 칸은 비워 둔다",
+              "fields": [
+                "workDate",
+                "workLocationAndType",
+                "affiliation",
+                "position",
+                "name",
+                "birthDateAndSex",
+                "workDone",
+                "signature"
+              ]
             }
           ]
         },
@@ -2115,7 +2149,8 @@
                 "affiliation",
                 "position",
                 "name"
-              ]
+              ],
+              "seal": "(서명 또는 인)"
             }
           ]
         },
@@ -2846,13 +2881,15 @@
               "name": "personInCharge",
               "type": "string",
               "required": true,
-              "note": "담당자"
+              "note": "담당자",
+              "seal": "(인)"
             },
             {
               "name": "siteRepresentative",
               "type": "string",
               "required": true,
-              "note": "현장대리인"
+              "note": "현장대리인",
+              "seal": "(인)"
             }
           ]
         },
@@ -2889,13 +2926,15 @@
               "name": "assignedEngineer",
               "type": "string",
               "required": false,
-              "note": "담당 건설사업관리기술인"
+              "note": "담당 건설사업관리기술인",
+              "seal": "(인)"
             },
             {
               "name": "chiefEngineer",
               "type": "string",
               "required": false,
-              "note": "책임건설사업관리기술인"
+              "note": "책임건설사업관리기술인",
+              "seal": "(인)"
             }
           ]
         }

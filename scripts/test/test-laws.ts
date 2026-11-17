@@ -345,6 +345,19 @@ async function testLookup(): Promise<void> {
       approvalDoc.markdown.includes("작성 기준:") && approvalDoc.markdown.includes("사전점검") && (approvalDoc.guidance ?? "").includes("제33조제1항"),
     );
   }
+  // 서식의 날인 칸은 비운 채 본문에 둔다 · 검측요청서의 공사 참여자 실명부(별지 제36호 제2쪽)
+  {
+    const summarySeal = (await genMd("quality_inspection_summary", { preparedBy: { name: "서지안" } })).markdown;
+    check("날인 칸: 총괄표 '작성자 (서명 또는 인)' 칸을 비운 채 둔다", summarySeal.includes("| 작성자 (서명 또는 인) |  |"));
+    const noRegister = (await genMd("inspection_request", { attachments: ["시공자의 검측 체크리스트"] })).markdown;
+    const attached = (await genMd("inspection_request", { attachments: ["공사 참여자(기능공 포함) 실명부"] })).markdown;
+    const inTable = (await genMd("inspection_request", { participants: [{ workDate: "2026-11-14", name: "김철근", position: "철근공" }] })).markdown;
+    const warn = "실명부가 표에도 붙임에도 없습니다";
+    check(
+      "검측요청서: 실명부 표(작업일·작업위치 및 공종·…·서명)가 있고, 표에도 붙임에도 없을 때만 알린다(제86조)",
+      noRegister.includes("| 번호 | 작업일 | 작업위치 및 공종 | 소속 | 직위 | 성명 | 생년월일(성별) | 공사한 내용 | 서명 |") && noRegister.includes(warn) && !attached.includes(warn) && !inTable.includes(warn),
+    );
+  }
   // 더한 법정 서식 4종 — 레미콘·아스콘 시공품질관리 점검표(별지 제11·12호), 실적보고서(별지 제18호), 불량자재폐기 확약서(별지 제13호)
   {
     const monthly = await genMd("monthly_test_report", {

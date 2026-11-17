@@ -276,6 +276,16 @@ function testSchemas(): void {
     const request = labelsOf("test_request");
     check("대행 의뢰서: 시험 칸이 시행규칙 제56조제1항의 용어(품질검사 종목·기준)", request.includes("품질검사종목") && request.includes("품질검사기준") && t56.includes("품질검사의종목ㆍ기준"), request.join(","));
   }
+  formCase("inspection_request", "건설공사 사업관리방식 검토기준 및 업무수행지침", "별지 제36호", ["작업일", "작업위치및공종", "소속", "직위", "성명", "생년월일(성별)", "공사한내용", "서명"], []);
+  {
+    // 서식의 날인 칸 — 별지 제43호 "(서명 또는 인)", 제37호 "(인)" 4곳, 제16호 "(인 또는 서명)"
+    const sealOf = (docId: string): string[] => (getSchema(docId)?.sections ?? []).flatMap((sec) => sec.fields).filter((f) => f.seal).map((f) => `${f.name}${f.seal}`);
+    check(
+      "서식의 날인 칸을 양식에 표시한다(총괄표·공급원 승인·시험계획)",
+      sealOf("quality_inspection_summary").join() === "preparedBy(서명 또는 인)" && sealOf("material_source_approval").length === 4 && sealOf("quality_test_plan").join() === "siteRepresentativeName(인 또는 서명)",
+      [...sealOf("quality_inspection_summary"), ...sealOf("material_source_approval"), ...sealOf("quality_test_plan")].join(","),
+    );
+  }
   check("확약서: 서식에 인쇄된 확약 문장을 본문에 그대로 넣는다", (getSchema("defective_material_disposal_pledge")?.sections ?? []).some((sec) => sec.statement === "상기와 같이 반품 지시된 불량자재는 폐기처리 할 것을 확약합니다."));
   {
     // 별지 제18호 — 공종·종목·계획 + (전월까지·금월·누계) × (실시·합격·불합격·재시험) = 15열

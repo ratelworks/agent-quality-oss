@@ -56,6 +56,8 @@ export interface DraftField {
   hints?: string[];
   /** 값끼리 맞지 않는 점 (합격 + 불합격이 실시보다 많다 등) — 파일 만들기는 막지 않고 검토에서 경고로 알린다 */
   checks?: string[];
+  /** 서식의 날인 칸 표시 — 본문에 이 사람의 빈 날인 칸을 둔다 */
+  seal?: string;
 }
 
 export interface NormalizedDraft {
@@ -266,6 +268,7 @@ export function normalizeDraft(schema: DocumentSchema, input: unknown): Normaliz
         value: normalized,
         filled: isFilled(normalized),
         problems,
+        ...(field.seal ? { seal: field.seal } : {}),
       });
     }
   }

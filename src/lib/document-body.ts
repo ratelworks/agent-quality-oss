@@ -136,7 +136,22 @@ function fillMonthlyTotals(docId: string, draft: NormalizedDraft): string[] {
  * 값끼리 맞지 않는 점을 찾는다 — 합격 + 불합격 > 실시(총검사), 실적보고서의 누계 ≠ 전월까지 + 금월.
  * 합격 + 불합격이 실시보다 작은 것은 결과가 아직 나오지 않은 시험일 수 있어 알리지 않는다.
  */
+/** 검측요청서 — 공사 참여자 실명부가 표에도 붙임에도 없으면 알린다(사업관리방식 지침 제86조 — 건설사업관리기술인이 첨부를 확인) */
+function checkParticipantRegister(docId: string, draft: NormalizedDraft): void {
+  if (docId !== "inspection_request") return;
+  const participants = draft.fields.find((f) => f.name === "participants");
+  const attachments = draft.fields.find((f) => f.name === "attachments");
+  if (!participants || participants.filled) return;
+  const listed = Array.isArray(attachments?.value) && attachments.value.some((v) => typeof v === "string" && v.replace(/\s/g, "").includes("실명부"));
+  if (listed) return;
+  participants.checks = [
+    ...(participants.checks ?? []),
+    "공사 참여자 실명부가 표에도 붙임에도 없습니다 — 검측요청서에 첨부해야 합니다(사업관리방식 지침 제86조). 이 표를 채우거나, 따로 만든 실명부를 붙임에 적으세요.",
+  ];
+}
+
 function addConsistencyChecks(docId: string, draft: NormalizedDraft): void {
+  checkParticipantRegister(docId, draft);
   const spec = COUNT_TABLES[docId];
   if (!spec) return;
   const table = rowsOf(draft, spec.field);
@@ -304,6 +319,11 @@ function tableLines(header: string[], rows: string[][]): string[] {
   return [`| ${header.join(" | ")} |`, `|${header.map(() => "---").join("|")}|`, ...rows.map((r) => `| ${r.map(cell).join(" | ")} |`)];
 }
 
+/** 서식의 날인 칸 — "현장대리인 (인 또는 서명)" 칸을 비워 둔다(출력해서 날인·서명) */
+export function sealRow(field: DraftField): [string, string] {
+  return [`${field.label} ${field.seal}`, ""];
+}
+
 /** 본문 Markdown — 작성 안내 줄 포함 */
 export function renderMarkdown(body: DocumentBody): string {
   const out: string[] = [`# ${body.title}`, ""];
@@ -325,6 +345,7 @@ export function renderMarkdown(body: DocumentBody): string {
         if (field.kind === "group") for (const p of groupPairs(field)) pairs.push([p.label, p.value]);
         else if (field.kind === "list") pairs.push([field.label, listItems(field).join(", ")]);
         else pairs.push([field.label, scalarText(field)]);
+        if (field.seal) pairs.push(sealRow(field));
         continue;
       }
       flushPairs();

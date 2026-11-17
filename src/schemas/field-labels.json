@@ -317,7 +317,8 @@
     },
     "inspection_request": {
       "requestDate": "요청일",
-      "siteRepresentative": "현장대리인"
+      "siteRepresentative": "현장대리인",
+      "participants": "공사 참여자 실명부"
     },
     "quality_inspection_summary": {
       "items": "시험·검사 횟수"
@@ -663,6 +664,16 @@
     "test_request": {
       "testItem": "품질검사 종목",
       "standard": "품질검사 기준"
+    },
+    "inspection_request": {
+      "workDate": "작업일",
+      "workLocationAndType": "작업위치 및 공종",
+      "affiliation": "소속",
+      "position": "직위",
+      "name": "성명",
+      "birthDateAndSex": "생년월일(성별)",
+      "workDone": "공사한 내용",
+      "signature": "서명"
     }
   }
 }
