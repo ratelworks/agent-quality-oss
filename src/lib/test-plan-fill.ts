@@ -106,12 +106,29 @@ function wordAlts(word: string): { any: string[]; category: string[] } {
   return { any, category };
 }
 
-/** 종별에 그 말이 자재 이름으로 들어 있나 — "X…용" 의 X 는 꾸미는 말이라 치지 않는다 */
+/** 종별 글자 — 띄어쓰기를 뺀 글과, 그 글의 각 글자가 원래 글에서 낱말 끝인지 */
+function categoryWords(category: string): { text: string; wordEnd: boolean[] } {
+  let text = "";
+  const wordEnd: boolean[] = [];
+  const chars = [...category.toLowerCase()];
+  chars.forEach((ch, i) => {
+    if (/\s/u.test(ch)) return;
+    text += ch;
+    const next = chars[i + 1];
+    wordEnd.push(next === undefined || /[\s()>,·/]/u.test(next) || !/[가-힣a-z0-9]/u.test(ch));
+  });
+  return { text, wordEnd };
+}
+
+/** 종별에 그 말이 자재 이름으로 들어 있나 —
+ *  "X…용" 의 X 는 꾸미는 말이라 치지 않고, 낱말 가운데에 박힌 말도 치지 않는다
+ *  ("수경성시멘트무수축 그라우트" 는 시멘트가 아니라 그라우트다, "속빈콘크리트블록" 은 콘크리트가 아니라 블록이다) */
 function categoryHas(category: string, key: string): boolean {
-  const c = squash(category);
+  const { text: c, wordEnd } = categoryWords(category);
   for (let at = c.indexOf(key); at >= 0; at = c.indexOf(key, at + 1)) {
     const after = c.slice(at + key.length, at + key.length + MODIFIER_GAP + 1);
-    if (!new RegExp(`^[가-힣]{0,${MODIFIER_GAP}}용`, "u").test(after)) return true;
+    if (new RegExp(`^[가-힣]{0,${MODIFIER_GAP}}용`, "u").test(after)) continue;
+    if (wordEnd[at + key.length - 1]) return true;
   }
   return false;
 }
