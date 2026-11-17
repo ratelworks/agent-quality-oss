@@ -59,7 +59,7 @@ stdio 서버는 MCP 2026-07-28 규격과 그 이전 규격 클라이언트를 �
 | L3 배포 | `prepublishOnly` | oss-hygiene → typecheck → article-titles → release:notes → build → 전체 시험(`npm test`) → docs:check → doc-code-sync → form-conformance |
 
 - **doc-code-sync** — README·docs·examples 의 수치(도구 수·노드 수·smoke 수)가 코드 실측과 다르면 차단 (문서 드리프트 게이트).
-- **form-conformance** — 19종 문서 스키마의 legalBasis id 가 그래프에 실재하는지 검증 (환각 인용 차단).
+- **form-conformance** — 23종 문서 스키마의 legalBasis id 가 그래프에 실재하는지 검증 (환각 인용 차단).
 - **oss-hygiene** — 내부 용어·내부 경로·PII 노출 차단 (publish·CI 이중).
 
 ## 테스트 자산 (행동 계약의 누적)
@@ -78,7 +78,7 @@ src/
   ontology/                       schema(zod SSoT) · loader · graph · resolver · validator
   ontology/graph/nodes/           런타임 그래프 SSoT (JSON-LD)
   taxonomy/                       법제처 sync staging (원본 보관)
-  schemas/document-schemas.json   19종 문서 양식 SSoT
+  schemas/document-schemas.json   23종 문서 양식 SSoT
   judgment/                       수치 판정 엔진 (연산자·통계 모드)
 scripts/                          sync · promote · 검증 게이트 · 측정
 tests/                            스위트 정의(suite.md) + 게이트 회귀(mjs)

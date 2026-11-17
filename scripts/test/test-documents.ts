@@ -2,7 +2,7 @@
 // test-documents.ts — 문서 본문 생성 → 검토 → 한글(HWPX)·DocLang 내보내기의 회귀 시험.
 //
 //   1) 한글 파일의 패키지 구성 — ZIP 을 직접 읽어 항목 순서·mimetype 무압축·CRC·XML 짜임 확인
-//   2) 문서 19종 전부: 빈 입력과 채운 입력으로 생성 → 검토 → 한글 파일 → DocLang
+//   2) 문서 전부: 빈 입력과 채운 입력으로 생성 → 검토 → 한글 파일 → DocLang
 //   3) 빈 입력 — 본문에 값이 아니라 빈칸과 안내만 나온다(지어낸 내용 없음)
 //   4) 검토 — 빈 필수 항목·형식·달력에 없는 날짜·없는 조문·직접 쓴 본문
 //   5) 내보내기 — 작성 안내 제외, 소유자만 읽는 파일, 같은 시각에 덮어쓰지 않음
@@ -22,7 +22,7 @@ import { join } from "node:path";
 process.env["QUALITY_LOCAL_DIR"] = mkdtempSync(join(tmpdir(), "quality-documents-test-"));
 const EXPECTED_ENTRIES = ["mimetype", "version.xml", "META-INF/container.xml", "Contents/content.hpf", "Contents/header.xml", "Contents/section0.xml", "Preview/PrvText.txt"];
 const OWNER_ONLY_MODE = 0o600;
-const EXPECTED_DOCS = 19;
+const EXPECTED_DOCS = 23;
 /** DocLang 규격 부록 B 의 필수 세 부분 */
 const DCLX_ENTRIES = ["[Content_Types].xml", "_rels/.rels", "document.xml"];
 const GUIDE = "[작성 안내]";
@@ -184,7 +184,7 @@ function testPackage(): void {
   check("짜임 검사기 대조군: 닫히지 않은 요소를 잡음", wellFormed("<a><b></a>") !== null && wellFormed("<a>x & y</a>") !== null && wellFormed("<a>x &amp; y</a>") === null);
 }
 
-// ── 2·3. 문서 19종 ─────────────────────────────────────────────────
+// ── 2·3. 문서 전부 ─────────────────────────────────────────────────
 async function testAllDocuments(): Promise<void> {
   const ids = listSchemaIds();
   check(`문서 ${EXPECTED_DOCS}종`, ids.length === EXPECTED_DOCS, String(ids.length));
@@ -197,6 +197,8 @@ async function testAllDocuments(): Promise<void> {
     const schema = getSchema(docId);
     if (!schema) continue;
     const labelsOnly = new Set<string>();
+    // 서식에 인쇄된 문장(확약 문구 등)은 입력값이 아니라 본문에 그대로 들어간다
+    const statements = new Set(schema.sections.map((s) => s.statement ?? "").filter(Boolean));
 
     // 빈 입력 — 값이 아니라 빈칸과 안내
     const empty = await call<Generated>("generate_quality_document", { docId, formValues: {} });
@@ -205,7 +207,7 @@ async function testAllDocuments(): Promise<void> {
     if (empty.requiredFilled !== 0 || empty.missingRequired.length !== empty.requiredTotal) note(docId, "빈 입력: 필수 항목 집계");
     for (const line of emptyBody.split("\n")) {
       const trimmed = line.trim();
-      if (trimmed === "" || trimmed.startsWith("#") || trimmed.startsWith(`> ${GUIDE}`) || /^\|[\s:|-]+\|$/.test(trimmed)) continue;
+      if (trimmed === "" || trimmed.startsWith("#") || trimmed.startsWith(`> ${GUIDE}`) || /^\|[\s:|-]+\|$/.test(trimmed) || statements.has(trimmed)) continue;
       if (!trimmed.startsWith("|")) {
         note(docId, `빈 입력: 표·제목·안내가 아닌 줄 — ${trimmed.slice(0, 40)}`);
         continue;

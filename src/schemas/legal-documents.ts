@@ -1,11 +1,10 @@
 /**
- * 문서 19종 목록 — 이름·작성 시점·근거 한 줄.
+ * 문서 목록(23종) — 이름·작성 시점·근거 한 줄.
  * 법령과의 관계(법령 서식·고시 서식·내용을 법령이 정함·실무 문서)는 document-schemas.json 의 classification 이 정본이다.
  *
- * R0+ KPI: 19종 문서 마스터 리스트.
+ * R0+ KPI: 문서 마스터 리스트.
  * measure.ts가 이 리스트를 listSchemaIds()와 매칭해 문서 커버리지 산출.
  *
- * SSoT: feedback_agentquality_14_legal_documents.md (메모리, 2026-04-28 19종 정정).
  * 추가·삭제 시 본 리스트 + 메모리 + dev.md 동기화 필수.
  */
 
@@ -24,7 +23,7 @@ export interface LegalDocSpec {
   registered: boolean;
 }
 
-export const LEGAL_DOCUMENTS_19: LegalDocSpec[] = [
+export const LEGAL_DOCUMENTS: LegalDocSpec[] = [
   // A. 사전 계획
   {
     schemaId: 'quality_plan',
@@ -123,6 +122,22 @@ export const LEGAL_DOCUMENTS_19: LegalDocSpec[] = [
     legalBasis: '실무 서식 (법정 의무 아님)',
     registered: true,
   },
+  {
+    schemaId: 'ready_mixed_placement_check',
+    title: '레미콘 시공품질관리 점검표',
+    category: 'daily',
+    frequency: '레미콘 반입부터 시공완료까지 기록·비치',
+    legalBasis: '업무지침 제38조제4항·별지 제11호서식',
+    registered: true,
+  },
+  {
+    schemaId: 'asphalt_placement_check',
+    title: '아스콘 시공품질관리 점검표',
+    category: 'daily',
+    frequency: '아스콘 반입부터 시공완료까지 기록·비치',
+    legalBasis: '업무지침 제38조제4항·별지 제12호서식',
+    registered: true,
+  },
   // C. 누적 기록
   {
     schemaId: 'quality_inspection_register',
@@ -138,6 +153,14 @@ export const LEGAL_DOCUMENTS_19: LegalDocSpec[] = [
     category: 'cumulative',
     frequency: '기성부분검사·예비준공검사·준공검사 신청 때',
     legalBasis: '시행령 제93조 + 시행규칙 제51조·별지 제43호',
+    registered: true,
+  },
+  {
+    schemaId: 'monthly_test_report',
+    title: '품질시험·검사실적 보고서',
+    category: 'cumulative',
+    frequency: '매월',
+    legalBasis: '사업관리방식 지침 제60조제10항·제90조제15항·별지 제18호 서식',
     registered: true,
   },
   // D. 부적합 (ISO 9001 §8.7)
@@ -165,6 +188,14 @@ export const LEGAL_DOCUMENTS_19: LegalDocSpec[] = [
     legalBasis: '실무 서식 — 업무지침 별표 1 의 8.12·10.1',
     registered: true,
   },
+  {
+    schemaId: 'defective_material_disposal_pledge',
+    title: '불량자재폐기 확약서',
+    category: 'nonconformance',
+    frequency: '불량자재 반품 때 (생산자에게 받아 준공까지 보관)',
+    legalBasis: '업무지침 제41조제2항·별지 제13호서식',
+    registered: true,
+  },
   // E. 보고·감사
   {
     schemaId: 'quality_inspection_report',
@@ -185,7 +216,7 @@ export const LEGAL_DOCUMENTS_19: LegalDocSpec[] = [
 ];
 
 /**
- * 등록된 문서 수 / 전체 19종.
+ * 등록된 문서 수 / 전체 문서 수.
  */
 export function computeCoverage(registeredSchemaIds: Set<string>): {
   total: number;
@@ -194,7 +225,7 @@ export function computeCoverage(registeredSchemaIds: Set<string>): {
   missing: LegalDocSpec[];
   byCategory: Record<string, { total: number; covered: number }>;
 } {
-  const total = LEGAL_DOCUMENTS_19.length;
+  const total = LEGAL_DOCUMENTS.length;
   let covered = 0;
   const missing: LegalDocSpec[] = [];
   const byCategory: Record<string, { total: number; covered: number }> = {
@@ -204,7 +235,7 @@ export function computeCoverage(registeredSchemaIds: Set<string>): {
     nonconformance: { total: 0, covered: 0 },
     audit: { total: 0, covered: 0 },
   };
-  for (const doc of LEGAL_DOCUMENTS_19) {
+  for (const doc of LEGAL_DOCUMENTS) {
     byCategory[doc.category]!.total++;
     if (doc.schemaId && registeredSchemaIds.has(doc.schemaId)) {
       covered++;

@@ -21,7 +21,7 @@ import { readFileSync, writeFileSync, existsSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { listSchemaIds } from '../src/schemas/loader.js';
-import { LEGAL_DOCUMENTS_19, computeCoverage } from '../src/schemas/legal-documents-19.js';
+import { LEGAL_DOCUMENTS, computeCoverage } from '../src/schemas/legal-documents.js';
 
 const PROJECT_ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
 const label = process.argv[2] ?? 'baseline';
@@ -209,7 +209,7 @@ if (existsSync(summaryPath)) {
   nodeUtilization = graphSummary.counts.utilizationRate;
 }
 
-// R0+ KPI: 19종 법정문서 커버리지
+// R0+ KPI: 문서 목록 커버리지
 const registeredSchemas = new Set(listSchemaIds());
 const coverage = computeCoverage(registeredSchemas);
 

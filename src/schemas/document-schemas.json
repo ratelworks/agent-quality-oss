@@ -3341,6 +3341,619 @@
           "origin": "practice"
         }
       ]
+    },
+    "ready_mixed_placement_check": {
+      "id": "ready_mixed_placement_check",
+      "title": "레미콘 시공품질관리 점검표 (업무지침 별지 제11호)",
+      "classification": "notice_form",
+      "officialForm": {
+        "law": "건설공사 품질관리 업무지침",
+        "annex": "별지 제11호",
+        "title": "레미콘 시공품질관리 점검표"
+      },
+      "basis": [
+        "standard.guideline.art38",
+        "standard.form.guideline_a11",
+        "standard.guideline.art41"
+      ],
+      "reference": "업무지침 제38조제4항(공사감독자와 수요자는 자재가 현장에 반입되어 시공완료가 될 때까지 별지 제11호서식의 점검표를 기록·비치) + 별지 제11호서식. 불합격 자재는 즉시 반품(제41조제1항)하고 생산자에게서 불량자재폐기 확약서(별지 제13호)를 받는다(제41조제2항).",
+      "retention": "법정 보존기간 없음 — 자재가 공사현장에 반입되어 시공완료가 될 때까지 기록·비치한다(업무지침 제38조제4항).",
+      "guidance": "작성요령: 자재의 규격별·타설 위치별 등 공사감독자가 구분할 필요가 있는지 판단해 현장 여건에 맞게 나눠 쓸 수 있다. 품질시험 칸에는 검사 횟수를 적는다 — 총검사·합격·불합격 횟수. 조치내용은 불합격 자재에 대한 조치다(즉시 반품 — 업무지침 제41조제1항, 불량자재폐기 확약서 — 별지 제13호). 서식의 행: 시공 장비 — 펌프카·진동기·양생기·기타 / 원재료 — 콘크리트의 종류·시멘트의 종류·혼화제의 종류·혼화재의 종류·일일배합표 확인·기타 / 품질시험 — 슬럼프시험·공기량시험·염화물이온량(Cl-)·공시체 강도시험·기타.",
+      "citations": [
+        {
+          "law": "건설공사 품질관리 업무지침",
+          "article": "38",
+          "quote": "별지 제11호서식의 레미콘 시공품질관리 점검표"
+        },
+        {
+          "law": "건설공사 품질관리 업무지침",
+          "article": "38",
+          "quote": "자재가 공사현장에 반입되어 시공완료가 될 때까지"
+        },
+        {
+          "law": "건설공사 품질관리 업무지침",
+          "annex": "별지 제11호",
+          "quote": "검사결과는 검사횟수를 기재하며 총검사수 및 합격ㆍ불합격 횟수를 기재"
+        },
+        {
+          "law": "건설공사 품질관리 업무지침",
+          "annex": "별지 제11호",
+          "quote": "조치내용은 불합격 자재에 대한 조치내용임"
+        },
+        {
+          "law": "건설공사 품질관리 업무지침",
+          "article": "41",
+          "quote": "즉시 반품하여야 한다"
+        }
+      ],
+      "sections": [
+        {
+          "key": "header",
+          "title": "점검 개요",
+          "origin": "legal",
+          "fields": [
+            {
+              "name": "projectName",
+              "type": "string",
+              "required": true,
+              "note": "공사명"
+            },
+            {
+              "name": "inspectionDate",
+              "type": "date",
+              "required": true,
+              "note": "점검일자"
+            },
+            {
+              "name": "supplyPlant",
+              "type": "string",
+              "required": true,
+              "note": "자재공급 공장명"
+            },
+            {
+              "name": "deliveredQuantity",
+              "type": "string",
+              "required": true,
+              "note": "자재 반입량 — 예: 120㎥"
+            },
+            {
+              "name": "supervisor",
+              "type": "object",
+              "required": true,
+              "note": "공사감독자 — 소속·성명 (서명 칸은 비워 두고 출력 후 서명)",
+              "fields": [
+                "affiliation",
+                "name",
+                "signature"
+              ]
+            },
+            {
+              "name": "contractor",
+              "type": "object",
+              "required": true,
+              "note": "시공자 — 소속·성명 (서명 칸은 비워 두고 출력 후 서명)",
+              "fields": [
+                "affiliation",
+                "name",
+                "signature"
+              ]
+            },
+            {
+              "name": "structureName",
+              "type": "string",
+              "required": true,
+              "note": "시공위치 — 구조물명"
+            },
+            {
+              "name": "part",
+              "type": "string",
+              "required": true,
+              "note": "시공위치 — 부위"
+            }
+          ]
+        },
+        {
+          "key": "equipment",
+          "title": "시공 장비 점검결과",
+          "origin": "legal",
+          "fields": [
+            {
+              "name": "equipment",
+              "type": "array<object>",
+              "required": true,
+              "note": "서식의 행 — 펌프카·진동기·양생기·기타. 장비명, 규격, 사용대수, 점검결과, 조치내용",
+              "fields": [
+                "equipmentName",
+                "spec",
+                "unitsUsed",
+                "checkResult",
+                "action"
+              ]
+            }
+          ]
+        },
+        {
+          "key": "materials",
+          "title": "원재료 점검내용",
+          "origin": "legal",
+          "fields": [
+            {
+              "name": "materials",
+              "type": "array<object>",
+              "required": true,
+              "note": "서식의 행 — 콘크리트의 종류·시멘트의 종류·혼화제의 종류·혼화재의 종류·일일배합표 확인·기타. 점검내용, 점검결과, 조치내용",
+              "fields": [
+                "checkItem",
+                "checkResult",
+                "action"
+              ]
+            }
+          ]
+        },
+        {
+          "key": "tests",
+          "title": "품질시험",
+          "origin": "legal",
+          "fields": [
+            {
+              "name": "tests",
+              "type": "array<object>",
+              "required": true,
+              "note": "서식의 행 — 슬럼프시험·공기량시험·염화물이온량(Cl-)·공시체 강도시험·기타. 시방기준, 총검사·합격·불합격 횟수, 조치내용(불합격 자재에 대한 조치)",
+              "fields": [
+                "testKind",
+                "specCriterion",
+                "totalCount",
+                "passCount",
+                "failCount",
+                "action"
+              ]
+            }
+          ]
+        },
+        {
+          "key": "management",
+          "title": "문서 관리 (서식 밖 실무 항목)",
+          "origin": "practice",
+          "fields": [
+            {
+              "name": "documentId",
+              "type": "string",
+              "required": false
+            }
+          ]
+        }
+      ]
+    },
+    "asphalt_placement_check": {
+      "id": "asphalt_placement_check",
+      "title": "아스콘 시공품질관리 점검표 (업무지침 별지 제12호)",
+      "classification": "notice_form",
+      "officialForm": {
+        "law": "건설공사 품질관리 업무지침",
+        "annex": "별지 제12호",
+        "title": "아스콘 시공품질관리 점검표"
+      },
+      "basis": [
+        "standard.guideline.art38",
+        "standard.form.guideline_a12",
+        "standard.guideline.art41"
+      ],
+      "reference": "업무지침 제38조제4항(공사감독자와 수요자는 자재가 현장에 반입되어 시공완료가 될 때까지 별지 제12호서식의 점검표를 기록·비치) + 별지 제12호서식. 불합격 자재는 즉시 반품(제41조제1항 — 온도 미달·마샬 안정도·역청함유량 및 추출입도 등)하고 생산자에게서 불량자재폐기 확약서(별지 제13호)를 받는다(제41조제2항).",
+      "retention": "법정 보존기간 없음 — 자재가 공사현장에 반입되어 시공완료가 될 때까지 기록·비치한다(업무지침 제38조제4항).",
+      "guidance": "작성요령: 자재의 규격별·포설 위치별 등 공사감독자가 구분할 필요가 있는지 판단해 현장 여건에 맞게 나눠 쓸 수 있다. 조치내용은 불합격 자재에 대한 조치다. 서식의 행: 시공장비 — 마카담로라·타이어로라·탄뎀로라·휘니셔·기타 / 플랜트 혼합물 — 안정도·흐름도·공극률·포화도·역청함유량·체가름(입도)·기타 / 포설시 품질관리 — 혼합물 온도·혼합물 밀도·포설 두께·시공 조인트·기타.",
+      "citations": [
+        {
+          "law": "건설공사 품질관리 업무지침",
+          "article": "38",
+          "quote": "별지 제12호서식의 아스콘 시공품질관리 점검표"
+        },
+        {
+          "law": "건설공사 품질관리 업무지침",
+          "article": "38",
+          "quote": "자재가 공사현장에 반입되어 시공완료가 될 때까지"
+        },
+        {
+          "law": "건설공사 품질관리 업무지침",
+          "annex": "별지 제12호",
+          "quote": "혼합물 온도"
+        },
+        {
+          "law": "건설공사 품질관리 업무지침",
+          "annex": "별지 제12호",
+          "quote": "조치내용은 불합격 자재에 대한 조치내용임"
+        },
+        {
+          "law": "건설공사 품질관리 업무지침",
+          "article": "41",
+          "quote": "아스콘 온도측정 결과 해당공사 시방기준 온도에 미달될 경우"
+        }
+      ],
+      "sections": [
+        {
+          "key": "header",
+          "title": "점검 개요",
+          "origin": "legal",
+          "fields": [
+            {
+              "name": "siteName",
+              "type": "string",
+              "required": true,
+              "note": "현장명"
+            },
+            {
+              "name": "inspectionDate",
+              "type": "date",
+              "required": true,
+              "note": "점검일자"
+            },
+            {
+              "name": "supplyPlant",
+              "type": "string",
+              "required": true,
+              "note": "자재공급 공장명"
+            },
+            {
+              "name": "deliveredQuantity",
+              "type": "string",
+              "required": true,
+              "note": "자재 반입량 — 예: 85톤"
+            },
+            {
+              "name": "supervisor",
+              "type": "object",
+              "required": true,
+              "note": "공사감독자 — 소속·성명 (서명 칸은 비워 두고 출력 후 서명)",
+              "fields": [
+                "affiliation",
+                "name",
+                "signature"
+              ]
+            },
+            {
+              "name": "contractor",
+              "type": "object",
+              "required": true,
+              "note": "시공자 — 소속·성명 (서명 칸은 비워 두고 출력 후 서명)",
+              "fields": [
+                "affiliation",
+                "name",
+                "signature"
+              ]
+            },
+            {
+              "name": "placementLocation",
+              "type": "string",
+              "required": true,
+              "note": "시공위치"
+            }
+          ]
+        },
+        {
+          "key": "equipment",
+          "title": "시공장비 점검결과",
+          "origin": "legal",
+          "fields": [
+            {
+              "name": "equipment",
+              "type": "array<object>",
+              "required": true,
+              "note": "서식의 행 — 마카담로라·타이어로라·탄뎀로라·휘니셔·기타. 점검 항목, 규격, 사용대수, 점검결과, 조치내용",
+              "fields": [
+                "equipmentName",
+                "spec",
+                "unitsUsed",
+                "checkResult",
+                "action"
+              ]
+            }
+          ]
+        },
+        {
+          "key": "tests",
+          "title": "품질관리 점검내용",
+          "origin": "legal",
+          "fields": [
+            {
+              "name": "tests",
+              "type": "array<object>",
+              "required": true,
+              "note": "점검 — 플랜트 혼합물(안정도·흐름도·공극률·포화도·역청함유량·체가름(입도)·기타) 또는 포설시 품질관리(혼합물 온도·혼합물 밀도·포설 두께·시공 조인트·기타). 시방기준, 총검사·합격·불합격 횟수, 조치내용",
+              "fields": [
+                "stage",
+                "testKind",
+                "specCriterion",
+                "totalCount",
+                "passCount",
+                "failCount",
+                "action"
+              ]
+            }
+          ]
+        },
+        {
+          "key": "management",
+          "title": "문서 관리 (서식 밖 실무 항목)",
+          "origin": "practice",
+          "fields": [
+            {
+              "name": "documentId",
+              "type": "string",
+              "required": false
+            }
+          ]
+        }
+      ]
+    },
+    "monthly_test_report": {
+      "id": "monthly_test_report",
+      "title": "품질시험·검사실적 보고서 (사업관리방식 지침 별지 제18호)",
+      "classification": "notice_form",
+      "officialForm": {
+        "law": "건설공사 사업관리방식 검토기준 및 업무수행지침",
+        "annex": "별지 제18호",
+        "title": "품질시험ㆍ검사실적 보고서"
+      },
+      "basis": [
+        "standard.form.cm_a18"
+      ],
+      "reference": "사업관리방식 지침 제60조제10항·제90조제15항(건설사업관리기술인은 시공자로부터 매월 품질시험·검사실적을 종합한 시험·검사실적보고서(별지 제18호 서식)를 제출받아 확인) + 별지 제18호 서식. 기성부분검사·예비준공검사 신청 때는 따로 품질시험·검사성과 총괄표(별지 제17호, 시행규칙 별지 제43호)를 낸다.",
+      "retention": "보존기간을 정한 조항 없음 — 매월 제출하고 건설사업관리기술인이 확인한다.",
+      "guidance": "공종·시험종목마다 한 줄. 계획 횟수는 품질시험계획서의 횟수. 누계는 전월까지 + 금월이다 — 누계 칸을 비우면 두 칸을 더해 채운다.",
+      "citations": [
+        {
+          "law": "건설공사 사업관리방식 검토기준 및 업무수행지침",
+          "article": "60",
+          "quote": "매월 품질시험ㆍ검사실적을 종합한 시험ㆍ검사실적보고서(별지 제18호 서식)를 제출 받아 이를 확인하여야 한다"
+        },
+        {
+          "law": "건설공사 사업관리방식 검토기준 및 업무수행지침",
+          "article": "90",
+          "quote": "매월 품질시험ㆍ검사실적을 종합한 시험ㆍ검사실적보고서(별지 제18호 서식)를 제출 받아 이를 확인하여야 한다"
+        },
+        {
+          "law": "건설공사 사업관리방식 검토기준 및 업무수행지침",
+          "annex": "별지 제18호",
+          "quote": "품질시험ㆍ검사실적 보고서"
+        },
+        {
+          "law": "건설공사 사업관리방식 검토기준 및 업무수행지침",
+          "annex": "별지 제18호",
+          "quote": "재시험"
+        }
+      ],
+      "sections": [
+        {
+          "key": "report",
+          "title": "보고 정보 (서식 밖 실무 항목)",
+          "origin": "practice",
+          "fields": [
+            {
+              "name": "projectName",
+              "type": "string",
+              "required": true,
+              "note": "공사명"
+            },
+            {
+              "name": "reportMonth",
+              "type": "string",
+              "required": true,
+              "note": "보고 대상 월 — 예: 2026-11"
+            },
+            {
+              "name": "submittedAt",
+              "type": "date",
+              "required": false,
+              "note": "제출일"
+            },
+            {
+              "name": "submittedBy",
+              "type": "object",
+              "required": false,
+              "note": "제출자(시공자) — 소속·직위·성명",
+              "fields": [
+                "affiliation",
+                "position",
+                "name"
+              ]
+            }
+          ]
+        },
+        {
+          "key": "results",
+          "title": "시험·검사 실적",
+          "origin": "legal",
+          "fields": [
+            {
+              "name": "items",
+              "type": "array<object>",
+              "required": true,
+              "note": "별지 제18호의 열 순서 — 공종, 시험·검사 종목, 계획 횟수, 전월까지·금월·누계 각각 실시·합격·불합격·재시험",
+              "fields": [
+                "workType",
+                "testKind",
+                "planned",
+                "prevExecuted",
+                "prevPassed",
+                "prevFailed",
+                "prevRetest",
+                "monthExecuted",
+                "monthPassed",
+                "monthFailed",
+                "monthRetest",
+                "totalExecuted",
+                "totalPassed",
+                "totalFailed",
+                "totalRetest"
+              ]
+            }
+          ]
+        },
+        {
+          "key": "management",
+          "title": "문서 관리 (서식 밖 실무 항목)",
+          "origin": "practice",
+          "fields": [
+            {
+              "name": "documentId",
+              "type": "string",
+              "required": false
+            }
+          ]
+        }
+      ]
+    },
+    "defective_material_disposal_pledge": {
+      "id": "defective_material_disposal_pledge",
+      "title": "불량자재폐기 확약서 (업무지침 별지 제13호)",
+      "classification": "notice_form",
+      "officialForm": {
+        "law": "건설공사 품질관리 업무지침",
+        "annex": "별지 제13호",
+        "title": "불량자재폐기 확약서"
+      },
+      "basis": [
+        "standard.guideline.art41",
+        "standard.form.guideline_a13"
+      ],
+      "reference": "업무지침 제41조제2항(공사감독자와 수요자는 불량한 자재가 다른 현장에서 사용되지 않도록 별지 제13호 서식의 불량자재폐기 확약서를 생산자에게 받아 준공 때까지 보관) + 별지 제13호서식. 확약서를 낸 생산자는 폐기 확인·기록과 원인 분석·재발방지 대책을 3년간 비치한다(제41조제3항). 불량자재로 시공된 부위는 재시공이 원칙이다(제41조제5항).",
+      "retention": "준공 때까지 보관(업무지침 제41조제2항). 생산자는 관련 서류를 3년간 비치(제41조제3항).",
+      "guidance": "확약하는 쪽은 생산자(공장)다 — 현장은 내역을 채운 확약서를 운전기사·공장 품질관리책임자에게 받는다. 반품 사유는 측정값과 시방기준을 함께 구체적으로 적는다(예: 슬럼프 210mm — 시방기준 150±25mm 초과). 납품서(구입자용)를 첨부한다.",
+      "citations": [
+        {
+          "law": "건설공사 품질관리 업무지침",
+          "article": "41",
+          "quote": "별지 제13호 서식의 불량자재폐기 확약서를 생산자에게 징구하여 준공시까지 보관하여야 한다"
+        },
+        {
+          "law": "건설공사 품질관리 업무지침",
+          "article": "41",
+          "quote": "불량자재폐기 확인 및 기록유지"
+        },
+        {
+          "law": "건설공사 품질관리 업무지침",
+          "annex": "별지 제13호",
+          "quote": "상기와 같이 반품 지시된 불량자재는 폐기처리 할 것을 확약합니다"
+        },
+        {
+          "law": "건설공사 품질관리 업무지침",
+          "annex": "별지 제13호",
+          "quote": "레미콘ㆍ아스콘 납품서(구입자용)"
+        }
+      ],
+      "sections": [
+        {
+          "key": "material",
+          "title": "불량자재 내역",
+          "origin": "legal",
+          "fields": [
+            {
+              "name": "truckNo",
+              "type": "string",
+              "required": true,
+              "note": "운반차 번호"
+            },
+            {
+              "name": "materialAndSpec",
+              "type": "string",
+              "required": true,
+              "note": "자재명 및 규격 — 예: 레미콘 25-24-150"
+            },
+            {
+              "name": "returnSite",
+              "type": "string",
+              "required": true,
+              "note": "반품 현장"
+            },
+            {
+              "name": "returnedAt",
+              "type": "datetime",
+              "required": true,
+              "note": "반품 일시"
+            },
+            {
+              "name": "returnOrderedBy",
+              "type": "object",
+              "required": true,
+              "note": "반품 지시자 — 공사감독자 또는 현장 품질관리 업무를 하는 건설기술인 (서명 또는 인 칸은 비워 둔다)",
+              "fields": [
+                "position",
+                "name",
+                "signature"
+              ]
+            },
+            {
+              "name": "returnCause",
+              "type": "string",
+              "required": true,
+              "note": "반품 사유 — 구체적으로 기재 (측정값과 시방기준)"
+            }
+          ]
+        },
+        {
+          "key": "pledge",
+          "title": "확약",
+          "origin": "legal",
+          "statement": "상기와 같이 반품 지시된 불량자재는 폐기처리 할 것을 확약합니다.",
+          "fields": [
+            {
+              "name": "pledgeDate",
+              "type": "date",
+              "required": true,
+              "note": "확약 일자"
+            }
+          ]
+        },
+        {
+          "key": "confirmers",
+          "title": "확인자",
+          "origin": "legal",
+          "fields": [
+            {
+              "name": "confirmers",
+              "type": "array<object>",
+              "required": true,
+              "note": "서식의 행 — 운전기사, 공장 품질관리책임자. 서명 또는 인 칸은 비워 둔다",
+              "fields": [
+                "role",
+                "name",
+                "phone",
+                "address",
+                "signature"
+              ]
+            },
+            {
+              "name": "attachments",
+              "type": "array<string>",
+              "required": false,
+              "note": "첨부 — 레미콘·아스콘 납품서(구입자용)"
+            }
+          ]
+        },
+        {
+          "key": "management",
+          "title": "문서 관리 (서식 밖 실무 항목)",
+          "origin": "practice",
+          "fields": [
+            {
+              "name": "documentId",
+              "type": "string",
+              "required": false
+            },
+            {
+              "name": "projectName",
+              "type": "string",
+              "required": false
+            },
+            {
+              "name": "relatedNcr",
+              "type": "string",
+              "required": false,
+              "note": "관련 부적합 보고서 번호"
+            }
+          ]
+        }
+      ]
     }
   }
 }

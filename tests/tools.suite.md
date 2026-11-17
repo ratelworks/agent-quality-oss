@@ -1977,7 +1977,7 @@ uncovered_tools:
   - search_quality_test_standards
   # 조문 낱말 검색 (1) — 전용 시험 scripts/test/test-laws.ts 가 다룬다
   - search_quality_law_text
-  # 양식 스키마 (12)
+  # 양식 스키마 (16) — 문서 전체 생성·서식 칸은 scripts/test/test-documents.ts·test-conformance.ts 가 다룬다
   - get_qc_assignment_notice_schema
   - get_quality_test_plan_schema
   - get_quality_inspection_register_schema
@@ -1990,6 +1990,10 @@ uncovered_tools:
   - get_material_source_approval_schema
   - get_quality_daily_log_schema
   - get_corrective_action_request_schema
+  - get_ready_mixed_placement_check_schema
+  - get_asphalt_placement_check_schema
+  - get_monthly_test_report_schema
+  - get_defective_material_disposal_pledge_schema
   # 근거 컴파일 (4)
   - compile_qc_assignment_notice_references
   - compile_quality_test_plan_references

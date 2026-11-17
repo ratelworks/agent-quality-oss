@@ -1,11 +1,11 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// compile_document_references — 19종 문서 공통 근거 패키지 조립 (제네릭).
+// compile_document_references — 문서 공통 근거 패키지 조립 (제네릭).
 //
 // 개별 compile_*_references(콘크리트 타설·NCR 등 그래프 traversal 이 깊은 7종)와 달리,
 // 어떤 문서든 docId 하나로 "작성에 필요한 근거 일습"을 반환한다:
 //   양식 스키마 + verified 법령 근거(원문 발췌) + 관련 서식 locator + (선택) 공종 재료.
 //
-// 설계 결정: 문서 19종 × bespoke 도구 대신 제네릭 1종 — MCP 도구 폭증은 LLM 의
+// 설계 결정: 문서마다 bespoke 도구를 두는 대신 제네릭 1종 — MCP 도구 폭증은 LLM 의
 // 도구 선택 정확도를 떨어뜨린다 (자매 safety-oss 의 assemble_doc_context 패턴과 정합).
 // ─────────────────────────────────────────────────────────────────────────────
 
@@ -28,7 +28,7 @@ export const spec: ToolSpec = {
       docId: {
         type: "string",
         enum: DOC_IDS,
-        description: `문서 스키마 id (19종): ${DOC_IDS.join(", ")}`,
+        description: `문서 스키마 id (${DOC_IDS.length}종): ${DOC_IDS.join(", ")}`,
       },
       workType: {
         type: "string",

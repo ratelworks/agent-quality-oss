@@ -236,7 +236,7 @@ async function testLookup(): Promise<void> {
   // 하나도 알아보지 못해도 오류로 끝나지 않고 고를 수 있는 공종을 알린다(근거가 비어 내부 오류가 나던 일)
   const unknownBrief = (await callTool("chain_daily_quality_briefing", { workTypes: ["양자역학"] }, { graph })).result as { unresolvedWorkTypes: string[]; availableWorkTypes?: Array<{ id: string }> };
   // 불합격 뒤의 처리 — 레미콘 슬럼프·공기량·염화물 등은 즉시 반품(업무지침 제41조제1항), 확약서, 재시공 원칙을 원문으로 함께 준다
-  type RejOut = { expertAssessment: { legalVerdict: string; ifRejected: null | { appliesIf: string; ref: string; item: { text: string }; ifAlreadyPlaced: { text: string }; relatedSanctions: Array<{ ref: string }> } } };
+  type RejOut = { expertAssessment: { legalVerdict: string; ifRejected: null | { appliesIf: string; ref: string; item: { text: string }; ifAlreadyPlaced: { text: string }; relatedSanctions: Array<{ ref: string }>; documents?: Array<{ docId: string }> } } };
   const failSlump = ((await callTool("evaluate_observation", { observation: "슬럼프 230mm, 호칭 슬럼프 150mm" }, { graph })).result as RejOut).expertAssessment;
   check(
     "판정: 레미콘 슬럼프 불합격이면 즉시 반품(제41조제1항제1호)·재시공 원칙·자재 벌칙을 함께 준다",
@@ -323,6 +323,32 @@ async function testLookup(): Promise<void> {
   check("실시대장: 같은 키의 열 이름은 그대로 '시험 기준'(문서마다 따로 정한 이름이 다른 문서로 새지 않는다)", registerHead2.includes("| 시험 기준 |"));
   const deliveryRow = (await genMd("concrete_delivery_record", { strengthGrade: "25-24-150" })).markdown.split("\n").find((l) => l.includes("25-24-150")) ?? "";
   check("레미콘 기록지: '25-24-150' 은 규격 칸(업무지침 제38조제3항제3호 '규격 및 용적')", deliveryRow.startsWith("| 규격 |"));
+  // 더한 법정 서식 4종 — 레미콘·아스콘 시공품질관리 점검표(별지 제11·12호), 실적보고서(별지 제18호), 불량자재폐기 확약서(별지 제13호)
+  {
+    const monthly = await genMd("monthly_test_report", {
+      projectName: "가", reportMonth: "2026-11",
+      items: [
+        { workType: "철근콘크리트공", testKind: "슬럼프", planned: 20, prevExecuted: 6, prevPassed: 6, prevFailed: 0, prevRetest: 0, monthExecuted: 3, monthPassed: 2, monthFailed: 1, monthRetest: 1 },
+        { workType: "관로공", testKind: "현장밀도", planned: 36, prevExecuted: 8, prevPassed: 8, prevFailed: 0, monthExecuted: 4, monthPassed: 4, monthFailed: 0, totalExecuted: 13 },
+      ],
+    });
+    const row1 = monthly.markdown.split("\n").find((l) => l.startsWith("| 1 |")) ?? "";
+    check(
+      "실적보고서: 비운 누계는 전월까지 + 금월로 채우고, 적은 누계가 합과 다르면 알린다",
+      row1.endsWith("| 9 | 8 | 1 | 1 |") && monthly.markdown.includes("누계 실시 13 이 전월까지 8 + 금월 4 = 12 와 다릅니다") && monthly.markdown.includes("더해 채웠습니다"),
+      row1,
+    );
+    const mixed = await genMd("ready_mixed_placement_check", { projectName: "가", tests: [{ testKind: "슬럼프시험", specCriterion: "150±25mm", totalCount: 5, passCount: 5, failCount: 1 }] });
+    check("레미콘 점검표: 합격 + 불합격이 총검사보다 많으면 알린다", mixed.markdown.includes("합격 5 + 불합격 1 = 6 이 총검사 5 보다 많습니다"));
+    const pledge = (await callTool("generate_quality_document", { docId: "defective_material_disposal_pledge", format: "doclang", formValues: { truckNo: "12가3456" } }, { graph })).result as { doclang: string };
+    check("확약서: 확약 문장이 결재·제출용 본문(DocLang)에 들어간다", pledge.doclang.includes("상기와 같이 반품 지시된 불량자재는 폐기처리 할 것을 확약합니다."));
+    const slumpDocs = (failSlump.ifRejected?.documents ?? []).map((d) => d.docId).join(",");
+    check(
+      "판정: 레미콘 불합격 뒤의 처리에 이어서 쓸 문서(확약서 + 레미콘 점검표)를 docId 로 준다",
+      slumpDocs === "defective_material_disposal_pledge,ready_mixed_placement_check",
+      slumpDocs,
+    );
+  }
   const approval = JSON.stringify((await callTool("get_material_source_approval_schema", {}, { graph })).result);
   check("공급원 승인 요청서: 첨부 안내에 시험성과 대비표(사업관리방식 지침 제87조제7항)", approval.includes("시험성과 대비표") && approval.includes("제87조제7항"));
   const register = await genMd("quality_inspection_register", { projectName: "OO", entries: [{ seq: 1, inspectionDate: "2026-11-10", material: "골재", qcEngineerName: "최유진" }] });

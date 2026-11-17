@@ -30,6 +30,8 @@ export interface SchemaSection {
   /** legal = 서식·법령이 정한 항목, practice = 실무 항목 */
   origin?: "legal" | "practice";
   note?: string;
+  /** 서식에 인쇄된 문장 — 확약 문구 등. 입력값이 아니라 본문에 그대로 넣는다 */
+  statement?: string;
   fields: SchemaField[];
 }
 

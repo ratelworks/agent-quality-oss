@@ -257,7 +257,7 @@ function testLabels(): void {
         else if (seen.has(label)) duplicated.push(`${docId}: ${seen.get(label)}·${field.name} → ${label}`);
         else seen.set(label, field.name);
         for (const sub of field.fields ?? []) {
-          const subLabel = findSubFieldLabel(sub);
+          const subLabel = findSubFieldLabel(sub, docId);
           if (!subLabel || !HANGUL.test(subLabel)) missing.push(`${docId}.${field.name}.${sub}`);
         }
         for (const value of enumValues(field)) {

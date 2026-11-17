@@ -29,13 +29,19 @@ const QUALITY_GUIDELINE = '건설공사 품질관리 업무지침';
  * 불합격이면 즉시 반품하는 시험 — 업무지침 제41조제1항의 호와 그 호의 원문 구절.
  * 판정만 주고 그다음 처리(반품·확약서·재시공)를 주지 않아 AI 비서가 반품을 빠뜨린 답이 있었다.
  */
-const REJECT_ITEM_BY_TEST: Record<string, { item: string; quote: string }> = {
-  'test.slump': { item: '1', quote: '슬럼프(Slump) 측정결과 해당공사 시방기준에 벗어나는 경우' },
-  'test.air_content': { item: '2', quote: '공기량 측정결과 해당공사 시방기준에 벗어나는 경우' },
-  'test.chloride': { item: '3', quote: '염화물이온량(Cl-) 측정결과 해당공사 시방기준에 벗어나는 경우' },
-  'test.asphalt_marshall': { item: '6', quote: '마샬 안정도 측정결과 해당공사 시방기준에 벗어나는 경우' },
-  'test.asphalt_content': { item: '7', quote: '역청함유량 및 추출입도 측정결과 해당공사 시방기준에 벗어나는 경우' },
+const REJECT_ITEM_BY_TEST: Record<string, { item: string; quote: string; material: 'ready_mixed' | 'asphalt' }> = {
+  'test.slump': { item: '1', quote: '슬럼프(Slump) 측정결과 해당공사 시방기준에 벗어나는 경우', material: 'ready_mixed' },
+  'test.air_content': { item: '2', quote: '공기량 측정결과 해당공사 시방기준에 벗어나는 경우', material: 'ready_mixed' },
+  'test.chloride': { item: '3', quote: '염화물이온량(Cl-) 측정결과 해당공사 시방기준에 벗어나는 경우', material: 'ready_mixed' },
+  'test.asphalt_marshall': { item: '6', quote: '마샬 안정도 측정결과 해당공사 시방기준에 벗어나는 경우', material: 'asphalt' },
+  'test.asphalt_content': { item: '7', quote: '역청함유량 및 추출입도 측정결과 해당공사 시방기준에 벗어나는 경우', material: 'asphalt' },
 };
+/** 불합격 뒤에 쓰는 문서 — generate_quality_document 의 docId */
+const CHECK_SHEET = {
+  ready_mixed: { docId: 'ready_mixed_placement_check', title: '레미콘 시공품질관리 점검표 (업무지침 별지 제11호 — 불합격 횟수와 조치내용)' },
+  asphalt: { docId: 'asphalt_placement_check', title: '아스콘 시공품질관리 점검표 (업무지침 별지 제12호 — 불합격 횟수와 조치내용)' },
+} as const;
+const DISPOSAL_PLEDGE_DOC = { docId: 'defective_material_disposal_pledge', title: '불량자재폐기 확약서 (업무지침 별지 제13호 — 생산자에게 받아 준공까지 보관)' };
 
 /**
  * 불합격 뒤의 처리 — 즉시 반품·확약서·재시공 원칙(업무지침 제41조)과 자재 벌점·벌칙. 원문 구절 그대로.
@@ -60,6 +66,8 @@ function rejectionHandling(testId: string | undefined, criterion: BaseEntity | n
     ifAlreadyPlaced: cite({ law: QUALITY_GUIDELINE, article: '41', quote: '불량자재가 사용되어 시공된 부위는 재시공함을 원칙으로 한다' }),
     relatedPenalties: relatedPenalties(['topic:material']),
     relatedSanctions: relatedSanctions(['topic:material']),
+    /** 이어서 쓰는 문서 — generate_quality_document 의 docId 로 만든다 */
+    documents: [DISPOSAL_PLEDGE_DOC, CHECK_SHEET[rule.material]],
     note: '이 공사의 시방기준을 벗어난 자재는 즉시 반품하고(제1항), 생산자에게 불량자재폐기 확약서(별지 제13호)를 받아 준공 때까지 보관합니다(제2항). 이미 시공했으면 재시공이 원칙이고, 발주청 승인을 받아 안전진단 등으로 안전에 이상이 없다고 판명된 경우만 그 결과를 따를 수 있습니다(제5항). 벌점·벌칙은 who·조건과 함께 알립니다. 반품·재시공 결정은 공사감독자·감리원이 합니다.',
   };
 }

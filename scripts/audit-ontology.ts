@@ -175,7 +175,7 @@ const defaultArgs: Record<string, Record<string, unknown>> = {
   discover_relevant_domain: { situation: '슬래브 콘크리트 타설' },
   explain_quality_decision_path: { entityId: 'ncr.slump_too_high' },
   verify_form_reference: { formId: 'standard.form.rule_no42_quality_inspection_register' },
-  // R0+ 추가 도구 (19종 법정문서 진행)
+  // R0+ 추가 도구 (문서 양식)
   get_qc_assignment_notice_schema: {},
   get_quality_test_plan_schema: {},
   get_quality_inspection_register_schema: {},
@@ -200,6 +200,11 @@ const defaultArgs: Record<string, Record<string, unknown>> = {
   get_quality_daily_log_schema: {},
   get_corrective_action_request_schema: {},
   get_quality_audit_report_schema: {},
+  // 법정 서식 추가 (업무지침 별지 제11·12·13호, 사업관리방식 지침 별지 제18호)
+  get_ready_mixed_placement_check_schema: {},
+  get_asphalt_placement_check_schema: {},
+  get_monthly_test_report_schema: {},
+  get_defective_material_disposal_pledge_schema: {},
   // A2UI 입력 폼·작성 컨텍스트 (viewer)
   render_quality_form: { docId: 'itp' },
   compose_writing_context: { docId: 'ncr', formValues: { documentId: 'NCR-1' } },

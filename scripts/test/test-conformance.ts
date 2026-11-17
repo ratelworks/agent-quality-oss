@@ -16,7 +16,7 @@ import { quoteExists } from "../../src/knowledge/cite.js";
 import { judgePlanTarget, judgeStaffingGrade, staffingStandard, type ProjectFacts } from "../../src/knowledge/plan-rules.js";
 import { getSchema, listSchemaIds } from "../../src/schemas/loader.js";
 import { fieldLabel, subFieldLabel } from "../../src/schemas/fields.js";
-import { findAnnex, findLaw, normalizeLawText } from "../../src/ontology/laws.js";
+import { findAnnex, findArticle, findLaw, normalizeLawText } from "../../src/ontology/laws.js";
 import { boxTableCells, parseBoxTables } from "../../src/lib/box-table.js";
 
 // ── 상수 ────────────────────────────────────────────────────────────
@@ -187,7 +187,7 @@ function testSchemas(): void {
   if (!rule || !decree || !guideline) throw new Error("수록 원문 없음");
   const columnsOf = (docId: string, fieldName: string): string[] => {
     const field = getSchema(docId)?.sections.flatMap((s) => s.fields).find((f) => f.name === fieldName);
-    return (field?.fields ?? []).map((key) => normalizeLawText(subFieldLabel(key)));
+    return (field?.fields ?? []).map((key) => normalizeLawText(subFieldLabel(key, docId)));
   };
 
   // 품질검사 실시대장 — 표의 열이 별지 제42호의 열과 같은 순서로 모두 있다 (이전 판은 법정 열 5개가 없었다)
@@ -241,6 +241,56 @@ function testSchemas(): void {
   const approvalLabels = (getSchema("material_source_approval")?.sections ?? []).flatMap((s) => s.fields.map((f) => normalizeLawText(fieldLabel("material_source_approval", f.name))));
   for (const item of ["문서번호", "품명", "규격", "제조회사명", "시공자의견", "특기사항", "검토의견"]) {
     check(`자재 공급원 승인: 별지 제37호 항목 — ${item}`, f37.includes(item) && approvalLabels.includes(item));
+  }
+
+  // 시공품질관리 점검표·실적보고서·불량자재폐기 확약서 — 서식의 칸 이름과 인쇄된 행이 양식에 모두 있다
+  const labelsOf = (docId: string): string[] =>
+    (getSchema(docId)?.sections ?? []).flatMap((sec) => sec.fields.flatMap((f) => [fieldLabel(docId, f.name), ...(f.fields ?? []).map((k) => subFieldLabel(k, docId))])).map(normalizeLawText);
+  const notesOf = (docId: string): string => normalizeLawText(JSON.stringify(getSchema(docId) ?? {}));
+  const formCase = (docId: string, law: string, annex: string, labels: string[], rows: string[]): void => {
+    const lawDoc = findLaw(law);
+    // 두 줄에 걸친 칸("자재공급 / 공 장 명")은 칸 단위로 이어 붙여 본다
+    const annexText = findAnnex(lawDoc ?? rule, annex)?.text ?? "";
+    const text = normalizeLawText(annexText) + "|" + boxTableCells(annexText).map(normalizeLawText).join("|");
+    const have = labelsOf(docId);
+    const missingLabels = labels.filter((l) => !text.includes(normalizeLawText(l)) || !have.includes(normalizeLawText(l)));
+    const missingRows = rows.filter((r) => !text.includes(normalizeLawText(r)) || !notesOf(docId).includes(normalizeLawText(r)));
+    check(`${docId}: ${annex} 의 칸 ${labels.length}개·서식 행 ${rows.length}개가 양식에 있다`, missingLabels.length === 0 && missingRows.length === 0, [...missingLabels, ...missingRows].join(","));
+  };
+  formCase("ready_mixed_placement_check", "건설공사 품질관리 업무지침", "별지 제11호",
+    ["공사명", "점검일자", "자재공급공장명", "자재반입량", "공사감독자", "시공자", "구조물명", "부위", "장비명", "규격", "사용대수", "점검결과", "조치내용", "원재료점검내용", "품질시험구분", "시방기준", "총검사횟수", "합격횟수", "불합격횟수", "소속", "성명", "서명"],
+    ["펌프카", "진동기", "양생기", "콘크리트의종류", "시멘트의종류", "혼화제의종류", "혼화재의종류", "일일배합표확인", "슬럼프시험", "공기량시험", "염화물이온량(Cl-)", "공시체강도시험"]);
+  formCase("asphalt_placement_check", "건설공사 품질관리 업무지침", "별지 제12호",
+    ["현장명", "점검일자", "자재공급공장명", "자재반입량", "공사감독자", "시공자", "시공위치", "점검항목", "규격", "사용대수", "점검결과", "조치내용", "점검", "품질시험구분", "시방기준", "총검사횟수", "합격횟수", "불합격횟수"],
+    ["마카담로라", "타이어로라", "탄뎀로라", "휘니셔", "안정도", "흐름도", "공극률", "포화도", "역청함유량", "체가름(입도)", "혼합물온도", "혼합물밀도", "포설두께", "시공조인트"]);
+  formCase("defective_material_disposal_pledge", "건설공사 품질관리 업무지침", "별지 제13호",
+    ["운반차번호", "자재명및규격", "반품현장", "반품일시", "반품지시자", "반품사유", "구분(직책)", "성명", "전화번호", "주소"],
+    ["운전기사", "품질관리책임자", "납품서(구입자용)"]);
+  // 레미콘 기록지 — 업무지침 제38조제3항(납품서 확인 사항)의 용어 / 대행 의뢰 — 시행규칙 제56조제1항의 용어
+  {
+    const t38 = normalizeLawText(findArticle(guideline, "38")?.text ?? "");
+    const delivery = labelsOf("concrete_delivery_record");
+    const words = ["운반차번호", "생산시각", "도착시각", "타설완료시각", "규격", "용적(㎥)", "인수자"];
+    check("레미콘 기록지: 칸 이름이 업무지침 제38조제3항의 용어(운반차 번호·생산·도착시각·타설완료시각·규격·용적·인수자)", words.every((w) => delivery.includes(w)) && ["운반차번호", "생산", "도착시각", "타설완료시각", "규격및용적", "인수자"].every((w) => t38.includes(w)), delivery.join(","));
+    const t56 = normalizeLawText(findArticle(rule, "56")?.text ?? "");
+    const request = labelsOf("test_request");
+    check("대행 의뢰서: 시험 칸이 시행규칙 제56조제1항의 용어(품질검사 종목·기준)", request.includes("품질검사종목") && request.includes("품질검사기준") && t56.includes("품질검사의종목ㆍ기준"), request.join(","));
+  }
+  check("확약서: 서식에 인쇄된 확약 문장을 본문에 그대로 넣는다", (getSchema("defective_material_disposal_pledge")?.sections ?? []).some((sec) => sec.statement === "상기와 같이 반품 지시된 불량자재는 폐기처리 할 것을 확약합니다."));
+  {
+    // 별지 제18호 — 공종·종목·계획 + (전월까지·금월·누계) × (실시·합격·불합격·재시험) = 15열
+    const f18Rows = parseBoxTables(findAnnex(cm ?? rule, "별지 제18호")?.text ?? "")[0]?.rows ?? [];
+    const f18Text = normalizeLawText(findAnnex(cm ?? rule, "별지 제18호")?.text ?? "");
+    const cols = columnsOf("monthly_test_report", "items");
+    const groups = ["전월까지", "금월", "누계"];
+    const kinds = ["실시", "합격", "불합격", "재시험"];
+    const expected = groups.flatMap((g) => kinds.map((k) => g + k));
+    const subRow = f18Rows.map((r) => r.map(normalizeLawText)).find((r) => r.filter((c) => c === "재시험").length === 3) ?? [];
+    check(
+      "실적보고서: 별지 제18호의 15열(공종·종목·계획 + 전월까지·금월·누계 × 실시·합격·불합격·재시험)",
+      cols.length === 15 && cols[0] === "공종" && cols.slice(3).join("|") === expected.join("|") && groups.every((g) => f18Text.includes(g)) && kinds.every((k) => subRow.filter((c) => c === k).length === 3),
+      cols.join("|"),
+    );
   }
 
   // 되돌아오면 안 되는 표현

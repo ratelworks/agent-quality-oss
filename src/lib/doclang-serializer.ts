@@ -96,6 +96,7 @@ export function serializeToDoclang(body: DocumentBody, classification: string | 
 
   for (const section of body.sections) {
     out.push(element(TAG.heading, escapeXml(section.heading), { level: 2 }));
+    if (section.statement) out.push(element(TAG.text, escapeXml(section.statement)));
     let pairs: string[][] = [];
     const flushPairs = (): void => {
       if (pairs.length === 0) return;

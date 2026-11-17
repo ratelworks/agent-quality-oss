@@ -53,6 +53,10 @@ import * as getMaterialSourceApprovalSchema from "./tools/get-material-source-ap
 import * as getQualityDailyLogSchema from "./tools/get-quality-daily-log-schema.js";
 import * as getCorrectiveActionRequestSchema from "./tools/get-corrective-action-request-schema.js";
 import * as getQualityAuditReportSchema from "./tools/get-quality-audit-report-schema.js";
+import * as getReadyMixedPlacementCheckSchema from "./tools/get-ready-mixed-placement-check-schema.js";
+import * as getAsphaltPlacementCheckSchema from "./tools/get-asphalt-placement-check-schema.js";
+import * as getMonthlyTestReportSchema from "./tools/get-monthly-test-report-schema.js";
+import * as getDefectiveMaterialDisposalPledgeSchema from "./tools/get-defective-material-disposal-pledge-schema.js";
 import * as compileConcretePourReferences from "./tools/compile-concrete-pour-references.js";
 import * as compileInspectionReferences from "./tools/compile-inspection-references.js";
 import * as compileNcrReferences from "./tools/compile-ncr-references.js";
@@ -126,6 +130,10 @@ export const TOOL_MODULES: ToolModule[] = [
   getQualityDailyLogSchema,
   getCorrectiveActionRequestSchema,
   getQualityAuditReportSchema,
+  getReadyMixedPlacementCheckSchema,
+  getAsphaltPlacementCheckSchema,
+  getMonthlyTestReportSchema,
+  getDefectiveMaterialDisposalPledgeSchema,
   compileConcretePourReferences,
   compileInspectionReferences,
   compileNcrReferences,

@@ -304,7 +304,11 @@
     "concrete_delivery_record": {
       "supplier": "레미콘 공급업체",
       "approvedBy": "확인자",
-      "strengthGrade": "규격"
+      "strengthGrade": "규격",
+      "truckNo": "운반차 번호",
+      "batchTime": "생산 시각",
+      "arrivalTime": "도착 시각",
+      "volume_m3": "용적(㎥)"
     },
     "quality_test_plan": {
       "testItems": "시험계획",
@@ -361,6 +365,48 @@
       "noticeType": "구분",
       "personnel": "품질관리 건설기술인",
       "supervisorAck": "공사감독자·건설사업관리기술인 확인"
+    },
+    "ready_mixed_placement_check": {
+      "supervisor": "공사감독자",
+      "contractor": "시공자",
+      "supplyPlant": "자재공급 공장명",
+      "deliveredQuantity": "자재 반입량",
+      "inspectionDate": "점검일자",
+      "projectName": "공사명",
+      "structureName": "구조물명",
+      "part": "부위",
+      "equipment": "시공 장비 점검결과",
+      "materials": "원재료 점검내용",
+      "tests": "품질시험"
+    },
+    "asphalt_placement_check": {
+      "supervisor": "공사감독자",
+      "contractor": "시공자",
+      "supplyPlant": "자재공급 공장명",
+      "deliveredQuantity": "자재 반입량",
+      "inspectionDate": "점검일자",
+      "siteName": "현장명",
+      "placementLocation": "시공위치",
+      "equipment": "시공장비 점검결과",
+      "tests": "품질관리 점검내용"
+    },
+    "monthly_test_report": {
+      "reportMonth": "보고 대상 월",
+      "submittedAt": "제출일",
+      "submittedBy": "제출자",
+      "items": "시험·검사 실적"
+    },
+    "defective_material_disposal_pledge": {
+      "truckNo": "운반차 번호",
+      "materialAndSpec": "자재명 및 규격",
+      "returnSite": "반품 현장",
+      "returnedAt": "반품 일시",
+      "returnOrderedBy": "반품 지시자",
+      "returnCause": "반품 사유",
+      "pledgeDate": "확약 일자",
+      "confirmers": "확인자",
+      "attachments": "첨부",
+      "relatedNcr": "관련 부적합 보고서"
     }
   },
   "subFields": {
@@ -475,7 +521,13 @@
     "failed": "불합격",
     "retest": "재시험",
     "testFrequency": "시험 빈도",
-    "testCount": "시험 횟수"
+    "testCount": "시험 횟수",
+    "signature": "서명",
+    "phone": "전화번호",
+    "address": "주소",
+    "unitsUsed": "사용대수",
+    "specCriterion": "시방기준",
+    "stage": "점검 단계"
   },
   "enums": {
     "7": "7일",
@@ -554,6 +606,63 @@
       "contractorResult": "검사 결과(시공자)",
       "engineerResult": "검사 결과(건설사업관리기술인)",
       "verdict": "합격·불합격"
+    },
+    "ready_mixed_placement_check": {
+      "equipmentName": "장비명",
+      "spec": "규격",
+      "unitsUsed": "사용대수",
+      "checkResult": "점검결과",
+      "action": "조치내용",
+      "signature": "서명",
+      "checkItem": "원재료 점검내용",
+      "testKind": "품질시험 구분",
+      "specCriterion": "시방기준",
+      "totalCount": "총검사횟수",
+      "passCount": "합격횟수",
+      "failCount": "불합격횟수"
+    },
+    "asphalt_placement_check": {
+      "equipmentName": "점검 항목",
+      "spec": "규격",
+      "unitsUsed": "사용대수",
+      "checkResult": "점검결과",
+      "action": "조치내용",
+      "signature": "서명",
+      "stage": "점검",
+      "testKind": "품질시험 구분",
+      "specCriterion": "시방기준",
+      "totalCount": "총검사횟수",
+      "passCount": "합격횟수",
+      "failCount": "불합격횟수"
+    },
+    "monthly_test_report": {
+      "workType": "공종",
+      "testKind": "시험·검사 종목",
+      "planned": "계획 시험·검사 횟수",
+      "prevExecuted": "전월까지 실시",
+      "prevPassed": "전월까지 합격",
+      "prevFailed": "전월까지 불합격",
+      "prevRetest": "전월까지 재시험",
+      "monthExecuted": "금월 실시",
+      "monthPassed": "금월 합격",
+      "monthFailed": "금월 불합격",
+      "monthRetest": "금월 재시험",
+      "totalExecuted": "누계 실시",
+      "totalPassed": "누계 합격",
+      "totalFailed": "누계 불합격",
+      "totalRetest": "누계 재시험"
+    },
+    "defective_material_disposal_pledge": {
+      "position": "구분",
+      "name": "성명",
+      "signature": "서명 또는 인",
+      "role": "구분(직책)",
+      "phone": "전화번호",
+      "address": "주소"
+    },
+    "test_request": {
+      "testItem": "품질검사 종목",
+      "standard": "품질검사 기준"
     }
   }
 }

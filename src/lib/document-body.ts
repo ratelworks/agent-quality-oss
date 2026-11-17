@@ -34,6 +34,8 @@ export interface BodySection {
   origin: "legal" | "practice" | null;
   /** 법정 서식에 없는 실무 항목의 절인가 (제목의 "서식 밖" 표시는 떼고 작성 안내로 알린다) */
   outsideForm: boolean;
+  /** 서식에 인쇄된 문장 (확약 문구 등) — 그대로 넣는다 */
+  statement: string | null;
   fields: DraftField[];
 }
 
@@ -68,32 +70,103 @@ function countOf(value: string | undefined): number | null {
   return m ? Number(m[1]) : null;
 }
 
+/** 횟수 칸 묶음 — 실시(또는 총검사)·합격·불합격의 키와, 묶음 이름("전월까지 " 등) */
+interface CountGroup {
+  label: string;
+  executedWord: string;
+  executed: string;
+  passed: string;
+  failed: string;
+}
+
+/** 문서마다 합격 + 불합격 ≤ 실시 를 볼 표와 칸 */
+const COUNT_TABLES: Record<string, { field: string; groups: CountGroup[] }> = {
+  quality_inspection_summary: { field: "items", groups: [{ label: "", executedWord: "실시", executed: "executed", passed: "passed", failed: "failed" }] },
+  monthly_test_report: {
+    field: "items",
+    groups: [
+      { label: "전월까지 ", executedWord: "실시", executed: "prevExecuted", passed: "prevPassed", failed: "prevFailed" },
+      { label: "금월 ", executedWord: "실시", executed: "monthExecuted", passed: "monthPassed", failed: "monthFailed" },
+      { label: "누계 ", executedWord: "실시", executed: "totalExecuted", passed: "totalPassed", failed: "totalFailed" },
+    ],
+  },
+  ready_mixed_placement_check: { field: "tests", groups: [{ label: "", executedWord: "총검사", executed: "totalCount", passed: "passCount", failed: "failCount" }] },
+  asphalt_placement_check: { field: "tests", groups: [{ label: "", executedWord: "총검사", executed: "totalCount", passed: "passCount", failed: "failCount" }] },
+};
+
+/** 품질시험·검사실적 보고서(별지 제18호)의 누계 = 전월까지 + 금월 */
+const MONTHLY_SUMS: Array<[string, string, string, string]> = [
+  ["실시", "prevExecuted", "monthExecuted", "totalExecuted"],
+  ["합격", "prevPassed", "monthPassed", "totalPassed"],
+  ["불합격", "prevFailed", "monthFailed", "totalFailed"],
+  ["재시험", "prevRetest", "monthRetest", "totalRetest"],
+];
+
+const rowsOf = (draft: NormalizedDraft, name: string): { field: DraftField; rows: Array<Record<string, string>> } | null => {
+  const field = draft.fields.find((f) => f.name === name);
+  if (!field || !Array.isArray(field.value)) return null;
+  return { field, rows: field.value.filter((e): e is Record<string, string> => typeof e === "object" && e !== null) };
+};
+
 /**
- * 값끼리 맞지 않는 점을 찾는다 — 지금은 품질검사 성과 총괄표(별지 제43호)의 합격 + 불합격 > 실시.
- * 합이 실시보다 작은 것은 결과가 아직 나오지 않은 시험일 수 있어 알리지 않는다.
+ * 실적보고서의 누계가 비어 있으면 전월까지 + 금월로 채운다(계산 — 둘 다 적혀 있을 때만).
+ * 채운 칸에 대한 안내를 돌려준다.
+ */
+function fillMonthlyTotals(docId: string, draft: NormalizedDraft): string[] {
+  if (docId !== "monthly_test_report") return [];
+  const table = rowsOf(draft, "items");
+  if (!table) return [];
+  let count = 0;
+  for (const row of table.rows) {
+    for (const [, prev, month, total] of MONTHLY_SUMS) {
+      if ((row[total] ?? "").trim()) continue;
+      const a = countOf(row[prev]);
+      const b = countOf(row[month]);
+      if (a === null || b === null) continue;
+      row[total] = String(a + b);
+      count += 1;
+    }
+  }
+  return count > 0 ? [`누계 ${count}칸은 전월까지 횟수와 금월 횟수를 더해 채웠습니다.`] : [];
+}
+
+/**
+ * 값끼리 맞지 않는 점을 찾는다 — 합격 + 불합격 > 실시(총검사), 실적보고서의 누계 ≠ 전월까지 + 금월.
+ * 합격 + 불합격이 실시보다 작은 것은 결과가 아직 나오지 않은 시험일 수 있어 알리지 않는다.
  */
 function addConsistencyChecks(docId: string, draft: NormalizedDraft): void {
-  if (docId !== "quality_inspection_summary") return;
-  const field = draft.fields.find((f) => f.name === "items");
-  if (!field || !Array.isArray(field.value)) return;
+  const spec = COUNT_TABLES[docId];
+  if (!spec) return;
+  const table = rowsOf(draft, spec.field);
+  if (!table) return;
   const checks: string[] = [];
-  field.value.forEach((entry, i) => {
-    if (typeof entry !== "object" || entry === null) return;
-    const row = entry as Record<string, string>;
-    const executed = countOf(row["executed"]);
-    const passed = countOf(row["passed"]);
-    const failed = countOf(row["failed"]);
-    if (executed === null || passed === null || failed === null) return;
-    if (passed + failed > executed) {
-      checks.push(`${i + 1}번 줄 — 합격 ${passed} + 불합격 ${failed} = ${passed + failed} 이 실시 ${executed} 보다 많습니다. 숫자를 확인하세요.`);
+  table.rows.forEach((row, i) => {
+    for (const g of spec.groups) {
+      const executed = countOf(row[g.executed]);
+      const passed = countOf(row[g.passed]);
+      const failed = countOf(row[g.failed]);
+      if (executed === null || passed === null || failed === null) continue;
+      if (passed + failed > executed) {
+        checks.push(`${i + 1}번 줄 — ${g.label}합격 ${passed} + 불합격 ${failed} = ${passed + failed} 이 ${g.label}${g.executedWord} ${executed} 보다 많습니다. 숫자를 확인하세요.`);
+      }
+    }
+    if (docId === "monthly_test_report") {
+      for (const [word, prev, month, total] of MONTHLY_SUMS) {
+        const a = countOf(row[prev]);
+        const b = countOf(row[month]);
+        const t = countOf(row[total]);
+        if (a === null || b === null || t === null || a + b === t) continue;
+        checks.push(`${i + 1}번 줄 — 누계 ${word} ${t} 이 전월까지 ${a} + 금월 ${b} = ${a + b} 와 다릅니다. 숫자를 확인하세요.`);
+      }
     }
   });
-  if (checks.length > 0) field.checks = [...(field.checks ?? []), ...checks];
+  if (checks.length > 0) table.field.checks = [...(table.field.checks ?? []), ...checks];
 }
 
 /** 입력값을 정리해 본문의 뼈대를 만든다 */
 export function buildDocumentBody(schema: DocumentSchema, formValues: unknown): DocumentBody {
   const draft = normalizeDraft(schema, formValues);
+  const filledNotes = fillMonthlyTotals(schema.id, draft);
   addConsistencyChecks(schema.id, draft);
   // 법정 서식이 장 번호를 정한 문서(품질시험계획 별표 9 의 1~4호 등)는 제목의 번호를 그대로 쓴다 — 번호를 또 붙이면 "1. 1. 개요"가 되고, 서식 밖 절이 앞에 있으면 번호가 밀린다
   const officialNumbering = schema.sections.some((section) => /^\d+\.\s/.test(section.title));
@@ -105,6 +178,7 @@ export function buildDocumentBody(schema: DocumentSchema, formValues: unknown): 
     heading: officialNumbering ? title : `${index + 1}. ${title}`,
     title,
     outsideForm,
+    statement: section.statement ?? null,
     origin: section.origin ?? null,
     fields: draft.fields.filter((f) => f.sectionKey === section.key),
     };
@@ -119,6 +193,7 @@ export function buildDocumentBody(schema: DocumentSchema, formValues: unknown): 
     draft,
     requiredTotal: required.length,
     requiredFilled: required.filter((f) => f.filled).length,
+    ...(filledNotes.length > 0 ? { autoFilled: filledNotes } : {}),
   };
 }
 
@@ -196,7 +271,7 @@ export function fieldGuides(field: DraftField): string[] {
 export function headGuides(body: DocumentBody): string[] {
   const guides = [
     body.autoFilled && body.autoFilled.length > 0
-      ? "입력한 값을 양식 구조대로 옮긴 초안입니다. 입력하지 않은 칸은 비워 두었고 값을 지어내지 않았습니다 — 아래 칸만 원문에서 옮겨 채웠습니다."
+      ? "입력한 값을 양식 구조대로 옮긴 초안입니다. 입력하지 않은 칸은 비워 두었고 값을 지어내지 않았습니다 — 아래 칸만 원문에서 옮기거나 입력값으로 계산해 채웠습니다."
       : "입력한 값을 양식 구조대로 옮긴 초안입니다. 입력하지 않은 칸은 비워 두었고 값을 지어내지 않았습니다.",
     ...(body.autoFilled ?? []),
   ];
@@ -234,6 +309,7 @@ export function renderMarkdown(body: DocumentBody): string {
   for (const section of body.sections) {
     out.push(`## ${section.heading}`, "");
     if (section.outsideForm) out.push(`${GUIDE_LINE}${OUTSIDE_FORM_GUIDE}`, "");
+    if (section.statement) out.push(section.statement, "");
     let pairs: string[][] = [];
     const flushPairs = (): void => {
       if (pairs.length === 0) return;

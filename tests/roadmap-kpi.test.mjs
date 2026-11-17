@@ -28,7 +28,7 @@ test("ROADMAP §6 KPI 에 outdated 수치 부재 (현행 정합)", () => {
 });
 
 test("ROADMAP 의 현행 수치는 자료에서 다시 적는 자리에 있다", () => {
-  assert.ok(ROADMAP.includes("19/19 = 100%"), "19종 schema 현행 수치(19/19 = 100%) 없음");
+  assert.ok(ROADMAP.includes("23/23 = 100%"), "문서 schema 현행 수치(23/23 = 100%) 없음");
   // 손으로 적은 수는 낡는다 — 그래프·도구 수는 docs:sync 가 채우는 자리 표시로만 둔다(docs:check 가 값을 검사)
   for (const key of ["tools", "verified", "criteria", "graph"]) {
     assert.ok(ROADMAP.includes(`<!-- stat:${key} -->`), `ROADMAP 에 자리 표시 stat:${key} 없음`);

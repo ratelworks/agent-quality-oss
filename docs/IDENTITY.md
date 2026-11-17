@@ -52,13 +52,13 @@
 
 ### ③ 문서 양식 스키마 (19) — `get_*_schema`
 
-19종 문서 각각의 필수 필드·섹션·근거·보존기간 구조 반환. 이 도구들은 구조만 돌려준다 — 본문은 ⑧ 문서 본문 도구가 입력값을 옮겨 만든다.
+23종 문서 각각의 필수 필드·섹션·근거·보존기간 구조 반환. 이 도구들은 구조만 돌려준다 — 본문은 ⑧ 문서 본문 도구가 입력값을 옮겨 만든다.
 
 ### ④ 근거 패키지 조립 (8) — `compile_*`
 
 | 도구 | 역할 |
 |---|---|
-| `compile_document_references` | **제네릭** — 19종 문서 전부. 양식 + verified 법령 원문 발췌 + 서식 다운로드 링크 + 공종 재료 |
+| `compile_document_references` | **제네릭** — 23종 문서 전부. 양식 + verified 법령 원문 발췌 + 서식 다운로드 링크 + 공종 재료 |
 | `compile_ncr_references` | NCR 전용 — 부적합 후보·원인·즉시/시정 조치·증빙 (깊은 그래프 traversal) |
 | `compile_concrete_pour_references` | 콘크리트 타설 준비 일습 (납품기록·공시체 연계) |
 | `compile_inspection_references` / `compile_inspection_request_references` | 검측·검측신청 재료 |
