@@ -245,6 +245,29 @@ async function testLookup(): Promise<void> {
   check("판정: 대체 기준(표준시방서)으로 낸 불합격의 반품 처리는 공사시방서 기준 확인을 조건으로 단다", failAir.legalVerdict === "FAIL" && (failAir.ifRejected?.appliesIf ?? "").includes("공사시방서"));
   const passSlump = ((await callTool("evaluate_observation", { observation: "슬럼프 160mm, 호칭 슬럼프 150mm" }, { graph })).result as RejOut).expertAssessment;
   check("판정: 합격이면 반품 처리를 붙이지 않는다", passSlump.legalVerdict === "PASS" && passSlump.ifRejected === null);
+  // 법정 문서 점검(도구 직접 호출)에서 드러난 결함
+  type PlanOut = { planTarget: { qualityPlan: string; testPlan: string; missingInputs: string[] } };
+  const civil380 = ((await callTool("compile_quality_test_plan_references", { workKind: "civil", totalContractValue: 38_000_000_000, cmSupervised: true }, { graph })).result as PlanOut).planTarget;
+  check("수립 대상: 토목공사는 다중이용 건축물 여부를 묻지 않고 판정한다(380억·감독 권한대행 → 품질시험계획)", civil380.qualityPlan === "not_applies" && civil380.testPlan === "applies" && !civil380.missingInputs.some((m) => m.includes("다중이용")));
+  type GenOut = { markdown: string; frequencyFilled?: Array<{ testItem: string; frequency: string }>; frequencyCandidates?: Array<{ testItem: string; candidates: Array<{ frequency: string }> }> };
+  const genMd = async (docId: string, formValues: Record<string, unknown>): Promise<GenOut> => (await callTool("generate_quality_document", { docId, format: "md", formValues }, { graph })).result as GenOut;
+  const testPlanDoc = await genMd("quality_test_plan", { projectName: "OO천", testItems: [{ workType: "철근콘크리트공사", testItem: "철근 SD400 D16", plannedQuantity: "300톤" }, { workType: "철근콘크리트공사", testItem: "레미콘 25-24-120", plannedQuantity: "2,400㎥" }] });
+  const qualityPlanDoc = await genMd("quality_plan", { projectName: "OO" });
+  const headings = [testPlanDoc, qualityPlanDoc].flatMap((d) => d.markdown.split("\n").filter((l) => l.startsWith("## ")));
+  check("문서 제목: 서식이 정한 장 번호에 번호를 또 붙이지 않는다", headings.length > 0 && !headings.some((h) => /^## \d+\. \d+\./.test(h)) && headings.includes("## 1. 일반사항"));
+  check(
+    "시험계획서: 별표 2 빈도가 하나로 정해지는 줄(철근)은 빈도 칸을 출처와 함께 채우고, 여럿인 줄(레미콘)은 후보를 준다",
+    (testPlanDoc.frequencyFilled ?? []).some((f) => f.testItem.startsWith("철근") && f.frequency.includes("50톤")) &&
+      testPlanDoc.markdown.includes("50톤마다 (업무지침 별표 2)") &&
+      (testPlanDoc.frequencyCandidates ?? []).some((c) => c.testItem.startsWith("레미콘") && c.candidates.some((x) => x.frequency.includes("120세제곱미터"))),
+  );
+  const approval = JSON.stringify((await callTool("get_material_source_approval_schema", {}, { graph })).result);
+  check("공급원 승인 요청서: 첨부 안내에 시험성과 대비표(사업관리방식 지침 제87조제7항)", approval.includes("시험성과 대비표") && approval.includes("제87조제7항"));
+  const register = await genMd("quality_inspection_register", { projectName: "OO", entries: [{ seq: 1, inspectionDate: "2026-11-10", material: "골재", qcEngineerName: "최유진" }] });
+  const registerHead = register.markdown.split("\n").find((l) => l.startsWith("| 일련번호")) ?? "";
+  check("실시대장: 품질관리기술인·건설사업관리기술인 확인 칸을 성명·서명으로 나눈다(별지 제42호 15열)", registerHead.split("|").length - 2 === 15 && registerHead.includes("품질관리기술인 서명"));
+  const rebarSheet = ((await callTool("evaluate_observation", { observation: "철근 SD400 D22 항복강도 412MPa 인장강도 548MPa" }, { graph })).result as { expertAssessment: { legalVerdict: string; observedValue: number | null } }).expertAssessment;
+  check("판정: 기준을 찾지 못하면 여러 수의 평균을 측정값으로 내보내지 않는다", rebarSheet.legalVerdict === "UNDETERMINED" && rebarSheet.observedValue === null);
   check("일일 브리핑: 알 수 없는 공종만 주면 고를 수 있는 공종 목록을 준다", unknownBrief.unresolvedWorkTypes.includes("양자역학") && (unknownBrief.availableWorkTypes ?? []).some((w) => w.id === "work.road_pavement"));
   const byId = await callTool("get_quality_law_article", { articleId: "standard.law.btia_decree_89" }, { graph });
   const r3 = byId.result as { article: { bodyText: string; edition: string; scope: string } };

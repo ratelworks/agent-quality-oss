@@ -191,8 +191,23 @@ function testSchemas(): void {
   };
 
   // 품질검사 실시대장 — 표의 열이 별지 제42호의 열과 같은 순서로 모두 있다 (이전 판은 법정 열 5개가 없었다)
-  const f42 = parseBoxTables(findAnnex(rule, "별지 제42호")?.text ?? "")[0]?.rows[1]?.map(normalizeLawText) ?? [];
-  check("실시대장: 별지 제42호의 열 13개와 같음", columnsOf("quality_inspection_register", "entries").join("|") === f42.join("|"), `${columnsOf("quality_inspection_register", "entries").join("|")} ≠ ${f42.join("|")}`);
+  // 머리가 두 줄이다 — 품질관리기술인·건설사업관리기술인 확인 칸은 아래 줄에서 성명·서명으로 나뉜다. 위 줄만 보면 서명 칸이 빠진 것을 놓친다
+  const f42Rows = parseBoxTables(findAnnex(rule, "별지 제42호")?.text ?? "")[0]?.rows ?? [];
+  const f42Top = (f42Rows[1] ?? []).map(normalizeLawText);
+  const f42Sub = (f42Rows[2] ?? []).map(normalizeLawText);
+  const f42: string[] = [];
+  {
+    let j = 0;
+    let group: string[] = [];
+    for (const cell of f42Sub) {
+      if (cell === f42Top[j]) { f42.push(cell); j += 1; group = []; continue; }
+      if (group.length > 0 && cell === f42Top[j + 1]) { j += 1; f42.push(cell); j += 1; group = []; continue; }
+      if (group.includes(cell)) { j += 1; group = []; }
+      group.push(cell);
+      f42.push((f42Top[j] ?? "") + cell);
+    }
+  }
+  check("실시대장: 별지 제42호의 열 15개(성명·서명 나뉜 칸 포함)와 같음", f42.length === 15 && columnsOf("quality_inspection_register", "entries").join("|") === f42.join("|"), `${columnsOf("quality_inspection_register", "entries").join("|")} ≠ ${f42.join("|")}`);
 
   // 성과 총괄표 — 별지 제43호의 열(공종·종류·계획·실시·합격·불합격·재시험·비고)
   const f43 = parseBoxTables(findAnnex(rule, "별지 제43호")?.text ?? "")[0]?.rows[1]?.map(normalizeLawText) ?? [];

@@ -14,6 +14,7 @@ import { ERROR_CODES, QualityMcpError } from "../lib/errors.js";
 import { buildDocumentBody, renderMarkdown } from "../lib/document-body.js";
 import { DOCLANG_VERSION, serializeToDoclang } from "../lib/doclang-serializer.js";
 import { saveHwpx } from "../lib/hwpx-export.js";
+import { fillTestPlanFrequencies } from "../lib/test-plan-fill.js";
 import type { BasisRef, ToolSpec } from "../lib/types.js";
 import type { OntologyGraph } from "../ontology/graph.js";
 
@@ -63,6 +64,8 @@ export function run(args: GenerateDocumentArgs, graph: OntologyGraph) {
   }
   const format: Format = args.format ?? "md";
   const body = buildDocumentBody(schema, args.formValues);
+  // 품질시험계획서의 시험 빈도는 원문 값 — 별표 2 에서 하나로 정해지면 채우고, 여럿이면 후보를 알린다
+  const frequencyFill = schema.id === "quality_test_plan" ? fillTestPlanFrequencies(body) : null;
   const markdown = renderMarkdown(body);
 
   const missingRequired = body.draft.missingRequired.map((f) => `${f.sectionTitle} > ${f.label}`);
@@ -79,6 +82,7 @@ export function run(args: GenerateDocumentArgs, graph: OntologyGraph) {
     problems,
     unknownKeys: body.draft.unknownKeys,
     remaining: REMAINING_WORK,
+    ...(frequencyFill ? { frequencyFilled: frequencyFill.filled, frequencyCandidates: frequencyFill.candidates } : {}),
   };
 
   let output: Record<string, unknown>;

@@ -52,6 +52,8 @@ export interface DraftField {
   filled: boolean;
   /** 형식에 맞지 않는 점 (숫자 칸에 글자, 선택지에 없는 값 등) */
   problems: string[];
+  /** 작성 안내로 덧붙일 말 — 원문에서 찾은 후보 등 (형식 문제가 아니라 파일 만들기를 막지 않는다) */
+  hints?: string[];
 }
 
 export interface NormalizedDraft {

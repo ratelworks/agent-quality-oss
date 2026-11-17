@@ -41,6 +41,10 @@ const MULTIUSE_FLOORS_GROUND = "건축법 시행령 제2조제17호나목 — 16
 const MULTIUSE_USE_HINT =
   "16층 미만이면 문화 및 집회시설(동물원·식물원 제외)·종교시설·판매시설·운수시설 중 여객용 시설·의료시설 중 종합병원·숙박시설 중 관광숙박시설로 쓰는 바닥면적 합계가 5천㎡ 이상인지로 가린다(건축법 시행령 제2조제17호가목)";
 
+/** 토목공사는 건축물의 건설공사가 아니다 — 다중이용 건축물 기준(영 제89조제1항제2호, 규칙 별표 5)을 적용하지 않는다 */
+const CIVIL_NOT_BUILDING_GROUND =
+  "시행령 제89조제1항제2호는 다중이용 건축물의 건설공사다 — 토목공사라 해당하지 않는 것으로 판정했습니다(건축물 공사가 함께 있으면 다중이용 건축물 여부나 층수를 주십시오)";
+
 const DECREE = "건설기술 진흥법 시행령";
 const RULE = "건설기술 진흥법 시행규칙";
 const CIRCLED = "①②③④⑤⑥⑦⑧⑨⑩";
@@ -146,6 +150,7 @@ export function judgePlanTarget(f: ProjectFacts): PlanTargetJudgement {
   // 다중이용 건축물 — 층수로 정해지면 그 값을 쓴다(입력한 multiUse 와 다르면 층수를 따른다)
   const multiUse = resolveMultiUse(f);
   if (multiUse.byFloors) grounds.push(MULTIUSE_FLOORS_GROUND);
+  if (multiUse.byWorkKind) grounds.push(CIVIL_NOT_BUILDING_GROUND);
   if (multiUse.note) caveats.push(multiUse.note);
   // 제1항 — 품질관리계획
   const item1 = and3(flag(f.cmSupervised), atLeast(f.totalCost, QUALITY_PLAN_COST));
@@ -203,8 +208,8 @@ export function judgePlanTarget(f: ProjectFacts): PlanTargetJudgement {
   return { qualityPlan, testPlan, conclusion, grounds: shownGrounds, missingInputs: shownMissing, caveats, byQualityPlanItems12: items12 };
 }
 
-/** 다중이용 건축물 여부 — 16층 이상이면 해당. 그 밖에는 입력한 값(없으면 모름) */
-export function resolveMultiUse(f: ProjectFacts): { value: boolean | undefined; byFloors: boolean; note?: string } {
+/** 다중이용 건축물 여부 — 16층 이상이면 해당. 입력이 없고 토목공사면 해당 없음. 그 밖에는 입력한 값(없으면 모름) */
+export function resolveMultiUse(f: ProjectFacts): { value: boolean | undefined; byFloors: boolean; byWorkKind?: boolean; note?: string } {
   if (f.floors !== undefined && f.floors >= MULTIUSE_FLOORS) {
     return {
       value: true,
@@ -214,6 +219,7 @@ export function resolveMultiUse(f: ProjectFacts): { value: boolean | undefined; 
         : {}),
     };
   }
+  if (f.multiUse === undefined && f.workKind === "civil") return { value: false, byFloors: false, byWorkKind: true };
   return { value: f.multiUse, byFloors: false };
 }
 

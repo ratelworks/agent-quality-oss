@@ -139,7 +139,8 @@ export function run(args: EvaluateArgs, graph: OntologyGraph) {
       const why = resolvedTest
         ? `'${resolvedTest.name}'(${resolvedTest.id}) 의 판정기준이 온톨로지에 없습니다 — 시험방법·시험빈도는 search_quality_test_standards 로, 합격 기준은 공사시방서와 해당 표준시방서로 확인하세요.`
         : '문장에서 어떤 시험인지 알아보지 못했습니다 — 시험 이름을 문장에 적거나, search_quality_ontology 로 찾은 testId·criterionId 를 지정하세요.';
-      j = { ...j, reasoning: [...idNotes, why].join(' / ') };
+      // 기준이 없으면 문장의 수가 무엇의 값인지 정할 수 없다 — 여러 수의 평균("항복강도 412 인장강도 548" → 480)을 측정값으로 내보내지 않는다
+      j = { ...j, observedValue: null, observedUnit: null, reasoning: [...idNotes, why].join(' / ') };
     } else if (idNotes.length > 0 && resolvedTest) {
       idNotes.push(`문장에 적힌 이름으로 '${resolvedTest.name}'(${resolvedTest.id}) 시험을 골라 판정했습니다`);
     }

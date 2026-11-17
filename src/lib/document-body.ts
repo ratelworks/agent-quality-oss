@@ -43,6 +43,8 @@ export interface DocumentBody {
   /** 필수 항목 수와 그중 채운 수 */
   requiredTotal: number;
   requiredFilled: number;
+  /** 입력이 아니라 원문에서 옮겨 채운 칸에 대한 안내 (있을 때) */
+  autoFilled?: string[];
 }
 
 /** "부적합 보고서(NCR) (실무 서식 — 법정 전용 서식 없음)" → "부적합 보고서(NCR)" */
@@ -58,9 +60,11 @@ export function documentTitle(schema: DocumentSchema): string {
 /** 입력값을 정리해 본문의 뼈대를 만든다 */
 export function buildDocumentBody(schema: DocumentSchema, formValues: unknown): DocumentBody {
   const draft = normalizeDraft(schema, formValues);
+  // 법정 서식이 장 번호를 정한 문서(품질시험계획 별표 9 의 1~4호 등)는 제목의 번호를 그대로 쓴다 — 번호를 또 붙이면 "1. 1. 개요"가 되고, 서식 밖 절이 앞에 있으면 번호가 밀린다
+  const officialNumbering = schema.sections.some((section) => /^\d+\.\s/.test(section.title));
   const sections: BodySection[] = schema.sections.map((section, index) => ({
     key: section.key,
-    heading: `${index + 1}. ${section.title}`,
+    heading: officialNumbering ? section.title : `${index + 1}. ${section.title}`,
     title: section.title,
     origin: section.origin ?? null,
     fields: draft.fields.filter((f) => f.sectionKey === section.key),
@@ -143,12 +147,18 @@ export function fieldGuides(field: DraftField): string[] {
     guides.push(`${field.label}${field.required ? " (필수)" : ""} — 비어 있습니다.${what}`);
   }
   for (const problem of field.problems) guides.push(`${field.label} — 확인 필요: ${problem}`);
+  for (const hint of field.hints ?? []) guides.push(`${field.label} — ${hint}`);
   return guides;
 }
 
 /** 문서 머리의 안내 문장들 */
 export function headGuides(body: DocumentBody): string[] {
-  const guides = ["입력한 값을 양식 구조대로 옮긴 초안입니다. 입력하지 않은 칸은 비워 두었고 값을 지어내지 않았습니다."];
+  const guides = [
+    body.autoFilled && body.autoFilled.length > 0
+      ? "입력한 값을 양식 구조대로 옮긴 초안입니다. 입력하지 않은 칸은 비워 두었고 값을 지어내지 않았습니다 — 아래 칸만 원문에서 옮겨 채웠습니다."
+      : "입력한 값을 양식 구조대로 옮긴 초안입니다. 입력하지 않은 칸은 비워 두었고 값을 지어내지 않았습니다.",
+    ...(body.autoFilled ?? []),
+  ];
   const missing = body.requiredTotal - body.requiredFilled;
   guides.push(missing > 0 ? `필수 항목 ${body.requiredTotal}개 중 ${missing}개가 비어 있습니다.` : `필수 항목 ${body.requiredTotal}개를 모두 채웠습니다.`);
   if (body.officialForm) {
