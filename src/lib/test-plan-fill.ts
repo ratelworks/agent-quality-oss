@@ -16,6 +16,7 @@ import { loadTestStandards } from "../knowledge/test-standards.js";
 import type { TestStandardRow } from "../knowledge/test-standards.js";
 import { loadFieldPhrases } from "../knowledge/field-phrases.js";
 import { loadOntologySync } from "../ontology/loader.js";
+import { linkedRows, linksOf, type StandardLink } from "../knowledge/test-standard-links.js";
 import type { DocumentBody } from "./document-body.js";
 
 // ───── 상수 ─────
@@ -56,10 +57,12 @@ const tidy = (s: string): string => s.replace(/\s+/g, " ").trim();
 
 /** 공종 이름으로 구분을 찾는 말 — 끝의 공·공사를 떼고, 표에서만 쓰는 표기("철골" → 철강구조물)를 더한다 */
 function sectionKeys(workType: string): string[] {
-  const key = squash(workType).replace(/(?:공사|공)$/u, "");
-  if (key.length < TOKEN_MIN) return [];
+  const base = squash(workType);
+  const key = base.replace(/(?:공사|공)$/u, "");
   const { rowTerms } = loadFieldPhrases();
-  return [...new Set([key, ...(lookupTerm(rowTerms, key) ?? []).map(squash)])];
+  // "토공" 처럼 떼고 나면 한 글자인 공종도 표기가 있으면 그 구분으로 찾는다
+  const named = (lookupTerm(rowTerms, base) ?? lookupTerm(rowTerms, key) ?? []).map(squash);
+  return [...new Set([...(key.length >= TOKEN_MIN ? [key] : []), ...named])];
 }
 
 const inSectionOf = (keys: string[]) => (r: TestStandardRow): boolean => keys.some((k) => squash(r.section).includes(k));
@@ -114,7 +117,6 @@ function categoryHas(category: string, key: string): boolean {
 }
 
 // ───── 온톨로지: 시험 노드 → 별표 2 행 ─────
-interface StandardLink { category: string; item: string; section?: string; default?: boolean }
 interface TestConcept { id: string; aliases: Array<{ text: string; key: string }>; links: StandardLink[] }
 
 let conceptsCache: TestConcept[] | null = null;
@@ -127,18 +129,13 @@ function testConcepts(): TestConcept[] {
       .map((e) => ({
         id: e.id,
         aliases: [e.name, ...e.aliases].map((text) => ({ text, key: squash(text) })).filter((a) => a.key.length >= TOKEN_MIN),
-        links: ((e.meta as Record<string, unknown>)["testStandardRows"] as StandardLink[] | undefined) ?? [],
+        links: linksOf(e),
       }));
   }
   return conceptsCache;
 }
 
-/** 노드가 잇는 별표 2 행 (종별·시험종목·구분의 글자 포함) */
-export function linkedRows(link: StandardLink): TestStandardRow[] {
-  return loadTestStandards().rows.filter(
-    (r) => squash(r.category).includes(squash(link.category)) && squash(r.item).includes(squash(link.item)) && (!link.section || squash(r.section).includes(squash(link.section))),
-  );
-}
+export { linkedRows };
 
 /** 시험 노드의 별표 2 연결 — 검사용 (노드 id, 연결) */
 export function testStandardLinks(): Array<{ id: string; link: StandardLink }> {
@@ -150,14 +147,23 @@ const distinctFrequencies = (rows: TestStandardRow[]): number => new Set(rows.ma
 /**
  * 온톨로지로 찾은 별표 2 행 — 시험 노드가 정해지지 않거나 노드가 잇는 행으로 줄을 설명하지 못하면 null.
  */
-function graphPlanRows(workType: string, words: string[]): { rows: TestStandardRow[]; namedMaterial: boolean } | null {
+function graphPlanRows(workType: string, words: string[]): { rows: TestStandardRow[]; namedMaterial: boolean; allDefault: boolean } | null {
   const text = squash(words.join(""));
+  // 공종 이름을 앞에 붙인 글에서도 찾는다 — 아스팔트포장공의 "다짐도" 는 "포장 다짐도", 콘크리트공의 "온도" 는 "콘크리트 온도".
+  // 그때 별칭은 시험종목 쪽 글에 걸쳐야 한다(공종 이름만으로 시험을 정하지 않는다)
+  const work = squash(workType).replace(/(?:공사|공)$/u, "");
+  const withWork = work + text;
+  const inLine = (key: string): boolean => {
+    if (text.includes(key)) return true;
+    for (let at = withWork.indexOf(key); at >= 0; at = withWork.indexOf(key, at + 1)) if (at + key.length > work.length && at < work.length) return true;
+    return false;
+  };
   // 1) 줄 글에 들어 있는 가장 긴 이름·별칭의 시험 노드
   let best = 0;
   let hits: Array<{ concept: TestConcept; alias: { text: string; key: string } }> = [];
   for (const concept of testConcepts()) {
     for (const alias of concept.aliases) {
-      if (!text.includes(alias.key) || alias.key.length < best) continue;
+      if (!inLine(alias.key) || alias.key.length < best) continue;
       if (alias.key.length > best) hits = [];
       best = alias.key.length;
       hits.push({ concept, alias });
@@ -172,6 +178,9 @@ function graphPlanRows(workType: string, words: string[]): { rows: TestStandardR
   const aliasWords = [...new Set(hits.flatMap((h) => h.alias.text.split(/[\s,·/]+/u)))].map((w) => squash(w).replace(GENERIC_SUFFIX, "")).filter((w) => w.length >= TOKEN_MIN);
   const byAlias = rows.filter((r) => aliasWords.some((w) => squash(r.item).includes(w)));
   if (byAlias.length > 0) rows = byAlias;
+  // 별칭이 자재를 가리키면 그 종별로("벽돌 압축강도" → 벽돌, "블록 강도" → 블록)
+  const byAliasMaterial = rows.filter((r) => aliasWords.some((w) => categoryHas(r.category, w)));
+  if (byAliasMaterial.length > 0) rows = byAliasMaterial;
 
   // 3) 별칭 밖의 말(자재·부위)로 좁힌다 — 하나라도 행에 없으면 이 노드로는 정하지 않는다
   const aliasKey = hits[0]?.alias.key ?? "";
@@ -208,7 +217,8 @@ function graphPlanRows(workType: string, words: string[]): { rows: TestStandardR
     const picked = rows.filter((r) => defaults.has(r));
     if (picked.length > 0) rows = picked;
   }
-  return { rows, namedMaterial };
+  const defaultRows = new Set(linked.filter((x) => x.link.default).flatMap((x) => x.rows));
+  return { rows, namedMaterial, allDefault: rows.every((r) => defaultRows.has(r)) };
 }
 
 /** 칸에서 괄호 안 설명을 뺀 이름 — "굳지 아니한 콘크리트 (레미콘포함)" → "굳지아니한콘크리트" */
@@ -259,7 +269,11 @@ export function matchPlanRow(workType: string, testItem: string): PlanRowMatch {
   //    표의 이름을 따른다("다짐" 은 표의 실내 다짐시험이지 현장밀도가 아니다, "압축강도의 비" 는 혼화제의 시험이다)
   const fromGraph = graphPlanRows(workType, words);
   const fromTable = tableRows(workType, words, tokens);
-  if (fromGraph && !(fromTable.exact.length > 0 && !fromTable.exact.some((r) => fromGraph.rows.includes(r)))) {
+  // 표에서 줄의 말과 꼭 같은 시험종목이 여러 자재에 있고 빈도가 갈리면, 노드는 기본으로 정한 행이거나 줄이 자재를 적었을 때만 고른다
+  //    ("투수계수" 를 토목섬유·흙의 행으로만 좁혀 다른 자재의 투수계수 빈도를 채우지 않게)
+  const tableAmbiguous = fromTable.exact.length > 0 && distinctFrequencies(fromTable.exact) > 1;
+  const decisive = fromGraph !== null && (fromGraph.namedMaterial || fromGraph.allDefault);
+  if (fromGraph && !(fromTable.exact.length > 0 && !fromTable.exact.some((r) => fromGraph.rows.includes(r))) && (!tableAmbiguous || decisive)) {
     // 자재를 적지 않았는데 표의 글로는 여러 자재의 빈도가 갈렸다 — 온톨로지가 시험의 대상 자재로 골랐다는 것을 알린다
     const assumed = !fromGraph.namedMaterial && distinctFrequencies(fromTable.rows) > 1;
     return done(fromGraph.rows, true, assumed);

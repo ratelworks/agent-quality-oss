@@ -14,7 +14,21 @@
     "method": "파이프서포트 평누름 압축 KS F 8001 / 비계용 강관 인장·휨 KS F 8002 / 비계·동바리 부재 압축·휨·인장 KS F 8021 (또는 산업안전보건법 안전인증기준)",
     "timing": "반입 시",
     "frequency": "제품규격마다(3개)·공급자마다 (별표2)",
-    "typicalAcceptance": "안전인증기준 허용하중 적합 — 판정값은 안전인증/KS 확보 시"
+    "typicalAcceptance": "안전인증기준 허용하중 적합 — 판정값은 안전인증/KS 확보 시",
+    "testStandardRows": [
+      {
+        "category": "강재파이프서포트",
+        "item": "압축"
+      },
+      {
+        "category": "강관비계용 부재",
+        "item": "하중"
+      },
+      {
+        "category": "조립형 비계 및 동바리 부재",
+        "item": "하중"
+      }
+    ]
   },
   "targetMaterial": [
     "material:scaffold"

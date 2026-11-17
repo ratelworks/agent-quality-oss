@@ -12,7 +12,41 @@
     "method": "인장강도·인장변형률 KS K ISO 10319 / 수직 투수계수 KS K ISO 11058 / 봉합강도 KS K ISO 10321",
     "timing": "반입 시",
     "frequency": "제조회사별·20,000㎡마다 (별표2)",
-    "typicalAcceptance": "인장강도·투수계수 기준은 KS K ISO·설계도서 확보 시 — 시험종목·방법·빈도 커버리지"
+    "typicalAcceptance": "인장강도·투수계수 기준은 KS K ISO·설계도서 확보 시 — 시험종목·방법·빈도 커버리지",
+    "testStandardRows": [
+      {
+        "category": "토목섬유 매트",
+        "item": "인장강도"
+      },
+      {
+        "category": "토목섬유 매트",
+        "item": "투수계수"
+      },
+      {
+        "category": "토목섬유 매트",
+        "item": "봉합강도"
+      },
+      {
+        "category": "토목섬유 (배수용)",
+        "item": "인장강도"
+      },
+      {
+        "category": "토목섬유 (배수용)",
+        "item": "투수계수"
+      },
+      {
+        "category": "토목용 부직포 섬유",
+        "item": "인장강도"
+      },
+      {
+        "category": "토목용 부직포 섬유",
+        "item": "투수계수"
+      },
+      {
+        "category": "토목용 부직포 섬유",
+        "item": "봉합강도"
+      }
+    ]
   },
   "targetMaterial": [
     "material:geotextile"

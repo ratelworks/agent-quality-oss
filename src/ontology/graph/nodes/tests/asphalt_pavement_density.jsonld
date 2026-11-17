@@ -1,0 +1,42 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "test:asphalt_pavement_density",
+  "@type": "TestItem",
+  "name": "아스팔트 포장 다짐 밀도 시험",
+  "aliases": [
+    "아스팔트 다짐도",
+    "아스콘 다짐도",
+    "포장 다짐도",
+    "아스팔트 포장 밀도",
+    "포설 밀도",
+    "코어 밀도"
+  ],
+  "_meta": {
+    "method": "KS F 2353 (업무지침 별표 2 의 시험방법)",
+    "timing": "포설·다짐을 마친 뒤",
+    "frequency": "업무지침 별표 2: 1일 1회 이상, 포설 1층당 30아르마다.",
+    "typicalAcceptance": "다짐도(기준밀도 대비) 기준은 도로포장 표준시방서를 따른다 — 이 서버에는 수치가 없다",
+    "testStandardRows": [
+      {
+        "category": "혼합물의 포설",
+        "item": "밀도",
+        "default": true
+      }
+    ]
+  },
+  "targetMaterial": [
+    "material:asphalt_mixture"
+  ],
+  "relatedWork": [
+    "work:road_pavement"
+  ],
+  "requiresEvidence": [
+    "doc:site_test_record"
+  ],
+  "requiresStandard": [
+    "standard:form.guideline_annex2"
+  ],
+  "hasAcceptanceCriteria": [
+    "criteria:asphalt_pavement_density"
+  ]
+}

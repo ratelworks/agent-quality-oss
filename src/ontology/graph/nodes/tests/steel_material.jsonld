@@ -12,7 +12,29 @@
     "method": "KS D 3503 — 인장강도·굽힘성·겉모양·치수·무게",
     "timing": "강재 반입 시",
     "frequency": "제조회사별·제품규격별 (별표2)",
-    "typicalAcceptance": "KS D 3503 강종별 항복·인장강도 적합 — 합격 수치는 KS 원문(유료) 확보 시"
+    "typicalAcceptance": "KS D 3503 강종별 항복·인장강도 적합 — 합격 수치는 KS 원문(유료) 확보 시",
+    "testStandardRows": [
+      {
+        "category": "",
+        "item": "인장강도",
+        "section": "철강구조물공사"
+      },
+      {
+        "category": "",
+        "item": "항복",
+        "section": "철강구조물공사"
+      },
+      {
+        "category": "",
+        "item": "굽힘",
+        "section": "철강구조물공사"
+      },
+      {
+        "category": "",
+        "item": "연신율",
+        "section": "철강구조물공사"
+      }
+    ]
   },
   "targetMaterial": [
     "material:steel"

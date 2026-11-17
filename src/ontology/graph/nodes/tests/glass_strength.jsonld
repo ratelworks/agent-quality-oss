@@ -13,7 +13,25 @@
     "method": "강화유리 KS L 2002(낙구 충격 파괴 강도·파쇄시험·쇼트백 충격 특성) / 열선 반사 유리 KS L 2014(내광성·내마모성·내산성·내알칼리성) / 복층유리 KS L 2003(겉모양 및 치수·이슬점·봉착의 가속 내구성) — 업무지침 별표 2",
     "timing": "유리 반입 시",
     "frequency": "제조회사별·제품규격별 (별표2)",
-    "typicalAcceptance": "유리의 판정값은 KS L 2002·2003·2014 를 따른다 — 이 서버에는 판정값이 없다"
+    "typicalAcceptance": "유리의 판정값은 KS L 2002·2003·2014 를 따른다 — 이 서버에는 판정값이 없다",
+    "testStandardRows": [
+      {
+        "category": "강화유리",
+        "item": "낙구 충격 파괴 강도"
+      },
+      {
+        "category": "강화유리",
+        "item": "파쇄시험"
+      },
+      {
+        "category": "강화유리",
+        "item": "내알칼리성"
+      },
+      {
+        "category": "접합유리",
+        "item": "낙구 충격"
+      }
+    ]
   },
   "targetMaterial": [
     "material:glass"

@@ -11,7 +11,19 @@
     "method": "KS F 2306 함수비 시험",
     "timing": "성토 재료 반입·다짐 전",
     "frequency": "토취장마다·재질변화시마다 (별표2)",
-    "typicalAcceptance": "최적함수비(OMC) 대비 관리범위는 설계도서/KCS — 시험종목·방법 커버리지"
+    "typicalAcceptance": "최적함수비(OMC) 대비 관리범위는 설계도서/KCS — 시험종목·방법 커버리지",
+    "testStandardRows": [
+      {
+        "category": "",
+        "item": "함수비",
+        "section": "토공사 및 기초공사"
+      },
+      {
+        "category": "",
+        "item": "함수비",
+        "section": "흙 및 혼합골재"
+      }
+    ]
   },
   "targetMaterial": [
     "material:soil"

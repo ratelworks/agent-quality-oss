@@ -13,7 +13,29 @@
     "method": "보통합판 밀도 KS F 3101 / 구조용 집성재 KS F 3021 / 플로어링보드 휨강도 KS F 3103 / 함수율 KS F 2199 / 난연성 KS F 2271",
     "timing": "반입 시",
     "frequency": "제조회사별·제품규격별 (별표2)",
-    "typicalAcceptance": "밀도·휨강도·난연 기준은 KS F 3101/3021/3103 확보 시 — 시험종목·방법 커버리지"
+    "typicalAcceptance": "밀도·휨강도·난연 기준은 KS F 3101/3021/3103 확보 시 — 시험종목·방법 커버리지",
+    "testStandardRows": [
+      {
+        "category": "보통합판",
+        "item": "밀도"
+      },
+      {
+        "category": "보통합판",
+        "item": "난연성"
+      },
+      {
+        "category": "구조용 집성재",
+        "item": ""
+      },
+      {
+        "category": "파티클보드",
+        "item": "휨"
+      },
+      {
+        "category": "플로어링 보드",
+        "item": "휨강도"
+      }
+    ]
   },
   "targetMaterial": [
     "material:wood_panel"

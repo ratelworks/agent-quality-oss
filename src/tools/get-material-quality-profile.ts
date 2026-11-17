@@ -5,6 +5,7 @@
 import { searchEntities } from '../ontology/resolver.js';
 import { buildResponse, entityBasis } from './_response.js';
 import { dutyBlock } from './_compile-common.js';
+import { standardRowsOf } from '../knowledge/test-standard-links.js';
 import type { ToolSpec } from '../lib/types.js';
 import type { OntologyGraph } from '../ontology/graph.js';
 
@@ -62,6 +63,8 @@ export function run(args: MaterialProfileArgs, graph: OntologyGraph) {
     name: t.name,
     method: (t.meta?.['method'] as string | undefined) ?? null,
     frequency: (t.meta?.['frequency'] as string | undefined) ?? null,
+    // 별표 2 원문의 빈도 — 시험 노드가 잇는 행
+    standardRows: standardRowsOf(t),
     typicalAcceptance: (t.meta?.['typicalAcceptance'] as string | undefined) ?? null,
   }));
   const documents = (n1['requiresDocument'] ?? []).map((d) => ({

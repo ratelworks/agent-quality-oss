@@ -12,7 +12,19 @@
     "method": "열전도율 KS L 9016(보온재의 열전도율 측정 방법) / 열관류 저항 KS F 2277 — 업무지침 별표 2 단열재 행. KS L 3121 은 내화 단열 벽돌의 시험이다",
     "timing": "단열재 반입 시",
     "frequency": "제조회사별·제품규격별 (별표2)",
-    "typicalAcceptance": "열전도율 기준은 해당 단열재의 KS 제품규격과 건축물의 에너지절약설계기준을 따른다 — 이 서버에는 판정값이 없다"
+    "typicalAcceptance": "열전도율 기준은 해당 단열재의 KS 제품규격과 건축물의 에너지절약설계기준을 따른다 — 이 서버에는 판정값이 없다",
+    "testStandardRows": [
+      {
+        "category": "",
+        "item": "열전도율",
+        "section": "단열"
+      },
+      {
+        "category": "",
+        "item": "열 전도율",
+        "section": "단열"
+      }
+    ]
   },
   "targetMaterial": [
     "material:insulation"

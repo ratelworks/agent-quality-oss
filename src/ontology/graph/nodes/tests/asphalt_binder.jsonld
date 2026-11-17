@@ -1,0 +1,70 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "test:asphalt_binder",
+  "@type": "TestItem",
+  "name": "포장용 아스팔트 품질 시험",
+  "aliases": [
+    "아스팔트 침입도",
+    "침입도",
+    "연화점",
+    "신도",
+    "아스팔트 연화점",
+    "아스팔트 신도",
+    "바인더 시험"
+  ],
+  "_meta": {
+    "method": "침입도 KS M 2252 · 연화점 KS M 2250 · 신도 KS M 2254 (업무지침 별표 2 의 시험방법)",
+    "timing": "반입할 때, 장기 저장으로 재질 변화가 의심될 때",
+    "frequency": "업무지침 별표 2: 도로포장용 아스팔트는 2,000톤마다·장기저장으로 재질의 변화가 있다고 판단되는 때·제조회사별. 블론 아스팔트는 제조회사별·제품규격마다·반입시마다.",
+    "typicalAcceptance": "KS M 2201 의 침입도 등급별 범위를 따른다 — 이 서버에는 수치가 없다",
+    "testStandardRows": [
+      {
+        "category": "도로포장용 아스팔트",
+        "item": "침입도",
+        "default": true
+      },
+      {
+        "category": "도로포장용 아스팔트",
+        "item": "연화점",
+        "default": true
+      },
+      {
+        "category": "도로포장용 아스팔트",
+        "item": "신도",
+        "default": true
+      },
+      {
+        "category": "블론 아스팔트",
+        "item": "침입도"
+      },
+      {
+        "category": "블론 아스팔트",
+        "item": "연화점"
+      },
+      {
+        "category": "블론 아스팔트",
+        "item": "신도"
+      },
+      {
+        "category": "방수공사용 아스팔트",
+        "item": "침입도"
+      },
+      {
+        "category": "방수공사용 아스팔트",
+        "item": "연화점"
+      }
+    ]
+  },
+  "relatedWork": [
+    "work:road_pavement"
+  ],
+  "requiresEvidence": [
+    "doc:test_certificate"
+  ],
+  "requiresStandard": [
+    "standard:form.guideline_annex2"
+  ],
+  "hasAcceptanceCriteria": [
+    "criteria:asphalt_binder"
+  ]
+}

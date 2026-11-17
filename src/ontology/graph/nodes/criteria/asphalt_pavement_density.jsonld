@@ -1,0 +1,23 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "criteria:asphalt_pavement_density",
+  "@type": "AcceptanceCriteria",
+  "name": "아스팔트 포장 다짐도 기준 (표준시방서 확보 대기)",
+  "_meta": {
+    "operator": "ge",
+    "threshold": null,
+    "unit": "%",
+    "condition": "다짐도(기준밀도 대비) 기준은 도로포장 표준시방서(KCS 44)를 따른다 — 미확보로 보류(UNDETERMINED).",
+    "fallbackToProject": true,
+    "reference": "업무지침 별표 2 — 혼합물의 포설 · 밀도(KS F 2353)",
+    "sourceStatus": "skeleton",
+    "referenceVerified": false,
+    "note": "시험종목·방법·빈도는 업무지침 별표 2 로 확인했다. 판정값은 표준시방서 본문과 대조하지 못해 이 서버에는 수치가 없다."
+  },
+  "appliesTo": [
+    "test:asphalt_pavement_density"
+  ],
+  "derivedFrom": [
+    "standard:form.guideline_annex2"
+  ]
+}

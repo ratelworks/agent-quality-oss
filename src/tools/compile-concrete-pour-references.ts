@@ -6,6 +6,7 @@ import { mergeBasis, schemaLegalBasisRefs, checkpointView } from "./_compile-com
 import type { ToolSpec } from '../lib/types.js';
 import type { OntologyGraph } from '../ontology/graph.js';
 import { decodeMixCode } from '../knowledge/mix-code.js';
+import { standardRowsOf, type StandardRowView } from '../knowledge/test-standard-links.js';
 
 export const spec: ToolSpec = {
   name: 'compile_concrete_pour_references',
@@ -55,7 +56,7 @@ export function run(args: CompilePourArgs, graph: OntologyGraph) {
 
   const tests = new Map<
     string,
-    { id: string; name: string; method?: string; frequency?: string; typicalAcceptance?: string }
+    { id: string; name: string; method?: string; frequency?: string; standardRows: StandardRowView[]; typicalAcceptance?: string }
   >();
   const criteria = new Map<string, Record<string, unknown>>();
   for (const m of n1['usesMaterial'] ?? []) {
@@ -65,6 +66,7 @@ export function run(args: CompilePourArgs, graph: OntologyGraph) {
         name: t.name,
         method: t.meta?.['method'] as string | undefined,
         frequency: t.meta?.['frequency'] as string | undefined,
+        standardRows: standardRowsOf(t),
         typicalAcceptance: t.meta?.['typicalAcceptance'] as string | undefined,
       });
       for (const c of graph.neighbors(t.id)['hasAcceptanceCriteria'] ?? []) {

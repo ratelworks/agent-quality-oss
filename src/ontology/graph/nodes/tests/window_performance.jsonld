@@ -12,7 +12,29 @@
     "method": "문세트(KS F 3109): 비틀림 강도 KS F 3109, 연직 하중 강도 KS F 2631, 개폐력 KS F 2237, 내풍압성 KS F 2296, 기밀성 KS F 2292, 수밀성 KS F 2293 / 창세트(KS F 3117) / 목제 틀재 KS F 3108 / 함수율 KS F 2199 — 업무지침 별표 2",
     "timing": "반입 시",
     "frequency": "제조회사별·제품규격별 (별표2)",
-    "typicalAcceptance": "문세트·창세트의 판정값은 KS F 3109·KS F 3117 을 따른다 — 이 서버에는 판정값이 없다"
+    "typicalAcceptance": "문세트·창세트의 판정값은 KS F 3109·KS F 3117 을 따른다 — 이 서버에는 판정값이 없다",
+    "testStandardRows": [
+      {
+        "category": "창호 목제 틀재",
+        "item": "휨 강도"
+      },
+      {
+        "category": "창호 목제 틀재",
+        "item": "함수율"
+      },
+      {
+        "category": "문세트",
+        "item": "비틀림 강도"
+      },
+      {
+        "category": "문세트",
+        "item": "연직 하중 강도"
+      },
+      {
+        "category": "창세트",
+        "item": "함수율"
+      }
+    ]
   },
   "targetMaterial": [
     "material:window_frame"

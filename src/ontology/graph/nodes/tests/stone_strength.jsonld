@@ -12,7 +12,17 @@
     "method": "밀도·흡수율 KS F 2518 / 압축강도 KS F 2519",
     "timing": "반입 시",
     "frequency": "석산마다·제품규격별 (별표2)",
-    "typicalAcceptance": "압축강도·흡수율 기준은 KS F 2518/2519·설계도서 확보 시 — 시험종목·방법 커버리지"
+    "typicalAcceptance": "압축강도·흡수율 기준은 KS F 2518/2519·설계도서 확보 시 — 시험종목·방법 커버리지",
+    "testStandardRows": [
+      {
+        "category": "석재",
+        "item": "압축강도"
+      },
+      {
+        "category": "석재",
+        "item": "밀도 및 흡수율"
+      }
+    ]
   },
   "targetMaterial": [
     "material:stone"

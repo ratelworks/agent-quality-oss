@@ -12,7 +12,45 @@
     "method": "콘크리트벽돌 KS F 4004(겉모양·치수·기건 비중·압축 강도·흡수율) / 점토벽돌 KS L 4201 / 속빈콘크리트블록 KS F 4002(겉모양 및 치수·기건비중·압축 강도)",
     "timing": "반입 시",
     "frequency": "콘크리트벽돌 제품 100,000매당 · 점토벽돌 제품 50,000매당 · 속빈콘크리트블록 제품 10,000매당 (업무지침 별표 2)",
-    "typicalAcceptance": "압축강도·흡수율 기준은 KS F 4004/KS L 4201 확보 시 — 시험종목·방법·빈도 커버리지"
+    "typicalAcceptance": "압축강도·흡수율 기준은 KS F 4004/KS L 4201 확보 시 — 시험종목·방법·빈도 커버리지",
+    "testStandardRows": [
+      {
+        "category": "콘크리트벽돌",
+        "item": "압축"
+      },
+      {
+        "category": "콘크리트벽돌",
+        "item": "흡수율"
+      },
+      {
+        "category": "점토벽돌",
+        "item": "압축"
+      },
+      {
+        "category": "점토벽돌",
+        "item": "흡수율"
+      },
+      {
+        "category": "속빈콘크리트블록",
+        "item": "압축"
+      },
+      {
+        "category": "속빈콘크리트블록",
+        "item": "흡수율"
+      },
+      {
+        "category": "치장콘크리트 블록",
+        "item": "압축"
+      },
+      {
+        "category": "치장콘크리트 블록",
+        "item": "흡수율"
+      },
+      {
+        "category": "경량기포콘크리트블록",
+        "item": "압축"
+      }
+    ]
   },
   "targetMaterial": [
     "material:brick"

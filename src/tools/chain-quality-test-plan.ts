@@ -9,6 +9,7 @@ import { run as resolveWorktype } from "./resolve-worktype.js";
 import { run as compileDocumentReferences } from "./compile-document-references.js";
 import { buildResponse } from "./_response.js";
 import { mergeBasis } from "./_compile-common.js";
+import { standardRowsOf, type StandardRowView } from "../knowledge/test-standard-links.js";
 import type { ToolSpec, BasisRef, ToolResponse } from "../lib/types.js";
 import type { OntologyGraph } from "../ontology/graph.js";
 
@@ -42,6 +43,8 @@ interface TestRow {
   testId: string;
   method: string | null;
   frequency: string | null;
+  /** 별표 2 원문의 빈도 — 시험 노드가 잇는 행 */
+  standardRows: StandardRowView[];
   sourceStatus: string;
 }
 
@@ -77,6 +80,7 @@ export function run(args: ChainTestPlanArgs, graph: OntologyGraph): ToolResponse
           testId: t.id,
           method: (meta["method"] as string | undefined) ?? null,
           frequency: (meta["frequency"] as string | undefined) ?? null,
+          standardRows: standardRowsOf(t),
           sourceStatus: (meta["sourceStatus"] as string | undefined) ?? "unknown",
         });
       }

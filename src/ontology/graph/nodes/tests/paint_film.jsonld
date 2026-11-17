@@ -14,7 +14,34 @@
     "method": "도료 부착강도·은폐율·건조시간·내수성 KS M 6010 / 건조시간 KS M 5000 / 도막두께 현장 측정",
     "timing": "도료 반입·도장 시공 시",
     "frequency": "제품규격별 (별표2)",
-    "typicalAcceptance": "도료 성능·도막두께 기준은 KS M 6010/도장 시방 확보 시 — 시험종목·방법 커버리지"
+    "typicalAcceptance": "도료 성능·도막두께 기준은 KS M 6010/도장 시방 확보 시 — 시험종목·방법 커버리지",
+    "testStandardRows": [
+      {
+        "category": "",
+        "item": "은폐율",
+        "section": "도장공사"
+      },
+      {
+        "category": "",
+        "item": "건조",
+        "section": "도장공사"
+      },
+      {
+        "category": "",
+        "item": "부착",
+        "section": "도장공사"
+      },
+      {
+        "category": "",
+        "item": "밀착성",
+        "section": "도장공사"
+      },
+      {
+        "category": "",
+        "item": "도막",
+        "section": "도장공사"
+      }
+    ]
   },
   "targetMaterial": [
     "material:paint"

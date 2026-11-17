@@ -12,7 +12,33 @@
     "method": "KS F 2302 흙의 입도 시험",
     "timing": "성토 재료 반입 시",
     "frequency": "토취장마다·재질변화시마다 (별표2)",
-    "typicalAcceptance": "재료 입도 기준은 설계도서/KCS — 시험종목·방법 커버리지"
+    "typicalAcceptance": "재료 입도 기준은 설계도서/KCS — 시험종목·방법 커버리지",
+    "testStandardRows": [
+      {
+        "category": "성토용 흙",
+        "item": "입도"
+      },
+      {
+        "category": "되메우기 및 구조물뒷채움",
+        "item": "입도"
+      },
+      {
+        "category": "지반조사",
+        "item": "입도"
+      },
+      {
+        "category": "동상방지층 및 보조기층",
+        "item": "체가름"
+      },
+      {
+        "category": "입도조정기층",
+        "item": "체가름"
+      },
+      {
+        "category": "시멘트안정처리기층",
+        "item": "체가름"
+      }
+    ]
   },
   "targetMaterial": [
     "material:soil"

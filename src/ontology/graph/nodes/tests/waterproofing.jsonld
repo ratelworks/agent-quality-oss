@@ -14,7 +14,29 @@
     "method": "방수시트: 합성 고분자계 KS F 4911 · 개량 아스팔트 KS F 4917 / 도막 방수재 KS F 3211·KS F 4922 / 시멘트계 액체형 방수제 KS F 4925(안정성·투수비·부착 강도), 물흡수 계수 KS F 2609 — 업무지침 별표 2",
     "timing": "방수재 반입 시",
     "frequency": "제조회사별·제품규격별 (별표2)",
-    "typicalAcceptance": "방수재의 판정값은 해당 KS 제품규격을 따른다 — 이 서버에는 판정값이 없다"
+    "typicalAcceptance": "방수재의 판정값은 해당 KS 제품규격을 따른다 — 이 서버에는 판정값이 없다",
+    "testStandardRows": [
+      {
+        "category": "",
+        "item": "가열",
+        "section": "방수공사"
+      },
+      {
+        "category": "",
+        "item": "접합",
+        "section": "방수공사"
+      },
+      {
+        "category": "",
+        "item": "투수비",
+        "section": "방수공사"
+      },
+      {
+        "category": "",
+        "item": "인장",
+        "section": "방수공사"
+      }
+    ]
   },
   "targetMaterial": [
     "material:waterproof"

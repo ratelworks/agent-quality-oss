@@ -13,7 +13,24 @@
     "method": "도복장 강관 KS D 3565 / 염화비닐관 KS M 3404 / 폴리에틸렌관 KS M 3407 / 철근콘크리트관 KS F 4402(외압강도·내압강도·수밀성) / 원심력 철근콘크리트관 KS F 4403 — 업무지침 별표 2",
     "timing": "반입 시",
     "frequency": "제조회사별·제품규격별 (별표2)",
-    "typicalAcceptance": "관 강도·수압·외압 기준은 KS 확보 시 — 시험종목·방법 커버리지"
+    "typicalAcceptance": "관 강도·수압·외압 기준은 KS 확보 시 — 시험종목·방법 커버리지",
+    "testStandardRows": [
+      {
+        "category": "관",
+        "item": "수압",
+        "section": "마. 기타"
+      },
+      {
+        "category": "관",
+        "item": "외압",
+        "section": "마. 기타"
+      },
+      {
+        "category": "관",
+        "item": "항복",
+        "section": "마. 기타"
+      }
+    ]
   },
   "targetMaterial": [
     "material:pipe"

@@ -73,6 +73,14 @@ for (const { id, link } of links) {
 }
 for (const [id, list] of byNode) if (frequenciesOf(list).length !== 1) broken.push(`${id}: 기본 행의 빈도가 ${frequenciesOf(list).length}가지`);
 if (links.length === 0) broken.push("시험 노드의 별표 2 연결이 하나도 없음");
+// 모든 시험 노드는 별표 2 행을 잇거나, 별표 2 에 없는 시험이라는 까닭(testStandardNote)을 적는다
+const { loadOntologySync } = await import("../../src/ontology/loader.js");
+for (const e of loadOntologySync().entities.values()) {
+  if (e.type !== "TestItem") continue;
+  const meta = e.meta as Record<string, unknown>;
+  const has = Array.isArray(meta["testStandardRows"]) && (meta["testStandardRows"] as unknown[]).length > 0;
+  if (!has && typeof meta["testStandardNote"] !== "string") broken.push(`${e.id}: 별표 2 연결도, 없는 까닭도 없음`);
+}
 
 if (broken.length > 0) {
   console.error(`[plan-frequency] 묶음 오류 ${broken.length}건 — 별표 2 원문과 맞지 않는다:\n  ${broken.join("\n  ")}`);

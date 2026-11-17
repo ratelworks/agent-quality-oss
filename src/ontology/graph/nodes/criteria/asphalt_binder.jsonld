@@ -1,0 +1,23 @@
+{
+  "@context": "../../context.jsonld",
+  "@id": "criteria:asphalt_binder",
+  "@type": "AcceptanceCriteria",
+  "name": "포장용 아스팔트 품질 기준 (KS 본문 확보 대기)",
+  "_meta": {
+    "operator": "between",
+    "threshold": null,
+    "unit": "",
+    "condition": "침입도·연화점·신도의 등급별 범위는 KS M 2201 을 따른다 — 미확보로 보류(UNDETERMINED).",
+    "fallbackToProject": true,
+    "reference": "업무지침 별표 2 — 도로포장용 아스팔트(KS M 2201)",
+    "sourceStatus": "skeleton",
+    "referenceVerified": false,
+    "note": "시험종목·방법·빈도는 업무지침 별표 2 로 확인했다. 판정값은 KS 본문(유료)과 대조하지 못해 이 서버에는 수치가 없다."
+  },
+  "appliesTo": [
+    "test:asphalt_binder"
+  ],
+  "derivedFrom": [
+    "standard:form.guideline_annex2"
+  ]
+}

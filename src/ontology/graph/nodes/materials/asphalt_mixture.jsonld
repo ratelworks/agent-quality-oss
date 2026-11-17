@@ -15,7 +15,8 @@
   },
   "requiresTest": [
     "test:asphalt_marshall",
-    "test:asphalt_content"
+    "test:asphalt_content",
+    "test:asphalt_pavement_density"
   ],
   "requiresStandard": [
     "standard:ks_f_2337"
