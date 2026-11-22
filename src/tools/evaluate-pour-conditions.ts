@@ -48,11 +48,13 @@ const NODE = {
   preparation: "standard.kcs_14_20.10.3_3",
   placing: "standard.kcs_14_20.10.3_3_2",
   cold: "standard.kcs_14_20.40",
+  generalTemp: "criteria.concrete_temperature_general",
   hot: "standard.kcs_14_20.41",
 } as const;
 
 type Tri = boolean | undefined;
-type Regime = "standard" | "hot_weather" | "cold_weather";
+/** conflict = 서중·한중 적용 조건이 함께 성립 — 한도를 정하지 않고 사람 확인으로 돌린다 */
+type Regime = "standard" | "hot_weather" | "cold_weather" | "conflict";
 type Outcome = "pass" | "exceeds_standard" | "fail" | "undetermined" | "needs_judgment";
 
 export const spec: ToolSpec = {
@@ -165,17 +167,14 @@ function decideRegime(a: PourConditionArgs) {
   if (coldByMin) reasons.push(`24시간 동안 일최저기온 ${a.minTempNext24h} ℃ ≤ ${COLD_MIN_AT_MOST} ℃ (KCS 14 20 40 §1.1(2))`);
   if (coldByFrost) reasons.push("24시간 이후에도 초기동해 위험 (KCS 14 20 40 §1.1(2))");
 
-  if (hot === true && cold === true) {
-    return { regime: "conflict" as const, candidates: [] as Regime[], reasons };
-  }
-  let candidates: Regime[];
-  if (hot === true) candidates = ["hot_weather"];
-  else if (cold === true) candidates = ["cold_weather"];
-  else {
-    candidates = [];
-    if (hot === undefined) candidates.push("hot_weather");
-    if (cold === undefined) candidates.push("cold_weather");
-    candidates.push("standard");
+  // 서중·한중 해당 여부가 가질 수 있는 조합을 모두 후보로 둔다 — 한쪽이 확정돼도 다른 쪽이 미상이면 동시 해당 후보가 남는다
+  const possible = (t: Tri) => (t === undefined ? [true, false] : [t]);
+  const candidates: Regime[] = [];
+  for (const h of possible(hot)) {
+    for (const c of possible(cold)) {
+      const r: Regime = h && c ? "conflict" : h ? "hot_weather" : c ? "cold_weather" : "standard";
+      if (!candidates.includes(r)) candidates.push(r);
+    }
   }
   const missing: string[] = [];
   if (candidates.length > 1) {
@@ -194,7 +193,9 @@ interface Limits {
   transportMaxMinutes: number;
   transportClause: string;
   liftMaxMinutes: number;
-  concreteTemp?: { min?: number; max?: number; clause: string; hold?: string };
+  concreteTemp: { min?: number; max?: number; clause: string; hold?: string; judgment?: string };
+  /** 서중·한중 동시 해당 — 어떤 한도도 확정하지 않는다 */
+  conflict?: true;
 }
 
 /** 한 경우(기준·외기온도·단면·기상이 정해진 경우)의 한도 */
@@ -205,7 +206,9 @@ function limitsFor(regime: Regime, ambient: number, strictCold: boolean, mass: T
       : { m: ambient >= TRANSPORT_AMBIENT_AT_LEAST ? TRANSPORT_WARM_MIN : TRANSPORT_COOL_MIN, c: "KCS 14 20 10 §3.2(3)" };
   const lift = ambient > LIFT_AMBIENT_OVER ? LIFT_WARM_MIN : LIFT_COOL_MIN;
   let concreteTemp: Limits["concreteTemp"];
-  if (regime === "hot_weather") {
+  if (regime === "conflict") {
+    concreteTemp = { clause: "KCS 14 20 40 · KCS 14 20 41", hold: "서중·한중 적용 조건이 함께 성립 — 예보 값을 다시 확인하고 사람이 정한다" };
+  } else if (regime === "hot_weather") {
     concreteTemp =
       mass === true
         ? { clause: "KCS 14 20 41 표 3.5-1", hold: "매스 콘크리트는 KCS 14 20 42 §3.3 에 따른다 — 이 도구에 수록되지 않아 판정하지 않는다" }
@@ -216,8 +219,20 @@ function limitsFor(regime: Regime, ambient: number, strictCold: boolean, mass: T
       max: COLD_CONCRETE_MAX,
       clause: "KCS 14 20 40 §3.3(1)",
     };
+  } else {
+    // 일반 콘크리트 — 표 3.5-2 판정기준은 '정해진 조건에 적합할 것'(수치 없음): 공사시방서·배합 조건으로 판정한다
+    concreteTemp = {
+      clause: "KCS 14 20 10 §3.5.3.1 표 3.5-2",
+      judgment: "공사시방서·배합에서 정한 온도 조건에 적합한지 확인(KCS 수치 기준 없음)",
+    };
   }
-  return { transportMaxMinutes: transport.m, transportClause: transport.c, liftMaxMinutes: lift, concreteTemp };
+  return {
+    transportMaxMinutes: transport.m,
+    transportClause: transport.c,
+    liftMaxMinutes: lift,
+    concreteTemp,
+    ...(regime === "conflict" ? { conflict: true as const } : {}),
+  };
 }
 
 interface Case {
@@ -270,6 +285,7 @@ function enumerateCases(a: PourConditionArgs, candidates: Regime[], ambient: num
 }
 
 const REGIME_LABEL: Record<Regime, string> = {
+  conflict: "서중·한중 동시 해당",
   standard: "일반 콘크리트",
   hot_weather: "서중 콘크리트",
   cold_weather: "한중 콘크리트",
@@ -334,11 +350,13 @@ export function run(rawArgs: PourConditionArgs, graph: OntologyGraph) {
 
   const decided = decideRegime(a);
   const basisIds = new Set<string>([NODE.transport, NODE.placing, NODE.preparation]);
-  if (decided.candidates.includes("hot_weather") || decided.regime === "conflict") basisIds.add(NODE.hot);
-  if (decided.candidates.includes("cold_weather") || decided.regime === "conflict") basisIds.add(NODE.cold);
+  const mayConflict = decided.candidates.includes("conflict");
+  if (decided.candidates.includes("hot_weather") || mayConflict) basisIds.add(NODE.hot);
+  if (decided.candidates.includes("cold_weather") || mayConflict) basisIds.add(NODE.cold);
+  if (decided.candidates.includes("standard") && a.concreteTemp !== undefined) basisIds.add(NODE.generalTemp);
   const basis = entityBasisWithStatus(graph, [...basisIds], 1);
 
-  // D3 — 서중·한중 동시 해당: 입력이 모순이라 판정하지 않는다
+  // D3 — 서중·한중 동시 해당이 확정: 판정하지 않는다
   if (decided.regime === "conflict") {
     return buildResponse(
       TOOL_NAME,
@@ -367,8 +385,8 @@ export function run(rawArgs: PourConditionArgs, graph: OntologyGraph) {
       v,
       cases.map((k) => ({
         when: k.when,
-        outcome: v <= k.limits.transportMaxMinutes ? "pass" : "exceeds_standard",
-        limit: `${k.limits.transportMaxMinutes}분 이내`,
+        outcome: (k.limits.conflict ? "undetermined" : v <= k.limits.transportMaxMinutes ? "pass" : "exceeds_standard") as Outcome,
+        limit: k.limits.conflict ? "서중·한중 동시 해당 — 사람 확인" : `${k.limits.transportMaxMinutes}분 이내`,
         clause: k.limits.transportClause,
       })),
       "초과해도 특별 조치(지연제 등, 서중은 슬럼프 유지·응결 지연 성능)를 하고 책임기술자의 승인을 받으면 변경할 수 있다",
@@ -387,8 +405,8 @@ export function run(rawArgs: PourConditionArgs, graph: OntologyGraph) {
       v,
       cases.map((k) => ({
         when: k.when,
-        outcome: v <= k.limits.liftMaxMinutes ? "pass" : "exceeds_standard",
-        limit: `${k.limits.liftMaxMinutes}분 이내`,
+        outcome: (k.limits.conflict ? "undetermined" : v <= k.limits.liftMaxMinutes ? "pass" : "exceeds_standard") as Outcome,
+        limit: k.limits.conflict ? "서중·한중 동시 해당 — 사람 확인" : `${k.limits.liftMaxMinutes}분 이내`,
         clause: "KCS 14 20 10 §3.3.2(8) 표 3.3-1",
       })),
       "표 3.3-1 은 표준이다 — 하층 비비기 시작부터 상층 타설까지의 시간",
@@ -400,19 +418,14 @@ export function run(rawArgs: PourConditionArgs, graph: OntologyGraph) {
   // 타설 온도 (C8~C10)
   if (a.concreteTemp !== undefined) {
     const v = a.concreteTemp;
-    const per = cases
-      .filter((k) => k.limits.concreteTemp)
-      .map((k) => {
-        const t = k.limits.concreteTemp!;
-        if (t.hold) return { when: k.when, outcome: "undetermined" as Outcome, limit: t.hold, clause: t.clause };
-        const ok = (t.min === undefined || v >= t.min) && (t.max === undefined || v <= t.max);
-        const limit = t.min !== undefined ? `${t.min}~${t.max} ℃` : `${t.max} ℃ 이하`;
-        return { when: k.when, outcome: (ok ? "pass" : "fail") as Outcome, limit, clause: t.clause };
-      });
-    // 일반 콘크리트 경우는 타설 온도 수치 기준이 없다 — 그 경우가 섞이면 '기준 없음'을 한 경우로 넣는다
-    if (cases.some((k) => !k.limits.concreteTemp) && per.length > 0) {
-      per.push({ when: ["일반 콘크리트"], outcome: "pass", limit: "수치 기준 없음", clause: "KCS 14 20 10" });
-    }
+    const per = cases.map((k) => {
+      const t = k.limits.concreteTemp;
+      if (t.hold) return { when: k.when, outcome: "undetermined" as Outcome, limit: t.hold, clause: t.clause };
+      if (t.judgment) return { when: k.when, outcome: "needs_judgment" as Outcome, limit: t.judgment, clause: t.clause };
+      const ok = (t.min === undefined || v >= t.min) && (t.max === undefined || v <= t.max);
+      const limit = t.min !== undefined ? `${t.min}~${t.max} ℃` : `${t.max} ℃ 이하`;
+      return { when: k.when, outcome: (ok ? "pass" : "fail") as Outcome, limit, clause: t.clause };
+    });
     if (per.length > 0) {
       const coldExempt =
         decided.candidates.includes("cold_weather") && (a.massConcrete === true || a.highStrengthConcrete === true)

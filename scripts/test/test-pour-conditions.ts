@@ -29,46 +29,57 @@ interface Case {
   expect: Expect;
 }
 
+/** 서중 사례에 붙이는 한중 쪽 조건 — 한중 아님이 확정되게 */
+const NOT_COLD = { minTempNext24h: 18, earlyFrostRiskLater: false };
+/** 한중 사례에 붙이는 서중 쪽 조건 — 서중 아님이 확정되게 */
+const NOT_HOT = { maxTempNext24h: 8 };
+
 const CASES: Case[] = [
   // C1 서중 적용 경계
   { id: "C1 일평균 25.0 은 서중 아님", args: { dailyMeanTemp: 25, maxTempNext24h: 29, minTempNext24h: 18, earlyFrostRiskLater: false }, expect: { regime: "standard" } },
-  { id: "C1 일평균 25.1 은 서중", args: { dailyMeanTemp: 25.1 }, expect: { regime: "hot_weather" } },
+  { id: "C1 일평균 25.1 은 서중", args: { ...NOT_COLD, dailyMeanTemp: 25.1 }, expect: { regime: "hot_weather" } },
   { id: "C1 최고 30.0 은 서중 아님", args: { dailyMeanTemp: 22, maxTempNext24h: 30, minTempNext24h: 15, earlyFrostRiskLater: false }, expect: { regime: "standard" } },
-  { id: "C1 최고 30.1 은 서중", args: { dailyMeanTemp: 22, maxTempNext24h: 30.1 }, expect: { regime: "hot_weather" } },
+  { id: "C1 최고 30.1 은 서중", args: { ...NOT_COLD, dailyMeanTemp: 22, maxTempNext24h: 30.1 }, expect: { regime: "hot_weather" } },
   // C2 한중 적용 경계
-  { id: "C2 일평균 4.0 은 한중", args: { dailyMeanTemp: 4 }, expect: { regime: "cold_weather" } },
+  { id: "C2 일평균 4.0 은 한중", args: { ...NOT_HOT, dailyMeanTemp: 4 }, expect: { regime: "cold_weather" } },
   { id: "C2 일평균 4.1 은 한중 아님", args: { dailyMeanTemp: 4.1, maxTempNext24h: 9, minTempNext24h: 0.1, earlyFrostRiskLater: false }, expect: { regime: "standard" } },
-  { id: "C2 최저 0.0 은 한중", args: { dailyMeanTemp: 6, minTempNext24h: 0 }, expect: { regime: "cold_weather" } },
+  { id: "C2 최저 0.0 은 한중", args: { ...NOT_HOT, dailyMeanTemp: 6, minTempNext24h: 0 }, expect: { regime: "cold_weather" } },
   { id: "C2 초기동해 위험만으로 한중", args: { dailyMeanTemp: 6, maxTempNext24h: 12, minTempNext24h: 2, earlyFrostRiskLater: true }, expect: { regime: "cold_weather" } },
   // C4·C11 외기온도 경계 — 운반은 25 이상, 이어치기는 25 초과
   { id: "C4/C11 외기 25.0", args: { dailyMeanTemp: 22, maxTempNext24h: 28, minTempNext24h: 15, earlyFrostRiskLater: false, ambientTemp: 25 }, expect: { regime: "standard", transportMax: 90, liftMax: 150 } },
   { id: "C4/C11 외기 24.9", args: { dailyMeanTemp: 22, maxTempNext24h: 28, minTempNext24h: 15, earlyFrostRiskLater: false, ambientTemp: 24.9 }, expect: { transportMax: 120, liftMax: 150 } },
   { id: "C4/C11 외기 25.1", args: { dailyMeanTemp: 22, maxTempNext24h: 28, minTempNext24h: 15, earlyFrostRiskLater: false, ambientTemp: 25.1 }, expect: { transportMax: 90, liftMax: 120 } },
   // C6 서중은 외기온도와 무관하게 90분
-  { id: "C6 서중 + 외기 22 → 90분", args: { dailyMeanTemp: 26, ambientTemp: 22, mixToPlacementEndMinutes: 100 }, expect: { regime: "hot_weather", transportMax: 90, checks: { transport_time: "exceeds_standard" } } },
+  { id: "C6 서중 + 외기 22 → 90분", args: { ...NOT_COLD, dailyMeanTemp: 26, ambientTemp: 22, mixToPlacementEndMinutes: 100 }, expect: { regime: "hot_weather", transportMax: 90, checks: { transport_time: "exceeds_standard" } } },
   // C5 일반 운반 초과 = 표준 초과(불합격 아님)
   { id: "C5 일반 130분 → 표준 초과", args: { dailyMeanTemp: 15, maxTempNext24h: 20, minTempNext24h: 8, earlyFrostRiskLater: false, ambientTemp: 18, mixToPlacementEndMinutes: 130 }, expect: { transportMax: 120, checks: { transport_time: "exceeds_standard" }, humanCheckpoint: false } },
   { id: "C4 일반 110분 → 통과", args: { dailyMeanTemp: 15, maxTempNext24h: 20, minTempNext24h: 8, earlyFrostRiskLater: false, ambientTemp: 18, mixToPlacementEndMinutes: 110 }, expect: { checks: { transport_time: "pass" } } },
   // C8 서중 타설 온도
-  { id: "C8 서중 35.0 통과", args: { dailyMeanTemp: 27, concreteTemp: 35, massConcrete: false }, expect: { tempMax: 35, checks: { concrete_temperature: "pass" } } },
-  { id: "C8 서중 35.1 불합격", args: { dailyMeanTemp: 27, concreteTemp: 35.1, massConcrete: false }, expect: { checks: { concrete_temperature: "fail" }, humanCheckpoint: true } },
-  { id: "C8 서중 매스는 보류", args: { dailyMeanTemp: 27, concreteTemp: 33, massConcrete: true }, expect: { checks: { concrete_temperature: "undetermined" } } },
-  { id: "C8 서중 매스 여부 미상 → 보류·되묻기", args: { dailyMeanTemp: 27, concreteTemp: 30 }, expect: { checks: { concrete_temperature: "undetermined" }, missing: ["massConcrete"] } },
+  { id: "C8 서중 35.0 통과", args: { ...NOT_COLD, dailyMeanTemp: 27, concreteTemp: 35, massConcrete: false }, expect: { tempMax: 35, checks: { concrete_temperature: "pass" } } },
+  { id: "C8 서중 35.1 불합격", args: { ...NOT_COLD, dailyMeanTemp: 27, concreteTemp: 35.1, massConcrete: false }, expect: { checks: { concrete_temperature: "fail" }, humanCheckpoint: true } },
+  { id: "C8 서중 매스는 보류", args: { ...NOT_COLD, dailyMeanTemp: 27, concreteTemp: 33, massConcrete: true }, expect: { checks: { concrete_temperature: "undetermined" } } },
+  { id: "C8 서중 매스 여부 미상 → 보류·되묻기", args: { ...NOT_COLD, dailyMeanTemp: 27, concreteTemp: 30 }, expect: { checks: { concrete_temperature: "undetermined" }, missing: ["massConcrete"] } },
   // C9 한중 타설 온도
-  { id: "C9 단면 400·가혹 아님 → 하한 5", args: { dailyMeanTemp: 2, sectionThicknessMm: 400, harshWeather: false, concreteTemp: 7 }, expect: { tempMin: 5, tempMax: 20, checks: { concrete_temperature: "pass" } } },
-  { id: "C9 단면 300 → 하한 10", args: { dailyMeanTemp: 2, sectionThicknessMm: 300, concreteTemp: 7 }, expect: { tempMin: 10, checks: { concrete_temperature: "fail" } } },
-  { id: "C9 가혹 기상 → 하한 10", args: { dailyMeanTemp: 2, sectionThicknessMm: 500, harshWeather: true, concreteTemp: 9 }, expect: { tempMin: 10, checks: { concrete_temperature: "fail" } } },
-  { id: "C9 단면·기상 미상 + 8 ℃ → 보류", args: { dailyMeanTemp: 2, concreteTemp: 8 }, expect: { checks: { concrete_temperature: "undetermined" }, missing: ["sectionThicknessMm", "harshWeather"] } },
-  { id: "C9 단면·기상 미상 + 12 ℃ → 통과", args: { dailyMeanTemp: 2, concreteTemp: 12 }, expect: { checks: { concrete_temperature: "pass" } } },
-  { id: "C9 단면·기상 미상 + 21 ℃ → 불합격", args: { dailyMeanTemp: 2, concreteTemp: 21 }, expect: { checks: { concrete_temperature: "fail" } } },
+  { id: "C9 단면 400·가혹 아님 → 하한 5", args: { ...NOT_HOT, dailyMeanTemp: 2, sectionThicknessMm: 400, harshWeather: false, concreteTemp: 7 }, expect: { tempMin: 5, tempMax: 20, checks: { concrete_temperature: "pass" } } },
+  { id: "C9 단면 300 → 하한 10", args: { ...NOT_HOT, dailyMeanTemp: 2, sectionThicknessMm: 300, concreteTemp: 7 }, expect: { tempMin: 10, checks: { concrete_temperature: "fail" } } },
+  { id: "C9 가혹 기상 → 하한 10", args: { ...NOT_HOT, dailyMeanTemp: 2, sectionThicknessMm: 500, harshWeather: true, concreteTemp: 9 }, expect: { tempMin: 10, checks: { concrete_temperature: "fail" } } },
+  { id: "C9 단면·기상 미상 + 8 ℃ → 보류", args: { ...NOT_HOT, dailyMeanTemp: 2, concreteTemp: 8 }, expect: { checks: { concrete_temperature: "undetermined" }, missing: ["sectionThicknessMm", "harshWeather"] } },
+  { id: "C9 단면·기상 미상 + 12 ℃ → 통과", args: { ...NOT_HOT, dailyMeanTemp: 2, concreteTemp: 12 }, expect: { checks: { concrete_temperature: "pass" } } },
+  { id: "C9 단면·기상 미상 + 21 ℃ → 불합격", args: { ...NOT_HOT, dailyMeanTemp: 2, concreteTemp: 21 }, expect: { checks: { concrete_temperature: "fail" } } },
   // C10 한중 + 매스 → 미적용 단서
-  { id: "C10 한중 매스 단서", args: { dailyMeanTemp: 2, sectionThicknessMm: 1200, harshWeather: false, massConcrete: true, concreteTemp: 22 }, expect: { checks: { concrete_temperature: "fail" }, noteIncludes: "§1.4(3)" } },
+  { id: "C10 한중 매스 단서", args: { ...NOT_HOT, dailyMeanTemp: 2, sectionThicknessMm: 1200, harshWeather: false, massConcrete: true, concreteTemp: 22 }, expect: { checks: { concrete_temperature: "fail" }, noteIncludes: "§1.4(3)" } },
   // C12 강우·강설
   { id: "C12 강수 예보 → 판단 항목", args: { dailyMeanTemp: 15, precipitationExpected: true }, expect: { checks: { precipitation: "needs_judgment" } } },
   // D1 외기온도 여러 값 → 가장 높은 값
   { id: "D1 외기 [22, 26] → 26 사용", args: { dailyMeanTemp: 22, maxTempNext24h: 28, minTempNext24h: 15, earlyFrostRiskLater: false, ambientTemps: [22, 26] }, expect: { transportMax: 90, liftMax: 120 } },
   // D2 모르는 입력
-  { id: "D2 최고 31 이면 일평균 미상이어도 서중", args: { maxTempNext24h: 31 }, expect: { regime: "hot_weather" } },
+  { id: "D2 최고 31·일평균 미상 → 미정(일평균 4 ℃ 이하 배제 불가)", args: { maxTempNext24h: 31, ...NOT_COLD }, expect: { regime: "undetermined", missing: ["dailyMeanTemp"] } },
+  { id: "D2 최고 31·일평균 20 → 서중", args: { dailyMeanTemp: 20, maxTempNext24h: 31, ...NOT_COLD }, expect: { regime: "hot_weather" } },
+  { id: "D2 서중 확정·한중 조건 미상 → 동시 해당 후보가 남아 미정", args: { dailyMeanTemp: 27 }, expect: { regime: "undetermined", missing: ["minTempNext24h", "earlyFrostRiskLater"] } },
+  { id: "D2 서중 + 24시간 이후 초기동해 위험 → 충돌", args: { dailyMeanTemp: 27, earlyFrostRiskLater: true }, expect: { regime: "conflict", humanCheckpoint: true } },
+  // 일반 콘크리트 타설 온도 — 표 3.5-2 '정해진 조건에 적합할 것': 합격이 아니라 시방서 판단
+  { id: "일반 콘크리트 온도 → 시방서 판단", args: { dailyMeanTemp: 15, maxTempNext24h: 20, minTempNext24h: 8, earlyFrostRiskLater: false, concreteTemp: 18 }, expect: { regime: "standard", checks: { concrete_temperature: "needs_judgment" } } },
+  { id: "일반·한중 후보 섞임 + 12 ℃ → 미정(합격 아님)", args: { maxTempNext24h: 20, minTempNext24h: 2, earlyFrostRiskLater: false, concreteTemp: 12, massConcrete: false, harshWeather: false, sectionThicknessMm: 500 }, expect: { regime: "undetermined", checks: { concrete_temperature: "undetermined" } } },
   { id: "D2 초기동해 위험 미상 → 미정·되묻기", args: { dailyMeanTemp: 20, maxTempNext24h: 26, minTempNext24h: 12 }, expect: { regime: "undetermined", missing: ["earlyFrostRiskLater"] } },
   { id: "D2 기온 전부 미상 → 미정", args: {}, expect: { regime: "undetermined", missing: ["dailyMeanTemp"] } },
   { id: "D2 외기 미상 + 100분 → 미정", args: { dailyMeanTemp: 15, maxTempNext24h: 20, minTempNext24h: 8, earlyFrostRiskLater: false, mixToPlacementEndMinutes: 100 }, expect: { checks: { transport_time: "undetermined" }, missing: ["ambientTemp"] } },
