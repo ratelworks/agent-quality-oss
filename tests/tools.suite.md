@@ -1975,6 +1975,8 @@ uncovered_tools:
   - export_quality_document
   # 품질시험기준 조회 (1) — 전용 시험 scripts/test/test-test-standards.ts 가 다룬다
   - search_quality_test_standards
+  # 타설 전 조건 판정 (1) — 전용 시험 scripts/test/test-pour-conditions.ts 가 다룬다
+  - evaluate_pour_conditions
   # 조문 낱말 검색 (1) — 전용 시험 scripts/test/test-laws.ts 가 다룬다
   - search_quality_law_text
   # 양식 스키마 (16) — 문서 전체 생성·서식 칸은 scripts/test/test-documents.ts·test-conformance.ts 가 다룬다

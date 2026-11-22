@@ -5,7 +5,7 @@
 [![Node](https://img.shields.io/badge/node-%3E%3D22.12-brightgreen)](https://nodejs.org)
 [![MCP](https://img.shields.io/badge/MCP-2026--07--28-purple)](https://modelcontextprotocol.io)
 [![Release](https://img.shields.io/badge/release-v1.0.0-blue.svg)](./CHANGELOG.md)
-[![Tools](https://img.shields.io/badge/MCP%20tools-61-orange.svg)](#현장-운영-흐름)
+[![Tools](https://img.shields.io/badge/MCP%20tools-62-orange.svg)](#현장-운영-흐름)
 
 **법으로 꼭 작성해야 하는 품질 문서, 그리고 자주 쓰는 품질 문서를 바르게.** 품질관리자(QC)와 감리원이 건설기술 진흥법령·건설공사 품질관리 업무지침이 정한 품질 문서(품질관리계획서·품질시험계획서·품질검사 실시대장·품질검사 성과 총괄표·자재 공급원 승인 요청서·검측요청서 등)와 현장에서 자주 쓰는 문서(ITP·NCR·레미콘 입회시험 기록·공시체 기록·시험성적서 검토 등)를 근거와 함께 빠짐없이 작성하도록 돕는 오픈소스 도구입니다. 건설 품질 질문에는 법령 조문과 기준 근거를 붙여, 도구 없는 AI 보다 정확한 답을 내는 것을 목표로 합니다.
 
@@ -61,7 +61,7 @@ LLM 은 이 그래프를 보고 문서를 작성하거나 설명할 수 있지�
 | **품질관리 온톨로지** | 공종(WorkType) <!-- stat:work-types -->19종<!-- /stat:work-types --> + 자재·시험·판정기준·리스크·부적합·시정조치·검측·증빙·표준을 관계로 연결. <!-- stat:graph -->그래프 노드 **414개** · 관계 **1004개**<!-- /stat:graph -->. 표준 SHACL 엔진과 RDF 왕복으로 검증 |
 | **법령·고시 원문 내장** | <!-- stat:laws -->건설기술 진흥법 · 건설기술 진흥법 시행령 · 건설기술 진흥법 시행규칙 · 건설공사 사업관리방식 검토기준 및 업무수행지침 · 건설공사 품질관리 업무지침 — 다섯 법령·고시의 **조문 566개 · 별표 37개 · 별지 서식 134개**<!-- /stat:laws -->의 본문을 법제처 원문 그대로 싣습니다. 판본(공포번호·시행일)을 함께 밝히고, 현행판과 같은지는 `npm run check:law-editions` 로 점검합니다. 조문은 원문에 있는 구절만 인용하며, 별표·별지 서식은 본문과 함께 공식 내려받기 위치를 안내합니다 |
 | **품질시험기준 전 항목** | 건설공사 품질관리 업무지침 **별표 2(건설공사 품질시험기준)** 의 <!-- stat:test-rows -->시험종목 **1,959행**(자재·공종 244종)<!-- /stat:test-rows --> — 시험종목·시험방법·시험빈도를 표 그대로 찾습니다. 여기까지는 *무슨 시험을 얼마나 자주 하는지*이고, 합격 *판정 수치*는 콘크리트 공종과 흙쌓기 다짐도에서 갖췄습니다(그 밖은 `skeleton`, [현재 한계](#현재-한계) 참조) |
-| **MCP 도구 61개** | 온톨로지 탐색 · 현장 말 문장으로 찾기 · 정량 판정 · 리스크 추론 · 근거 검증(인용 조문이 실제로 있는지까지) · 법령·기준 조회 · 품질시험기준 조회 · 문서 양식 구조(23종) · 근거 패키지 조립 · 체인 도구 5종(검측·시험계획·성적서 검토·부적합·일일 브리핑) · 입력 폼(A2UI) · 문서 본문 생성·검토·한글 파일 저장 |
+| **MCP 도구 62개** | 온톨로지 탐색 · 현장 말 문장으로 찾기 · 정량 판정 · 리스크 추론 · 근거 검증(인용 조문이 실제로 있는지까지) · 법령·기준 조회 · 품질시험기준 조회 · 문서 양식 구조(23종) · 근거 패키지 조립 · 체인 도구 5종(검측·시험계획·성적서 검토·부적합·일일 브리핑) · 입력 폼(A2UI) · 문서 본문 생성·검토·한글 파일 저장 |
 | **문서 23종** | <!-- stat:forms -->법령·고시가 서식이나 기재 내용을 정한 문서 11종(품질시험계획서 · 검측요청서 · 품질검사 실시대장 · 품질관리계획서 · 품질검사 성과 총괄표 · 검측 체크리스트 · 자재 공급원 승인 요청서 · 레미콘 시공품질관리 점검표 · 아스콘 시공품질관리 점검표 · 품질시험·검사실적 보고서 · 불량자재폐기 확약서) + 실무 서식 12종(부적합 보고서(NCR) · 레미콘 차량별 입회시험 기록지 · 공시체 제작·관리 기록지 · 검사 및 시험 계획(ITP) · 시험성적서 검토 보고서 · 품질관리 건설기술인 배치 내역서 · 부적합 조치결과 확인서 · 자체 품질점검 결과 보고서 · 품질검사 대행 의뢰서 · 품질관리 일지 · 시정조치 요구서(CAR) · 내부심사(품질감사) 보고서)<!-- /stat:forms -->. 문서마다 필수 항목·근거·보존기간을 갖추고, 입력값으로 본문(Markdown · 한글 파일 · DocLang)을 만듭니다 |
 | **근거 추적(Lineage)** | 모든 도구 응답에 `basis[]` + `lineage.contentHash` + `sourceStatus` 요약 — 답이 어디서 왔는지, 출처가 검증됐는지 항상 확인 |
 
@@ -143,7 +143,7 @@ node build/cli.js viewer
 ### C. 개발자
 
 ```bash
-node build/cli.js tools          # 등록된 도구 61개 목록
+node build/cli.js tools          # 등록된 도구 62개 목록
 node build/cli.js serve          # stdio MCP 서버
 node build/cli.js serve --http   # HTTP 서버 (PORT env, 기본 8080 — 이 컴퓨터에서만 접속)
 node build/cli.js doctor         # 설치 상태 점검
@@ -200,14 +200,14 @@ Claude Desktop 이나 Codex 에서 자연어로 요청합니다.
 | **2. 공종 파악** | 공종 한 단어 → 자재·시험·판정기준·리스크·검측을 그래프에서 조회 | `resolve_worktype` · `get_work_quality_profile` · `get_material_quality_profile` · `search_quality_ontology` · `discover_relevant_domain` |
 | **3. 양식·근거 조립** | 문서 양식 구조(23종) + 적용 근거 패키지 조립 | `get_itp_schema` 외 양식 23종 · `compile_document_references`(제네릭, 23종 전부) · `compile_ncr_references` 외 전용 7종 · `render_quality_form` |
 | **3+. 원스톱 체인** | 위 2~3단계를 한 번에 — 검측 준비·시험계획·성적서 검토·부적합 처리·일일 브리핑 | `chain_quality_inspection` · `chain_quality_test_plan` · `chain_test_report_review` · `chain_nonconformance_report` · `chain_daily_quality_briefing` |
-| **4. 정량 판정** | 시험 관측값 합격 여부 · 리스크·부적합 추론 (코드 계산) | `evaluate_observation` · `infer_quality_risks` · `explain_quality_decision_path` |
+| **4. 정량 판정** | 시험 관측값 합격 여부 · 타설 전 조건(서중·한중·운반시간) · 리스크·부적합 추론 (코드 계산) | `evaluate_observation` · `evaluate_pour_conditions` · `infer_quality_risks` · `explain_quality_decision_path` |
 | **5. 작성 컨텍스트** | 입력값 + 양식 구조 + 근거 → LLM 작성 컨텍스트 | `compose_writing_context` |
 | **5+. 문서 본문** | 입력값을 양식 구조대로 옮긴 정본(.dclx — DocLang 아카이브) · 정본에서 만든 한글 파일(서식 원본을 실은 법정 문서는 그 서식의 칸에 채움) · 빠진 항목·날짜·인용 조문 검토 · 이미 쓴 본문을 한글 파일로 저장 | `generate_quality_document` · `review_quality_document` · `export_quality_document` |
 | **6. 검수** | 근거 우선순위 · 인용 실존 · 서식 명칭 검증 | `map_quality_basis` · `verify_quality_basis` · `verify_form_reference` |
 | **법령·기준 조회** | 법령·업무지침·사업관리지침의 조문·별표 본문과 판본, KCS/KDS 조항 위치(본문은 싣지 않음), 서식 위치 | `list_core_quality_laws` · `get_quality_law_article` · `search_quality_management_guideline` · `get_quality_guideline_article` · `search_construction_standards` · `get_standard_form_locator` |
 | **품질시험기준** | 업무지침 별표 2 전 항목(시험종목·시험방법·시험빈도)을 구분·종별·시험종목·KS 번호로 조회 | `search_quality_test_standards` |
 
-전체 도구 **61개** 목록·설명은 `node build/cli.js tools` 로 확인하세요.
+전체 도구 **62개** 목록·설명은 `node build/cli.js tools` 로 확인하세요.
 
 ## 신뢰성 — 근거 등급
 

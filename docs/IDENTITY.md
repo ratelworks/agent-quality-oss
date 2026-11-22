@@ -78,11 +78,12 @@
 | `chain_nonconformance_report` | 관측값/공종/시험 → 판정 → NCR 재료 + verified 지침 근거(§39·§41) |
 | `chain_daily_quality_briefing` | 오늘 작업 공종들 → 리스크·검측·시험·서류 브리핑 카드 |
 
-### ⑥ 판정·검증 (4)
+### ⑥ 판정·검증 (5)
 
 | 도구 | 역할 |
 |---|---|
 | `evaluate_observation` | 관측값 1건을 기준과 비교 — **코드 계산** (LLM 추측 아님). 통계 모드(압축강도 n≥3) 지원 |
+| `evaluate_pour_conditions` | 타설 전 예보·계획 값 → 일반·서중·한중 중 적용 기준, 운반시간·이어치기·타설 온도 한도, 계획 값 초과 여부 — **코드 계산**, 모르는 값은 경우를 나눠 결론이 같을 때만 판정 |
 | `infer_quality_risks` | 공종·자재·관측값 → 리스크·NCR·조치 추론 |
 | `map_quality_basis` | 기준 우선순위 (배합설계서 > 시방서 > KCS > 지침 > KS) |
 | `verify_quality_basis` · `verify_form_reference` | LLM 작성물의 인용 실존·서식 명칭 검수 (환각 차단) |

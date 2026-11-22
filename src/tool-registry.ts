@@ -65,6 +65,7 @@ import * as compileQualityTestPlanReferences from "./tools/compile-quality-test-
 import * as compileQualityInspectionRegisterReferences from "./tools/compile-quality-inspection-register-references.js";
 import * as compileInspectionRequestReferences from "./tools/compile-inspection-request-references.js";
 import * as evaluateObservation from "./tools/evaluate-observation.js";
+import * as evaluatePourConditions from "./tools/evaluate-pour-conditions.js";
 import * as verifyQualityBasis from "./tools/verify-quality-basis.js";
 import * as getProjectInfo from "./tools/get-project-info.js";
 import * as discoverRelevantDomain from "./tools/discover-relevant-domain.js";
@@ -148,6 +149,7 @@ export const TOOL_MODULES: ToolModule[] = [
   chainNonconformanceReport,
   chainDailyQualityBriefing,
   evaluateObservation,
+  evaluatePourConditions,
   verifyQualityBasis,
   getProjectInfo,
   discoverRelevantDomain,

@@ -5,6 +5,12 @@ All notable changes to `agent-quality-oss` are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### 추가
+
+- **타설 전 조건 판정** — 타설일 기온 예보와 운반·타설 계획을 넣으면 일반·서중·한중 중 어느 기준이 걸리는지, 비비기부터 타설 완료까지의 운반시간 한도, 이어치기 허용 간격, 타설 온도 범위를 KCS 현행판 조항과 함께 알려 주고 계획 값이 한도를 넘는지 판정합니다(`evaluate_pour_conditions`). 서중 콘크리트는 외기온도와 상관없이 1.5시간, 한중 콘크리트는 단면 300mm 이하이거나 기상이 가혹하면 최저 10℃ 처럼 조건별로 갈리는 한도를 따집니다. 모르는 값이 있으면 경우를 나눠 계산하고, 결론이 갈리면 판정하지 않고 필요한 값을 알려 줍니다. 운반시간 초과는 불합격이 아니라 표준 초과(승인으로 변경 가능)로, 강우·강설은 책임기술자 판단 항목으로 냅니다.
+
 ## [1.0.0] — 2026-11-16
 
 법령 전 조문과 품질시험기준 전 항목을 싣고, 문서 본문까지 만들어 주는 첫 정식판입니다.

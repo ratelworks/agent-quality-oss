@@ -161,6 +161,7 @@ const defaultArgs: Record<string, Record<string, unknown>> = {
   compile_inspection_references: { workType: '콘크리트 타설' },
   compile_ncr_references: { ncrId: 'ncr.slump_too_high' },
   evaluate_observation: { observation: '슬럼프 210mm, 호칭 슬럼프 150mm', criterionId: 'criteria.slump_tolerance' },
+  evaluate_pour_conditions: { dailyMeanTemp: 27, ambientTemp: 29, mixToPlacementEndMinutes: 80, concreteTemp: 32 },
   verify_quality_basis: {
     statement: '슬럼프 기준은 150mm이다.',
     claimedBasisIds: ['standard.kcs_14_20'],
