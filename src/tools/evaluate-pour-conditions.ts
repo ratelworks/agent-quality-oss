@@ -42,6 +42,7 @@ const COLD_CONCRETE_MIN = 5;
 const COLD_CONCRETE_MIN_STRICT = 10;
 const COLD_CONCRETE_MAX = 20;
 const COLD_THIN_SECTION_MM = 300;
+const CONFLICT_HOLD = "서중·한중 적용 조건이 함께 성립할 수 있다 — 한도를 정하지 않고 사람이 확인한다";
 
 const NODE = {
   transport: "standard.kcs_14_20.10.3_2",
@@ -190,9 +191,10 @@ function decideRegime(a: PourConditionArgs) {
 // ───── 한도 계산 (경우별) ─────
 
 interface Limits {
-  transportMaxMinutes: number;
-  transportClause: string;
-  liftMaxMinutes: number;
+  /** 동시 해당(conflict)이면 비운다 — 숫자 한도를 확정하지 않는다 */
+  transportMaxMinutes?: number;
+  transportClause?: string;
+  liftMaxMinutes?: number;
   concreteTemp: { min?: number; max?: number; clause: string; hold?: string; judgment?: string };
   /** 서중·한중 동시 해당 — 어떤 한도도 확정하지 않는다 */
   conflict?: true;
@@ -207,7 +209,7 @@ function limitsFor(regime: Regime, ambient: number, strictCold: boolean, mass: T
   const lift = ambient > LIFT_AMBIENT_OVER ? LIFT_WARM_MIN : LIFT_COOL_MIN;
   let concreteTemp: Limits["concreteTemp"];
   if (regime === "conflict") {
-    concreteTemp = { clause: "KCS 14 20 40 · KCS 14 20 41", hold: "서중·한중 적용 조건이 함께 성립 — 예보 값을 다시 확인하고 사람이 정한다" };
+    concreteTemp = { clause: "KCS 14 20 40 · KCS 14 20 41", hold: CONFLICT_HOLD };
   } else if (regime === "hot_weather") {
     concreteTemp =
       mass === true
@@ -226,13 +228,8 @@ function limitsFor(regime: Regime, ambient: number, strictCold: boolean, mass: T
       judgment: "공사시방서·배합에서 정한 온도 조건에 적합한지 확인(KCS 수치 기준 없음)",
     };
   }
-  return {
-    transportMaxMinutes: transport.m,
-    transportClause: transport.c,
-    liftMaxMinutes: lift,
-    concreteTemp,
-    ...(regime === "conflict" ? { conflict: true as const } : {}),
-  };
+  if (regime === "conflict") return { concreteTemp, conflict: true };
+  return { transportMaxMinutes: transport.m, transportClause: transport.c, liftMaxMinutes: lift, concreteTemp };
 }
 
 interface Case {
@@ -385,9 +382,9 @@ export function run(rawArgs: PourConditionArgs, graph: OntologyGraph) {
       v,
       cases.map((k) => ({
         when: k.when,
-        outcome: (k.limits.conflict ? "undetermined" : v <= k.limits.transportMaxMinutes ? "pass" : "exceeds_standard") as Outcome,
-        limit: k.limits.conflict ? "서중·한중 동시 해당 — 사람 확인" : `${k.limits.transportMaxMinutes}분 이내`,
-        clause: k.limits.transportClause,
+        outcome: (k.limits.transportMaxMinutes === undefined ? "undetermined" : v <= k.limits.transportMaxMinutes ? "pass" : "exceeds_standard") as Outcome,
+        limit: k.limits.transportMaxMinutes === undefined ? CONFLICT_HOLD : `${k.limits.transportMaxMinutes}분 이내`,
+        clause: k.limits.transportClause ?? "KCS 14 20 40 · KCS 14 20 41",
       })),
       "초과해도 특별 조치(지연제 등, 서중은 슬럼프 유지·응결 지연 성능)를 하고 책임기술자의 승인을 받으면 변경할 수 있다",
     );
@@ -405,8 +402,8 @@ export function run(rawArgs: PourConditionArgs, graph: OntologyGraph) {
       v,
       cases.map((k) => ({
         when: k.when,
-        outcome: (k.limits.conflict ? "undetermined" : v <= k.limits.liftMaxMinutes ? "pass" : "exceeds_standard") as Outcome,
-        limit: k.limits.conflict ? "서중·한중 동시 해당 — 사람 확인" : `${k.limits.liftMaxMinutes}분 이내`,
+        outcome: (k.limits.liftMaxMinutes === undefined ? "undetermined" : v <= k.limits.liftMaxMinutes ? "pass" : "exceeds_standard") as Outcome,
+        limit: k.limits.liftMaxMinutes === undefined ? CONFLICT_HOLD : `${k.limits.liftMaxMinutes}분 이내`,
         clause: "KCS 14 20 10 §3.3.2(8) 표 3.3-1",
       })),
       "표 3.3-1 은 표준이다 — 하층 비비기 시작부터 상층 타설까지의 시간",
@@ -462,6 +459,7 @@ export function run(rawArgs: PourConditionArgs, graph: OntologyGraph) {
     transportClause: k.limits.transportClause,
     liftIntervalMaxMinutes: k.limits.liftMaxMinutes,
     concreteTemperature: k.limits.concreteTemp,
+    hold: k.limits.conflict ? CONFLICT_HOLD : undefined,
   });
 
   const checklist: Array<{ item: string; clause: string }> = [

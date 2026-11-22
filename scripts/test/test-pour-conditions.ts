@@ -22,6 +22,7 @@ interface Expect {
   missing?: string[];
   humanCheckpoint?: boolean;
   noteIncludes?: string;
+  conflictCaseHasNoNumbers?: boolean;
 }
 interface Case {
   id: string;
@@ -76,6 +77,7 @@ const CASES: Case[] = [
   { id: "D2 최고 31·일평균 미상 → 미정(일평균 4 ℃ 이하 배제 불가)", args: { maxTempNext24h: 31, ...NOT_COLD }, expect: { regime: "undetermined", missing: ["dailyMeanTemp"] } },
   { id: "D2 최고 31·일평균 20 → 서중", args: { dailyMeanTemp: 20, maxTempNext24h: 31, ...NOT_COLD }, expect: { regime: "hot_weather" } },
   { id: "D2 서중 확정·한중 조건 미상 → 동시 해당 후보가 남아 미정", args: { dailyMeanTemp: 27 }, expect: { regime: "undetermined", missing: ["minTempNext24h", "earlyFrostRiskLater"] } },
+  { id: "D3 동시 해당 후보에는 숫자 한도를 내지 않음", args: { dailyMeanTemp: 27, ambientTemp: 20, mixToPlacementEndMinutes: 100 }, expect: { regime: "undetermined", conflictCaseHasNoNumbers: true } },
   { id: "D2 서중 + 24시간 이후 초기동해 위험 → 충돌", args: { dailyMeanTemp: 27, earlyFrostRiskLater: true }, expect: { regime: "conflict", humanCheckpoint: true } },
   // 일반 콘크리트 타설 온도 — 표 3.5-2 '정해진 조건에 적합할 것': 합격이 아니라 시방서 판단
   { id: "일반 콘크리트 온도 → 시방서 판단", args: { dailyMeanTemp: 15, maxTempNext24h: 20, minTempNext24h: 8, earlyFrostRiskLater: false, concreteTemp: 18 }, expect: { regime: "standard", checks: { concrete_temperature: "needs_judgment" } } },
@@ -122,6 +124,12 @@ for (const c of CASES) {
   for (const m of e.missing ?? []) if (!(r.missingInputs ?? []).includes(m)) errs.push(`빠진 입력에 ${m} 없음`);
   if (e.humanCheckpoint !== undefined && hc !== e.humanCheckpoint) errs.push(`humanCheckpoint ${hc} ≠ ${e.humanCheckpoint}`);
   if (e.noteIncludes && !JSON.stringify(r.checks ?? []).includes(e.noteIncludes)) errs.push(`안내에 ${e.noteIncludes} 없음`);
+  if (e.conflictCaseHasNoNumbers) {
+    const cs = (Array.isArray(r.limits) ? r.limits : [r.limits]).filter((l: any) => l.regime === "conflict");
+    if (cs.length === 0) errs.push("동시 해당 후보 없음");
+    for (const l of cs)
+      if (l.transportMaxMinutes !== undefined || l.liftIntervalMaxMinutes !== undefined || !l.hold) errs.push("동시 해당 후보에 숫자 한도가 있거나 보류 표시가 없음");
+  }
   if (!Array.isArray(body.basis) || body.basis.length === 0) errs.push("basis 비어 있음");
   if (errs.length) failures.push(`✗ ${c.id}: ${errs.join(" / ")}`);
 }
