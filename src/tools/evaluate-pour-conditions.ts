@@ -347,9 +347,12 @@ export function run(rawArgs: PourConditionArgs, graph: OntologyGraph) {
 
   const decided = decideRegime(a);
   const basisIds = new Set<string>([NODE.transport, NODE.placing, NODE.preparation]);
+  // 서중·한중 '일 수 있는가' — 동시 해당 후보는 양쪽 모두에 든다. 이 질문은 반드시 이 두 값으로만 묻는다
   const mayConflict = decided.candidates.includes("conflict");
-  if (decided.candidates.includes("hot_weather") || mayConflict) basisIds.add(NODE.hot);
-  if (decided.candidates.includes("cold_weather") || mayConflict) basisIds.add(NODE.cold);
+  const mayHot = decided.candidates.includes("hot_weather") || mayConflict;
+  const mayCold = decided.candidates.includes("cold_weather") || mayConflict;
+  if (mayHot) basisIds.add(NODE.hot);
+  if (mayCold) basisIds.add(NODE.cold);
   if (decided.candidates.includes("standard") && a.concreteTemp !== undefined) basisIds.add(NODE.generalTemp);
   const basis = entityBasisWithStatus(graph, [...basisIds], 1);
 
@@ -425,16 +428,16 @@ export function run(rawArgs: PourConditionArgs, graph: OntologyGraph) {
     });
     if (per.length > 0) {
       const coldExempt =
-        decided.candidates.includes("cold_weather") && (a.massConcrete === true || a.highStrengthConcrete === true)
+        mayCold && (a.massConcrete === true || a.highStrengthConcrete === true)
           ? "매스·고강도 콘크리트는 책임기술자의 승인으로 한중 규정의 일부 또는 전부를 적용하지 않을 수 있다 (KCS 14 20 40 §1.4(3))"
           : undefined;
       const c = fold("concrete_temperature", v, per, coldExempt);
       checks.push(c);
-      if (c.outcome === "undetermined" && decided.candidates.includes("cold_weather")) {
+      if (c.outcome === "undetermined" && mayCold) {
         if (a.sectionThicknessMm === undefined) missing.add("sectionThicknessMm");
         if (a.harshWeather === undefined) missing.add("harshWeather");
       }
-      if (c.outcome === "undetermined" && decided.candidates.includes("hot_weather") && a.massConcrete === undefined) {
+      if (c.outcome === "undetermined" && mayHot && a.massConcrete === undefined) {
         missing.add("massConcrete");
       }
     }
@@ -465,10 +468,10 @@ export function run(rawArgs: PourConditionArgs, graph: OntologyGraph) {
   const checklist: Array<{ item: string; clause: string }> = [
     { item: "운반·타설·초기 양생 중 강우·강설 보호 대책과 관리방안을 수립해 책임기술자 승인", clause: "KCS 14 20 10 §3.3.1(2)" },
   ];
-  if (decided.candidates.includes("hot_weather")) {
+  if (mayHot) {
     checklist.push({ item: "서중 콘크리트 시공계획서(재료·배합·운반·양생) 작성·책임기술자 승인", clause: "KCS 14 20 41 §3.1(2)" });
   }
-  if (decided.candidates.includes("cold_weather")) {
+  if (mayCold) {
     checklist.push(
       { item: "철근·거푸집에 빙설이 붙어 있지 않은지 확인", clause: "KCS 14 20 40 §3.3(2)" },
       { item: "타설할 지반이 동결되지 않도록 덮어 두기(동결 시 녹인 뒤 타설)", clause: "KCS 14 20 40 §3.3(3)" },
