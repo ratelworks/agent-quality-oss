@@ -50,9 +50,10 @@ const CASES: Case[] = [
   { id: "C5 일반 130분 → 표준 초과", args: { dailyMeanTemp: 15, maxTempNext24h: 20, minTempNext24h: 8, earlyFrostRiskLater: false, ambientTemp: 18, mixToPlacementEndMinutes: 130 }, expect: { transportMax: 120, checks: { transport_time: "exceeds_standard" }, humanCheckpoint: false } },
   { id: "C4 일반 110분 → 통과", args: { dailyMeanTemp: 15, maxTempNext24h: 20, minTempNext24h: 8, earlyFrostRiskLater: false, ambientTemp: 18, mixToPlacementEndMinutes: 110 }, expect: { checks: { transport_time: "pass" } } },
   // C8 서중 타설 온도
-  { id: "C8 서중 35.0 통과", args: { dailyMeanTemp: 27, concreteTemp: 35 }, expect: { tempMax: 35, checks: { concrete_temperature: "pass" } } },
-  { id: "C8 서중 35.1 불합격", args: { dailyMeanTemp: 27, concreteTemp: 35.1 }, expect: { checks: { concrete_temperature: "fail" }, humanCheckpoint: true } },
+  { id: "C8 서중 35.0 통과", args: { dailyMeanTemp: 27, concreteTemp: 35, massConcrete: false }, expect: { tempMax: 35, checks: { concrete_temperature: "pass" } } },
+  { id: "C8 서중 35.1 불합격", args: { dailyMeanTemp: 27, concreteTemp: 35.1, massConcrete: false }, expect: { checks: { concrete_temperature: "fail" }, humanCheckpoint: true } },
   { id: "C8 서중 매스는 보류", args: { dailyMeanTemp: 27, concreteTemp: 33, massConcrete: true }, expect: { checks: { concrete_temperature: "undetermined" } } },
+  { id: "C8 서중 매스 여부 미상 → 보류·되묻기", args: { dailyMeanTemp: 27, concreteTemp: 30 }, expect: { checks: { concrete_temperature: "undetermined" }, missing: ["massConcrete"] } },
   // C9 한중 타설 온도
   { id: "C9 단면 400·가혹 아님 → 하한 5", args: { dailyMeanTemp: 2, sectionThicknessMm: 400, harshWeather: false, concreteTemp: 7 }, expect: { tempMin: 5, tempMax: 20, checks: { concrete_temperature: "pass" } } },
   { id: "C9 단면 300 → 하한 10", args: { dailyMeanTemp: 2, sectionThicknessMm: 300, concreteTemp: 7 }, expect: { tempMin: 10, checks: { concrete_temperature: "fail" } } },

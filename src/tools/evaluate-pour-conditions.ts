@@ -247,12 +247,22 @@ function enumerateCases(a: PourConditionArgs, candidates: Regime[], ambient: num
             { v: true, label: "기상 가혹 또는 단면 300 mm 이하" },
             { v: false, label: "기상 가혹 아님·단면 300 mm 초과" },
           ];
+    // 서중 타설 온도는 매스 콘크리트면 다른 기준(KCS 14 20 42)을 따른다 — 매스 여부를 모르면 두 경우로 나눈다
+    const masses: Array<{ v: Tri; label?: string }> =
+      regime !== "hot_weather" || a.massConcrete !== undefined
+        ? [{ v: a.massConcrete }]
+        : [
+            { v: true, label: "매스 콘크리트" },
+            { v: false, label: "매스 콘크리트 아님" },
+          ];
     for (const amb of ambients) {
       for (const st of stricts) {
-        const when = [candidates.length > 1 ? REGIME_LABEL[regime] : undefined, amb.label, st.label].filter(
-          (x): x is string => !!x,
-        );
-        cases.push({ when, regime, limits: limitsFor(regime, amb.v, st.v, a.massConcrete) });
+        for (const ms of masses) {
+          const when = [candidates.length > 1 ? REGIME_LABEL[regime] : undefined, amb.label, st.label, ms.label].filter(
+            (x): x is string => !!x,
+          );
+          cases.push({ when, regime, limits: limitsFor(regime, amb.v, st.v, ms.v) });
+        }
       }
     }
   }
@@ -413,6 +423,9 @@ export function run(rawArgs: PourConditionArgs, graph: OntologyGraph) {
       if (c.outcome === "undetermined" && decided.candidates.includes("cold_weather")) {
         if (a.sectionThicknessMm === undefined) missing.add("sectionThicknessMm");
         if (a.harshWeather === undefined) missing.add("harshWeather");
+      }
+      if (c.outcome === "undetermined" && decided.candidates.includes("hot_weather") && a.massConcrete === undefined) {
+        missing.add("massConcrete");
       }
     }
   }
