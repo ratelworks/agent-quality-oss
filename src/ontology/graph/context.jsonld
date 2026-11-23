@@ -12,8 +12,6 @@
     "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
     "time": "http://www.w3.org/2006/time#",
 
-    "cc": "https://construction.ratelworks.org/ontology/v1/",
-
     "quality": "https://quality.ratelworks.org/ontology/v1/",
     "work": "https://quality.ratelworks.org/work/",
     "task": "https://quality.ratelworks.org/task/",
@@ -36,12 +34,12 @@
     "kds": "https://standards.go.kr/kds/",
     "ks": "https://standards.go.kr/ks/",
 
-    "Project": "cc:Project",
-    "Site": "cc:Site",
-    "Person": "cc:Person",
-    "Organization": "cc:Organization",
-    "Document": "cc:Document",
-    "Equipment": "cc:Equipment",
+    "Project": "quality:Project",
+    "Site": "quality:Site",
+    "Person": "quality:Person",
+    "Organization": "quality:Organization",
+    "Document": "quality:Document",
+    "Equipment": "quality:Equipment",
 
     "WorkType": "quality:WorkType",
     "Task": "quality:Task",
@@ -214,19 +212,19 @@
     },
 
     "partOf": {
-      "@id": "cc:partOf",
+      "@id": "quality:partOf",
       "@type": "@id"
     },
     "operatedBy": {
-      "@id": "cc:operatedBy",
+      "@id": "quality:operatedBy",
       "@type": "@id"
     },
     "managedBy": {
-      "@id": "cc:managedBy",
+      "@id": "quality:managedBy",
       "@type": "@id"
     },
     "locatedAt": {
-      "@id": "cc:locatedAt",
+      "@id": "quality:locatedAt",
       "@type": "@id"
     },
 
@@ -246,12 +244,9 @@
   "@id": "https://quality.ratelworks.org/ontology/v1/",
   "@type": "owl:Ontology",
   "dc:title": "Agent Quality OSS — Korean Construction Quality Ontology",
-  "dc:description": "한국 건설 품질관리 도메인 온톨로지. cc: 건설 메타 온톨로지와 같은 IRI 공간을 공유하며 안전·환경·공정 등 인접 도메인과 그래프-수준 통합 가능.",
+  "dc:description": "한국 건설 품질관리 도메인 온톨로지. 공종은 국토교통부 건설정보분류체계 공종(W) 코드에 대응표(standard-bridge.json)로 잇고, 같은 코드에 대응하는 안전·환경·공정 등 인접 도메인 그래프와 그 코드로 만난다.",
   "dc:creator": "Ratelworks Inc.",
   "dc:contributor": "Hwangryong Construction Co., Ltd.",
   "dc:license": "https://opensource.org/licenses/MIT",
-  "owl:versionInfo": "1.0.0",
-  "owl:imports": [
-    "https://construction.ratelworks.org/ontology/v1/"
-  ]
+  "owl:versionInfo": "1.0.0"
 }

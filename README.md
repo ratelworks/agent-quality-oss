@@ -279,7 +279,7 @@ WorkType         →  QualityRisk (리스크) → Nonconformance (부적합) →
 SchemaForm (양식) →  Standard (KCS/KS/법령/지침 인용 위치)
 ```
 
-온톨로지는 `cc:` IRI 네임스페이스 규약(JSON-LD `@context` 로 정의)을 따르며, 자매 프로젝트 [`agent-safety-oss`](https://github.com/ratelworks/agent-safety-oss)(`safety:`)와 **같은 IRI 공간**을 공유합니다 — 안전·품질 그래프를 합쳐도 하나의 건설 도메인으로 관계 추론을 이어갈 수 있습니다. 온톨로지 데이터는 자매 프로젝트 agent-safety-oss 와 **동일한 JSON-LD 노드 구조**(`src/ontology/graph/nodes/{type}/*.jsonld` — `@id` IRI · `@type` · 관계 IRI 참조 · `_meta`)를 SSoT 로 사용합니다. 런타임은 이를 경량 in-memory 그래프(인접 리스트 + 별칭·타입 인덱스, 외부 의존성 0, sync)로 로드합니다 — 수백 노드 규모라 graphology 같은 무거운 그래프 엔진은 두지 않습니다. 즉 **데이터 구조는 safety 와 동일**하고 그래프 엔진만 규모에 맞게 경량입니다.
+온톨로지는 자기 접두 `quality:`(JSON-LD `@context` 로 정의)를 씁니다. 다른 도메인과는 공공 표준 코드로 만납니다 — 공종마다 국토교통부 건설정보분류체계 공종(W) 코드 대응을 `src/ontology/standard-bridge.json` 에 두므로, 자매 프로젝트 [`agent-safety-oss`](https://github.com/ratelworks/agent-safety-oss)(`safety:`)처럼 같은 코드에 대응을 둔 그래프와 그 코드를 거쳐 합칠 수 있습니다. 온톨로지 데이터는 자매 프로젝트 agent-safety-oss 와 **동일한 JSON-LD 노드 구조**(`src/ontology/graph/nodes/{type}/*.jsonld` — `@id` IRI · `@type` · 관계 IRI 참조 · `_meta`)를 SSoT 로 사용합니다. 런타임은 이를 경량 in-memory 그래프(인접 리스트 + 별칭·타입 인덱스, 외부 의존성 0, sync)로 로드합니다 — 수백 노드 규모라 graphology 같은 무거운 그래프 엔진은 두지 않습니다. 즉 **데이터 구조는 safety 와 동일**하고 그래프 엔진만 규모에 맞게 경량입니다.
 
 설계 원칙:
 

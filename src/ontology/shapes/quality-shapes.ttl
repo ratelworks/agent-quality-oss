@@ -2,7 +2,6 @@
 # 이 파일은 코드의 정의에서 만든다 — 직접 고치지 말고 `npm run generate:shapes` 로 다시 만든다.
 # 검증: `npm run validate:shapes` (표준 SHACL 엔진으로 그래프 전체를 본다)
 
-@prefix cc: <https://construction.ratelworks.org/ontology/v1/> .
 @prefix qsh: <https://quality.ratelworks.org/shapes/v1/> .
 @prefix quality: <https://quality.ratelworks.org/ontology/v1/> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
@@ -17,7 +16,7 @@ qsh:AnyNodeShape a sh:NodeShape ;
 
 qsh:AnyNode-type a sh:PropertyShape ;
   sh:path rdf:type ; sh:minCount 1 ; sh:maxCount 1 ;
-  sh:in ( quality:WorkType quality:Task quality:Material cc:Equipment quality:Standard quality:Specification quality:TestItem quality:InspectionCheckpoint quality:AcceptanceCriteria quality:QualityRisk quality:Nonconformance quality:CorrectiveAction quality:EvidenceDocument quality:Agency quality:SiteRecord cc:Project ) ;
+  sh:in ( quality:WorkType quality:Task quality:Material quality:Equipment quality:Standard quality:Specification quality:TestItem quality:InspectionCheckpoint quality:AcceptanceCriteria quality:QualityRisk quality:Nonconformance quality:CorrectiveAction quality:EvidenceDocument quality:Agency quality:SiteRecord quality:Project ) ;
   sh:message "노드 종류는 정해진 16가지 가운데 하나여야 합니다" .
 
 qsh:AnyNode-name a sh:PropertyShape ;
@@ -51,7 +50,7 @@ qsh:MaterialShape a sh:NodeShape ;
   sh:message "Material 노드의 주소는 https://quality.ratelworks.org/material/ 로 시작해야 합니다" .
 
 qsh:EquipmentShape a sh:NodeShape ;
-  sh:targetClass cc:Equipment ;
+  sh:targetClass quality:Equipment ;
   sh:nodeKind sh:IRI ;
   sh:pattern "^https://quality\\.ratelworks\\.org/equipment/" ;
   sh:message "Equipment 노드의 주소는 https://quality.ratelworks.org/equipment/ 로 시작해야 합니다" .
@@ -123,7 +122,7 @@ qsh:SiteRecordShape a sh:NodeShape ;
   sh:message "SiteRecord 노드의 주소는 https://quality.ratelworks.org/record/ 로 시작해야 합니다" .
 
 qsh:ProjectShape a sh:NodeShape ;
-  sh:targetClass cc:Project ;
+  sh:targetClass quality:Project ;
   sh:nodeKind sh:IRI ;
   sh:pattern "^https://quality\\.ratelworks\\.org/project/" ;
   sh:message "Project 노드의 주소는 https://quality.ratelworks.org/project/ 로 시작해야 합니다" .
@@ -426,7 +425,7 @@ qsh:basisPriority-range a sh:PropertyShape ;
 
 qsh:hasSpecification-domain a sh:NodeShape ;
   sh:targetSubjectsOf quality:hasSpecification ;
-  sh:class cc:Project ;
+  sh:class quality:Project ;
   sh:message "hasSpecification 은(는) Project 에서만 출발합니다" .
 
 qsh:hasSpecification-range a sh:NodeShape ;

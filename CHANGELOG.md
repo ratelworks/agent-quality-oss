@@ -5,6 +5,12 @@ All notable changes to `agent-quality-oss` are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### 변경
+
+- **예전 공통 접두 `cc:` 를 걷었습니다(호환 주의).** 문맥(`@context`)의 `Project`·`Site`·`Person`·`Organization`·`Document`·`Equipment` 와 관계 `partOf`·`operatedBy`·`managedBy`·`locatedAt` 이 `cc:`(`https://construction.ratelworks.org/ontology/v1/`) 대신 이 저장소의 `quality:` 주소로 풀리고, 그 주소의 `owl:imports` 도 뺐습니다. 노드 파일은 짧은 이름을 쓰므로 바뀌지 않습니다. 다른 영역(안전·환경·공정)과는 국토교통부 건설정보분류체계 공종(W) 코드 대응(`src/ontology/standard-bridge.json`)으로 만납니다.
+
 ## [1.0.0] — 2026-11-22
 
 법령 전 조문과 품질시험기준 전 항목을 싣고, 문서 본문까지 만들어 주는 첫 정식판입니다.
